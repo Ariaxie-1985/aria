@@ -1,0 +1,99 @@
+<application>
+  <component name="ProjectJdkTable">
+    <jdk version="2">
+      <name value="Python 3.6 (api-aoto-test)" />
+      <type value="Python SDK" />
+      <version value="Python 3.6.6" />
+      <homePath value="D:\ProgramData\Anaconda3\envs\api-aoto-test\python.exe" />
+      <roots>
+        <classPath>
+          <root type="composite">
+            <root url="file://D:/ProgramData/Anaconda3/envs/api-aoto-test/DLLs" type="simple" />
+            <root url="file://D:/ProgramData/Anaconda3/envs/api-aoto-test/Lib" type="simple" />
+            <root url="file://D:/ProgramData/Anaconda3/envs/api-aoto-test" type="simple" />
+            <root url="file://$USER_HOME$/AppData/Roaming/Python/Python36/site-packages" type="simple" />
+            <root url="file://D:/ProgramData/Anaconda3/envs/api-aoto-test/Lib/site-packages" type="simple" />
+            <root url="file://$USER_HOME$/.PyCharmCE2018.1/system/python_stubs/1410651412" type="simple" />
+            <root url="file://$APPLICATION_HOME_DIR$/helpers/python-skeletons" type="simple" />
+            <root url="file://$APPLICATION_HOME_DIR$/helpers/typeshed/stdlib/3.6" type="simple" />
+            <root url="file://$APPLICATION_HOME_DIR$/helpers/typeshed/stdlib/3.5" type="simple" />
+            <root url="file://$APPLICATION_HOME_DIR$/helpers/typeshed/stdlib/3.4" type="simple" />
+            <root url="file://$APPLICATION_HOME_DIR$/helpers/typeshed/stdlib/3.3" type="simple" />
+            <root url="file://$APPLICATION_HOME_DIR$/helpers/typeshed/stdlib/3" type="simple" />
+            <root url="file://$APPLICATION_HOME_DIR$/helpers/typeshed/stdlib/2and3" type="simple" />
+            <root url="file://$APPLICATION_HOME_DIR$/helpers/typeshed/third_party/3" type="simple" />
+            <root url="file://$APPLICATION_HOME_DIR$/helpers/typeshed/third_party/2and3" type="simple" />
+          </root>
+        </classPath>
+        <sourcePath>
+          <root type="composite" />
+        </sourcePath>
+      </roots>
+      <additional ASSOCIATED_PROJECT_PATH="D:/api-aoto-test" />
+    </jdk>
+    <jdk version="2">
+      <name value="Python 3.6 (apitest-python)" />
+      <type value="Python SDK" />
+      <version value="Python 3.6.6" />
+      <homePath value="D:\ProgramData\Anaconda3\envs\apitest-python\python.exe" />
+      <roots>
+        <classPath>
+          <root type="composite">
+            <root url="file://D:/ProgramData/Anaconda3/envs/apitest-python/DLLs" type="simple" />
+            <root url="file://D:/ProgramData/Anaconda3/envs/apitest-python/Lib" type="simple" />
+            <root url="file://D:/ProgramData/Anaconda3/envs/apitest-python" type="simple" />
+            <root url="file://$USER_HOME$/AppData/Roaming/Python/Python36/site-packages" type="simple" />
+            <root url="file://D:/ProgramData/Anaconda3/envs/apitest-python/Lib/site-packages" type="simple" />
+            <root url="file://$USER_HOME$/.PyCharmCE2018.1/system/python_stubs/-490094102" type="simple" />
+            <root url="file://$APPLICATION_HOME_DIR$/helpers/python-skeletons" type="simple" />
+            <root url="file://$APPLICATION_HOME_DIR$/helpers/typeshed/stdlib/3.6" type="simple" />
+            <root url="file://$APPLICATION_HOME_DIR$/helpers/typeshed/stdlib/3.5" type="simple" />
+            <root url="file://$APPLICATION_HOME_DIR$/helpers/typeshed/stdlib/3.4" type="simple" />
+            <root url="file://$APPLICATION_HOME_DIR$/helpers/typeshed/stdlib/3.3" type="simple" />
+            <root url="file://$APPLICATION_HOME_DIR$/helpers/typeshed/stdlib/3" type="simple" />
+            <root url="file://$APPLICATION_HOME_DIR$/helpers/typeshed/stdlib/2and3" type="simple" />
+            <root url="file://$APPLICATION_HOME_DIR$/helpers/typeshed/third_party/3" type="simple" />
+            <root url="file://$APPLICATION_HOME_DIR$/helpers/typeshed/third_party/2and3" type="simple" />
+          </root>
+        </classPath>
+        <sourcePath>
+          <root type="composite" />
+        </sourcePath>
+      </roots>
+      <additional ASSOCIATED_PROJECT_PATH="D:/apitest-python" />
+    </jdk>
+    <jdk version="2">
+      <name value="Python 3.6 (ApkChannelBuildTool2.0)" />
+      <type value="Python SDK" />
+      <version value="Python 3.6.5" />
+      <homePath value="C:\Users\max044.max044-PC\.virtualenvs\ApkChannelBuildTool2.0\Scripts\python.exe" />
+      <roots>
+        <classPath>
+          <root type="composite">
+            <root url="file://D:/ProgramData/Anaconda3/DLLs" type="simple" />
+            <root url="file://D:/ProgramData/Anaconda3/Lib" type="simple" />
+            <root url="file://D:/ProgramData/Anaconda3" type="simple" />
+            <root url="file://$USER_HOME$/.virtualenvs/ApkChannelBuildTool2.0" type="simple" />
+            <root url="file://$USER_HOME$/.virtualenvs/ApkChannelBuildTool2.0/Lib/site-packages" type="simple" />
+            <root url="jar://$USER_HOME$/.virtualenvs/ApkChannelBuildTool2.0/Lib/site-packages/setuptools-39.1.0-py3.6.egg!/" type="simple" />
+            <root url="file://$USER_HOME$/.virtualenvs/ApkChannelBuildTool2.0/Lib/site-packages/pip-10.0.1-py3.6.egg" type="simple" />
+            <root url="file://$USER_HOME$/.PyCharmCE2018.1/system/python_stubs/1745406675" type="simple" />
+            <root url="file://$APPLICATION_HOME_DIR$/helpers/python-skeletons" type="simple" />
+            <root url="file://$APPLICATION_HOME_DIR$/helpers/typeshed/stdlib/3.6" type="simple" />
+            <root url="file://$APPLICATION_HOME_DIR$/helpers/typeshed/stdlib/3.5" type="simple" />
+            <root url="file://$APPLICATION_HOME_DIR$/helpers/typeshed/stdlib/3.4" type="simple" />
+            <root url="file://$APPLICATION_HOME_DIR$/helpers/typeshed/stdlib/3.3" type="simple" />
+            <root url="file://$APPLICATION_HOME_DIR$/helpers/typeshed/stdlib/3" type="simple" />
+            <root url="file://$APPLICATION_HOME_DIR$/helpers/typeshed/stdlib/2and3" type="simple" />
+            <root url="file://$APPLICATION_HOME_DIR$/helpers/typeshed/third_party/3" type="simple" />
+            <root url="file://$APPLICATION_HOME_DIR$/helpers/typeshed/third_party/2and3" type="simple" />
+          </root>
+        </classPath>
+        <sourcePath>
+          <root type="composite" />
+        </sourcePath>
+      </roots>
+      <additional ASSOCIATED_PROJECT_PATH="D:/ApkChannelBuildTool2.0" />
+    </jdk>
+  </component>
+</application>
