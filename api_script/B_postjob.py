@@ -2,7 +2,7 @@
 
 from util import form_post,get_code_token
 
-username = 20181205
+username = "0085220181205"
 password = "f71ab0f4a3fd1f5691bdb30ea6a9748c"
 login_html = 'https://www.lagou.com/frontLogin.do'
 login_url = 'https://passport.lagou.com/login/login.json'
