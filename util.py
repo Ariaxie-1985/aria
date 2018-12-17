@@ -112,7 +112,7 @@ def get_header(url):
 
 # 企业微信报警
 @retry
-def wxsend(username, content):
+def wxsend(username,content):
 	s = {'userids':username, 'msgtype':'text', 'content':content}
 	params=json.dumps(s)
 	try:
@@ -122,4 +122,20 @@ def wxsend(username, content):
 	except  Exception as e:
 		raise  IOError("exception")
 
+
+
+def login(countryCode,username):
+	login_url = 'https://passport.lagou.com/login/login.json'
+	login_data = {'isValidate': 'true', 'username': username, 'phoneVerificationCode': '049281',
+	              'countryCode': countryCode,'challenge': 111}
+	referer_login_html = 'https://www.lagou.com/frontLogin.do'
+	login_header = get_code_token(referer_login_html)
+	form_post(url=login_url, data=login_data, headers=login_header)
+
+def login_home(username, password):
+	referer_login_home_url = "https://home.lagou.com/"
+	login_url = 'https://passport.lagou.com/login/login.json'
+	login_data = {'isValidate': 'true', 'username': username, 'password':password}
+	login_home_header = get_code_token(referer_login_home_url)
+	form_post(url=login_url, data=login_data, headers=login_home_header)
 
