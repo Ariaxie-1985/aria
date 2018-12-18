@@ -35,7 +35,7 @@ def get_code_token(url):
 
 
 # form表单传参的post请求
-def form_post(url,data,headers):
+def form_post(url,data=None,headers=None):
 	try:
 		headers = {**headers, **header}
 		response = session.post(url=url, data=data, headers=headers, verify=False,timeout=3)
@@ -55,7 +55,7 @@ def form_post(url,data,headers):
 
 
 # json传参的post请求
-def json_post(url,data,headers):
+def json_post(url,data=None,headers=None):
 	try:
 		headers = {**headers, **header}
 		response = session.post(url=url, json=data, headers=headers, verify=False,timeout=3)
@@ -75,9 +75,9 @@ def json_post(url,data,headers):
 
 
 # get请求
-def get(url):
+def get(url,headers=None):
 	try:
-		response = session.get(url=url, headers=header, verify=False,timeout=3)
+		response = session.get(url=url, headers=headers, verify=False,timeout=3)
 	except exceptions.Timeout as e:
 		content= "该请求超时: "+url + str(e)
 		wxsend("Xiawang", content)
@@ -123,8 +123,12 @@ def wxsend(username,content):
 		raise  IOError("exception")
 
 
-
 def login(countryCode,username):
+	'''
+	从www.lagou.com登录，验证码登录
+	:param countryCode: str, 地区编号
+	:param username: str, 用户名
+	'''
 	login_url = 'https://passport.lagou.com/login/login.json'
 	login_data = {'isValidate': 'true', 'username': username, 'phoneVerificationCode': '049281',
 	              'countryCode': countryCode,'challenge': 111}
@@ -133,6 +137,11 @@ def login(countryCode,username):
 	form_post(url=login_url, data=login_data, headers=login_header)
 
 def login_home(username, password):
+	'''
+	从home.lagou.com登录，密码登录
+	:param username: str, 用户名
+	:param password: str, 密码
+	'''
 	referer_login_home_url = "https://home.lagou.com/"
 	login_url = 'https://passport.lagou.com/login/login.json'
 	login_data = {'isValidate': 'true', 'username': username, 'password':password}
