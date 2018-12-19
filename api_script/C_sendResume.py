@@ -19,7 +19,7 @@ def get_resumeId(x):
 login('00853','12140007')
 
 # positionId = 5375250
-positionId = 5375290
+positionId = 5375318
 '''
 0:附件简历，1：在线简历
 '''
