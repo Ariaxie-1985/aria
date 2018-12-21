@@ -6,10 +6,10 @@ import time
 注册
 '''
 a = 0
-phone = 20163660
+phone = 20160101
 countryCode = '00852'
 for i in range(1):
-	time.sleep(3)
+	time.sleep(1)
 	a += 1
 	phone = phone+a
 	c_register_html = 'https://passport.lagou.com/register/register.html?from=c'

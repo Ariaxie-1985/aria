@@ -1,9 +1,12 @@
 # coding:utf-8
 
-a = 0
-b = 1
+from multiprocessing import Process, Lock
 
-for i in range(10):
-	a += 1
-	b = a+b
-	print("b: "+str(b))
+def f(x,y):
+	return x*y
+
+if __name__ == '__main__':
+	x =1
+	for num in range(2):
+		n =Process(target=f, args=(x, num)).start()
+		print(n)
