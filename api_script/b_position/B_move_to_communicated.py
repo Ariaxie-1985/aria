@@ -2,6 +2,9 @@
 
 from util import form_post,get_code_token, login,get
 
+'''
+简历管理-候选人: 从新简历移至待沟通
+'''
 username = 20181205
 login("00852",username)
 

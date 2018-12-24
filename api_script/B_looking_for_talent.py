@@ -1,6 +1,9 @@
 # coding:utf-8
 from util import get, get_code_token, login
 
+'''
+找人才的推荐人才和最新人才
+'''
 # 登录
 username = 20181205
 login("00852",username)

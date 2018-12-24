@@ -2,6 +2,7 @@
 
 from util import form_post, get_header, login_home
 
+
 # 登录home后台
 username = 'anan@lagou.com'
 password = "990eb670f81e82f546cfaaae1587279a"

@@ -2,10 +2,14 @@
 
 from util import form_post,get_code_token, login,get
 
+'''
+简历管理-候选人: 从待沟通移至面试
+'''
+
 username = 20181205
 login("00852",username)
 
-# 移动到待沟通
+
 refer_listofcandidates_url = "https://easy.lagou.com/can/index.htm"
 listofcandidates_header = get_code_token(refer_listofcandidates_url)
 newlist_url = "https://easy.lagou.com/can/new/list.json"

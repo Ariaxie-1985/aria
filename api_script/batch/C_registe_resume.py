@@ -1,7 +1,7 @@
 # coding:utf-8
 
 '''
-批量生成有简历的C端账号
+批量注册并生成简历完整度81分的C端账号
 '''
 import time
 from multiprocessing import Process

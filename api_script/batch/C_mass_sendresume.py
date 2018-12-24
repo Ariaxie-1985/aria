@@ -3,7 +3,7 @@ from api_script.C_sendResume import get_resumeId
 from util import get_code_token, form_post, get, get_header
 
 '''
-注册
+批量对同一职位发送大量简历
 '''
 a = 0
 phone = 20160132

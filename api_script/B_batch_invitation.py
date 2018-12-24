@@ -3,7 +3,7 @@ from util import get_code_token, form_post, get
 import time
 
 '''
-注册
+批量邀约候选人
 '''
 a = 0
 phone = 20160101
