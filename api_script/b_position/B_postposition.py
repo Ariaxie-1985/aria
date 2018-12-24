@@ -1,6 +1,6 @@
 # coding:utf-8
 
-from util import form_post, get_code_token, login
+from api_script.util import form_post, get_code_token, login
 
 # 发布单个职位-拉勾渠道
 username = 20181205

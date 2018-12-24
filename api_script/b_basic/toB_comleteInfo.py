@@ -1,5 +1,5 @@
 # coding:utf-8
-from util import get_code_token, form_post, get_header, login, get
+from api_script.util import get_code_token, form_post, get_header, login, get
 import re
 
 

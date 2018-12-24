@@ -1,6 +1,6 @@
 # coding:utf-8
 
-from util import form_post, get_header, login_home
+from api_script.util import form_post, get_header, login_home
 
 # 登录home后台
 username = 'anan@lagou.com'

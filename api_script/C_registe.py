@@ -1,6 +1,6 @@
 # coding:utf-8
 
-from util import get_code_token, form_post, get
+from api_script.util import get_code_token, form_post, get
 '''
 注册
 '''

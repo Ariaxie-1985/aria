@@ -1,6 +1,6 @@
 # coding:utf-8
 
-from util import form_post,get_code_token, login
+from api_script.util import form_post,get_code_token, login
 import random,time
 
 # 批量发布职位-拉勾渠道

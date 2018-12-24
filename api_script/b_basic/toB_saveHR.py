@@ -1,8 +1,5 @@
 # coding:utf-8
-from util import get_code_token, form_post, get_header, login_home
-import time
-import re
-
+from api_script.util import get_code_token, form_post
 
 # 注册B端-成立公司-提交招聘者审核
 b_register_url = 'https://passport.lagou.com/register/register.html?from=b'

@@ -1,6 +1,4 @@
-from util import get_code_token, get, get_header ,form_post ,login ,json_post
-
-
+from api_script.util import get_code_token, get_header ,form_post ,login
 
 login('00853','05180001')
 

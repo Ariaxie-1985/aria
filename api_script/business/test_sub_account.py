@@ -1,9 +1,8 @@
 # coding:utf-8
 
-from util import form_post, get_code_token, login
-import pytest
-
-# 添加子账号
+from api_script.util import login, get_code_token, form_post
+import sys, os
+sys.path.append((os.path.abspath(os.path.join(os.path.dirname(__file__), '../'))))
 username = 20181205
 login("00852",username)
 
@@ -42,4 +41,3 @@ def remove_sub_account(userId):
 def test_remove_sub_account():
 	assert add_sub_account(100014642) == 100014642
 
-add_sub_account(100014642)
