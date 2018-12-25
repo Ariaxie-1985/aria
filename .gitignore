@@ -3,3 +3,4 @@ Pipfile.lock
 .idea/workspace.xml
 .idea/
 .cache/
+.pytest_cache/
