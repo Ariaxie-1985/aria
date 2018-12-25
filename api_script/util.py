@@ -5,7 +5,9 @@ import re
 from requests import exceptions
 from tenacity import *
 import json
+import logging
 
+requests.packages.urllib3.disable_warnings()
 session = requests.session()
 
 header = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36'}
@@ -34,11 +36,19 @@ def get_code_token(url):
 			wxsend("Xiawang", content)
 
 
-# form表单传参的post请求
-def form_post(url,data=None,headers=None):
+def form_post(url,remark, data=None,headers=None):
+	"""
+	form表单传参的post请求
+	:param url: 请求url
+	:param remark: str, 备注
+	:param data: dict, 请求数据
+	:param headers: dict, 请求header
+	:return: json格式化的响应结果
+	"""
 	try:
 		headers = {**headers, **header}
 		response = session.post(url=url, data=data, headers=headers, verify=False,timeout=3)
+		logging.debug("请求目的: {}, 请求url: {}, 请求数据: {}, 响应结果: {}".format(remark, url, data, str(response.json())))
 	except exceptions.Timeout as e:
 		content= "该请求超时: "+url + str(e)
 		wxsend("Xiawang", content)
@@ -54,16 +64,24 @@ def form_post(url,data=None,headers=None):
 			wxsend("Xiawang", content)
 
 
-# json传参的post请求
-def json_post(url,data=None,headers=None):
+def json_post(url,remark, data=None,headers=None):
+	"""
+	json传参的post请求
+	:param url: 请求url
+	:param remark: str, 备注
+	:param data: dict, 请求数据
+	:param headers: dict, 请求header
+	:return: json格式化的响应结果
+	"""
 	try:
 		headers = {**headers, **header}
 		response = session.post(url=url, json=data, headers=headers, verify=False,timeout=3)
+		logging.debug("请求目的: {}, 请求url: {}, 请求数据: {}, 响应结果: {}".format(remark, url, data, str(response.json())))
 	except exceptions.Timeout as e:
 		content= "该请求超时: "+url + str(e)
 		wxsend("Xiawang", content)
 	except exceptions.HTTPError as e:
-		wxsend("Xiawang", "HTTP请求错误: " + str(e))
+		("Xiawang", "HTTP请求错误: " + str(e))
 	except Exception as e:
 		wxsend("Xiawang", "该请求: "+url+" 重试后依然有异常: " + str(e))
 	else:
@@ -73,11 +91,18 @@ def json_post(url,data=None,headers=None):
 			content = "该请求: "+ url + " 的状态码: "+ str(response.status_code)
 			wxsend("Xiawang", content)
 
+def get(url,remark,headers=None):
+	"""
+	get请求
+	:param url: str, 接口地址
+	:param remark: str, 备注
+	:param headers: dict, requests header
+	:return: object, 响应对象
+	"""
 
-# get请求
-def get(url,headers=None):
 	try:
 		response = session.get(url=url, headers=headers, verify=False,timeout=3)
+		logging.debug("请求目的: {}, 请求url: {},响应结果: {}".format(remark, url, str(response.json())))
 	except exceptions.Timeout as e:
 		content= "该请求超时: "+url + str(e)
 		wxsend("Xiawang", content)
@@ -92,8 +117,9 @@ def get(url,headers=None):
 			content = "该请求: "+ url + " 的状态码: "+ str(response.status_code)
 			wxsend("Xiawang", content)
 
-# get请求
+# get请求---获取header
 def get_header(url):
+
 	try:
 		response = session.get(url=url, headers=header, verify=False,timeout=3)
 	except exceptions.Timeout as e:
@@ -134,17 +160,24 @@ def login(countryCode,username):
 	              'countryCode': countryCode,'challenge': 111}
 	referer_login_html = 'https://www.lagou.com/frontLogin.do'
 	login_header = get_code_token(referer_login_html)
-	form_post(url=login_url, data=login_data, headers=login_header)
+	remark = str(username)+"在登录拉勾"
+	r = form_post(url=login_url, data=login_data, headers=login_header, remark=remark)
+	if r['message'] == "操作成功":
+		logging.debug("用户名: "+ str(username) +" 登录成功")
 
 def login_home(username, password):
 	'''
 	从home.lagou.com登录，密码登录
 	:param username: str, 用户名
 	:param password: str, 密码
+	:param remark: str, 备注
 	'''
 	referer_login_home_url = "https://home.lagou.com/"
 	login_url = 'https://passport.lagou.com/login/login.json'
 	login_data = {'isValidate': 'true', 'username': username, 'password':password}
 	login_home_header = get_code_token(referer_login_home_url)
-	form_post(url=login_url, data=login_data, headers=login_home_header)
+	remark = str(username) + "在登录拉勾home后台"
+	r = form_post(url=login_url, data=login_data, headers=login_home_header, remark=remark)
+	if r['message'] == "操作成功":
+		logging.debug("用户名: "+ str(username) +" 登录成功")
 
