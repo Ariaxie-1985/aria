@@ -1,12 +1,8 @@
 # coding:utf-8
 
-from api_script.util import login, form_post, get_code_token, get_header, get
+from api_script.util import form_post, get_header, get
 import time
-import logging
 
-
-username = 20181205
-login("00852", username)
 
 time = int(round(time.time() * 1000))
 
@@ -16,13 +12,11 @@ def get_userId():
 	queryUserId_header = get_header(refer_queryUserId_url)
 	remark = "获取需要添加的子账号"
 	r = get(url=queryUserId_url, headers=queryUserId_header,remark=remark)
-	print(r.json())
 	userId = r.json()['content']['data']['members'][0]["userId"]
 	if userId:
 		("获取需要添加的子账号成功, 其userId: "+ str(userId))
 	return userId
 
-userId = get_userId()
 
 
 def add_sub_account(userId):
