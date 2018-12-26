@@ -15,10 +15,11 @@ def get_userId():
 	queryUserId_url = "https://easy.lagou.com/member/all_members.json?_="+str(time)
 	queryUserId_header = get_header(refer_queryUserId_url)
 	remark = "获取需要添加的子账号"
-	r = get(queryUserId_url, queryUserId_header,remark)
+	r = get(url=queryUserId_url, headers=queryUserId_header,remark=remark)
+	print(r.json())
 	userId = r.json()['content']['data']['members'][0]["userId"]
 	if userId:
-		logging.debug("获取需要添加的子账号成功, 其userId: "+ str(userId))
+		("获取需要添加的子账号成功, 其userId: "+ str(userId))
 	return userId
 
 userId = get_userId()
@@ -33,7 +34,7 @@ def add_sub_account(userId):
 	refer_queryAcount_url = "https://easy.lagou.com/subAccount/queryAcount/index.htm"
 	queryAcount_url = "https://easy.lagou.com/subAccount/addAcount.json"
 	queryAcount_data = {"userId": userId}
-	queryAcount_header = get_code_token(refer_queryAcount_url)
+	queryAcount_header = get_header(refer_queryAcount_url)
 	remark = "增加子账号功能"
 	return form_post(url=queryAcount_url, data=queryAcount_data, headers=queryAcount_header,remark=remark,)
 
@@ -46,7 +47,7 @@ def remove_sub_account(userId):
 	refer_queryAcount_url = "https://easy.lagou.com/subAccount/queryAcount/index.htm"
 	queryAcount_url = "https://easy.lagou.com/subAccount/delAcount.json"
 	queryAcount_data = {"userId": userId}
-	queryAcount_header = get_code_token(refer_queryAcount_url)
+	queryAcount_header = get_header(refer_queryAcount_url)
 	remark = "移除子账号功能"
 	return  form_post(url=queryAcount_url, data=queryAcount_data,headers=queryAcount_header,remark=remark)
 

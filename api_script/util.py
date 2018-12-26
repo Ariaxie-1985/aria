@@ -48,7 +48,7 @@ def form_post(url,remark, data=None,headers=None):
 	try:
 		headers = {**headers, **header}
 		response = session.post(url=url, data=data, headers=headers, verify=False,timeout=3)
-		logging.debug("请求目的: {}, 请求url: {}, 请求数据: {}, 响应结果: {}".format(remark, url, data, str(response.json())))
+		logging.info("\n请求目的: {},\n 请求url: {},\n 请求数据: {},\n 响应结果: {}\n".format(remark, url, data, str(response.json())))
 	except exceptions.Timeout as e:
 		content= "该请求超时: "+url + str(e)
 		wxsend("Xiawang", content)
@@ -76,7 +76,7 @@ def json_post(url,remark, data=None,headers=None):
 	try:
 		headers = {**headers, **header}
 		response = session.post(url=url, json=data, headers=headers, verify=False,timeout=3)
-		logging.debug("请求目的: {}, 请求url: {}, 请求数据: {}, 响应结果: {}".format(remark, url, data, str(response.json())))
+		logging.info("\n请求目的: {},\n 请求url: {},\n 请求数据: {},\n 响应结果: {}\n".format(remark, url, data, str(response.json())))
 	except exceptions.Timeout as e:
 		content= "该请求超时: "+url + str(e)
 		wxsend("Xiawang", content)
@@ -102,7 +102,7 @@ def get(url,remark,headers=None):
 
 	try:
 		response = session.get(url=url, headers=headers, verify=False,timeout=3)
-		logging.debug("请求目的: {}, 请求url: {},响应结果: {}".format(remark, url, str(response.json())))
+		logging.info("\n请求目的: {},\n 请求url: {},\n 响应结果: {}\n".format(remark, url, str(response.json())))
 	except exceptions.Timeout as e:
 		content= "该请求超时: "+url + str(e)
 		wxsend("Xiawang", content)
@@ -163,7 +163,7 @@ def login(countryCode,username):
 	remark = str(username)+"在登录拉勾"
 	r = form_post(url=login_url, data=login_data, headers=login_header, remark=remark)
 	if r['message'] == "操作成功":
-		logging.debug("用户名: "+ str(username) +" 登录成功")
+		logging.info("用户名: "+ str(username) +" 登录成功")
 
 def login_home(username, password):
 	'''
@@ -176,8 +176,8 @@ def login_home(username, password):
 	login_url = 'https://passport.lagou.com/login/login.json'
 	login_data = {'isValidate': 'true', 'username': username, 'password':password}
 	login_home_header = get_code_token(referer_login_home_url)
-	remark = str(username) + "在登录拉勾home后台"
+	remark ="用户 "+ str(username) + " 在登录拉勾home后台"
 	r = form_post(url=login_url, data=login_data, headers=login_home_header, remark=remark)
 	if r['message'] == "操作成功":
-		logging.debug("用户名: "+ str(username) +" 登录成功")
+		logging.info("用户名: "+ str(username) +" 登录成功")
 
