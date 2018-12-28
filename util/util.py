@@ -184,16 +184,16 @@ def login_home(username, password):
 		logging.info("用户名: "+ str(username) +" 登录成功")
 
 
-def assert_equal(a, b, success_message,fail_message=None):
+def assert_equal(expectvalue, actualvalue, success_message,fail_message=None):
 	'''
 	断言两个值是否相等, 并对结果打印日志
-	:param a:
-	:param b:
+	:param expectvalue: 期望结果
+	:param actualvalue: 实际结果
 	:param success_message: str, 断言成功打印的日志
 	:param fail_message:str, 断言失败打印的日志
 	'''
-	assert a == b
-	if a == b:
+	assert expectvalue == actualvalue
+	if expectvalue == actualvalue:
 		logging.info(success_message)
 	else:
 		logging.info(fail_message)
