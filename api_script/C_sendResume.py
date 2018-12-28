@@ -23,6 +23,8 @@ positionId = 5375318
 '''
 0:附件简历，1：在线简历
 '''
+
+
 resumeId = get_resumeId(0)    
 url='https://passport.lagou.com/grantServiceTicket/grant.html'
 get_header(url)
@@ -32,4 +34,6 @@ sendResume_header = get_code_token(sendResume_html)
 sendResume_data = {'positionId':positionId,'type':1,'resumeId':resumeId,'force':'true'}
 r = form_post(url=sendResume_url,headers=sendResume_header,data=sendResume_data)
 print(r)
+
+
 

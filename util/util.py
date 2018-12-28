@@ -6,6 +6,7 @@ from requests import exceptions
 from tenacity import *
 import json
 import logging
+logging.getLogger().setLevel(logging.INFO)
 
 requests.packages.urllib3.disable_warnings()
 session = requests.session()
@@ -37,6 +38,7 @@ def get_code_token(url):
 
 
 def form_post(url,remark, data=None,headers=None):
+	print(data)
 	"""
 	form表单传参的post请求
 	:param url: 请求url
@@ -183,8 +185,20 @@ def login_home(username, password):
 
 
 def assert_equal(a, b, success_message,fail_message=None):
+	'''
+	断言两个值是否相等, 并对结果打印日志
+	:param a:
+	:param b:
+	:param success_message: str, 断言成功打印的日志
+	:param fail_message:str, 断言失败打印的日志
+	'''
 	assert a == b
 	if a == b:
 		logging.info(success_message)
 	else:
 		logging.info(fail_message)
+
+#获取url的html源码
+def gethtml(url):
+	html=session.get(url)
+	return html.text
