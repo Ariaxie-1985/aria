@@ -1,6 +1,6 @@
 # coding:utf-8
 import logging
-from api_script.util import form_post, get_header, get, login
+from util.util import form_post, get_header, get, assert_equal, login
 import time
 
 time = int(round(time.time() * 1000))
@@ -10,15 +10,14 @@ def get_userId():
 	queryUserId_url = "https://easy.lagou.com/member/all_members.json?_="+str(time)
 	queryUserId_header = get_header(refer_queryUserId_url)
 	remark = "获取需要添加的子账号"
-	r = get(url=queryUserId_url, headers=queryUserId_header,remark=remark)
-	members = r.json()['content']['data']['members']
+	r = get(url=queryUserId_url, headers=queryUserId_header,remark=remark).json()
+	members = r['content']['data']['members']
 	for i in range(len(members)):
 		flag = members[i]
 		if flag['isContractManager'] == False:
-			userId = flag["userId"]
-			if userId:
-				logging.info("获取需要添加的子账号成功, 其userId: " + str(userId))
-				return userId
+			if flag["userId"]:
+				logging.info("获取需要添加的子账号成功, 其userId: " + str(flag["userId"]))
+				return flag["userId"]
 
 
 
@@ -63,4 +62,3 @@ def recover_sub_account(userId):
 	recoverAcount_header = get_header(refer_queryAcount_url)
 	remark = "一键恢复无效子账号功能"
 	return  form_post(url=recoverAcount_url, data=recoverAcount_data,headers=recoverAcount_header,remark=remark)
-

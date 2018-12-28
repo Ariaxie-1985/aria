@@ -1,6 +1,6 @@
 # coding:utf-8
 
-from api_script.util import form_post,get_code_token, login,get
+from util.util import form_post,get_code_token, login,get
 
 '''
 简历管理-候选人: 从新简历移至待沟通
@@ -16,7 +16,6 @@ newresumelist_data = {"pageNo":1,"stage":"NEW","can":"true","needQueryAmount":"t
 r = form_post(newresumelist_url, newresumelist_data,listofcandidates_header)
 positionId = r['content']['rows'][0]['positionId']
 resumeOwnerId = r['content']['rows'][0]['resumeOwnerId']
-print(r)
 
 
 url = 'https://easy.lagou.com/settings/template/in_temp.json?positionId='+str(positionId)

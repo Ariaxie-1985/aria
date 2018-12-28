@@ -1,6 +1,6 @@
 # coding:utf-8
 
-from api_script.util import form_post,get_code_token, login,get
+from util.util import form_post,get_code_token, login,get
 
 '''
 简历管理-候选人: 从待沟通移至面试

@@ -1,5 +1,5 @@
 #2018秋版合同刷新职位
-from api_script.util import login ,get_code_token
+from util.util import login ,get_code_token
 
 login('00852','20181205')
 def Refreshed():

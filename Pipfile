@@ -11,6 +11,7 @@ requests = "*"
 tenacity = "*"
 pytest = "*"
 pytest-html = "*"
+"beautifulsoup4" = "*"
 
 
 [dev-packages]

@@ -1,6 +1,6 @@
 # coding:utf-8
 from api_script.C_sendResume import get_resumeId
-from api_script.util import get_code_token, form_post, get, get_header
+from util.util import get_code_token, form_post, get, get_header
 
 '''
 批量对同一职位发送大量简历

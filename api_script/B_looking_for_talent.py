@@ -1,5 +1,5 @@
 # coding:utf-8
-from api_script.util import get, get_code_token, login
+from util.util import get, get_code_token, login
 
 '''
 找人才的推荐人才和最新人才

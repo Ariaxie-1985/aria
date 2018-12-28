@@ -1,5 +1,5 @@
 # coding:utf-8
-from api_script.util import get_code_token, form_post, get, login
+from util.util import get_code_token, form_post, get
 import re
 
 
@@ -26,8 +26,3 @@ def completeInfo_process():
 	r1 = company_auth()
 	r2 = completeInfo()
 	return [r1,r2]
-
-
-username = 20000217
-login("00852",username)
-completeInfo_process()

@@ -1,6 +1,7 @@
 # coding:utf-8
 
-from api_script.util import form_post, get_header, login_home
+from util.util import form_post, get_header
+
 
 # 审核招聘者
 def passPersonApprove():

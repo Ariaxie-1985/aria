@@ -1,5 +1,5 @@
 # coding:utf-8
-from api_script.util import get_code_token, get, get_header ,form_post ,login
+from util.util import get_code_token, get, get_header ,form_post ,login
 import json
 
 def get_resumeId(x):

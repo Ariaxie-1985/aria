@@ -1,5 +1,5 @@
 # coding:utf-8
-from api_script.util import get_code_token, form_post, login_home, get_header
+from util.util import get_code_token, form_post
 
 phone = 20000215
 userName = "英皇容祖儿6"

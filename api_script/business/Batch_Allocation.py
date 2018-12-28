@@ -1,5 +1,5 @@
 #批量分配
-from api_script.util import login ,get
+from util.util import login ,get
 
 login('00852','20181205')
 #查看是否出现可以批量分配

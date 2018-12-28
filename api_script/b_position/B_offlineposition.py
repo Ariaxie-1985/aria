@@ -1,6 +1,6 @@
 # coding:utf-8
 
-from api_script.util import form_post,get_code_token, login
+from util.util import form_post,get_code_token, login
 
 '''
 职位 - 下线 在线职位列表的第一个职位

@@ -1,8 +1,8 @@
 # coding:utf-8
 
-from api_script.util import form_post,get_code_token
+from util.util import form_post,get_code_token
 import random
-import logging
+
 # 批量发布职位-拉勾渠道
 postype = [{'firstType':'开发|测试|运维类','positionType':'人工智能','positionThirdType':'机器学习','positionName':'机器学习'},
            {'firstType':'产品|需求|项目类','positionType':'产品经理','positionThirdType':'产品经理','positionName':'产品经理'},

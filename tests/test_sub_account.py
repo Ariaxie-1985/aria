@@ -3,7 +3,7 @@
 # @Author: Xiawang
 
 from api_script.business.sub_account import add_sub_account, remove_sub_account, get_userId
-from api_script.util import login
+from util.util import login, assert_equal
 import logging
 
 '''
@@ -24,13 +24,8 @@ def test_add_sub_account():
 	log.debug('验证添加子账号: '+str(userId)+'是否成功')
 	r = add_sub_account(userId)
 	userId_r = r['content']['data']['data'][0]['userid']
+	assert_equal(userId,userId_r,"添加子账号成功, 其userId: "+ str(userId_r),"添加子账号失败, 其响应内容: " + str(r))
 
-	assert userId == userId_r
-
-	if userId == userId_r:
-		logging.info("添加子账号成功, 其userId: "+ str(userId_r))
-	else:
-		logging.info("添加子账号失败, 其响应内容: " + str(r))
 
 
 def test_remove_sub_account():
@@ -41,11 +36,6 @@ def test_remove_sub_account():
 	log = logging.getLogger('test_add_sub_account')
 	log.debug('验证移除子账号: ' + str(userId) + '是否成功')
 	r = remove_sub_account(userId)
+	assert_equal(r['message'],"删除成功","删除子账号成功, 其userId: "+ str(userId),"删除子账号失败, 其响应内容: " + str(r))
 
-	assert r['message'] == "删除成功"
-
-	if r['message'] == "删除成功":
-		logging.info("删除子账号成功, 其userId: "+ str(userId))
-	else:
-		logging.info("删除子账号失败, 其响应内容: " + str(r))
 

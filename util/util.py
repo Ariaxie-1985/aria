@@ -112,11 +112,11 @@ def get(url,headers=None,remark=None):
 		wxsend("Xiawang", "该请求: "+url+" 重试后依然有异常: " + str(e))
 	else:
 		if response.status_code == 200:
-			return response.request.headers
+			return response
 		else:
 			content = "该请求: "+ url + " 的状态码: "+ str(response.status_code)
 			wxsend("Xiawang", content)
-			return response
+
 
 # get请求---获取header
 def get_header(url):
@@ -131,7 +131,6 @@ def get_header(url):
 		wxsend("Xiawang", "该请求: "+url+" 重试后依然有异常: " + str(e))
 	else:
 		if response.status_code == 200:
-
 			return response.request.headers
 		else:
 			content = "该请求: "+ url + " 的状态码: "+ str(response.status_code)
@@ -151,7 +150,6 @@ def wxsend(username,content):
 
 
 def login(countryCode,username):
-	logging.info("??????")
 	'''
 	从www.lagou.com登录，验证码登录
 	:param countryCode: str, 地区编号
@@ -184,3 +182,9 @@ def login_home(username, password):
 		logging.info("用户名: "+ str(username) +" 登录成功")
 
 
+def assert_equal(a, b, success_message,fail_message=None):
+	assert a == b
+	if a == b:
+		logging.info(success_message)
+	else:
+		logging.info(fail_message)
