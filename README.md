@@ -9,7 +9,9 @@ pip3 install pipenv
 pipenv install Pipfile
 # 激活虚拟环境
 pipenv shell
-# 执行脚本
-python toB_basic.py
+# 执行全部测试脚本
+pytest
+# 若执行部分脚本
+pytest api_script/tests/test_b_basic.py api_script/tests/test_*.py
 ```
 

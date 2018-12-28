@@ -94,7 +94,7 @@ def json_post(url,remark, data=None,headers=None):
 			content = "该请求: "+ url + " 的状态码: "+ str(response.status_code)
 			wxsend("Xiawang", content)
 
-def get(url,remark,headers=None):
+def get(url,headers=None,remark=None):
 	"""
 	get请求
 	:param url: str, 接口地址
@@ -102,7 +102,6 @@ def get(url,remark,headers=None):
 	:param headers: dict, requests header
 	:return: object, 响应对象
 	"""
-
 	try:
 		response = session.get(url=url, headers=headers, verify=False,timeout=3)
 		logging.info("\n请求目的: {},\n 请求url: {},\n 响应结果: {}\n".format(remark, url, str(response.json())))
@@ -119,6 +118,7 @@ def get(url,remark,headers=None):
 		else:
 			content = "该请求: "+ url + " 的状态码: "+ str(response.status_code)
 			wxsend("Xiawang", content)
+			return response
 
 # get请求---获取header
 def get_header(url):

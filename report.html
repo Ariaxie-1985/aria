@@ -235,7 +235,7 @@ function filter_table(elem) {
 }
 </script>
     <h1>report.html</h1>
-    <p>Report generated on 26-Dec-2018 at 11:09:18 by<a href="https://pypi.python.org/pypi/pytest-html"> pytest-html</a> v1.19.0</p>
+    <p>Report generated on 27-Dec-2018 at 19:05:51 by<a href="https://pypi.python.org/pypi/pytest-html"> pytest-html</a> v1.19.0</p>
     <h2>Environment</h2>
     <table id="environment">
       <tr>
@@ -254,8 +254,8 @@ function filter_table(elem) {
         <td>Python</td>
         <td>3.6.3</td></tr></table>
     <h2>Summary</h2>
-    <p>2 tests ran in 3.01 seconds. </p>
-    <p class="filter" hidden="true">(Un)check the boxes to filter the results.</p><input checked="true" class="filter" data-test-result="passed" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="passed">2 passed</span>, <input checked="true" class="filter" data-test-result="skipped" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="skipped">0 skipped</span>, <input checked="true" class="filter" data-test-result="failed" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="failed">0 failed</span>, <input checked="true" class="filter" data-test-result="error" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="error">0 errors</span>, <input checked="true" class="filter" data-test-result="xfailed" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="xfailed">0 expected failures</span>, <input checked="true" class="filter" data-test-result="xpassed" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="xpassed">0 unexpected passes</span>
+    <p>0 tests ran in 1.75 seconds. </p>
+    <p class="filter" hidden="true">(Un)check the boxes to filter the results.</p><input checked="true" class="filter" data-test-result="passed" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="passed">0 passed</span>, <input checked="true" class="filter" data-test-result="skipped" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="skipped">0 skipped</span>, <input checked="true" class="filter" data-test-result="failed" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="failed">0 failed</span>, <input checked="true" class="filter" data-test-result="error" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="error">1 errors</span>, <input checked="true" class="filter" data-test-result="xfailed" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="xfailed">0 expected failures</span>, <input checked="true" class="filter" data-test-result="xpassed" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="xpassed">0 unexpected passes</span>
     <h2>Results</h2>
     <table id="results-table">
       <thead id="results-table-head">
@@ -266,33 +266,12 @@ function filter_table(elem) {
           <th>Links</th></tr>
         <tr hidden="true" id="not-found-message">
           <th colspan="4">No results found. Try to check the filters</th></tr></thead>
-      <tbody class="passed results-table-row">
+      <tbody class="error results-table-row">
         <tr>
-          <td class="col-result">Passed</td>
-          <td class="col-name">api_script/tests/test_sub_account.py::test_add_sub_account</td>
-          <td class="col-duration">0.58</td>
+          <td class="col-result">Error</td>
+          <td class="col-name">api_script/tests/test_b_basic.py</td>
+          <td class="col-duration">0.00</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
-            <div class="log">------------------------------ Captured log call -------------------------------<br/>util.py                     51 INFO     
-请求目的: 增加子账号功能,
- 请求url: https://easy.lagou.com/subAccount/addAcount.json,
- 请求数据: {&#x27;userId&#x27;: 100014642},
- 响应结果: {&#x27;state&#x27;: 1, &#x27;message&#x27;: &#x27;添加成功&#x27;, &#x27;content&#x27;: {&#x27;data&#x27;: {&#x27;data&#x27;: [{&#x27;id&#x27;: 150, &#x27;userid&#x27;: 100014642, &#x27;parentuserid&#x27;: 100014641, &#x27;creattime&#x27;: &#x27;20181226T110919+0800&#x27;, &#x27;updatetime&#x27;: &#x27;20181226T110919+0800&#x27;, &#x27;accounttype&#x27;: 2}]}, &#x27;rows&#x27;: []}}
-
-test_sub_account.py         31 INFO     添加子账号成功, 其userId: 100014642</div></td></tr></tbody>
-      <tbody class="passed results-table-row">
-        <tr>
-          <td class="col-result">Passed</td>
-          <td class="col-name">api_script/tests/test_sub_account.py::test_remove_sub_account</td>
-          <td class="col-duration">1.37</td>
-          <td class="col-links"></td></tr>
-        <tr>
-          <td class="extra" colspan="4">
-            <div class="log">------------------------------ Captured log call -------------------------------<br/>util.py                     51 INFO     
-请求目的: 移除子账号功能,
- 请求url: https://easy.lagou.com/subAccount/delAcount.json,
- 请求数据: {&#x27;userId&#x27;: 100014642},
- 响应结果: {&#x27;state&#x27;: 1, &#x27;message&#x27;: &#x27;删除成功&#x27;, &#x27;content&#x27;: {&#x27;rows&#x27;: []}}
-
-test_sub_account.py         46 INFO     删除子账号成功, 其userId: 100014642</div></td></tr></tbody></table></body></html>
+            <div class="log">api_script/tests/test_b_basic.py:7: in &lt;module&gt;<br/>    from api_script.b_basic.toB_comleteInfo import completeInfo_process<br/>api_script/b_basic/toB_comleteInfo.py:33: in &lt;module&gt;<br/>    completeInfo_process()<br/>api_script/b_basic/toB_comleteInfo.py:27: in completeInfo_process<br/>    r2 = completeInfo()<br/>api_script/b_basic/toB_comleteInfo.py:18: in completeInfo<br/>    comAuthId = re.findall(&#x27;userId: &quot;(.*?)&quot;&#x27;, com_html.text, re.S)[0]<br/><span class="error">E   AttributeError: &#x27;NoneType&#x27; object has no attribute &#x27;text&#x27;</span><br/></div></td></tr></tbody></table></body></html>

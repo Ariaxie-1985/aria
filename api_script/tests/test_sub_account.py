@@ -1,10 +1,10 @@
 # coding:utf-8
+# @Time  : 2018-12-26 15:37
+# @Author: Xiawang
+
 from api_script.business.sub_account import add_sub_account, remove_sub_account, get_userId
 from api_script.util import login
 import logging
-
-
-
 
 '''
 验证子账号的添加, 权益调整, 移除, 无效后再恢复, 调整为分账号
@@ -41,7 +41,9 @@ def test_remove_sub_account():
 	log = logging.getLogger('test_add_sub_account')
 	log.debug('验证移除子账号: ' + str(userId) + '是否成功')
 	r = remove_sub_account(userId)
+
 	assert r['message'] == "删除成功"
+
 	if r['message'] == "删除成功":
 		logging.info("删除子账号成功, 其userId: "+ str(userId))
 	else:
