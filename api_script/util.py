@@ -6,6 +6,7 @@ from requests import exceptions
 from tenacity import *
 import json
 import logging
+logging.getLogger().setLevel(logging.INFO)
 
 requests.packages.urllib3.disable_warnings()
 session = requests.session()
@@ -37,6 +38,7 @@ def get_code_token(url):
 
 
 def form_post(url,remark, data=None,headers=None):
+	print(data)
 	"""
 	form表单传参的post请求
 	:param url: 请求url
@@ -113,7 +115,7 @@ def get(url,remark,headers=None):
 		wxsend("Xiawang", "该请求: "+url+" 重试后依然有异常: " + str(e))
 	else:
 		if response.status_code == 200:
-			return response.request.headers
+			return response.json()
 		else:
 			content = "该请求: "+ url + " 的状态码: "+ str(response.status_code)
 			wxsend("Xiawang", content)
@@ -151,7 +153,6 @@ def wxsend(username,content):
 
 
 def login(countryCode,username):
-	logging.info("??????")
 	'''
 	从www.lagou.com登录，验证码登录
 	:param countryCode: str, 地区编号
@@ -183,4 +184,7 @@ def login_home(username, password):
 	if r['message'] == "操作成功":
 		logging.info("用户名: "+ str(username) +" 登录成功")
 
-
+#获取url的html源码
+def gethtml(url):
+	html=session.get(url)
+	return html.text
