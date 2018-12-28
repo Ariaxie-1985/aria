@@ -1,7 +1,7 @@
 # -*- coding: utf8 -*-
 __author__ = 'yqzhang'
 import time
-from api_script.util import get_code_token, get, get_header ,form_post ,login ,json_post
+from util.util import get_code_token, get, get_header ,form_post ,login ,json_post
 
 login('00853','05180001')
 

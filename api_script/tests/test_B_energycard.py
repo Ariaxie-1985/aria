@@ -3,7 +3,7 @@ __author__ = 'yqzhang'
 import logging
 import datetime
 from api_script.business.B_energycard import energycard,getpositionId
-from api_script.util import login
+from util.util import login
 
 
 login('00853','05180001')

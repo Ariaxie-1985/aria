@@ -2,7 +2,7 @@
 __author__ = 'yqzhang'
 import logging
 from api_script.business.B_position_limit import position_limit,position,getrefreshpoint,getpositionlimit
-from api_script.util import login
+from util.util import login
 
 login('00853','05180001')
 
