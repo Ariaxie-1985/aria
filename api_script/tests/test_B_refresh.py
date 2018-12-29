@@ -2,7 +2,7 @@
 __author__ = 'yqzhang'
 import logging
 from api_script.business.B_refresh import refrech,getpositionId,getrefreshpoint
-from api_script.util import login
+from util.util import login
 
 second = 3600
 login('00853','05180001')

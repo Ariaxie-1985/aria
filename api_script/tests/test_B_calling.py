@@ -1,6 +1,6 @@
 # coding:utf-8
 from api_script.business.B_calling import calling
-from api_script.util import login
+from util.util import login
 import logging
 
 login('00852','20181205')
