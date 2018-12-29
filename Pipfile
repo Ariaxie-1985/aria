@@ -12,6 +12,8 @@ tenacity = "*"
 pytest = "*"
 pytest-html = "*"
 "beautifulsoup4" = "*"
+pytest-ordering = "*"
+pyyaml = "*"
 
 
 [dev-packages]
