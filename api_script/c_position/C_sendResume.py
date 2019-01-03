@@ -32,7 +32,7 @@ sendResume_html = 'https://www.lagou.com/jobs/'+str(positionId)+'.html'
 sendResume_url = 'https://www.lagou.com/mycenterDelay/deliverResumeBeforce.json'
 sendResume_header = get_code_token(sendResume_html)
 sendResume_data = {'positionId':positionId,'type':1,'resumeId':resumeId,'force':'true'}
-r = form_post(url=sendResume_url,headers=sendResume_header,data=sendResume_data)
+r = form_post(url=sendResume_url,headers=sendResume_header,data=sendResume_data,remark='发简历')
 print(r)
 
 
