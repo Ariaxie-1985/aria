@@ -2,7 +2,7 @@
 __author__ = 'yqzhang'
 import time
 from util.util import get_code_token, get_, get_header ,form_post ,login ,json_post
-
+import logging
 login('00853','05180001')
 
 def getrefreshpoint():
@@ -29,6 +29,7 @@ def refrech(positionId,second):
     # print (r)
     if a==b:
         time.sleep(second)
+        logging.info('需等待冷却时间结束后方可刷新，冷却时间'+str(second))
         s = form_post(url=refrech_url,headers=refrech_header,data=refrech_data,remark='刷新职位')
         # print('22')
         return s
