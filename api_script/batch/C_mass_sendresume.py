@@ -1,22 +1,36 @@
 # coding:utf-8
-from api_script.c_position.C_sendResume import get_resumeId
+# from api_script.c_position.C_sendResume import get_resumeId
 from util.util import get_code_token, form_post, get_, get_header,login
-
+import json
 '''
 批量对同一职位发送大量简历
 '''
+def get_resumeId(x):
+	header_url = 'https://passport.lagou.com/grantServiceTicket/grant.html'
+	url='https://www.lagou.com/mycenter/resume/getAllResumes.json'
+	get_header(header_url)
+	t=get_(url)
+	js = t.content
+	jsdic = json.loads(js)
+	a= jsdic['content'][0]
+	b= jsdic['content'][1]
+	if a['type']==x:
+		return a['id']
+	elif b['type']==x:
+		return b['id']
+
 a = 0
-phone = 20160132
-countryCode = '00852'
+phone = 20190106
+countryCode = '00853'
 positionId = 5375318
-for i in range(10):
+for i in range(1):
 	a += 1
 	c_register_html = 'https://passport.lagou.com/register/register.html?from=c'
 	register_url = 'https://passport.lagou.com/register/register.json'
 	register_data = {'isValidate':'true','phone':phone+a,'phoneVerificationCode':'049281', 'challenge':111,'type':0,'countryCode':countryCode}
 	register_header = get_code_token(c_register_html)
 	form_post(url=register_url,headers=register_header,data=register_data,remark='注册')
-	login(countryCode,phone)
+	# login(countryCode,phone)
 
 	basicMain_html = 'https://www.lagou.com/resume/perfectresume.html?showQRCode=true'
 	head_url = 'https://www.lagou.com/resume/saveHeadPic.json?headPicPath=%2Fcommon%2Fimage%2Fpc%2Fdefault_boy_headpic2.png'
@@ -39,7 +53,7 @@ for i in range(10):
 	workExperience_data = {"positionType":"Python","positionType1":"开发|测试|运维类","positionType2":"后端开发","skillLabels":"Python",
 	                  "department":"用户价值部","companyIndustry":"电商","companyName":"拉勾网","positionName":"Python","startDate":"2012.07",
 	                  "endDate":"至今","workContent":"<p>哒哒哒哒哒哒多多多多多多多</p>","isItVisible":1}
-	form_post(url=basicMain_url, headers=basicMain_header, data=basicMain_data,remark='工作经历')
+	form_post(url=workExperience_url, headers=workExperience_header, data=workExperience_data,remark='工作经历')
 
 	'''
 	教育经历
