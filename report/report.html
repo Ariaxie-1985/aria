@@ -235,7 +235,7 @@ function filter_table(elem) {
 }
 </script>
     <h1>report.html</h1>
-    <p>Report generated on 29-Dec-2018 at 17:01:00 by<a href="https://pypi.python.org/pypi/pytest-html"> pytest-html</a> v1.19.0</p>
+    <p>Report generated on 03-Jan-2019 at 15:13:25 by<a href="https://pypi.python.org/pypi/pytest-html"> pytest-html</a> v1.19.0</p>
     <h2>Environment</h2>
     <table id="environment">
       <tr>
@@ -254,8 +254,8 @@ function filter_table(elem) {
         <td>Python</td>
         <td>3.6.3</td></tr></table>
     <h2>Summary</h2>
-    <p>2 tests ran in 3.66 seconds. </p>
-    <p class="filter" hidden="true">(Un)check the boxes to filter the results.</p><input checked="true" class="filter" data-test-result="passed" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="passed">1 passed</span>, <input checked="true" class="filter" data-test-result="skipped" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="skipped">0 skipped</span>, <input checked="true" class="filter" data-test-result="failed" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="failed">1 failed</span>, <input checked="true" class="filter" data-test-result="error" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="error">0 errors</span>, <input checked="true" class="filter" data-test-result="xfailed" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="xfailed">0 expected failures</span>, <input checked="true" class="filter" data-test-result="xpassed" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="xpassed">0 unexpected passes</span>
+    <p>0 tests ran in 3.03 seconds. </p>
+    <p class="filter" hidden="true">(Un)check the boxes to filter the results.</p><input checked="true" class="filter" data-test-result="passed" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="passed">0 passed</span>, <input checked="true" class="filter" data-test-result="skipped" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="skipped">0 skipped</span>, <input checked="true" class="filter" data-test-result="failed" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="failed">0 failed</span>, <input checked="true" class="filter" data-test-result="error" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="error">1 errors</span>, <input checked="true" class="filter" data-test-result="xfailed" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="xfailed">0 expected failures</span>, <input checked="true" class="filter" data-test-result="xpassed" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="xpassed">0 unexpected passes</span>
     <h2>Results</h2>
     <table id="results-table">
       <thead id="results-table-head">
@@ -266,49 +266,12 @@ function filter_table(elem) {
           <th>Links</th></tr>
         <tr hidden="true" id="not-found-message">
           <th colspan="4">No results found. Try to check the filters</th></tr></thead>
-      <tbody class="failed results-table-row">
+      <tbody class="error results-table-row">
         <tr>
-          <td class="col-result">Failed</td>
-          <td class="col-name">tests/test_bb_basic_2.py::test_passPersonApprove[anan@lagou.com-990eb670f81e82f546cfaaae1587279a]</td>
-          <td class="col-duration">1.67</td>
+          <td class="col-result">Error</td>
+          <td class="col-name">tests/test_sub_account.py</td>
+          <td class="col-duration">0.00</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
-            <div class="log">username_home = &#x27;anan@lagou.com&#x27;, password_home = &#x27;990eb670f81e82f546cfaaae1587279a&#x27;<br/><br/>    @pytest.mark.parametrize(&#x27;username_home,password_home&#x27;,[(test_data[&#x27;username_home&#x27;],test_data[&#x27;password_home&#x27;])])<br/>    def test_passPersonApprove(username_home,password_home):<br/>    	r=login_home(username_home,password_home)<br/>&gt;   	assert_equal(1,r[&#x27;state&#x27;],&quot;用户名: &quot;+ str(username_home) +&quot; 登录成功&quot;,&quot;用户名: &quot;+ str(username_home) +&quot; 登录失败&quot;)<br/><span class="error">E    TypeError: &#x27;NoneType&#x27; object is not subscriptable</span><br/><br/>tests/test_bb_basic_2.py:17: TypeError<br/></div></td></tr></tbody>
-      <tbody class="passed results-table-row">
-        <tr>
-          <td class="col-result">Passed</td>
-          <td class="col-name">tests/test_ab_basic_1.py::test_saveHR_process[20000325-\u5173\u4e4b\u7433\u6d4b\u8bd513-\u5173\u4e4b\u7433\u6d4b\u8bd5\u62c9\u52fe13-\u5173\u4e4b\u743313-test2018@sina.com-\u5173\u4e4b\u7433\u6d4b\u8bd513]</td>
-          <td class="col-duration">1.71</td>
-          <td class="col-links"></td></tr>
-        <tr>
-          <td class="extra" colspan="4">
-            <div class="log">------------------------------ Captured log call -------------------------------<br/>test_ab_basic_1.py          18 INFO     验证注册B端-成立公司-提交招聘者审核流程是否成功
-util.py                     51 INFO     
-请求目的: 验证B端注册,
- 请求url: https://passport.lagou.com/register/register.json,
- 请求数据: {&#x27;isValidate&#x27;: &#x27;true&#x27;, &#x27;phone&#x27;: 20000325, &#x27;phoneVerificationCode&#x27;: &#x27;049281&#x27;, &#x27;challenge&#x27;: 111, &#x27;type&#x27;: 1, &#x27;countryCode&#x27;: &#x27;00852&#x27;},
- 响应结果: {&#x27;content&#x27;: {&#x27;rows&#x27;: []}, &#x27;message&#x27;: &#x27;操作成功&#x27;, &#x27;state&#x27;: 1, &#x27;submitCode&#x27;: 86888390, &#x27;submitToken&#x27;: &#x27;cae7af39-a0d7-49e6-a127-afa10500d127&#x27;}
-
-util.py                     51 INFO     
-请求目的: 验证上传B端用户信息是否成功,
- 请求url: https://hr.lagou.com/corpCenter/openservice/saveHR.json,
- 请求数据: {&#x27;userAvatar&#x27;: &#x27;i/audio1/M00/01/C5/CgHIk1wQwXuAAz2hAAB1mvl2DME233.JPG&#x27;, &#x27;userName&#x27;: &#x27;关之琳13&#x27;, &#x27;userPosition&#x27;: &#x27;HR BP&#x27;, &#x27;companyFullName&#x27;: &#x27;关之琳测试拉勾13&#x27;, &#x27;resumeReceiveEmail&#x27;: &#x27;test2018@sina.com&#x27;},
- 响应结果: {&#x27;state&#x27;: 1, &#x27;message&#x27;: &#x27;操作成功&#x27;, &#x27;content&#x27;: {&#x27;data&#x27;: {&#x27;redirect&#x27;: &#x27;/corpCenter/openservice/step2.html&#x27;}, &#x27;rows&#x27;: []}, &#x27;submitCode&#x27;: 58178919, &#x27;submitToken&#x27;: &#x27;f36ec383-6d12-45d9-b151-dc349e887a1f&#x27;}
-
-util.py                     51 INFO     
-请求目的: 验证B端成立公司是否成功,
- 请求url: https://hr.lagou.com/corpCenter/openservice/saveCompany.json,
- 请求数据: {&#x27;logo&#x27;: &#x27;i/audio1/M00/01/C5/CgHIk1wQzAuAZ5-EAAmU9-3HjA4414.JPG&#x27;, &#x27;companyShortName&#x27;: &#x27;关之琳测试13&#x27;, &#x27;industryField&#x27;: &#x27;移动互联网&#x27;, &#x27;companySize&#x27;: &#x27;150-500人&#x27;, &#x27;financeStage&#x27;: &#x27;不需要融资&#x27;},
- 响应结果: {&#x27;state&#x27;: 1, &#x27;message&#x27;: &#x27;操作成功&#x27;, &#x27;content&#x27;: {&#x27;rows&#x27;: []}, &#x27;submitCode&#x27;: 22766822, &#x27;submitToken&#x27;: &#x27;83d85091-81cc-45de-a101-7ade871a8ff2&#x27;}
-
-util.py                     51 INFO     
-请求目的: 验证B端提交招聘者审核是否成功,
- 请求url: https://hr.lagou.com/corpCenter/hr/auth/file/submit.json,
- 请求数据: {&#x27;authenticationFileUrl&#x27;: &#x27;i/audio1/M00/01/C5/CgHIk1wQzSaAcR09AAqex8SeJls235.JPG&#x27;, &#x27;holdIDCardPhotoUrl&#x27;: &#x27;i/audio1/M00/01/C5/CgHIk1wQzR6AS8YlAAC5OWWN-yU456.JPG&#x27;, &#x27;updateCompanyShortName&#x27;: &#x27;关之琳测试13&#x27;},
- 响应结果: {&#x27;state&#x27;: 1, &#x27;message&#x27;: &#x27;操作成功&#x27;, &#x27;content&#x27;: {&#x27;data&#x27;: {&#x27;redirect&#x27;: &#x27;/corpCenter/hr/auth/status.html&#x27;}, &#x27;rows&#x27;: []}, &#x27;submitCode&#x27;: 85763941, &#x27;submitToken&#x27;: &#x27;2a3173fc-883c-4802-a1db-34759fd117c2&#x27;}
-
-util.py                    204 INFO     注册用户成功，该用户名: 20000325
-util.py                    204 INFO     上传B端用户信息成功，该用户性名: 关之琳13
-util.py                    204 INFO     B端成立公司成功，该公司简称: 关之琳测试13
-util.py                    204 INFO     B端提交招聘者审核成功，该公司简称: 关之琳测试13</div></td></tr></tbody></table></body></html>
+            <div class="log">tests/test_sub_account.py:18: in &lt;module&gt;<br/>    invalidUserId = get_invalidUserId()<br/>api_script/business/sub_account.py:76: in get_invalidUserId<br/>    userid = r[&#x27;content&#x27;][&#x27;data&#x27;][&#x27;subAcccountList&#x27;][0][&#x27;userid&#x27;]<br/><span class="error">E   IndexError: list index out of range</span><br/></div></td></tr></tbody></table></body></html>
