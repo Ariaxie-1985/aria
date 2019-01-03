@@ -77,6 +77,11 @@ def json_post(url,remark, data=None,headers=None):
 		headers = {**headers, **header}
 		response = session.post(url=url, json=data, headers=headers, verify=False,timeout=3)
 		logging.info("\n请求目的: {},\n 请求url: {},\n 请求数据: {},\n 响应结果: {}\n".format(remark, url, data, str(response.json())))
+		if response.status_code == 200:
+			return response.json()
+		else:
+			content = "该请求: "+ url + " 的状态码: "+ str(response.status_code)
+			wxsend("Xiawang", content)
 	except exceptions.Timeout as e:
 		content= "该请求超时: "+url + str(e)
 		wxsend("Xiawang", content)
@@ -84,12 +89,7 @@ def json_post(url,remark, data=None,headers=None):
 		("Xiawang", "HTTP请求错误: " + str(e))
 	except Exception as e:
 		wxsend("Xiawang", "该请求: "+url+" 重试后依然有异常: " + str(e))
-	else:
-		if response.status_code == 200:
-			return response.json()
-		else:
-			content = "该请求: "+ url + " 的状态码: "+ str(response.status_code)
-			wxsend("Xiawang", content)
+
 
 def get_(url,headers=None,remark=None):
 	"""
@@ -101,14 +101,14 @@ def get_(url,headers=None,remark=None):
 	"""
 	try:
 		response = session.get(url=url, headers=headers, verify=False,timeout=3)
-		if response.headers['content-type'] == "application/json":
+		if "application/json" in response.headers['content-type'] :
 			logging.info(
 				"\n请求目的: {},\n 请求url: {},\n 响应结果: {}\n".format(remark, url, str(response.json())))
 		else:
 			logging.info(
 				"\n请求目的: {},\n 请求url: {}".format(remark, url))
 
-		if response.status_code < 400:
+		if response.status_code == 200 or response.status_code == 302:
 			return response
 		else:
 			content = "该请求: "+ url + " 的状态码: "+ str(response.status_code)
@@ -126,6 +126,11 @@ def get_(url,headers=None,remark=None):
 def get_header(url):
 	try:
 		response = session.get(url=url, headers=header, verify=False,timeout=3)
+		if response.status_code == 200 or response.status_code == 302:
+			return response.request.headers
+		else:
+			content = "该请求: "+ url + " 的状态码: "+ str(response.status_code)
+			wxsend("Xiawang", content)
 	except exceptions.Timeout as e:
 		content= "该请求超时: "+url + str(e)
 		wxsend("Xiawang", content)
@@ -133,12 +138,7 @@ def get_header(url):
 		wxsend("Xiawang", "HTTP请求错误: " + str(e))
 	except Exception as e:
 		wxsend("Xiawang", "该请求: "+url+" 重试后依然有异常: " + str(e))
-	else:
-		if response.status_code == 200:
-			return response.request.headers
-		else:
-			content = "该请求: "+ url + " 的状态码: "+ str(response.status_code)
-			wxsend("Xiawang", content)
+
 
 # 企业微信报警
 @retry

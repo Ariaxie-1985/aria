@@ -1,6 +1,6 @@
 # coding:utf-8
-from api_script.C_sendResume import get_resumeId
-from util.util import get_code_token, form_post, get, get_header
+from api_script.c_position.C_sendResume import get_resumeId
+from util.util import get_code_token, form_post, get_, get_header
 
 '''
 批量对同一职位发送大量简历
@@ -20,7 +20,7 @@ for i in range(10):
 
 	basicMain_html = 'https://www.lagou.com/resume/perfectresume.html?showQRCode=true'
 	head_url = 'https://www.lagou.com/resume/saveHeadPic.json?headPicPath=%2Fcommon%2Fimage%2Fpc%2Fdefault_boy_headpic2.png'
-	get(url=head_url)
+	get_(url=head_url)
 
 
 	'''

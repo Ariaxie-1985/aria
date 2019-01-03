@@ -4,8 +4,8 @@
 import logging
 import pytest
 
-from api_script.b_basic.home_review_person import passPersonApprove
-from api_script.b_basic.toB_comleteInfo import completeInfo_process
+from api_script.b_basic.home_review_person_2 import passPersonApprove
+from api_script.b_basic.toB_comleteInfo_3 import completeInfo_process
 from util.read_yaml import get_yaml_test_data
 from util.util import login_home, assert_equal
 

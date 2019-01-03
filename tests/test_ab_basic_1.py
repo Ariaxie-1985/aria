@@ -5,7 +5,7 @@ import logging
 import pytest
 
 
-from api_script.b_basic.toB_saveHR import saveHR_process
+from api_script.b_basic.toB_saveHR_1 import saveHR_process
 from util.read_yaml import get_yaml_test_data
 from util.util import assert_equal
 
