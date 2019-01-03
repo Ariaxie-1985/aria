@@ -1,5 +1,6 @@
 # coding:utf-8
-from util.util import get_code_token, form_post, get
+# @Author: Xiawang
+from util.util import get_code_token, form_post, get_requests
 import time
 
 '''
@@ -21,7 +22,7 @@ for i in range(1):
 
 	basicMain_html = 'https://www.lagou.com/resume/perfectresume.html?showQRCode=true'
 	head_url = 'https://www.lagou.com/resume/saveHeadPic.json?headPicPath=%2Fcommon%2Fimage%2Fpc%2Fdefault_boy_headpic2.png'
-	get(url=head_url)
+	get_requests(url=head_url)
 
 
 	'''

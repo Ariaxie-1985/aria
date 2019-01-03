@@ -1,6 +1,6 @@
 # coding:utf-8
-
-from util.util import form_post,get_code_token, login,get
+# @Author: Xiawang
+from util.util import form_post,get_code_token, login,get_requests
 
 '''
 简历管理-候选人: 从新简历移至待沟通
@@ -19,7 +19,7 @@ resumeOwnerId = r['content']['rows'][0]['id']
 
 
 url = 'https://easy.lagou.com/settings/template/in_temp.json?positionId='+str(positionId)
-get(url,listofcandidates_header)
+get_requests(url,listofcandidates_header)
 
 toStageLink_url = 'https://easy.lagou.com/can/batch/toStageLink.json'
 toStageLink_data = {"resumeIds":resumeOwnerId}

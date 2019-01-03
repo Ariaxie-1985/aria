@@ -2,7 +2,7 @@
 
 import json
 from util.BeautifulSoup import exist_class_name
-from util.util import login,get,form_post,get_code_token,gethtml,assert_equal
+from util.util import login,get_requests,form_post,get_code_token,gethtml,assert_equal
 import logging
 logging.getLogger().setLevel(logging.INFO)
 
@@ -13,7 +13,7 @@ login("00852", username)
 def batch_allocation():
     headerurl="https://easy.lagou.com/subAccount/queryAcount/index.htm"
     header = get_code_token(headerurl)
-    jsonobject = get(url="https://easy.lagou.com/subAccount/queryAcount.json?pageNo=1&pageSize=7&keyword=",remark="获取当前有几个子账号")
+    jsonobject = get_requests(url="https://easy.lagou.com/subAccount/queryAcount.json?pageNo=1&pageSize=7&keyword=",remark="获取当前有几个子账号")
     childaccount = jsonobject.json()['content']['data']['subAcccountPage']['totalCount']
     # childaccount=jsonobject.get("content").get("data").get("subAcccountPage").get("totalCount")
     print('当前有' + str(childaccount) + '个子账号')

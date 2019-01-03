@@ -91,7 +91,7 @@ def json_post(url,remark, data=None,headers=None):
 		wxsend("Xiawang", "该请求: "+url+" 重试后依然有异常: " + str(e))
 
 
-def get_(url,headers=None,remark=None):
+def get_requests(url,headers=None,remark=None):
 	"""
 	get请求
 	:param url: str, 接口地址

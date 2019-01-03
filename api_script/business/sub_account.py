@@ -1,7 +1,8 @@
 # coding:utf-8
+# @Author: Xiawang
 import json
 import logging
-from util.util import form_post, get_header, get_, login
+from util.util import form_post, get_header, get_requests, login
 import time
 
 time = int(round(time.time() * 1000))
@@ -17,7 +18,7 @@ def get_userId():
 	queryUserId_url = "https://easy.lagou.com/member/all_members.json?_=" + str(time)
 	queryUserId_header = get_header(refer_queryUserId_url)
 	remark = "获取需要添加的子账号id"
-	r = get_(url=queryUserId_url, headers=queryUserId_header, remark=remark).json()
+	r = get_requests(url=queryUserId_url, headers=queryUserId_header, remark=remark).json()
 	members = r['content']['data']['members']
 	for i in range(len(members)):
 		flag = members[i]
@@ -77,7 +78,7 @@ def get_invalidUserId():
 	querygoodsList_url = "https://easy.lagou.com/subAccount/queryAcount.json?pageNo=1&pageSize=7&keyword="
 	querygoodsList_header = get_header(refer_queryUserId_url)
 	remark = "获取权益类别id"
-	r = get_(url=querygoodsList_url, headers=querygoodsList_header, remark=remark).json()
+	r = get_requests(url=querygoodsList_url, headers=querygoodsList_header, remark=remark).json()
 	userid = r['content']['data']['subAcccountList'][0]['userid']
 	return userid
 
