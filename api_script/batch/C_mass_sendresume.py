@@ -1,6 +1,6 @@
 # coding:utf-8
-from api_script.C_sendResume import get_resumeId
-from util.util import get_code_token, form_post, get, get_header
+from api_script.c_position.C_sendResume import get_resumeId
+from util.util import get_code_token, form_post, get_, get_header,login
 
 '''
 批量对同一职位发送大量简历
@@ -16,11 +16,11 @@ for i in range(10):
 	register_data = {'isValidate':'true','phone':phone+a,'phoneVerificationCode':'049281', 'challenge':111,'type':0,'countryCode':countryCode}
 	register_header = get_code_token(c_register_html)
 	form_post(url=register_url,headers=register_header,data=register_data)
-
+	login(countryCode,phone)
 
 	basicMain_html = 'https://www.lagou.com/resume/perfectresume.html?showQRCode=true'
 	head_url = 'https://www.lagou.com/resume/saveHeadPic.json?headPicPath=%2Fcommon%2Fimage%2Fpc%2Fdefault_boy_headpic2.png'
-	get(url=head_url)
+	get_(url=head_url)
 
 
 	'''
@@ -67,7 +67,7 @@ for i in range(10):
 	'''
 	0:附件简历，1：在线简历
 	'''
-	resumeId = get_resumeId(0)
+	resumeId = get_resumeId(1)
 	url = 'https://passport.lagou.com/grantServiceTicket/grant.html'
 	get_header(url)
 	sendResume_html = 'https://www.lagou.com/jobs/' + str(positionId) + '.html'
