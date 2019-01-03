@@ -1,4 +1,5 @@
 # coding:utf-8
+
 # from api_script.c_position.C_sendResume import get_resumeId
 from util.util import get_code_token, form_post, get_, get_header,login
 import json

@@ -15,7 +15,7 @@ newresumelist_url = "https://easy.lagou.com/can/new/list.json"
 newresumelist_data = {"pageNo":1,"stage":"NEW","can":"true","needQueryAmount":"true","newDeliverTime":0}
 r = form_post(newresumelist_url, newresumelist_data,listofcandidates_header)
 positionId = r['content']['rows'][0]['positionId']
-resumeOwnerId = r['content']['rows'][0]['resumeOwnerId']
+resumeOwnerId = r['content']['rows'][0]['id']
 
 
 url = 'https://easy.lagou.com/settings/template/in_temp.json?positionId='+str(positionId)

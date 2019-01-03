@@ -2,6 +2,7 @@
 from util.util import get_code_token, get_, get_header ,form_post ,login
 import json
 
+
 def get_resumeId(x):
 	header_url = 'https://passport.lagou.com/grantServiceTicket/grant.html'
 	url='https://www.lagou.com/mycenter/resume/getAllResumes.json'
