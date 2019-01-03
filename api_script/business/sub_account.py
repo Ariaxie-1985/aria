@@ -95,8 +95,8 @@ def add_sub_account(userlist):
 		queryAcount_data = {"userId": userId}
 		queryAcount_header = get_header(refer_queryAcount_url)
 		remark = "验证增加子账号功能是否ok"
-		form_post(url=queryAcount_url, data=queryAcount_data, headers=queryAcount_header, remark=remark)
-
+		r = form_post(url=queryAcount_url, data=queryAcount_data, headers=queryAcount_header, remark=remark)
+	return r
 
 def remove_sub_account(userlist):
 	'''
@@ -110,7 +110,8 @@ def remove_sub_account(userlist):
 		removeAcount_data = {"userId": userId}
 		removeAcount_header = {}
 		remark = "验证移除子账号功能是否ok"
-		form_post(url=removeAcount_url, data=removeAcount_data, headers=removeAcount_header, remark=remark)
+		r = form_post(url=removeAcount_url, data=removeAcount_data, headers=removeAcount_header, remark=remark)
+	return r
 
 
 def recover_sub_account(userId):
@@ -125,7 +126,8 @@ def recover_sub_account(userId):
 	recoverAcount_data = {"userIds": userId}
 	recoverAcount_header = {}
 	remark = "验证一键恢复无效子账号功能是否ok"
-	form_post(url=recoverAcount_url, data=recoverAcount_data, headers=recoverAcount_header, remark=remark)
+	return form_post(url=recoverAcount_url, data=recoverAcount_data, headers=recoverAcount_header, remark=remark)
+
 
 
 def reAssignAllGoods(userlist):
@@ -137,8 +139,7 @@ def reAssignAllGoods(userlist):
 	:param goodslist:
 	:return:
 	'''
-	recoverAcount_url = "https://easy.lagou.com/subAccount/recoverSubAccount.json"
-	# todo 解决传参里带列表嵌套字典
+	recoverAcount_url = "https://easy.lagou.com/userGoodsRecord/reAssignAllGoods.json"
 	for user, info in userlist.items():
 		recoverAcount_data = {"accountType": 1, "userId": user,
 		                      "assignInfo": [
@@ -150,7 +151,9 @@ def reAssignAllGoods(userlist):
 		recoverAcount_data["assignInfo"] = json.dumps(recoverAcount_data["assignInfo"])
 		recoverAcount_header = {}
 		remark = "验证调整子账号为分账号且及其权益功能是否ok"
-		form_post(url=recoverAcount_url, data=recoverAcount_data, headers=recoverAcount_header, remark=remark)
+		r =form_post(url=recoverAcount_url, data=recoverAcount_data, headers=recoverAcount_header, remark=remark)
+	return r
+
 
 
 def reAssign_subaccount_Goods(userlist):
@@ -162,28 +165,26 @@ def reAssign_subaccount_Goods(userlist):
 	:param goodslist:
 	:return:
 	'''
-	recoverAcount_url = "https://easy.lagou.com/subAccount/recoverSubAccount.json"
-	# todo 解决传参里带列表嵌套字典
+	recoverAcount_url = "https://easy.lagou.com/userGoodsRecord/reAssignAllGoods.json"
 	for user, info in userlist.items():
-		di1 = {"userid": user, "portrait": info[0], "userName": info[1], "email": "",
-		       "baseGoodsId": info[2], "totalNum": "0", "num": "0", "reAssignNum": "10"}
-		assignInfo = [di1]
 		recoverAcount_data = {"accountType": 1, "userId": user,
-		                      "assignInfo": assignInfo}
+		                      "assignInfo": [{"userid": user, "portrait": info[0], "userName": info[1], "email": "",
+		       "baseGoodsId": info[2], "totalNum": "0", "num": "0", "reAssignNum": "10"}]}
 
 
-		# recoverAcount_data["assignInfo"] = json.dumps(recoverAcount_data["assignInfo"])
+		recoverAcount_data["assignInfo"] = json.dumps(recoverAcount_data["assignInfo"])
 		recoverAcount_header = {}
 		remark = "验证调整子账号为分账号且及其权益功能是否ok"
-		form_post(url=recoverAcount_url, data=recoverAcount_data, headers=recoverAcount_header, remark=remark)
+		r = form_post(url=recoverAcount_url, data=recoverAcount_data, headers=recoverAcount_header, remark=remark)
+	return r
 
-username = 20181205
-login("00852", username)
-userid = get_userId()
+# username = 20181205
+# login("00852", username)
+# userid = get_userId()
 # r = get_user_goods_info(userid)
 # # s = reAssignAllGoods(r)
-userlist = get_subaccunt_goods(userid)
-reAssign_subaccount_Goods(userlist)
+# userlist = get_subaccunt_goods(userid)
+# reAssign_subaccount_Goods(userlist)
 # userinfo = get_userId()
 # userId = get_invalidUserId()
 # goodslist = get_goodsList()
