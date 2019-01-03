@@ -1,15 +1,6 @@
 # coding:utf-8
 from util.util import get_code_token, form_post
 
-phone = 20000215
-userName = "英皇容祖儿6"
-companyFullName = "英皇容祖儿网测试拉勾6"
-resumeReceiveEmail = "test2018@sina.com"
-companyShortName = "英皇容祖儿网测试6"
-updateCompanyShortName = "英皇容祖儿网测试6"
-
-# 注册B端-成立公司-提交招聘者审核
-b_register_url = 'https://passport.lagou.com/register/register.html?from=b'
 
 
 # 注册B端

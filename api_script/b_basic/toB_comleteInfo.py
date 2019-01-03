@@ -1,5 +1,5 @@
 # coding:utf-8
-from util.util import get_code_token, form_post, get
+from util.util import get_code_token, form_post, get_, login
 import re
 
 
@@ -14,7 +14,7 @@ def company_auth():
 
 def completeInfo():
 	com_step2_url = "https://hr.lagou.com/corpCenter/company/auth/step2.html"
-	com_html = get(com_step2_url)
+	com_html = get_(com_step2_url)
 	comAuthId = re.findall('userId: "(.*?)"', com_html.text, re.S)[0]
 	completeInfo_url = "https://hr.lagou.com/corpCenter/company/auth/completeInfo.json"
 	completeInfo_data = {"id":comAuthId, "logo":"i/audio1/M00/01/C6/CgHIk1wSFMeAeIoaAAB1mvl2DME518.JPG", "officialWebsite":"www.lagou.com","fullIntro":"愿天下没有难找的工作","shortIntro":"一天就能找到满意的工作","detailAddress":"海置创投大厦4层","provinceId":1,"cityId":5,"districtId":2005,"businessArea":"苏州街","companyLng":"116.307747","companyLat":"39.982128"}
@@ -26,3 +26,4 @@ def completeInfo_process():
 	r1 = company_auth()
 	r2 = completeInfo()
 	return [r1,r2]
+

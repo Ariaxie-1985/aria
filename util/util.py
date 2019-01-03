@@ -21,6 +21,11 @@ def get_code_token(url):
 		token_values = re.findall("X_Anti_Forge_Token = '(.*?)'", code.text, re.S)[0]
 		code_values = re.findall("X_Anti_Forge_Code = '(.*?)'", code.text, re.S)[0]
 		headers= {"X-Anit-Forge-Code":code_values, "X-Anit-Forge-Token":token_values, "User-Agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3615.0 Safari/537.36"}
+		if code.status_code == 200:
+			return headers
+		else:
+			content = "该请求: "+ url + " 的状态码: "+ str(code.status_code)
+			wxsend("Xiawang", content)
 	except exceptions.Timeout as e:
 		content= "该请求超时: "+url + str(e)
 		wxsend("Xiawang", content)
@@ -28,17 +33,9 @@ def get_code_token(url):
 		wxsend("Xiawang", "HTTP请求错误: " + str(e))
 	except Exception as e:
 		wxsend("Xiawang", "该请求: "+url+" 重试后依然有异常: " + str(e))
-	else:
-		if code.status_code == 200:
-			return headers
-
-		else:
-			content = "该请求: "+ url + " 的状态码: "+ str(code.status_code)
-			wxsend("Xiawang", content)
 
 
 def form_post(url,remark, data=None,headers=None):
-	print(data)
 	"""
 	form表单传参的post请求
 	:param url: 请求url
@@ -51,6 +48,11 @@ def form_post(url,remark, data=None,headers=None):
 		headers = {**headers, **header}
 		response = session.post(url=url, data=data, headers=headers, verify=False,timeout=3)
 		logging.info("\n请求目的: {},\n 请求url: {},\n 请求数据: {},\n 响应结果: {}\n".format(remark, url, data, str(response.json())))
+		if response.status_code == 200:
+			return response.json()
+		else:
+			content = "该请求: "+ url + " 的状态码: "+ str(response.status_code)
+			wxsend("Xiawang", content)
 	except exceptions.Timeout as e:
 		content= "该请求超时: "+url + str(e)
 		wxsend("Xiawang", content)
@@ -58,13 +60,8 @@ def form_post(url,remark, data=None,headers=None):
 		wxsend("Xiawang", "HTTP请求错误: " + str(e))
 	except Exception as e:
 		wxsend("Xiawang", "该请求: "+url+" 重试后依然有异常: " + str(e))
-		print ("!!")
-	else:
-		if response.status_code == 200:
-			return response.json()
-		else:
-			content = "该请求: "+ url + " 的状态码: "+ str(response.status_code)
-			wxsend("Xiawang", content)
+
+
 
 
 def json_post(url,remark, data=None,headers=None):
@@ -94,7 +91,7 @@ def json_post(url,remark, data=None,headers=None):
 			content = "该请求: "+ url + " 的状态码: "+ str(response.status_code)
 			wxsend("Xiawang", content)
 
-def get(url,headers=None,remark=None):
+def get_(url,headers=None,remark=None):
 	"""
 	get请求
 	:param url: str, 接口地址
@@ -104,7 +101,18 @@ def get(url,headers=None,remark=None):
 	"""
 	try:
 		response = session.get(url=url, headers=headers, verify=False,timeout=3)
-		logging.info("\n请求目的: {},\n 请求url: {},\n 响应结果: {}\n".format(remark, url, str(response.json())))
+		if response.headers['content-type'] == "application/json":
+			logging.info(
+				"\n请求目的: {},\n 请求url: {},\n 响应结果: {}\n".format(remark, url, str(response.json())))
+		else:
+			logging.info(
+				"\n请求目的: {},\n 请求url: {}".format(remark, url))
+
+		if response.status_code < 400:
+			return response
+		else:
+			content = "该请求: "+ url + " 的状态码: "+ str(response.status_code)
+			wxsend("Xiawang", content)
 	except exceptions.Timeout as e:
 		content= "该请求超时: "+url + str(e)
 		wxsend("Xiawang", content)
@@ -112,12 +120,6 @@ def get(url,headers=None,remark=None):
 		wxsend("Xiawang", "HTTP请求错误: " + str(e))
 	except Exception as e:
 		wxsend("Xiawang", "该请求: "+url+" 重试后依然有异常: " + str(e))
-	else:
-		if response.status_code == 200:
-			return response
-		else:
-			content = "该请求: "+ url + " 的状态码: "+ str(response.status_code)
-			wxsend("Xiawang", content)
 
 
 # get请求---获取header
@@ -164,8 +166,8 @@ def login(countryCode,username):
 	login_header = get_code_token(referer_login_html)
 	remark = str(username)+"在登录拉勾"
 	r = form_post(url=login_url, data=login_data, headers=login_header, remark=remark)
-	if r['message'] == "操作成功":
-		logging.info("用户名: "+ str(username) +" 登录成功")
+	assert_equal(1,r['state'],"用户名: "+ str(username) +" 登录成功","用户名: "+ str(username) +" 登录失败")
+
 
 def login_home(username, password):
 	'''
@@ -180,8 +182,7 @@ def login_home(username, password):
 	login_home_header = get_code_token(referer_login_home_url)
 	remark ="用户 "+ str(username) + " 在登录拉勾home后台"
 	r = form_post(url=login_url, data=login_data, headers=login_home_header, remark=remark)
-	if r['message'] == "操作成功":
-		logging.info("用户名: "+ str(username) +" 登录成功")
+	assert_equal(1,r['state'],"用户名: "+ str(username) +" 登录成功","用户名: "+ str(username) +" 登录失败")
 
 
 def assert_equal(expectvalue, actualvalue, success_message,fail_message=None):
@@ -192,13 +193,15 @@ def assert_equal(expectvalue, actualvalue, success_message,fail_message=None):
 	:param success_message: str, 断言成功打印的日志
 	:param fail_message:str, 断言失败打印的日志
 	'''
-	assert expectvalue == actualvalue
+	# assert expectvalue == actualvalue
 	if expectvalue == actualvalue:
 		logging.info(success_message)
 	else:
-		logging.info(fail_message)
+		logging.error(fail_message)
 
 #获取url的html源码
 def gethtml(url):
 	html=session.get(url)
 	return html.text
+
+

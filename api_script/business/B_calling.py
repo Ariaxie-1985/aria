@@ -1,5 +1,5 @@
 # coding:utf-8
-from api_script.util import get_code_token, get, get_header ,form_post ,login ,json_post
+from util.util import get_code_token, get, get_header ,form_post ,login ,json_post
 
 
 login('00852','20181205')

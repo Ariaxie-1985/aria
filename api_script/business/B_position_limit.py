@@ -1,8 +1,24 @@
 # -*- coding: utf8 -*-
 __author__ = 'yqzhang'
-from api_script.util import get_code_token, get, get_header ,form_post ,login ,json_post
+from util.util import get_code_token, get_, get_header ,form_post ,login ,json_post
+import json
 
-login('00853','05180001')
+# login('00853','05180001')
+
+def getonlinepositionlimit():
+    # 获取在线职位，发布职位限制以及当前已用数量
+    s = get_(url='https://easy.lagou.com/position/multiChannel/getLagouPositionPrivilege.json?isSchoolJob=false',headers=get_code_token('https://easy.lagou.com/position/multiChannel/myOnlinePositions.htm'),remark='获取在线职位数和上限')
+    r = json.loads(s.text)
+    # return s.text
+    return r['content']['data']['onlinePositionNum'],r['content']['data']['onlineLimitNum'],r['content']['data']['createPositionNum'],r['content']['data']['createLimitNum']
+
+def isprivilige():
+    # 返回false为在线职位公司，返回true为特权职位
+    s = form_post(remark='判断是否特权职位',url='https://easy.lagou.com/userGoodsRecord/initPriviligePositionPage.json',headers=get_code_token('https://easy.lagou.com/position/multiChannel/myOnlinePositions.htm'),data={'pageNo':1,'pageSize':1})
+    if s['message']=='该公司不是特权职位公司，不允许请求初始化数据':
+        return False
+    else:
+        return True
 
 def getpositionlimit():
     positionlimit_url = 'https://easy.lagou.com/productContract/positionLimitWarningTips.json'
@@ -35,13 +51,21 @@ def position(a):
 
 def position_limit():
     # 发布职位直到到到上限
+    id=[]
     s = position(0)
     i = 0
     while s['message'] == '操作成功':
+        id.append(s['content']['data']['parentPositionInfo']['positionChannelInfoList'][0]['positionId'])
         s = position(0)
+
         i=i+1
     else:
-        return s,i
+        return s,i,id
 
-
-print(position_limit())
+def offineposition(id):
+    offine_url = 'https://easy.lagou.com/position/offlinePosition.json'
+    offine_header = get_code_token('https://easy.lagou.com/position/multiChannel/myOnlinePositions.htm')
+    offine_data = {'positionId':id}
+    s = form_post(url=offine_url,headers=offine_header,data=offine_data,remark='下线职位')
+    return s
+# print(getonlinepositionlimit())

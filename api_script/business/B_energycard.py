@@ -1,8 +1,8 @@
 # -*- coding: utf8 -*-
 __author__ = 'yqzhang'
-import logging
-from api_script.util import get_code_token, get, get_header ,form_post ,login ,json_post
-import datetime
+
+from util.util import get_code_token, get_, get_header ,form_post ,login ,json_post
+
 
 login('00853','05180001')
 def getpositionId():
