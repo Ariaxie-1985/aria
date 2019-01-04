@@ -4,22 +4,24 @@
 
 from api_script.business.sub_account import add_sub_account, remove_sub_account, get_userId, reAssignAllGoods, \
 	get_user_goods_info, reAssign_subaccount_Goods, get_invalidUserId, get_subaccunt_goods
-from util.util import login, wait
-import logging
 from util.read_yaml import get_yaml_test_data
-from util.util import assert_equal
+from api_script.business.Batch_Allocation import batchAllocate,batch_allocation
+from util.util import login
+import logging
 
+from util.util import assert_equal
 test_data = get_yaml_test_data("logininfo.yaml")
+
+countrycode = test_data['countrycode']
+username = test_data['username']
+
+login(countrycode, username)
 
 '''
 验证子账号的添加, 权益调整, 移除, 无效后再恢复, 调整为分账号
 '''
-countrycode = test_data['countrycode']
-username = test_data['username']
-login(countrycode, username)
 
 userlist = get_userId()
-
 
 def test_add_sub_account():
 	'''
@@ -35,7 +37,6 @@ def test_add_sub_account():
 
 userinfolist = get_user_goods_info(userlist)
 
-
 def test_reAssignAllGoods():
 	'''
 	调整子账号的权益
@@ -47,8 +48,7 @@ def test_reAssignAllGoods():
 	assert_equal("调整成功", r['message'], "调整子账号的权益成功, 其userId: " + str(userlist), "调整子账号的权益失败, 其响应内容: " + str(r))
 
 
-subaccunt_goods = get_subaccunt_goods(userlist)
-
+subaccunt_goods = get_subaccunt_goods()
 
 def test_reAssign_subaccount_Goods():
 	'''
@@ -61,15 +61,22 @@ def test_reAssign_subaccount_Goods():
 	assert_equal("调整成功", r['message'], "调整子账号为分账号成功, 其userId: " + str(userlist), "调整子账号为分账号失败, 其响应内容: " + str(r))
 
 
-wait(5)
+def test_Batch_Allocation():
+	'''
+	批量分配
+	:return:
+	'''
+	batchAllocate()
+	batch_allocation()
 
+
+invalidUserId = get_invalidUserId()
 
 def test_recover_sub_account():
 	'''
 	一键恢复无效子账号
 	:return: Boolean, True表示测试通过, False表示测试失败
 	'''
-	invalidUserId = get_invalidUserId()
 	log = logging.getLogger('test_recover_sub_account')
 	log.debug('验证一键恢复无效子账号: ' + str(userlist) + ' 是否成功')
 	r = reAssign_subaccount_Goods(invalidUserId)
