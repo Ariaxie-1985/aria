@@ -1,5 +1,5 @@
 # coding:utf-8
-from util.util import get_code_token, get_, get_header ,form_post ,login
+from util.util import get_code_token, get_requests, get_header ,form_post ,login
 import json
 
 
@@ -7,7 +7,7 @@ def get_resumeId(x):
 	header_url = 'https://passport.lagou.com/grantServiceTicket/grant.html'
 	url='https://www.lagou.com/mycenter/resume/getAllResumes.json'
 	get_header(header_url)
-	t=get_(url)
+	t=get_requests(url)
 	js = t.content
 	jsdic = json.loads(js)
 	a= jsdic['content'][0]

@@ -1,6 +1,7 @@
 # coding:utf-8
+# @Author: Xiawang
 
-from util.util import form_post,get_code_token, login,get
+from util.util import form_post,get_code_token, login,get_requests
 
 '''
 简历管理-候选人: 从面试移至录用
@@ -19,7 +20,7 @@ positionId = r['content']['rows'][0]['positionId']
 resumeOwnerId = r['content']['rows'][0]['id']
 
 url = 'https://easy.lagou.com/settings/template/in_temp.json?positionId='+str(positionId)
-get(url,listofcandidates_header)
+get_requests(url,listofcandidates_header)
 
 
 toStageOffer_url = 'https://easy.lagou.com/can/batch/toStageOffer.json'

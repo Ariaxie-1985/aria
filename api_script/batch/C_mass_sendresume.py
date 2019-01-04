@@ -1,7 +1,7 @@
 # coding:utf-8
-
+# @Author: Xiawang
 # from api_script.c_position.C_sendResume import get_resumeId
-from util.util import get_code_token, form_post, get_, get_header,login
+from util.util import get_code_token, form_post, get_requests, get_header,login
 import json
 '''
 批量对同一职位发送大量简历
@@ -10,7 +10,7 @@ def get_resumeId(x):
 	header_url = 'https://passport.lagou.com/grantServiceTicket/grant.html'
 	url='https://www.lagou.com/mycenter/resume/getAllResumes.json'
 	get_header(header_url)
-	t=get_(url)
+	t=get_requests(url)
 	js = t.content
 	jsdic = json.loads(js)
 	a= jsdic['content'][0]
@@ -35,7 +35,7 @@ for i in range(1):
 
 	basicMain_html = 'https://www.lagou.com/resume/perfectresume.html?showQRCode=true'
 	head_url = 'https://www.lagou.com/resume/saveHeadPic.json?headPicPath=%2Fcommon%2Fimage%2Fpc%2Fdefault_boy_headpic2.png'
-	get_(url=head_url)
+	get_requests(url=head_url)
 
 
 	'''

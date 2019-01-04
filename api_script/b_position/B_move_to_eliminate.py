@@ -1,6 +1,6 @@
 # coding:utf-8
-
-from util.util import form_post,get_code_token, login,get_
+# @Author: Xiawang
+from util.util import form_post,get_code_token, login,get_requests
 
 '''
 简历管理-候选人: 从面试移至淘汰
@@ -19,7 +19,7 @@ positionId = r['content']['rows'][0]['positionId']
 resumeOwnerId = r['content']['rows'][0]['id']
 
 url = 'https://easy.lagou.com/settings/template/in_temp.json?positionId='+str(positionId)
-get_(url,listofcandidates_header)
+get_requests(url,listofcandidates_header)
 
 
 obsolete_url = 'https://easy.lagou.com/can/obsolete.json'

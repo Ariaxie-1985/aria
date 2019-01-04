@@ -1,15 +1,15 @@
 # coding:utf-8
 
-from util.util import get_code_token, form_post, get_
+from util.util import get_code_token, form_post, get_requests
 import json
 
 hunter_url = 'https://hunter.lagou.com/api/mock/login/325485'
 hunter_html = 'https://hunter.lagou.com/'
-get_(hunter_url)
+get_requests(hunter_url)
 
 userIdNamePhoneEmail = str(13220178923)
 search_url = 'https://hunter.lagou.com/api/position/discover/allUsers?userIdNamePhoneEmail='+userIdNamePhoneEmail+'&sex=9&resumeFrom=110&namedBrand=0&query.limit=20&query.offset=0'
-s=get_(search_url)
+s=get_requests(search_url)
 a=s.content
 sdic = json.loads(a)
 b = sdic['data']['data']

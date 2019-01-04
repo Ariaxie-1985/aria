@@ -1,13 +1,13 @@
 # -*- coding: utf8 -*-
 __author__ = 'yqzhang'
-from util.util import get_code_token, get_, get_header ,form_post ,login ,json_post
+from util.util import get_code_token, get_requests, get_header ,form_post ,login ,json_post
 import json
 
 # login('00853','05180001')
 
 def getonlinepositionlimit():
     # 获取在线职位，发布职位限制以及当前已用数量
-    s = get_(url='https://easy.lagou.com/position/multiChannel/getLagouPositionPrivilege.json?isSchoolJob=false',headers=get_code_token('https://easy.lagou.com/position/multiChannel/myOnlinePositions.htm'),remark='获取在线职位数和上限')
+    s = get_requests(url='https://easy.lagou.com/position/multiChannel/getLagouPositionPrivilege.json?isSchoolJob=false',headers=get_code_token('https://easy.lagou.com/position/multiChannel/myOnlinePositions.htm'),remark='获取在线职位数和上限')
     r = json.loads(s.text)
     # return s.text
     return r['content']['data']['onlinePositionNum'],r['content']['data']['onlineLimitNum'],r['content']['data']['createPositionNum'],r['content']['data']['createLimitNum']

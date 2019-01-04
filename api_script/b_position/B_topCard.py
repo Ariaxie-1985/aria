@@ -1,3 +1,5 @@
+# coding:utf-8
+# @Author: Xiawang
 from util.util import get_code_token, get_header ,form_post ,login
 
 login('00853','05180001')

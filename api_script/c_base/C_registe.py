@@ -1,6 +1,6 @@
 # coding:utf-8
 
-from util.util import get_code_token, form_post, get,login
+from util.util import get_code_token, form_post, get_requests,login
 '''
 注册
 '''
@@ -23,7 +23,7 @@ login(countryCode,phone)
 basicMain_html = 'https://www.lagou.com/resume/perfectresume.html'
 head_url = 'https://www.lagou.com/resume/saveHeadPic.json?headPicPath=%2Fcommon%2Fimage%2Fpc%2Fdefault_boy_headpic2.png'
 # head_header = get_code_token(basicMain_html)
-get(url=head_url)
+get_requests(url=head_url)
 
 
 '''
