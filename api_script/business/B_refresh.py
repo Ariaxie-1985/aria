@@ -3,7 +3,7 @@ __author__ = 'yqzhang'
 import time
 from util.util import get_code_token, get_requests, get_header ,form_post ,login ,json_post
 import logging
-login('00853','05180001')
+# login('00853','05180001')
 
 def getrefreshpoint():
     refreshpoint_url = 'https://easy.lagou.com/position/batchRefreshInfo.json'
