@@ -25,7 +25,7 @@ def batch_allocation():
         while childaccount < 2:
                 add1=form_post(url="https://easy.lagou.com/subAccount/addAcount.json",data={'userId':100014642},remark="添加子账号",headers=header)
                 add1=form_post(url="https://easy.lagou.com/subAccount/addAcount.json",data={'userId':100014643},remark="添加子账号",headers=header)
-                jsonobject = get(url="https://easy.lagou.com/subAccount/queryAcount.json?pageNo=1&pageSize=7&keyword=",remark="获取当前有几个子账号")
+                jsonobject = get_requests(url="https://easy.lagou.com/subAccount/queryAcount.json?pageNo=1&pageSize=7&keyword=",remark="获取当前有几个子账号")
                 childaccount = jsonobject.json()['content']['data']['subAcccountPage']['totalCount']
                 print('添加后' + str(childaccount) + '个子账号')
                 b=gethtml("https://easy.lagou.com/subAccount/queryAcount/index.htm")
@@ -80,3 +80,4 @@ def batchAllocate():
     assert_equal("批量分配异常批量分配失败，子账号需要分配的704权益总数大于父账号的剩余数量",actualvalue,"大于可分配数量，后台不允许分配","批量分配失败")
 
 batchAllocate()
+
