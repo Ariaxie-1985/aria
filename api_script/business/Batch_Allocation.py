@@ -8,7 +8,7 @@ logging.getLogger().setLevel(logging.INFO)
 
 
 username = 20181205
-login("00852", username)
+#login("00852", username)
 #查看是否出现可以批量分配
 def batch_allocation():
     headerurl="https://easy.lagou.com/subAccount/queryAcount/index.htm"
