@@ -235,7 +235,7 @@ function filter_table(elem) {
 }
 </script>
     <h1>report.html</h1>
-    <p>Report generated on 03-Jan-2019 at 17:58:12 by<a href="https://pypi.python.org/pypi/pytest-html"> pytest-html</a> v1.19.0</p>
+    <p>Report generated on 04-Jan-2019 at 17:09:29 by<a href="https://pypi.python.org/pypi/pytest-html"> pytest-html</a> v1.19.0</p>
     <h2>Environment</h2>
     <table id="environment">
       <tr>
@@ -254,8 +254,8 @@ function filter_table(elem) {
         <td>Python</td>
         <td>3.6.3</td></tr></table>
     <h2>Summary</h2>
-    <p>5 tests ran in 7.04 seconds. </p>
-    <p class="filter" hidden="true">(Un)check the boxes to filter the results.</p><input checked="true" class="filter" data-test-result="passed" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="passed">4 passed</span>, <input checked="true" class="filter" data-test-result="skipped" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="skipped">0 skipped</span>, <input checked="true" class="filter" data-test-result="failed" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="failed">1 failed</span>, <input checked="true" class="filter" data-test-result="error" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="error">0 errors</span>, <input checked="true" class="filter" data-test-result="xfailed" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="xfailed">0 expected failures</span>, <input checked="true" class="filter" data-test-result="xpassed" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="xpassed">0 unexpected passes</span>
+    <p>0 tests ran in 0.32 seconds. </p>
+    <p class="filter" hidden="true">(Un)check the boxes to filter the results.</p><input checked="true" class="filter" data-test-result="passed" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="passed">0 passed</span>, <input checked="true" class="filter" data-test-result="skipped" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="skipped">0 skipped</span>, <input checked="true" class="filter" data-test-result="failed" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="failed">0 failed</span>, <input checked="true" class="filter" data-test-result="error" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="error">1 errors</span>, <input checked="true" class="filter" data-test-result="xfailed" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="xfailed">0 expected failures</span>, <input checked="true" class="filter" data-test-result="xpassed" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="xpassed">0 unexpected passes</span>
     <h2>Results</h2>
     <table id="results-table">
       <thead id="results-table-head">
@@ -266,99 +266,12 @@ function filter_table(elem) {
           <th>Links</th></tr>
         <tr hidden="true" id="not-found-message">
           <th colspan="4">No results found. Try to check the filters</th></tr></thead>
-      <tbody class="failed results-table-row">
+      <tbody class="error results-table-row">
         <tr>
-          <td class="col-result">Failed</td>
-          <td class="col-name">tests/test_sub_account.py::test_recover_sub_account</td>
-          <td class="col-duration">0.37</td>
+          <td class="col-result">Error</td>
+          <td class="col-name">tests/test_sub_account.py</td>
+          <td class="col-duration">0.00</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
-            <div class="log">def test_recover_sub_account():<br/>    	&#x27;&#x27;&#x27;<br/>    	一键恢复无效子账号<br/>    	:return: Boolean, True表示测试通过, False表示测试失败<br/>    	&#x27;&#x27;&#x27;<br/>    	invalidUserId = get_invalidUserId()<br/>    	log = logging.getLogger(&#x27;test_recover_sub_account&#x27;)<br/>    	log.debug(&#x27;验证一键恢复无效子账号: &#x27; + str(userlist) + &#x27; 是否成功&#x27;)<br/>&gt;   	r = reAssign_subaccount_Goods(invalidUserId)<br/><br/>tests/test_sub_account.py:70: <br/>_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ <br/><br/>userlist = 100014643<br/><br/>    def reAssign_subaccount_Goods(userlist):<br/>    	&#x27;&#x27;&#x27;<br/>    	调整子账号为分账号<br/>    	:param userId: 子账号的userId<br/>    	:param portrait:<br/>    	:param name:<br/>    	:param goodslist:<br/>    	:return:<br/>    	&#x27;&#x27;&#x27;<br/>    	recoverAcount_url = &quot;https://easy.lagou.com/userGoodsRecord/reAssignAllGoods.json&quot;<br/>&gt;   	for user, info in userlist.items():<br/><span class="error">E    AttributeError: &#x27;int&#x27; object has no attribute &#x27;items&#x27;</span><br/><br/>api_script/business/sub_account.py:169: AttributeError<br/>------------------------------ Captured log call -------------------------------<br/>util.py                    110 INFO     
-请求目的: 获取权益类别id,
- 请求url: https://easy.lagou.com/subAccount/queryAcount.json?pageNo=1&amp;pageSize=7&amp;keyword=,
- 响应结果: {&#x27;state&#x27;: 1, &#x27;message&#x27;: &#x27;操作成功&#x27;, &#x27;content&#x27;: {&#x27;data&#x27;: {&#x27;isHaveSubAccount&#x27;: True, &#x27;isManager&#x27;: True, &#x27;isHaveGoods&#x27;: True, &#x27;pageStatus&#x27;: 1, &#x27;isOrderTopCard&#x27;: False, &#x27;contractManager&#x27;: &#x27;王子&#x27;, &#x27;isShowTopCard&#x27;: True, &#x27;showPageType&#x27;: &#x27;1802&#x27;, &#x27;subAcccountPage&#x27;: {&#x27;pageSize&#x27;: 7, &#x27;start&#x27;: 0, &#x27;totalCount&#x27;: 2, &#x27;pageNo&#x27;: 1}, &#x27;goodsList&#x27;: [704, 705, 706, 614, 605, 701], &#x27;subAcccountList&#x27;: [{&#x27;userid&#x27;: 100014643, &#x27;userName&#x27;: &#x27;拉勾用户1207&#x27;, &#x27;portrait&#x27;: &#x27;i/image2/M00/00/18/CgHIk1wHRGaAXnNdAACeEzplnhI880.png&#x27;, &#x27;goods&#x27;: {&#x27;701&#x27;: &#x27;10/10&#x27;, &#x27;614&#x27;: &#x27;10/10&#x27;, &#x27;704&#x27;: &#x27;10/10&#x27;, &#x27;605&#x27;: &#x27;1/1&#x27;, &#x27;705&#x27;: &#x27;0/0&#x27;, &#x27;706&#x27;: &#x27;0/0&#x27;}, &#x27;phone&#x27;: &#x27;+0085220181207&#x27;, &#x27;isInvalid&#x27;: False, &#x27;accountType&#x27;: 1}, {&#x27;userid&#x27;: 100014642, &#x27;userName&#x27;: &#x27;拉勾用户1206&#x27;, &#x27;portrait&#x27;: &#x27;i/audio1/M00/01/BF/CgHIk1wHQpqAOsnVAAEPHbhkKCA270.png&#x27;, &#x27;goods&#x27;: {&#x27;701&#x27;: &#x27;10/10&#x27;, &#x27;614&#x27;: &#x27;10/10&#x27;, &#x27;704&#x27;: &#x27;10/10&#x27;, &#x27;605&#x27;: &#x27;1/1&#x27;, &#x27;705&#x27;: &#x27;0/0&#x27;, &#x27;706&#x27;: &#x27;0/0&#x27;}, &#x27;phone&#x27;: &#x27;+0085220181206&#x27;, &#x27;isInvalid&#x27;: False, &#x27;accountType&#x27;: 1}], &#x27;subAccountSetNum&#x27;: 980, &#x27;subAccountTotal&#x27;: 1000, &#x27;branchAccountSetNum&#x27;: 998, &#x27;branchAccountTotal&#x27;: 1000, &#x27;isHaveBranch&#x27;: True, &#x27;lagoutitle&#x27;: &#x27;账号管理 - 拉勾&#x27;}, &#x27;rows&#x27;: []}}</div></td></tr></tbody>
-      <tbody class="passed results-table-row">
-        <tr>
-          <td class="col-result">Passed</td>
-          <td class="col-name">tests/test_sub_account.py::test_add_sub_account</td>
-          <td class="col-duration">1.49</td>
-          <td class="col-links"></td></tr>
-        <tr>
-          <td class="extra" colspan="4">
-            <div class="log">------------------------------ Captured log call -------------------------------<br/>util.py                     55 INFO     
-请求目的: 验证增加子账号功能是否ok,
- 请求url: https://easy.lagou.com/subAccount/addAcount.json,
- 请求数据: {&#x27;userId&#x27;: 100014642},
- 响应结果: {&#x27;state&#x27;: 1, &#x27;message&#x27;: &#x27;添加成功&#x27;, &#x27;content&#x27;: {&#x27;data&#x27;: {&#x27;data&#x27;: [{&#x27;id&#x27;: 215, &#x27;userid&#x27;: 100014642, &#x27;parentuserid&#x27;: 100014641, &#x27;creattime&#x27;: &#x27;20190103T175808+0800&#x27;, &#x27;updatetime&#x27;: &#x27;20190103T175808+0800&#x27;, &#x27;accounttype&#x27;: 2}]}, &#x27;rows&#x27;: []}}
-
-util.py                     55 INFO     
-请求目的: 验证增加子账号功能是否ok,
- 请求url: https://easy.lagou.com/subAccount/addAcount.json,
- 请求数据: {&#x27;userId&#x27;: 100014643},
- 响应结果: {&#x27;state&#x27;: 1, &#x27;message&#x27;: &#x27;添加成功&#x27;, &#x27;content&#x27;: {&#x27;data&#x27;: {&#x27;data&#x27;: [{&#x27;id&#x27;: 216, &#x27;userid&#x27;: 100014643, &#x27;parentuserid&#x27;: 100014641, &#x27;creattime&#x27;: &#x27;20190103T175810+0800&#x27;, &#x27;updatetime&#x27;: &#x27;20190103T175810+0800&#x27;, &#x27;accounttype&#x27;: 2}]}, &#x27;rows&#x27;: []}}
-
-util.py                    205 INFO     添加子账号成功, 其userId: 100014643</div></td></tr></tbody>
-      <tbody class="passed results-table-row">
-        <tr>
-          <td class="col-result">Passed</td>
-          <td class="col-name">tests/test_sub_account.py::test_reAssignAllGoods</td>
-          <td class="col-duration">1.84</td>
-          <td class="col-links"></td></tr>
-        <tr>
-          <td class="extra" colspan="4">
-            <div class="log">------------------------------ Captured log call -------------------------------<br/>util.py                     55 INFO     
-请求目的: 验证调整子账号为分账号且及其权益功能是否ok,
- 请求url: https://easy.lagou.com/userGoodsRecord/reAssignAllGoods.json,
- 请求数据: {&#x27;accountType&#x27;: 1, &#x27;userId&#x27;: 100014642, &#x27;assignInfo&#x27;: &#x27;[{&quot;userid&quot;: 100014642, &quot;portrait&quot;: &quot;i/audio1/M00/01/BF/CgHIk1wHQpqAOsnVAAEPHbhkKCA270.png&quot;, &quot;userName&quot;: &quot;\\u62c9\\u52fe\\u7528\\u62371206&quot;, &quot;email&quot;: &quot;&quot;, &quot;baseGoodsId&quot;: 704, &quot;totalNum&quot;: &quot;0&quot;, &quot;num&quot;: &quot;0&quot;, &quot;reAssignNum&quot;: &quot;10&quot;}, {&quot;userid&quot;: 100014642, &quot;portrait&quot;: &quot;i/audio1/M00/01/BF/CgHIk1wHQpqAOsnVAAEPHbhkKCA270.png&quot;, &quot;userName&quot;: &quot;\\u62c9\\u52fe\\u7528\\u62371206&quot;, &quot;email&quot;: &quot;&quot;, &quot;baseGoodsId&quot;: 701, &quot;totalNum&quot;: &quot;0&quot;, &quot;num&quot;: &quot;0&quot;, &quot;reAssignNum&quot;: &quot;10&quot;}]&#x27;},
- 响应结果: {&#x27;state&#x27;: 1, &#x27;message&#x27;: &#x27;调整成功&#x27;, &#x27;content&#x27;: {&#x27;data&#x27;: {&#x27;data&#x27;: [{&#x27;source&#x27;: &#x27;LG-HD-WANGXIA-18112801&#x27;, &#x27;startTime&#x27;: &#x27;2018-12-29&#x27;, &#x27;endTime&#x27;: &#x27;2019-12-31&#x27;, &#x27;totalNum&#x27;: &#x27;1000&#x27;, &#x27;num&#x27;: &#x27;990&#x27;, &#x27;assignNum&#x27;: &#x27;10&#x27;, &#x27;goodsOwner&#x27;: &#x27;公司&#x27;, &#x27;ifContract&#x27;: True, &#x27;ifCanAssign&#x27;: True, &#x27;ifCanReAssign&#x27;: True}, {&#x27;source&#x27;: &#x27;LG-HD-WANGXIA-18112801&#x27;, &#x27;startTime&#x27;: &#x27;2018-12-29&#x27;, &#x27;endTime&#x27;: &#x27;2019-12-31&#x27;, &#x27;totalNum&#x27;: &#x27;1000&#x27;, &#x27;num&#x27;: &#x27;990&#x27;, &#x27;assignNum&#x27;: &#x27;10&#x27;, &#x27;goodsOwner&#x27;: &#x27;公司&#x27;, &#x27;ifContract&#x27;: True, &#x27;ifCanAssign&#x27;: True, &#x27;ifCanReAssign&#x27;: True}, {&#x27;source&#x27;: &#x27;LG-HD-WANGXIA-18112801&#x27;, &#x27;startTime&#x27;: &#x27;2018-12-29&#x27;, &#x27;endTime&#x27;: &#x27;2019-12-31&#x27;, &#x27;totalNum&#x27;: &#x27;12&#x27;, &#x27;num&#x27;: &#x27;12&#x27;, &#x27;assignNum&#x27;: &#x27;0&#x27;, &#x27;goodsOwner&#x27;: &#x27;公司&#x27;, &#x27;ifContract&#x27;: True, &#x27;ifCanAssign&#x27;: True, &#x27;ifCanReAssign&#x27;: True}, {&#x27;source&#x27;: &#x27;LG-HD-WANGXIA-18112801&#x27;, &#x27;startTime&#x27;: &#x27;2018-12-29&#x27;, &#x27;endTime&#x27;: &#x27;2019-12-31&#x27;, &#x27;totalNum&#x27;: &#x27;1000&#x27;, &#x27;num&#x27;: &#x27;1000&#x27;, &#x27;assignNum&#x27;: &#x27;0&#x27;, &#x27;goodsOwner&#x27;: &#x27;公司&#x27;, &#x27;ifContract&#x27;: True, &#x27;ifCanAssign&#x27;: True, &#x27;ifCanReAssign&#x27;: True}]}, &#x27;rows&#x27;: []}}
-
-util.py                     55 INFO     
-请求目的: 验证调整子账号为分账号且及其权益功能是否ok,
- 请求url: https://easy.lagou.com/userGoodsRecord/reAssignAllGoods.json,
- 请求数据: {&#x27;accountType&#x27;: 1, &#x27;userId&#x27;: 100014643, &#x27;assignInfo&#x27;: &#x27;[{&quot;userid&quot;: 100014643, &quot;portrait&quot;: &quot;i/image2/M00/00/18/CgHIk1wHRGaAXnNdAACeEzplnhI880.png&quot;, &quot;userName&quot;: &quot;\\u62c9\\u52fe\\u7528\\u62371207&quot;, &quot;email&quot;: &quot;&quot;, &quot;baseGoodsId&quot;: 704, &quot;totalNum&quot;: &quot;0&quot;, &quot;num&quot;: &quot;0&quot;, &quot;reAssignNum&quot;: &quot;10&quot;}, {&quot;userid&quot;: 100014643, &quot;portrait&quot;: &quot;i/image2/M00/00/18/CgHIk1wHRGaAXnNdAACeEzplnhI880.png&quot;, &quot;userName&quot;: &quot;\\u62c9\\u52fe\\u7528\\u62371207&quot;, &quot;email&quot;: &quot;&quot;, &quot;baseGoodsId&quot;: 701, &quot;totalNum&quot;: &quot;0&quot;, &quot;num&quot;: &quot;0&quot;, &quot;reAssignNum&quot;: &quot;10&quot;}]&#x27;},
- 响应结果: {&#x27;state&#x27;: 1, &#x27;message&#x27;: &#x27;调整成功&#x27;, &#x27;content&#x27;: {&#x27;data&#x27;: {&#x27;data&#x27;: [{&#x27;source&#x27;: &#x27;LG-HD-WANGXIA-18112801&#x27;, &#x27;startTime&#x27;: &#x27;2018-12-29&#x27;, &#x27;endTime&#x27;: &#x27;2019-12-31&#x27;, &#x27;totalNum&#x27;: &#x27;1000&#x27;, &#x27;num&#x27;: &#x27;980&#x27;, &#x27;assignNum&#x27;: &#x27;20&#x27;, &#x27;goodsOwner&#x27;: &#x27;公司&#x27;, &#x27;ifContract&#x27;: True, &#x27;ifCanAssign&#x27;: True, &#x27;ifCanReAssign&#x27;: True}, {&#x27;source&#x27;: &#x27;LG-HD-WANGXIA-18112801&#x27;, &#x27;startTime&#x27;: &#x27;2018-12-29&#x27;, &#x27;endTime&#x27;: &#x27;2019-12-31&#x27;, &#x27;totalNum&#x27;: &#x27;1000&#x27;, &#x27;num&#x27;: &#x27;980&#x27;, &#x27;assignNum&#x27;: &#x27;20&#x27;, &#x27;goodsOwner&#x27;: &#x27;公司&#x27;, &#x27;ifContract&#x27;: True, &#x27;ifCanAssign&#x27;: True, &#x27;ifCanReAssign&#x27;: True}, {&#x27;source&#x27;: &#x27;LG-HD-WANGXIA-18112801&#x27;, &#x27;startTime&#x27;: &#x27;2018-12-29&#x27;, &#x27;endTime&#x27;: &#x27;2019-12-31&#x27;, &#x27;totalNum&#x27;: &#x27;12&#x27;, &#x27;num&#x27;: &#x27;12&#x27;, &#x27;assignNum&#x27;: &#x27;0&#x27;, &#x27;goodsOwner&#x27;: &#x27;公司&#x27;, &#x27;ifContract&#x27;: True, &#x27;ifCanAssign&#x27;: True, &#x27;ifCanReAssign&#x27;: True}, {&#x27;source&#x27;: &#x27;LG-HD-WANGXIA-18112801&#x27;, &#x27;startTime&#x27;: &#x27;2018-12-29&#x27;, &#x27;endTime&#x27;: &#x27;2019-12-31&#x27;, &#x27;totalNum&#x27;: &#x27;1000&#x27;, &#x27;num&#x27;: &#x27;1000&#x27;, &#x27;assignNum&#x27;: &#x27;0&#x27;, &#x27;goodsOwner&#x27;: &#x27;公司&#x27;, &#x27;ifContract&#x27;: True, &#x27;ifCanAssign&#x27;: True, &#x27;ifCanReAssign&#x27;: True}]}, &#x27;rows&#x27;: []}}
-
-util.py                    205 INFO     调整子账号的权益成功, 其userId: [100014642, 100014643]</div></td></tr></tbody>
-      <tbody class="passed results-table-row">
-        <tr>
-          <td class="col-result">Passed</td>
-          <td class="col-name">tests/test_sub_account.py::test_reAssign_subaccount_Goods</td>
-          <td class="col-duration">0.38</td>
-          <td class="col-links"></td></tr>
-        <tr>
-          <td class="extra" colspan="4">
-            <div class="log">------------------------------ Captured log call -------------------------------<br/>util.py                     55 INFO     
-请求目的: 验证调整子账号为分账号且及其权益功能是否ok,
- 请求url: https://easy.lagou.com/userGoodsRecord/reAssignAllGoods.json,
- 请求数据: {&#x27;accountType&#x27;: 1, &#x27;userId&#x27;: 100014642, &#x27;assignInfo&#x27;: &#x27;[{&quot;userid&quot;: 100014642, &quot;portrait&quot;: &quot;i/audio1/M00/01/BF/CgHIk1wHQpqAOsnVAAEPHbhkKCA270.png&quot;, &quot;userName&quot;: &quot;\\u62c9\\u52fe\\u7528\\u62371206&quot;, &quot;email&quot;: &quot;&quot;, &quot;baseGoodsId&quot;: 614, &quot;totalNum&quot;: &quot;0&quot;, &quot;num&quot;: &quot;0&quot;, &quot;reAssignNum&quot;: &quot;10&quot;}]&#x27;},
- 响应结果: {&#x27;state&#x27;: 1, &#x27;message&#x27;: &#x27;调整成功&#x27;, &#x27;content&#x27;: {&#x27;data&#x27;: {&#x27;data&#x27;: [{&#x27;source&#x27;: &#x27;LG-HD-WANGXIA-18112801&#x27;, &#x27;startTime&#x27;: &#x27;2018-12-29&#x27;, &#x27;endTime&#x27;: &#x27;2019-12-31&#x27;, &#x27;totalNum&#x27;: &#x27;1000&#x27;, &#x27;num&#x27;: &#x27;980&#x27;, &#x27;assignNum&#x27;: &#x27;20&#x27;, &#x27;goodsOwner&#x27;: &#x27;公司&#x27;, &#x27;ifContract&#x27;: True, &#x27;ifCanAssign&#x27;: True, &#x27;ifCanReAssign&#x27;: True}, {&#x27;source&#x27;: &#x27;LG-HD-WANGXIA-18112801&#x27;, &#x27;startTime&#x27;: &#x27;2018-12-29&#x27;, &#x27;endTime&#x27;: &#x27;2019-12-31&#x27;, &#x27;totalNum&#x27;: &#x27;1000&#x27;, &#x27;num&#x27;: &#x27;980&#x27;, &#x27;assignNum&#x27;: &#x27;20&#x27;, &#x27;goodsOwner&#x27;: &#x27;公司&#x27;, &#x27;ifContract&#x27;: True, &#x27;ifCanAssign&#x27;: True, &#x27;ifCanReAssign&#x27;: True}, {&#x27;source&#x27;: &#x27;LG-HD-WANGXIA-18112801&#x27;, &#x27;startTime&#x27;: &#x27;2018-12-29&#x27;, &#x27;endTime&#x27;: &#x27;2019-12-31&#x27;, &#x27;totalNum&#x27;: &#x27;12&#x27;, &#x27;num&#x27;: &#x27;12&#x27;, &#x27;assignNum&#x27;: &#x27;0&#x27;, &#x27;goodsOwner&#x27;: &#x27;公司&#x27;, &#x27;ifContract&#x27;: True, &#x27;ifCanAssign&#x27;: True, &#x27;ifCanReAssign&#x27;: True}, {&#x27;source&#x27;: &#x27;LG-HD-WANGXIA-18112801&#x27;, &#x27;startTime&#x27;: &#x27;2018-12-29&#x27;, &#x27;endTime&#x27;: &#x27;2019-12-31&#x27;, &#x27;totalNum&#x27;: &#x27;1000&#x27;, &#x27;num&#x27;: &#x27;1000&#x27;, &#x27;assignNum&#x27;: &#x27;0&#x27;, &#x27;goodsOwner&#x27;: &#x27;公司&#x27;, &#x27;ifContract&#x27;: True, &#x27;ifCanAssign&#x27;: True, &#x27;ifCanReAssign&#x27;: True}]}, &#x27;rows&#x27;: []}}
-
-util.py                     55 INFO     
-请求目的: 验证调整子账号为分账号且及其权益功能是否ok,
- 请求url: https://easy.lagou.com/userGoodsRecord/reAssignAllGoods.json,
- 请求数据: {&#x27;accountType&#x27;: 1, &#x27;userId&#x27;: 100014643, &#x27;assignInfo&#x27;: &#x27;[{&quot;userid&quot;: 100014643, &quot;portrait&quot;: &quot;i/image2/M00/00/18/CgHIk1wHRGaAXnNdAACeEzplnhI880.png&quot;, &quot;userName&quot;: &quot;\\u62c9\\u52fe\\u7528\\u62371207&quot;, &quot;email&quot;: &quot;&quot;, &quot;baseGoodsId&quot;: 614, &quot;totalNum&quot;: &quot;0&quot;, &quot;num&quot;: &quot;0&quot;, &quot;reAssignNum&quot;: &quot;10&quot;}]&#x27;},
- 响应结果: {&#x27;state&#x27;: 1, &#x27;message&#x27;: &#x27;调整成功&#x27;, &#x27;content&#x27;: {&#x27;data&#x27;: {&#x27;data&#x27;: [{&#x27;source&#x27;: &#x27;LG-HD-WANGXIA-18112801&#x27;, &#x27;startTime&#x27;: &#x27;2018-12-29&#x27;, &#x27;endTime&#x27;: &#x27;2019-12-31&#x27;, &#x27;totalNum&#x27;: &#x27;1000&#x27;, &#x27;num&#x27;: &#x27;980&#x27;, &#x27;assignNum&#x27;: &#x27;20&#x27;, &#x27;goodsOwner&#x27;: &#x27;公司&#x27;, &#x27;ifContract&#x27;: True, &#x27;ifCanAssign&#x27;: True, &#x27;ifCanReAssign&#x27;: True}, {&#x27;source&#x27;: &#x27;LG-HD-WANGXIA-18112801&#x27;, &#x27;startTime&#x27;: &#x27;2018-12-29&#x27;, &#x27;endTime&#x27;: &#x27;2019-12-31&#x27;, &#x27;totalNum&#x27;: &#x27;1000&#x27;, &#x27;num&#x27;: &#x27;980&#x27;, &#x27;assignNum&#x27;: &#x27;20&#x27;, &#x27;goodsOwner&#x27;: &#x27;公司&#x27;, &#x27;ifContract&#x27;: True, &#x27;ifCanAssign&#x27;: True, &#x27;ifCanReAssign&#x27;: True}, {&#x27;source&#x27;: &#x27;LG-HD-WANGXIA-18112801&#x27;, &#x27;startTime&#x27;: &#x27;2018-12-29&#x27;, &#x27;endTime&#x27;: &#x27;2019-12-31&#x27;, &#x27;totalNum&#x27;: &#x27;12&#x27;, &#x27;num&#x27;: &#x27;12&#x27;, &#x27;assignNum&#x27;: &#x27;0&#x27;, &#x27;goodsOwner&#x27;: &#x27;公司&#x27;, &#x27;ifContract&#x27;: True, &#x27;ifCanAssign&#x27;: True, &#x27;ifCanReAssign&#x27;: True}, {&#x27;source&#x27;: &#x27;LG-HD-WANGXIA-18112801&#x27;, &#x27;startTime&#x27;: &#x27;2018-12-29&#x27;, &#x27;endTime&#x27;: &#x27;2019-12-31&#x27;, &#x27;totalNum&#x27;: &#x27;1000&#x27;, &#x27;num&#x27;: &#x27;1000&#x27;, &#x27;assignNum&#x27;: &#x27;0&#x27;, &#x27;goodsOwner&#x27;: &#x27;公司&#x27;, &#x27;ifContract&#x27;: True, &#x27;ifCanAssign&#x27;: True, &#x27;ifCanReAssign&#x27;: True}]}, &#x27;rows&#x27;: []}}
-
-util.py                    205 INFO     调整子账号为分账号成功, 其userId: [100014642, 100014643]</div></td></tr></tbody>
-      <tbody class="passed results-table-row">
-        <tr>
-          <td class="col-result">Passed</td>
-          <td class="col-name">tests/test_sub_account.py::test_remove_sub_account</td>
-          <td class="col-duration">0.31</td>
-          <td class="col-links"></td></tr>
-        <tr>
-          <td class="extra" colspan="4">
-            <div class="log">------------------------------ Captured log call -------------------------------<br/>util.py                     55 INFO     
-请求目的: 验证移除子账号功能是否ok,
- 请求url: https://easy.lagou.com/subAccount/delAcount.json,
- 请求数据: {&#x27;userId&#x27;: 100014642},
- 响应结果: {&#x27;state&#x27;: 1, &#x27;message&#x27;: &#x27;删除成功&#x27;, &#x27;content&#x27;: {&#x27;rows&#x27;: []}}
-
-util.py                     55 INFO     
-请求目的: 验证移除子账号功能是否ok,
- 请求url: https://easy.lagou.com/subAccount/delAcount.json,
- 请求数据: {&#x27;userId&#x27;: 100014643},
- 响应结果: {&#x27;state&#x27;: 1, &#x27;message&#x27;: &#x27;删除成功&#x27;, &#x27;content&#x27;: {&#x27;rows&#x27;: []}}
-
-util.py                    205 INFO     删除子账号成功, 其userId: [100014642, 100014643]</div></td></tr></tbody></table></body></html>
+            <div class="log">tests/test_sub_account.py:7: in &lt;module&gt;<br/>    from util.read_yaml import get_yaml_test_data<br/>util/read_yaml.py:26: in &lt;module&gt;<br/>    get_yaml_test_data(&quot;logininfo.yaml&quot;)<br/>util/read_yaml.py:23: in get_yaml_test_data<br/>    cfg = open(yamlPath, &#x27;r&#x27;, encoding=&#x27;utf-8&#x27;).read()<br/><span class="error">E   FileNotFoundError: [Errno 2] No such file or directory: &#x27;/Users/wang/Desktop/lg-project/lg_api_script/testdata/logininfo.yaml&#x27;</span><br/></div></td></tr></tbody></table></body></html>
