@@ -4,6 +4,7 @@
 
 from api_script.business.sub_account import add_sub_account, remove_sub_account, get_userId, reAssignAllGoods, \
 	get_user_goods_info, reAssign_subaccount_Goods, get_invalidUserId
+from api_script.business.Batch_Allocation import batchAllocate,batch_allocation
 from util.util import login, assert_equal
 import logging
 
@@ -30,6 +31,13 @@ def test_add_sub_account():
 	userId_r = r['content']['data']['data'][0]['userid']
 	assert_equal(userlist[0],userId_r,"添加子账号成功, 其userId: "+ str(userId_r),"添加子账号失败, 其响应内容: " + str(r))
 
+def test_Batch_Allocation():
+	'''
+	批量分配
+	:return:
+	'''
+	batchAllocate()
+	batch_allocation()
 
 def test_reAssignAllGoods():
 	'''
