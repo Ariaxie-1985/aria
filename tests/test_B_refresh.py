@@ -3,9 +3,16 @@ __author__ = 'yqzhang'
 import logging
 from api_script.business.B_refresh import refrech,getpositionId,getrefreshpoint
 from util.util import login
+from util.read_yaml import get_yaml_test_data
+
+test_data = get_yaml_test_data('logininfo.yaml')
+countrycode = test_data['countrycode']
+username = test_data['username']
+
+login(countrycode,username)
 
 second = 3600
-login('00853','05180001')
+# login('00853','05180001')
 def test_refresh():
     logging.getLogger().setLevel(logging.INFO)
     a = getrefreshpoint()

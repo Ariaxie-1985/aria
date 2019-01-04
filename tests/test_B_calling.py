@@ -2,8 +2,14 @@
 from api_script.business.B_calling import calling
 from util.util import login
 import logging
+from util.read_yaml import get_yaml_test_data
 
-login('00852','20181205')
+test_data = get_yaml_test_data('logininfo.yaml')
+countrycode = test_data['countrycode']
+username = test_data['username']
+
+login(countrycode,username)
+
 cUserid = 100012422
 
 def test_calling():

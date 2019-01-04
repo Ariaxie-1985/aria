@@ -3,8 +3,13 @@ __author__ = 'yqzhang'
 import logging
 from api_script.business.B_position_limit import position_limit,getrefreshpoint,getpositionlimit,getonlinepositionlimit,isprivilige,offineposition
 from util.util import login,assert_equal
+from util.read_yaml import get_yaml_test_data
 
-login('00853','05180001')
+test_data = get_yaml_test_data('logininfo.yaml')
+countrycode = test_data['countrycode']
+username = test_data['username']
+
+login(countrycode,username)
 
 
 def _position_limit():

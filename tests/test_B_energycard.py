@@ -4,9 +4,13 @@ import logging
 import datetime
 from api_script.business.B_energycard import energycard,getpositionId
 from util.util import login
+from util.read_yaml import get_yaml_test_data
 
+test_data = get_yaml_test_data('logininfo.yaml')
+countrycode = test_data['countrycode']
+username = test_data['username']
 
-login('00853','05180001')
+login(countrycode,username)
 
 def test_energycard():
     logging.getLogger().setLevel(logging.INFO)
