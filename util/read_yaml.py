@@ -5,9 +5,10 @@
 import yaml
 import os
 
+
 def get_yaml_test_data(yamlfile):
 	# 获取当前脚本所在文件夹路径
-	curPath = "/Users/wang/Desktop/lg-project/lg_api_script/tests/testdata"
+	curPath = os.getcwd()+"\\testdata"
 	# 获取yaml文件路径
 	yamlPath = os.path.join(curPath, yamlfile)
 	# open方法打开直接读出来

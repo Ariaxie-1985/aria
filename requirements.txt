@@ -1,0 +1,22 @@
+atomicwrites==1.2.1
+attrs==18.2.0
+beautifulsoup4==4.6.3
+certifi==2018.11.29
+chardet==3.0.4
+colorama==0.4.1; sys_platform == 'win32'
+funcsigs==1.0.2; python_version < '3.0'
+idna==2.8
+more-itertools==5.0.0
+pathlib2==2.3.3; python_version < '3.6'
+pluggy==0.8.0
+py==1.7.0
+pytest-html==1.19.0
+pytest-metadata==1.7.0
+pytest-ordering==0.6
+pytest==4.0.2
+pyyaml==3.13
+requests==2.21.0
+scandir==1.9.0; python_version < '3.5'
+six==1.12.0
+tenacity==5.0.2
+urllib3==1.24.1
