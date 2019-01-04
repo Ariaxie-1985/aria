@@ -7,7 +7,7 @@ import logging
 logging.getLogger().setLevel(logging.INFO)
 
 
-username = 20181205
+#username = 20181205
 #login("00852", username)
 #查看是否出现可以批量分配
 def batch_allocation():
@@ -37,7 +37,7 @@ def batch_allocation():
         assert_equal(False,a,"没有出现批量分配","出现了批量分配")
 
 
-batch_allocation()
+#batch_allocation()
 
 '''
 1、批量分配
@@ -79,5 +79,5 @@ def batchAllocate():
     actualvalue=jsonobject.get("message")
     assert_equal("批量分配异常批量分配失败，子账号需要分配的704权益总数大于父账号的剩余数量",actualvalue,"大于可分配数量，后台不允许分配","批量分配失败")
 
-batchAllocate()
+#batchAllocate()
 
