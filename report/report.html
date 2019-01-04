@@ -235,7 +235,11 @@ function filter_table(elem) {
 }
 </script>
     <h1>report.html</h1>
+<<<<<<< HEAD
     <p>Report generated on 04-Jan-2019 at 17:54:24 by<a href="https://pypi.python.org/pypi/pytest-html"> pytest-html</a> v1.19.0</p>
+=======
+    <p>Report generated on 04-Jan-2019 at 17:09:29 by<a href="https://pypi.python.org/pypi/pytest-html"> pytest-html</a> v1.19.0</p>
+>>>>>>> c02d0232f480a127a5cd850513b6607d374bd389
     <h2>Environment</h2>
     <table id="environment">
       <tr>
@@ -254,8 +258,13 @@ function filter_table(elem) {
         <td>Python</td>
         <td>3.6.6</td></tr></table>
     <h2>Summary</h2>
+<<<<<<< HEAD
     <p>1 tests ran in 2.38 seconds. </p>
     <p class="filter" hidden="true">(Un)check the boxes to filter the results.</p><input checked="true" class="filter" data-test-result="passed" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="passed">1 passed</span>, <input checked="true" class="filter" data-test-result="skipped" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="skipped">0 skipped</span>, <input checked="true" class="filter" data-test-result="failed" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="failed">0 failed</span>, <input checked="true" class="filter" data-test-result="error" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="error">0 errors</span>, <input checked="true" class="filter" data-test-result="xfailed" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="xfailed">0 expected failures</span>, <input checked="true" class="filter" data-test-result="xpassed" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="xpassed">0 unexpected passes</span>
+=======
+    <p>0 tests ran in 0.32 seconds. </p>
+    <p class="filter" hidden="true">(Un)check the boxes to filter the results.</p><input checked="true" class="filter" data-test-result="passed" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="passed">0 passed</span>, <input checked="true" class="filter" data-test-result="skipped" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="skipped">0 skipped</span>, <input checked="true" class="filter" data-test-result="failed" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="failed">0 failed</span>, <input checked="true" class="filter" data-test-result="error" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="error">1 errors</span>, <input checked="true" class="filter" data-test-result="xfailed" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="xfailed">0 expected failures</span>, <input checked="true" class="filter" data-test-result="xpassed" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="xpassed">0 unexpected passes</span>
+>>>>>>> c02d0232f480a127a5cd850513b6607d374bd389
     <h2>Results</h2>
     <table id="results-table">
       <thead id="results-table-head">
@@ -266,6 +275,7 @@ function filter_table(elem) {
           <th>Links</th></tr>
         <tr hidden="true" id="not-found-message">
           <th colspan="4">No results found. Try to check the filters</th></tr></thead>
+<<<<<<< HEAD
       <tbody class="passed results-table-row">
         <tr>
           <td class="col-result">Passed</td>
@@ -281,3 +291,14 @@ function filter_table(elem) {
  响应结果: {&#x27;success&#x27;: False, &#x27;state&#x27;: 1020, &#x27;message&#x27;: &#x27;获取虚拟号码失败&#x27;, &#x27;content&#x27;: {&#x27;rows&#x27;: []}}
 
 test_B_calling.py           26 INFO     calling获取失败，响应信息：{&#x27;success&#x27;: False, &#x27;state&#x27;: 1020, &#x27;message&#x27;: &#x27;获取虚拟号码失败&#x27;, &#x27;content&#x27;: {&#x27;rows&#x27;: []}}</div></td></tr></tbody></table></body></html>
+=======
+      <tbody class="error results-table-row">
+        <tr>
+          <td class="col-result">Error</td>
+          <td class="col-name">tests/test_sub_account.py</td>
+          <td class="col-duration">0.00</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log">tests/test_sub_account.py:7: in &lt;module&gt;<br/>    from util.read_yaml import get_yaml_test_data<br/>util/read_yaml.py:26: in &lt;module&gt;<br/>    get_yaml_test_data(&quot;logininfo.yaml&quot;)<br/>util/read_yaml.py:23: in get_yaml_test_data<br/>    cfg = open(yamlPath, &#x27;r&#x27;, encoding=&#x27;utf-8&#x27;).read()<br/><span class="error">E   FileNotFoundError: [Errno 2] No such file or directory: &#x27;/Users/wang/Desktop/lg-project/lg_api_script/testdata/logininfo.yaml&#x27;</span><br/></div></td></tr></tbody></table></body></html>
+>>>>>>> c02d0232f480a127a5cd850513b6607d374bd389
