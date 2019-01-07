@@ -1,11 +1,12 @@
 # coding:utf-8
+# @Author: Xiawang
 
 '''
 批量注册并生成简历完整度81分的C端账号
 '''
 import time
 from multiprocessing import Process
-from api_script.util import form_post, get_code_token, get
+from util.util import form_post, get_code_token, get_requests
 
 
 def registe_c(phone, countryCode, userIdentity):
@@ -19,7 +20,7 @@ def registe_c(phone, countryCode, userIdentity):
 
 	basicMain_html = 'https://www.lagou.com/resume/perfectresume.html?showQRCode=true'
 	head_url = 'https://www.lagou.com/resume/saveHeadPic.json?headPicPath=%2Fcommon%2Fimage%2Fpc%2Fdefault_boy_headpic2.png'
-	get(url=head_url)
+	get_requests(url=head_url)
 
 	if userIdentity == 2 :
 		# 基本信息

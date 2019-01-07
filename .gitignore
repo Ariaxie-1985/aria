@@ -1,4 +1,6 @@
 __pycache__
 Pipfile.lock
 .idea/workspace.xml
-.idea
+.idea/
+.cache/
+.pytest_cache/

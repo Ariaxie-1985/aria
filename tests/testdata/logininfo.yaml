@@ -1,0 +1,9 @@
+# yaml
+
+# B端账号登录
+username: 20181205
+countrycode: "00852"
+
+# home后台登录
+username_home: "anan@lagou.com"
+password_home: "990eb670f81e82f546cfaaae1587279a"
