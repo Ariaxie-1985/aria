@@ -235,7 +235,7 @@ function filter_table(elem) {
 }
 </script>
     <h1>report.html</h1>
-    <p>Report generated on 04-Jan-2019 at 17:09:29 by<a href="https://pypi.python.org/pypi/pytest-html"> pytest-html</a> v1.19.0</p>
+    <p>Report generated on 07-Jan-2019 at 17:04:08 by<a href="https://pypi.python.org/pypi/pytest-html"> pytest-html</a> v1.19.0</p>
     <h2>Environment</h2>
     <table id="environment">
       <tr>
@@ -254,8 +254,8 @@ function filter_table(elem) {
         <td>Python</td>
         <td>3.6.3</td></tr></table>
     <h2>Summary</h2>
-    <p>0 tests ran in 0.32 seconds. </p>
-    <p class="filter" hidden="true">(Un)check the boxes to filter the results.</p><input checked="true" class="filter" data-test-result="passed" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="passed">0 passed</span>, <input checked="true" class="filter" data-test-result="skipped" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="skipped">0 skipped</span>, <input checked="true" class="filter" data-test-result="failed" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="failed">0 failed</span>, <input checked="true" class="filter" data-test-result="error" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="error">1 errors</span>, <input checked="true" class="filter" data-test-result="xfailed" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="xfailed">0 expected failures</span>, <input checked="true" class="filter" data-test-result="xpassed" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="xpassed">0 unexpected passes</span>
+    <p>1 tests ran in 1.21 seconds. </p>
+    <p class="filter" hidden="true">(Un)check the boxes to filter the results.</p><input checked="true" class="filter" data-test-result="passed" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="passed">1 passed</span>, <input checked="true" class="filter" data-test-result="skipped" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="skipped">0 skipped</span>, <input checked="true" class="filter" data-test-result="failed" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="failed">0 failed</span>, <input checked="true" class="filter" data-test-result="error" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="error">0 errors</span>, <input checked="true" class="filter" data-test-result="xfailed" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="xfailed">0 expected failures</span>, <input checked="true" class="filter" data-test-result="xpassed" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="xpassed">0 unexpected passes</span>
     <h2>Results</h2>
     <table id="results-table">
       <thead id="results-table-head">
@@ -266,12 +266,32 @@ function filter_table(elem) {
           <th>Links</th></tr>
         <tr hidden="true" id="not-found-message">
           <th colspan="4">No results found. Try to check the filters</th></tr></thead>
-      <tbody class="error results-table-row">
+      <tbody class="passed results-table-row">
         <tr>
-          <td class="col-result">Error</td>
-          <td class="col-name">tests/test_sub_account.py</td>
-          <td class="col-duration">0.00</td>
+          <td class="col-result">Passed</td>
+          <td class="col-name">tests/test_bb_basic_2.py::test_passPersonApprove[anan@lagou.com-990eb670f81e82f546cfaaae1587279a]</td>
+          <td class="col-duration">0.99</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
-            <div class="log">tests/test_sub_account.py:7: in &lt;module&gt;<br/>    from util.read_yaml import get_yaml_test_data<br/>util/read_yaml.py:26: in &lt;module&gt;<br/>    get_yaml_test_data(&quot;logininfo.yaml&quot;)<br/>util/read_yaml.py:23: in get_yaml_test_data<br/>    cfg = open(yamlPath, &#x27;r&#x27;, encoding=&#x27;utf-8&#x27;).read()<br/><span class="error">E   FileNotFoundError: [Errno 2] No such file or directory: &#x27;/Users/wang/Desktop/lg-project/lg_api_script/testdata/logininfo.yaml&#x27;</span><br/></div></td></tr></tbody></table></body></html>
+            <div class="log">------------------------------ Captured log call -------------------------------<br/>util.py                     55 INFO     
+请求目的: 用户 anan@lagou.com 在登录拉勾home后台,
+ 请求url: https://passport.lagou.com/login/login.json,
+ 请求数据: {&#x27;isValidate&#x27;: &#x27;true&#x27;, &#x27;username&#x27;: &#x27;anan@lagou.com&#x27;, &#x27;password&#x27;: &#x27;990eb670f81e82f546cfaaae1587279a&#x27;},
+ 响应结果: {&#x27;content&#x27;: {&#x27;rows&#x27;: []}, &#x27;message&#x27;: &#x27;操作成功&#x27;, &#x27;state&#x27;: 1, &#x27;submitCode&#x27;: 13361502, &#x27;submitToken&#x27;: &#x27;f46b1906-6cbc-4af5-927c-a7a09d8730cd&#x27;}
+
+util.py                    192 INFO     用户名: anan@lagou.com 登录成功
+test_bb_basic_2.py          18 INFO     验证home后台-审核中心-个人认证-审核招聘者是否成功
+util.py                     55 INFO     
+请求目的: 验证home后台-审核中心-倒序获取招聘者的id是否成功,
+ 请求url: https://home.lagou.com/audit/personApprove/queryPersonByParam.json,
+ 请求数据: {&#x27;startPage&#x27;: 1, &#x27;pageSize&#x27;: 1, &#x27;approveTimeSort&#x27;: &#x27;desc&#x27;, &#x27;auditStatusType&#x27;: &#x27;wait&#x27;},
+ 响应结果: {&#x27;data&#x27;: {&#x27;currentPage&#x27;: 1, &#x27;hasNextPage&#x27;: True, &#x27;pageData&#x27;: [{&#x27;checkInfoVo&#x27;: {&#x27;checkRecordList&#x27;: [{&#x27;applyTime&#x27;: &#x27;2019-01-07 17:04:01&#x27;, &#x27;status&#x27;: 1}], &#x27;currentUser&#x27;: &#x27;anan&#x27;, &#x27;operator&#x27;: True, &#x27;status&#x27;: 1}, &#x27;companyCheck&#x27;: {&#x27;companyId&#x27;: 142136, &#x27;createManId&#x27;: 100014641, &#x27;emailSuffixList&#x27;: [], &#x27;fullName&#x27;: &#x27;拉勾测试自动化default公司&#x27;, &#x27;homepage&#x27;: &#x27;http://www.lagou.com&#x27;, &#x27;lastCheckStatus&#x27;: 2, &#x27;licenseFileUrl&#x27;: &#x27;i/resume1/M00/00/0B/CgHIk1wHPLCAdYs3ABCJ2e0LeuE570.JPG&#x27;, &#x27;logoUrl&#x27;: &#x27;i/audio1/M00/01/F1/CgHIk1wuzY2AT0JGAACjk188nRI019.jpg&#x27;, &#x27;shortName&#x27;: &#x27;拉勾测试自动化default公司&#x27;}, &#x27;companyCheckVo&#x27;: {&#x27;companyId&#x27;: 142136, &#x27;createManId&#x27;: 100014641, &#x27;emailSuffixList&#x27;: [], &#x27;fullName&#x27;: &#x27;拉勾测试自动化default公司&#x27;, &#x27;homepage&#x27;: &#x27;http://www.lagou.com&#x27;, &#x27;lastCheckStatus&#x27;: 2, &#x27;licenseFileUrl&#x27;: &#x27;i/resume1/M00/00/0B/CgHIk1wHPLCAdYs3ABCJ2e0LeuE570.JPG&#x27;, &#x27;logoUrl&#x27;: &#x27;i/audio1/M00/01/F1/CgHIk1wuzY2AT0JGAACjk188nRI019.jpg&#x27;, &#x27;shortName&#x27;: &#x27;拉勾测试自动化default公司&#x27;}, &#x27;personCheck&#x27;: {&#x27;aptitudeFileType&#x27;: 4, &#x27;aptitudeFileUrl&#x27;: &#x27;i/audio1/M00/01/C5/CgHIk1wQzSaAcR09AAqex8SeJls235.JPG&#x27;, &#x27;checkType&#x27;: 1, &#x27;checkTypeStr&#x27;: &#x27;证件&#x27;, &#x27;companyId&#x27;: 142136, &#x27;createTime&#x27;: &#x27;2019-01-07 17:04:01&#x27;, &#x27;createUserId&#x27;: &#x27;100015723&#x27;, &#x27;id&#x27;: 1001444, &#x27;isAllot&#x27;: 0, &#x27;isOld&#x27;: False, &#x27;receiveEmail&#x27;: &#x27;&#x27;, &#x27;source&#x27;: 1, &#x27;sourceStr&#x27;: &#x27;PC&#x27;, &#x27;status&#x27;: 1, &#x27;userAvatarUrl&#x27;: &#x27;i/audio1/M00/01/C5/CgHIk1wQwXuAAz2hAAB1mvl2DME233.JPG&#x27;, &#x27;userEmail&#x27;: &#x27;&#x27;, &#x27;userId&#x27;: 100015723, &#x27;userName&#x27;: &#x27;关之琳14&#x27;, &#x27;userPhone&#x27;: &#x27;+0085220190110&#x27;, &#x27;userPosition&#x27;: &#x27;HR BP&#x27;, &#x27;userRealFileUrl&#x27;: &#x27;i/audio1/M00/01/C5/CgHIk1wQzR6AS8YlAAC5OWWN-yU456.JPG&#x27;}, &#x27;personCheckVo&#x27;: {&#x27;aptitudeFileType&#x27;: 4, &#x27;aptitudeFileUrl&#x27;: &#x27;i/audio1/M00/01/C5/CgHIk1wQzSaAcR09AAqex8SeJls235.JPG&#x27;, &#x27;checkType&#x27;: 1, &#x27;checkTypeStr&#x27;: &#x27;证件&#x27;, &#x27;companyId&#x27;: 142136, &#x27;createTime&#x27;: &#x27;2019-01-07 17:04:01&#x27;, &#x27;createUserId&#x27;: &#x27;100015723&#x27;, &#x27;id&#x27;: 1001444, &#x27;isAllot&#x27;: 0, &#x27;isOld&#x27;: False, &#x27;receiveEmail&#x27;: &#x27;&#x27;, &#x27;source&#x27;: 1, &#x27;sourceStr&#x27;: &#x27;PC&#x27;, &#x27;status&#x27;: 1, &#x27;userAvatarUrl&#x27;: &#x27;i/audio1/M00/01/C5/CgHIk1wQwXuAAz2hAAB1mvl2DME233.JPG&#x27;, &#x27;userEmail&#x27;: &#x27;&#x27;, &#x27;userId&#x27;: 100015723, &#x27;userName&#x27;: &#x27;关之琳14&#x27;, &#x27;userPhone&#x27;: &#x27;+0085220190110&#x27;, &#x27;userPosition&#x27;: &#x27;HR BP&#x27;, &#x27;userRealFileUrl&#x27;: &#x27;i/audio1/M00/01/C5/CgHIk1wQzR6AS8YlAAC5OWWN-yU456.JPG&#x27;}}], &#x27;pageSize&#x27;: 1, &#x27;totalCount&#x27;: 392, &#x27;totalPage&#x27;: 392}, &#x27;success&#x27;: True}
+
+util.py                     55 INFO     
+请求目的: 验证home后台-审核中心-个人认证-审核招聘者是否成功,
+ 请求url: https://home.lagou.com/audit/personApprove/passPersonApprove.json,
+ 请求数据: {&#x27;personCheckId&#x27;: 1001444},
+ 响应结果: {&#x27;success&#x27;: True}
+
+util.py                    205 INFO     验证home后台-审核中心-个人认证-审核招聘者成功</div></td></tr></tbody></table></body></html>

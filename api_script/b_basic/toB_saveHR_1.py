@@ -45,6 +45,14 @@ def submit(updateCompanyShortName):
 	remark="验证B端提交招聘者审核是否成功"
 	return form_post(url=submit_url, data=submit_data, headers=submit_header,remark=remark)
 
+# 加入B端的公司
+def add_saveCompany():
+	step2_url = 'https://hr.lagou.com/corpCenter/openservice/step2.html'
+	saveCompany_url = "https://hr.lagou.com/corpCenter/openservice/saveCompany.json"
+	saveCompany_header = get_code_token(step2_url)
+	remark = "验证B端成立公司是否成功"
+	return form_post(url=saveCompany_url, headers=saveCompany_header,remark=remark)
+
 
 def saveHR_process(phone,companyShortName,companyFullName,userName,resumeReceiveEmail,updateCompanyShortName):
 	r1 = b_register(phone)
@@ -53,3 +61,9 @@ def saveHR_process(phone,companyShortName,companyFullName,userName,resumeReceive
 	r4 = submit(updateCompanyShortName)
 	return [r1,r2,r3,r4]
 
+def add_people_into_company(phone,companyFullName, userName, resumeReceiveEmail):
+	r1 = b_register(phone)
+	r2 = saveHR(companyFullName, userName, resumeReceiveEmail)
+	r3 = add_saveCompany()
+	r4 = submit(companyFullName)
+	return [r1, r2, r3, r4]
