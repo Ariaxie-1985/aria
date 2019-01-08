@@ -22,10 +22,10 @@ def exist_class_name(html,classname):
    # print(a.__len__())
     if a.__len__()==0:
         logging.info("不存在该标签")
-        return  True
+        return  False
     else:
         logging.info("存在该标签")
-        return False
+        return True
 
 '''
 通过class获得标签里某个具体的值

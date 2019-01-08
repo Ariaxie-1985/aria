@@ -20,7 +20,7 @@ def get_userId():
 	remark = "获取需要添加的子账号id"
 	r = get_requests(url=queryUserId_url, headers=queryUserId_header, remark=remark).json()
 	members = r['content']['data']['members']
-	for i in range(len(members)):
+	for i in range(2):
 		flag = members[i]
 		if flag['isContractManager'] == False:
 			userId_list.append(flag['userId'])
@@ -28,15 +28,15 @@ def get_userId():
 	return userId_list
 
 
-def get_user_goods_info(userIdlist):
+def get_user_goods_info(userId_list):
 	'''
 	获取调整的子账号的用户名称、头像、权益id
 	:param userIdlist: list
 	:return:
 	'''
-	userlist = {}
+	user_goods_info = {}
 	goods_list = []
-	for userId in userIdlist:
+	for userId in userId_list:
 		querygoodsList_url = "https://easy.lagou.com/userGoodsRecord/queryAssignUserByUserId.json"
 		querygoodsList_header = {}
 		querygoodsList_data = {'userId': userId}
@@ -44,18 +44,23 @@ def get_user_goods_info(userIdlist):
 		r = form_post(url=querygoodsList_url, headers=querygoodsList_header, data=querygoodsList_data, remark=remark)
 		portrait = r['content']['data']['portrait']
 		name = r['content']['data']['userName']
-		userlist[userId] = [portrait, name]
+		user_goods_info[userId] = [portrait, name]
 		if r['content']['data']['info'][0]['baseGoodsName'] != "子账号数":
 			if r['content']['data']['info'][1]['baseGoodsName'] != "子账号数":
 				goods_list.append(r['content']['data']['info'][0]['baseGoodsId'])
 				goods_list.append(r['content']['data']['info'][1]['baseGoodsId'])
-				userlist[userId].append(goods_list)
-	return userlist
+				user_goods_info[userId].append(goods_list)
+	return user_goods_info
 
 
-def get_subaccunt_goods(userIdlist):
-	goods_list = {}
-	for userId in userIdlist:
+def get_subaccunt_goods(userId_list):
+	'''
+	获取调整的子账号的分账号的权益id
+	:param userId_list:
+	:return:
+	'''
+	subaccunt_goodslist = {}
+	for userId in userId_list:
 		querygoodsList_url = "https://easy.lagou.com/userGoodsRecord/queryAssignUserByUserId.json"
 		querygoodsList_header = {}
 		querygoodsList_data = {'userId': userId}
@@ -64,16 +69,19 @@ def get_subaccunt_goods(userIdlist):
 		portrait = r['content']['data']['portrait']
 		name = r['content']['data']['userName']
 		if r['content']['data']['info'][-1]['baseGoodsName'] == "子账号数":
-			goods_list[userId] = [portrait, name, r['content']['data']['info'][-1]['baseGoodsId']]
+			subaccunt_goodslist[userId] = [portrait, name, r['content']['data']['info'][-1]['baseGoodsId']]
 		elif r['content']['data']['info'][-2]['baseGoodsName'] == "子账号数":
-			goods_list[userId] = [portrait, name, r['content']['data']['info'][-2]['baseGoodsId']]
+			subaccunt_goodslist[userId] = [portrait, name, r['content']['data']['info'][-2]['baseGoodsId']]
 		else:
 			return ("没有子账号权益id")
-	print(goods_list)
-	return goods_list
+	return subaccunt_goodslist
 
 
 def get_invalidUserId():
+	'''
+	获取无效子账号的账号id, 只获取一个
+	:return:
+	'''
 	refer_queryUserId_url = "https://easy.lagou.com/subAccount/queryAcount/index.htm"
 	querygoodsList_url = "https://easy.lagou.com/subAccount/queryAcount.json?pageNo=1&pageSize=7&keyword="
 	querygoodsList_header = get_header(refer_queryUserId_url)
@@ -83,13 +91,13 @@ def get_invalidUserId():
 	return userid
 
 
-def add_sub_account(userlist):
+def add_sub_account(userId_list):
 	'''
 	增加子账号功能
 	:param userId: int, 子账号用户id
 	:return: int, 请求返回结果的用户id
 	'''
-	for userId in userlist:
+	for userId in userId_list:
 		refer_queryAcount_url = "https://easy.lagou.com/subAccount/queryAcount/index.htm"
 		queryAcount_url = "https://easy.lagou.com/subAccount/addAcount.json"
 		queryAcount_data = {"userId": userId}
@@ -98,13 +106,13 @@ def add_sub_account(userlist):
 		r = form_post(url=queryAcount_url, data=queryAcount_data, headers=queryAcount_header, remark=remark)
 	return r
 
-def remove_sub_account(userlist):
+def remove_sub_account(userId_list):
 	'''
 	移除子账号功能
 	:param userId: int, 子账号用户id
 	:return: string， 删除结果
 	'''
-	for userId in userlist:
+	for userId in userId_list:
 		# refer_queryAcount_url = "https://easy.lagou.com/subAccount/queryAcount/index.htm"
 		removeAcount_url = "https://easy.lagou.com/subAccount/delAcount.json"
 		removeAcount_data = {"userId": userId}
@@ -130,7 +138,7 @@ def recover_sub_account(userId):
 
 
 
-def reAssignAllGoods(userlist):
+def reAssignAllGoods(userinfolist):
 	'''
 	调整子账号的权益
 	:param userId: 子账号的userId
@@ -140,13 +148,13 @@ def reAssignAllGoods(userlist):
 	:return:
 	'''
 	recoverAcount_url = "https://easy.lagou.com/userGoodsRecord/reAssignAllGoods.json"
-	for user, info in userlist.items():
+	for user, info in userinfolist.items():
 		recoverAcount_data = {"accountType": 1, "userId": user,
 		                      "assignInfo": [
 			                      {"userid": user, "portrait": info[0], "userName": info[1], "email": "",
-			                       "baseGoodsId": info[2][0], "totalNum": "0", "num": "0", "reAssignNum": "10"},
+			                       "baseGoodsId": info[2][0], "totalNum": "0", "num": "0", "reAssignNum": "1"},
 			                      {"userid": user, "portrait": info[0], "userName": info[1], "email": "",
-			                       "baseGoodsId": info[2][1], "totalNum": "0", "num": "0", "reAssignNum": "10"}
+			                       "baseGoodsId": info[2][1], "totalNum": "0", "num": "0", "reAssignNum": "1"}
 		                      ]}
 		recoverAcount_data["assignInfo"] = json.dumps(recoverAcount_data["assignInfo"])
 		recoverAcount_header = {}
@@ -156,7 +164,7 @@ def reAssignAllGoods(userlist):
 
 
 
-def reAssign_subaccount_Goods(userlist):
+def reAssign_subaccount_Goods(subaccunt_goodslist):
 	'''
 	调整子账号为分账号
 	:param userId: 子账号的userId
@@ -166,28 +174,31 @@ def reAssign_subaccount_Goods(userlist):
 	:return:
 	'''
 	recoverAcount_url = "https://easy.lagou.com/userGoodsRecord/reAssignAllGoods.json"
-	for user, info in userlist.items():
+	for user, info in subaccunt_goodslist.items():
 		recoverAcount_data = {"accountType": 1, "userId": user,
 		                      "assignInfo": [{"userid": user, "portrait": info[0], "userName": info[1], "email": "",
-		       "baseGoodsId": info[2], "totalNum": "0", "num": "0", "reAssignNum": "10"}]}
-
-
+		       "baseGoodsId": info[2], "totalNum": "0", "num": "0", "reAssignNum": "1"}]}
 		recoverAcount_data["assignInfo"] = json.dumps(recoverAcount_data["assignInfo"])
 		recoverAcount_header = {}
 		remark = "验证调整子账号为分账号且及其权益功能是否ok"
 		r = form_post(url=recoverAcount_url, data=recoverAcount_data, headers=recoverAcount_header, remark=remark)
 	return r
 
+
+
 # username = 20181205
 # login("00852", username)
-# userid = get_userId()
-# r = get_user_goods_info(userid)
-# # s = reAssignAllGoods(r)
-# userlist = get_subaccunt_goods(userid)
+# userinfo = get_userId()
+# add_sub_account(userinfo)
+# r = get_user_goods_info(userinfo)
+# # print('---'*8)
+# # print(r)
+# s = reAssignAllGoods(r)
+# userlist = get_subaccunt_goods(userinfo)
 # reAssign_subaccount_Goods(userlist)
+# # r = remove_sub_account(userinfo)
 # userinfo = get_userId()
 # userId = get_invalidUserId()
 # goodslist = get_goodsList()
-# add_sub_account(userId[0])
 # reAssignAllGoods(userinfo[0],userinfo[1],userinfo[2],goodslist)
 # recover_sub_account(userId)

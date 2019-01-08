@@ -14,6 +14,7 @@ pytest-html = "*"
 "beautifulsoup4" = "*"
 pytest-ordering = "*"
 pyyaml = "*"
+flask = "*"
 
 
 [dev-packages]

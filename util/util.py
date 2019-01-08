@@ -164,6 +164,7 @@ def login(countryCode, username):
 	:param countryCode: str, 地区编号
 	:param username: str, 用户名
 	'''
+	session.cookies.clear()
 	login_url = 'https://passport.lagou.com/login/login.json'
 	login_data = {'isValidate': 'true', 'username': username, 'phoneVerificationCode': '049281',
 	              'countryCode': countryCode, 'challenge': 111}
@@ -182,6 +183,7 @@ def login_home(username, password):
 	:param password: str, 密码
 	:param remark: str, 备注
 	'''
+	session.cookies.clear()
 	referer_login_home_url = "https://home.lagou.com/"
 	login_url = 'https://passport.lagou.com/login/login.json'
 	login_data = {'isValidate': 'true', 'username': username, 'password': password}
