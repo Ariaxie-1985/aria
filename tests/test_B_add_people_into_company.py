@@ -13,9 +13,11 @@ from util.read_yaml import get_yaml_test_data
 from util.util import assert_equal
 
 test_data = get_yaml_test_data("B_add_people_into_company.yaml")
-@pytest.mark.parametrize('phone, companyFullName, userName, resumeReceiveEmail',
-                         [(test_data['phone'],test_data['companyFullName'],test_data['userName'],
-                           test_data['resumeReceiveEmail'])])
+
+
+
+@pytest.mark.parametrize('phone,userName,companyFullName,resumeReceiveEmail',[(test_data['phone'],test_data['userName'],
+                                                                               test_data['companyFullName'],test_data['resumeReceiveEmail'])])
 def test_add_people_into_companyame(phone,companyFullName, userName, resumeReceiveEmail):
 	log = logging.getLogger('test_saveHR_process')
 	log.info('验证注册B端-成立公司-提交招聘者审核流程是否成功')
