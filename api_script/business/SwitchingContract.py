@@ -5,7 +5,7 @@
 登录home 然后根据版本号更换套餐
 '''
 
-from util.util import login_home,get_code_token,form_post,get_header,get_requests,assert_equal
+from util.util import login_home,form_post,get_header
 import json
 '''
 获取当前时间
@@ -38,7 +38,7 @@ def lagouPlus(templateId):
     contractnumurl="https://home.lagou.com/crm/valueadded/product/open.json"
 
     data={"templateId":templateId,"num":1,"companyId":142136,"contractNo":"LG-HD-WANGXIA-18112801","userId":100014641,"startTimeStr":"2019-01-07","endTimeStr":"2020-01-10","upgrade":"false"}
-    object=form_post(url=contractnumurl,remark="新增17版合同",data=data,headers=header)
+    object=form_post(url=contractnumurl,remark="新增合同, 其id: "+str(templateId),data=data,headers=header)
     print(object)
     # treatycontents=get_requests(url="https://home.lagou.com/crm/olddata/queryByCsv.json?userId=100014641&pageIndex=0&pageSize=100&sortField=&sortOrder=&_=1546593382369",headers=header,remark="获取合同内容")
     # print(treatycontents.json())

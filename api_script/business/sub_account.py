@@ -20,7 +20,7 @@ def get_userId():
 	remark = "获取需要添加的子账号id"
 	r = get_requests(url=queryUserId_url, headers=queryUserId_header, remark=remark).json()
 	members = r['content']['data']['members']
-	for i in range(len(members)):
+	for i in range(2):
 		flag = members[i]
 		if flag['isContractManager'] == False:
 			userId_list.append(flag['userId'])
@@ -152,9 +152,9 @@ def reAssignAllGoods(userinfolist):
 		recoverAcount_data = {"accountType": 1, "userId": user,
 		                      "assignInfo": [
 			                      {"userid": user, "portrait": info[0], "userName": info[1], "email": "",
-			                       "baseGoodsId": info[2][0], "totalNum": "0", "num": "0", "reAssignNum": "10"},
+			                       "baseGoodsId": info[2][0], "totalNum": "0", "num": "0", "reAssignNum": "1"},
 			                      {"userid": user, "portrait": info[0], "userName": info[1], "email": "",
-			                       "baseGoodsId": info[2][1], "totalNum": "0", "num": "0", "reAssignNum": "10"}
+			                       "baseGoodsId": info[2][1], "totalNum": "0", "num": "0", "reAssignNum": "1"}
 		                      ]}
 		recoverAcount_data["assignInfo"] = json.dumps(recoverAcount_data["assignInfo"])
 		recoverAcount_header = {}
@@ -177,9 +177,7 @@ def reAssign_subaccount_Goods(subaccunt_goodslist):
 	for user, info in subaccunt_goodslist.items():
 		recoverAcount_data = {"accountType": 1, "userId": user,
 		                      "assignInfo": [{"userid": user, "portrait": info[0], "userName": info[1], "email": "",
-		       "baseGoodsId": info[2], "totalNum": "0", "num": "0", "reAssignNum": "10"}]}
-
-
+		       "baseGoodsId": info[2], "totalNum": "0", "num": "0", "reAssignNum": "1"}]}
 		recoverAcount_data["assignInfo"] = json.dumps(recoverAcount_data["assignInfo"])
 		recoverAcount_header = {}
 		remark = "验证调整子账号为分账号且及其权益功能是否ok"
@@ -193,12 +191,12 @@ def reAssign_subaccount_Goods(subaccunt_goodslist):
 # userinfo = get_userId()
 # add_sub_account(userinfo)
 # r = get_user_goods_info(userinfo)
-# print('---'*8)
-# print(r)
+# # print('---'*8)
+# # print(r)
 # s = reAssignAllGoods(r)
 # userlist = get_subaccunt_goods(userinfo)
 # reAssign_subaccount_Goods(userlist)
-# r = remove_sub_account(userinfo)
+# # r = remove_sub_account(userinfo)
 # userinfo = get_userId()
 # userId = get_invalidUserId()
 # goodslist = get_goodsList()
