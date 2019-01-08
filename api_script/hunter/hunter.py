@@ -19,7 +19,8 @@ c = b[0]
 userid = c['userId']
 refId = c['refId']
 add_url = 'https://hunter.lagou.com/api/position/manager/moveToWaitForChat.json'
-add_html = 'https://hunter.lagou.com/talent/search'
-add_header = get_code_token(add_html)
-add_data = {'paiCandidate':'false','candidateId':userid,'refId':refId,'fromSource':'LAGOU'}
-form_post(url=add_url,headers=add_header,data=add_data)
+# add_html = 'https://hunter.lagou.com/'
+# add_header = get_code_token(add_html)
+add_header = {"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3615.0 Safari/537.36"}
+add_data = {'paiCandidate':'false','candidateId':userid,'refId':refId,'fromSource':'LAGOU','resumeClassify':''}
+form_post(url=add_url,headers=add_header,data=add_data,remark='加入人才库')
