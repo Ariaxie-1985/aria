@@ -226,3 +226,10 @@ def wait(time):
 	:param time:
 	:return:
 	'''
+
+
+def get_app_header(userId):
+	header = {"X-L-REQ-HEADER" :{"deviceType":10}, "X-L-USER-ID": userId}
+	header["X-L-REQ-HEADER"] = json.dumps(header["X-L-REQ-HEADER"])
+	return header
+
