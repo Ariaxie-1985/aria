@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <title>Test Report</title>
+    <link href="assets/style.css" rel="stylesheet" type="text/css"/></head>
+  <body onLoad="init()">
+    <script>/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this file,
+ * You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+
+function toArray(iter) {
+    if (iter === null) {
+        return null;
+    }
+    return Array.prototype.slice.call(iter);
+}
+
+function find(selector, elem) {
+    if (!elem) {
+        elem = document;
+    }
+    return elem.querySelector(selector);
+}
+
+function find_all(selector, elem) {
+    if (!elem) {
+        elem = document;
+    }
+    return toArray(elem.querySelectorAll(selector));
+}
+
+function sort_column(elem) {
+    toggle_sort_states(elem);
+    var colIndex = toArray(elem.parentNode.childNodes).indexOf(elem);
+    var key;
+    if (elem.classList.contains('numeric')) {
+        key = key_num;
+    } else if (elem.classList.contains('result')) {
+        key = key_result;
+    } else {
+        key = key_alpha;
+    }
+    sort_table(elem, key(colIndex));
+}
+
+function show_all_extras() {
+    find_all('.col-result').forEach(show_extras);
+}
+
+function hide_all_extras() {
+    find_all('.col-result').forEach(hide_extras);
+}
+
+function show_extras(colresult_elem) {
+    var extras = colresult_elem.parentNode.nextElementSibling;
+    var expandcollapse = colresult_elem.firstElementChild;
+    extras.classList.remove("collapsed");
+    expandcollapse.classList.remove("expander");
+    expandcollapse.classList.add("collapser");
+}
+
+function hide_extras(colresult_elem) {
+    var extras = colresult_elem.parentNode.nextElementSibling;
+    var expandcollapse = colresult_elem.firstElementChild;
+    extras.classList.add("collapsed");
+    expandcollapse.classList.remove("collapser");
+    expandcollapse.classList.add("expander");
+}
+
+function show_filters() {
+    var filter_items = document.getElementsByClassName('filter');
+    for (var i = 0; i < filter_items.length; i++)
+        filter_items[i].hidden = false;
+}
+
+function add_collapse() {
+    // Add links for show/hide all
+    var resulttable = find('table#results-table');
+    var showhideall = document.createElement("p");
+    showhideall.innerHTML = '<a href="javascript:show_all_extras()">Show all details</a> / ' +
+                            '<a href="javascript:hide_all_extras()">Hide all details</a>';
+    resulttable.parentElement.insertBefore(showhideall, resulttable);
+
+    // Add show/hide link to each result
+    find_all('.col-result').forEach(function(elem) {
+        var collapsed = get_query_parameter('collapsed') || 'Passed';
+        var extras = elem.parentNode.nextElementSibling;
+        var expandcollapse = document.createElement("span");
+        if (collapsed.includes(elem.innerHTML)) {
+            extras.classList.add("collapsed");
+            expandcollapse.classList.add("expander");
+        } else {
+            expandcollapse.classList.add("collapser");
+        }
+        elem.appendChild(expandcollapse);
+
+        elem.addEventListener("click", function(event) {
+            if (event.currentTarget.parentNode.nextElementSibling.classList.contains("collapsed")) {
+                show_extras(event.currentTarget);
+            } else {
+                hide_extras(event.currentTarget);
+            }
+        });
+    })
+}
+
+function get_query_parameter(name) {
+    var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
+    return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+}
+
+function init () {
+    reset_sort_headers();
+
+    add_collapse();
+
+    show_filters();
+
+    toggle_sort_states(find('.initial-sort'));
+
+    find_all('.sortable').forEach(function(elem) {
+        elem.addEventListener("click",
+                              function(event) {
+                                  sort_column(elem);
+                              }, false)
+    });
+
+};
+
+function sort_table(clicked, key_func) {
+    var rows = find_all('.results-table-row');
+    var reversed = !clicked.classList.contains('asc');
+    var sorted_rows = sort(rows, key_func, reversed);
+    /* Whole table is removed here because browsers acts much slower
+     * when appending existing elements.
+     */
+    var thead = document.getElementById("results-table-head");
+    document.getElementById('results-table').remove();
+    var parent = document.createElement("table");
+    parent.id = "results-table";
+    parent.appendChild(thead);
+    sorted_rows.forEach(function(elem) {
+        parent.appendChild(elem);
+    });
+    document.getElementsByTagName("BODY")[0].appendChild(parent);
+}
+
+function sort(items, key_func, reversed) {
+    var sort_array = items.map(function(item, i) {
+        return [key_func(item), i];
+    });
+    var multiplier = reversed ? -1 : 1;
+
+    sort_array.sort(function(a, b) {
+        var key_a = a[0];
+        var key_b = b[0];
+        return multiplier * (key_a >= key_b ? 1 : -1);
+    });
+
+    return sort_array.map(function(item) {
+        var index = item[1];
+        return items[index];
+    });
+}
+
+function key_alpha(col_index) {
+    return function(elem) {
+        return elem.childNodes[1].childNodes[col_index].firstChild.data.toLowerCase();
+    };
+}
+
+function key_num(col_index) {
+    return function(elem) {
+        return parseFloat(elem.childNodes[1].childNodes[col_index].firstChild.data);
+    };
+}
+
+function key_result(col_index) {
+    return function(elem) {
+        var strings = ['Error', 'Failed', 'Rerun', 'XFailed', 'XPassed',
+                       'Skipped', 'Passed'];
+        return strings.indexOf(elem.childNodes[1].childNodes[col_index].firstChild.data);
+    };
+}
+
+function reset_sort_headers() {
+    find_all('.sort-icon').forEach(function(elem) {
+        elem.parentNode.removeChild(elem);
+    });
+    find_all('.sortable').forEach(function(elem) {
+        var icon = document.createElement("div");
+        icon.className = "sort-icon";
+        icon.textContent = "vvv";
+        elem.insertBefore(icon, elem.firstChild);
+        elem.classList.remove("desc", "active");
+        elem.classList.add("asc", "inactive");
+    });
+}
+
+function toggle_sort_states(elem) {
+    //if active, toggle between asc and desc
+    if (elem.classList.contains('active')) {
+        elem.classList.toggle('asc');
+        elem.classList.toggle('desc');
+    }
+
+    //if inactive, reset all other functions and add ascending active
+    if (elem.classList.contains('inactive')) {
+        reset_sort_headers();
+        elem.classList.remove('inactive');
+        elem.classList.add('active');
+    }
+}
+
+function is_all_rows_hidden(value) {
+  return value.hidden == false;
+}
+
+function filter_table(elem) {
+    var outcome_att = "data-test-result";
+    var outcome = elem.getAttribute(outcome_att);
+    class_outcome = outcome + " results-table-row";
+    var outcome_rows = document.getElementsByClassName(class_outcome);
+
+    for(var i = 0; i < outcome_rows.length; i++){
+        outcome_rows[i].hidden = !elem.checked;
+    }
+
+    var rows = find_all('.results-table-row').filter(is_all_rows_hidden);
+    var all_rows_hidden = rows.length == 0 ? true : false;
+    var not_found_message = document.getElementById("not-found-message");
+    not_found_message.hidden = !all_rows_hidden;
+}
+</script>
+    <h1>report.html</h1>
+    <p>Report generated on 08-Jan-2019 at 16:55:33 by<a href="https://pypi.python.org/pypi/pytest-html"> pytest-html</a> v1.19.0</p>
+    <h2>Environment</h2>
+    <table id="environment">
+      <tr>
+        <td>JAVA_HOME</td>
+        <td>C:\Program Files (x86)\Java\jdk1.8.0_51</td></tr>
+      <tr>
+        <td>Packages</td>
+        <td>{&apos;pytest&apos;: &apos;4.0.2&apos;, &apos;py&apos;: &apos;1.7.0&apos;, &apos;pluggy&apos;: &apos;0.8.0&apos;}</td></tr>
+      <tr>
+        <td>Platform</td>
+        <td>Windows-7-6.1.7601-SP1</td></tr>
+      <tr>
+        <td>Plugins</td>
+        <td>{&apos;metadata&apos;: &apos;1.8.0&apos;, &apos;html&apos;: &apos;1.19.0&apos;}</td></tr>
+      <tr>
+        <td>Python</td>
+        <td>3.6.6</td></tr></table>
+    <h2>Summary</h2>
+    <p>1 tests ran in 6.83 seconds. </p>
+    <p class="filter" hidden="true">(Un)check the boxes to filter the results.</p><input checked="true" class="filter" data-test-result="passed" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="passed">1 passed</span>, <input checked="true" class="filter" data-test-result="skipped" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="skipped">0 skipped</span>, <input checked="true" class="filter" data-test-result="failed" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="failed">0 failed</span>, <input checked="true" class="filter" data-test-result="error" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="error">0 errors</span>, <input checked="true" class="filter" data-test-result="xfailed" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="xfailed">0 expected failures</span>, <input checked="true" class="filter" data-test-result="xpassed" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="xpassed">0 unexpected passes</span>
+    <h2>Results</h2>
+    <table id="results-table">
+      <thead id="results-table-head">
+        <tr>
+          <th class="sortable result initial-sort" col="result">Result</th>
+          <th class="sortable" col="name">Test</th>
+          <th class="sortable numeric" col="duration">Duration</th>
+          <th>Links</th></tr>
+        <tr hidden="true" id="not-found-message">
+          <th colspan="4">No results found. Try to check the filters</th></tr></thead>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">tests/test_B_refresh.py::test_refresh</td>
+          <td class="col-duration">5.51</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log">------------------------------ Captured log call -------------------------------<br/>util.py                     55 INFO     
+请求目的: 获取刷新点数,
+ 请求url: https://easy.lagou.com/position/batchRefreshInfo.json,
+ 请求数据: None,
+ 响应结果: {&#x27;state&#x27;: 1, &#x27;message&#x27;: &#x27;操作成功&#x27;, &#x27;content&#x27;: {&#x27;data&#x27;: {&#x27;canExchange&#x27;: False, &#x27;canExchangeAll&#x27;: True, &#x27;balance&#x27;: 0, &#x27;need&#x27;: 0.0, &#x27;totalConsumePoint&#x27;: 0.0, &#x27;needExchangePositionPoint&#x27;: 0, &#x27;consumeRefreshNum&#x27;: 0, &#x27;remainPositionPoint&#x27;: 1111.0, &#x27;freeRefreshNum&#x27;: 27}, &#x27;rows&#x27;: []}}
+
+test_B_refresh.py           19 INFO     刷新前的点数:1111.0
+util.py                     55 INFO     
+请求目的: 获取职位id,
+ 请求url: https://easy.lagou.com/parentPosition/multiChannel/myOnlinePositions.json,
+ 请求数据: {&#x27;pageNo&#x27;: 1},
+ 响应结果: {&#x27;state&#x27;: 1, &#x27;message&#x27;: &#x27;操作成功&#x27;, &#x27;content&#x27;: {&#x27;data&#x27;: {&#x27;pageNo&#x27;: 1, &#x27;parentPositionVOs&#x27;: [{&#x27;parentPositionInfo&#x27;: {&#x27;companyId&#x27;: 141702, &#x27;userId&#x27;: 100014641, &#x27;createTime&#x27;: &#x27;2018-12-24 18:11:20&#x27;, &#x27;updateTime&#x27;: &#x27;2019-01-03 11:12:02&#x27;, &#x27;isDel&#x27;: False, &#x27;publishingNum&#x27;: 0, &#x27;normalNum&#x27;: 1, &#x27;offlineNum&#x27;: 0, &#x27;publishFailNum&#x27;: 0, &#x27;waitVerifyNum&#x27;: 0, &#x27;publishTime&#x27;: &#x27;2019-01-03 11:12:02&#x27;, &#x27;id&#x27;: 1783955, &#x27;positionName&#x27;: &#x27;用户运营0&#x27;, &#x27;department&#x27;: &#x27;111&#x27;, &#x27;city&#x27;: &#x27;北京&#x27;, &#x27;salary&#x27;: &#x27;11k-12k&#x27;, &#x27;salaryMin&#x27;: 11, &#x27;salaryMax&#x27;: 12, &#x27;education&#x27;: &#x27;不限&#x27;, &#x27;workYear&#x27;: &#x27;应届毕业生&#x27;, &#x27;jobNature&#x27;: &#x27;全职&#x27;, &#x27;email&#x27;: &#x27;tester2018@sina.com&#x27;, &#x27;workAddress&#x27;: &#x27;海置创投大厦4层&#x27;, &#x27;firstType&#x27;: &#x27;运营|编辑|客服类&#x27;, &#x27;positionType&#x27;: &#x27;运营&#x27;, &#x27;positionLng&#x27;: &#x27;116.231204&#x27;, &#x27;positionLat&#x27;: &#x27;40.22066&#x27;, &#x27;positionThirdType&#x27;: &#x27;用户运营&#x27;, &#x27;positionBrightPoint&#x27;: [&#x27;11111&#x27;], &#x27;positionDesc&#x27;: &#x27;&lt;p&gt;111111111111111111111111111111111111111111111&lt;/p&gt;&#x27;}, &#x27;positions&#x27;: [{&#x27;channelId&#x27;: 0, &#x27;positionId&#x27;: 13842610, &#x27;department&#x27;: &#x27;111&#x27;, &#x27;city&#x27;: &#x27;北京&#x27;, &#x27;positionName&#x27;: &#x27;用户运营0&#x27;, &#x27;publishTime&#x27;: &#x27;2019-01-03 11:12:02&#x27;, &#x27;positionStatus&#x27;: &#x27;NORMAL&#x27;, &#x27;channelType&#x27;: &#x27;LAGOU&#x27;, &#x27;channelName&#x27;: &#x27;拉勾网&#x27;, &#x27;channel&#x27;: 108, &#x27;createTime&#x27;: &#x27;2018-12-24 18:11:20&#x27;, &#x27;updateTime&#x27;: &#x27;2019-01-03 11:12:02&#x27;, &#x27;userId&#x27;: 100014641, &#x27;companyId&#x27;: 141702, &#x27;outerPositionId&#x27;: &#x27;5375355&#x27;, &#x27;isDel&#x27;: False, &#x27;candidateCount&#x27;: 0, &#x27;notReadCount&#x27;: 0, &#x27;interviewCount&#x27;: 0, &#x27;recruiterCount&#x27;: 0, &#x27;recruiters&#x27;: [], &#x27;salary&#x27;: &#x27;11k-12k&#x27;, &#x27;education&#x27;: &#x27;不限&#x27;, &#x27;workYear&#x27;: &#x27;应届毕业生&#x27;, &#x27;canRefresh&#x27;: True, &#x27;supportRefresh&#x27;: True, &#x27;parentPositionId&#x27;: 1783955, &#x27;canEdit&#x27;: True, &#x27;firstType&#x27;: &#x27;运营|编辑|客服类&#x27;, &#x27;positionType&#x27;: &#x27;运营&#x27;, &#x27;positionCreateType&#x27;: &#x27;DEFAULT&#x27;, &#x27;forbidden&#x27;: False, &#x27;url4PositionSearch&#x27;: &#x27;https://easy.lagou.com/search/result.htm?pageNo=1&amp;keyword=用户运营0&amp;city=北京&amp;education=不限&amp;workYear=应届&amp;expectSalary=10k-15k&#x27;, &#x27;energyCardEndTime&#x27;: &#x27;2019-01-15 16:55:09&#x27;, &#x27;isSoonOffline&#x27;: False, &#x27;toppingState&#x27;: 1, &#x27;batchInviteState&#x27;: 0, &#x27;offlineCountDownDays&#x27;: 26}], &#x27;hrPosition&#x27;: False, &#x27;hasAllocatedPosition&#x27;: False, &#x27;hasSoonOfflinePosition&#x27;: False}, {&#x27;parentPositionInfo&#x27;: {&#x27;companyId&#x27;: 141702, &#x27;userId&#x27;: 100014641, &#x27;createTime&#x27;: &#x27;2018-12-24 11:54:08&#x27;, &#x27;updateTime&#x27;: &#x27;2019-01-03 11:12:01&#x27;, &#x27;isDel&#x27;: False, &#x27;publishingNum&#x27;: 0, &#x27;normalNum&#x27;: 1, &#x27;offlineNum&#x27;: 0, &#x27;publishFailNum&#x27;: 0, &#x27;waitVerifyNum&#x27;: 0, &#x27;publishTime&#x27;: &#x27;2019-01-03 11:12:02&#x27;, &#x27;id&#x27;: 1783952, &#x27;positionName&#x27;: &#x27;python后端开发拉勾测试&#x27;, &#x27;department&#x27;: &#x27;111&#x27;, &#x27;city&#x27;: &#x27;北京&#x27;, &#x27;salary&#x27;: &#x27;11k-12k&#x27;, &#x27;salaryMin&#x27;: 11, &#x27;salaryMax&#x27;: 12, &#x27;education&#x27;: &#x27;不限&#x27;, &#x27;workYear&#x27;: &#x27;应届毕业生&#x27;, &#x27;jobNature&#x27;: &#x27;全职&#x27;, &#x27;email&#x27;: &#x27;tester2018@sina.com&#x27;, &#x27;workAddress&#x27;: &#x27;海置创投大厦4层&#x27;, &#x27;firstType&#x27;: &#x27;开发|测试|运维类&#x27;, &#x27;positionType&#x27;: &#x27;后端开发&#x27;, &#x27;positionLng&#x27;: &#x27;116.231204&#x27;, &#x27;positionLat&#x27;: &#x27;40.22066&#x27;, &#x27;positionThirdType&#x27;: &#x27;Python&#x27;, &#x27;positionBrightPoint&#x27;: [&#x27;11111&#x27;], &#x27;positionDesc&#x27;: &#x27;&lt;p&gt;111111111111111111111111111111111111111111111&lt;/p&gt;&#x27;}, &#x27;positions&#x27;: [{&#x27;channelId&#x27;: 0, &#x27;positionId&#x27;: 13842607, &#x27;department&#x27;: &#x27;111&#x27;, &#x27;city&#x27;: &#x27;北京&#x27;, &#x27;positionName&#x27;: &#x27;python后端开发拉勾测试&#x27;, &#x27;publishTime&#x27;: &#x27;2019-01-03 11:12:02&#x27;, &#x27;positionStatus&#x27;: &#x27;NORMAL&#x27;, &#x27;channelType&#x27;: &#x27;LAGOU&#x27;, &#x27;channelName&#x27;: &#x27;拉勾网&#x27;, &#x27;channel&#x27;: 108, &#x27;createTime&#x27;: &#x27;2018-12-24 11:54:08&#x27;, &#x27;updateTime&#x27;: &#x27;2019-01-03 11:12:01&#x27;, &#x27;userId&#x27;: 100014641, &#x27;companyId&#x27;: 141702, &#x27;outerPositionId&#x27;: &#x27;5375352&#x27;, &#x27;isDel&#x27;: False, &#x27;candidateCount&#x27;: 0, &#x27;notReadCount&#x27;: 0, &#x27;interviewCount&#x27;: 0, &#x27;recruiterCount&#x27;: 0, &#x27;recruiters&#x27;: [], &#x27;salary&#x27;: &#x27;11k-12k&#x27;, &#x27;education&#x27;: &#x27;不限&#x27;, &#x27;workYear&#x27;: &#x27;应届毕业生&#x27;, &#x27;canRefresh&#x27;: True, &#x27;supportRefresh&#x27;: True, &#x27;parentPositionId&#x27;: 1783952, &#x27;canEdit&#x27;: True, &#x27;firstType&#x27;: &#x27;开发|测试|运维类&#x27;, &#x27;positionType&#x27;: &#x27;后端开发&#x27;, &#x27;positionCreateType&#x27;: &#x27;DEFAULT&#x27;, &#x27;forbidden&#x27;: False, &#x27;url4PositionSearch&#x27;: &#x27;https://easy.lagou.com/search/result.htm?pageNo=1&amp;keyword=python后端开发拉勾测试&amp;city=北京&amp;education=不限&amp;workYear=应届&amp;expectSalary=10k-15k&#x27;, &#x27;isSoonOffline&#x27;: False, &#x27;toppingState&#x27;: 1, &#x27;batchInviteState&#x27;: 0, &#x27;offlineCountDownDays&#x27;: 26}], &#x27;hrPosition&#x27;: False, &#x27;hasAllocatedPosition&#x27;: False, &#x27;hasSoonOfflinePosition&#x27;: False}, {&#x27;parentPositionInfo&#x27;: {&#x27;companyId&#x27;: 141702, &#x27;userId&#x27;: 100014641, &#x27;createTime&#x27;: &#x27;2018-12-21 17:22:08&#x27;, &#x27;updateTime&#x27;: &#x27;2019-01-03 11:12:02&#x27;, &#x27;isDel&#x27;: False, &#x27;publishingNum&#x27;: 0, &#x27;normalNum&#x27;: 1, &#x27;offlineNum&#x27;: 0, &#x27;publishFailNum&#x27;: 0, &#x27;waitVerifyNum&#x27;: 0, &#x27;publishTime&#x27;: &#x27;2019-01-03 11:12:02&#x27;, &#x27;id&#x27;: 1628697, &#x27;positionName&#x27;: &#x27;机器学习&#x27;, &#x27;department&#x27;: &#x27;大数据智能中心&#x27;, &#x27;city&#x27;: &#x27;北京&#x27;, &#x27;salary&#x27;: &#x27;10k-20k&#x27;, &#x27;salaryMin&#x27;: 10, &#x27;salaryMax&#x27;: 20, &#x27;education&#x27;: &#x27;不限&#x27;, &#x27;workYear&#x27;: &#x27;不限&#x27;, &#x27;jobNature&#x27;: &#x27;全职&#x27;, &#x27;email&#x27;: &#x27;tester2018@sina.com&#x27;, &#x27;workAddress&#x27;: &#x27;海置创投大厦4层&#x27;, &#x27;firstType&#x27;: &#x27;开发|测试|运维类&#x27;, &#x27;positionType&#x27;: &#x27;人工智能&#x27;, &#x27;positionLng&#x27;: &#x27;116.231204&#x27;, &#x27;positionLat&#x27;: &#x27;40.22066&#x27;, &#x27;positionThirdType&#x27;: &#x27;机器学习&#x27;, &#x27;positionBrightPoint&#x27;: [&#x27;六险一金 16薪&#x27;], &#x27;positionDesc&#x27;: &#x27;&lt;p&gt;此职位勿删除，无下限，用来批量邀约用。此职位勿删除，无下限，用来批量邀约用。此职位勿删除，无下限，用来批量邀约用。此职位勿删除，无下限，用来批量邀约用。&lt;/p&gt;&#x27;}, &#x27;positions&#x27;: [{&#x27;channelId&#x27;: 0, &#x27;positionId&#x27;: 13687379, &#x27;department&#x27;: &#x27;大数据智能中心&#x27;, &#x27;city&#x27;: &#x27;北京&#x27;, &#x27;positionName&#x27;: &#x27;机器学习&#x27;, &#x27;publishTime&#x27;: &#x27;2019-01-03 11:12:02&#x27;, &#x27;positionStatus&#x27;: &#x27;NORMAL&#x27;, &#x27;channelType&#x27;: &#x27;LAGOU&#x27;, &#x27;channelName&#x27;: &#x27;拉勾网&#x27;, &#x27;channel&#x27;: 108, &#x27;createTime&#x27;: &#x27;2018-12-21 17:22:08&#x27;, &#x27;updateTime&#x27;: &#x27;2019-01-03 11:12:02&#x27;, &#x27;userId&#x27;: 100014641, &#x27;companyId&#x27;: 141702, &#x27;outerPositionId&#x27;: &#x27;5375348&#x27;, &#x27;isDel&#x27;: False, &#x27;candidateCount&#x27;: 0, &#x27;notReadCount&#x27;: 0, &#x27;interviewCount&#x27;: 0, &#x27;recruiterCount&#x27;: 0, &#x27;recruiters&#x27;: [], &#x27;salary&#x27;: &#x27;10k-20k&#x27;, &#x27;education&#x27;: &#x27;不限&#x27;, &#x27;workYear&#x27;: &#x27;不限&#x27;, &#x27;canRefresh&#x27;: True, &#x27;supportRefresh&#x27;: True, &#x27;parentPositionId&#x27;: 1628697, &#x27;canEdit&#x27;: True, &#x27;firstType&#x27;: &#x27;开发|测试|运维类&#x27;, &#x27;positionType&#x27;: &#x27;人工智能&#x27;, &#x27;positionCreateType&#x27;: &#x27;DEFAULT&#x27;, &#x27;forbidden&#x27;: False, &#x27;url4PositionSearch&#x27;: &#x27;https://easy.lagou.com/search/result.htm?pageNo=1&amp;keyword=机器学习&amp;city=北京&amp;education=不限&amp;workYear=不限&amp;expectSalary=10k-25k&#x27;, &#x27;isSoonOffline&#x27;: False, &#x27;toppingState&#x27;: 1, &#x27;batchInviteState&#x27;: 0, &#x27;offlineCountDownDays&#x27;: 26}], &#x27;hrPosition&#x27;: False, &#x27;hasAllocatedPosition&#x27;: False, &#x27;hasSoonOfflinePosition&#x27;: False}, {&#x27;parentPositionInfo&#x27;: {&#x27;companyId&#x27;: 141702, &#x27;userId&#x27;: 100014641, &#x27;createTime&#x27;: &#x27;2018-12-24 18:11:15&#x27;, &#x27;updateTime&#x27;: &#x27;2019-01-03 11:12:02&#x27;, &#x27;isDel&#x27;: False, &#x27;publishingNum&#x27;: 0, &#x27;normalNum&#x27;: 1, &#x27;offlineNum&#x27;: 0, &#x27;publishFailNum&#x27;: 0, &#x27;waitVerifyNum&#x27;: 0, &#x27;publishTime&#x27;: &#x27;2019-01-03 11:12:01&#x27;, &#x27;id&#x27;: 1783954, &#x27;positionName&#x27;: &#x27;销售经理0&#x27;, &#x27;department&#x27;: &#x27;111&#x27;, &#x27;city&#x27;: &#x27;北京&#x27;, &#x27;salary&#x27;: &#x27;11k-12k&#x27;, &#x27;salaryMin&#x27;: 11, &#x27;salaryMax&#x27;: 12, &#x27;education&#x27;: &#x27;不限&#x27;, &#x27;workYear&#x27;: &#x27;应届毕业生&#x27;, &#x27;jobNature&#x27;: &#x27;全职&#x27;, &#x27;email&#x27;: &#x27;tester2018@sina.com&#x27;, &#x27;workAddress&#x27;: &#x27;海置创投大厦4层&#x27;, &#x27;firstType&#x27;: &#x27;销售类&#x27;, &#x27;positionType&#x27;: &#x27;销售&#x27;, &#x27;positionLng&#x27;: &#x27;116.231204&#x27;, &#x27;positionLat&#x27;: &#x27;40.22066&#x27;, &#x27;positionThirdType&#x27;: &#x27;销售经理&#x27;, &#x27;positionBrightPoint&#x27;: [&#x27;11111&#x27;], &#x27;positionDesc&#x27;: &#x27;&lt;p&gt;111111111111111111111111111111111111111111111&lt;/p&gt;&#x27;}, &#x27;positions&#x27;: [{&#x27;channelId&#x27;: 0, &#x27;positionId&#x27;: 13842609, &#x27;department&#x27;: &#x27;111&#x27;, &#x27;city&#x27;: &#x27;北京&#x27;, &#x27;positionName&#x27;: &#x27;销售经理0&#x27;, &#x27;publishTime&#x27;: &#x27;2019-01-03 11:12:01&#x27;, &#x27;positionStatus&#x27;: &#x27;NORMAL&#x27;, &#x27;channelType&#x27;: &#x27;LAGOU&#x27;, &#x27;channelName&#x27;: &#x27;拉勾网&#x27;, &#x27;channel&#x27;: 108, &#x27;createTime&#x27;: &#x27;2018-12-24 18:11:15&#x27;, &#x27;updateTime&#x27;: &#x27;2019-01-03 11:12:02&#x27;, &#x27;userId&#x27;: 100014641, &#x27;companyId&#x27;: 141702, &#x27;outerPositionId&#x27;: &#x27;5375354&#x27;, &#x27;isDel&#x27;: False, &#x27;candidateCount&#x27;: 0, &#x27;notReadCount&#x27;: 0, &#x27;interviewCount&#x27;: 0, &#x27;recruiterCount&#x27;: 0, &#x27;recruiters&#x27;: [], &#x27;salary&#x27;: &#x27;11k-12k&#x27;, &#x27;education&#x27;: &#x27;不限&#x27;, &#x27;workYear&#x27;: &#x27;应届毕业生&#x27;, &#x27;canRefresh&#x27;: True, &#x27;supportRefresh&#x27;: True, &#x27;parentPositionId&#x27;: 1783954, &#x27;canEdit&#x27;: True, &#x27;firstType&#x27;: &#x27;销售类&#x27;, &#x27;positionType&#x27;: &#x27;销售&#x27;, &#x27;positionCreateType&#x27;: &#x27;DEFAULT&#x27;, &#x27;forbidden&#x27;: False, &#x27;url4PositionSearch&#x27;: &#x27;https://easy.lagou.com/search/result.htm?pageNo=1&amp;keyword=销售经理0&amp;city=北京&amp;education=不限&amp;workYear=应届&amp;expectSalary=10k-15k&#x27;, &#x27;isSoonOffline&#x27;: False, &#x27;toppingState&#x27;: 1, &#x27;batchInviteState&#x27;: 0, &#x27;offlineCountDownDays&#x27;: 26}], &#x27;hrPosition&#x27;: False, &#x27;hasAllocatedPosition&#x27;: False, &#x27;hasSoonOfflinePosition&#x27;: False}, {&#x27;parentPositionInfo&#x27;: {&#x27;companyId&#x27;: 141702, &#x27;userId&#x27;: 100014641, &#x27;createTime&#x27;: &#x27;2018-12-20 16:56:57&#x27;, &#x27;updateTime&#x27;: &#x27;2019-01-03 11:12:01&#x27;, &#x27;isDel&#x27;: False, &#x27;publishingNum&#x27;: 0, &#x27;normalNum&#x27;: 1, &#x27;offlineNum&#x27;: 0, &#x27;publishFailNum&#x27;: 0, &#x27;waitVerifyNum&#x27;: 0, &#x27;publishTime&#x27;: &#x27;2019-01-03 11:12:01&#x27;, &#x27;id&#x27;: 1628676, &#x27;positionName&#x27;: &#x27;市场营销0&#x27;, &#x27;department&#x27;: &#x27;111&#x27;, &#x27;city&#x27;: &#x27;北京&#x27;, &#x27;salary&#x27;: &#x27;11k-12k&#x27;, &#x27;salaryMin&#x27;: 11, &#x27;salaryMax&#x27;: 12, &#x27;education&#x27;: &#x27;不限&#x27;, &#x27;workYear&#x27;: &#x27;应届毕业生&#x27;, &#x27;jobNature&#x27;: &#x27;全职&#x27;, &#x27;email&#x27;: &#x27;tester2018@sina.com&#x27;, &#x27;workAddress&#x27;: &#x27;海置创投大厦4层&#x27;, &#x27;firstType&#x27;: &#x27;市场|商务类&#x27;, &#x27;positionType&#x27;: &#x27;市场|营销&#x27;, &#x27;positionLng&#x27;: &#x27;116.231204&#x27;, &#x27;positionLat&#x27;: &#x27;40.22066&#x27;, &#x27;positionThirdType&#x27;: &#x27;市场营销&#x27;, &#x27;positionBrightPoint&#x27;: [&#x27;11111&#x27;], &#x27;positionDesc&#x27;: &#x27;&lt;p&gt;111111111111111111111111111111111111111111111&lt;/p&gt;&#x27;}, &#x27;positions&#x27;: [{&#x27;channelId&#x27;: 0, &#x27;positionId&#x27;: 13687358, &#x27;department&#x27;: &#x27;111&#x27;, &#x27;city&#x27;: &#x27;北京&#x27;, &#x27;positionName&#x27;: &#x27;市场营销0&#x27;, &#x27;publishTime&#x27;: &#x27;2019-01-03 11:12:01&#x27;, &#x27;positionStatus&#x27;: &#x27;NORMAL&#x27;, &#x27;channelType&#x27;: &#x27;LAGOU&#x27;, &#x27;channelName&#x27;: &#x27;拉勾网&#x27;, &#x27;channel&#x27;: 108, &#x27;createTime&#x27;: &#x27;2018-12-20 16:56:57&#x27;, &#x27;updateTime&#x27;: &#x27;2019-01-03 11:12:01&#x27;, &#x27;userId&#x27;: 100014641, &#x27;companyId&#x27;: 141702, &#x27;outerPositionId&#x27;: &#x27;5375339&#x27;, &#x27;isDel&#x27;: False, &#x27;candidateCount&#x27;: 0, &#x27;notReadCount&#x27;: 0, &#x27;interviewCount&#x27;: 0, &#x27;recruiterCount&#x27;: 0, &#x27;recruiters&#x27;: [], &#x27;salary&#x27;: &#x27;11k-12k&#x27;, &#x27;education&#x27;: &#x27;不限&#x27;, &#x27;workYear&#x27;: &#x27;应届毕业生&#x27;, &#x27;canRefresh&#x27;: True, &#x27;supportRefresh&#x27;: True, &#x27;parentPositionId&#x27;: 1628676, &#x27;canEdit&#x27;: True, &#x27;firstType&#x27;: &#x27;市场|商务类&#x27;, &#x27;positionType&#x27;: &#x27;市场|营销&#x27;, &#x27;positionCreateType&#x27;: &#x27;DEFAULT&#x27;, &#x27;forbidden&#x27;: False, &#x27;url4PositionSearch&#x27;: &#x27;https://easy.lagou.com/search/result.htm?pageNo=1&amp;keyword=市场营销0&amp;city=北京&amp;education=不限&amp;workYear=应届&amp;expectSalary=10k-15k&#x27;, &#x27;isSoonOffline&#x27;: False, &#x27;toppingState&#x27;: 1, &#x27;batchInviteState&#x27;: 0, &#x27;offlineCountDownDays&#x27;: 26}], &#x27;hrPosition&#x27;: False, &#x27;hasAllocatedPosition&#x27;: False, &#x27;hasSoonOfflinePosition&#x27;: False}, {&#x27;parentPositionInfo&#x27;: {&#x27;companyId&#x27;: 141702, &#x27;userId&#x27;: 100014641, &#x27;createTime&#x27;: &#x27;2018-12-20 16:27:27&#x27;, &#x27;updateTime&#x27;: &#x27;2019-01-03 11:12:00&#x27;, &#x27;isDel&#x27;: False, &#x27;publishingNum&#x27;: 0, &#x27;normalNum&#x27;: 1, &#x27;offlineNum&#x27;: 0, &#x27;publishFailNum&#x27;: 0, &#x27;waitVerifyNum&#x27;: 0, &#x27;publishTime&#x27;: &#x27;2019-01-03 11:12:01&#x27;, &#x27;id&#x27;: 1628675, &#x27;positionName&#x27;: &#x27;产品经理&#x27;, &#x27;department&#x27;: &#x27;111&#x27;, &#x27;city&#x27;: &#x27;北京&#x27;, &#x27;salary&#x27;: &#x27;11k-12k&#x27;, &#x27;salaryMin&#x27;: 11, &#x27;salaryMax&#x27;: 12, &#x27;education&#x27;: &#x27;不限&#x27;, &#x27;workYear&#x27;: &#x27;应届毕业生&#x27;, &#x27;jobNature&#x27;: &#x27;全职&#x27;, &#x27;email&#x27;: &#x27;tester2018@sina.com&#x27;, &#x27;workAddress&#x27;: &#x27;海置创投大厦4层&#x27;, &#x27;firstType&#x27;: &#x27;产品|需求|项目类&#x27;, &#x27;positionType&#x27;: &#x27;产品经理&#x27;, &#x27;positionLng&#x27;: &#x27;116.231204&#x27;, &#x27;positionLat&#x27;: &#x27;40.22066&#x27;, &#x27;positionThirdType&#x27;: &#x27;产品经理&#x27;, &#x27;positionBrightPoint&#x27;: [&#x27;11111&#x27;], &#x27;positionDesc&#x27;: &#x27;&lt;p&gt;111111111111111111111111111111111111111111111&lt;/p&gt;&#x27;}, &#x27;positions&#x27;: [{&#x27;channelId&#x27;: 0, &#x27;positionId&#x27;: 13687357, &#x27;department&#x27;: &#x27;111&#x27;, &#x27;city&#x27;: &#x27;北京&#x27;, &#x27;positionName&#x27;: &#x27;产品经理&#x27;, &#x27;publishTime&#x27;: &#x27;2019-01-03 11:12:01&#x27;, &#x27;positionStatus&#x27;: &#x27;NORMAL&#x27;, &#x27;channelType&#x27;: &#x27;LAGOU&#x27;, &#x27;channelName&#x27;: &#x27;拉勾网&#x27;, &#x27;channel&#x27;: 108, &#x27;createTime&#x27;: &#x27;2018-12-20 16:27:27&#x27;, &#x27;updateTime&#x27;: &#x27;2019-01-03 11:12:00&#x27;, &#x27;userId&#x27;: 100014641, &#x27;companyId&#x27;: 141702, &#x27;outerPositionId&#x27;: &#x27;5375338&#x27;, &#x27;isDel&#x27;: False, &#x27;candidateCount&#x27;: 0, &#x27;notReadCount&#x27;: 0, &#x27;interviewCount&#x27;: 0, &#x27;recruiterCount&#x27;: 0, &#x27;recruiters&#x27;: [], &#x27;salary&#x27;: &#x27;11k-12k&#x27;, &#x27;education&#x27;: &#x27;不限&#x27;, &#x27;workYear&#x27;: &#x27;应届毕业生&#x27;, &#x27;canRefresh&#x27;: True, &#x27;supportRefresh&#x27;: True, &#x27;parentPositionId&#x27;: 1628675, &#x27;canEdit&#x27;: True, &#x27;firstType&#x27;: &#x27;产品|需求|项目类&#x27;, &#x27;positionType&#x27;: &#x27;产品经理&#x27;, &#x27;positionCreateType&#x27;: &#x27;DEFAULT&#x27;, &#x27;forbidden&#x27;: False, &#x27;url4PositionSearch&#x27;: &#x27;https://easy.lagou.com/search/result.htm?pageNo=1&amp;keyword=产品经理&amp;city=北京&amp;education=不限&amp;workYear=应届&amp;expectSalary=10k-15k&#x27;, &#x27;isSoonOffline&#x27;: False, &#x27;toppingState&#x27;: 1, &#x27;batchInviteState&#x27;: 0, &#x27;offlineCountDownDays&#x27;: 26}], &#x27;hrPosition&#x27;: False, &#x27;hasAllocatedPosition&#x27;: False, &#x27;hasSoonOfflinePosition&#x27;: False}, {&#x27;parentPositionInfo&#x27;: {&#x27;companyId&#x27;: 141702, &#x27;userId&#x27;: 100014641, &#x27;createTime&#x27;: &#x27;2018-12-20 16:27:20&#x27;, &#x27;updateTime&#x27;: &#x27;2019-01-03 11:12:00&#x27;, &#x27;isDel&#x27;: False, &#x27;publishingNum&#x27;: 0, &#x27;normalNum&#x27;: 1, &#x27;offlineNum&#x27;: 0, &#x27;publishFailNum&#x27;: 0, &#x27;waitVerifyNum&#x27;: 0, &#x27;publishTime&#x27;: &#x27;2019-01-03 11:12:01&#x27;, &#x27;id&#x27;: 1628674, &#x27;positionName&#x27;: &#x27;UI设计&#x27;, &#x27;department&#x27;: &#x27;111&#x27;, &#x27;city&#x27;: &#x27;北京&#x27;, &#x27;salary&#x27;: &#x27;11k-12k&#x27;, &#x27;salaryMin&#x27;: 11, &#x27;salaryMax&#x27;: 12, &#x27;education&#x27;: &#x27;不限&#x27;, &#x27;workYear&#x27;: &#x27;应届毕业生&#x27;, &#x27;jobNature&#x27;: &#x27;全职&#x27;, &#x27;email&#x27;: &#x27;tester2018@sina.com&#x27;, &#x27;workAddress&#x27;: &#x27;海置创投大厦4层&#x27;, &#x27;firstType&#x27;: &#x27;设计类&#x27;, &#x27;positionType&#x27;: &#x27;交互&#x27;, &#x27;positionLng&#x27;: &#x27;116.231204&#x27;, &#x27;positionLat&#x27;: &#x27;40.22066&#x27;, &#x27;positionThirdType&#x27;: &#x27;交互设计师&#x27;, &#x27;positionBrightPoint&#x27;: [&#x27;11111&#x27;], &#x27;positionDesc&#x27;: &#x27;&lt;p&gt;111111111111111111111111111111111111111111111&lt;/p&gt;&#x27;}, &#x27;positions&#x27;: [{&#x27;channelId&#x27;: 0, &#x27;positionId&#x27;: 13687356, &#x27;department&#x27;: &#x27;111&#x27;, &#x27;city&#x27;: &#x27;北京&#x27;, &#x27;positionName&#x27;: &#x27;UI设计&#x27;, &#x27;publishTime&#x27;: &#x27;2019-01-03 11:12:01&#x27;, &#x27;positionStatus&#x27;: &#x27;NORMAL&#x27;, &#x27;channelType&#x27;: &#x27;LAGOU&#x27;, &#x27;channelName&#x27;: &#x27;拉勾网&#x27;, &#x27;channel&#x27;: 108, &#x27;createTime&#x27;: &#x27;2018-12-20 16:27:20&#x27;, &#x27;updateTime&#x27;: &#x27;2019-01-03 11:12:00&#x27;, &#x27;userId&#x27;: 100014641, &#x27;companyId&#x27;: 141702, &#x27;outerPositionId&#x27;: &#x27;5375337&#x27;, &#x27;isDel&#x27;: False, &#x27;candidateCount&#x27;: 0, &#x27;notReadCount&#x27;: 0, &#x27;interviewCount&#x27;: 0, &#x27;recruiterCount&#x27;: 0, &#x27;recruiters&#x27;: [], &#x27;salary&#x27;: &#x27;11k-12k&#x27;, &#x27;education&#x27;: &#x27;不限&#x27;, &#x27;workYear&#x27;: &#x27;应届毕业生&#x27;, &#x27;canRefresh&#x27;: True, &#x27;supportRefresh&#x27;: True, &#x27;parentPositionId&#x27;: 1628674, &#x27;canEdit&#x27;: True, &#x27;firstType&#x27;: &#x27;设计类&#x27;, &#x27;positionType&#x27;: &#x27;交互&#x27;, &#x27;positionCreateType&#x27;: &#x27;DEFAULT&#x27;, &#x27;forbidden&#x27;: False, &#x27;url4PositionSearch&#x27;: &#x27;https://easy.lagou.com/search/result.htm?pageNo=1&amp;keyword=UI设计&amp;city=北京&amp;education=不限&amp;workYear=应届&amp;expectSalary=10k-15k&#x27;, &#x27;isSoonOffline&#x27;: False, &#x27;toppingState&#x27;: 1, &#x27;batchInviteState&#x27;: 0, &#x27;offlineCountDownDays&#x27;: 26}], &#x27;hrPosition&#x27;: False, &#x27;hasAllocatedPosition&#x27;: False, &#x27;hasSoonOfflinePosition&#x27;: False}, {&#x27;parentPositionInfo&#x27;: {&#x27;companyId&#x27;: 141702, &#x27;userId&#x27;: 100014641, &#x27;createTime&#x27;: &#x27;2018-12-20 16:26:22&#x27;, &#x27;updateTime&#x27;: &#x27;2019-01-03 11:12:01&#x27;, &#x27;isDel&#x27;: False, &#x27;publishingNum&#x27;: 0, &#x27;normalNum&#x27;: 1, &#x27;offlineNum&#x27;: 0, &#x27;publishFailNum&#x27;: 0, &#x27;waitVerifyNum&#x27;: 0, &#x27;publishTime&#x27;: &#x27;2019-01-03 11:12:01&#x27;, &#x27;id&#x27;: 1628673, &#x27;positionName&#x27;: &#x27;用户运营&#x27;, &#x27;department&#x27;: &#x27;111&#x27;, &#x27;city&#x27;: &#x27;北京&#x27;, &#x27;salary&#x27;: &#x27;11k-12k&#x27;, &#x27;salaryMin&#x27;: 11, &#x27;salaryMax&#x27;: 12, &#x27;education&#x27;: &#x27;不限&#x27;, &#x27;workYear&#x27;: &#x27;应届毕业生&#x27;, &#x27;jobNature&#x27;: &#x27;全职&#x27;, &#x27;email&#x27;: &#x27;tester2018@sina.com&#x27;, &#x27;workAddress&#x27;: &#x27;海置创投大厦4层&#x27;, &#x27;firstType&#x27;: &#x27;运营|编辑|客服类&#x27;, &#x27;positionType&#x27;: &#x27;运营&#x27;, &#x27;positionLng&#x27;: &#x27;116.231204&#x27;, &#x27;positionLat&#x27;: &#x27;40.22066&#x27;, &#x27;positionThirdType&#x27;: &#x27;用户运营&#x27;, &#x27;positionBrightPoint&#x27;: [&#x27;11111&#x27;], &#x27;positionDesc&#x27;: &#x27;&lt;p&gt;111111111111111111111111111111111111111111111&lt;/p&gt;&#x27;}, &#x27;positions&#x27;: [{&#x27;channelId&#x27;: 0, &#x27;positionId&#x27;: 13687355, &#x27;department&#x27;: &#x27;111&#x27;, &#x27;city&#x27;: &#x27;北京&#x27;, &#x27;positionName&#x27;: &#x27;用户运营&#x27;, &#x27;publishTime&#x27;: &#x27;2019-01-03 11:12:01&#x27;, &#x27;positionStatus&#x27;: &#x27;NORMAL&#x27;, &#x27;channelType&#x27;: &#x27;LAGOU&#x27;, &#x27;channelName&#x27;: &#x27;拉勾网&#x27;, &#x27;channel&#x27;: 108, &#x27;createTime&#x27;: &#x27;2018-12-20 16:26:22&#x27;, &#x27;updateTime&#x27;: &#x27;2019-01-03 11:12:01&#x27;, &#x27;userId&#x27;: 100014641, &#x27;companyId&#x27;: 141702, &#x27;outerPositionId&#x27;: &#x27;5375336&#x27;, &#x27;isDel&#x27;: False, &#x27;candidateCount&#x27;: 0, &#x27;notReadCount&#x27;: 0, &#x27;interviewCount&#x27;: 0, &#x27;recruiterCount&#x27;: 0, &#x27;recruiters&#x27;: [], &#x27;salary&#x27;: &#x27;11k-12k&#x27;, &#x27;education&#x27;: &#x27;不限&#x27;, &#x27;workYear&#x27;: &#x27;应届毕业生&#x27;, &#x27;canRefresh&#x27;: True, &#x27;supportRefresh&#x27;: True, &#x27;parentPositionId&#x27;: 1628673, &#x27;canEdit&#x27;: True, &#x27;firstType&#x27;: &#x27;运营|编辑|客服类&#x27;, &#x27;positionType&#x27;: &#x27;运营&#x27;, &#x27;positionCreateType&#x27;: &#x27;DEFAULT&#x27;, &#x27;forbidden&#x27;: False, &#x27;url4PositionSearch&#x27;: &#x27;https://easy.lagou.com/search/result.htm?pageNo=1&amp;keyword=用户运营&amp;city=北京&amp;education=不限&amp;workYear=应届&amp;expectSalary=10k-15k&#x27;, &#x27;isSoonOffline&#x27;: False, &#x27;toppingState&#x27;: 1, &#x27;batchInviteState&#x27;: 0, &#x27;offlineCountDownDays&#x27;: 26}], &#x27;hrPosition&#x27;: False, &#x27;hasAllocatedPosition&#x27;: False, &#x27;hasSoonOfflinePosition&#x27;: False}, {&#x27;parentPositionInfo&#x27;: {&#x27;companyId&#x27;: 141702, &#x27;userId&#x27;: 100014641, &#x27;createTime&#x27;: &#x27;2018-12-20 13:51:41&#x27;, &#x27;updateTime&#x27;: &#x27;2019-01-03 11:12:02&#x27;, &#x27;isDel&#x27;: False, &#x27;publishingNum&#x27;: 0, &#x27;normalNum&#x27;: 1, &#x27;offlineNum&#x27;: 0, &#x27;publishFailNum&#x27;: 0, &#x27;waitVerifyNum&#x27;: 0, &#x27;publishTime&#x27;: &#x27;2019-01-03 11:12:01&#x27;, &#x27;id&#x27;: 1628672, &#x27;positionName&#x27;: &#x27;python后端开发&#x27;, &#x27;department&#x27;: &#x27;111&#x27;, &#x27;city&#x27;: &#x27;北京&#x27;, &#x27;salary&#x27;: &#x27;11k-12k&#x27;, &#x27;salaryMin&#x27;: 11, &#x27;salaryMax&#x27;: 12, &#x27;education&#x27;: &#x27;不限&#x27;, &#x27;workYear&#x27;: &#x27;应届毕业生&#x27;, &#x27;jobNature&#x27;: &#x27;全职&#x27;, &#x27;email&#x27;: &#x27;tester2018@sina.com&#x27;, &#x27;workAddress&#x27;: &#x27;海置创投大厦4层&#x27;, &#x27;firstType&#x27;: &#x27;开发|测试|运维类&#x27;, &#x27;positionType&#x27;: &#x27;后端开发&#x27;, &#x27;positionLng&#x27;: &#x27;116.231204&#x27;, &#x27;positionLat&#x27;: &#x27;40.22066&#x27;, &#x27;positionThirdType&#x27;: &#x27;Java&#x27;, &#x27;positionBrightPoint&#x27;: [&#x27;11111&#x27;], &#x27;positionDesc&#x27;: &#x27;&lt;p&gt;111111111111111111111111111111111111111111111&lt;/p&gt;&#x27;}, &#x27;positions&#x27;: [{&#x27;channelId&#x27;: 0, &#x27;positionId&#x27;: 13687354, &#x27;department&#x27;: &#x27;111&#x27;, &#x27;city&#x27;: &#x27;北京&#x27;, &#x27;positionName&#x27;: &#x27;python后端开发&#x27;, &#x27;publishTime&#x27;: &#x27;2019-01-03 11:12:01&#x27;, &#x27;positionStatus&#x27;: &#x27;NORMAL&#x27;, &#x27;channelType&#x27;: &#x27;LAGOU&#x27;, &#x27;channelName&#x27;: &#x27;拉勾网&#x27;, &#x27;channel&#x27;: 108, &#x27;createTime&#x27;: &#x27;2018-12-20 13:51:41&#x27;, &#x27;updateTime&#x27;: &#x27;2019-01-03 11:12:02&#x27;, &#x27;userId&#x27;: 100014641, &#x27;companyId&#x27;: 141702, &#x27;outerPositionId&#x27;: &#x27;5375335&#x27;, &#x27;isDel&#x27;: False, &#x27;candidateCount&#x27;: 0, &#x27;notReadCount&#x27;: 0, &#x27;interviewCount&#x27;: 0, &#x27;recruiterCount&#x27;: 0, &#x27;recruiters&#x27;: [], &#x27;salary&#x27;: &#x27;11k-12k&#x27;, &#x27;education&#x27;: &#x27;不限&#x27;, &#x27;workYear&#x27;: &#x27;应届毕业生&#x27;, &#x27;canRefresh&#x27;: True, &#x27;supportRefresh&#x27;: True, &#x27;parentPositionId&#x27;: 1628672, &#x27;canEdit&#x27;: True, &#x27;firstType&#x27;: &#x27;开发|测试|运维类&#x27;, &#x27;positionType&#x27;: &#x27;后端开发&#x27;, &#x27;positionCreateType&#x27;: &#x27;DEFAULT&#x27;, &#x27;forbidden&#x27;: False, &#x27;url4PositionSearch&#x27;: &#x27;https://easy.lagou.com/search/result.htm?pageNo=1&amp;keyword=python后端开发&amp;city=北京&amp;education=不限&amp;workYear=应届&amp;expectSalary=10k-15k&#x27;, &#x27;isSoonOffline&#x27;: False, &#x27;toppingState&#x27;: 1, &#x27;batchInviteState&#x27;: 0, &#x27;offlineCountDownDays&#x27;: 26}], &#x27;hrPosition&#x27;: False, &#x27;hasAllocatedPosition&#x27;: False, &#x27;hasSoonOfflinePosition&#x27;: False}, {&#x27;parentPositionInfo&#x27;: {&#x27;companyId&#x27;: 141702, &#x27;userId&#x27;: 100014641, &#x27;createTime&#x27;: &#x27;2018-12-19 11:18:57&#x27;, &#x27;updateTime&#x27;: &#x27;2019-01-03 11:12:02&#x27;, &#x27;isDel&#x27;: False, &#x27;publishingNum&#x27;: 0, &#x27;normalNum&#x27;: 1, &#x27;offlineNum&#x27;: 0, &#x27;publishFailNum&#x27;: 0, &#x27;waitVerifyNum&#x27;: 0, &#x27;publishTime&#x27;: &#x27;2019-01-03 11:12:01&#x27;, &#x27;id&#x27;: 1628655, &#x27;positionName&#x27;: &#x27;python后端开发2&#x27;, &#x27;department&#x27;: &#x27;111&#x27;, &#x27;city&#x27;: &#x27;北京&#x27;, &#x27;salary&#x27;: &#x27;11k-12k&#x27;, &#x27;salaryMin&#x27;: 11, &#x27;salaryMax&#x27;: 12, &#x27;education&#x27;: &#x27;不限&#x27;, &#x27;workYear&#x27;: &#x27;应届毕业生&#x27;, &#x27;jobNature&#x27;: &#x27;全职&#x27;, &#x27;email&#x27;: &#x27;tester2018@sina.com&#x27;, &#x27;workAddress&#x27;: &#x27;海置创投大厦4层&#x27;, &#x27;firstType&#x27;: &#x27;开发|测试|运维类&#x27;, &#x27;positionType&#x27;: &#x27;后端开发&#x27;, &#x27;positionLng&#x27;: &#x27;116.231204&#x27;, &#x27;positionLat&#x27;: &#x27;40.22066&#x27;, &#x27;positionThirdType&#x27;: &#x27;Java&#x27;, &#x27;positionBrightPoint&#x27;: [&#x27;11111&#x27;], &#x27;positionDesc&#x27;: &#x27;&lt;p&gt;111111111111111111111111111111111111111111111&lt;/p&gt;&#x27;}, &#x27;positions&#x27;: [{&#x27;channelId&#x27;: 0, &#x27;positionId&#x27;: 13687337, &#x27;department&#x27;: &#x27;111&#x27;, &#x27;city&#x27;: &#x27;北京&#x27;, &#x27;positionName&#x27;: &#x27;python后端开发2&#x27;, &#x27;publishTime&#x27;: &#x27;2019-01-03 11:12:01&#x27;, &#x27;positionStatus&#x27;: &#x27;NORMAL&#x27;, &#x27;channelType&#x27;: &#x27;LAGOU&#x27;, &#x27;channelName&#x27;: &#x27;拉勾网&#x27;, &#x27;channel&#x27;: 108, &#x27;createTime&#x27;: &#x27;2018-12-19 11:18:57&#x27;, &#x27;updateTime&#x27;: &#x27;2019-01-03 11:12:02&#x27;, &#x27;userId&#x27;: 100014641, &#x27;companyId&#x27;: 141702, &#x27;outerPositionId&#x27;: &#x27;5375318&#x27;, &#x27;isDel&#x27;: False, &#x27;candidateCount&#x27;: 0, &#x27;notReadCount&#x27;: 0, &#x27;interviewCount&#x27;: 0, &#x27;recruiterCount&#x27;: 0, &#x27;recruiters&#x27;: [], &#x27;salary&#x27;: &#x27;11k-12k&#x27;, &#x27;education&#x27;: &#x27;不限&#x27;, &#x27;workYear&#x27;: &#x27;应届毕业生&#x27;, &#x27;canRefresh&#x27;: True, &#x27;supportRefresh&#x27;: True, &#x27;parentPositionId&#x27;: 1628655, &#x27;canEdit&#x27;: True, &#x27;firstType&#x27;: &#x27;开发|测试|运维类&#x27;, &#x27;positionType&#x27;: &#x27;后端开发&#x27;, &#x27;positionCreateType&#x27;: &#x27;DEFAULT&#x27;, &#x27;forbidden&#x27;: False, &#x27;url4PositionSearch&#x27;: &#x27;https://easy.lagou.com/search/result.htm?pageNo=1&amp;keyword=python后端开发2&amp;city=北京&amp;education=不限&amp;workYear=应届&amp;expectSalary=10k-15k&#x27;, &#x27;isSoonOffline&#x27;: False, &#x27;toppingState&#x27;: 1, &#x27;batchInviteState&#x27;: 0, &#x27;offlineCountDownDays&#x27;: 26}], &#x27;hrPosition&#x27;: False, &#x27;hasAllocatedPosition&#x27;: False, &#x27;hasSoonOfflinePosition&#x27;: False}, {&#x27;parentPositionInfo&#x27;: {&#x27;companyId&#x27;: 141702, &#x27;userId&#x27;: 100014641, &#x27;createTime&#x27;: &#x27;2018-12-19 10:51:58&#x27;, &#x27;updateTime&#x27;: &#x27;2019-01-03 11:12:02&#x27;, &#x27;isDel&#x27;: False, &#x27;publishingNum&#x27;: 0, &#x27;normalNum&#x27;: 1, &#x27;offlineNum&#x27;: 0, &#x27;publishFailNum&#x27;: 0, &#x27;waitVerifyNum&#x27;: 0, &#x27;publishTime&#x27;: &#x27;2019-01-03 11:12:01&#x27;, &#x27;id&#x27;: 1628654, &#x27;positionName&#x27;: &#x27;python后端开发1&#x27;, &#x27;department&#x27;: &#x27;111&#x27;, &#x27;city&#x27;: &#x27;北京&#x27;, &#x27;salary&#x27;: &#x27;11k-12k&#x27;, &#x27;salaryMin&#x27;: 11, &#x27;salaryMax&#x27;: 12, &#x27;education&#x27;: &#x27;不限&#x27;, &#x27;workYear&#x27;: &#x27;应届毕业生&#x27;, &#x27;jobNature&#x27;: &#x27;全职&#x27;, &#x27;email&#x27;: &#x27;tester2018@sina.com&#x27;, &#x27;workAddress&#x27;: &#x27;海置创投大厦4层&#x27;, &#x27;firstType&#x27;: &#x27;开发|测试|运维类&#x27;, &#x27;positionType&#x27;: &#x27;后端开发&#x27;, &#x27;positionLng&#x27;: &#x27;116.231204&#x27;, &#x27;positionLat&#x27;: &#x27;40.22066&#x27;, &#x27;positionThirdType&#x27;: &#x27;Java&#x27;, &#x27;positionBrightPoint&#x27;: [&#x27;11111&#x27;], &#x27;positionDesc&#x27;: &#x27;&lt;p&gt;111111111111111111111111111111111111111111111&lt;/p&gt;&#x27;}, &#x27;positions&#x27;: [{&#x27;channelId&#x27;: 0, &#x27;positionId&#x27;: 13687336, &#x27;department&#x27;: &#x27;111&#x27;, &#x27;city&#x27;: &#x27;北京&#x27;, &#x27;positionName&#x27;: &#x27;python后端开发1&#x27;, &#x27;publishTime&#x27;: &#x27;2019-01-03 11:12:01&#x27;, &#x27;positionStatus&#x27;: &#x27;NORMAL&#x27;, &#x27;channelType&#x27;: &#x27;LAGOU&#x27;, &#x27;channelName&#x27;: &#x27;拉勾网&#x27;, &#x27;channel&#x27;: 108, &#x27;createTime&#x27;: &#x27;2018-12-19 10:51:58&#x27;, &#x27;updateTime&#x27;: &#x27;2019-01-03 11:12:02&#x27;, &#x27;userId&#x27;: 100014641, &#x27;companyId&#x27;: 141702, &#x27;outerPositionId&#x27;: &#x27;5375317&#x27;, &#x27;isDel&#x27;: False, &#x27;candidateCount&#x27;: 0, &#x27;notReadCount&#x27;: 0, &#x27;interviewCount&#x27;: 0, &#x27;recruiterCount&#x27;: 0, &#x27;recruiters&#x27;: [], &#x27;salary&#x27;: &#x27;11k-12k&#x27;, &#x27;education&#x27;: &#x27;不限&#x27;, &#x27;workYear&#x27;: &#x27;应届毕业生&#x27;, &#x27;canRefresh&#x27;: True, &#x27;supportRefresh&#x27;: True, &#x27;parentPositionId&#x27;: 1628654, &#x27;canEdit&#x27;: True, &#x27;firstType&#x27;: &#x27;开发|测试|运维类&#x27;, &#x27;positionType&#x27;: &#x27;后端开发&#x27;, &#x27;positionCreateType&#x27;: &#x27;DEFAULT&#x27;, &#x27;forbidden&#x27;: False, &#x27;url4PositionSearch&#x27;: &#x27;https://easy.lagou.com/search/result.htm?pageNo=1&amp;keyword=python后端开发1&amp;city=北京&amp;education=不限&amp;workYear=应届&amp;expectSalary=10k-15k&#x27;, &#x27;isSoonOffline&#x27;: False, &#x27;toppingState&#x27;: 1, &#x27;batchInviteState&#x27;: 0, &#x27;offlineCountDownDays&#x27;: 26}], &#x27;hrPosition&#x27;: False, &#x27;hasAllocatedPosition&#x27;: False, &#x27;hasSoonOfflinePosition&#x27;: False}, {&#x27;parentPositionInfo&#x27;: {&#x27;companyId&#x27;: 141702, &#x27;userId&#x27;: 100014641, &#x27;createTime&#x27;: &#x27;2018-12-19 10:28:17&#x27;, &#x27;updateTime&#x27;: &#x27;2019-01-03 11:11:59&#x27;, &#x27;isDel&#x27;: False, &#x27;publishingNum&#x27;: 0, &#x27;normalNum&#x27;: 1, &#x27;offlineNum&#x27;: 0, &#x27;publishFailNum&#x27;: 0, &#x27;waitVerifyNum&#x27;: 0, &#x27;publishTime&#x27;: &#x27;2019-01-03 11:12:00&#x27;, &#x27;id&#x27;: 1628652, &#x27;positionName&#x27;: &#x27;python后端开发0&#x27;, &#x27;department&#x27;: &#x27;111&#x27;, &#x27;city&#x27;: &#x27;北京&#x27;, &#x27;salary&#x27;: &#x27;11k-12k&#x27;, &#x27;salaryMin&#x27;: 11, &#x27;salaryMax&#x27;: 12, &#x27;education&#x27;: &#x27;不限&#x27;, &#x27;workYear&#x27;: &#x27;应届毕业生&#x27;, &#x27;jobNature&#x27;: &#x27;全职&#x27;, &#x27;email&#x27;: &#x27;tester2018@sina.com&#x27;, &#x27;workAddress&#x27;: &#x27;海置创投大厦4层&#x27;, &#x27;firstType&#x27;: &#x27;开发|测试|运维类&#x27;, &#x27;positionType&#x27;: &#x27;后端开发&#x27;, &#x27;positionLng&#x27;: &#x27;116.231204&#x27;, &#x27;positionLat&#x27;: &#x27;40.22066&#x27;, &#x27;positionThirdType&#x27;: &#x27;Java&#x27;, &#x27;positionBrightPoint&#x27;: [&#x27;11111&#x27;], &#x27;positionDesc&#x27;: &#x27;&lt;p&gt;111111111111111111111111111111111111111111111&lt;/p&gt;&#x27;}, &#x27;positions&#x27;: [{&#x27;channelId&#x27;: 0, &#x27;positionId&#x27;: 13687334, &#x27;department&#x27;: &#x27;111&#x27;, &#x27;city&#x27;: &#x27;北京&#x27;, &#x27;positionName&#x27;: &#x27;python后端开发0&#x27;, &#x27;publishTime&#x27;: &#x27;2019-01-03 11:12:00&#x27;, &#x27;positionStatus&#x27;: &#x27;NORMAL&#x27;, &#x27;channelType&#x27;: &#x27;LAGOU&#x27;, &#x27;channelName&#x27;: &#x27;拉勾网&#x27;, &#x27;channel&#x27;: 108, &#x27;createTime&#x27;: &#x27;2018-12-19 10:28:17&#x27;, &#x27;updateTime&#x27;: &#x27;2019-01-03 11:11:59&#x27;, &#x27;userId&#x27;: 100014641, &#x27;companyId&#x27;: 141702, &#x27;outerPositionId&#x27;: &#x27;5375315&#x27;, &#x27;isDel&#x27;: False, &#x27;candidateCount&#x27;: 0, &#x27;notReadCount&#x27;: 0, &#x27;interviewCount&#x27;: 0, &#x27;recruiterCount&#x27;: 0, &#x27;recruiters&#x27;: [], &#x27;salary&#x27;: &#x27;11k-12k&#x27;, &#x27;education&#x27;: &#x27;不限&#x27;, &#x27;workYear&#x27;: &#x27;应届毕业生&#x27;, &#x27;canRefresh&#x27;: True, &#x27;supportRefresh&#x27;: True, &#x27;parentPositionId&#x27;: 1628652, &#x27;canEdit&#x27;: True, &#x27;firstType&#x27;: &#x27;开发|测试|运维类&#x27;, &#x27;positionType&#x27;: &#x27;后端开发&#x27;, &#x27;positionCreateType&#x27;: &#x27;DEFAULT&#x27;, &#x27;forbidden&#x27;: False, &#x27;url4PositionSearch&#x27;: &#x27;https://easy.lagou.com/search/result.htm?pageNo=1&amp;keyword=python后端开发0&amp;city=北京&amp;education=不限&amp;workYear=应届&amp;expectSalary=10k-15k&#x27;, &#x27;isSoonOffline&#x27;: False, &#x27;toppingState&#x27;: 1, &#x27;batchInviteState&#x27;: 0, &#x27;offlineCountDownDays&#x27;: 26}], &#x27;hrPosition&#x27;: False, &#x27;hasAllocatedPosition&#x27;: False, &#x27;hasSoonOfflinePosition&#x27;: False}, {&#x27;parentPositionInfo&#x27;: {&#x27;companyId&#x27;: 141702, &#x27;userId&#x27;: 100014641, &#x27;createTime&#x27;: &#x27;2018-12-18 16:03:30&#x27;, &#x27;updateTime&#x27;: &#x27;2019-01-03 11:11:59&#x27;, &#x27;isDel&#x27;: False, &#x27;publishingNum&#x27;: 0, &#x27;normalNum&#x27;: 1, &#x27;offlineNum&#x27;: 0, &#x27;publishFailNum&#x27;: 0, &#x27;waitVerifyNum&#x27;: 0, &#x27;publishTime&#x27;: &#x27;2019-01-03 11:12:00&#x27;, &#x27;id&#x27;: 1628627, &#x27;positionName&#x27;: &#x27;java后端开发&#x27;, &#x27;department&#x27;: &#x27;111&#x27;, &#x27;city&#x27;: &#x27;北京&#x27;, &#x27;salary&#x27;: &#x27;11k-12k&#x27;, &#x27;salaryMin&#x27;: 11, &#x27;salaryMax&#x27;: 12, &#x27;education&#x27;: &#x27;不限&#x27;, &#x27;workYear&#x27;: &#x27;应届毕业生&#x27;, &#x27;jobNature&#x27;: &#x27;全职&#x27;, &#x27;email&#x27;: &#x27;tester2018@sina.com&#x27;, &#x27;workAddress&#x27;: &#x27;海置创投大厦4层&#x27;, &#x27;firstType&#x27;: &#x27;开发|测试|运维类&#x27;, &#x27;positionType&#x27;: &#x27;后端开发&#x27;, &#x27;positionLng&#x27;: &#x27;116.231204&#x27;, &#x27;positionLat&#x27;: &#x27;40.22066&#x27;, &#x27;positionThirdType&#x27;: &#x27;Java&#x27;, &#x27;positionBrightPoint&#x27;: [&#x27;11111&#x27;], &#x27;positionDesc&#x27;: &#x27;&lt;p&gt;111111111111111111111111111111111111111111111&lt;/p&gt;&#x27;}, &#x27;positions&#x27;: [{&#x27;channelId&#x27;: 0, &#x27;positionId&#x27;: 13687309, &#x27;department&#x27;: &#x27;111&#x27;, &#x27;city&#x27;: &#x27;北京&#x27;, &#x27;positionName&#x27;: &#x27;java后端开发&#x27;, &#x27;publishTime&#x27;: &#x27;2019-01-03 11:12:00&#x27;, &#x27;positionStatus&#x27;: &#x27;NORMAL&#x27;, &#x27;channelType&#x27;: &#x27;LAGOU&#x27;, &#x27;channelName&#x27;: &#x27;拉勾网&#x27;, &#x27;channel&#x27;: 108, &#x27;createTime&#x27;: &#x27;2018-12-18 16:03:30&#x27;, &#x27;updateTime&#x27;: &#x27;2019-01-03 11:11:59&#x27;, &#x27;userId&#x27;: 100014641, &#x27;companyId&#x27;: 141702, &#x27;outerPositionId&#x27;: &#x27;5375290&#x27;, &#x27;isDel&#x27;: False, &#x27;candidateCount&#x27;: 0, &#x27;notReadCount&#x27;: 0, &#x27;interviewCount&#x27;: 0, &#x27;recruiterCount&#x27;: 0, &#x27;recruiters&#x27;: [], &#x27;salary&#x27;: &#x27;11k-12k&#x27;, &#x27;education&#x27;: &#x27;不限&#x27;, &#x27;workYear&#x27;: &#x27;应届毕业生&#x27;, &#x27;canRefresh&#x27;: True, &#x27;supportRefresh&#x27;: True, &#x27;parentPositionId&#x27;: 1628627, &#x27;canEdit&#x27;: True, &#x27;firstType&#x27;: &#x27;开发|测试|运维类&#x27;, &#x27;positionType&#x27;: &#x27;后端开发&#x27;, &#x27;positionCreateType&#x27;: &#x27;DEFAULT&#x27;, &#x27;forbidden&#x27;: False, &#x27;url4PositionSearch&#x27;: &#x27;https://easy.lagou.com/search/result.htm?pageNo=1&amp;keyword=java后端开发&amp;city=北京&amp;education=不限&amp;workYear=应届&amp;expectSalary=10k-15k&#x27;, &#x27;isSoonOffline&#x27;: False, &#x27;toppingState&#x27;: 1, &#x27;batchInviteState&#x27;: 0, &#x27;offlineCountDownDays&#x27;: 26}], &#x27;hrPosition&#x27;: False, &#x27;hasAllocatedPosition&#x27;: False, &#x27;hasSoonOfflinePosition&#x27;: False}, {&#x27;parentPositionInfo&#x27;: {&#x27;companyId&#x27;: 141702, &#x27;userId&#x27;: 100014641, &#x27;createTime&#x27;: &#x27;2018-12-18 15:59:51&#x27;, &#x27;updateTime&#x27;: &#x27;2019-01-03 11:11:59&#x27;, &#x27;isDel&#x27;: False, &#x27;publishingNum&#x27;: 0, &#x27;normalNum&#x27;: 1, &#x27;offlineNum&#x27;: 0, &#x27;publishFailNum&#x27;: 0, &#x27;waitVerifyNum&#x27;: 0, &#x27;publishTime&#x27;: &#x27;2019-01-03 11:12:00&#x27;, &#x27;id&#x27;: 1628626, &#x27;positionName&#x27;: &#x27;111&#x27;, &#x27;department&#x27;: &#x27;111&#x27;, &#x27;city&#x27;: &#x27;北京&#x27;, &#x27;salary&#x27;: &#x27;11k-12k&#x27;, &#x27;salaryMin&#x27;: 11, &#x27;salaryMax&#x27;: 12, &#x27;education&#x27;: &#x27;不限&#x27;, &#x27;workYear&#x27;: &#x27;应届毕业生&#x27;, &#x27;jobNature&#x27;: &#x27;全职&#x27;, &#x27;email&#x27;: &#x27;tester2018@sina.com&#x27;, &#x27;workAddress&#x27;: &#x27;海置创投大厦4层&#x27;, &#x27;firstType&#x27;: &#x27;开发|测试|运维类&#x27;, &#x27;positionType&#x27;: &#x27;后端开发&#x27;, &#x27;positionLng&#x27;: &#x27;116.231204&#x27;, &#x27;positionLat&#x27;: &#x27;40.22066&#x27;, &#x27;positionThirdType&#x27;: &#x27;Java&#x27;, &#x27;positionBrightPoint&#x27;: [&#x27;11111&#x27;], &#x27;positionDesc&#x27;: &#x27;&lt;p&gt;111111111111111111111111111111111111111111111&lt;/p&gt;&#x27;}, &#x27;positions&#x27;: [{&#x27;channelId&#x27;: 0, &#x27;positionId&#x27;: 13687308, &#x27;department&#x27;: &#x27;111&#x27;, &#x27;city&#x27;: &#x27;北京&#x27;, &#x27;positionName&#x27;: &#x27;111&#x27;, &#x27;publishTime&#x27;: &#x27;2019-01-03 11:12:00&#x27;, &#x27;positionStatus&#x27;: &#x27;NORMAL&#x27;, &#x27;channelType&#x27;: &#x27;LAGOU&#x27;, &#x27;channelName&#x27;: &#x27;拉勾网&#x27;, &#x27;channel&#x27;: 108, &#x27;createTime&#x27;: &#x27;2018-12-18 15:59:51&#x27;, &#x27;updateTime&#x27;: &#x27;2019-01-03 11:11:59&#x27;, &#x27;userId&#x27;: 100014641, &#x27;companyId&#x27;: 141702, &#x27;outerPositionId&#x27;: &#x27;5375289&#x27;, &#x27;isDel&#x27;: False, &#x27;candidateCount&#x27;: 0, &#x27;notReadCount&#x27;: 0, &#x27;interviewCount&#x27;: 0, &#x27;recruiterCount&#x27;: 0, &#x27;recruiters&#x27;: [], &#x27;salary&#x27;: &#x27;11k-12k&#x27;, &#x27;education&#x27;: &#x27;不限&#x27;, &#x27;workYear&#x27;: &#x27;应届毕业生&#x27;, &#x27;canRefresh&#x27;: True, &#x27;supportRefresh&#x27;: True, &#x27;parentPositionId&#x27;: 1628626, &#x27;canEdit&#x27;: True, &#x27;firstType&#x27;: &#x27;开发|测试|运维类&#x27;, &#x27;positionType&#x27;: &#x27;后端开发&#x27;, &#x27;positionCreateType&#x27;: &#x27;DEFAULT&#x27;, &#x27;forbidden&#x27;: False, &#x27;url4PositionSearch&#x27;: &#x27;https://easy.lagou.com/search/result.htm?pageNo=1&amp;keyword=111&amp;city=北京&amp;education=不限&amp;workYear=应届&amp;expectSalary=10k-15k&#x27;, &#x27;isSoonOffline&#x27;: False, &#x27;toppingState&#x27;: 1, &#x27;batchInviteState&#x27;: 0, &#x27;offlineCountDownDays&#x27;: 26}], &#x27;hrPosition&#x27;: False, &#x27;hasAllocatedPosition&#x27;: False, &#x27;hasSoonOfflinePosition&#x27;: False}, {&#x27;parentPositionInfo&#x27;: {&#x27;companyId&#x27;: 141702, &#x27;userId&#x27;: 100014641, &#x27;createTime&#x27;: &#x27;2018-12-18 15:53:02&#x27;, &#x27;updateTime&#x27;: &#x27;2019-01-03 11:11:59&#x27;, &#x27;isDel&#x27;: False, &#x27;publishingNum&#x27;: 0, &#x27;normalNum&#x27;: 1, &#x27;offlineNum&#x27;: 0, &#x27;publishFailNum&#x27;: 0, &#x27;waitVerifyNum&#x27;: 0, &#x27;publishTime&#x27;: &#x27;2019-01-03 11:12:00&#x27;, &#x27;id&#x27;: 1628625, &#x27;positionName&#x27;: &#x27;111&#x27;, &#x27;department&#x27;: &#x27;111&#x27;, &#x27;city&#x27;: &#x27;北京&#x27;, &#x27;salary&#x27;: &#x27;11k-12k&#x27;, &#x27;salaryMin&#x27;: 11, &#x27;salaryMax&#x27;: 12, &#x27;education&#x27;: &#x27;不限&#x27;, &#x27;workYear&#x27;: &#x27;应届毕业生&#x27;, &#x27;jobNature&#x27;: &#x27;全职&#x27;, &#x27;email&#x27;: &#x27;tester2018@sina.com&#x27;, &#x27;workAddress&#x27;: &#x27;海置创投大厦4层&#x27;, &#x27;firstType&#x27;: &#x27;开发|测试|运维类&#x27;, &#x27;positionType&#x27;: &#x27;后端开发&#x27;, &#x27;positionLng&#x27;: &#x27;116.231204&#x27;, &#x27;positionLat&#x27;: &#x27;40.22066&#x27;, &#x27;positionThirdType&#x27;: &#x27;Java&#x27;, &#x27;positionBrightPoint&#x27;: [&#x27;11111&#x27;], &#x27;positionDesc&#x27;: &#x27;&lt;p&gt;111111111111111111111111111111111111111111111&lt;/p&gt;&#x27;}, &#x27;positions&#x27;: [{&#x27;channelId&#x27;: 0, &#x27;positionId&#x27;: 13687307, &#x27;department&#x27;: &#x27;111&#x27;, &#x27;city&#x27;: &#x27;北京&#x27;, &#x27;positionName&#x27;: &#x27;111&#x27;, &#x27;publishTime&#x27;: &#x27;2019-01-03 11:12:00&#x27;, &#x27;positionStatus&#x27;: &#x27;NORMAL&#x27;, &#x27;channelType&#x27;: &#x27;LAGOU&#x27;, &#x27;channelName&#x27;: &#x27;拉勾网&#x27;, &#x27;channel&#x27;: 108, &#x27;createTime&#x27;: &#x27;2018-12-18 15:53:02&#x27;, &#x27;updateTime&#x27;: &#x27;2019-01-03 11:11:59&#x27;, &#x27;userId&#x27;: 100014641, &#x27;companyId&#x27;: 141702, &#x27;outerPositionId&#x27;: &#x27;5375288&#x27;, &#x27;isDel&#x27;: False, &#x27;candidateCount&#x27;: 0, &#x27;notReadCount&#x27;: 0, &#x27;interviewCount&#x27;: 0, &#x27;recruiterCount&#x27;: 0, &#x27;recruiters&#x27;: [], &#x27;salary&#x27;: &#x27;11k-12k&#x27;, &#x27;education&#x27;: &#x27;不限&#x27;, &#x27;workYear&#x27;: &#x27;应届毕业生&#x27;, &#x27;canRefresh&#x27;: True, &#x27;supportRefresh&#x27;: True, &#x27;parentPositionId&#x27;: 1628625, &#x27;canEdit&#x27;: True, &#x27;firstType&#x27;: &#x27;开发|测试|运维类&#x27;, &#x27;positionType&#x27;: &#x27;后端开发&#x27;, &#x27;positionCreateType&#x27;: &#x27;DEFAULT&#x27;, &#x27;forbidden&#x27;: False, &#x27;url4PositionSearch&#x27;: &#x27;https://easy.lagou.com/search/result.htm?pageNo=1&amp;keyword=111&amp;city=北京&amp;education=不限&amp;workYear=应届&amp;expectSalary=10k-15k&#x27;, &#x27;isSoonOffline&#x27;: False, &#x27;toppingState&#x27;: 1, &#x27;batchInviteState&#x27;: 0, &#x27;offlineCountDownDays&#x27;: 26}], &#x27;hrPosition&#x27;: False, &#x27;hasAllocatedPosition&#x27;: False, &#x27;hasSoonOfflinePosition&#x27;: False}], &#x27;pageSize&#x27;: 15, &#x27;parentPositionIds&#x27;: [1783955, 1783952, 1628697, 1783954, 1628676, 1628675, 1628674, 1628673, 1628672, 1628655, 1628654, 1628652, 1628627, 1628626, 1628625], &#x27;keyword&#x27;: &#x27;&#x27;, &#x27;totalCount&#x27;: 27, &#x27;userProfile&#x27;: {&#x27;userId&#x27;: 100014641, &#x27;userProfileType&#x27;: &#x27;FREE_USER&#x27;, &#x27;startTime&#x27;: &#x27;2017-03-08 00:00:00&#x27;}}, &#x27;rows&#x27;: []}}
+
+util.py                     55 INFO     
+请求目的: 获取刷新点数,
+ 请求url: https://easy.lagou.com/position/batchRefreshInfo.json,
+ 请求数据: None,
+ 响应结果: {&#x27;state&#x27;: 1, &#x27;message&#x27;: &#x27;操作成功&#x27;, &#x27;content&#x27;: {&#x27;data&#x27;: {&#x27;canExchange&#x27;: False, &#x27;canExchangeAll&#x27;: True, &#x27;balance&#x27;: 0, &#x27;need&#x27;: 0.0, &#x27;totalConsumePoint&#x27;: 0.0, &#x27;needExchangePositionPoint&#x27;: 0, &#x27;consumeRefreshNum&#x27;: 0, &#x27;remainPositionPoint&#x27;: 1111.0, &#x27;freeRefreshNum&#x27;: 27}, &#x27;rows&#x27;: []}}
+
+util.py                     55 INFO     
+请求目的: 刷新职位,
+ 请求url: https://easy.lagou.com/position/refreshPosition.json,
+ 请求数据: {&#x27;positionId&#x27;: 13842610},
+ 响应结果: {&#x27;state&#x27;: 1, &#x27;message&#x27;: &#x27;操作成功&#x27;, &#x27;content&#x27;: {&#x27;rows&#x27;: []}}
+
+util.py                     55 INFO     
+请求目的: 获取刷新点数,
+ 请求url: https://easy.lagou.com/position/batchRefreshInfo.json,
+ 请求数据: None,
+ 响应结果: {&#x27;state&#x27;: 1, &#x27;message&#x27;: &#x27;操作成功&#x27;, &#x27;content&#x27;: {&#x27;data&#x27;: {&#x27;canExchange&#x27;: False, &#x27;canExchangeAll&#x27;: True, &#x27;balance&#x27;: 0, &#x27;need&#x27;: 0.0, &#x27;totalConsumePoint&#x27;: 0.0, &#x27;needExchangePositionPoint&#x27;: 0, &#x27;consumeRefreshNum&#x27;: 0, &#x27;remainPositionPoint&#x27;: 1110.0, &#x27;freeRefreshNum&#x27;: 27}, &#x27;rows&#x27;: []}}
+
+util.py                     55 INFO     
+请求目的: 获取刷新点数,
+ 请求url: https://easy.lagou.com/position/batchRefreshInfo.json,
+ 请求数据: None,
+ 响应结果: {&#x27;state&#x27;: 1, &#x27;message&#x27;: &#x27;操作成功&#x27;, &#x27;content&#x27;: {&#x27;data&#x27;: {&#x27;canExchange&#x27;: False, &#x27;canExchangeAll&#x27;: True, &#x27;balance&#x27;: 0, &#x27;need&#x27;: 0.0, &#x27;totalConsumePoint&#x27;: 0.0, &#x27;needExchangePositionPoint&#x27;: 0, &#x27;consumeRefreshNum&#x27;: 0, &#x27;remainPositionPoint&#x27;: 1110.0, &#x27;freeRefreshNum&#x27;: 26}, &#x27;rows&#x27;: []}}
+
+test_B_refresh.py           24 INFO     刷新后的刷新点数：1110.0
+test_B_refresh.py           27 INFO     刷新成功</div></td></tr></tbody></table></body></html>
