@@ -15,6 +15,12 @@ pytest-html = "*"
 pytest-ordering = "*"
 pyyaml = "*"
 flask = "*"
+flask-restful = "*"
+flask-script = "*"
+flask-sqlalchemy = "*"
+flask-migrate = "*"
+pymysql = "*"
+flask-httpauth = "*"
 
 
 [dev-packages]
