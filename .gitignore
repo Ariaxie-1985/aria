@@ -4,5 +4,5 @@ Pipfile.lock
 .idea/
 .cache/
 .pytest_cache/
-report/
+report/report.html
 platform/
