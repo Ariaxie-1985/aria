@@ -164,20 +164,58 @@ def up_position_ranking(positionId):
 def positions_top_check(positionId):
 	url = host + "/positions/top/" + positionId + "/check"
 	remark = "职位置顶卡校验信息"
-	return get_requests(url=url, headers=headers,remark=remark).json()
+	return get_requests(url=url, headers=headers, remark=remark).json()
 
 
-def apply_privilege_position():
+def apply_privilege_position(userId):
+	'''
+	Args:
+	userId: int, 没有被分特权职位的有子账号的分账号的userId
+	:return:
+	'''
 	url = host + "/positions/apply_privilege_position"
-	headers = get_app_header(100014642)
+	headers = get_app_header(userId)
 	remark = "申请特权职位权益"
-	return get_requests(url=url,headers=headers, remark=remark).json()
+	return get_requests(url=url, headers=headers, remark=remark).json()
 
 
+def positions_is_hot(positionName):
+	url = host + "/positions/is_hot?positionName=" + positionName
+	remark = "是否热门职位"
+	return json_post(url=url, headers=headers, remark=remark)
 
 
+def positions_invite(positionId, userId):
+	'''
+	批量邀约候选人
+	:param positionId: int, 职位id
+	:param userId: list, 候选人的userId
+	:return:
+	'''
+	url = host + "/positions/invite"
+	data = {
+		"positionId": positionId,
+		"userIds": [userId]
+	}
+	remark = "批量邀约候选人"
+	return json_post(url=url, data=data, headers=headers, remark=remark)
 
 
+def positions_recommend(positionId):
+	'''
+	职位推荐
+	:param positionId: int, 职位id
+	:return:
+	'''
+	url = host + "/positions/recommend?positionId="+positionId
+	remark = "获取职位推荐"
+	return json_post(url=url, headers=headers, remark=remark)
+
+
+def positions_red_point_hint():
+	url = host + "/positions/red_point_hint"
+	remark = "首页导航职位红点"
+	return get_requests(url=url, remark=remark, headers=headers).json()
 
 # category_mapping("Java开发工程师")
 # post_positions()
