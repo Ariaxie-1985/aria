@@ -13,6 +13,7 @@ import logging
 
 from util.util import assert_equal
 
+from util.read_yaml import get_yaml_test_data
 test_data = get_yaml_test_data("logininfo.yaml")
 
 countrycode = test_data['countrycode']

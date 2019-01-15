@@ -233,3 +233,29 @@ def get_app_header(userId):
 	header["X-L-REQ-HEADER"] = json.dumps(header["X-L-REQ-HEADER"])
 	return header
 
+def json_put(url, remark, data=None, headers=None):
+	"""
+	json传参的put请求
+	:param url: 请求url
+	:param remark: str, 备注
+	:param data: dict, 请求数据
+	:param headers: dict, 请求header
+	:return: json格式化的响应结果
+	"""
+	try:
+		headers = {**headers, **header}
+		response = session.put(url=url, json=data, headers=headers, verify=False, timeout=3)
+		logging.info(
+			"\n请求目的: {},\n 请求url: {},\n 请求数据: {},\n 响应结果: {}\n".format(remark, url, data, str(response.json())))
+		if response.status_code == 200:
+			return response.json()
+		else:
+			content = "该请求: " + url + " 的状态码: " + str(response.status_code)
+			wxsend("Xiawang", content)
+	except exceptions.Timeout as e:
+		content = "该请求超时: " + url + str(e)
+		wxsend("Xiawang", content)
+	except exceptions.HTTPError as e:
+		("Xiawang", "HTTP请求错误: " + str(e))
+	except Exception as e:
+		wxsend("Xiawang", "该请求: " + url + " 重试后依然有异常: " + str(e))
