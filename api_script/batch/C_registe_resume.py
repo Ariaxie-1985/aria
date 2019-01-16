@@ -96,13 +96,12 @@ def registe_c(phone, countryCode, userIdentity):
 
 if __name__ == '__main__':
 	a = 0
-	phone = 20160143  # 手机号
+	phone = 20160206  # 手机号
 	countryCode = '00852'  # 区号
 	userIdentity = 2  # 值只能是1学生或2非学生
-	for i in range(80):
+	for i in range(3):
 		time.sleep(1)
+		p = Process(target=registe_c, args=(phone+a, countryCode, userIdentity,))
 		a += 1
-		phone = phone + a
-		p = Process(target=registe_c, args=(phone, countryCode, userIdentity,))
 		p.start()
 		p.join()

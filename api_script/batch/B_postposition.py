@@ -22,6 +22,7 @@ def post_position(sum):
 	:param sum: 发布职位个数
 	:return: 发布职位的请求
 	'''
+	reslist = []
 	for i in range(int(sum)):
 		a = random.randint(0, 7)
 		postype_t = postype[a]
@@ -39,4 +40,5 @@ def post_position(sum):
 		                          "useEnergyCard": "false"}, **postype_t}
 		remark = "批量发布职位" + str(sum) + "个成功"
 		r = form_post(url=createPosition_url, data=createPosition_data, headers=Position_header, remark=remark)
-	return r
+		reslist.append(r)
+	return reslist
