@@ -28,7 +28,9 @@ class B_Post_Position(Resource):
 		failinfo = [None]
 		data = {}
 		request_data = request.get_json()
-		login(request_data['countrycode'], request_data['username'])
+		login_res = login(request_data['countrycode'], request_data['username'])
+		if login_res['state'] != 1:
+			return {"message": login_res['message']}
 		result = post_position(int(request_data['sum']))
 		for i in result:
 			if i['state'] == 1:

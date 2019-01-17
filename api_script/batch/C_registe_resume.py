@@ -96,7 +96,7 @@ def registe_c(phone, countryCode, userIdentity):
 
 if __name__ == '__main__':
 	a = 0
-	phone = 20160206  # 手机号
+	phone = 19900000  # 手机号
 	countryCode = '00852'  # 区号
 	userIdentity = 2  # 值只能是1学生或2非学生
 	for i in range(3):

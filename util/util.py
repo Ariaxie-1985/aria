@@ -60,10 +60,13 @@ def form_post(url, remark, data=None, headers=None):
 			wxsend("Xiawang", content)
 	except exceptions.Timeout as e:
 		content = "该请求超时: " + url + str(e)
+		logging.ERROR("异常日志: " + content)
 		wxsend("Xiawang", content)
 	except exceptions.HTTPError as e:
+		logging.ERROR("异常日志: " + "HTTP请求错误: " + str(e))
 		wxsend("Xiawang", "HTTP请求错误: " + str(e))
 	except Exception as e:
+		logging.ERROR("异常日志: " + "该请求: " + url + " 重试后依然有异常: " + str(e))
 		wxsend("Xiawang", "该请求: " + url + " 重试后依然有异常: " + str(e))
 
 
@@ -89,9 +92,12 @@ def json_post(url, remark, data=None, headers=None):
 	except exceptions.Timeout as e:
 		content = "该请求超时: " + url + str(e)
 		wxsend("Xiawang", content)
+		logging.ERROR("异常日志: " + content)
 	except exceptions.HTTPError as e:
-		("Xiawang", "HTTP请求错误: " + str(e))
+		logging.ERROR("异常日志: " + "HTTP请求错误: " + str(e))
+		wxsend("Xiawang", "HTTP请求错误: " + str(e))
 	except Exception as e:
+		logging.ERROR("异常日志: " + "该请求: " + url + " 重试后依然有异常: " + str(e))
 		wxsend("Xiawang", "该请求: " + url + " 重试后依然有异常: " + str(e))
 
 
@@ -116,14 +122,19 @@ def get_requests(url, headers=None, remark=None):
 			return response
 		else:
 			content = "该请求: " + url + " 的状态码: " + str(response.status_code)
+			logging.ERROR("异常日志: " + content)
 			wxsend("Xiawang", content)
 	except exceptions.Timeout as e:
+
 		content = "该请求超时: " + url + str(e)
+		logging.ERROR("异常日志: " + content)
 		wxsend("Xiawang", content)
 	except exceptions.HTTPError as e:
 		wxsend("Xiawang", "HTTP请求错误: " + str(e))
+		logging.ERROR("异常日志: " + "HTTP请求错误: " + str(e))
 	except Exception as e:
 		wxsend("Xiawang", "该请求: " + url + " 重试后依然有异常: " + str(e))
+		logging.ERROR("异常日志: " + "该请求: " + url + " 重试后依然有异常: " + str(e))
 
 
 # get请求---获取header
@@ -142,6 +153,7 @@ def get_header(url):
 			return response.request.headers
 		else:
 			content = "该请求: " + url + " 的状态码: " + str(response.status_code)
+			logging.ERROR("异常日志: " + content)
 			wxsend("Xiawang", content)
 
 
@@ -174,6 +186,7 @@ def login(countryCode, username):
 	r = form_post(url=login_url, data=login_data, headers=login_header, remark=remark)
 	if r['message'] == "操作成功":
 		logging.info("用户名: " + str(username) + " 登录成功")
+	return r
 
 
 def login_home(username, password):
@@ -192,6 +205,7 @@ def login_home(username, password):
 	r = form_post(url=login_url, data=login_data, headers=login_home_header, remark=remark)
 	if r['message'] == "操作成功":
 		logging.info("用户名: " + str(username) + " 登录成功")
+	return r
 
 
 def assert_equal(expectvalue, actualvalue, success_message, fail_message=None):
@@ -229,9 +243,10 @@ def wait(time):
 
 
 def get_app_header(userId):
-	header = {"X-L-REQ-HEADER" :{"deviceType":10}, "X-L-USER-ID": str(userId)}
+	header = {"X-L-REQ-HEADER": {"deviceType": 10}, "X-L-USER-ID": str(userId)}
 	header["X-L-REQ-HEADER"] = json.dumps(header["X-L-REQ-HEADER"])
 	return header
+
 
 def json_put(url, remark, data=None, headers=None):
 	"""
