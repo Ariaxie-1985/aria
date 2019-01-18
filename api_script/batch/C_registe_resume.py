@@ -6,11 +6,12 @@
 '''
 import time
 from multiprocessing import Process
-from util.util import form_post, get_code_token, get_requests
+from util.util import form_post, get_code_token, get_requests ,get_header ,login
 
 
 def registe_c(phone, countryCode, userIdentity):
 	# 注册
+
 	c_register_html = 'https://passport.lagou.com/register/register.html?from=c'
 	register_url = 'https://passport.lagou.com/register/register.json'
 	register_data = {'isValidate': 'true', 'phone': phone, 'phoneVerificationCode': '049281', 'challenge': 111,
@@ -19,8 +20,10 @@ def registe_c(phone, countryCode, userIdentity):
 	remark = "注册C端用户"
 	r1 = form_post(url=register_url, headers=register_header, data=register_data, remark=remark)
 
+
 	basicMain_html = 'https://www.lagou.com/resume/perfectresume.html?showQRCode=true'
 	head_url = 'https://www.lagou.com/resume/saveHeadPic.json?headPicPath=%2Fcommon%2Fimage%2Fpc%2Fdefault_boy_headpic2.png'
+	get_header(head_url)
 	get_requests(url=head_url)
 
 	if userIdentity == 2:
@@ -95,14 +98,14 @@ def registe_c(phone, countryCode, userIdentity):
 
 
 if __name__ == '__main__':
-	a = 0
-	phone = 20160143  # 手机号
-	countryCode = '00852'  # 区号
-	userIdentity = 2  # 值只能是1学生或2非学生
-	for i in range(80):
+	a = 1
+	phone = 19930014 # 手机号
+	countryCode = '00853'  # 区号
+	userIdentity = 1  # 值只能是1学生或2非学生
+	for i in range(20):
 		time.sleep(1)
-		a += 1
-		phone = phone + a
+		# a += 1
 		p = Process(target=registe_c, args=(phone, countryCode, userIdentity,))
+		phone = phone + a
 		p.start()
 		p.join()
