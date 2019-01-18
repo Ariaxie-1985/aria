@@ -25,20 +25,29 @@ class B_Post_Position(Resource):
 	def post(self):
 		j = 0
 		successlist = []
+		failinfo = [None]
 		data = {}
 		request_data = request.get_json()
-		login(request_data['countrycode'], request_data['username'])
-		r = post_position(request_data['sum'])
-		for i in range(int(request_data['sum'])):
-			if r['state'] == 1:
+		login_res = login(request_data['countrycode'], request_data['username'])
+		if login_res['state'] != 1:
+			return {"message": login_res['message']}
+		result = post_position(int(request_data['sum']))
+		for i in result:
+			if i['state'] == 1:
 				j += 1
-				data["position_name"] = r['content']['data']['onlinehunting_position_name']
-				data["parentPositionId"] = r['content']['data']['parentPositionInfo']['parentPositionId']
-				data["positionId"] = r['content']['data']['parentPositionInfo']['positionChannelInfoList'][0][
+				data["position_name"] = i['content']['data']['onlinehunting_position_name']
+				data["parentPositionId"] = i['content']['data']['parentPositionInfo']['parentPositionId']
+				data["positionId"] = i['content']['data']['parentPositionInfo']['positionChannelInfoList'][0][
 					'positionId']
 				successlist.append(data)
 				data = {}
-		return {"message": "发布职位" + str(j) + "个成功", "content": successlist}
+			else:
+				data['state'] = i['state']
+				data['message'] = i['message']
+				failinfo.append(data)
+				data = {}
+
+		return {"message": "发布职位" + str(j) + "个成功", "content": successlist, "failinfo": failinfo}
 
 
 class B_Basic_Process(Resource):
