@@ -21,6 +21,7 @@ flask-sqlalchemy = "*"
 flask-migrate = "*"
 pymysql = "*"
 flask-httpauth = "*"
+uwsgi = "*"
 
 
 [dev-packages]

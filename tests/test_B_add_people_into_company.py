@@ -8,7 +8,7 @@
 import logging
 import pytest
 
-from api_script.b_basic.toB_saveHR_1 import add_people_into_company
+from api_script.jianzhao_web.b_basic.toB_saveHR_1 import add_people_into_company
 from util.read_yaml import get_yaml_test_data
 from util.util import assert_equal
 

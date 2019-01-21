@@ -1,15 +1,14 @@
 # coding:utf-8
 # @Time  : 2019-01-09 16:35
 # @Author: Xiawang
-import datetime
 
 from flask import request
 from flask_restful import Resource
 
-from api_script.b_basic.home_review_company_4 import passCompanyApprove
-from api_script.b_basic.home_review_person_2 import passPersonApprove
-from api_script.b_basic.toB_comleteInfo_3 import completeInfo_process
-from api_script.b_basic.toB_saveHR_1 import saveHR_process
+from api_script.jianzhao_web.b_basic.home_review_company_4 import passCompanyApprove
+from api_script.jianzhao_web.b_basic.home_review_person_2 import passPersonApprove
+from api_script.jianzhao_web.b_basic.toB_comleteInfo_3 import completeInfo_process
+from api_script.jianzhao_web.b_basic.toB_saveHR_1 import saveHR_process
 from api_script.batch.B_postposition import post_position
 from api_script.batch.C_registe_resume import registe_c
 from util.util import login, login_home

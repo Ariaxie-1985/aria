@@ -33,7 +33,8 @@ def test_publish_position_check():
 	assert_equal(1, res['state'], "可以发布职位", res['message'])
 
 
-def test_post_positions():
+@pytest.mark.parametrize("positionName", [('新媒体运营')])
+def test_post_positions(positionName):
 	res = post_positions(firstType,
 	                     positionType,
 	                     positionThirdType,
@@ -94,7 +95,8 @@ def test_positions_top_check():
 	assert_equal(1, res['state'], "职位置顶卡校验成功", "职位置顶卡校验失败")
 
 
-def test_positions_is_hot():
+@pytest.mark.parametrize("positionName", [('新媒体运营')])
+def test_positions_is_hot(positionName):
 	res = positions_is_hot(positionName)
 	assert_equal(True, res['content']['isHot'], "是热门职位", "非热门职位")
 

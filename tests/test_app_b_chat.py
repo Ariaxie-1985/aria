@@ -2,7 +2,6 @@
 # @Time  : 2019-01-17 16:22
 # @Author: Xiawang
 import pytest
-
 from api_script.zhaopin_app.b_chat import chat_invite_msg, chat_inspect_reports_all, chat_inspect_list, \
 	chat_inspect_reports
 from api_script.zhaopin_app.b_crm import crm_positions_tag_report
