@@ -274,3 +274,39 @@ def json_put(url, remark, data=None, headers=None):
 		("Xiawang", "HTTP请求错误: " + str(e))
 	except Exception as e:
 		wxsend("Xiawang", "该请求: " + url + " 重试后依然有异常: " + str(e))
+
+
+def put_requests(url, headers=None, remark=None):
+	"""
+	put请求
+	:param url: str, 接口地址
+	:param remark: str, 备注
+	:param headers: dict, requests header
+	:return: object, 响应对象
+	"""
+	try:
+		response = session.put(url=url, headers=headers, verify=False, timeout=3)
+		if "application/json" in response.headers['content-type']:
+			logging.info(
+				"\n请求目的: {},\n 请求url: {},\n 响应结果: {}\n".format(remark, url, str(response.json())))
+		else:
+			logging.info(
+				"\n请求目的: {},\n 请求url: {}".format(remark, url))
+
+		if response.status_code == 200 or response.status_code == 302:
+			return response
+		else:
+			content = "该请求: " + url + " 的状态码: " + str(response.status_code)
+			logging.ERROR("异常日志: " + content)
+			wxsend("Xiawang", content)
+	except exceptions.Timeout as e:
+
+		content = "该请求超时: " + url + str(e)
+		logging.ERROR("异常日志: " + content)
+		wxsend("Xiawang", content)
+	except exceptions.HTTPError as e:
+		wxsend("Xiawang", "HTTP请求错误: " + str(e))
+		logging.ERROR("异常日志: " + "HTTP请求错误: " + str(e))
+	except Exception as e:
+		wxsend("Xiawang", "该请求: " + url + " 重试后依然有异常: " + str(e))
+		logging.ERROR("异常日志: " + "该请求: " + url + " 重试后依然有异常: " + str(e))
