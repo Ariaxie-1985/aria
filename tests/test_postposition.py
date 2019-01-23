@@ -3,7 +3,7 @@
 # @Author: Xiawang
 import logging
 
-from api_script.b_position.B_postposition import post_position
+from api_script.jianzhao_web.b_position.B_postposition import post_position
 from util.util import login
 
 username = 20181205
