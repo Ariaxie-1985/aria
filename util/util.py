@@ -27,9 +27,6 @@ def get_code_token(url):
 		           "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3615.0 Safari/537.36"}
 		if code.status_code == 200:
 			return headers
-		else:
-			content = "该请求: " + url + " 的状态码: " + str(code.status_code)
-			wxsend("Xiawang", content)
 	except exceptions.Timeout as e:
 		content = "该请求超时: " + url + str(e)
 		wxsend("Xiawang", content)
@@ -310,3 +307,5 @@ def put_requests(url, headers=None, remark=None):
 	except Exception as e:
 		wxsend("Xiawang", "该请求: " + url + " 重试后依然有异常: " + str(e))
 		logging.ERROR("异常日志: " + "该请求: " + url + " 重试后依然有异常: " + str(e))
+
+
