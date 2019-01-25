@@ -3,9 +3,11 @@
 import requests
 import re
 from requests import exceptions
+from requests_toolbelt.multipart import encoder
 from tenacity import *
 import json
 import logging
+from requests_toolbelt.multipart.encoder import MultipartEncoder
 
 logging.getLogger().setLevel(logging.INFO)
 
@@ -36,7 +38,7 @@ def get_code_token(url):
 		wxsend("Xiawang", "该请求: " + url + " 重试后依然有异常: " + str(e))
 
 
-def form_post(url, remark, data=None, headers=None):
+def form_post(url, remark, data=None, headers=None,files=None):
 	"""
 	form表单传参的post请求
 	:param url: 请求url
@@ -47,7 +49,7 @@ def form_post(url, remark, data=None, headers=None):
 	"""
 	try:
 		headers = {**headers, **header}
-		response = session.post(url=url, data=data, headers=headers, verify=False, timeout=3)
+		response = session.post(url=url, data=data, headers=headers, files=files, verify=False, timeout=3)
 		logging.info(
 			"\n请求目的: {},\n 请求url: {},\n 请求数据: {},\n 响应结果: {}\n".format(remark, url, data, str(response.json())))
 		if response.status_code == 200:
@@ -309,3 +311,27 @@ def put_requests(url, headers=None, remark=None):
 		logging.ERROR("异常日志: " + "该请求: " + url + " 重试后依然有异常: " + str(e))
 
 
+def multipart_post(url, remark, data=None, headers=None):
+	try:
+		m = encoder.MultipartEncoder(fields=data)
+		headers['Content-Type'] = m.content_type
+		headers = {**headers, **header}
+
+		response = session.post(url=url, data=m, headers=headers, verify=False, timeout=3)
+		logging.info(
+			"\n请求目的: {},\n 请求url: {},\n 请求数据: {},\n 响应结果: {}\n".format(remark, url, data, str(response.json())))
+		if response.status_code == 200:
+			return response.json()
+		else:
+			content = "该请求: " + url + " 的状态码: " + str(response.status_code)
+			wxsend("Xiawang", content)
+	except exceptions.Timeout as e:
+		content = "该请求超时: " + url + str(e)
+		wxsend("Xiawang", content)
+		logging.ERROR("异常日志: " + content)
+	except exceptions.HTTPError as e:
+		logging.ERROR("异常日志: " + "HTTP请求错误: " + str(e))
+		wxsend("Xiawang", "HTTP请求错误: " + str(e))
+	except Exception as e:
+		logging.ERROR("异常日志: " + "该请求: " + url + " 重试后依然有异常: " + str(e))
+		wxsend("Xiawang", "该请求: " + url + " 重试后依然有异常: " + str(e))

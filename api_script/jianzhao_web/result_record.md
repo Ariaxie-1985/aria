@@ -7,3 +7,4 @@
 2019.01.23 统计接口编写6个,  interview.py --auther xia  面试签到
            统计接口编写2个,  open_channel.py --auther xia 开放平台-渠道
            统计接口编写2个,  resume_clean.py  -- auther xia 简历清理
+2019.01.25 统计接口编写9个,  candidate.py --auther xia 简招多渠道的修改&新增
