@@ -243,10 +243,10 @@ def positions_republish(positionId,typeId):
 # category_mapping("Java开发")
 # post_positions('开发|测试|运维类','后端开发','Java','Java开发工程师1')
 
-get_online_positions()
+# get_online_positions()
 # positions_republish(str(13845002),0)
 # positions_query_position_type()
 # get_other_positions()
 # get_offline_positions()
 # positions_details(str(13845259))
-positions_details_app(str(13845370))
+# positions_details_app(str(13845370))
