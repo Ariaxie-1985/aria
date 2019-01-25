@@ -72,7 +72,8 @@ def post_positions(firstType, positionType, positionThirdType, positionName):
 		"positionThirdType": positionThirdType,
 		"jobNature": "全职",
 		"education": "本科",
-		"workAddressId": 191880,
+		# "workAddressId": 191880,
+		"workAddressId": 191882,
 		"department": "技术部",
 		"salaryMax": 30
 	}
@@ -217,6 +218,35 @@ def positions_red_point_hint():
 	remark = "首页导航职位红点"
 	return get_requests(url=url, remark=remark, headers=headers).json()
 
-# category_mapping("Java开发工程师")
-# post_positions()
-# get_onlinepositions()
+def positions_details_app(positionId):
+	url = host + '/positions/'+positionId+'/details/app'
+	remark = '获取职位详情新'
+	return get_requests(url=url,remark=remark,headers=headers)
+
+def positions_query_position_type():
+	url = host + '/positions/query_position_type'
+	remark = '查询可选择的职位分类'
+	return get_requests(url=url,remark=remark,headers=headers)
+
+def positions_republish(positionId,typeId):
+	url = host + "/positions/" + positionId + "/republish"
+	data = {
+		"isConfirm": False,
+		"typeId":typeId
+
+	}
+	remark = "重新发布"
+	return json_put(url=url, data=data, headers=headers, remark=remark)
+
+
+
+# category_mapping("Java开发")
+# post_positions('开发|测试|运维类','后端开发','Java','Java开发工程师1')
+
+get_online_positions()
+# positions_republish(str(13845002),0)
+# positions_query_position_type()
+# get_other_positions()
+# get_offline_positions()
+# positions_details(str(13845259))
+positions_details_app(str(13845370))
