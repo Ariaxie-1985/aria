@@ -17,7 +17,7 @@ def getpositionId():
     s = form_post(url=position_url,headers=position_header,data={'pageNo':1},remark='获取职位id')
     return s['content']['data']['parentPositionVOs'][0]['positions'][0]['positionId']
 
-def refrech(positionId,second):
+def refrech(positionId):
     # 免费刷新后，需过一段时间才可以付费刷新，second为冷却时间，单位秒
     a = getrefreshpoint()
     refrech_url = 'https://easy.lagou.com/position/refreshPosition.json'
@@ -25,8 +25,9 @@ def refrech(positionId,second):
     refrech_data = {'positionId':positionId}
     r = form_post(url=refrech_url,headers=refrech_header,data=refrech_data,remark='刷新职位')
     # print('1')
-    b = getrefreshpoint()
+    # b = getrefreshpoint()
     # print (r)
+    '''
     if a==b:
         time.sleep(second)
         logging.info('需等待冷却时间结束后方可刷新，冷却时间'+str(second))
@@ -35,6 +36,7 @@ def refrech(positionId,second):
         return s
     else:
         return r
-    # return r
+    '''
+    return r
 # print(refrech()13844856)
-# print(refrech(13844856))
+# refrech(13845370)

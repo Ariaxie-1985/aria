@@ -6,7 +6,7 @@ import pytest
 from api_script.zhaopin_app.b_position import post_positions, category_mapping, publish_position_check, \
 	positions_details, update_position, get_online_positions, positions_static_info, get_offline_positions, \
 	get_other_positions, apply_privilege_position, refresh_position, up_position_ranking, positions_top_check, \
-	positions_is_hot, positions_invite, positions_recommend, positions_red_point_hint
+	positions_is_hot, positions_invite, positions_recommend, positions_red_point_hint, positions_republish,positions_details_app
 from util.util import assert_equal
 
 
