@@ -7,7 +7,7 @@ import pytest
 from api_script.jianzhao_web.b_basic.home_review_person_2 import passPersonApprove
 from api_script.jianzhao_web.b_basic.toB_comleteInfo_3 import completeInfo_process
 from api_script.jianzhao_web.b_basic.toB_saveHR_1 import saveHR_process
-from util.read_yaml import get_yaml_test_data
+from util.read_file import get_yaml_test_data
 from util.util import assert_equal, login_home, login
 
 test_data = get_yaml_test_data("test_b_basic_process.yaml")
