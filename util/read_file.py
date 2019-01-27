@@ -21,3 +21,15 @@ def get_yaml_test_data(yamlfile):
     return yaml.load(cfg)  # 用load方法转字典
 
 
+def get_file_path(file):
+
+    # 获取当前脚本所在文件夹路径
+    if os.name == "nt":
+        curPath = os.getcwd() +"\\tests\\testdata"
+    else:
+        curPath = os.getcwd() + "/tests/testdata"
+
+    # 获取yaml文件路径
+    file_Path = os.path.join(curPath, file)
+    # open方法打开直接读出来
+    return yaml.load(file_Path)  # 用load方法转字典

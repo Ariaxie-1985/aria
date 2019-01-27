@@ -1,9 +1,9 @@
 # coding:utf-8
 # @Time  : 2019-01-25 11:34
 # @Author: Xiawang
-import os
 
-from util.util import get_code_token, form_post, multipart_post, login
+
+from util.util import get_code_token, form_post, get_header
 
 
 def can_new_list():
@@ -80,26 +80,26 @@ def can_batch_recommend(resumeIds, parentPositionId):
 	return form_post(url=url, data=data, headers=header, remark=remark)
 
 
-def resume_uploadLocalResume(positionId):
+def resume_uploadLocalResume(positionId, file_Path):
 	url = "https://easy.lagou.com/resume/uploadLocalResume.json"
-	header = {}
-	data = {'channeIId': "-1", 'autoCandidate': '1', "positionId": positionId,
+	header = get_header("https://easy.lagou.com/resume/uploadLocalResume.htm")
+	data = {'channelId': "-1", 'autoCandidate': '1', "positionId": positionId,
 	        "id": "WU_FILE_1", "name": "简历模板.pdf", "type": "application/pdf",
 	        "lastModifiedDate": "Wed Apr 25 2018 18:43:40 GMT+0800 (中国标准时间)",
-	        "size": "53296",
-	        'file': ('简历模板.pdf', open('简历模板.pdf', 'rb'), 'application/pdf')}
+	        "size": "53296"}
+	files = {'file': open(file_Path, 'rb',encoding='utf-8')}
 	remark = "上传简历"
-	return multipart_post(url=url, data=data, headers=header, remark=remark)
+	return form_post(url=url, data=data, files=files, headers=header, remark=remark)
 
 
-def resume_uploadCandidateson(parentPositionId):
+def resume_uploadCandidateson(parentPositionId, file_Path):
 	url = "https://easy.lagou.com/resume/uploadCandidate.json"
-	header = {}
-	data = {'channeIId': "-1", 'phone': '18500000000', "parentPositionId": parentPositionId,
-	        "candidateName": "初心哥", "email": "tester2018@sina.com", "description": "有潜力的候选人",
-	        'file': ('简历模板.pdf', open('简历模板.pdf', 'rb'), 'application/pdf')}
+	header = get_header("https://easy.lagou.com/resume/uploadLocalResume.htm")
+	data = {'channelId': "-1", 'phone': '18500000000', "parentPositionId": parentPositionId,
+	        "candidateName": "初心哥", "email": "tester2018@sina.com", "description": "有潜力的候选人"}
+	files = {'file': open(file_Path, 'rb',encoding='utf-8')}
 	remark = "上传候选人"
-	return multipart_post(url=url, data=data, headers=header, remark=remark)
+	return form_post(url=url, data=data, files=files, headers=header, remark=remark)
 
 
 def multiChannel_myCompanyParentPositions():
@@ -108,19 +108,3 @@ def multiChannel_myCompanyParentPositions():
 		"https://easy.lagou.com/can/new/index.htm?can=true&stage=NEW&needQueryAmount=true&newDeliverTime=0&pageNo=1")
 	remark = "获取所在公司的父职位-parentPositionId"
 	return form_post(url=url, headers=header, remark=remark)
-
-
-login("00852", 20181205)
-
-
-
-def demo():
-	url = "https://easy.lagou.com/resume/uploadCandidate.json"
-	header = {}
-	data = {'channeIId': "-1", 'phone': '18500000000', "parentPositionId": 1786737,
-	        "candidateName": "初心哥", "email": "tester2018@sina.com", "description": "有潜力的候选人"}
-	files = {'file': open('简历模板.pdf', 'rb')}
-	remark = "上传候选人"
-	return form_post(url=url, data=data, files=files,headers=header, remark=remark)
-
-demo()

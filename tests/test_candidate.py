@@ -8,7 +8,11 @@ import pytest
 from api_script.jianzhao_web.resume_manage.candidate import can_new_list, can_new_createFilter, can_new_myfilters, \
 	resume_deleteResumeFilter, can_recommend, can_batch_recommend, resume_uploadLocalResume, resume_uploadCandidateson, \
 	multiChannel_myCompanyParentPositions
+from util.read_file import get_file_path
 from util.util import assert_equal, login
+
+
+file_path = get_file_path("简历模板.pdf")
 
 login("00852", "20181205")
 
@@ -71,10 +75,12 @@ def test_can_batch_recommend():
 
 
 def test_resume_uploadLocalResume():
-	r = resume_uploadLocalResume(positionId)
+	r = resume_uploadLocalResume(positionId, file_path)
 	assert_equal(1, r['state'], "上传简历成功")
 
 
 def test_resume_uploadCandidateson():
-	r = resume_uploadCandidateson(parentPositionId)
+	r = resume_uploadCandidateson(parentPositionId, file_path)
 	assert_equal(1, r['state'], "上传候选人成功")
+
+
