@@ -3,11 +3,9 @@
 import requests
 import re
 from requests import exceptions
-from requests_toolbelt.multipart import encoder
 from tenacity import *
 import json
 import logging
-from requests_toolbelt.multipart.encoder import MultipartEncoder
 
 logging.getLogger().setLevel(logging.INFO)
 
