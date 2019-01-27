@@ -9,8 +9,8 @@ import logging
 logging.getLogger().setLevel(logging.INFO)
 
 #
-# username = 20181205
-# login("00852", username)
+username = 20181205
+login("00852", username)
 #查看是否出现可以批量分配
 def batch_allocation(userId_list):
     userId_list = [str(y) for y in userId_list]
@@ -40,7 +40,6 @@ def batch_allocation(userId_list):
         assert_equal(True,a,"出现了批量分配按钮","没有出现批量分配按钮")
 
 
-#batch_allocation()
 
 '''
 1、批量分配
@@ -85,7 +84,7 @@ def batchAllocate(userId_list, user_goods_info):
     actualvalue=jsonobject.get("message")
     assert_equal("批量分配异常批量分配失败，子账号需要分配的"+str(goods_list[0])+"权益总数大于父账号的剩余数量",actualvalue,"大于可分配数量，后台不允许分配","批量分配失败")
 
-# #batchAllocate()
+# batchAllocate()
 # userinfo = get_userId()
 # print(userinfo)
 #
@@ -93,6 +92,6 @@ def batchAllocate(userId_list, user_goods_info):
 # goods_list = user_goods_info[userinfo[0]][2]
 # print(goods_list)
 # # print(r)
-
+#
 # userId_list = [100014642, 100014643]
 # batch_allocation(userId_list)
