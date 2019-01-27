@@ -1,7 +1,7 @@
 # coding:utf-8
 # @Time  : 2019-01-23 18:01
 # @Author: Xiawang
-from util.util import get_code_token, form_post, get_requests
+from utils.util import get_code_token, form_post, get_requests
 
 
 def settings_channel_support():

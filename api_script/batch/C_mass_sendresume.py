@@ -1,7 +1,7 @@
 # coding:utf-8
 # @Author: Xiawang
 # from api_script.c_position.C_sendResume import get_resumeId
-from util.util import get_code_token, form_post, get_requests, get_header,login
+from utils.util import get_code_token, form_post, get_requests, get_header,login
 import json
 '''
 批量对同一职位发送大量简历

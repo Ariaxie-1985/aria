@@ -1,6 +1,6 @@
 # coding:utf-8
 # @Author: Xiawang
-from util.util import get_requests, get_code_token, login
+from utils.util import get_requests, get_code_token, login
 
 '''
 找人才的推荐人才和最新人才

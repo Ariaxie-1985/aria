@@ -1,7 +1,7 @@
 # -*- coding: utf8 -*-
 __author__ = 'cloudyyan'
 
-from util.util import get_app_header,form_post,get_requests,assert_equal,login,get_code_token,put_requests
+from utils.util import get_app_header,form_post,get_requests,assert_equal,login,get_code_token,put_requests
 from api_script.zhaopin_app.b_searchResumePosition import get_strict_pages_orderResumes
 import datetime
 import  time

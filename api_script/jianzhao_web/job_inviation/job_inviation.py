@@ -4,7 +4,7 @@
 '''
 发布职位邀约
 '''
-from util.util import login,get_code_token,form_post,get_header,get_requests,assert_equal
+from utils.util import login,get_code_token,form_post,get_header,get_requests,assert_equal
 
 login('00852','20181205')
 def hot():

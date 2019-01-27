@@ -2,7 +2,7 @@
 # @Author: cloudyyuan
 from api_script.jianzhao_web.talent_communication.Talent import allRead, quickReplyList, greetingList, quickReplySave, \
     quickReplyTop, Save
-from util.util import login,get_code_token,form_post,get_header,get_requests,assert_equal
+from utils.util import login,get_code_token,form_post,get_header,get_requests,assert_equal
 
 '''
 人才沟通

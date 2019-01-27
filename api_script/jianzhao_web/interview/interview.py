@@ -1,7 +1,7 @@
 # coding:utf-8
 # @Time  : 2019-01-23 16:07
 # @Author: Xiawang
-from util.util import get_requests, form_post
+from utils.util import get_requests, form_post
 
 
 def interview_index():

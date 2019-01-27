@@ -2,8 +2,8 @@
 __author__ = 'yqzhang'
 import logging
 from api_script.business.B_position_limit import position_limit,getrefreshpoint,getpositionlimit,getonlinepositionlimit,isprivilige,offineposition
-from util.util import login,assert_equal
-from util.read_file import get_yaml_test_data
+from utils.util import login,assert_equal
+from utils.read_file import get_yaml_test_data
 
 test_data = get_yaml_test_data('logininfo.yaml')
 countrycode = test_data['countrycode']

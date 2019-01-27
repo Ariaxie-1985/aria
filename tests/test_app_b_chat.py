@@ -7,7 +7,7 @@ from api_script.zhaopin_app.b_chat import chat_invite_msg, chat_inspect_reports_
 from api_script.zhaopin_app.b_crm import crm_positions_tag_report
 from api_script.zhaopin_app.b_goods import goods_product_version
 from api_script.zhaopin_app.b_searchResumePosition import get_strict_pages_positions, get_strict_pages_orderResumes
-from util.util import assert_equal
+from utils.util import assert_equal
 
 @pytest.mark.parametrize("type",[('POSITION_ENERGY_CARD_MESSAGE')])
 def test_positions_tag_report(type):

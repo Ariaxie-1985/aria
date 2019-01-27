@@ -1,6 +1,6 @@
 #2018秋版合同一键刷新
 
-from util.util import login ,get_code_token,form_post,assert_equal
+from utils.util import login ,get_code_token,form_post,assert_equal
 import time
 
 

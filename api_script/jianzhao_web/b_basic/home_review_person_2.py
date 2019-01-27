@@ -1,6 +1,6 @@
 # coding:utf-8
 # @Author: Xiawang
-from util.util import form_post, get_header
+from utils.util import form_post, get_header
 
 
 # 审核招聘者

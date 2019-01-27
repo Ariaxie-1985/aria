@@ -2,16 +2,18 @@
 # @Time  : 2019-01-14 19:38
 # @Author: Xiawang
 import pytest
+import requests
 
 from api_script.zhaopin_app.b_position import post_positions, category_mapping, publish_position_check, \
 	positions_details, update_position, get_online_positions, positions_static_info, get_offline_positions, \
 	get_other_positions, apply_privilege_position, refresh_position, up_position_ranking, positions_top_check, \
 	positions_is_hot, positions_invite, positions_recommend, positions_red_point_hint, positions_republish,positions_details_app
-from util.util import assert_equal
+from utils.util import assert_equal
 
 
 # invite_userId_list = test_data['invite_userId_list']
-
+session = requests.session()
+session.cookies.clear()
 
 def test_positions_static_info():
 	res = positions_static_info()

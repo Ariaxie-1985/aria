@@ -6,14 +6,14 @@ import pytest
 from api_script.business.SwitchingContract import lagouPlus
 from api_script.business.sub_account import add_sub_account, remove_sub_account, get_userId, reAssignAllGoods, \
 	get_user_goods_info, reAssign_subaccount_Goods, get_invalidUserId, get_subaccunt_goods, recover_sub_account
-from util.read_file import get_yaml_test_data
+from utils.read_file import get_yaml_test_data
 from api_script.business.Batch_Allocation import batchAllocate, batch_allocation
-from util.util import login
+from utils.util import login
 import logging
 
-from util.util import assert_equal
+from utils.util import assert_equal
 
-from util.read_file import get_yaml_test_data
+from utils.read_file import get_yaml_test_data
 test_data = get_yaml_test_data("logininfo.yaml")
 
 countrycode = test_data['countrycode']

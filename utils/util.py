@@ -1,4 +1,6 @@
 # coding:utf-8
+import os
+import zipfile
 
 import requests
 import re
@@ -333,3 +335,27 @@ def multipart_post(url, remark, data=None, headers=None):
 	except Exception as e:
 		logging.ERROR("异常日志: " + "该请求: " + url + " 重试后依然有异常: " + str(e))
 		wxsend("Xiawang", "该请求: " + url + " 重试后依然有异常: " + str(e))
+
+
+def dfs_get_zip_file(input_path, result):
+	#
+	files = os.listdir(input_path)
+	for file in files:
+		if os.path.isdir(input_path + '/' + file):
+			dfs_get_zip_file(input_path + '/' + file, result)
+		else:
+			result.append(input_path + '/' + file)
+
+
+def zip_path(input_path, output_path, output_name):
+	f = zipfile.ZipFile(output_path + '/' + output_name, 'w', zipfile.ZIP_DEFLATED)
+	filelists = []
+	dfs_get_zip_file(input_path, filelists)
+	for file in filelists:
+		f.write(file)
+	f.close()
+	file_Path = os.path.abspath(os.path.join(os.getcwd(), ".."))
+	zip_file_Path = os.path.join(file_Path, output_name)
+	return zip_file_Path
+
+
