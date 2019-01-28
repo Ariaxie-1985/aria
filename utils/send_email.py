@@ -2,15 +2,12 @@
 # @Time  : 2019-01-27 21:02
 # @Author: Xiawang
 import logging
+import os
 import smtplib
 import sys
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from email.header import Header
-
-from utils.util import zip_path
-
-sys.path.append('.')
 
 sender = 'autotest@lagoujobs.com'
 sender_password = 'Lqq123456'
@@ -26,12 +23,12 @@ def mail():
 		subject = 'K8S default环境接口测试报告'
 		message['Subject'] = Header(subject, 'utf-8')
 
-		message.attach(MIMEText('测试报告详见附件,解压后打开report.html即可', 'plain', 'utf-8'))
+		message.attach(MIMEText('测试报告详见附件report.html', 'plain', 'utf-8'))
 
-		zipfile_path = zip_path(r"../report", '..', 'report.zip')
+		zipfile_path = '/var/lib/jenkins/workspace/python_api/report/report.html'
 		att1 = MIMEText(open(zipfile_path, 'rb').read(), 'base64', 'utf-8')
 		att1["Content-Type"] = 'application/octet-stream'
-		att1["Content-Disposition"] = 'attachment; filename="report.zip"'
+		att1["Content-Disposition"] = 'attachment; filename="report.html"'
 		message.attach(att1)
 
 		server = smtplib.SMTP_SSL("smtp.exmail.qq.com", 465)
