@@ -3,11 +3,14 @@
 # @Author: Xiawang
 import logging
 import smtplib
+import sys
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from email.header import Header
 
 from utils.util import zip_path
+
+sys.path.append('..')
 
 sender = 'autotest@lagoujobs.com'
 sender_password = 'Lqq123456'
