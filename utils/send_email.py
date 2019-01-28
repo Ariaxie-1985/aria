@@ -10,7 +10,7 @@ from email.header import Header
 
 from utils.util import zip_path
 
-sys.path.append('..')
+sys.path.append('.')
 
 sender = 'autotest@lagoujobs.com'
 sender_password = 'Lqq123456'
