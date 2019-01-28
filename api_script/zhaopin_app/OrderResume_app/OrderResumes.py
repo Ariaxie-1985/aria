@@ -2,7 +2,7 @@
 __author__ = 'cloudyyan'
 
 
-from util.util import get_app_header,form_post,get_requests,assert_equal,login,wait
+from utils.util import get_app_header,form_post,get_requests,assert_equal,login,wait
 '''
     1、分页查询简历
     2、生成或获取简历公开查看链接

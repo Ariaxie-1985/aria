@@ -1,6 +1,6 @@
 # coding:utf-8
 # @Author: Xiawang
-from util.util import get_code_token, form_post, get_requests, login
+from utils.util import get_code_token, form_post, get_requests, login
 import re
 
 

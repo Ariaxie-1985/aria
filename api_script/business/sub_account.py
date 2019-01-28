@@ -2,7 +2,7 @@
 # @Author: Xiawang
 import json
 import logging
-from util.util import form_post, get_header, get_requests, login
+from utils.util import form_post, get_header, get_requests, login
 import time
 
 time = int(round(time.time() * 1000))

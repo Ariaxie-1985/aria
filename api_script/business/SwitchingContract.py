@@ -5,7 +5,7 @@
 登录home 然后根据版本号更换套餐
 '''
 
-from util.util import login_home,form_post,get_header
+from utils.util import login_home,form_post,get_header
 import json
 '''
 获取当前时间

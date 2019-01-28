@@ -3,7 +3,7 @@
 # @Author: Xiawang
 
 
-from util.util import get_code_token, form_post, get_header
+from utils.util import get_code_token, form_post, get_header, json_post
 
 
 def can_new_list():
@@ -84,10 +84,10 @@ def resume_uploadLocalResume(positionId, file_Path):
 	url = "https://easy.lagou.com/resume/uploadLocalResume.json"
 	header = get_header("https://easy.lagou.com/resume/uploadLocalResume.htm")
 	data = {'channelId': "-1", 'autoCandidate': '1', "positionId": positionId,
-	        "id": "WU_FILE_1", "name": "简历模板.pdf", "type": "application/pdf",
+	        "id": "WU_FILE_0", "name": "简历模板.pdf", "type": "application/pdf",
 	        "lastModifiedDate": "Wed Apr 25 2018 18:43:40 GMT+0800 (中国标准时间)",
 	        "size": "53296"}
-	files = {'file': open(file_Path, 'rb',encoding='utf-8')}
+	files = {'file': open(file_Path, 'rb')}
 	remark = "上传简历"
 	return form_post(url=url, data=data, files=files, headers=header, remark=remark)
 
@@ -97,7 +97,7 @@ def resume_uploadCandidateson(parentPositionId, file_Path):
 	header = get_header("https://easy.lagou.com/resume/uploadLocalResume.htm")
 	data = {'channelId': "-1", 'phone': '18500000000', "parentPositionId": parentPositionId,
 	        "candidateName": "初心哥", "email": "tester2018@sina.com", "description": "有潜力的候选人"}
-	files = {'file': open(file_Path, 'rb',encoding='utf-8')}
+	files = {'file': open(file_Path, 'rb')}
 	remark = "上传候选人"
 	return form_post(url=url, data=data, files=files, headers=header, remark=remark)
 

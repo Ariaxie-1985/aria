@@ -5,8 +5,8 @@ import json
 
 from api_script.business.Batch_Allocation import batch_allocation, batchAllocate
 from api_script.business.sub_account import get_user_goods_info, get_userId
-from util.BeautifulSoup import exist_class_name
-from util.util import login,get_requests,form_post,get_code_token,gethtml,assert_equal
+from utils.BeautifulSoup import exist_class_name
+from utils.util import login,get_requests,form_post,get_code_token,gethtml,assert_equal
 import logging
 logging.getLogger().setLevel(logging.INFO)
 

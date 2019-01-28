@@ -2,7 +2,7 @@
 # @Time  : 2019-01-27 16:22
 # @Author: cloudyyuan
 from api_script.business.Akeytorefresh import akeyRefresh,Refreshed
-from util.util import login
+from utils.util import login
 
 login('00852','20181205')
 def test_akeyRefresh():

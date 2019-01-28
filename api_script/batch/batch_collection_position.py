@@ -2,7 +2,7 @@
 __author__ = 'yqzhang'
 
 
-from util.util import get_code_token, form_post, get_header ,login
+from utils.util import get_code_token, form_post, get_header ,login
 import math
 
 login('0086','18211111111')

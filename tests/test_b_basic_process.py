@@ -2,20 +2,22 @@
 # @Time  : 2018-12-27 16:31
 # @Author: Xiawang
 import logging
+import random
+
 import pytest
 
 from api_script.jianzhao_web.b_basic.home_review_person_2 import passPersonApprove
 from api_script.jianzhao_web.b_basic.toB_comleteInfo_3 import completeInfo_process
 from api_script.jianzhao_web.b_basic.toB_saveHR_1 import saveHR_process
-from util.read_file import get_yaml_test_data
-from util.util import assert_equal, login_home, login
+from utils.read_file import get_yaml_test_data
+from utils.util import assert_equal, login_home, login
 
 test_data = get_yaml_test_data("test_b_basic_process.yaml")
-
+phone = test_data['phone']+random.randrange(1,1000)
 
 @pytest.mark.parametrize(
 	'phone, countryCode,companyShortName, companyFullName, userName, resumeReceiveEmail,updateCompanyShortName',
-	[(test_data['phone'], test_data['countryCode'], test_data['companyShortName'], test_data['companyFullName'], test_data['userName'],
+	[(phone, test_data['countryCode'], test_data['companyShortName'], test_data['companyFullName'], test_data['userName'],
 	  test_data['resumeReceiveEmail'], test_data['updateCompanyShortName'])])
 def test_saveHR_process(phone, countryCode, companyShortName, companyFullName, userName, resumeReceiveEmail,
                         updateCompanyShortName):
@@ -56,3 +58,5 @@ def test_passCompanyApprove(username_home, password_home):
 	log.info('验证home后台-公司认证-审核公司是否成功')
 	r = completeInfo_process()
 	assert_equal(1, r['state'], "home后台-公司认证-审核公司成功！", "home后台-公司认证-审核公司成功！")
+
+

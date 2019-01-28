@@ -3,7 +3,7 @@
 # @Author: Xiawang
 from api_script.jianzhao_web.interview.interview import interview_index, interview_list, interview_sign, \
 	interview_setting_save, interview_get_code, interview_resetCode
-from util.util import assert_equal, login
+from utils.util import assert_equal, login
 
 login("00852", 20181205)
 

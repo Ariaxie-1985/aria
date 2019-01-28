@@ -1,7 +1,7 @@
 # coding:utf-8
 # @Author: cloudyyuan
 
-from util.util import login,get_code_token,form_post,get_header,get_requests,assert_equal
+from utils.util import login,get_code_token,form_post,get_header,get_requests,assert_equal
 
 '''
 人才沟通

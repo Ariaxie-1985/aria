@@ -3,8 +3,8 @@ __author__ = 'yqzhang'
 import logging
 import datetime
 from api_script.business.B_energycard import energycard,getpositionId
-from util.util import login
-from util.read_file import get_yaml_test_data
+from utils.util import login
+from utils.read_file import get_yaml_test_data
 
 test_data = get_yaml_test_data('logininfo.yaml')
 countrycode = test_data['countrycode']

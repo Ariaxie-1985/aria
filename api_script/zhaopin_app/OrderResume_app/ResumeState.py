@@ -1,7 +1,7 @@
 # -*- coding: utf8 -*-
 __author__ = 'cloudyyan'
 
-from util.util import get_app_header,form_post,get_requests,assert_equal,login,json_put,json_post,wait
+from utils.util import get_app_header,form_post,get_requests,assert_equal,login,json_put,json_post,wait
 import time,datetime
 
 '''

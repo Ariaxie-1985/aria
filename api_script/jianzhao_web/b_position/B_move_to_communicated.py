@@ -1,6 +1,6 @@
 # coding:utf-8
 # @Author: Xiawang
-from util.util import form_post,get_code_token, login,get_requests
+from utils.util import form_post,get_code_token, login,get_requests
 
 '''
 简历管理-候选人: 从新简历移至待沟通

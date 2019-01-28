@@ -1,7 +1,7 @@
 # coding:utf-8
 # @Author: Xiawang
 
-from util.util import form_post, get_code_token, login
+from utils.util import form_post, get_code_token, login
 import random
 
 # 批量发布职位-拉勾渠道

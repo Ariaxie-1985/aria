@@ -11,7 +11,7 @@ from api_script.jianzhao_web.b_basic.toB_comleteInfo_3 import completeInfo_proce
 from api_script.jianzhao_web.b_basic.toB_saveHR_1 import saveHR_process
 from api_script.batch.B_postposition import post_position
 from api_script.batch.C_registe_resume import registe_c
-from util.util import login, login_home
+from utils.util import login, login_home
 
 
 class HelloWorld(Resource):
