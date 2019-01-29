@@ -10,6 +10,7 @@ def get_yaml_test_data(yamlfile):
 	# 获取当前脚本所在文件夹路径
 	if os.name == "nt":
 		curPath = os.getcwd() + "\\tests\\testdata"
+		print(curPath)
 	else:
 		curPath = os.getcwd() + "/tests/testdata"
 

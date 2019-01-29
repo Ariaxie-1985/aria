@@ -12,8 +12,8 @@ from utils.util import assert_equal
 
 
 # invite_userId_list = test_data['invite_userId_list']
-session = requests.session()
-session.cookies.clear()
+# session = requests.session()
+# session.cookies.clear()
 
 def test_positions_static_info():
 	res = positions_static_info()
