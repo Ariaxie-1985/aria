@@ -1,6 +1,8 @@
 # coding:utf-8
 # @Time  : 2019-01-27 16:22
 # @Author: cloudyyuan
+import pytest
+
 from api_script.business.Akeytorefresh import akeyRefresh,Refreshed
 from utils.util import login
 
@@ -17,3 +19,7 @@ def test_Refreshed():
     :return: 
     '''
     Refreshed(3000)
+
+
+if __name__ == '__main__':
+    pytest.main()

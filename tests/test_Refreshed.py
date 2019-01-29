@@ -7,7 +7,7 @@ import time
 
 login('00852','20181205')
 
-def Refreshed():
+def test_Refreshed():
     '''
     18版合同“刷新职位”
     :return:

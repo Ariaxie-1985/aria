@@ -41,7 +41,7 @@ def test_passPersonApprove(username_home, password_home):
 	assert_equal(True, r['success'], "验证home后台-审核中心-个人认证-审核招聘者成功", "验证home后台-审核中心-个人认证-审核招聘者失败")
 
 
-@pytest.mark.parametrize('phone', [(test_data['phone'])])
+@pytest.mark.parametrize('phone', [(phone)])
 def test_completeInfo_process(phone):
 	login("00852", phone)
 	log = logging.getLogger('test_completeInfo_process')
