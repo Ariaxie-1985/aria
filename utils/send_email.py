@@ -9,7 +9,7 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from email.header import Header
 
-from utils.analysis_html_report import get_summary, get_summary_result
+# from utils.analysis_html_report import get_summary, get_summary_result
 
 sender = 'autotest@lagoujobs.com'
 sender_password = 'Lqq123456'
@@ -25,8 +25,8 @@ def mail():
 		subject = 'K8S default环境接口测试报告'
 		message['Subject'] = Header(subject, 'utf-8')
 
-		generated_report_time, summary_time = get_summary()
-		passed, skipped, failed, errors, expected_failures, unexpected_passes = get_summary_result()
+		# generated_report_time, summary_time = get_summary()
+		# passed, skipped, failed, errors, expected_failures, unexpected_passes = get_summary_result()
 
 		# message.attach(
 		# 	MIMEText('测试报告详见附件report.html, 大致如下:\n'
