@@ -49,7 +49,7 @@ def form_post(url, remark, data=None, files=None, headers=None):
 	"""
 	try:
 		headers = {**headers, **header}
-		response = session.post(url=url, data=data, files=files, headers=headers, verify=False, timeout=3)
+		response = session.post(url=url, data=data, files=files, headers=headers, verify=False, timeout=5)
 		logging.info(
 			"\n请求目的: {},\n 请求url: {},\n 请求数据: {},\n 响应结果: {}\n".format(remark, url, data, str(response.json())))
 		if response.status_code == 200:
@@ -109,7 +109,7 @@ def get_requests(url, headers=None, remark=None):
 	:return: object, 响应对象
 	"""
 	try:
-		response = session.get(url=url, headers=headers, verify=False, timeout=3)
+		response = session.get(url=url, headers=headers, verify=False, timeout=6)
 		if "application/json" in response.headers['content-type']:
 			logging.info(
 				"\n请求目的: {},\n 请求url: {},\n 响应结果: {}\n".format(remark, url, str(response.json())))

@@ -1,9 +1,7 @@
 # coding:utf-8
 # @Time  : 2019-01-25 11:34
 # @Author: Xiawang
-
-
-from utils.util import get_code_token, form_post, get_header, json_post
+from utils.util import get_code_token, form_post, get_header, json_post, login
 
 
 def can_new_list():
@@ -84,7 +82,7 @@ def resume_uploadLocalResume(positionId, file_Path):
 	url = "https://easy.lagou.com/resume/uploadLocalResume.json"
 	header = get_header("https://easy.lagou.com/resume/uploadLocalResume.htm")
 	data = {'channelId': "-1", 'autoCandidate': '1', "positionId": positionId,
-	        "id": "WU_FILE_0", "name": "简历模板.pdf", "type": "application/pdf",
+	        "id": "WU_FILE_0", "name": "uploadLocalresume.pdf", "type": "application/pdf",
 	        "lastModifiedDate": "Wed Apr 25 2018 18:43:40 GMT+0800 (中国标准时间)",
 	        "size": "53296"}
 	files = {'file': open(file_Path, 'rb')}
@@ -92,11 +90,11 @@ def resume_uploadLocalResume(positionId, file_Path):
 	return form_post(url=url, data=data, files=files, headers=header, remark=remark)
 
 
-def resume_uploadCandidateson(parentPositionId, file_Path):
+def resume_uploadCandidateson(phone,parentPositionId, file_Path):
 	url = "https://easy.lagou.com/resume/uploadCandidate.json"
 	header = get_header("https://easy.lagou.com/resume/uploadLocalResume.htm")
-	data = {'channelId': "-1", 'phone': '18500000000', "parentPositionId": parentPositionId,
-	        "candidateName": "初心哥", "email": "tester2018@sina.com", "description": "有潜力的候选人"}
+	data = {'channelId': "-1", 'phone': phone, "parentPositionId": parentPositionId,
+	        "candidateName": "初心哥", "email": "{}@sina.com".format(phone), "description": "有潜力的候选人"}
 	files = {'file': open(file_Path, 'rb')}
 	remark = "上传候选人"
 	return form_post(url=url, data=data, files=files, headers=header, remark=remark)
@@ -108,3 +106,5 @@ def multiChannel_myCompanyParentPositions():
 		"https://easy.lagou.com/can/new/index.htm?can=true&stage=NEW&needQueryAmount=true&newDeliverTime=0&pageNo=1")
 	remark = "获取所在公司的父职位-parentPositionId"
 	return form_post(url=url, headers=header, remark=remark)
+
+

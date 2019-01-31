@@ -1,5 +1,4 @@
 # coding:utf-8
-
 from utils.util import get_code_token, form_post, get_requests
 import json
 
@@ -24,3 +23,5 @@ add_url = 'https://hunter.lagou.com/api/position/manager/moveToWaitForChat.json'
 add_header = {"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3615.0 Safari/537.36"}
 add_data = {'paiCandidate':'false','candidateId':userid,'refId':refId,'fromSource':'LAGOU','resumeClassify':''}
 form_post(url=add_url,headers=add_header,data=add_data,remark='加入人才库')
+
+
