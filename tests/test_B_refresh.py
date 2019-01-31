@@ -12,7 +12,7 @@ username = test_data['username']
 login(countrycode,username)
 
 
-# login('00853','05180001')
+# login('00852','20181205')
 def test_refresh():
     logging.getLogger().setLevel(logging.INFO)
     a = getrefreshpoint()
