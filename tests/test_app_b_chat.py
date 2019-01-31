@@ -61,5 +61,4 @@ def test_chat_inspect_reports_all(createBy):
 	assert_equal(1, res['state'], "谁看过我,标记已读成功", "谁看过我,标记已读失败, 失败信息: " + res['message'])
 
 
-if __name__ == '__main__':
-	pytest.main()
+

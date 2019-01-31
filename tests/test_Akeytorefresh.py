@@ -21,5 +21,3 @@ def test_Refreshed():
     Refreshed(3000)
 
 
-if __name__ == '__main__':
-    pytest.main()
