@@ -45,7 +45,7 @@ def publish_position_check():
 	remark = "发布职位前校验"
 	return get_requests(url=url, headers=headers, remark=remark).json()
 
-
+# yazhang新增typeid字段，1：普通职位，2：特权，3：无曝光，4：校招
 def post_positions(firstType, positionType, positionThirdType, positionName):
 	'''
 	发布职位
@@ -64,7 +64,7 @@ def post_positions(firstType, positionType, positionThirdType, positionName):
 		}],
 		"positionType": positionType,
 		"positionDesc": "<p>11111111111111111111111111111</p>",
-		"workYear": "3-5年",
+		"workYear": "应届毕业生",
 		"salaryMin": 20,
 		"firstType": firstType,
 		"positionName": positionName,
@@ -72,10 +72,11 @@ def post_positions(firstType, positionType, positionThirdType, positionName):
 		"positionThirdType": positionThirdType,
 		"jobNature": "全职",
 		"education": "本科",
-		# "workAddressId": 191880,
-		"workAddressId": 191882,
+		"workAddressId": 191880,
+		# "workAddressId": 191882,
 		"department": "技术部",
-		"salaryMax": 30
+		"salaryMax": 30,
+		"typeId":4
 	}
 	remark = "发布职位"
 	return json_post(url=url, headers=headers, data=data, remark=remark)
@@ -218,6 +219,7 @@ def positions_red_point_hint():
 	remark = "首页导航职位红点"
 	return get_requests(url=url, remark=remark, headers=headers).json()
 
+# yqzhang新增
 def positions_details_app(positionId):
 	url = host + '/positions/'+positionId+'/details/app'
 	remark = '获取职位详情新'
@@ -228,11 +230,12 @@ def positions_query_position_type():
 	remark = '查询可选择的职位分类'
 	return get_requests(url=url,remark=remark,headers=headers)
 
-def positions_republish(positionId,typeId):
+def positions_republish(positionId):
 	url = host + "/positions/" + positionId + "/republish"
 	data = {
-		"isConfirm": False,
-		"typeId":typeId
+		# "attachParam":"{\"typeId\":3,\"step\":\"TWO\"}",
+		# "typeId":typeId,
+
 
 	}
 	remark = "重新发布"
@@ -241,12 +244,16 @@ def positions_republish(positionId,typeId):
 
 
 # category_mapping("Java开发")
-# post_positions('开发|测试|运维类','后端开发','Java','Java开发工程师1')
-
-# get_online_positions()
-# positions_republish(str(13845002),0)
-# positions_query_position_type()
+# post_positions('开发|测试|运维类','后端开发','Java','Java开发工程师5')
+'''
+get_online_positions()
+# 100013384
+positions_republish(str(13845257))
+# 100013387
+# positions_republish(str(13687179))
+positions_query_position_type()
 # get_other_positions()
-# get_offline_positions()
+get_offline_positions()
 # positions_details(str(13845259))
-# positions_details_app(str(13845370))
+positions_details_app(str(13845370))
+'''
