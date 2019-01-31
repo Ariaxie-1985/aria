@@ -6,7 +6,7 @@
 '''
 import time
 from multiprocessing import Process
-from util.util import form_post, get_code_token, get_requests
+from utils.util import form_post, get_code_token, get_requests
 
 
 def registe_c(phone, countryCode, userIdentity):

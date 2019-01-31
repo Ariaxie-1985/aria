@@ -1,19 +1,17 @@
 # coding:utf-8
 # @Time  : 2018-12-26 15:37
 # @Author: Xiawang
-import pytest
-
 from api_script.business.SwitchingContract import lagouPlus
 from api_script.business.sub_account import add_sub_account, remove_sub_account, get_userId, reAssignAllGoods, \
 	get_user_goods_info, reAssign_subaccount_Goods, get_invalidUserId, get_subaccunt_goods, recover_sub_account
-from util.read_yaml import get_yaml_test_data
 from api_script.business.Batch_Allocation import batchAllocate, batch_allocation
-from util.util import login
+from utils.util import login
 import logging
 
-from util.util import assert_equal
+from utils.util import assert_equal
 
-from util.read_yaml import get_yaml_test_data
+from utils.read_file import get_yaml_test_data
+
 test_data = get_yaml_test_data("logininfo.yaml")
 
 countrycode = test_data['countrycode']
@@ -83,11 +81,10 @@ def test_recover_sub_account():
 	一键恢复无效子账号
 	:return: Boolean, True表示测试通过, False表示测试失败
 	'''
+	# todo 待与杨振宇(Antonyyang)沟通
 	lagouPlus(templateId)
 	login(countrycode, username)
 	invalidUserId = get_invalidUserId()
-	log = logging.getLogger('test_recover_sub_account')
-	log.debug('验证一键恢复无效子账号: ' + str(invalidUserId) + ' 是否成功')
 	r = recover_sub_account(invalidUserId)
 	assert_equal(1, r['state'], "调整子账号为分账号成功, 其userId: " + str(invalidUserId), "调整子账号为分账号失败, 其响应内容: " + str(r))
 

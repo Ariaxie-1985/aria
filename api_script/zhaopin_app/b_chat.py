@@ -1,7 +1,7 @@
 # coding:utf-8
 # @Time  : 2019-01-17 14:35
 # @Author: Xiawang
-from util.util import get_app_header, json_post, get_requests
+from utils.util import get_app_header, json_post, get_requests
 
 host = "https://gate.lagou.com/v1/zhaopin"
 headers = get_app_header(100014641)

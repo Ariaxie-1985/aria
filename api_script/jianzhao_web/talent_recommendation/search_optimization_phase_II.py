@@ -3,7 +3,7 @@
 # @Author: Xiawang
 import time
 
-from util.util import get_requests, login, form_post, get_code_token
+from utils.util import get_requests, login, form_post, get_code_token
 
 
 def get_talent_index():

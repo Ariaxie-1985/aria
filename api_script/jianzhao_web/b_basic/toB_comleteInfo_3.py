@@ -1,11 +1,12 @@
 # coding:utf-8
 # @Author: Xiawang
-from util.util import get_code_token, form_post, get_requests, login
+from utils.util import get_code_token, form_post, get_requests, login
 import re
 
 
 # B端申请认证公司
 def company_auth():
+	get_requests("")
 	com_step1_url = "https://hr.lagou.com/corpCenter/company/auth/step1.html"
 	auth_file_url = "https://hr.lagou.com/corpCenter/company/auth/file.json"
 	auth_file_data = {"fileUrl": "i/audio1/M00/01/C5/CgHIk1wQzSaAcR09AAqex8SeJls235.JPG"}

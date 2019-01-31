@@ -1,9 +1,9 @@
 #2018秋版合同一键刷新
 
-from util.util import login ,get_code_token,form_post,assert_equal
+from utils.util import login ,get_code_token,form_post,assert_equal
 import time
 
-login('00852','20181205')
+
 '''
 获取第二个职位进行一键刷新
 '''
@@ -54,5 +54,5 @@ def Refreshed(second):
         jsonobject = form_post(url=refresh_url,headers=refresh_header,data=refresh_data,remark='刷新职位')
         assert_equal("操作成功",a,"一键刷新成功","一键刷新失败")
 
-akeyRefresh(3000)
-Refreshed(3000)
+# akeyRefresh(3000)
+# Refreshed(3000)

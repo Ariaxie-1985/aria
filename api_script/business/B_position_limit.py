@@ -1,6 +1,6 @@
 # -*- coding: utf8 -*-
 __author__ = 'yqzhang'
-from util.util import get_code_token, get_requests, get_header ,form_post ,login ,json_post
+from utils.util import get_code_token, get_requests, get_header ,form_post ,login ,json_post
 import json
 
 # login('00853','05180001')

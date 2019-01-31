@@ -4,7 +4,7 @@
 from api_script.jianzhao_web.talent_recommendation.search_optimization_phase_II import get_talent_index, \
 	get_talent_hunting, get_talent_search_list, search_resume_fetchResume, get_talent_search_index, \
 	get_talent_search_similar, get_talent_search_deliverInfo, get_search_saveFilter
-from util.util import login, assert_equal
+from utils.util import login, assert_equal
 
 login("00852", 20181205)
 

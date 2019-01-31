@@ -1,6 +1,6 @@
 # coding:utf-8
 # @Author: Xiawang
-from util.util import form_post, get_code_token
+from utils.util import form_post, get_code_token
 
 # 发布单个职位-拉勾渠道
 def post_position():

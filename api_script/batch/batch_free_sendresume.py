@@ -1,6 +1,6 @@
 # -*- coding: utf8 -*-
 __author__ = 'yqzhang'
-from util.util import get_code_token, form_post, get_header ,login,get_requests
+from utils.util import get_code_token, form_post, get_header ,login,get_requests
 import math
 import json
 def getpositionidfromcompanyid(companyId):

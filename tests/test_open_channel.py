@@ -2,7 +2,7 @@
 # @Time  : 2019-01-23 18:15
 # @Author: Xiawang
 from api_script.jianzhao_web.open_channel.open_channel import settings_channel_support, settings_channel_my_channels
-from util.util import assert_equal, login
+from utils.util import assert_equal, login
 
 login("00852", 20181205)
 

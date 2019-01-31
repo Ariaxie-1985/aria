@@ -3,12 +3,12 @@
 import json
 
 from api_script.business.sub_account import get_user_goods_info, get_userId
-from util.BeautifulSoup import exist_class_name
-from util.util import login,get_requests,form_post,get_code_token,gethtml,assert_equal
+from utils.BeautifulSoup import exist_class_name
+from utils.util import login,get_requests,form_post,get_code_token,gethtml,assert_equal
 import logging
 logging.getLogger().setLevel(logging.INFO)
 
-#
+
 # username = 20181205
 # login("00852", username)
 #查看是否出现可以批量分配
@@ -37,10 +37,10 @@ def batch_allocation(userId_list):
     else:
         b=gethtml("https://easy.lagou.com/subAccount/queryAcount/index.htm")
         a=exist_class_name(b,"batch-handle-btn ")
-        assert_equal(True,a,"出现了批量分配按钮","没有出现批量分配按钮")
+        print(a)
+        assert_equal(False,a,"出现了批量分配按钮","没有出现批量分配按钮")
 
 
-#batch_allocation()
 
 '''
 1、批量分配
@@ -93,6 +93,6 @@ def batchAllocate(userId_list, user_goods_info):
 # goods_list = user_goods_info[userinfo[0]][2]
 # print(goods_list)
 # # print(r)
-
+#
 # userId_list = [100014642, 100014643]
 # batch_allocation(userId_list)

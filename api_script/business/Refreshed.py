@@ -1,6 +1,6 @@
 #2018秋版合同刷新职位
 #需要自己配置等待多长时间
-from util.util import login ,get_code_token,form_post,assert_equal
+from utils.util import login ,get_code_token,form_post,assert_equal
 import time
 
 login('00852','20181205')
@@ -28,6 +28,6 @@ def Refreshed(second):
         time.sleep(second)
         jsonobject = form_post(url=refresh_url,headers=refresh_header,data=refresh_data,remark='刷新职位')
         assert_equal("操作成功",a,"首次刷新成功","首次刷新失败")
-Refreshed(3000)
+#Refreshed(3000)
 
 

@@ -1,13 +1,13 @@
 # coding:utf-8
+import os
+import zipfile
 
 import requests
 import re
 from requests import exceptions
-from requests_toolbelt.multipart import encoder
 from tenacity import *
 import json
 import logging
-from requests_toolbelt.multipart.encoder import MultipartEncoder
 
 logging.getLogger().setLevel(logging.INFO)
 
@@ -38,7 +38,7 @@ def get_code_token(url):
 		wxsend("Xiawang", "该请求: " + url + " 重试后依然有异常: " + str(e))
 
 
-def form_post(url, remark, data=None, headers=None,files=None):
+def form_post(url, remark, data=None, files=None, headers=None):
 	"""
 	form表单传参的post请求
 	:param url: 请求url
@@ -49,7 +49,7 @@ def form_post(url, remark, data=None, headers=None,files=None):
 	"""
 	try:
 		headers = {**headers, **header}
-		response = session.post(url=url, data=data, headers=headers, files=files, verify=False, timeout=3)
+		response = session.post(url=url, data=data, files=files, headers=headers, verify=False, timeout=3)
 		logging.info(
 			"\n请求目的: {},\n 请求url: {},\n 请求数据: {},\n 响应结果: {}\n".format(remark, url, data, str(response.json())))
 		if response.status_code == 200:
@@ -335,3 +335,27 @@ def multipart_post(url, remark, data=None, headers=None):
 	except Exception as e:
 		logging.ERROR("异常日志: " + "该请求: " + url + " 重试后依然有异常: " + str(e))
 		wxsend("Xiawang", "该请求: " + url + " 重试后依然有异常: " + str(e))
+
+
+def dfs_get_zip_file(input_path, result):
+	#
+	files = os.listdir(input_path)
+	for file in files:
+		if os.path.isdir(input_path + '/' + file):
+			dfs_get_zip_file(input_path + '/' + file, result)
+		else:
+			result.append(input_path + '/' + file)
+
+
+def zip_path(input_path, output_path, output_name):
+	f = zipfile.ZipFile(output_path + '/' + output_name, 'w', zipfile.ZIP_DEFLATED)
+	filelists = []
+	dfs_get_zip_file(input_path, filelists)
+	for file in filelists:
+		f.write(file)
+	f.close()
+	file_Path = os.path.abspath(os.path.join(os.getcwd(), ".."))
+	zip_file_Path = os.path.join(file_Path, output_name)
+	return zip_file_Path
+
+

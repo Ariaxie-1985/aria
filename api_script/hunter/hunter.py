@@ -1,6 +1,6 @@
 # coding:utf-8
 
-from util.util import get_code_token, form_post, get_requests
+from utils.util import get_code_token, form_post, get_requests
 import json
 
 hunter_url = 'https://hunter.lagou.com/api/mock/login/325485'
