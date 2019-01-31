@@ -4,7 +4,7 @@ from utils.util import login
 import logging
 from utils.read_file import get_yaml_test_data
 
-test_data = get_yaml_test_data('logininfo.yaml')
+test_data = get_yaml_test_data('test_sub_account.yaml')
 countrycode = test_data['countrycode']
 username = test_data['username']
 

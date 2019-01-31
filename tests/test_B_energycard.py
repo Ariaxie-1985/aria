@@ -6,7 +6,7 @@ from api_script.business.B_energycard import energycard,getpositionId
 from utils.util import login
 from utils.read_file import get_yaml_test_data
 
-test_data = get_yaml_test_data('logininfo.yaml')
+test_data = get_yaml_test_data('test_sub_account.yaml')
 countrycode = test_data['countrycode']
 username = test_data['username']
 
