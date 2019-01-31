@@ -6,7 +6,7 @@ import pytest
 from api_script.zhaopin_app.b_position import post_positions, category_mapping, publish_position_check, \
 	positions_details, update_position, get_online_positions, positions_static_info, get_offline_positions, \
 	get_other_positions, apply_privilege_position, refresh_position, up_position_ranking, positions_top_check, \
-	positions_is_hot, positions_invite, positions_recommend, positions_red_point_hint, positions_republish,positions_details_app
+	positions_is_hot, positions_invite, positions_recommend, positions_red_point_hint, positions_republish,positions_details_app,positions_query_position_type
 from util.util import assert_equal
 
 
@@ -100,7 +100,18 @@ def test_positions_is_hot(positionName):
 	res = positions_is_hot(positionName)
 	assert_equal(True, res['content']['isHot'], "是热门职位", "非热门职位")
 
+# yqzhang新增
+def test_positions_query_position_type():
+	res = positions_query_position_type()
+	assert_equal(1,res['state'],'获取成功','获取失败')
 
+def test_positions_republish():
+	res = positions_republish(str(positionId))
+	assert_equal(1,res['state'],'获取重新发布提示信息成功','获取重新发布提示信息失败')
+
+def test_positions_details_app():
+	res = positions_details_app(str(positionId))
+	assert_equal(1, res['state'], "获取职位详情成功", "获取职位详情失败")
 '''
 因测试环境无法构造需要的测试数据故不执行此用例
 
