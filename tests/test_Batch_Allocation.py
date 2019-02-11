@@ -10,8 +10,13 @@ from utils.util import login,get_requests,form_post,get_code_token,gethtml,asser
 import logging
 logging.getLogger().setLevel(logging.INFO)
 
-username = 20181205
-login("00852", username)
+def setup_module(module):
+    login('00852', '20181205')
+
+
+def teardown_module(module):
+    pass
+
 def test_batch_allocation():
     '''
     #查看是否出现可以批量分配
@@ -44,3 +49,7 @@ def test_batchAllocate():
 
     userId_list = [100014642, 100014643]
     batchAllocate(userId_list, user_goods_info)
+
+
+test_batch_allocation()
+test_batchAllocate()

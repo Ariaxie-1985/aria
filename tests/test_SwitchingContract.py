@@ -10,6 +10,13 @@ import json
 '''
 获取当前时间
 '''
+def setup_module(module):
+    pass
+
+
+def teardown_module(module):
+    pass
+
 def test_lagouPlus():
     '''
     终止当前套餐
