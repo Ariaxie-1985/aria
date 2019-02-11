@@ -15,7 +15,12 @@ from utils.util import assert_equal, login
 file_path = get_file_path("uploadLocalresume.pdf")
 
 
-login("00852", "20181205")
+def setup_module(module):
+	login('00852', '20181205')
+
+
+def teardown_module(module):
+	pass
 
 
 def test_can_new_list():
@@ -66,7 +71,6 @@ def test_can_batch_recommend():
 def test_resume_uploadLocalResume():
 	r = resume_uploadLocalResume(positionId, file_path)
 	assert_equal(1, r['state'], "上传简历成功")
-
 
 # def test_resume_uploadCandidateson():
 # 	phone = 17000000000 + int(time.time())

@@ -6,7 +6,13 @@ from api_script.jianzhao_web.talent_recommendation.search_optimization_phase_II 
 	get_talent_search_similar, get_talent_search_deliverInfo, get_search_saveFilter, get_talent_search_list_html
 from utils.util import login, assert_equal
 
-login("00852", 20181205)
+def setup_module(module):
+	login('00852', '20181205')
+
+
+def teardown_module(module):
+	pass
+
 
 
 def test_get_talent_index():

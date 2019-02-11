@@ -6,11 +6,21 @@ import requests
 
 from api_script.zhaopin_app.b_position import post_positions, category_mapping, publish_position_check, \
 	positions_details, update_position, get_online_positions, positions_static_info, get_offline_positions, \
-	get_other_positions, apply_privilege_position, refresh_position, up_position_ranking, positions_top_check
+	get_other_positions, apply_privilege_position, refresh_position, up_position_ranking, positions_top_check, \
+	positions_is_hot, positions_query_position_type, positions_republish, positions_details_app, \
+	positions_red_point_hint
 # invite_userId_list = test_data['invite_userId_list']
 # session = requests.session()
 # session.cookies.clear()
 from utils.util import assert_equal
+
+
+def setup_module(module):
+	pass
+
+
+def teardown_module(module):
+	pass
 
 
 def test_positions_static_info():
@@ -39,14 +49,14 @@ def test_post_positions(positionName):
 	                     positionType,
 	                     positionThirdType,
 	                     positionName)
-	global positionId
-	positionId = str(res['content']['mdsPositionId'])
 	assert_equal(1, res['state'], "发布职位成功,该职位的PositionId: " + str(res['content']['mdsPositionId']),
 	             "发布职位失败, 该message: " + res['message'])
 
 
 def test_get_online_positions():
 	res = get_online_positions()
+	global positionId
+	positionId = str(res['content']['positions']['result'][0]['positionId'])
 	ids = []
 	for i in res['content']['positions']['result']:
 		ids.append(i['positionId'])
@@ -132,7 +142,7 @@ def test_positions_recommend():
 '''
 
 
-@pytest.mark.xfail(reason="首页导航职位无红点")
+# @pytest.mark.xfail(reason="首页导航职位无红点")
 def test_positions_red_point_hint():
 	res = positions_red_point_hint()
 	assert_equal(True, res['content']['isShowRedPointHint'], "首页导航职位无红点", "首页导航职位有红点")
