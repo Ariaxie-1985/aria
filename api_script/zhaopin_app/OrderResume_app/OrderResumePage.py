@@ -39,6 +39,6 @@ def NotReadCount(userid):
     assert_equal("操作成功",meassage,"未读简历数量正确","未读简历数量报错")
 
 
-OrderResumespage(100014641)
-OrderResumespageStage(100014641)
-NotReadCount(100014641)
+# OrderResumespage(100014641)
+# OrderResumespageStage(100014641)
+# NotReadCount(100014641)

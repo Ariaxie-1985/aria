@@ -5,7 +5,7 @@ from utils.util import get_app_header,form_post,get_requests,assert_equal,login,
 from api_script.zhaopin_app.b_searchResumePosition import get_strict_pages_orderResumes
 import datetime
 import  time
-def positionId():
+def PositionId():
     '''
     获取职位id
     :param userid:
@@ -20,7 +20,7 @@ def TopCard(userid):
     使用置顶卡，既添加置顶卡排期
     :return:
     '''
-    id=positionId()
+    id=PositionId()
     times=time.strftime('%Y%m%d',time.localtime(time.time()+90000))
     header=get_app_header(userid)
     url="https://gate.lagou.com/v1/zhaopin/topCard/addSchedule?positionId="+str(id)+"&ids="+str(times)+"-1-1.0"
@@ -65,7 +65,7 @@ def OperateSchedule(userid):
 
 
 
-positionId()
+PositionId()
 TopCard(100014641)
 offlineWin(100014641)
 OperateSchedule(100014641)
