@@ -6,3 +6,5 @@ Pipfile.lock
 .pytest_cache/
 report/report.html
 platform/
+report/
+assets/

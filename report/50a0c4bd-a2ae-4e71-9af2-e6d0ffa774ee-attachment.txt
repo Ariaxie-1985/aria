@@ -1,7 +1,0 @@
-util.py                     54 INFO     
-请求目的: 创建候选人筛选器,
- 请求url: https://easy.lagou.com/can/new/createFilter.json,
- 请求数据: {'name': '1', 'newDeliverTime': '0', 'channels': '108', 'plusTypes': '2,1', 'famousCompany': '0', 'stages': 'NEW'},
- 响应结果: {'state': 1, 'message': '操作成功', 'content': {'data': {'resumeFilter': {'id': 371, 'resumeFilterInfo': {'newDeliverTime': 0, 'channels': [108], 'plusTypes': [2, 1], 'stages': ['NEW'], 'famousCompany': 0}, 'createTime': '20190212T120400+0800', 'updateTime': '20190212T120400+0800', 'userId': 100014641, 'companyId': 141702, 'name': '1'}}, 'rows': []}, 'submitCode': '921ce97e-4302-43a3-8c66-3919263d1580', 'submitToken': '07fab681-db94-4668-bad8-3bb924d72ed2'}
-
-util.py                    220 INFO     创建候选人筛选器成功
