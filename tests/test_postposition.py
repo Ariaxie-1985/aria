@@ -3,16 +3,22 @@
 # @Author: Xiawang
 import logging
 import time
-
+import pytest
+from api_script.business.SwitchingContract import lagouPlus
 from api_script.jianzhao_web.b_position.B_postposition import post_position
 from utils.util import login, assert_equal
 
-username = 20181205
-login("00852", username)
+
+def setup_module(module):
+	lagouPlus(90)
+	login("00852", 20181205)
+
+
+def teardown_module(module):
+	pass
 
 
 def test_post_position():
-	time.sleep(1)
 	r = post_position()
 	positiId = r['content']['data']['parentPositionInfo']['parentPositionId']
 	assert_equal(1, r['state'], "发布职位成功, , 该职位id是 " + str(positiId))

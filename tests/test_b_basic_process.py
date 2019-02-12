@@ -17,6 +17,14 @@ test_data = get_yaml_test_data("test_b_basic_process.yaml")
 phone = str(int(time.time()))[2:10]  # 生成8位数字的字符串
 
 
+def setup_module(module):
+	pass
+
+
+def teardown_module(module):
+	pass
+
+
 @pytest.mark.parametrize(
 	'phone, countryCode,companyShortName, companyFullName, userName, resumeReceiveEmail,updateCompanyShortName',
 	[(phone, test_data['countryCode'], test_data['companyShortName'], test_data['companyFullName'],
@@ -42,7 +50,6 @@ def test_passPersonApprove(username_home, password_home):
 	log.info('验证home后台-审核中心-个人认证-审核招聘者是否成功')
 	r = passPersonApprove()
 	assert_equal(True, r['success'], "验证home后台-审核中心-个人认证-审核招聘者成功", "验证home后台-审核中心-个人认证-审核招聘者失败")
-
 
 # @pytest.mark.parametrize('phone', [(phone)])
 # def test_completeInfo_process(phone):

@@ -4,7 +4,13 @@
 from api_script.jianzhao_web.resume_manage.resume_clean import can_new_index, can_new_clean
 from utils.util import assert_equal, login
 
-login("00852", 20181205)
+
+def setup_module(module):
+	login('00852', '20181205')
+
+
+def teardown_module(module):
+	pass
 
 
 def test_can_new_index():

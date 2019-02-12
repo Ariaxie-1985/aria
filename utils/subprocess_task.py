@@ -7,4 +7,4 @@ import subprocess
 os.chdir('..')
 
 subprocess.call("pipenv shell", shell=True)
-subprocess.call("pytest tests/1test_app_b_position.py", shell=True)
+subprocess.call("pytest tests/test_app_b_position.py", shell=True)

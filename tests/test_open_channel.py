@@ -4,7 +4,13 @@
 from api_script.jianzhao_web.open_channel.open_channel import settings_channel_support, settings_channel_my_channels
 from utils.util import assert_equal, login
 
-login("00852", 20181205)
+
+def setup_module(module):
+	login('00852', '20181205')
+
+
+def teardown_module(module):
+	pass
 
 
 def test_settings_channel_support():
