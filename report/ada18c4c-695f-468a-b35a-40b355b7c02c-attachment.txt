@@ -1,0 +1,7 @@
+util.py                     54 INFO     
+请求目的: 批量推荐候选人到职位,
+ 请求url: https://easy.lagou.com/can/batch/recommend.json,
+ 请求数据: {'resumeIds': '1094920064290918400,1094920062822912000', 'parentPositionId': 1787541},
+ 响应结果: {'state': 1, 'message': '操作成功', 'content': {'data': {'failIdList': []}, 'rows': []}, 'submitCode': '16fce1db-118e-45eb-83f1-0e48eec26065', 'submitToken': 'af0f8c76-c33d-43e2-a0b2-726371f53272'}
+
+util.py                    220 INFO     批量推荐候选人到职位成功

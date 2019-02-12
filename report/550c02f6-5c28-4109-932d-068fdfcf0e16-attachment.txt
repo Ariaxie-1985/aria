@@ -1,0 +1,7 @@
+util.py                     54 INFO     
+请求目的: 删除候选人筛选器,
+ 请求url: https://easy.lagou.com/resume/deleteResumeFilter.json,
+ 请求数据: {'resumeFilterId': 371},
+ 响应结果: {'state': 1, 'message': '操作成功', 'content': {'rows': []}}
+
+util.py                    220 INFO     删除候选人筛选器成功

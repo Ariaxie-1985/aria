@@ -1,0 +1,7 @@
+util.py                     54 INFO     
+请求目的: 获取候选人筛选器,
+ 请求url: https://easy.lagou.com/can/new/myfilters.json,
+ 请求数据: None,
+ 响应结果: {'state': 1, 'message': '操作成功', 'content': {'rows': [{'id': 371, 'resumeFilterInfo': {'newDeliverTime': 0, 'channels': [108], 'plusTypes': [2, 1], 'stages': ['NEW'], 'famousCompany': 0}, 'createTime': '20190212T120400+0800', 'updateTime': '20190212T120400+0800', 'userId': 100014641, 'companyId': 141702, 'name': '1'}]}}
+
+util.py                    220 INFO     获取候选人筛选器成功

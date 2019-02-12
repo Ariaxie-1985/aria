@@ -1,0 +1,7 @@
+util.py                     54 INFO     
+请求目的: 推荐候选人到职位,
+ 请求url: https://easy.lagou.com/can/recommend.json,
+ 请求数据: {'resumeId': '1094792959192338432', 'parentPositionId': 1787541},
+ 响应结果: {'state': 1, 'message': '操作成功', 'content': {'rows': []}}
+
+util.py                    220 INFO     推荐候选人到职位成功

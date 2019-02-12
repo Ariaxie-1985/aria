@@ -1,0 +1,7 @@
+util.py                     54 INFO     
+请求目的: 上传简历,
+ 请求url: https://easy.lagou.com/resume/uploadLocalResume.json,
+ 请求数据: {'channelId': '-1', 'autoCandidate': '1', 'positionId': 13845197, 'id': 'WU_FILE_0', 'name': 'uploadLocalresume.pdf', 'type': 'application/pdf', 'lastModifiedDate': 'Wed Apr 25 2018 18:43:40 GMT+0800 (中国标准时间)', 'size': '53296'},
+ 响应结果: {'state': 1, 'message': '操作成功', 'content': {'data': {'fileId': 'r/audio1/M00/02/0C/CgHIk1xNLYGAd6TvAADQMBTVUGQ491.pdf'}, 'rows': []}}
+
+util.py                    220 INFO     上传简历成功

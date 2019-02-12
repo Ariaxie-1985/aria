@@ -23,6 +23,7 @@ pymysql = "*"
 flask-httpauth = "*"
 uwsgi = "*"
 requests-toolbelt = "*"
+allure-pytest = "*"
 
 
 [dev-packages]
