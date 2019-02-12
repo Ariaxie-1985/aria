@@ -5,7 +5,14 @@ from api_script.jianzhao_web.interview.interview import interview_index, intervi
 	interview_setting_save, interview_get_code, interview_resetCode
 from utils.util import assert_equal, login
 
-login("00852", 20181205)
+
+def setup_module(module):
+	login('00852', '20181205')
+
+
+def teardown_module(module):
+	pass
+
 
 def test_interview_index():
 	r = interview_index()

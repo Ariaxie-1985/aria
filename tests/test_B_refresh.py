@@ -5,14 +5,14 @@ from api_script.business.B_refresh import refrech,getpositionId,getrefreshpoint
 from utils.util import login
 from utils.read_file import get_yaml_test_data
 
-test_data = get_yaml_test_data('logininfo.yaml')
+test_data = get_yaml_test_data('test_sub_account.yaml')
 countrycode = test_data['countrycode']
 username = test_data['username']
 
 login(countrycode,username)
 
 
-# login('00853','05180001')
+# login('00852','20181205')
 def test_refresh():
     logging.getLogger().setLevel(logging.INFO)
     a = getrefreshpoint()

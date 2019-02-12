@@ -18,6 +18,14 @@ test_data = get_yaml_test_data("B_add_people_into_company.yaml")
 phone = test_data['phone'] + random.randrange(1, 1000)
 
 
+def setup_module(module):
+	pass
+
+
+def teardown_module(module):
+	pass
+
+
 @pytest.mark.parametrize('phone,countryCode,userName,companyFullName,resumeReceiveEmail',
                          [(phone, test_data['countryCode'], test_data['userName'],
                            test_data['companyFullName'], test_data['resumeReceiveEmail'])])

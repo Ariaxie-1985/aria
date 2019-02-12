@@ -52,4 +52,3 @@ def lagouPlus(templateId):
     # print(str(str(TotalNum)+str(Pluspower)+str(PostsnNumber)+str(users)))
     # assert_equal("999.01.0999.0999.0",str(TotalNum)+str(Pluspower)+str(PostsnNumber)+str(users),"对比套餐内容，所得内容正确17版","对比套餐内容，所得内容不匹配")
 
-lagouPlus(90)

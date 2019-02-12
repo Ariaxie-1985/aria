@@ -69,6 +69,17 @@ def get_talent_checkNewData():
 	return get_requests(url=url).json()
 
 
+def get_talent_search_list_html():
+	'''
+	单开页-人才搜索接口
+	:return:
+	'''
+	url = "https://easy.lagou.com/talent/search/list.htm?orderWay=0&createTime={}&positionName=python".format(
+		int(round(time.time() * 1000)))
+	r = get_requests(url=url)
+	return r
+
+
 def get_talent_search_list():
 	'''
 	单开页-人才搜索接口
@@ -77,13 +88,10 @@ def get_talent_search_list():
 	url = "https://easy.lagou.com/talent/search/list.json?pageNo=1&orderWay=0&createTime={}&positionName=python&visible=true&searchVersion=1".format(
 		int(round(time.time() * 1000)))
 	r = get_requests(url=url).json()
-	global cUserId, resumeFetchKey
-	cUserId = r['content']['data']['page']['result'][0]['userId']
-	resumeFetchKey = r['content']['data']['page']['result'][0]['resumeFetchKey']
 	return r
 
 
-def search_resume_fetchResume():
+def search_resume_fetchResume(resumeFetchKey):
 	'''
 	人才预览
 	:return:
@@ -101,7 +109,7 @@ def get_talent_search_index():
 	return get_requests(url=url)
 
 
-def get_talent_search_similar():
+def get_talent_search_similar(cUserId):
 	'''
 	获取相似人才
 	:return:
@@ -149,6 +157,5 @@ def get_search_saveFilter():
 	header = {}
 	remark = "保存过滤器"
 	return form_post(url=url, data=data, headers=header, remark=remark)
-
 
 

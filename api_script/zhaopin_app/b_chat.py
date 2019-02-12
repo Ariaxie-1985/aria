@@ -1,6 +1,8 @@
 # coding:utf-8
 # @Time  : 2019-01-17 14:35
 # @Author: Xiawang
+import time
+
 from utils.util import get_app_header, json_post, get_requests
 
 host = "https://gate.lagou.com/v1/zhaopin"
@@ -47,3 +49,5 @@ def chat_inspect_list():
 	url = host + "/chat/inspect/list?pageSize=20"
 	remark = "谁看过我"
 	return get_requests(url=url, headers=headers, remark=remark).json()
+
+

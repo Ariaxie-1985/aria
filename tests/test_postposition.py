@@ -2,12 +2,20 @@
 # @Time  : 2018-12-27 14:16
 # @Author: Xiawang
 import logging
-
+import time
+import pytest
+from api_script.business.SwitchingContract import lagouPlus
 from api_script.jianzhao_web.b_position.B_postposition import post_position
 from utils.util import login, assert_equal
 
-username = 20181205
-login("00852", username)
+
+def setup_module(module):
+	lagouPlus(90)
+	login("00852", 20181205)
+
+
+def teardown_module(module):
+	pass
 
 
 def test_post_position():

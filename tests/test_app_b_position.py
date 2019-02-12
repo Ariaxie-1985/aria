@@ -7,18 +7,21 @@ import requests
 from api_script.zhaopin_app.b_position import post_positions, category_mapping, publish_position_check, \
 	positions_details, update_position, get_online_positions, positions_static_info, get_offline_positions, \
 	get_other_positions, apply_privilege_position, refresh_position, up_position_ranking, positions_top_check, \
-<<<<<<< HEAD
-	positions_is_hot, positions_invite, positions_recommend, positions_red_point_hint, positions_republish,positions_details_app,positions_query_position_type
-from util.util import assert_equal
-=======
-	positions_is_hot, positions_invite, positions_recommend, positions_red_point_hint, positions_republish,positions_details_app
-from utils.util import assert_equal
->>>>>>> dbb08725d8ea9c53b06de9264950373d9e629fb5
-
-
+	positions_is_hot, positions_query_position_type, positions_republish, positions_details_app, \
+	positions_red_point_hint
 # invite_userId_list = test_data['invite_userId_list']
 # session = requests.session()
 # session.cookies.clear()
+from utils.util import assert_equal
+
+
+def setup_module(module):
+	pass
+
+
+def teardown_module(module):
+	pass
+
 
 def test_positions_static_info():
 	res = positions_static_info()
@@ -46,14 +49,14 @@ def test_post_positions(positionName):
 	                     positionType,
 	                     positionThirdType,
 	                     positionName)
-	global positionId
-	positionId = str(res['content']['mdsPositionId'])
 	assert_equal(1, res['state'], "发布职位成功,该职位的PositionId: " + str(res['content']['mdsPositionId']),
 	             "发布职位失败, 该message: " + res['message'])
 
 
 def test_get_online_positions():
 	res = get_online_positions()
+	global positionId
+	positionId = str(res['content']['positions']['result'][0]['positionId'])
 	ids = []
 	for i in res['content']['positions']['result']:
 		ids.append(i['positionId'])
@@ -107,18 +110,23 @@ def test_positions_is_hot(positionName):
 	res = positions_is_hot(positionName)
 	assert_equal(True, res['content']['isHot'], "是热门职位", "非热门职位")
 
+
 # yqzhang新增
 def test_positions_query_position_type():
 	res = positions_query_position_type()
-	assert_equal(1,res['state'],'获取成功','获取失败')
+	assert_equal(1, res['state'], '获取成功', '获取失败')
+
 
 def test_positions_republish():
 	res = positions_republish(str(positionId))
-	assert_equal(1,res['state'],'获取重新发布提示信息成功','获取重新发布提示信息失败')
+	assert_equal(1, res['state'], '获取重新发布提示信息成功', '获取重新发布提示信息失败')
+
 
 def test_positions_details_app():
 	res = positions_details_app(str(positionId))
 	assert_equal(1, res['state'], "获取职位详情成功", "获取职位详情失败")
+
+
 '''
 因测试环境无法构造需要的测试数据故不执行此用例
 
@@ -134,7 +142,7 @@ def test_positions_recommend():
 '''
 
 
-@pytest.mark.xfail(reason="首页导航职位无红点")
+# @pytest.mark.xfail(reason="首页导航职位无红点")
 def test_positions_red_point_hint():
 	res = positions_red_point_hint()
 	assert_equal(True, res['content']['isShowRedPointHint'], "首页导航职位无红点", "首页导航职位有红点")

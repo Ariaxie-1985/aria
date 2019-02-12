@@ -10,6 +10,14 @@ from api_script.zhaopin_app.b_searchResumePosition import get_strict_pages_posit
 from utils.util import assert_equal
 
 
+def setup_module(module):
+	pass
+
+
+def teardown_module(module):
+	pass
+
+
 @pytest.mark.parametrize("type", [('POSITION_ENERGY_CARD_MESSAGE')])
 def test_positions_tag_report(type):
 	res = crm_positions_tag_report(type)
@@ -59,7 +67,3 @@ def test_chat_inspect_reports():
 def test_chat_inspect_reports_all(createBy):
 	res = chat_inspect_reports_all(createBy)
 	assert_equal(1, res['state'], "谁看过我,标记已读成功", "谁看过我,标记已读失败, 失败信息: " + res['message'])
-
-
-if __name__ == '__main__':
-	pytest.main()

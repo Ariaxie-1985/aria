@@ -1,22 +1,23 @@
 # coding:utf-8
 # @Author: Xiawang
-from utils.util import get_code_token, form_post, get_requests, login
+from utils.util import get_code_token, form_post, get_requests, login, get_header
 import re
 
 
 # B端申请认证公司
 def company_auth():
-	get_requests("")
+	com_header = get_header("https://easy.lagou.com/dashboard/index.htm?from=c_index")
+	get_requests("https://easy.lagou.com/bstatus/auth/index.htm", headers=com_header)
 	com_step1_url = "https://hr.lagou.com/corpCenter/company/auth/step1.html"
 	auth_file_url = "https://hr.lagou.com/corpCenter/company/auth/file.json"
 	auth_file_data = {"fileUrl": "i/audio1/M00/01/C5/CgHIk1wQzSaAcR09AAqex8SeJls235.JPG"}
 	auth_file_header = get_code_token(com_step1_url)
-	print(auth_file_header)
 	remark = "上传营业执照"
 	return form_post(url=auth_file_url, data=auth_file_data, headers=auth_file_header, remark=remark)
 
 
 def completeInfo():
+
 	com_step2_url = "https://hr.lagou.com/corpCenter/company/auth/step2.html"
 	com_html = get_requests(com_step2_url)
 	comAuthId = re.findall('userId: "(.*?)"', com_html.text, re.S)[0]
@@ -34,3 +35,7 @@ def completeInfo_process():
 	r1 = company_auth()
 	r2 = completeInfo()
 	return [r1, r2]
+
+
+# login("00852",20000415)
+# completeInfo_process()

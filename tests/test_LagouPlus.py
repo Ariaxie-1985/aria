@@ -4,7 +4,13 @@
 from api_script.business.LagouPlus import lagouPlusqiu,lagouPlus
 from utils.util import login_home,get_code_token,form_post,get_header,get_requests,assert_equal
 import json
-login_home("anan@lagou.com","990eb670f81e82f546cfaaae1587279a")
+def setup_module(module):
+    login_home("anan@lagou.com","990eb670f81e82f546cfaaae1587279a")
+
+
+def teardown_module(module):
+    pass
+
 
 def test_lagouPlus():
     '''

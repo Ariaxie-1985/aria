@@ -2,6 +2,7 @@
 # @Time  : 2019-01-25 15:56
 # @Author: Xiawang
 import os
+import time
 
 import pytest
 
@@ -11,10 +12,15 @@ from api_script.jianzhao_web.resume_manage.candidate import can_new_list, can_ne
 from utils.read_file import get_file_path
 from utils.util import assert_equal, login
 
+file_path = get_file_path("uploadLocalresume.pdf")
 
-file_path = get_file_path("简历模板.pdf")
 
-login("00852", "20181205")
+def setup_module(module):
+	login('00852', '20181205')
+
+
+def teardown_module(module):
+	pass
 
 
 def test_can_new_list():
@@ -45,17 +51,13 @@ def test_resume_deleteResumeFilter():
 	assert_equal(1, r['state'], "删除候选人筛选器成功")
 
 
-
-
-
 def test_multiChannel_myCompanyParentPositions():
 	r = multiChannel_myCompanyParentPositions()
 	global parentPositionId
-	parentPositionId = r['content']['data']['parentPositionCategory']['开发|测试|运维类'][0]['positionId']
+	parentPositionId = r['content']['data']['parentPositionCategory']['开发|测试|运维类'][1]['positionId']
 	assert_equal(1, r['state'], "获取所在公司的父职位-parentPositionId成功")
 
 
-@pytest.mark.xfail(reason="该职位下简历已经存在")
 def test_can_recommend():
 	r = can_recommend(resumeId, parentPositionId)
 	assert_equal(1, r['state'], "推荐候选人到职位成功")
@@ -70,9 +72,11 @@ def test_resume_uploadLocalResume():
 	r = resume_uploadLocalResume(positionId, file_path)
 	assert_equal(1, r['state'], "上传简历成功")
 
-
-def test_resume_uploadCandidateson():
-	r = resume_uploadCandidateson(parentPositionId, file_path)
-	assert_equal(1, r['state'], "上传候选人成功")
-
-
+# def test_resume_uploadCandidateson():
+# 	phone = 17000000000 + int(time.time())
+# 	src_file_path = get_file_path('uploadCandidateson.pdf')
+# 	update_file_path = get_file_path("uploadCandidateson{}.pdf").format(int(time.time()))
+# 	os.rename(src_file_path, update_file_path)
+# 	r = resume_uploadCandidateson(phone, parentPositionId, update_file_path)
+# 	os.rename(update_file_path, file_path)
+# 	assert_equal(1, r['state'], "上传候选人成功")

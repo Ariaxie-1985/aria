@@ -12,21 +12,25 @@ from utils.util import assert_equal
 
 from utils.read_file import get_yaml_test_data
 
-test_data = get_yaml_test_data("logininfo.yaml")
+test_data = get_yaml_test_data("test_sub_account.yaml")
 
 countrycode = test_data['countrycode']
 username = test_data['username']
 templateId = test_data['templateId']
+userId_list = [100014642,100014643]
+invalidUserId = 100014642
 
 '''
 验证在不同套餐版本下子账号的添加, 权益调整, 移除, 无效后再恢复, 调整为分账号
 '''
 
-lagouPlus(templateId)
 
-login(countrycode, username)
+def setup_module(module):
+	lagouPlus(templateId)
+	login(countrycode, username)
 
-userId_list = get_userId()
+def teardown_module(module):
+	pass
 
 
 def test_add_sub_account():
@@ -41,9 +45,6 @@ def test_add_sub_account():
 	assert_equal(userId_list[1], userId_r, "添加子账号成功, 其userId: " + str(userId_r), "添加子账号失败, 其响应内容: " + str(r))
 
 
-userinfolist = get_user_goods_info(userId_list)
-
-
 def test_reAssignAllGoods():
 	'''
 	调整子账号的权益
@@ -51,6 +52,8 @@ def test_reAssignAllGoods():
 	'''
 	log = logging.getLogger('test_reAssignAllGoods')
 	log.debug('验证调整子账号的权益: ' + str(userId_list) + ' 是否成功')
+	global userinfolist
+	userinfolist = get_user_goods_info(userId_list)
 	r = reAssignAllGoods(userinfolist)
 	assert_equal("调整成功", r['message'], "调整子账号的权益成功, 其userId: " + str(userId_list), "调整子账号的权益失败, 其响应内容: " + str(r))
 
@@ -75,26 +78,24 @@ def test_Batch_Allocation():
 	batchAllocate(userId_list, userinfolist)
 	batch_allocation(userId_list)
 
-
-def test_recover_sub_account():
-	'''
-	一键恢复无效子账号
-	:return: Boolean, True表示测试通过, False表示测试失败
-	'''
-	# todo 待与杨振宇(Antonyyang)沟通
-	lagouPlus(templateId)
-	login(countrycode, username)
-	invalidUserId = get_invalidUserId()
-	r = recover_sub_account(invalidUserId)
-	assert_equal(1, r['state'], "调整子账号为分账号成功, 其userId: " + str(invalidUserId), "调整子账号为分账号失败, 其响应内容: " + str(r))
-
-
-def test_remove_sub_account():
-	'''
-	测试验证移除子账号是否成功
-	:return: Boolean, True表示测试通过, False表示测试失败
-	'''
-	log = logging.getLogger('test_remove_sub_account')
-	log.debug('验证移除子账号: ' + str(userId_list) + '是否成功')
-	r = remove_sub_account(userId_list)
-	assert_equal("删除成功", r['message'], "删除子账号成功, 其userId: " + str(userId_list), "删除子账号失败, 其响应内容: " + str(r))
+#
+# def test_recover_sub_account():
+# 	'''
+# 	一键恢复无效子账号
+# 	:return: Boolean, True表示测试通过, False表示测试失败
+# 	'''
+# 	lagouPlus(templateId)
+# 	login(countrycode, username)
+# 	r = recover_sub_account(invalidUserId)
+# 	assert_equal(1, r['state'], "调整子账号为分账号成功, 其userId: " + str(invalidUserId), "调整子账号为分账号失败, 其响应内容: " + str(r))
+#
+#
+# def test_remove_sub_account():
+# 	'''
+# 	测试验证移除子账号是否成功
+# 	:return: Boolean, True表示测试通过, False表示测试失败
+# 	'''
+# 	log = logging.getLogger('test_remove_sub_account')
+# 	log.debug('验证移除子账号: ' + str(userId_list) + '是否成功')
+# 	r = remove_sub_account(userId_list)
+# 	assert_equal("删除成功", r['message'], "删除子账号成功, 其userId: " + str(userId_list), "删除子账号失败, 其响应内容: " + str(r))

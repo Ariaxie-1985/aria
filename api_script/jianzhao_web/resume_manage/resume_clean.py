@@ -1,7 +1,7 @@
 # coding:utf-8
 # @Time  : 2019-01-23 18:19
 # @Author: Xiawang
-from utils.util import get_code_token, form_post, get_requests
+from utils.util import get_code_token, form_post, get_requests, login
 
 
 def can_new_index():
@@ -19,3 +19,8 @@ def can_new_clean():
 		"https://easy.lagou.com/can/index.htm?can=true&stage=NEW&needQueryAmount=true&newDeliverTime=0")
 	remark = "清理30天内的新简历"
 	return form_post(url=url, data=data, headers=header, remark=remark)
+
+
+# login("00852", 20181205)
+# can_new_index()
+# can_new_clean()

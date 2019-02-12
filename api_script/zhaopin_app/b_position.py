@@ -6,7 +6,7 @@ from utils.util import get_app_header, get_requests, json_post, json_put
 
 host = "https://gate.lagou.com/v1/zhaopin"
 headers = get_app_header(100014641)
-
+# headers = get_app_header(100013384)
 
 def positions_static_info():
 	url = host + "/positions/static_info"
@@ -76,7 +76,7 @@ def post_positions(firstType, positionType, positionThirdType, positionName):
 		# "workAddressId": 191882,
 		"department": "技术部",
 		"salaryMax": 30,
-		"typeId":4
+		"typeId":''
 	}
 	remark = "发布职位"
 	return json_post(url=url, headers=headers, data=data, remark=remark)
