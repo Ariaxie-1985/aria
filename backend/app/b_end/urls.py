@@ -4,7 +4,7 @@
 from flask import Blueprint
 from flask_restful import Api
 
-from backend.app.b_end.api import B_Post_Position, B_Basic_Process, HelloWorld, C_Basic_Process
+from backend.app.b_end.views import B_Post_Position, B_Basic_Process, HelloWorld, C_Basic_Process
 
 app_api = Blueprint(name="b_end", import_name=__name__)
 restful_api = Api(app_api)
