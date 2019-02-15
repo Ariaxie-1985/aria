@@ -50,6 +50,3 @@ def test_batchAllocate():
     userId_list = [100014642, 100014643]
     batchAllocate(userId_list, user_goods_info)
 
-
-test_batch_allocation()
-test_batchAllocate()

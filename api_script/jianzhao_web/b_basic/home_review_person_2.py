@@ -10,7 +10,6 @@ def passPersonApprove():
 	queryPerson_data = {"startPage":1,"pageSize":1,"approveTimeSort":"desc","auditStatusType":"wait"}
 
 	queryPerson_header = get_header(referer_queryPerson_home_url)
-	print("header0000000000000:"+str(queryPerson_header))
 	remark="验证home后台-审核中心-倒序获取招聘者的id是否成功"
 	queryPerson_res = form_post(url=queryPerson_url, data=queryPerson_data, headers=queryPerson_header,remark=remark)
 	personCheckId = queryPerson_res['data']['pageData'][0]['personCheck']['id']

@@ -16,12 +16,25 @@ from utils.util import login, login_home
 
 class HelloWorld(Resource):
 	def get(self):
+		'''首页
+
+		:return: {'hello': 'world'}
+		'''
 		return {'hello': 'world'}
 
 
 class B_Post_Position(Resource):
 
 	def post(self):
+		"""发布职位
+		Args:
+			countrycode: str, 用户手机号的归属区号
+			username: str, 用户手机号
+			sum: int, 发布职位总数
+
+		:return:
+			{"message": "发布职位" + str(j) + "个成功", "content": successlist, "failinfo": failinfo}
+		"""
 		j = 0
 		successlist = []
 		failinfo = [None]
@@ -52,10 +65,22 @@ class B_Post_Position(Resource):
 class B_Basic_Process(Resource):
 
 	def post(self):
-		'''
-		B端注册-公司成立-招聘者认证提交及审核-公司认证及审核流程
+		'''B端注册-公司成立-招聘者认证提交及审核-公司认证及审核流程
 
-		:return:
+		Args:
+			countryCode: str, 用户手机号的归属区号
+			phone: str, 用户手机号
+			userName: str, 用户名
+			companyShortName: str, 公司简称
+			companyFullName: str, 公司全称
+			resumeReceiveEmail: str, 用户接收简历邮箱
+			updateCompanyShortName: str, 公司简称
+
+		:return: {
+					"content": "B端注册-公司成立-招聘者认证提交及审核-公司认证及审核流程通过！",
+					"data": {"HRInfo": HRInfo, "CompanyInfo": CompanyInfo, "Application": Application,
+				             "ApproveInfo": ApproveInfo}
+				}
 		'''
 		HRInfo = {}
 		CompanyInfo = {}
@@ -112,22 +137,16 @@ class B_Basic_Process(Resource):
 			return {"content": "执行失败", "data": str(e), "faiinfo": info}
 
 
-'''
-3.发简历
-4.C端注册并生成简历
-'''
-
-
 class C_Basic_Process(Resource):
 
 	def post(self):
-		'''
+		'''C端注册并生成简历
 		Args:
 		phone: str, 手机号
 		countryCode: str, 地区编号
 		userIdentity: int, 1学生, 2非学生
 		sum: int, 构造C端账号的数量
-		:return:
+		:return: {"content": "成功", "info": "用户手机号为" + str(phone) + "注册成功"+", 且个人基本信息更新成功"}
 		'''
 		request_data = request.get_json()
 		phone = int(request_data['phone'])
@@ -136,8 +155,14 @@ class C_Basic_Process(Resource):
 			a += 1
 			phone += a
 			r = registe_c(phone, request_data['countryCode'], request_data['userIdentity'])
-			print(r)
 			if len(r) == 8:
-				return {"content": "8组数据"}
+				[r1, r2, r3, r4, r5, r6, r7, r8] = r
+				if r1['state'] == 1 and r2['success'] == r3['success'] == r4['success'] == r5['success'] == r6[
+					'success'] == r7[
+					'success'] == r8['success']:
+					return {"content": "成功", "info": "用户手机号为" + str(phone) + "注册成功" + ", 且个人基本信息更新成功"}
 			elif len(r) == 7:
-				return {"content": "7组数据"}
+				[r1, r2, r4, r5, r6, r7, r8] = r
+				if r1['state'] == 1 and r2['success'] == r4['success'] == r5['success'] == r6['success'] == r7[
+					'success'] == r8['success']:
+					return {"content": "成功", "info": "用户手机号为" + str(phone) + "注册成功" + ", 且个人基本信息更新成功"}

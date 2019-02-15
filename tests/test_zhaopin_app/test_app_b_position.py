@@ -112,6 +112,7 @@ def test_positions_is_hot(positionName):
 
 
 # yqzhang新增
+'''
 def test_positions_query_position_type():
 	res = positions_query_position_type()
 	assert_equal(1, res['state'], '获取成功', '获取失败')
@@ -125,7 +126,7 @@ def test_positions_republish():
 def test_positions_details_app():
 	res = positions_details_app(str(positionId))
 	assert_equal(1, res['state'], "获取职位详情成功", "获取职位详情失败")
-
+'''
 
 '''
 因测试环境无法构造需要的测试数据故不执行此用例

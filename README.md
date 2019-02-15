@@ -25,4 +25,7 @@ pytest api_script/tests/test_b_basic.py api_script/tests/test_*.py
 # 激活虚拟环境的前提下, 安装依赖如下, 若无法安装, 就 ```pip3 install xxx```
 pipenv install xxxx
 
+# 生成 requirements.txt
+pip freeze > requirements.txt
+
 ```

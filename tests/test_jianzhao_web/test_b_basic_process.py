@@ -7,6 +7,7 @@ import time
 
 import pytest
 
+from api_script.jianzhao_web.b_basic.home_review_company_4 import passCompanyApprove
 from api_script.jianzhao_web.b_basic.home_review_person_2 import passPersonApprove
 from api_script.jianzhao_web.b_basic.toB_comleteInfo_3 import completeInfo_process
 from api_script.jianzhao_web.b_basic.toB_saveHR_1 import saveHR_process
@@ -15,6 +16,10 @@ from utils.util import assert_equal, login_home, login
 
 test_data = get_yaml_test_data("test_b_basic_process.yaml")
 phone = str(int(time.time()))[2:10]  # 生成8位数字的字符串
+companyShortName = test_data['companyShortName'] + phone
+companyFullName = test_data['companyFullName'] + phone
+updateCompanyShortName = test_data['updateCompanyShortName'] + phone
+userName = test_data['userName'] + phone
 
 
 def setup_module(module):
@@ -27,8 +32,8 @@ def teardown_module(module):
 
 @pytest.mark.parametrize(
 	'phone, countryCode,companyShortName, companyFullName, userName, resumeReceiveEmail,updateCompanyShortName',
-	[(phone, test_data['countryCode'], test_data['companyShortName'], test_data['companyFullName'],
-	  test_data['userName'], test_data['resumeReceiveEmail'], test_data['updateCompanyShortName'])])
+	[(phone, test_data['countryCode'], companyShortName, companyFullName, userName, test_data['resumeReceiveEmail'],
+	  updateCompanyShortName)])
 def test_saveHR_process(phone, countryCode, companyShortName, companyFullName, userName, resumeReceiveEmail,
                         updateCompanyShortName):
 	log = logging.getLogger('test_saveHR_process')
@@ -51,20 +56,21 @@ def test_passPersonApprove(username_home, password_home):
 	r = passPersonApprove()
 	assert_equal(True, r['success'], "验证home后台-审核中心-个人认证-审核招聘者成功", "验证home后台-审核中心-个人认证-审核招聘者失败")
 
-# @pytest.mark.parametrize('phone', [(phone)])
-# def test_completeInfo_process(phone):
-# 	login("00852", phone)
-# 	log = logging.getLogger('test_completeInfo_process')
-# 	log.info('验证B端提交申请认证公司流程是否成功')
-# 	[r1, r2] = completeInfo_process()
-# 	assert_equal(1, r1['state'], "上传营业执照成功", "上传营业执照失败")
-# 	assert_equal(1, r2['state'], "B端申请认证公司成功", "B端申请认证公司失败")
-#
-#
-# @pytest.mark.parametrize('username_home,password_home', [(test_data['username_home'], test_data['password_home'])])
-# def test_passCompanyApprove(username_home, password_home):
-# 	login_home(username_home, password_home)
-# 	log = logging.getLogger('test_passCompanyApprove')
-# 	log.info('验证home后台-公司认证-审核公司是否成功')
-# 	r = completeInfo_process()
-# 	assert_equal(1, r['state'], "home后台-公司认证-审核公司成功！", "home后台-公司认证-审核公司成功！")
+
+@pytest.mark.parametrize('phone', [(phone)])
+def test_completeInfo_process(phone):
+	login("00852", phone)
+	log = logging.getLogger('test_completeInfo_process')
+	log.info('验证B端提交申请认证公司流程是否成功')
+	[r1, r2] = completeInfo_process()
+	assert_equal(1, r1['state'], "上传营业执照成功", "上传营业执照失败")
+	assert_equal(1, r2['state'], "B端申请认证公司成功", "B端申请认证公司失败")
+
+
+@pytest.mark.parametrize('username_home,password_home', [(test_data['username_home'], test_data['password_home'])])
+def test_passCompanyApprove(username_home, password_home):
+	login_home(username_home, password_home)
+	log = logging.getLogger('test_passCompanyApprove')
+	log.info('验证home后台-公司认证-审核公司是否成功')
+	r = passCompanyApprove()
+	assert_equal(True, r['success'], "home后台-公司认证-审核公司成功！", "home后台-公司认证-审核公司成功！")

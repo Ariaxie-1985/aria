@@ -21,7 +21,8 @@ def registe_c(phone, countryCode, userIdentity):
 
 	basicMain_html = 'https://www.lagou.com/resume/perfectresume.html?showQRCode=true'
 	head_url = 'https://www.lagou.com/resume/saveHeadPic.json?headPicPath=%2Fcommon%2Fimage%2Fpc%2Fdefault_boy_headpic2.png'
-	get_requests(url=head_url)
+	remark = "上传头像"
+	get_requests(url=head_url,remark=remark)
 
 	if userIdentity == 2:
 		# 基本信息
