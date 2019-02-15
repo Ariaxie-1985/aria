@@ -147,3 +147,6 @@ def test_positions_recommend():
 def test_positions_red_point_hint():
 	res = positions_red_point_hint()
 	assert_equal(True, res['content']['isShowRedPointHint'], "首页导航职位无红点", "首页导航职位有红点")
+
+
+
