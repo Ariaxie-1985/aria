@@ -5,8 +5,9 @@ from utils.util import get_code_token, form_post, get_requests,login
 注册
 '''
 
-phone = 12140023
-countryCode = '00853'
+# phone = 12140023
+# countryCode = '00853'
+
 
 c_register_html = 'https://passport.lagou.com/register/register.html?from=c'
 register_url = 'https://passport.lagou.com/register/register.json'
