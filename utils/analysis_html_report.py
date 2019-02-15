@@ -3,10 +3,8 @@
 # @Author: Xiawang
 from bs4 import BeautifulSoup
 
-soup = BeautifulSoup(open("../report/report.html", encoding='utf-8'), "html.parser")
 
-
-def get_summary():
+def get_summary(soup):
 	'''
 	:return:
 	generated_report_time: str, 测试报告的生成时间
@@ -21,7 +19,7 @@ def get_summary():
 	return generated_report_time, summary_time
 
 
-def get_summary_result():
+def get_summary_result(soup):
 	'''
 	:return:
 	passed: 测试用例通过数
@@ -40,7 +38,7 @@ def get_summary_result():
 	return passed, skipped, failed, errors, expected_failures, unexpected_passes
 
 
-def get_testresults_details():
+def get_testresults_details(soup):
 	'''
 	:return:
 	testresults: list, 包含测试用例的执行详情(测试用例的执行结果, 测试用例文件及对应方法名, 测试用例执行时间)
@@ -56,3 +54,15 @@ def get_testresults_details():
 		testresults.append(testcase)
 		testcase = {}
 	return testresults
+
+
+def analysis_html_report(report_path, type):
+	soup = BeautifulSoup(open(report_path, encoding='utf-8'), "html.parser")
+	if type == 1:
+		result_time = get_summary(soup)
+		result = get_summary_result(soup)
+	elif type == 2:
+		result_time = get_summary(soup)
+		result = get_summary_result(soup)
+		detail_result = get_testresults_details(soup)
+	return {"content": "报告生成成功", "info": {"time": result_time, "result": [result, detail_result]}}

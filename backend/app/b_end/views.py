@@ -1,8 +1,8 @@
 # coding:utf-8
 # @Time  : 2019-01-09 16:35
 # @Author: Xiawang
-
 from flask import request
+from flask_cors import cross_origin
 from flask_restful import Resource
 
 from api_script.jianzhao_web.b_basic.home_review_company_4 import passCompanyApprove
@@ -25,6 +25,7 @@ class HelloWorld(Resource):
 
 class B_Post_Position(Resource):
 
+	# @cross_origin()
 	def post(self):
 		"""发布职位
 		Args:
@@ -40,10 +41,14 @@ class B_Post_Position(Resource):
 		failinfo = [None]
 		data = {}
 		request_data = request.get_json()
+		print(request_data)
+		print(type(request_data))
+		# if request_data.has_key('countrycode') and request_data.has_key('username') and request_data['sum']:
 		login_res = login(request_data['countrycode'], request_data['username'])
 		if login_res['state'] != 1:
 			return {"message": login_res['message']}
 		result = post_position(int(request_data['sum']))
+
 		for i in result:
 			if i['state'] == 1:
 				j += 1
@@ -59,11 +64,18 @@ class B_Post_Position(Resource):
 				failinfo.append(data)
 				data = {}
 
+		headers = {
+			"Access-Control-Allow-Methods": "POST",
+			'Content-Type': 'application/json',
+			'Access-Control-Allow-Origin': '*',
+		}
+		response = {"message": "发布职位" + str(j) + "个成功", "content": successlist, "failinfo": failinfo}
 		return {"message": "发布职位" + str(j) + "个成功", "content": successlist, "failinfo": failinfo}
 
 
 class B_Basic_Process(Resource):
 
+	@cross_origin()
 	def post(self):
 		'''B端注册-公司成立-招聘者认证提交及审核-公司认证及审核流程
 
@@ -139,6 +151,7 @@ class B_Basic_Process(Resource):
 
 class C_Basic_Process(Resource):
 
+	@cross_origin()
 	def post(self):
 		'''C端注册并生成简历
 		Args:
