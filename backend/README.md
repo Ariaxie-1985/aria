@@ -13,10 +13,10 @@ pip install -r requirements.txt
 
 # 启动服务方法1
 cd backend
-python run.py
+python app.py
 
 # 启动服务方法2
-在run.py右键点击 Run 'run'
+在run.py右键点击 Run 'app'
 
 # 访问接口文档
 http://0.0.0.0:9000/docs/api/
