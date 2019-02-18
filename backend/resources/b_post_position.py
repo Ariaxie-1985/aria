@@ -19,21 +19,20 @@ class B_Post_Position(Resource):
 			sum: int, 发布职位总数
 
 		:return:
-			{"message": "发布职位" + str(j) + "个成功", "content": successlist, "failinfo": failinfo}
+			state : 1成功、 400失败
+			{"state":1,"message": "发布职位" + str(j) + "个成功", "content": successlist, "failinfo": failinfo}
 		"""
 		j = 0
 		successlist = []
 		failinfo = [None]
 		data = {}
 		request_data = request.get_json()
-		print(request_data)
-		print(type(request_data))
-		# if request_data.has_key('countrycode') and request_data.has_key('username') and request_data['sum']:
 		login_res = login(request_data['countrycode'], request_data['username'])
 		if login_res['state'] != 1:
 			return {"message": login_res['message']}
 		result = post_position(int(request_data['sum']))
 
+		state = 0
 		for i in result:
 			if i['state'] == 1:
 				j += 1
@@ -43,10 +42,13 @@ class B_Post_Position(Resource):
 					'positionId']
 				successlist.append(data)
 				data = {}
+				state =1
 			else:
 				data['state'] = i['state']
 				data['message'] = i['message']
 				failinfo.append(data)
 				data = {}
+				state = 400
 
-		return {"message": "发布职位" + str(j) + "个成功", "content": successlist, "failinfo": failinfo}
+		return {"state":state, "message": "发布职位" + str(j) + "个成功", "content": successlist, "failinfo": failinfo}
+

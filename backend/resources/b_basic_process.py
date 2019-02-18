@@ -44,11 +44,13 @@ class B_Basic_Process(Resource):
 			                                  request_data['userName'],
 			                                  request_data['resumeReceiveEmail'],
 			                                  request_data['updateCompanyShortName'])
+			state = 0
 			if r1['state'] == r2['state'] == r3['state'] == r4['state'] == 1:
 				HRInfo['phone'] = request_data['phone']
 				HRInfo['countryCode'] = request_data['countryCode']
 				CompanyInfo['companyShortName'] = request_data['companyShortName']
 				CompanyInfo['companyFullName'] = request_data['companyFullName']
+				state = 3
 			login_home("anan@lagou.com", "990eb670f81e82f546cfaaae1587279a")
 			r5 = passPersonApprove()
 			login(request_data['countryCode'], request_data['phone'])
@@ -56,16 +58,19 @@ class B_Basic_Process(Resource):
 			if r4['state'] == r7['state'] == 1:
 				Application['person'] = "招聘者申请认证成功"
 				Application['company'] = "公司申请认证成功"
+				state = 2
 			login_home("anan@lagou.com", "990eb670f81e82f546cfaaae1587279a")
 			r8 = passCompanyApprove()
 			if r5['success'] == True and r6['state'] == 1 and r8['success'] == True:
 				ApproveInfo['passPersonApprove'] = "招聘者认证提交及审核通过"
 				ApproveInfo['passCompanyApprove'] = "公司认证提交及审核通过"
-			return {
-				"content": "B端注册-公司成立-招聘者认证提交及审核-公司认证及审核流程通过！",
-				"data": {"HRInfo": HRInfo, "CompanyInfo": CompanyInfo, "Application": Application,
-				         "ApproveInfo": ApproveInfo}
-			}
+				state = 1
+			if state == 1:
+				return {
+					"content": "B端注册-公司成立-招聘者认证提交及审核-公司认证及审核流程通过！",
+					"data": {"HRInfo": HRInfo, "CompanyInfo": CompanyInfo, "Application": Application,
+					         "ApproveInfo": ApproveInfo}
+				}
 		except Exception as e:
 			if r1['state'] != 1:
 				info = "该手机号已被注册, 该用户的手机号: " + str(request_data['phone'])
@@ -83,4 +88,4 @@ class B_Basic_Process(Resource):
 				info = "简称为 " + request_data['companyShortName'] + " 申请认证公司失败"
 			elif r8['success'] != True:
 				info = "home后台-公司认证-审核公司成功！该公司的简称: " + request_data['companyShortName']
-			return {"content": "执行失败", "data": str(e), "faiinfo": info}
+			return {"state":400, "content": "执行失败", "data": str(e), "faiinfo": info}
