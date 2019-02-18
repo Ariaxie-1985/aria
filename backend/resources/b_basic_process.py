@@ -36,7 +36,6 @@ class B_Basic_Process(Resource):
 		ApproveInfo = {}
 		Application = {}
 		request_data = request.get_json()
-		print(request_data)
 		info = None
 		r1, r2, r3, r4 = saveHR_process(request_data['phone'],
 		                                request_data['countryCode'],
@@ -101,6 +100,7 @@ class B_Basic_Process(Resource):
 
 		if state == 1:
 			return {
+				"state" :1,
 				"content": "B端注册-公司成立-招聘者认证提交及审核-公司认证及审核流程通过！",
 				"data": {"HRInfo": HRInfo, "CompanyInfo": CompanyInfo, "Application": Application,
 				         "ApproveInfo": ApproveInfo}
