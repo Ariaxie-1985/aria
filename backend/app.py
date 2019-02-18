@@ -20,10 +20,13 @@ app.config.from_object(config)
 
 CORS(app)
 
+cors = CORS(app, resources={r"/*": {"origins": "*"}})
+
 api = Api(app)
 
 app.config['API_DOC_MEMBER'] = ['app_api']
 ApiDoc(app)
+
 
 api.add_resource(HelloWorld, '/')
 api.add_resource(B_Post_Position, '/postposition')

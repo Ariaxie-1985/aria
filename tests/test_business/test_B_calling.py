@@ -4,15 +4,12 @@ from utils.util import login
 import logging
 from utils.read_file import get_yaml_test_data
 
-test_data = get_yaml_test_data('test_sub_account.yaml')
-countrycode = test_data['countrycode']
-username = test_data['username']
 
-login(countrycode,username)
+
 
 cUserid = 100012422
 
-def test_calling():
+def test_calling(login_web_k8s_default):
 	s = calling(cUserid)
 	logging.getLogger().setLevel(logging.INFO)
 

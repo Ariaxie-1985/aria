@@ -6,13 +6,13 @@ from utils.util import login ,get_code_token,form_post,assert_equal
 import time
 
 def setup_module(module):
-    login('00852', '20181205')
+    pass
 
 
 def teardown_module(module):
     pass
 
-def test_Refreshed():
+def test_Refreshed(login_web_k8s_default):
     '''
     18版合同“刷新职位”
     :return:

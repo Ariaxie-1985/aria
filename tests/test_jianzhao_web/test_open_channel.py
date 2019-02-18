@@ -6,14 +6,13 @@ from utils.util import assert_equal, login
 
 
 def setup_module(module):
-	login('00852', '20181205')
-
+	pass
 
 def teardown_module(module):
 	pass
 
 
-def test_settings_channel_support():
+def test_settings_channel_support(login_web_k8s_default):
 	r = settings_channel_support()
 	assert_equal(1, r['state'], "查询当前平台支持的渠道成功")
 

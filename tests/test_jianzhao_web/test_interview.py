@@ -7,14 +7,13 @@ from utils.util import assert_equal, login
 
 
 def setup_module(module):
-	login('00852', '20181205')
-
+	pass
 
 def teardown_module(module):
 	pass
 
 
-def test_interview_index():
+def test_interview_index(login_web_k8s_default):
 	r = interview_index()
 	assert_equal(200, r.status_code, "简历管理-面试日程页面成功")
 
