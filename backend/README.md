@@ -21,3 +21,12 @@ python app.py
 # 访问接口文档
 http://0.0.0.0:9000/docs/api/
 ```
+
+
+## restful api规范
+
+### 业务模块
+- customer  C端
+- jianzhao  简招
+- zhaopin   招聘
+- business  商业

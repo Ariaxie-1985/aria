@@ -2,7 +2,7 @@
 # @Time  : 2019-02-15 15:32
 # @Author: Xiawang
 from flask import request
-from flask_restful import Resource
+from flask_restful import Resource, reqparse
 
 from api_script.batch.B_postposition import post_position
 from utils.util import login
@@ -26,11 +26,15 @@ class B_Post_Position(Resource):
 		successlist = []
 		failinfo = [None]
 		data = {}
-		request_data = request.get_json()
-		login_res = login(request_data['countrycode'], request_data['username'])
+		parser = reqparse.RequestParser()
+		parser.add_argument('countrycode',type=str,help="请输入用户手机号的归属区号",required=True)
+		parser.add_argument('username', type=str, help="请输入用户的手机号",required=True)
+		parser.add_argument('sum', type=int, help="请输入发布职位的数量",required=True)
+		args = parser.parse_args()
+		login_res = login(args['countrycode'], args['username'])
 		if login_res['state'] != 1:
 			return {"message": login_res['message']}
-		result = post_position(int(request_data['sum']))
+		result = post_position(args['sum'])
 
 		state = 0
 		for i in result:
@@ -50,5 +54,5 @@ class B_Post_Position(Resource):
 				data = {}
 				state = 400
 
-		return {"state":state, "message": "发布职位" + str(j) + "个成功", "content": successlist, "failinfo": failinfo}
+		return {"state":state, "message": "发布职位"+str(args['sum'])+"个, 其中" + str(j) + "个成功", "content": successlist, "failinfo": failinfo}
 
