@@ -10,7 +10,6 @@ from utils.util import login
 
 class B_Post_Position(Resource):
 
-	# @cross_origin()
 	def post(self):
 		"""发布职位
 		Args:
@@ -27,9 +26,9 @@ class B_Post_Position(Resource):
 		failinfo = [None]
 		data = {}
 		parser = reqparse.RequestParser()
-		parser.add_argument('countrycode',type=str,help="请输入用户手机号的归属区号",required=True)
-		parser.add_argument('username', type=str, help="请输入用户的手机号",required=True)
-		parser.add_argument('sum', type=int, help="请输入发布职位的数量",required=True)
+		parser.add_argument('countrycode', type=str, help="请输入用户手机号的归属区号", required=True)
+		parser.add_argument('username', type=str, help="请输入用户的手机号", required=True)
+		parser.add_argument('sum', type=int, help="请输入发布职位的数量", required=True)
 		args = parser.parse_args()
 		login_res = login(args['countrycode'], args['username'])
 		if login_res['state'] != 1:
@@ -46,7 +45,7 @@ class B_Post_Position(Resource):
 					'positionId']
 				successlist.append(data)
 				data = {}
-				state =1
+				state = 1
 			else:
 				data['state'] = i['state']
 				data['message'] = i['message']
@@ -54,5 +53,5 @@ class B_Post_Position(Resource):
 				data = {}
 				state = 400
 
-		return {"state":state, "message": "发布职位"+str(args['sum'])+"个, 其中" + str(j) + "个成功", "content": successlist, "failinfo": failinfo}
-
+		return {"state": state, "message": "发布职位" + str(args['sum']) + "个, 其中" + str(j) + "个成功", "content": successlist,
+		        "failinfo": failinfo}
