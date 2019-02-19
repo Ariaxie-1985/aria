@@ -38,7 +38,6 @@ def get_code_token(url):
 		wxsend("Xiawang", "该请求: " + url + " 重试后依然有异常: " + str(e))
 
 
-@retry(stop=(stop_after_delay(2) | stop_after_attempt(3)))
 def form_post(url, remark, data=None, files=None, headers=None):
 	"""
 	form表单传参的post请求
@@ -69,7 +68,7 @@ def form_post(url, remark, data=None, files=None, headers=None):
 		logging.ERROR("异常日志: " + "该请求: " + url + " 重试后依然有异常: " + str(e))
 		wxsend("Xiawang", "该请求: " + url + " 重试后依然有异常: " + str(e))
 
-@retry(stop=(stop_after_delay(2) | stop_after_attempt(3)))
+
 def json_post(url, remark, data=None, headers=None):
 	"""
 	json传参的post请求
@@ -100,7 +99,7 @@ def json_post(url, remark, data=None, headers=None):
 		logging.ERROR("异常日志: " + "该请求: " + url + " 重试后依然有异常: " + str(e))
 		wxsend("Xiawang", "该请求: " + url + " 重试后依然有异常: " + str(e))
 
-@retry(stop=(stop_after_delay(2) | stop_after_attempt(3)))
+
 def get_requests(url, headers=None, remark=None):
 	"""
 	get请求
@@ -138,7 +137,6 @@ def get_requests(url, headers=None, remark=None):
 
 
 # get请求---获取header
-@retry(stop=(stop_after_delay(2) | stop_after_attempt(3)))
 def get_header(url):
 	try:
 		response = session.get(url=url, headers=header, verify=False, timeout=10)
@@ -359,5 +357,3 @@ def zip_path(input_path, output_path, output_name):
 	file_Path = os.path.abspath(os.path.join(os.getcwd(), ".."))
 	zip_file_Path = os.path.join(file_Path, output_name)
 	return zip_file_Path
-
-
