@@ -139,7 +139,13 @@ def get_requests(url, headers=None, remark=None):
 # get请求---获取header
 def get_header(url):
 	try:
-		response = session.get(url=url, headers=header, verify=False, timeout=10)
+		response = session.get(url=url, headers=header, verify=False, timeout=20)
+		if response.status_code == 200:
+			return response.request.headers
+		else:
+			content = "该请求: " + url + " 的状态码: " + str(response.status_code)
+			logging.ERROR("异常日志: " + content)
+			wxsend("Xiawang", content)
 	except exceptions.Timeout as e:
 		content = "该请求超时: " + url + str(e)
 		wxsend("Xiawang", content)
@@ -147,13 +153,7 @@ def get_header(url):
 		wxsend("Xiawang", "HTTP请求错误: " + str(e))
 	except Exception as e:
 		wxsend("Xiawang", "该请求: " + url + " 重试后依然有异常: " + str(e))
-	else:
-		if response.status_code == 200:
-			return response.request.headers
-		else:
-			content = "该请求: " + url + " 的状态码: " + str(response.status_code)
-			logging.ERROR("异常日志: " + content)
-			wxsend("Xiawang", content)
+
 
 
 # 企业微信报警

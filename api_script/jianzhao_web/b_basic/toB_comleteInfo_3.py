@@ -6,8 +6,8 @@ import re
 
 # B端申请认证公司
 def company_auth():
-	com_header = get_header("https://easy.lagou.com/dashboard/index.htm?from=c_index")
-	get_requests("https://easy.lagou.com/bstatus/auth/index.htm", headers=com_header)
+	# com_header = get_header("https://easy.lagou.com/dashboard/index.htm?from=c_index")headers=com_header
+	get_requests("https://easy.lagou.com/bstatus/auth/index.htm")
 	com_step1_url = "https://hr.lagou.com/corpCenter/company/auth/step1.html"
 	auth_file_url = "https://hr.lagou.com/corpCenter/company/auth/file.json"
 	auth_file_data = {"fileUrl": "i/audio1/M00/01/C5/CgHIk1wQzSaAcR09AAqex8SeJls235.JPG"}
