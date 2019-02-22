@@ -4,7 +4,7 @@ import zipfile
 
 import requests
 import re
-from requests import exceptions
+from requests import exceptions, RequestException
 from tenacity import *
 import json
 import logging
@@ -29,13 +29,8 @@ def get_code_token(url):
 		           "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3615.0 Safari/537.36"}
 		if code.status_code == 200:
 			return headers
-	except exceptions.Timeout as e:
-		content = "该请求超时: " + url + str(e)
-		wxsend("Xiawang", content)
-	except exceptions.HTTPError as e:
-		wxsend("Xiawang", "HTTP请求错误: " + str(e))
-	except Exception as e:
-		wxsend("Xiawang", "该请求: " + url + " 重试后依然有异常: " + str(e))
+	except RequestException as e:
+		return {"errors": str(e)}
 
 
 def form_post(url, remark, data=None, files=None, headers=None):
@@ -54,19 +49,8 @@ def form_post(url, remark, data=None, files=None, headers=None):
 			"\n请求目的: {},\n 请求url: {},\n 请求数据: {},\n 响应结果: {}\n".format(remark, url, data, str(response.json())))
 		if response.status_code == 200:
 			return response.json()
-		else:
-			content = "该请求: " + url + " 的状态码: " + str(response.status_code)
-			wxsend("Xiawang", content)
-	except exceptions.Timeout as e:
-		content = "该请求超时: " + url + str(e)
-		logging.ERROR("异常日志: " + content)
-		wxsend("Xiawang", content)
-	except exceptions.HTTPError as e:
-		logging.ERROR("异常日志: " + "HTTP请求错误: " + str(e))
-		wxsend("Xiawang", "HTTP请求错误: " + str(e))
-	except Exception as e:
-		logging.ERROR("异常日志: " + "该请求: " + url + " 重试后依然有异常: " + str(e))
-		wxsend("Xiawang", "该请求: " + url + " 重试后依然有异常: " + str(e))
+	except RequestException as e:
+		return {"errors": str(e)}
 
 
 def json_post(url, remark, data=None, headers=None):
@@ -85,19 +69,8 @@ def json_post(url, remark, data=None, headers=None):
 			"\n请求目的: {},\n 请求url: {},\n 请求数据: {},\n 响应结果: {}\n".format(remark, url, data, str(response.json())))
 		if response.status_code == 200:
 			return response.json()
-		else:
-			content = "该请求: " + url + " 的状态码: " + str(response.status_code)
-			wxsend("Xiawang", content)
-	except exceptions.Timeout as e:
-		content = "该请求超时: " + url + str(e)
-		wxsend("Xiawang", content)
-		logging.ERROR("异常日志: " + content)
-	except exceptions.HTTPError as e:
-		logging.ERROR("异常日志: " + "HTTP请求错误: " + str(e))
-		wxsend("Xiawang", "HTTP请求错误: " + str(e))
-	except Exception as e:
-		logging.ERROR("异常日志: " + "该请求: " + url + " 重试后依然有异常: " + str(e))
-		wxsend("Xiawang", "该请求: " + url + " 重试后依然有异常: " + str(e))
+	except RequestException as e:
+		return {"errors": str(e)}
 
 
 def get_requests(url, headers=None, remark=None):
@@ -119,21 +92,8 @@ def get_requests(url, headers=None, remark=None):
 
 		if response.status_code == 200 or response.status_code == 302:
 			return response
-		else:
-			content = "该请求: " + url + " 的状态码: " + str(response.status_code)
-			logging.ERROR("异常日志: " + content)
-			wxsend("Xiawang", content)
-	except exceptions.Timeout as e:
-
-		content = "该请求超时: " + url + str(e)
-		logging.ERROR("异常日志: " + content)
-		wxsend("Xiawang", content)
-	except exceptions.HTTPError as e:
-		wxsend("Xiawang", "HTTP请求错误: " + str(e))
-		logging.ERROR("异常日志: " + "HTTP请求错误: " + str(e))
-	except Exception as e:
-		wxsend("Xiawang", "该请求: " + url + " 重试后依然有异常: " + str(e))
-		logging.ERROR("异常日志: " + "该请求: " + url + " 重试后依然有异常: " + str(e))
+	except RequestException as e:
+		return {"errors": str(e)}
 
 
 # get请求---获取header
@@ -142,18 +102,8 @@ def get_header(url):
 		response = session.get(url=url, headers=header, verify=False, timeout=20)
 		if response.status_code == 200:
 			return response.request.headers
-		else:
-			content = "该请求: " + url + " 的状态码: " + str(response.status_code)
-			logging.ERROR("异常日志: " + content)
-			wxsend("Xiawang", content)
-	except exceptions.Timeout as e:
-		content = "该请求超时: " + url + str(e)
-		wxsend("Xiawang", content)
-	except exceptions.HTTPError as e:
-		wxsend("Xiawang", "HTTP请求错误: " + str(e))
-	except Exception as e:
-		wxsend("Xiawang", "该请求: " + url + " 重试后依然有异常: " + str(e))
-
+	except RequestException as e:
+		return {"errors": str(e)}
 
 
 # 企业微信报警

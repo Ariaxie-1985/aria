@@ -14,23 +14,44 @@ from utils.util import login_home, login
 class B_Basic_Process(Resource):
 
 	def post(self):
-		'''B端注册-公司成立-招聘者认证提交及审核-公司认证及审核流程
+		""" B端注册-公司成立-招聘者认证提交及审核-公司认证及审核流程
 
-		Args:
-			countryCode: str, 用户手机号的归属区号
-			phone: str, 用户手机号
-			userName: str, 用户名
-			companyShortName: str, 公司简称
-			companyFullName: str, 公司全称
-			resumeReceiveEmail: str, 用户接收简历邮箱
-			updateCompanyShortName: str, 公司简称
+		:arg:
+		{
+			"countryCode": "00852",             // string, B端注册用户手机号的地区编号
+			"phone": "20030902",                // string, B端注册用户的手机号
+			"userName": "小菜",                  // string, B端注册用户的姓名
+			"companyShortName": "烽火啊啊啊",     // string, B端注册公司的简称
+			"companyFullName": "烽火啊啊啊",      // string, B端注册公司的全称
+			"updateCompanyShortName": "烽火啊啊啊",  // string, B端注册公司的别称
+			"resumeReceiveEmail": "tester2018@sina.com"  // string, B端注册用户接收简历的邮箱
+		}
 
-		:return: {
-					"content": "B端注册-公司成立-招聘者认证提交及审核-公司认证及审核流程通过！",
-					"data": {"HRInfo": HRInfo, "CompanyInfo": CompanyInfo, "Application": Application,
-				             "ApproveInfo": ApproveInfo}
+
+		:return:
+		{
+			"state": 1,     // int, 1表示成功, 400表示错误
+			"content": "B端注册-公司成立-招聘者认证提交及审核-公司认证及审核流程通过！",
+			"data": {
+				"HRInfo": {                 // 招聘者信息
+					"phone": "20030902",
+					"countryCode": "00852"
+				},
+				"CompanyInfo": {            // 公司信息
+					"companyShortName": "公司简称",
+					"companyFullName": "公司全称"
+				},
+				"Application": {            // 招聘者和公司的认证的申请结果
+					"person": "招聘者申请认证成功",
+					"company": "公司申请认证成功"
+				},
+				"ApproveInfo": {            // 招聘者和公司的认证的审核结果
+					"passPersonApprove": "公司认证提交及审核通",
+					"passCompanyApprove": "招聘者认证提交及审核通过"
 				}
-		'''
+			}
+		}
+		"""
 
 		parser = reqparse.RequestParser()
 		parser.add_argument('countryCode', type=str, help="请输入B端注册用户手机号的归属区号", required=True)
@@ -114,3 +135,5 @@ class B_Basic_Process(Resource):
 				         "ApproveInfo": ApproveInfo}
 			}
 		return {"state": 400, "content": "执行失败", "faiinfo": info}
+
+

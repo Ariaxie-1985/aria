@@ -2,6 +2,7 @@
 # @Time  : 2019-02-15 15:34
 # @Author: Xiawang
 import sys
+
 sys.path.append('.')
 from flask import Flask, config
 from flask_restful import Api
@@ -24,9 +25,8 @@ cors = CORS(app, resources={r"/*": {"origins": "*"}})
 
 api = Api(app)
 
-app.config['API_DOC_MEMBER'] = ['app_api']
+app.config['API_DOC_MEMBER'] = ['api', 'platform']
 ApiDoc(app)
-
 
 api.add_resource(HelloWorld, '/')
 api.add_resource(B_Post_Position, '/jianzhao/position')

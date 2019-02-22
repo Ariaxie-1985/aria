@@ -11,12 +11,26 @@ class C_Basic_Process(Resource):
 
 	def post(self):
 		'''C端注册并生成简历
-		Args:
-		phone: str, 手机号
-		countryCode: str, 地区编号
-		userIdentity: int, 1学生, 2非学生
-		sum: int, 构造C端账号的数量
-		:return: {"content": "成功", "info": "用户手机号为" + str(phone) + "注册成功"+", 且个人基本信息更新成功"}
+		args:
+		{
+			"phone": "20080512",    // string, C端注册用户的手机号
+			"countryCode": "00852", // string, C端注册用户的手机号的地区编号
+			"userIdentity": 1,    // int, 1学生, 2非学生
+			"sum": 1        // int, 构造C端账号的数量
+		}
+
+
+		:return:
+		{
+		    "state": 1,        // int, 1表示成功, 400表示失败
+		    "message": "注册用户2个, 其中注册成功2个, 注册失败0个",
+		    "data": [       // 注册成功的手机号
+		        20080520,
+		        20080521
+		    ],
+		    "errors": [],   // 注册失败的手机号
+		    "detail": []    // 注册失败的详细信息
+		}
 		'''
 		parser = reqparse.RequestParser()
 		parser.add_argument('countryCode', type=str, help="请输入注册用户手机号的归属区号", required=True)
@@ -26,22 +40,39 @@ class C_Basic_Process(Resource):
 		args = parser.parse_args()
 		phone = int(args['phone'])
 		a = 0
+		c_list = []
+		e_list = []
+		result_list = []
+		state = 0
 		for i in range(args['sum']):
 			a += 1
-			phone += a
 			r = registe_c(phone, args['countryCode'], args['userIdentity'])
 			if len(r) == 8:
 				[r1, r2, r3, r4, r5, r6, r7, r8] = r
-				if r1['state'] == 1 and r2['success'] == r3['success'] == r4['success'] == r5['success'] == r6[
-					'success'] == r7[
-					'success'] == r8['success']:
-					return {"state": 1, "content": "执行成功", "info": "用户手机号为" + str(phone) + "注册成功" + ", 且个人基本信息更新成功"}
+				if r1['state'] == 1:
+					if r2['success'] == r3['success'] == r4['success'] == r5['success'] == r6['success'] == r7[
+						'success'] == r8['success']:
+						state = 1
+						c_list.append(phone)
+				else:
+					state = 1
+					e_list.append(phone)
 			elif len(r) == 7:
 				[r1, r2, r4, r5, r6, r7, r8] = r
-				if r1['state'] == 1 and r2['success'] == r4['success'] == r5['success'] == r6['success'] == r7[
-					'success'] == r8['success']:
-					return {"state": 1, "content": "执行成功", "info": "用户手机号为" + str(phone) + "注册成功" + ", 且个人基本信息更新成功"}
+				if r1['state'] == 1:
+					if r1['state'] == 1 and r2['success'] == r4['success'] == r5['success'] == r6['success'] == r7[
+						'success'] == r8['success']:
+						state = 1
+						c_list.append(phone)
+				else:
+					state = 1
+					e_list.append(phone)
 			else:
-				return {"state": 400, "content": "执行失败",
-				        "info": {"注册用户": r1['message'], "基本信息": r2['msg'], "工作经历": r3['msg'], "教育经历": r4['msg'],
-				                 "个人名片": r5['msg'], "求职意向": r6['msg'], "完善信息": r8['msg']}}
+				state = 400
+				info = {"注册用户": r1['message'], "基本信息": r2['msg'], "工作经历": r3['msg'], "教育经历": r4['msg'],
+				        "个人名片": r5['msg'], "求职意向": r6['msg'], "完善信息": r8['msg']}
+				result_list.append(info)
+			phone += a
+		return {'state': state,
+		        "message": "注册用户" + str(args['sum']) + "个, 其中注册成功" + str(len(c_list)) + "个, 注册失败" + str(len(e_list)) + "个",
+		        "data": c_list, "errors": e_list, "detail": result_list}
