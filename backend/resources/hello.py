@@ -5,9 +5,9 @@ from flask_restful import Resource
 
 
 class HelloWorld(Resource):
-	def get(self):
-		'''首页
+    def get(self):
+        '''首页
 
-		:return: {'hello': 'world'}
-		'''
-		return {'hello': 'world'}
+        :return: {'hello': 'world'}
+        '''
+        return {'hello': 'world'}
