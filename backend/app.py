@@ -3,6 +3,8 @@
 # @Author: Xiawang
 import sys
 
+from backend.resources.b_add_people_into_company import B_Add_People_Into_Company
+
 sys.path.append('.')
 from flask import Flask, config
 from flask_restful import Api
@@ -30,7 +32,9 @@ ApiDoc(app)
 
 api.add_resource(HelloWorld, '/')
 api.add_resource(B_Post_Position, '/jianzhao/position')
-api.add_resource(B_Basic_Process, '/jianzhao/registration')
+api.add_resource(B_Basic_Process, '/jianzhao/company/registration')
+api.add_resource(B_Add_People_Into_Company, '/jianzhao/personal/registration')
+
 api.add_resource(C_Basic_Process, '/customer/registration')
 api.add_resource(run_Pytest, '/outward/pytest')
 

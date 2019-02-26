@@ -67,7 +67,7 @@ def saveHR_process(phone,countryCode,companyShortName,companyFullName,userName,r
 def add_people_into_company(phone,countryCode,companyFullName, userName, resumeReceiveEmail):
 	r1, r2, r3, r4 = None, None, None, None
 	r1 = b_register(phone, countryCode)
-	if r1['state'] == 2:
+	if r1['state'] == 1:
 		r2 = saveHR(companyFullName, userName, resumeReceiveEmail)
 		r3 = add_saveCompany()
 		r4 = submit(companyFullName)
