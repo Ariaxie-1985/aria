@@ -98,21 +98,24 @@ class B_Add_People_Into_Company(Resource):
                                                  args['resumeReceiveEmail']
                                                  )
         state = 0
-        if r1['state'] != 1:
-            state = 400
-            info = "该手机号已被注册, 该用户的手机号: " + args['phone']
+        try:
+            if r1['state'] != 1:
+                state = 400
+                info = "该手机号已被注册, 该用户的手机号: " + args['phone']
 
-        if r2['state'] != 1:
-            state = 400
-            info = "上传B端用户信息失败，该用户的手机号: " + args['userName']
+            if r2['state'] != 1:
+                state = 400
+                info = "上传B端用户信息失败，该用户的手机号: " + args['userName']
 
-        if r3['state'] != 1:
-            state = 400
-            info = "B端加入公司失败，该公司全称:" + args['companyFullName']
+            if r3['state'] != 1:
+                state = 400
+                info = "B端加入公司失败，该公司全称:" + args['companyFullName']
 
-        if r4['state'] != 1:
-            state = 400
-            info = "B端提交招聘者审核失败，该公司简称: " + args['companyShortName']
+            if r4['state'] != 1:
+                state = 400
+                info = "B端提交招聘者审核失败，该公司简称: " + args['companyShortName']
+        except TypeError:
+            info = info
 
         if not (state == 400):
             if r1['state'] == r2['state'] == r3['state'] == r4['state'] == 1:
