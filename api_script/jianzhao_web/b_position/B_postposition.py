@@ -43,9 +43,8 @@ def update_position():
     }
     return form_post(url=url, headers=header, data=data, remark='职位类型升级')
 
-'''
-login('00853', '05180001')
-post_position()
+
+# login('00853', '05180001')
+# post_position()
 # republish_position()
 # update_position()
-'''

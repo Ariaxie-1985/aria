@@ -18,7 +18,6 @@ def lagouPlus(templateId):
     查看套餐是否正常
     :return:
     '''
-    login_home("anan@lagou.com","990eb670f81e82f546cfaaae1587279a")
 
     header=get_header("https://home.lagou.com/")
     Request_url="https://home.lagou.com/crm/contractController/list.json"

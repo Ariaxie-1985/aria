@@ -14,11 +14,10 @@ from utils.util import get_app_header, form_post, get_requests, assert_equal, lo
 from api_script.zhaopin_app.OrderResume_app import MySchedule, OrderResumePage, OrderResumes, ResumeState, TopCard
 from utils.util import login
 
-login('00852', '20181205')
 # pytest.skip("有问题, 暂不执行")
 
 @pytest.mark.skip(reason="有问题, 暂不执行")
-def test_OrderResumes():
+def test_OrderResumes(login_web_k8s_default):
 	'''
 	获得简历id
 	设置为待沟通

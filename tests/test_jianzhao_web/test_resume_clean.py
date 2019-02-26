@@ -6,14 +6,13 @@ from utils.util import assert_equal, login
 
 
 def setup_module(module):
-	login('00852', '20181205')
-
+	pass
 
 def teardown_module(module):
 	pass
 
 
-def test_can_new_index():
+def test_can_new_index(login_web_k8s_default):
 	r = can_new_index()
 	assert_equal(200, r.status_code, "候选人首页获取成功")
 

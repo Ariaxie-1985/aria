@@ -5,14 +5,14 @@ from api_script.business.LagouPlus import lagouPlusqiu,lagouPlus
 from utils.util import login_home,get_code_token,form_post,get_header,get_requests,assert_equal
 import json
 def setup_module(module):
-    login_home("anan@lagou.com","990eb670f81e82f546cfaaae1587279a")
+    pass
 
 
 def teardown_module(module):
     pass
 
 
-def test_lagouPlus():
+def test_lagouPlus(login_home_k8s_default):
     '''
     终止当前套餐
     新增17套餐

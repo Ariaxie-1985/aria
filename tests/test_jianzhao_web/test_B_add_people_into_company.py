@@ -10,9 +10,10 @@ import random
 
 import pytest
 
+from api_script.jianzhao_web.b_basic.home_review_person_2 import passPersonApprove
 from api_script.jianzhao_web.b_basic.toB_saveHR_1 import add_people_into_company
 from utils.read_file import get_yaml_test_data
-from utils.util import assert_equal
+from utils.util import assert_equal, login_home
 
 test_data = get_yaml_test_data("B_add_people_into_company.yaml")
 phone = test_data['phone'] + random.randrange(1, 1000)
@@ -38,3 +39,10 @@ def test_add_people_into_companyame(phone, countryCode, userName, companyFullNam
 	assert_equal(1, r3['state'], "加入公司成功，该公司全称: " + str(companyFullName), "加入公司失败，该公司简称: " + str(companyFullName))
 	assert_equal(1, r4['state'], "提交招聘者审核成功，该用户的手机号: " + str(phone),
 	             "提交招聘者审核失败，该用户的手机号: " + str(phone))
+
+
+def test_passPersonApprove(login_home_k8s_default):
+	log = logging.getLogger('test_passPersonApprove')
+	log.info('验证home后台-审核中心-个人认证-审核招聘者是否成功')
+	r = passPersonApprove()
+	assert_equal(True, r['success'], "验证home后台-审核中心-个人认证-审核招聘者成功", "验证home后台-审核中心-个人认证-审核招聘者失败")

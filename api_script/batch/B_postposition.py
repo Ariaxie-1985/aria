@@ -21,6 +21,7 @@ def post_position(sum):
 	批量发布职位
 	:param sum: 发布职位个数
 	:return: 发布职位的请求
+
 	'''
 	reslist = []
 	for i in range(int(sum)):
@@ -29,15 +30,14 @@ def post_position(sum):
 		refer_createPosition_url = "https://easy.lagou.com/position/multiChannel/createPosition.htm"
 		Position_header = get_code_token(refer_createPosition_url)
 		createPosition_url = "https://easy.lagou.com/parentPosition/multiChannel/create.json"
-		createPosition_data = {**{'isSchoolJob': '1', 'channelTypes': 'LAGOU', 'department': '111', 'jobNature': '全职',
-		                          'salaryMin': '11', 'salaryMax': '12', 'education': '不限',
-		                          'positionBrightPoint': '11111',
+
+		createPosition_data = {**{'isSchoolJob': '0', 'channelTypes': 'LAGOU', 'department': '111', 'jobNature': '全职',
+		                          'salaryMin': '11', 'salaryMax': '12', 'education': '不限', 'workAddressId': '191880',
+		                          'positionBrightPoint': '11111', 'workYear': '3-5年', 'channels': '108',
+		                          'recommend': True, 'extraInfor': '[{"labels":[{"id":"1","name":"电商"}]}]',
 		                          'positionDesc': '<p>111111111111111111111111111111111111111111111</p>',
-		                          'workAddressId': '191880',
-		                          'labels': '[{"id":"1","name":"电商"}]',
-		                          'extraInfor': '[{"labels":[{"id":"1","name":"电商"}]}]',
-		                          'channels': '108', 'useEnergyCard': 'false', 'recommend': 'false',
-		                          "useEnergyCard": "false"}, **postype_t}
+		                          'labels': '[{"id":"1","name":"电商"}]', 'parentExtraInfo': '{}',
+		                          "useEnergyCard": False}, **postype_t}
 		remark = "批量发布职位" + str(sum) + "个成功"
 		r = form_post(url=createPosition_url, data=createPosition_data, headers=Position_header, remark=remark)
 		reslist.append(r)

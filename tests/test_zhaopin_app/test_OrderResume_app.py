@@ -15,10 +15,9 @@ from api_script.zhaopin_app.OrderResume_app import MySchedule, OrderResumePage, 
 from utils.util import login
 
 
-login('00852', '20181205')
 
 @pytest.mark.skip(reason="有问题, 暂不执行")
-def test_MySchedule():
+def test_MySchedule(login_web_k8s_default):
 	'''
 	查询我的排期，包括共享职位
 	  发送商机线索

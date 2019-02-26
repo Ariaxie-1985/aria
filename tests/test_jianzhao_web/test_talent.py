@@ -10,14 +10,13 @@ from utils.util import login, get_code_token, form_post, get_header, get_request
 
 
 def setup_module(module):
-	login('00852', '20181205')
-
+	pass
 
 def teardown_module(module):
 	pass
 
 
-def test_list():
+def test_list(login_web_k8s_default):
 	'''
 	获取会话列表
 	:return:

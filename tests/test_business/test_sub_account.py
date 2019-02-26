@@ -14,10 +14,8 @@ from utils.read_file import get_yaml_test_data
 
 test_data = get_yaml_test_data("test_sub_account.yaml")
 
-countrycode = test_data['countrycode']
-username = test_data['username']
 templateId = test_data['templateId']
-userId_list = [100014642,100014643]
+userId_list = [100014642, 100014643]
 invalidUserId = 100014642
 
 '''
@@ -27,13 +25,13 @@ invalidUserId = 100014642
 
 def setup_module(module):
 	lagouPlus(templateId)
-	login(countrycode, username)
+
 
 def teardown_module(module):
 	pass
 
 
-def test_add_sub_account():
+def test_add_sub_account(login_web_k8s_default):
 	'''
 	测试验证添加子账号是否成功
 	:return: Boolean, True表示测试通过, False表示测试失败

@@ -9,14 +9,14 @@ from utils.util import login, get_code_token, form_post, get_header, get_request
 
 
 def setup_module(module):
-	login('00852', '20181205')
+	pass
 
 
 def teardown_module(module):
 	pass
 
 
-def test_hot():
+def test_hot(login_web_k8s_default):
 	'''
 	判断是否是热门职位
 	:return:

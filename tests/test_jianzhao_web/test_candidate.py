@@ -16,14 +16,14 @@ file_path = get_file_path("uploadLocalresume.pdf")
 
 
 def setup_module(module):
-	login('00852', '20181205')
+	pass
 
 
 def teardown_module(module):
 	pass
 
 
-def test_can_new_list():
+def test_can_new_list(login_web_k8s_default):
 	r = can_new_list()
 	global resumeId, positionId, resumeIds
 	resumeId = r['content']['rows'][-1]['id']

@@ -4,7 +4,7 @@
 
 # 命令处理
 from flask_script import Manager
-from flask_migrate import  Migrate, MigrateCommand
+from flask_migrate import Migrate, MigrateCommand
 
 from backend import app
 from backend.exts import db

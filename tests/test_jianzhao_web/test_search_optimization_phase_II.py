@@ -7,15 +7,14 @@ from api_script.jianzhao_web.talent_recommendation.search_optimization_phase_II 
 from utils.util import login, assert_equal
 
 def setup_module(module):
-	login('00852', '20181205')
-
+	pass
 
 def teardown_module(module):
 	pass
 
 
 
-def test_get_talent_index():
+def test_get_talent_index(login_web_k8s_default):
 	r = get_talent_index()
 	assert_equal(200, r.status_code, "获取找人才主页成功")
 
