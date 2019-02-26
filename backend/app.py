@@ -3,7 +3,7 @@
 # @Author: Xiawang
 import sys
 
-from backend.resources.b_add_people_into_company import B_Add_People_Into_Company
+
 
 sys.path.append('.')
 from flask import Flask, config
@@ -15,6 +15,7 @@ from flask_docs import ApiDoc
 from backend.resources.b_basic_process import B_Basic_Process
 from backend.resources.b_post_position import B_Post_Position
 from backend.resources.c_basic_process import C_Basic_Process
+from backend.resources.b_add_people_into_company import B_Add_People_Into_Company
 from backend.resources.hello import HelloWorld
 from backend.resources.run_pytest import run_Pytest
 
