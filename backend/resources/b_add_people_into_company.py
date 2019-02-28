@@ -127,14 +127,17 @@ class B_Add_People_Into_Company(Resource):
             login_home("anan@lagou.com", "990eb670f81e82f546cfaaae1587279a")
 
             r51, r52, r53 = passPersonApprove()
-            if r51['success'] != True:
-                state = 400
-                info = "home后台-审核中心-个人认证-审核招聘者失败, 该公司的简称: " + args['companyShortName']
-            else:
-                CompanyInfo['companyId'] = r52
-                HRInfo['userId'] = r53
-                ApproveInfo['passPersonApprove'] = "招聘者认证提交及审核通过"
-                state = 1
+            try:
+                if r51['success'] != True:
+                    state = 400
+                    info = "home后台-审核中心-个人认证-审核招聘者失败, 该公司的简称: " + args['companyShortName']
+                else:
+                    CompanyInfo['companyId'] = r52
+                    HRInfo['userId'] = r53
+                    ApproveInfo['passPersonApprove'] = "招聘者认证提交及审核通过"
+                    state = 1
+            except TypeError:
+                info = info
 
         if state == 1:
             return {
