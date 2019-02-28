@@ -17,4 +17,20 @@ def is_open_get():
 
 
 
-is_open_get()
+def queryCard():
+	url = host + "/luckyShare/queryCard"
+	remark = "查询锦鲤卡片信息"
+	return get_requests(url=url, headers=headers, remark=remark)
+
+
+def queryRedPointType():
+	# todo 确定订单id为英文
+	url = host + "/luckyShare/queryRedPointType?订单id={}".format()
+	remark = "查询红点"
+	return get_requests(url=url, headers=headers, remark=remark)
+
+
+def queryRedPointType():
+	url = host + "/luckyShare/deleteRedPoint"
+	remark = "查询红点"
+	return get_requests(url=url, headers=headers, remark=remark)
