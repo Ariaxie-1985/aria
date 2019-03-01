@@ -27,26 +27,22 @@ class run_Pytest(Resource):
         project_path = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
         os.chdir(project_path)
         if args['module'] == "business":
-            r = subprocess.call("sh {}/run_business.sh".format(project_path), shell=True)
-            # r = subprocess.call(("pipenv run pytest {}/tests/test_business/".format(project_path)).encode("UTF-8"),
-            #                     shell=True)
-
-            print('Exit code:', r)
+            subprocess.call("sh {}/run_business.sh".format(project_path), shell=True)
             result = analysis_html_report("{}/htmlreport/report.html".format(project_path), 1)
             state = 1
             info = {"result": result}
         elif args['module'] == 'jianzhao_web':
-            subprocess.call("sh run_jianzhao_web.sh", shell=True)
+            subprocess.call("sh {}/run_jianzhao_web.sh".format(project_path), shell=True)
             result = analysis_html_report("htmlreport/report.html", 1)
             state = 1
             info = {"result": result}
         elif args['module'] == 'zhaopin':
-            subprocess.call("sh run_zhaopin.sh", shell=True)
+            subprocess.call("sh {}/run_zhaopin.sh".format(project_path), shell=True)
             result = analysis_html_report("htmlreport/report.html", 1)
             state = 1
             info = {"result": result}
         elif args['module'] == "ALL":
-            subprocess.call("sh run.sh", shell=True)
+            subprocess.call("sh {}/run.sh".format(project_path), shell=True)
             result = analysis_html_report("htmlreport/report.html", 1)
             state = 1
             info = {"result": result}
