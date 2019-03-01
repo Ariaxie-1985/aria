@@ -1,3 +1,3 @@
 #!/bin/bash
-pytest tests/test_business/
+/root/.local/bin/pipenv run pytest tests/test_business/
 
