@@ -9,14 +9,19 @@ host = "http://10.1.201.110:12790"
 headers = get_app_header(100014641)
 
 
-def is_open_get():
-    url = host + "/luckyShare/isOpen"
-    remark = "查询活动入口是否展示"
-    return get_requests(url=url, headers=headers, remark=remark)
+def is_open_get(orderId=None):
+    if orderId == None:
+        url = host + "/activity/luckyShare/isOpen"
+        remark = "查询活动入口是否展示"
+        return get_requests(url=url, headers=headers, remark=remark)
+    else:
+        url = host + "/activity/luckyShare/isOpen?orderId={}".format(orderId)
+        remark = "查询活动入口是否展示"
+        return get_requests(url=url, headers=headers, remark=remark)
 
 
 def queryCard():
-    url = host + "/luckyShare/queryCard"
+    url = host + "/activity/luckyShare/queryCard"
     remark = "查询锦鲤卡片信息"
     return get_requests(url=url, headers=headers, remark=remark)
 
