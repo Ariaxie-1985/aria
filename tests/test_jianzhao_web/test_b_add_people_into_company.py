@@ -7,9 +7,7 @@
 # @Author: Xiawang
 import logging
 import random
-
 import pytest
-
 from api_script.jianzhao_web.b_basic.home_review_person_2 import passPersonApprove
 from api_script.jianzhao_web.b_basic.toB_saveHR_1 import add_people_into_company
 from utils.read_file import get_yaml_test_data
@@ -41,7 +39,7 @@ def test_add_people_into_companyame(phone, countryCode, userName, companyFullNam
 	             "提交招聘者审核失败，该用户的手机号: " + str(phone))
 
 
-def test_passPersonApprove(login_home_k8s_default):
+def test_passPersonApprove(login_home_k8s_env_b):
 	log = logging.getLogger('test_passPersonApprove')
 	log.info('验证home后台-审核中心-个人认证-审核招聘者是否成功')
 	r = passPersonApprove()

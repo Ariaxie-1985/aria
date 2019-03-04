@@ -23,7 +23,7 @@ def teardown_module(module):
 	pass
 
 
-def test_can_new_list(login_web_k8s_default):
+def test_can_new_list(login_web_k8s_env_b):
 	r = can_new_list()
 	global resumeId, positionId, resumeIds
 	resumeId = r['content']['rows'][-1]['id']

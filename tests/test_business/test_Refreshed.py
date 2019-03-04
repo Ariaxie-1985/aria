@@ -12,7 +12,7 @@ def setup_module(module):
 def teardown_module(module):
     pass
 
-def test_Refreshed(login_web_k8s_default):
+def test_Refreshed(login_web_k8s_env_b):
     '''
     18版合同“刷新职位”
     :return:

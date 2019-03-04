@@ -12,7 +12,7 @@ def teardown_module(module):
 	pass
 
 
-def test_settings_channel_support(login_web_k8s_default):
+def test_settings_channel_support(login_web_k8s_env_b):
 	r = settings_channel_support()
 	assert_equal(1, r['state'], "查询当前平台支持的渠道成功")
 

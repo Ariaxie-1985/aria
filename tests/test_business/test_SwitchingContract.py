@@ -17,7 +17,7 @@ def setup_module(module):
 def teardown_module(module):
     pass
 
-def test_lagouPlus(login_home_k8s_default):
+def test_lagouPlus(login_home_k8s_env_b):
     '''
     终止当前套餐
     新增17套餐

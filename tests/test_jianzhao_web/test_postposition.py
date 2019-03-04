@@ -17,7 +17,7 @@ def teardown_module(module):
 	pass
 
 
-def test_post_position(login_web_k8s_default):
+def test_post_position(login_web_k8s_env_b):
 	r = post_position()
 	positiId = r['content']['data']['parentPositionInfo']['parentPositionId']
 	assert_equal(1, r['state'], "发布职位成功, , 该职位id是 " + str(positiId))

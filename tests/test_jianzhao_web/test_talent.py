@@ -16,7 +16,7 @@ def teardown_module(module):
 	pass
 
 
-def test_list(login_web_k8s_default):
+def test_list(login_web_k8s_env_b):
 	'''
 	获取会话列表
 	:return:

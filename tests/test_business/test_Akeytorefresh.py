@@ -15,7 +15,7 @@ def teardown_module(module):
 	pass
 
 
-def test_akeyRefresh(login_web_k8s_default):
+def test_akeyRefresh(login_web_k8s_env_b):
 	''''
 	获取第二个职位进行一键刷新
 	'''

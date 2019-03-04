@@ -31,7 +31,7 @@ def teardown_module(module):
 	pass
 
 
-def test_add_sub_account(login_web_k8s_default):
+def test_add_sub_account(login_web_k8s_env_b):
 	'''
 	测试验证添加子账号是否成功
 	:return: Boolean, True表示测试通过, False表示测试失败
