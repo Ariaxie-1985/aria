@@ -118,21 +118,24 @@ class B_Basic_Process(Resource):
                                         args['resumeReceiveEmail'],
                                         args['updateCompanyShortName'])
         state = 0
-        if r1['state'] != 1:
-            state = 400
-            info = "该手机号已被注册, 该用户的手机号: " + args['phone']
+        try:
+            if r1['state'] != 1:
+                state = 400
+                info = "该手机号已被注册, 该用户的手机号: " + args['phone']
 
-        if r2['state'] != 1:
-            state = 400
-            info = "上传B端用户信息失败，该用户的手机号: " + args['userName']
+            if r2['state'] != 1:
+                state = 400
+                info = "上传B端用户信息失败，该用户的手机号: " + args['userName']
 
-        if r3['state'] != 1:
-            state = 400
-            info = "B端成立公司失败，该公司简称:" + args['companyShortName']
+            if r3['state'] != 1:
+                state = 400
+                info = "B端成立公司失败，该公司简称:" + args['companyShortName']
 
-        if r4['state'] != 1:
-            state = 400
-            info = "B端提交招聘者审核失败，该公司简称: " + args['companyShortName']
+            if r4['state'] != 1:
+                state = 400
+                info = "B端提交招聘者审核失败，该公司简称: " + args['companyShortName']
+        except TypeError:
+            info = info
 
         if not (state == 400):
             if r1['state'] == r2['state'] == r3['state'] == r4['state'] == 1:
@@ -142,20 +145,29 @@ class B_Basic_Process(Resource):
                 CompanyInfo['companyShortName'] = args['companyShortName']
                 CompanyInfo['companyFullName'] = args['companyFullName']
 
-            login_home("anan@lagou.com", "990eb670f81e82f546cfaaae1587279a")
-            r51, r52, r53 = passPersonApprove()
-            if r51['success'] != True:
+            try:
+                login_home("anan@lagou.com", "990eb670f81e82f546cfaaae1587279a")
+                r51, r52, r53 = passPersonApprove()
+                if r51['success'] != True:
+                    state = 400
+                    info = "home后台-审核中心-个人认证-审核招聘者失败, 该公司的简称: " + args['companyShortName']
+            except TypeError:
                 state = 400
-                info = "home后台-审核中心-个人认证-审核招聘者失败, 该公司的简称: " + args['companyShortName']
+                info = info
 
             login(args['countryCode'], args['phone'])
-            [r6, r7] = completeInfo_process()
-            if r6['state'] != 1:
+            try:
+                [r6, r7] = completeInfo_process()
+                if r6['state'] != 1:
+                    state = 400
+                    info = "上传营业执照失败, 该公司的简称: " + args['companyShortName'] + "，"
+                elif r7['state'] != 1:
+                    state = 400
+                    info = "简称为 " + args['companyShortName'] + " 申请认证公司失败"
+            except TypeError:
                 state = 400
-                info = "上传营业执照失败, 该公司的简称: " + args['companyShortName'] + "，"
-            elif r7['state'] != 1:
-                state = 400
-                info = "简称为 " + args['companyShortName'] + " 申请认证公司失败"
+                info =info
+
             if not (state == 400):
                 if r4['state'] == r7['state'] == 1:
                     Application['person'] = "招聘者申请认证成功"
