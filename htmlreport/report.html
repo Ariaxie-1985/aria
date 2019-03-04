@@ -398,7 +398,7 @@ function filter_table(elem) {
 }
 </script>
     <h1>report.html</h1>
-    <p>Report generated on 04-Mar-2019 at 14:46:01 by <a href="https://pypi.python.org/pypi/pytest-html">pytest-html</a> v1.20.0</p>
+    <p>Report generated on 04-Mar-2019 at 14:50:35 by <a href="https://pypi.python.org/pypi/pytest-html">pytest-html</a> v1.20.0</p>
     <h2>Environment</h2>
     <table id="environment">
       <tr>
@@ -417,8 +417,8 @@ function filter_table(elem) {
         <td>Python</td>
         <td>3.6.3</td></tr></table>
     <h2>Summary</h2>
-    <p>9 tests ran in 47.90 seconds. </p>
-    <p class="filter" hidden="true">(Un)check the boxes to filter the results.</p><input checked="true" class="filter" data-test-result="passed" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="passed">1 passed</span>, <input checked="true" class="filter" data-test-result="skipped" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="skipped">0 skipped</span>, <input checked="true" class="filter" data-test-result="failed" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="failed">8 failed</span>, <input checked="true" class="filter" data-test-result="error" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="error">4 errors</span>, <input checked="true" class="filter" data-test-result="xfailed" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="xfailed">0 expected failures</span>, <input checked="true" class="filter" data-test-result="xpassed" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="xpassed">0 unexpected passes</span>
+    <p>0 tests ran in 0.07 seconds. </p>
+    <p class="filter" hidden="true">(Un)check the boxes to filter the results.</p><input checked="true" class="filter" data-test-result="passed" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="passed">0 passed</span>, <input checked="true" class="filter" data-test-result="skipped" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="skipped">1 skipped</span>, <input checked="true" class="filter" data-test-result="failed" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="failed">0 failed</span>, <input checked="true" class="filter" data-test-result="error" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="error">0 errors</span>, <input checked="true" class="filter" data-test-result="xfailed" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="xfailed">0 expected failures</span>, <input checked="true" class="filter" data-test-result="xpassed" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="xpassed">0 unexpected passes</span>
     <h2>Results</h2>
     <table id="results-table">
       <thead id="results-table-head">
@@ -429,225 +429,12 @@ function filter_table(elem) {
           <th>Links</th></tr>
         <tr hidden="true" id="not-found-message">
           <th colspan="4">No results found. Try to check the filters</th></tr></thead>
-      <tbody class="error results-table-row">
+      <tbody class="skipped results-table-row">
         <tr>
-          <td class="col-result">Error</td>
-          <td class="col-name">tests/test_business/test_sub_account.py::test_add_sub_account[login_web_k8s_env_b0]::setup</td>
-          <td class="col-duration">0.06</td>
-          <td class="col-links"></td></tr>
-        <tr>
-          <td class="extra" colspan="4">
-            <div class="log">module = &lt;module &#x27;tests.test_business.test_sub_account&#x27; from &#x27;/Users/wang/Desktop/lg-project/lg_api_script/tests/test_business/test_sub_account.py&#x27;&gt;<br/><br/>    def setup_module(module):<br/>&gt;   	lagouPlus(templateId)<br/><br/>tests/test_business/test_sub_account.py:27: <br/>_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ <br/><br/>templateId = 90<br/><br/>    def lagouPlus(templateId):<br/>        &#x27;&#x27;&#x27;<br/>        终止当前套餐<br/>        新增17套餐<br/>        查看套餐是否正常<br/>        :return:<br/>        &#x27;&#x27;&#x27;<br/>    <br/>        header=get_header(&quot;https://home.lagou.com/&quot;)<br/>        Request_url=&quot;https://home.lagou.com/crm/contractController/list.json&quot;<br/>        data={&quot;companyId&quot;:142136}<br/>        object=form_post(url=Request_url,remark=&quot;查询当前公司下的合同&quot;,data=data,headers=header)<br/>        #childaccount = jsonobject.json()[&#x27;content&#x27;][&#x27;data&#x27;][&#x27;subAcccountPage&#x27;][&#x27;totalCount&#x27;]<br/>&gt;       number=object[&#x27;data&#x27;][&#x27;pageData&#x27;][0][&#x27;number&#x27;]<br/>        &#x27;&#x27;&#x27;<br/>        先终止合同<br/><span class="error">E       KeyError: &#x27;pageData&#x27;</span><br/><br/>api_script/business/SwitchingContract.py:27: KeyError<br/>------------------------------ Captured log setup ------------------------------<br/>util.py                     49 INFO     
-请求目的: 查询当前公司下的合同,
- 请求url: https://home.lagou.com/crm/contractController/list.json,
- 请求数据: {&#x27;companyId&#x27;: 142136},
- 响应结果: {&#x27;success&#x27;: True, &#x27;data&#x27;: {&#x27;totalCount&#x27;: 0, &#x27;totalPage&#x27;: 0, &#x27;currentPage&#x27;: 1, &#x27;pageSize&#x27;: 30, &#x27;hasNextPage&#x27;: False}}</div></td></tr></tbody>
-      <tbody class="error results-table-row">
-        <tr>
-          <td class="col-result">Error</td>
-          <td class="col-name">tests/test_business/test_sub_account.py::test_reAssignAllGoods::setup</td>
+          <td class="col-result">Skipped</td>
+          <td class="col-name">tests/test_business/test_B_calling.py::test_calling[login_web_k8s_env_b0]::setup</td>
           <td class="col-duration">0.00</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
-            <div class="log">module = &lt;module &#x27;tests.test_business.test_sub_account&#x27; from &#x27;/Users/wang/Desktop/lg-project/lg_api_script/tests/test_business/test_sub_account.py&#x27;&gt;<br/><br/>    def setup_module(module):<br/>&gt;   	lagouPlus(templateId)<br/><br/>tests/test_business/test_sub_account.py:27: <br/>_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ <br/><br/>templateId = 90<br/><br/>    def lagouPlus(templateId):<br/>        &#x27;&#x27;&#x27;<br/>        终止当前套餐<br/>        新增17套餐<br/>        查看套餐是否正常<br/>        :return:<br/>        &#x27;&#x27;&#x27;<br/>    <br/>        header=get_header(&quot;https://home.lagou.com/&quot;)<br/>        Request_url=&quot;https://home.lagou.com/crm/contractController/list.json&quot;<br/>        data={&quot;companyId&quot;:142136}<br/>        object=form_post(url=Request_url,remark=&quot;查询当前公司下的合同&quot;,data=data,headers=header)<br/>        #childaccount = jsonobject.json()[&#x27;content&#x27;][&#x27;data&#x27;][&#x27;subAcccountPage&#x27;][&#x27;totalCount&#x27;]<br/>&gt;       number=object[&#x27;data&#x27;][&#x27;pageData&#x27;][0][&#x27;number&#x27;]<br/>        &#x27;&#x27;&#x27;<br/>        先终止合同<br/><span class="error">E       KeyError: &#x27;pageData&#x27;</span><br/><br/>api_script/business/SwitchingContract.py:27: KeyError<br/></div></td></tr></tbody>
-      <tbody class="error results-table-row">
-        <tr>
-          <td class="col-result">Error</td>
-          <td class="col-name">tests/test_business/test_sub_account.py::test_reAssign_subaccount_Goods::setup</td>
-          <td class="col-duration">0.00</td>
-          <td class="col-links"></td></tr>
-        <tr>
-          <td class="extra" colspan="4">
-            <div class="log">module = &lt;module &#x27;tests.test_business.test_sub_account&#x27; from &#x27;/Users/wang/Desktop/lg-project/lg_api_script/tests/test_business/test_sub_account.py&#x27;&gt;<br/><br/>    def setup_module(module):<br/>&gt;   	lagouPlus(templateId)<br/><br/>tests/test_business/test_sub_account.py:27: <br/>_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ <br/><br/>templateId = 90<br/><br/>    def lagouPlus(templateId):<br/>        &#x27;&#x27;&#x27;<br/>        终止当前套餐<br/>        新增17套餐<br/>        查看套餐是否正常<br/>        :return:<br/>        &#x27;&#x27;&#x27;<br/>    <br/>        header=get_header(&quot;https://home.lagou.com/&quot;)<br/>        Request_url=&quot;https://home.lagou.com/crm/contractController/list.json&quot;<br/>        data={&quot;companyId&quot;:142136}<br/>        object=form_post(url=Request_url,remark=&quot;查询当前公司下的合同&quot;,data=data,headers=header)<br/>        #childaccount = jsonobject.json()[&#x27;content&#x27;][&#x27;data&#x27;][&#x27;subAcccountPage&#x27;][&#x27;totalCount&#x27;]<br/>&gt;       number=object[&#x27;data&#x27;][&#x27;pageData&#x27;][0][&#x27;number&#x27;]<br/>        &#x27;&#x27;&#x27;<br/>        先终止合同<br/><span class="error">E       KeyError: &#x27;pageData&#x27;</span><br/><br/>api_script/business/SwitchingContract.py:27: KeyError<br/></div></td></tr></tbody>
-      <tbody class="error results-table-row">
-        <tr>
-          <td class="col-result">Error</td>
-          <td class="col-name">tests/test_business/test_sub_account.py::test_Batch_Allocation::setup</td>
-          <td class="col-duration">0.00</td>
-          <td class="col-links"></td></tr>
-        <tr>
-          <td class="extra" colspan="4">
-            <div class="log">module = &lt;module &#x27;tests.test_business.test_sub_account&#x27; from &#x27;/Users/wang/Desktop/lg-project/lg_api_script/tests/test_business/test_sub_account.py&#x27;&gt;<br/><br/>    def setup_module(module):<br/>&gt;   	lagouPlus(templateId)<br/><br/>tests/test_business/test_sub_account.py:27: <br/>_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ <br/><br/>templateId = 90<br/><br/>    def lagouPlus(templateId):<br/>        &#x27;&#x27;&#x27;<br/>        终止当前套餐<br/>        新增17套餐<br/>        查看套餐是否正常<br/>        :return:<br/>        &#x27;&#x27;&#x27;<br/>    <br/>        header=get_header(&quot;https://home.lagou.com/&quot;)<br/>        Request_url=&quot;https://home.lagou.com/crm/contractController/list.json&quot;<br/>        data={&quot;companyId&quot;:142136}<br/>        object=form_post(url=Request_url,remark=&quot;查询当前公司下的合同&quot;,data=data,headers=header)<br/>        #childaccount = jsonobject.json()[&#x27;content&#x27;][&#x27;data&#x27;][&#x27;subAcccountPage&#x27;][&#x27;totalCount&#x27;]<br/>&gt;       number=object[&#x27;data&#x27;][&#x27;pageData&#x27;][0][&#x27;number&#x27;]<br/>        &#x27;&#x27;&#x27;<br/>        先终止合同<br/><span class="error">E       KeyError: &#x27;pageData&#x27;</span><br/><br/>api_script/business/SwitchingContract.py:27: KeyError<br/></div></td></tr></tbody>
-      <tbody class="failed results-table-row">
-        <tr>
-          <td class="col-result">Failed</td>
-          <td class="col-name">tests/test_business/test_Akeytorefresh.py::test_akeyRefresh[login_web_k8s_env_b0]</td>
-          <td class="col-duration">2.00</td>
-          <td class="col-links"></td></tr>
-        <tr>
-          <td class="extra" colspan="4">
-            <div class="log">login_web_k8s_env_b = None<br/><br/>    def test_akeyRefresh(login_web_k8s_env_b):<br/>    	&#x27;&#x27;&#x27;&#x27;<br/>    	获取第二个职位进行一键刷新<br/>    	&#x27;&#x27;&#x27;<br/>&gt;   	akeyRefresh(30)<br/><br/>tests/test_business/test_Akeytorefresh.py:22: <br/>_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ <br/><br/>second = 30<br/><br/>    def akeyRefresh(second):<br/>        position_url = &#x27;https://easy.lagou.com/parentPosition/multiChannel/myOnlinePositions.json&#x27;<br/>        position_header = get_code_token(&#x27;https://easy.lagou.com/position/multiChannel/myOnlinePositions.htm&#x27;)<br/>        s = form_post(url=position_url,headers=position_header,data={&#x27;pageNo&#x27;:1},remark=&#x27;获取职位id&#x27;)<br/>&gt;       positionId=s[&#x27;content&#x27;][&#x27;data&#x27;][&#x27;parentPositionVOs&#x27;][1][&#x27;positions&#x27;][0][&#x27;positionId&#x27;]<br/><span class="error">E       IndexError: list index out of range</span><br/><br/>api_script/business/Akeytorefresh.py:14: IndexError<br/>------------------------------ Captured log setup ------------------------------<br/>util.py                     49 INFO     
-请求目的: 20181205在登录拉勾,
- 请求url: https://passport.lagou.com/login/login.json,
- 请求数据: {&#x27;isValidate&#x27;: &#x27;true&#x27;, &#x27;username&#x27;: &#x27;20181205&#x27;, &#x27;phoneVerificationCode&#x27;: &#x27;049281&#x27;, &#x27;countryCode&#x27;: &#x27;00852&#x27;, &#x27;challenge&#x27;: 111},
- 响应结果: {&#x27;state&#x27;: 1, &#x27;message&#x27;: &#x27;操作成功&#x27;, &#x27;content&#x27;: {&#x27;rows&#x27;: []}, &#x27;submitCode&#x27;: 32969375, &#x27;submitToken&#x27;: &#x27;f6b8f258-5570-4a5c-961c-671ed996d5c1&#x27;}
-
-util.py                    137 INFO     用户名: 20181205 登录成功------------------------------ Captured log call -------------------------------<br/>util.py                     49 INFO     
-请求目的: 获取职位id,
- 请求url: https://easy.lagou.com/parentPosition/multiChannel/myOnlinePositions.json,
- 请求数据: {&#x27;pageNo&#x27;: 1},
- 响应结果: {&#x27;state&#x27;: 1, &#x27;message&#x27;: &#x27;操作成功&#x27;, &#x27;content&#x27;: {&#x27;data&#x27;: {&#x27;pageNo&#x27;: 1, &#x27;parentPositionVOs&#x27;: [], &#x27;pageSize&#x27;: 15, &#x27;parentPositionIds&#x27;: [], &#x27;keyword&#x27;: &#x27;&#x27;, &#x27;totalCount&#x27;: 0, &#x27;userProfile&#x27;: {&#x27;userId&#x27;: 84, &#x27;userProfileType&#x27;: &#x27;FREE_USER&#x27;, &#x27;startTime&#x27;: &#x27;2017-03-08 00:00:00&#x27;}}, &#x27;rows&#x27;: []}}</div></td></tr></tbody>
-      <tbody class="failed results-table-row">
-        <tr>
-          <td class="col-result">Failed</td>
-          <td class="col-name">tests/test_business/test_Akeytorefresh.py::test_Refreshed</td>
-          <td class="col-duration">34.25</td>
-          <td class="col-links"></td></tr>
-        <tr>
-          <td class="extra" colspan="4">
-            <div class="log">def test_Refreshed():<br/>    	&#x27;&#x27;&#x27;<br/>    	18版合同“一键刷新”<br/>    	刷新所有职位，包括已经刷新过一次的<br/>    	:return:<br/>    	&#x27;&#x27;&#x27;<br/>&gt;   	Refreshed(30)<br/><br/>tests/test_business/test_Akeytorefresh.py:31: <br/>_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ <br/>api_script/business/Akeytorefresh.py:55: in Refreshed<br/>    assert_equal(&quot;操作成功&quot;,a,&quot;一键刷新成功&quot;,&quot;一键刷新失败&quot;)<br/>_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ <br/><br/>expectvalue = &#x27;操作成功&#x27;, actualvalue = &#x27;父职位ID不能为空&#x27;, success_message = &#x27;一键刷新成功&#x27;, fail_message = &#x27;一键刷新失败&#x27;<br/><br/>    def assert_equal(expectvalue, actualvalue, success_message, fail_message=None):<br/>        &#x27;&#x27;&#x27;<br/>        断言两个值是否相等, 并对结果打印日志<br/>        :param expectvalue: 期望结果<br/>        :param actualvalue: 实际结果<br/>        :param success_message: str, 断言成功打印的日志<br/>        :param fail_message:str, 断言失败打印的日志<br/>        &#x27;&#x27;&#x27;<br/>&gt;       assert expectvalue == actualvalue<br/><span class="error">E       AssertionError</span><br/><br/>utils/util.py:187: AssertionError<br/>----------------------------- Captured stdout call -----------------------------<br/>{&#x27;X-Anit-Forge-Code&#x27;: &#x27;7b400eb1-6174-4e8d-a6ff-f73f3c92e2bb&#x27;, &#x27;X-Anit-Forge-Token&#x27;: &#x27;ef667d89-64d0-408a-9a79-cbe2347833b7&#x27;, &#x27;User-Agent&#x27;: &#x27;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3615.0 Safari/537.36&#x27;}
-父职位ID不能为空
------------------------------- Captured log call -------------------------------<br/>util.py                     49 INFO     
-请求目的: 获取职位id,
- 请求url: https://easy.lagou.com/parentPosition/multiChannel/myOnlinePositions.json,
- 请求数据: {&#x27;pageNo&#x27;: 1},
- 响应结果: {&#x27;state&#x27;: 1, &#x27;message&#x27;: &#x27;操作成功&#x27;, &#x27;content&#x27;: {&#x27;data&#x27;: {&#x27;pageNo&#x27;: 1, &#x27;parentPositionVOs&#x27;: [], &#x27;pageSize&#x27;: 15, &#x27;parentPositionIds&#x27;: [], &#x27;keyword&#x27;: &#x27;&#x27;, &#x27;totalCount&#x27;: 0, &#x27;userProfile&#x27;: {&#x27;userId&#x27;: 84, &#x27;userProfileType&#x27;: &#x27;FREE_USER&#x27;, &#x27;startTime&#x27;: &#x27;2017-03-08 00:00:00&#x27;}}, &#x27;rows&#x27;: []}}
-
-util.py                     49 INFO     
-请求目的: 一键刷新职位,
- 请求url: https://easy.lagou.com/parentPosition/multiChannel/statistics.json,
- 请求数据: {&#x27;needCandidateNum&#x27;: &#x27;true&#x27;, &#x27;parentIds&#x27;: []},
- 响应结果: {&#x27;state&#x27;: 201, &#x27;message&#x27;: &#x27;父职位ID不能为空&#x27;, &#x27;content&#x27;: {&#x27;rows&#x27;: []}, &#x27;submitCode&#x27;: &#x27;2bc810de-fdd9-4f5c-b638-86bb21c4526c&#x27;, &#x27;submitToken&#x27;: &#x27;18183a34-959a-4065-8f08-17789e972534&#x27;}
-
-util.py                     49 INFO     
-请求目的: 刷新职位,
- 请求url: https://easy.lagou.com/parentPosition/multiChannel/statistics.json,
- 请求数据: {&#x27;needCandidateNum&#x27;: &#x27;true&#x27;, &#x27;parentIds&#x27;: []},
- 响应结果: {&#x27;state&#x27;: 1997, &#x27;message&#x27;: &#x27;请勿重复提交,刷新页面后重试&#x27;, &#x27;content&#x27;: {&#x27;rows&#x27;: []}}</div></td></tr></tbody>
-      <tbody class="failed results-table-row">
-        <tr>
-          <td class="col-result">Failed</td>
-          <td class="col-name">tests/test_business/test_B_energycard.py::test_energycard[login_web_k8s_env_b0]</td>
-          <td class="col-duration">2.05</td>
-          <td class="col-links"></td></tr>
-        <tr>
-          <td class="extra" colspan="4">
-            <div class="log">login_web_k8s_env_b = None<br/><br/>    def test_energycard(login_web_k8s_env_b):<br/>        logging.getLogger().setLevel(logging.INFO)<br/>&gt;       s = energycard(getpositionId())<br/><br/>tests/test_business/test_B_energycard.py:11: <br/>_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ <br/><br/>    def getpositionId():<br/>        position_url = &#x27;https://easy.lagou.com/parentPosition/multiChannel/myOnlinePositions.json&#x27;<br/>        position_header = get_code_token(&#x27;https://easy.lagou.com/position/multiChannel/myOnlinePositions.htm&#x27;)<br/>        s = form_post(url=position_url,headers=position_header,data={&#x27;pageNo&#x27;:1},remark=&#x27;获取职位id&#x27;)<br/>&gt;       return s[&#x27;content&#x27;][&#x27;data&#x27;][&#x27;parentPositionVOs&#x27;][0][&#x27;positions&#x27;][0][&#x27;positionId&#x27;]<br/><span class="error">E       IndexError: list index out of range</span><br/><br/>api_script/business/B_energycard.py:12: IndexError<br/>------------------------------ Captured log setup ------------------------------<br/>util.py                     49 INFO     
-请求目的: 20181205在登录拉勾,
- 请求url: https://passport.lagou.com/login/login.json,
- 请求数据: {&#x27;isValidate&#x27;: &#x27;true&#x27;, &#x27;username&#x27;: &#x27;20181205&#x27;, &#x27;phoneVerificationCode&#x27;: &#x27;049281&#x27;, &#x27;countryCode&#x27;: &#x27;00852&#x27;, &#x27;challenge&#x27;: 111},
- 响应结果: {&#x27;state&#x27;: 1, &#x27;message&#x27;: &#x27;操作成功&#x27;, &#x27;content&#x27;: {&#x27;rows&#x27;: []}, &#x27;submitCode&#x27;: 18386545, &#x27;submitToken&#x27;: &#x27;14f543f6-64f4-494a-9184-2788ecddb7a4&#x27;}
-
-util.py                    137 INFO     用户名: 20181205 登录成功------------------------------ Captured log call -------------------------------<br/>util.py                     49 INFO     
-请求目的: 获取职位id,
- 请求url: https://easy.lagou.com/parentPosition/multiChannel/myOnlinePositions.json,
- 请求数据: {&#x27;pageNo&#x27;: 1},
- 响应结果: {&#x27;state&#x27;: 1, &#x27;message&#x27;: &#x27;操作成功&#x27;, &#x27;content&#x27;: {&#x27;data&#x27;: {&#x27;pageNo&#x27;: 1, &#x27;parentPositionVOs&#x27;: [], &#x27;pageSize&#x27;: 15, &#x27;parentPositionIds&#x27;: [], &#x27;keyword&#x27;: &#x27;&#x27;, &#x27;totalCount&#x27;: 0, &#x27;userProfile&#x27;: {&#x27;userId&#x27;: 84, &#x27;userProfileType&#x27;: &#x27;FREE_USER&#x27;, &#x27;startTime&#x27;: &#x27;2017-03-08 00:00:00&#x27;}}, &#x27;rows&#x27;: []}}</div></td></tr></tbody>
-      <tbody class="failed results-table-row">
-        <tr>
-          <td class="col-result">Failed</td>
-          <td class="col-name">tests/test_business/test_B_refresh.py::test_refresh[login_web_k8s_env_b0]</td>
-          <td class="col-duration">3.04</td>
-          <td class="col-links"></td></tr>
-        <tr>
-          <td class="extra" colspan="4">
-            <div class="log">login_web_k8s_env_b = None<br/><br/>    def test_refresh(login_web_k8s_env_b):<br/>        logging.getLogger().setLevel(logging.INFO)<br/>        a = getrefreshpoint()<br/>        logging.info(&#x27;刷新前的点数:&#x27;+str(a))<br/>        # 免费刷新后，需过一段时间才可以付费刷新，单位秒,正常配置3600s<br/>&gt;       s = refrech(getpositionId())<br/><br/>tests/test_business/test_B_refresh.py:15: <br/>_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ <br/><br/>    def getpositionId():<br/>        position_url = &#x27;https://easy.lagou.com/parentPosition/multiChannel/myOnlinePositions.json&#x27;<br/>        position_header = get_code_token(&#x27;https://easy.lagou.com/position/multiChannel/myOnlinePositions.htm&#x27;)<br/>        s = form_post(url=position_url,headers=position_header,data={&#x27;pageNo&#x27;:1},remark=&#x27;获取职位id&#x27;)<br/>&gt;       return s[&#x27;content&#x27;][&#x27;data&#x27;][&#x27;parentPositionVOs&#x27;][0][&#x27;positions&#x27;][0][&#x27;positionId&#x27;]<br/><span class="error">E       IndexError: list index out of range</span><br/><br/>api_script/business/B_refresh.py:18: IndexError<br/>------------------------------ Captured log setup ------------------------------<br/>util.py                     49 INFO     
-请求目的: 20181205在登录拉勾,
- 请求url: https://passport.lagou.com/login/login.json,
- 请求数据: {&#x27;isValidate&#x27;: &#x27;true&#x27;, &#x27;username&#x27;: &#x27;20181205&#x27;, &#x27;phoneVerificationCode&#x27;: &#x27;049281&#x27;, &#x27;countryCode&#x27;: &#x27;00852&#x27;, &#x27;challenge&#x27;: 111},
- 响应结果: {&#x27;state&#x27;: 1, &#x27;message&#x27;: &#x27;操作成功&#x27;, &#x27;content&#x27;: {&#x27;rows&#x27;: []}, &#x27;submitCode&#x27;: 35494387, &#x27;submitToken&#x27;: &#x27;9936761c-96f1-4fb7-b4b3-b2d4a48b1e0f&#x27;}
-
-util.py                    137 INFO     用户名: 20181205 登录成功------------------------------ Captured log call -------------------------------<br/>util.py                     49 INFO     
-请求目的: 获取刷新点数,
- 请求url: https://easy.lagou.com/position/batchRefreshInfo.json,
- 请求数据: None,
- 响应结果: {&#x27;state&#x27;: 1, &#x27;message&#x27;: &#x27;操作成功&#x27;, &#x27;content&#x27;: {&#x27;data&#x27;: {&#x27;canExchange&#x27;: False, &#x27;canExchangeAll&#x27;: False, &#x27;balance&#x27;: 0, &#x27;need&#x27;: 0.0, &#x27;totalConsumePoint&#x27;: 0.0, &#x27;needExchangePositionPoint&#x27;: 0, &#x27;consumeRefreshNum&#x27;: 0, &#x27;remainPositionPoint&#x27;: 20000.0, &#x27;freeRefreshNum&#x27;: 0}, &#x27;rows&#x27;: []}}
-
-test_B_refresh.py           13 INFO     刷新前的点数:20000.0
-util.py                     49 INFO     
-请求目的: 获取职位id,
- 请求url: https://easy.lagou.com/parentPosition/multiChannel/myOnlinePositions.json,
- 请求数据: {&#x27;pageNo&#x27;: 1},
- 响应结果: {&#x27;state&#x27;: 1, &#x27;message&#x27;: &#x27;操作成功&#x27;, &#x27;content&#x27;: {&#x27;data&#x27;: {&#x27;pageNo&#x27;: 1, &#x27;parentPositionVOs&#x27;: [], &#x27;pageSize&#x27;: 15, &#x27;parentPositionIds&#x27;: [], &#x27;keyword&#x27;: &#x27;&#x27;, &#x27;totalCount&#x27;: 0, &#x27;userProfile&#x27;: {&#x27;userId&#x27;: 84, &#x27;userProfileType&#x27;: &#x27;FREE_USER&#x27;, &#x27;startTime&#x27;: &#x27;2017-03-08 00:00:00&#x27;}}, &#x27;rows&#x27;: []}}</div></td></tr></tbody>
-      <tbody class="failed results-table-row">
-        <tr>
-          <td class="col-result">Failed</td>
-          <td class="col-name">tests/test_business/test_LagouPlus.py::test_lagouPlus</td>
-          <td class="col-duration">0.64</td>
-          <td class="col-links"></td></tr>
-        <tr>
-          <td class="extra" colspan="4">
-            <div class="log">login_home_k8s_env_b = None<br/><br/>    def test_lagouPlus(login_home_k8s_env_b):<br/>        &#x27;&#x27;&#x27;<br/>        终止当前套餐<br/>        新增17套餐<br/>        查看套餐是否正常<br/>        :return:<br/>        &#x27;&#x27;&#x27;<br/>&gt;       lagouPlus()<br/><br/>tests/test_business/test_LagouPlus.py:22: <br/>_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ <br/><br/>    def lagouPlus():<br/>        &#x27;&#x27;&#x27;<br/>        终止当前套餐<br/>        新增17套餐<br/>        查看套餐是否正常<br/>        :return:<br/>        &#x27;&#x27;&#x27;<br/>    <br/>        header=get_header(&quot;https://home.lagou.com/&quot;)<br/>        Request_url=&quot;https://home.lagou.com/crm/contractController/list.json&quot;<br/>        data={&quot;companyId&quot;:142136}<br/>        object=form_post(url=Request_url,remark=&quot;查询当前公司下的合同&quot;,data=data,headers=header)<br/>        #childaccount = jsonobject.json()[&#x27;content&#x27;][&#x27;data&#x27;][&#x27;subAcccountPage&#x27;][&#x27;totalCount&#x27;]<br/>&gt;       number=object[&#x27;data&#x27;][&#x27;pageData&#x27;][0][&#x27;number&#x27;]<br/>        &#x27;&#x27;&#x27;<br/>        先终止合同<br/><span class="error">E       KeyError: &#x27;pageData&#x27;</span><br/><br/>api_script/business/LagouPlus.py:28: KeyError<br/>------------------------------ Captured log setup ------------------------------<br/>util.py                     49 INFO     
-请求目的: 用户 18810896987 在登录拉勾home后台,
- 请求url: https://passport.lagou.com/login/login.json,
- 请求数据: {&#x27;isValidate&#x27;: &#x27;true&#x27;, &#x27;username&#x27;: &#x27;18810896987&#x27;, &#x27;password&#x27;: &#x27;c47eeb69fa4e64971fb29cb1e9163a19&#x27;},
- 响应结果: {&#x27;state&#x27;: 1, &#x27;message&#x27;: &#x27;操作成功&#x27;, &#x27;content&#x27;: {&#x27;rows&#x27;: []}, &#x27;submitCode&#x27;: 49464042, &#x27;submitToken&#x27;: &#x27;979ab1f1-30d0-4da4-8291-592e6a0c1188&#x27;}
-
-util.py                    156 INFO     用户名: 18810896987 登录成功------------------------------ Captured log call -------------------------------<br/>util.py                     49 INFO     
-请求目的: 查询当前公司下的合同,
- 请求url: https://home.lagou.com/crm/contractController/list.json,
- 请求数据: {&#x27;companyId&#x27;: 142136},
- 响应结果: {&#x27;success&#x27;: True, &#x27;data&#x27;: {&#x27;totalCount&#x27;: 0, &#x27;totalPage&#x27;: 0, &#x27;currentPage&#x27;: 1, &#x27;pageSize&#x27;: 30, &#x27;hasNextPage&#x27;: False}}</div></td></tr></tbody>
-      <tbody class="failed results-table-row">
-        <tr>
-          <td class="col-result">Failed</td>
-          <td class="col-name">tests/test_business/test_LagouPlus.py::test_lagouPlusqiu</td>
-          <td class="col-duration">0.22</td>
-          <td class="col-links"></td></tr>
-        <tr>
-          <td class="extra" colspan="4">
-            <div class="log">def test_lagouPlusqiu():<br/>        &#x27;&#x27;&#x27;<br/>        终止当前套餐<br/>        新增18套餐<br/>        查看套餐是否正常<br/>        :return:<br/>        &#x27;&#x27;&#x27;<br/>&gt;       lagouPlusqiu()<br/><br/>tests/test_business/test_LagouPlus.py:31: <br/>_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ <br/><br/>    def lagouPlusqiu():<br/>        &#x27;&#x27;&#x27;<br/>        终止当前套餐<br/>        新增18套餐<br/>        查看套餐是否正常<br/>        :return:<br/>        &#x27;&#x27;&#x27;<br/>        header=get_header(&quot;https://home.lagou.com/&quot;)<br/>        Request_url=&quot;https://home.lagou.com/crm/contractController/list.json&quot;<br/>        data={&quot;companyId&quot;:142136}<br/>        object=form_post(url=Request_url,remark=&quot;查询当前公司下的合同&quot;,data=data,headers=header)<br/>        #childaccount = jsonobject.json()[&#x27;content&#x27;][&#x27;data&#x27;][&#x27;subAcccountPage&#x27;][&#x27;totalCount&#x27;]<br/>&gt;       number=object[&#x27;data&#x27;][&#x27;pageData&#x27;][0][&#x27;number&#x27;]<br/>        &#x27;&#x27;&#x27;<br/>        先终止合同<br/><span class="error">E       KeyError: &#x27;pageData&#x27;</span><br/><br/>api_script/business/LagouPlus.py:71: KeyError<br/>------------------------------ Captured log call -------------------------------<br/>util.py                     49 INFO     
-请求目的: 查询当前公司下的合同,
- 请求url: https://home.lagou.com/crm/contractController/list.json,
- 请求数据: {&#x27;companyId&#x27;: 142136},
- 响应结果: {&#x27;success&#x27;: True, &#x27;data&#x27;: {&#x27;totalCount&#x27;: 0, &#x27;totalPage&#x27;: 0, &#x27;currentPage&#x27;: 1, &#x27;pageSize&#x27;: 30, &#x27;hasNextPage&#x27;: False}}</div></td></tr></tbody>
-      <tbody class="failed results-table-row">
-        <tr>
-          <td class="col-result">Failed</td>
-          <td class="col-name">tests/test_business/test_Refreshed.py::test_Refreshed[login_web_k8s_env_b0]</td>
-          <td class="col-duration">1.77</td>
-          <td class="col-links"></td></tr>
-        <tr>
-          <td class="extra" colspan="4">
-            <div class="log">login_web_k8s_env_b = None<br/><br/>    def test_Refreshed(login_web_k8s_env_b):<br/>        &#x27;&#x27;&#x27;<br/>        18版合同“刷新职位”<br/>        :return:<br/>        &#x27;&#x27;&#x27;<br/>&gt;       Refreshed(30)<br/><br/>tests/test_business/test_Refreshed.py:20: <br/>_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ <br/><br/>second = 30<br/><br/>    def Refreshed(second):<br/>        &#x27;&#x27;&#x27;<br/>        18版合同“刷新职位”<br/>        :return:<br/>        &#x27;&#x27;&#x27;<br/>        position_url = &#x27;https://easy.lagou.com/parentPosition/multiChannel/myOnlinePositions.json&#x27;<br/>        position_header = get_code_token(&#x27;https://easy.lagou.com/position/multiChannel/myOnlinePositions.htm&#x27;)<br/>        s = form_post(url=position_url,headers=position_header,data={&#x27;pageNo&#x27;:1},remark=&#x27;获取职位id&#x27;)<br/>&gt;       positionId=s[&#x27;content&#x27;][&#x27;data&#x27;][&#x27;parentPositionVOs&#x27;][0][&#x27;positions&#x27;][0][&#x27;positionId&#x27;]<br/><span class="error">E       IndexError: list index out of range</span><br/><br/>api_script/business/Refreshed.py:15: IndexError<br/>------------------------------ Captured log setup ------------------------------<br/>util.py                     49 INFO     
-请求目的: 20181205在登录拉勾,
- 请求url: https://passport.lagou.com/login/login.json,
- 请求数据: {&#x27;isValidate&#x27;: &#x27;true&#x27;, &#x27;username&#x27;: &#x27;20181205&#x27;, &#x27;phoneVerificationCode&#x27;: &#x27;049281&#x27;, &#x27;countryCode&#x27;: &#x27;00852&#x27;, &#x27;challenge&#x27;: 111},
- 响应结果: {&#x27;state&#x27;: 1, &#x27;message&#x27;: &#x27;操作成功&#x27;, &#x27;content&#x27;: {&#x27;rows&#x27;: []}, &#x27;submitCode&#x27;: 33623839, &#x27;submitToken&#x27;: &#x27;40938ad3-155a-4b7a-8b77-7b00a966c9ad&#x27;}
-
-util.py                    137 INFO     用户名: 20181205 登录成功------------------------------ Captured log call -------------------------------<br/>util.py                     49 INFO     
-请求目的: 获取职位id,
- 请求url: https://easy.lagou.com/parentPosition/multiChannel/myOnlinePositions.json,
- 请求数据: {&#x27;pageNo&#x27;: 1},
- 响应结果: {&#x27;state&#x27;: 1, &#x27;message&#x27;: &#x27;操作成功&#x27;, &#x27;content&#x27;: {&#x27;data&#x27;: {&#x27;pageNo&#x27;: 1, &#x27;parentPositionVOs&#x27;: [], &#x27;pageSize&#x27;: 15, &#x27;parentPositionIds&#x27;: [], &#x27;keyword&#x27;: &#x27;&#x27;, &#x27;totalCount&#x27;: 0, &#x27;userProfile&#x27;: {&#x27;userId&#x27;: 84, &#x27;userProfileType&#x27;: &#x27;FREE_USER&#x27;, &#x27;startTime&#x27;: &#x27;2017-03-08 00:00:00&#x27;}}, &#x27;rows&#x27;: []}}</div></td></tr></tbody>
-      <tbody class="failed results-table-row">
-        <tr>
-          <td class="col-result">Failed</td>
-          <td class="col-name">tests/test_business/test_SwitchingContract.py::test_lagouPlus</td>
-          <td class="col-duration">0.21</td>
-          <td class="col-links"></td></tr>
-        <tr>
-          <td class="extra" colspan="4">
-            <div class="log">login_home_k8s_env_b = None<br/><br/>    def test_lagouPlus(login_home_k8s_env_b):<br/>        &#x27;&#x27;&#x27;<br/>        终止当前套餐<br/>        新增17套餐<br/>        查看套餐是否正常<br/>        :return:<br/>        &#x27;&#x27;&#x27;<br/>&gt;       lagouPlus(87)<br/><br/>tests/test_business/test_SwitchingContract.py:27: <br/>_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ <br/><br/>templateId = 87<br/><br/>    def lagouPlus(templateId):<br/>        &#x27;&#x27;&#x27;<br/>        终止当前套餐<br/>        新增17套餐<br/>        查看套餐是否正常<br/>        :return:<br/>        &#x27;&#x27;&#x27;<br/>    <br/>        header=get_header(&quot;https://home.lagou.com/&quot;)<br/>        Request_url=&quot;https://home.lagou.com/crm/contractController/list.json&quot;<br/>        data={&quot;companyId&quot;:142136}<br/>        object=form_post(url=Request_url,remark=&quot;查询当前公司下的合同&quot;,data=data,headers=header)<br/>        #childaccount = jsonobject.json()[&#x27;content&#x27;][&#x27;data&#x27;][&#x27;subAcccountPage&#x27;][&#x27;totalCount&#x27;]<br/>&gt;       number=object[&#x27;data&#x27;][&#x27;pageData&#x27;][0][&#x27;number&#x27;]<br/>        &#x27;&#x27;&#x27;<br/>        先终止合同<br/><span class="error">E       KeyError: &#x27;pageData&#x27;</span><br/><br/>api_script/business/SwitchingContract.py:27: KeyError<br/>------------------------------ Captured log setup ------------------------------<br/>util.py                     49 INFO     
-请求目的: 用户 18810896987 在登录拉勾home后台,
- 请求url: https://passport.lagou.com/login/login.json,
- 请求数据: {&#x27;isValidate&#x27;: &#x27;true&#x27;, &#x27;username&#x27;: &#x27;18810896987&#x27;, &#x27;password&#x27;: &#x27;c47eeb69fa4e64971fb29cb1e9163a19&#x27;},
- 响应结果: {&#x27;state&#x27;: 1, &#x27;message&#x27;: &#x27;操作成功&#x27;, &#x27;content&#x27;: {&#x27;rows&#x27;: []}, &#x27;submitCode&#x27;: 75662971, &#x27;submitToken&#x27;: &#x27;69684efe-3611-428c-9c7f-3305ebbcea19&#x27;}
-
-util.py                    156 INFO     用户名: 18810896987 登录成功------------------------------ Captured log call -------------------------------<br/>util.py                     49 INFO     
-请求目的: 查询当前公司下的合同,
- 请求url: https://home.lagou.com/crm/contractController/list.json,
- 请求数据: {&#x27;companyId&#x27;: 142136},
- 响应结果: {&#x27;success&#x27;: True, &#x27;data&#x27;: {&#x27;totalCount&#x27;: 0, &#x27;totalPage&#x27;: 0, &#x27;currentPage&#x27;: 1, &#x27;pageSize&#x27;: 30, &#x27;hasNextPage&#x27;: False}}</div></td></tr></tbody>
-      <tbody class="passed results-table-row">
-        <tr>
-          <td class="col-result">Passed</td>
-          <td class="col-name">tests/test_business/test_B_calling.py::test_calling[login_web_k8s_env_b0]</td>
-          <td class="col-duration">1.63</td>
-          <td class="col-links"></td></tr>
-        <tr>
-          <td class="extra" colspan="4">
-            <div class="log">------------------------------ Captured log setup ------------------------------<br/>util.py                     49 INFO     
-请求目的: 20181205在登录拉勾,
- 请求url: https://passport.lagou.com/login/login.json,
- 请求数据: {&#x27;isValidate&#x27;: &#x27;true&#x27;, &#x27;username&#x27;: &#x27;20181205&#x27;, &#x27;phoneVerificationCode&#x27;: &#x27;049281&#x27;, &#x27;countryCode&#x27;: &#x27;00852&#x27;, &#x27;challenge&#x27;: 111},
- 响应结果: {&#x27;state&#x27;: 1, &#x27;message&#x27;: &#x27;操作成功&#x27;, &#x27;content&#x27;: {&#x27;rows&#x27;: []}, &#x27;submitCode&#x27;: 89039101, &#x27;submitToken&#x27;: &#x27;2cc0782d-82a6-42ba-9afd-74917a328950&#x27;}
-
-util.py                    137 INFO     用户名: 20181205 登录成功------------------------------ Captured log call -------------------------------<br/>util.py                     49 INFO     
-请求目的: 直call大咖,
- 请求url: https://easy.lagou.com/phonecall/getVirtualNum.json,
- 请求数据: {&#x27;cUserId&#x27;: 100012422},
- 响应结果: {&#x27;success&#x27;: False, &#x27;state&#x27;: 1026, &#x27;message&#x27;: &#x27;获取简历信息失败&#x27;, &#x27;content&#x27;: {&#x27;rows&#x27;: []}}
-
-test_B_calling.py           23 INFO     calling获取失败，响应信息：{&#x27;success&#x27;: False, &#x27;state&#x27;: 1026, &#x27;message&#x27;: &#x27;获取简历信息失败&#x27;, &#x27;content&#x27;: {&#x27;rows&#x27;: []}}</div></td></tr></tbody></table></body></html>
+            <div class="log">(&#x27;tests/test_business/test_B_calling.py&#x27;, 11, &#x27;Skipped: 暂时注掉先不跑&#x27;)<br/></div></td></tr></tbody></table></body></html>
