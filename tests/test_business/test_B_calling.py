@@ -8,8 +8,8 @@ from utils.read_file import get_yaml_test_data
 
 
 cUserid = 100012422
-
-def test_calling(login_web_k8s_default):
+# 暂时注掉先不跑
+def atest_calling(login_web_k8s_default):
 	s = calling(cUserid)
 	logging.getLogger().setLevel(logging.INFO)
 
