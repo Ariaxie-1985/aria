@@ -31,14 +31,17 @@ def post_position(sum):
 		Position_header = get_code_token(refer_createPosition_url)
 		createPosition_url = "https://easy.lagou.com/parentPosition/multiChannel/create.json"
 
-		createPosition_data = {**{'isSchoolJob': '0', 'channelTypes': 'LAGOU', 'department': '111', 'jobNature': '全职',
-		                          'salaryMin': '11', 'salaryMax': '12', 'education': '不限', 'workAddressId': '191880',
-		                          'positionBrightPoint': '11111', 'workYear': '3-5年', 'channels': '108',
+		createPosition_data = {**{'isSchoolJob': '0', 'channelTypes': 'LAGOU', 'department': '用户价值部', 'jobNature': '全职',
+		                          'salaryMin': '11', 'salaryMax': '12', 'education': '不限', 'workAddressId': '7',
+		                          'positionBrightPoint': '18薪', 'workYear': '3-5年', 'channels': '108',
 		                          'recommend': True, 'extraInfor': '[{"labels":[{"id":"1","name":"电商"}]}]',
-		                          'positionDesc': '<p>111111111111111111111111111111111111111111111</p>',
+		                          'positionDesc': '<p>充满责任心, 技术能力强,有大局观, </p>',
 		                          'labels': '[{"id":"1","name":"电商"}]', 'parentExtraInfo': '{}',
 		                          "useEnergyCard": False}, **postype_t}
 		remark = "批量发布职位" + str(sum) + "个成功"
 		r = form_post(url=createPosition_url, data=createPosition_data, headers=Position_header, remark=remark)
 		reslist.append(r)
 	return reslist
+
+
+

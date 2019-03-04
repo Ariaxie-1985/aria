@@ -398,7 +398,7 @@ function filter_table(elem) {
 }
 </script>
     <h1>report.html</h1>
-    <p>Report generated on 04-Mar-2019 at 14:50:35 by <a href="https://pypi.python.org/pypi/pytest-html">pytest-html</a> v1.20.0</p>
+    <p>Report generated on 04-Mar-2019 at 18:19:04 by <a href="https://pypi.python.org/pypi/pytest-html">pytest-html</a> v1.20.0</p>
     <h2>Environment</h2>
     <table id="environment">
       <tr>
@@ -417,8 +417,8 @@ function filter_table(elem) {
         <td>Python</td>
         <td>3.6.3</td></tr></table>
     <h2>Summary</h2>
-    <p>0 tests ran in 0.07 seconds. </p>
-    <p class="filter" hidden="true">(Un)check the boxes to filter the results.</p><input checked="true" class="filter" data-test-result="passed" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="passed">0 passed</span>, <input checked="true" class="filter" data-test-result="skipped" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="skipped">1 skipped</span>, <input checked="true" class="filter" data-test-result="failed" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="failed">0 failed</span>, <input checked="true" class="filter" data-test-result="error" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="error">0 errors</span>, <input checked="true" class="filter" data-test-result="xfailed" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="xfailed">0 expected failures</span>, <input checked="true" class="filter" data-test-result="xpassed" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="xpassed">0 unexpected passes</span>
+    <p>33 tests ran in 89.23 seconds. </p>
+    <p class="filter" hidden="true">(Un)check the boxes to filter the results.</p><input checked="true" class="filter" data-test-result="passed" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="passed">29 passed</span>, <input checked="true" class="filter" data-test-result="skipped" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="skipped">3 skipped</span>, <input checked="true" class="filter" data-test-result="failed" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="failed">4 failed</span>, <input checked="true" class="filter" data-test-result="error" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="error">1 errors</span>, <input checked="true" class="filter" data-test-result="xfailed" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="xfailed">0 expected failures</span>, <input checked="true" class="filter" data-test-result="xpassed" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="xpassed">0 unexpected passes</span>
     <h2>Results</h2>
     <table id="results-table">
       <thead id="results-table-head">
@@ -429,12 +429,672 @@ function filter_table(elem) {
           <th>Links</th></tr>
         <tr hidden="true" id="not-found-message">
           <th colspan="4">No results found. Try to check the filters</th></tr></thead>
+      <tbody class="error results-table-row">
+        <tr>
+          <td class="col-result">Error</td>
+          <td class="col-name">tests/test_jianzhao_web/test_postposition.py::test_post_position[login_web_k8s_env_b0]::setup</td>
+          <td class="col-duration">0.80</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log">module = &lt;module &#x27;tests.test_jianzhao_web.test_postposition&#x27; from &#x27;/Users/wang/Desktop/lg-project/lg_api_script/tests/test_jianzhao_web/test_postposition.py&#x27;&gt;<br/><br/>    def setup_module(module):<br/>&gt;   	lagouPlus(90)<br/><br/>tests/test_jianzhao_web/test_postposition.py:13: <br/>_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ <br/>api_script/business/SwitchingContract.py:25: in lagouPlus<br/>    object=form_post(url=Request_url,remark=&quot;查询当前公司下的合同&quot;,data=data,headers=header)<br/>utils/util.py:49: in form_post<br/>    &quot;\n请求目的: {},\n 请求url: {},\n 请求数据: {},\n 响应结果: {}\n&quot;.format(remark, url, data, str(response.json())))<br/>../../../.local/share/virtualenvs/lg_api_script-153gIj2r/lib/python3.6/site-packages/requests/models.py:897: in json<br/>    return complexjson.loads(self.text, **kwargs)<br/>../../../anaconda3/lib/python3.6/json/__init__.py:354: in loads<br/>    return _default_decoder.decode(s)<br/>../../../anaconda3/lib/python3.6/json/decoder.py:339: in decode<br/>    obj, end = self.raw_decode(s, idx=_w(s, 0).end())<br/>_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ <br/><br/>self = &lt;json.decoder.JSONDecoder object at 0x1102adb38&gt;, s = &#x27;Please register your email&#x27;, idx = 0<br/><br/>    def raw_decode(self, s, idx=0):<br/>        &quot;&quot;&quot;Decode a JSON document from ``s`` (a ``str`` beginning with<br/>        a JSON document) and return a 2-tuple of the Python<br/>        representation and the index in ``s`` where the document ended.<br/>    <br/>        This can be used to decode a JSON document from a string that may<br/>        have extraneous data at the end.<br/>    <br/>        &quot;&quot;&quot;<br/>        try:<br/>            obj, end = self.scan_once(s, idx)<br/>        except StopIteration as err:<br/>&gt;           raise JSONDecodeError(&quot;Expecting value&quot;, s, err.value) from None<br/><span class="error">E           json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)</span><br/><br/>../../../anaconda3/lib/python3.6/json/decoder.py:357: JSONDecodeError<br/></div></td></tr></tbody>
+      <tbody class="failed results-table-row">
+        <tr>
+          <td class="col-result">Failed</td>
+          <td class="col-name">tests/test_jianzhao_web/test_b_basic_process.py::test_saveHR_process[51694655-00852-\u6d4b\u8bd5 k8s default51694655-\u62c9\u52fe\u7f51\u6d4b\u8bd5 k8s default51694655-\u62c9\u52fe\u7f51ceo51694655-test2018@sina.com-\u6d4b\u8bd5  k8s default51694655]</td>
+          <td class="col-duration">0.06</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log">phone = &#x27;51694655&#x27;, countryCode = &#x27;00852&#x27;, companyShortName = &#x27;测试 k8s default51694655&#x27;, companyFullName = &#x27;拉勾网测试 k8s default51694655&#x27;<br/>userName = &#x27;拉勾网ceo51694655&#x27;, resumeReceiveEmail = &#x27;test2018@sina.com&#x27;, updateCompanyShortName = &#x27;测试  k8s default51694655&#x27;<br/><br/>    @pytest.mark.parametrize(<br/>        &#x27;phone, countryCode,companyShortName, companyFullName, userName, resumeReceiveEmail,updateCompanyShortName&#x27;,<br/>        [(phone, test_data[&#x27;countryCode&#x27;], companyShortName, companyFullName, userName, test_data[&#x27;resumeReceiveEmail&#x27;],<br/>          updateCompanyShortName)])<br/>    def test_saveHR_process(phone, countryCode, companyShortName, companyFullName, userName, resumeReceiveEmail,<br/>                            updateCompanyShortName):<br/>        log = logging.getLogger(&#x27;test_saveHR_process&#x27;)<br/>        log.info(&#x27;验证注册B端-成立公司-提交招聘者审核流程是否成功&#x27;)<br/>        [r1, r2, r3, r4] = saveHR_process(phone, countryCode, companyShortName, companyFullName, userName,<br/>                                          resumeReceiveEmail, updateCompanyShortName)<br/>    <br/>&gt;       assert_equal(1, r1[&#x27;state&#x27;], &quot;注册用户成功，该用户名: &quot; + str(phone), &quot;注册用户失败，该用户名: &quot; + str(phone))<br/><br/>tests/test_jianzhao_web/test_b_basic_process.py:42: <br/>_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ <br/><br/>expectvalue = 1, actualvalue = 209, success_message = &#x27;注册用户成功，该用户名: 51694655&#x27;, fail_message = &#x27;注册用户失败，该用户名: 51694655&#x27;<br/><br/>    def assert_equal(expectvalue, actualvalue, success_message, fail_message=None):<br/>        &#x27;&#x27;&#x27;<br/>        断言两个值是否相等, 并对结果打印日志<br/>        :param expectvalue: 期望结果<br/>        :param actualvalue: 实际结果<br/>        :param success_message: str, 断言成功打印的日志<br/>        :param fail_message:str, 断言失败打印的日志<br/>        &#x27;&#x27;&#x27;<br/>&gt;       assert expectvalue == actualvalue<br/><span class="error">E       AssertionError</span><br/><br/>utils/util.py:187: AssertionError<br/>------------------------------ Captured log call -------------------------------<br/>test_b_basic_process.py     38 INFO     验证注册B端-成立公司-提交招聘者审核流程是否成功
+util.py                     49 INFO     
+请求目的: 验证B端注册,
+ 请求url: https://passport.lagou.com/register/register.json,
+ 请求数据: {&#x27;isValidate&#x27;: &#x27;true&#x27;, &#x27;phone&#x27;: &#x27;51694655&#x27;, &#x27;phoneVerificationCode&#x27;: &#x27;049281&#x27;, &#x27;challenge&#x27;: 111, &#x27;type&#x27;: 1, &#x27;countryCode&#x27;: &#x27;00852&#x27;},
+ 响应结果: {&#x27;state&#x27;: 209, &#x27;message&#x27;: &#x27;该手机号已被注册&#x27;, &#x27;content&#x27;: {&#x27;rows&#x27;: []}, &#x27;submitCode&#x27;: 59946341, &#x27;submitToken&#x27;: &#x27;cc6e4b57-e9ce-47f3-bd49-5183aa8c4d74&#x27;}</div></td></tr></tbody>
+      <tbody class="failed results-table-row">
+        <tr>
+          <td class="col-result">Failed</td>
+          <td class="col-name">tests/test_jianzhao_web/test_b_basic_process.py::test_completeInfo_process[51694655]</td>
+          <td class="col-duration">3.23</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log">phone = &#x27;51694655&#x27;<br/><br/>    @pytest.mark.parametrize(&#x27;phone&#x27;, [(phone)])<br/>    def test_completeInfo_process(phone):<br/>        login(&quot;00852&quot;, phone)<br/>        log = logging.getLogger(&#x27;test_completeInfo_process&#x27;)<br/>        log.info(&#x27;验证B端提交申请认证公司流程是否成功&#x27;)<br/>        [r1, r2] = completeInfo_process()<br/>&gt;       assert_equal(1, r1[&#x27;state&#x27;], &quot;上传营业执照成功&quot;, &quot;上传营业执照失败&quot;)<br/><br/>tests/test_jianzhao_web/test_b_basic_process.py:62: <br/>_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ <br/><br/>expectvalue = 1, actualvalue = 1997, success_message = &#x27;上传营业执照成功&#x27;, fail_message = &#x27;上传营业执照失败&#x27;<br/><br/>    def assert_equal(expectvalue, actualvalue, success_message, fail_message=None):<br/>        &#x27;&#x27;&#x27;<br/>        断言两个值是否相等, 并对结果打印日志<br/>        :param expectvalue: 期望结果<br/>        :param actualvalue: 实际结果<br/>        :param success_message: str, 断言成功打印的日志<br/>        :param fail_message:str, 断言失败打印的日志<br/>        &#x27;&#x27;&#x27;<br/>&gt;       assert expectvalue == actualvalue<br/><span class="error">E       AssertionError</span><br/><br/>utils/util.py:187: AssertionError<br/>------------------------------ Captured log call -------------------------------<br/>util.py                     49 INFO     
+请求目的: 51694655在登录拉勾,
+ 请求url: https://passport.lagou.com/login/login.json,
+ 请求数据: {&#x27;isValidate&#x27;: &#x27;true&#x27;, &#x27;username&#x27;: &#x27;51694655&#x27;, &#x27;phoneVerificationCode&#x27;: &#x27;049281&#x27;, &#x27;countryCode&#x27;: &#x27;00852&#x27;, &#x27;challenge&#x27;: 111},
+ 响应结果: {&#x27;state&#x27;: 1, &#x27;message&#x27;: &#x27;操作成功&#x27;, &#x27;content&#x27;: {&#x27;rows&#x27;: []}, &#x27;submitCode&#x27;: 80995456, &#x27;submitToken&#x27;: &#x27;32e2d046-67a9-42ea-b48d-70d0458b4d95&#x27;}
+
+util.py                    137 INFO     用户名: 51694655 登录成功
+test_b_basic_process.py     60 INFO     验证B端提交申请认证公司流程是否成功
+util.py                     91 INFO     
+请求目的: None,
+ 请求url: https://easy.lagou.com/bstatus/auth/index.htm
+util.py                     49 INFO     
+请求目的: 上传营业执照,
+ 请求url: https://hr.lagou.com/corpCenter/company/auth/file.json,
+ 请求数据: {&#x27;fileUrl&#x27;: &#x27;i/audio1/M00/01/C5/CgHIk1wQzSaAcR09AAqex8SeJls235.JPG&#x27;},
+ 响应结果: {&#x27;state&#x27;: 1997, &#x27;message&#x27;: &#x27;请勿重复提交,刷新页面后重试&#x27;, &#x27;content&#x27;: {&#x27;rows&#x27;: []}}</div></td></tr></tbody>
+      <tbody class="failed results-table-row">
+        <tr>
+          <td class="col-result">Failed</td>
+          <td class="col-name">tests/test_jianzhao_web/test_candidate.py::test_multiChannel_myCompanyParentPositions</td>
+          <td class="col-duration">2.66</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log">def test_multiChannel_myCompanyParentPositions():<br/>        r = multiChannel_myCompanyParentPositions()<br/>        global parentPositionId<br/>&gt;       parentPositionId = r[&#x27;content&#x27;][&#x27;data&#x27;][&#x27;parentPositionCategory&#x27;][&#x27;开发|测试|运维类&#x27;][1][&#x27;positionId&#x27;]<br/><span class="error">E       KeyError: &#x27;parentPositionCategory&#x27;</span><br/><br/>tests/test_jianzhao_web/test_candidate.py:63: KeyError<br/>------------------------------ Captured log call -------------------------------<br/>util.py                     49 INFO     
+请求目的: 获取所在公司的父职位-parentPositionId,
+ 请求url: https://easy.lagou.com/parentPosition/multiChannel/myCompanyParentPositions.json,
+ 请求数据: None,
+ 响应结果: {&#x27;state&#x27;: 1, &#x27;message&#x27;: &#x27;操作成功&#x27;, &#x27;content&#x27;: {&#x27;data&#x27;: {&#x27;parentPositionList&#x27;: [{&#x27;positionId&#x27;: 88, &#x27;positionName&#x27;: &#x27;新媒体运营&#x27;, &#x27;department&#x27;: &#x27;技术部&#x27;, &#x27;city&#x27;: &#x27;北京&#x27;}, {&#x27;positionId&#x27;: 85, &#x27;positionName&#x27;: &#x27;产品经理&#x27;, &#x27;department&#x27;: &#x27;技术工程部&#x27;, &#x27;city&#x27;: &#x27;北京&#x27;}, {&#x27;positionId&#x27;: 89, &#x27;positionName&#x27;: &#x27;新媒体运营&#x27;, &#x27;department&#x27;: &#x27;技术部&#x27;, &#x27;city&#x27;: &#x27;北京&#x27;}, {&#x27;positionId&#x27;: 84, &#x27;positionName&#x27;: &#x27;金融产品经理&#x27;, &#x27;department&#x27;: &#x27;用户价值部&#x27;, &#x27;city&#x27;: &#x27;北京&#x27;}, {&#x27;positionId&#x27;: 83, &#x27;positionName&#x27;: &#x27;产品经理&#x27;, &#x27;department&#x27;: &#x27;用户价值部&#x27;, &#x27;city&#x27;: &#x27;北京&#x27;}, {&#x27;positionId&#x27;: 82, &#x27;positionName&#x27;: &#x27;111&#x27;, &#x27;department&#x27;: &#x27;123&#x27;, &#x27;city&#x27;: &#x27;北京&#x27;}], &#x27;showCategory&#x27;: False}, &#x27;rows&#x27;: []}}</div></td></tr></tbody>
+      <tbody class="failed results-table-row">
+        <tr>
+          <td class="col-result">Failed</td>
+          <td class="col-name">tests/test_jianzhao_web/test_job_inviation.py::test_invaitonnumber</td>
+          <td class="col-duration">7.74</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log">def test_invaitonnumber():<br/>    	&#x27;&#x27;&#x27;<br/>    	查询邀约候选人数量<br/>    	:return:<br/>    	&#x27;&#x27;&#x27;<br/>&gt;   	invaitonnumber()<br/><br/>tests/test_jianzhao_web/test_job_inviation.py:32: <br/>_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ <br/><br/>    def invaitonnumber():<br/>        &#x27;&#x27;&#x27;<br/>        查询邀约候选人数量<br/>        :return:<br/>        &#x27;&#x27;&#x27;<br/>        position_url = &#x27;https://easy.lagou.com/parentPosition/multiChannel/myOnlinePositions.json&#x27;<br/>        position_header = get_code_token(&#x27;https://easy.lagou.com/position/multiChannel/myOnlinePositions.htm&#x27;)<br/>        s = form_post(url=position_url,headers=position_header,data={&#x27;pageNo&#x27;:1},remark=&#x27;获取职位id&#x27;)<br/>&gt;       positionId=s[&#x27;content&#x27;][&#x27;data&#x27;][&#x27;parentPositionVOs&#x27;][1][&#x27;positions&#x27;][0][&#x27;positionId&#x27;]<br/><span class="error">E       KeyError: &#x27;content&#x27;</span><br/><br/>api_script/jianzhao_web/job_inviation/job_inviation.py:30: KeyError<br/></div></td></tr></tbody>
       <tbody class="skipped results-table-row">
         <tr>
           <td class="col-result">Skipped</td>
-          <td class="col-name">tests/test_business/test_B_calling.py::test_calling[login_web_k8s_env_b0]::setup</td>
+          <td class="col-name">tests/test_jianzhao_web/test_candidate.py::test_can_recommend::setup</td>
           <td class="col-duration">0.00</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
-            <div class="log">(&#x27;tests/test_business/test_B_calling.py&#x27;, 11, &#x27;Skipped: 暂时注掉先不跑&#x27;)<br/></div></td></tr></tbody></table></body></html>
+            <div class="log">(&#x27;tests/test_jianzhao_web/test_candidate.py&#x27;, 66, &#x27;Skipped: 获取不到resumeId跳过不执行&#x27;)<br/></div></td></tr></tbody>
+      <tbody class="skipped results-table-row">
+        <tr>
+          <td class="col-result">Skipped</td>
+          <td class="col-name">tests/test_jianzhao_web/test_candidate.py::test_can_batch_recommend::setup</td>
+          <td class="col-duration">0.00</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log">(&#x27;tests/test_jianzhao_web/test_candidate.py&#x27;, 72, &#x27;Skipped: 获取不到resumeId跳过不执行&#x27;)<br/></div></td></tr></tbody>
+      <tbody class="skipped results-table-row">
+        <tr>
+          <td class="col-result">Skipped</td>
+          <td class="col-name">tests/test_jianzhao_web/test_candidate.py::test_resume_uploadLocalResume::setup</td>
+          <td class="col-duration">0.00</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log">(&#x27;tests/test_jianzhao_web/test_candidate.py&#x27;, 78, &#x27;Skipped: 获取不到positionId跳过不执行&#x27;)<br/></div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">tests/test_jianzhao_web/test_b_add_people_into_company.py::test_add_people_into_companyame[51694655-00852-\u4e50\u4e5051694655-\u62c9\u52fe\u6d4b\u8bd5\u81ea\u52a8\u5316default\u516c\u53f8-test2018@sina.com]</td>
+          <td class="col-duration">2.66</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log">------------------------------ Captured log call -------------------------------<br/>test_b_add_people_into_company.py   36 INFO     验证注册B端-加入公司-提交招聘者审核流程是否成功
+util.py                     49 INFO     
+请求目的: 验证B端注册,
+ 请求url: https://passport.lagou.com/register/register.json,
+ 请求数据: {&#x27;isValidate&#x27;: &#x27;true&#x27;, &#x27;phone&#x27;: &#x27;51694655&#x27;, &#x27;phoneVerificationCode&#x27;: &#x27;049281&#x27;, &#x27;challenge&#x27;: 111, &#x27;type&#x27;: 1, &#x27;countryCode&#x27;: &#x27;00852&#x27;},
+ 响应结果: {&#x27;state&#x27;: 1, &#x27;message&#x27;: &#x27;操作成功&#x27;, &#x27;content&#x27;: {&#x27;rows&#x27;: []}, &#x27;submitCode&#x27;: 32206510, &#x27;submitToken&#x27;: &#x27;958a3883-e36f-4b6b-bbf1-80b042119610&#x27;}
+
+util.py                     49 INFO     
+请求目的: 验证上传B端用户信息是否成功,
+ 请求url: https://hr.lagou.com/corpCenter/openservice/saveHR.json,
+ 请求数据: {&#x27;userAvatar&#x27;: &#x27;i/audio1/M00/01/C5/CgHIk1wQwXuAAz2hAAB1mvl2DME233.JPG&#x27;, &#x27;userName&#x27;: &#x27;乐乐51694655&#x27;, &#x27;userPosition&#x27;: &#x27;HR BP&#x27;, &#x27;companyFullName&#x27;: &#x27;拉勾测试自动化default公司&#x27;, &#x27;resumeReceiveEmail&#x27;: &#x27;test2018@sina.com&#x27;},
+ 响应结果: {&#x27;state&#x27;: 1, &#x27;message&#x27;: &#x27;操作成功&#x27;, &#x27;content&#x27;: {&#x27;data&#x27;: {&#x27;redirect&#x27;: &#x27;/corpCenter/openservice/step2.html&#x27;}, &#x27;rows&#x27;: []}, &#x27;submitCode&#x27;: 13517923, &#x27;submitToken&#x27;: &#x27;07fce24a-ff29-48eb-9e5e-cec358c830c2&#x27;}
+
+util.py                     49 INFO     
+请求目的: 验证B端成立公司是否成功,
+ 请求url: https://hr.lagou.com/corpCenter/openservice/saveCompany.json,
+ 请求数据: None,
+ 响应结果: {&#x27;state&#x27;: 1, &#x27;message&#x27;: &#x27;操作成功&#x27;, &#x27;content&#x27;: {&#x27;rows&#x27;: []}, &#x27;submitCode&#x27;: 93677874, &#x27;submitToken&#x27;: &#x27;3e76e643-7267-4e6d-82b1-6a26caeed3ee&#x27;}
+
+util.py                     49 INFO     
+请求目的: 验证B端提交招聘者审核是否成功,
+ 请求url: https://hr.lagou.com/corpCenter/hr/auth/file/submit.json,
+ 请求数据: {&#x27;authenticationFileUrl&#x27;: &#x27;i/audio1/M00/01/C5/CgHIk1wQzSaAcR09AAqex8SeJls235.JPG&#x27;, &#x27;holdIDCardPhotoUrl&#x27;: &#x27;i/audio1/M00/01/C5/CgHIk1wQzR6AS8YlAAC5OWWN-yU456.JPG&#x27;, &#x27;updateCompanyShortName&#x27;: &#x27;拉勾测试自动化default公司&#x27;},
+ 响应结果: {&#x27;state&#x27;: 1, &#x27;message&#x27;: &#x27;操作成功&#x27;, &#x27;content&#x27;: {&#x27;data&#x27;: {&#x27;redirect&#x27;: &#x27;/corpCenter/hr/auth/status.html&#x27;}, &#x27;rows&#x27;: []}, &#x27;submitCode&#x27;: 25262135, &#x27;submitToken&#x27;: &#x27;e111519d-d015-491a-9d66-74a31948325c&#x27;}
+
+util.py                    189 INFO     注册用户成功，该用户名: 51694655
+util.py                    189 INFO     上传B端用户信息成功，该用户性名: 乐乐51694655
+util.py                    189 INFO     加入公司成功，该公司全称: 拉勾测试自动化default公司
+util.py                    189 INFO     提交招聘者审核成功，该用户的手机号: 51694655</div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">tests/test_jianzhao_web/test_b_add_people_into_company.py::test_passPersonApprove</td>
+          <td class="col-duration">1.50</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log">------------------------------ Captured log setup ------------------------------<br/>util.py                     49 INFO     
+请求目的: 用户 18810896987 在登录拉勾home后台,
+ 请求url: https://passport.lagou.com/login/login.json,
+ 请求数据: {&#x27;isValidate&#x27;: &#x27;true&#x27;, &#x27;username&#x27;: &#x27;18810896987&#x27;, &#x27;password&#x27;: &#x27;c47eeb69fa4e64971fb29cb1e9163a19&#x27;},
+ 响应结果: {&#x27;state&#x27;: 1, &#x27;message&#x27;: &#x27;操作成功&#x27;, &#x27;content&#x27;: {&#x27;rows&#x27;: []}, &#x27;submitCode&#x27;: 36731000, &#x27;submitToken&#x27;: &#x27;55165877-1784-4b19-8f0b-76ea6bee81b2&#x27;}
+
+util.py                    156 INFO     用户名: 18810896987 登录成功------------------------------ Captured log call -------------------------------<br/>test_b_add_people_into_company.py   47 INFO     验证home后台-审核中心-个人认证-审核招聘者是否成功
+util.py                     49 INFO     
+请求目的: 验证home后台-审核中心-倒序获取招聘者的id是否成功,
+ 请求url: https://home.lagou.com/audit/personApprove/queryPersonByParam.json,
+ 请求数据: {&#x27;startPage&#x27;: 1, &#x27;pageSize&#x27;: 1, &#x27;approveTimeSort&#x27;: &#x27;desc&#x27;, &#x27;auditStatusType&#x27;: &#x27;wait&#x27;},
+ 响应结果: {&#x27;data&#x27;: {&#x27;currentPage&#x27;: 1, &#x27;hasNextPage&#x27;: True, &#x27;pageData&#x27;: [{&#x27;checkInfoVo&#x27;: {&#x27;checkRecordList&#x27;: [{&#x27;applyTime&#x27;: &#x27;2019-03-04 18:17:56&#x27;, &#x27;status&#x27;: 1}], &#x27;currentUser&#x27;: &#x27;betty&#x27;, &#x27;operator&#x27;: True, &#x27;status&#x27;: 1}, &#x27;companyCheck&#x27;: {&#x27;companyId&#x27;: 14, &#x27;createManId&#x27;: 84, &#x27;fullName&#x27;: &#x27;拉勾测试自动化default公司&#x27;, &#x27;homepage&#x27;: &#x27;www.lagou.com&#x27;, &#x27;lastCheckStatus&#x27;: 2, &#x27;licenseFileUrl&#x27;: &#x27;i/audio1/M00/01/C5/CgHIk1wQzSaAcR09AAqex8SeJls235.JPG&#x27;, &#x27;logoUrl&#x27;: &#x27;i/audio1/M00/01/C6/CgHIk1wSFMeAeIoaAAB1mvl2DME518.JPG&#x27;, &#x27;shortName&#x27;: &#x27;拉勾测试自动化default公司&#x27;}, &#x27;companyCheckVo&#x27;: {&#x27;companyId&#x27;: 14, &#x27;createManId&#x27;: 84, &#x27;fullName&#x27;: &#x27;拉勾测试自动化default公司&#x27;, &#x27;homepage&#x27;: &#x27;www.lagou.com&#x27;, &#x27;lastCheckStatus&#x27;: 2, &#x27;licenseFileUrl&#x27;: &#x27;i/audio1/M00/01/C5/CgHIk1wQzSaAcR09AAqex8SeJls235.JPG&#x27;, &#x27;logoUrl&#x27;: &#x27;i/audio1/M00/01/C6/CgHIk1wSFMeAeIoaAAB1mvl2DME518.JPG&#x27;, &#x27;shortName&#x27;: &#x27;拉勾测试自动化default公司&#x27;}, &#x27;personCheck&#x27;: {&#x27;aptitudeFileType&#x27;: 4, &#x27;aptitudeFileUrl&#x27;: &#x27;i/audio1/M00/01/C5/CgHIk1wQzSaAcR09AAqex8SeJls235.JPG&#x27;, &#x27;checkType&#x27;: 1, &#x27;checkTypeStr&#x27;: &#x27;证件&#x27;, &#x27;companyId&#x27;: 14, &#x27;createTime&#x27;: &#x27;2019-03-04 18:17:56&#x27;, &#x27;createUserId&#x27;: &#x27;98&#x27;, &#x27;id&#x27;: 24, &#x27;isAllot&#x27;: 0, &#x27;isOld&#x27;: False, &#x27;personAuthStatus&#x27;: 0, &#x27;personAuthType&#x27;: 2, &#x27;receiveEmail&#x27;: &#x27;test2018@sina.com&#x27;, &#x27;source&#x27;: 1, &#x27;sourceStr&#x27;: &#x27;PC&#x27;, &#x27;status&#x27;: 1, &#x27;userAvatarUrl&#x27;: &#x27;i/audio1/M00/01/C5/CgHIk1wQwXuAAz2hAAB1mvl2DME233.JPG&#x27;, &#x27;userEmail&#x27;: &#x27;&#x27;, &#x27;userId&#x27;: 98, &#x27;userName&#x27;: &#x27;乐乐51694655&#x27;, &#x27;userPhone&#x27;: &#x27;+0085251694655&#x27;, &#x27;userPosition&#x27;: &#x27;HR BP&#x27;, &#x27;userRealFileUrl&#x27;: &#x27;i/audio1/M00/01/C5/CgHIk1wQzR6AS8YlAAC5OWWN-yU456.JPG&#x27;}, &#x27;personCheckVo&#x27;: {&#x27;aptitudeFileType&#x27;: 4, &#x27;aptitudeFileUrl&#x27;: &#x27;i/audio1/M00/01/C5/CgHIk1wQzSaAcR09AAqex8SeJls235.JPG&#x27;, &#x27;checkType&#x27;: 1, &#x27;checkTypeStr&#x27;: &#x27;证件&#x27;, &#x27;companyId&#x27;: 14, &#x27;createTime&#x27;: &#x27;2019-03-04 18:17:56&#x27;, &#x27;createUserId&#x27;: &#x27;98&#x27;, &#x27;id&#x27;: 24, &#x27;isAllot&#x27;: 0, &#x27;isOld&#x27;: False, &#x27;personAuthStatus&#x27;: 0, &#x27;personAuthType&#x27;: 2, &#x27;receiveEmail&#x27;: &#x27;test2018@sina.com&#x27;, &#x27;source&#x27;: 1, &#x27;sourceStr&#x27;: &#x27;PC&#x27;, &#x27;status&#x27;: 1, &#x27;userAvatarUrl&#x27;: &#x27;i/audio1/M00/01/C5/CgHIk1wQwXuAAz2hAAB1mvl2DME233.JPG&#x27;, &#x27;userEmail&#x27;: &#x27;&#x27;, &#x27;userId&#x27;: 98, &#x27;userName&#x27;: &#x27;乐乐51694655&#x27;, &#x27;userPhone&#x27;: &#x27;+0085251694655&#x27;, &#x27;userPosition&#x27;: &#x27;HR BP&#x27;, &#x27;userRealFileUrl&#x27;: &#x27;i/audio1/M00/01/C5/CgHIk1wQzR6AS8YlAAC5OWWN-yU456.JPG&#x27;}}], &#x27;pageSize&#x27;: 1, &#x27;totalCount&#x27;: 4, &#x27;totalPage&#x27;: 4}, &#x27;success&#x27;: True}
+
+util.py                     49 INFO     
+请求目的: 验证home后台-审核中心-个人认证-审核招聘者是否成功,
+ 请求url: https://home.lagou.com/audit/personApprove/passPersonApprove.json,
+ 请求数据: {&#x27;personCheckId&#x27;: 24},
+ 响应结果: {&#x27;success&#x27;: True}
+
+util.py                    189 INFO     验证home后台-审核中心-个人认证-审核招聘者成功</div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">tests/test_jianzhao_web/test_b_basic_process.py::test_passPersonApprove</td>
+          <td class="col-duration">0.51</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log">------------------------------ Captured log setup ------------------------------<br/>util.py                     49 INFO     
+请求目的: 用户 18810896987 在登录拉勾home后台,
+ 请求url: https://passport.lagou.com/login/login.json,
+ 请求数据: {&#x27;isValidate&#x27;: &#x27;true&#x27;, &#x27;username&#x27;: &#x27;18810896987&#x27;, &#x27;password&#x27;: &#x27;c47eeb69fa4e64971fb29cb1e9163a19&#x27;},
+ 响应结果: {&#x27;state&#x27;: 1, &#x27;message&#x27;: &#x27;操作成功&#x27;, &#x27;content&#x27;: {&#x27;rows&#x27;: []}, &#x27;submitCode&#x27;: 13465212, &#x27;submitToken&#x27;: &#x27;4cac2cb2-c11e-4879-9a53-14f8af893823&#x27;}
+
+util.py                    156 INFO     用户名: 18810896987 登录成功------------------------------ Captured log call -------------------------------<br/>test_b_basic_process.py     51 INFO     验证home后台-审核中心-个人认证-审核招聘者是否成功
+util.py                     49 INFO     
+请求目的: 验证home后台-审核中心-倒序获取招聘者的id是否成功,
+ 请求url: https://home.lagou.com/audit/personApprove/queryPersonByParam.json,
+ 请求数据: {&#x27;startPage&#x27;: 1, &#x27;pageSize&#x27;: 1, &#x27;approveTimeSort&#x27;: &#x27;desc&#x27;, &#x27;auditStatusType&#x27;: &#x27;wait&#x27;},
+ 响应结果: {&#x27;data&#x27;: {&#x27;currentPage&#x27;: 1, &#x27;hasNextPage&#x27;: True, &#x27;pageData&#x27;: [{&#x27;checkInfoVo&#x27;: {&#x27;checkRecordList&#x27;: [{&#x27;applyTime&#x27;: &#x27;2019-03-04 11:51:37&#x27;, &#x27;status&#x27;: 1}], &#x27;currentUser&#x27;: &#x27;betty&#x27;, &#x27;operator&#x27;: True, &#x27;status&#x27;: 1}, &#x27;companyCheck&#x27;: {&#x27;companyId&#x27;: 16, &#x27;createManId&#x27;: 88, &#x27;fullName&#x27;: &#x27;拉勾网测试 k8s default51671255&#x27;, &#x27;homepage&#x27;: &#x27;https://www.lagou.com/gongsi/16.html&#x27;, &#x27;lastCheckStatus&#x27;: 1, &#x27;logoUrl&#x27;: &#x27;i/audio1/M00/01/C5/CgHIk1wQzAuAZ5-EAAmU9-3HjA4414.JPG&#x27;, &#x27;shortName&#x27;: &#x27;测试 k8s default51671255&#x27;}, &#x27;companyCheckVo&#x27;: {&#x27;companyId&#x27;: 16, &#x27;createManId&#x27;: 88, &#x27;fullName&#x27;: &#x27;拉勾网测试 k8s default51671255&#x27;, &#x27;homepage&#x27;: &#x27;https://www.lagou.com/gongsi/16.html&#x27;, &#x27;lastCheckStatus&#x27;: 1, &#x27;logoUrl&#x27;: &#x27;i/audio1/M00/01/C5/CgHIk1wQzAuAZ5-EAAmU9-3HjA4414.JPG&#x27;, &#x27;shortName&#x27;: &#x27;测试 k8s default51671255&#x27;}, &#x27;personCheck&#x27;: {&#x27;aptitudeFileType&#x27;: 4, &#x27;aptitudeFileUrl&#x27;: &#x27;i/audio1/M00/01/C5/CgHIk1wQzSaAcR09AAqex8SeJls235.JPG&#x27;, &#x27;checkType&#x27;: 1, &#x27;checkTypeStr&#x27;: &#x27;证件&#x27;, &#x27;companyId&#x27;: 16, &#x27;createTime&#x27;: &#x27;2019-03-04 11:51:37&#x27;, &#x27;createUserId&#x27;: &#x27;88&#x27;, &#x27;id&#x27;: 17, &#x27;isAllot&#x27;: 0, &#x27;isOld&#x27;: False, &#x27;personAuthStatus&#x27;: 0, &#x27;personAuthType&#x27;: 2, &#x27;receiveEmail&#x27;: &#x27;test2018@sina.com&#x27;, &#x27;source&#x27;: 1, &#x27;sourceStr&#x27;: &#x27;PC&#x27;, &#x27;status&#x27;: 1, &#x27;userAvatarUrl&#x27;: &#x27;i/audio1/M00/01/C5/CgHIk1wQwXuAAz2hAAB1mvl2DME233.JPG&#x27;, &#x27;userEmail&#x27;: &#x27;&#x27;, &#x27;userId&#x27;: 88, &#x27;userName&#x27;: &#x27;拉勾网ceo51671255&#x27;, &#x27;userPhone&#x27;: &#x27;+0085251671255&#x27;, &#x27;userPosition&#x27;: &#x27;HR BP&#x27;, &#x27;userRealFileUrl&#x27;: &#x27;i/audio1/M00/01/C5/CgHIk1wQzR6AS8YlAAC5OWWN-yU456.JPG&#x27;}, &#x27;personCheckVo&#x27;: {&#x27;aptitudeFileType&#x27;: 4, &#x27;aptitudeFileUrl&#x27;: &#x27;i/audio1/M00/01/C5/CgHIk1wQzSaAcR09AAqex8SeJls235.JPG&#x27;, &#x27;checkType&#x27;: 1, &#x27;checkTypeStr&#x27;: &#x27;证件&#x27;, &#x27;companyId&#x27;: 16, &#x27;createTime&#x27;: &#x27;2019-03-04 11:51:37&#x27;, &#x27;createUserId&#x27;: &#x27;88&#x27;, &#x27;id&#x27;: 17, &#x27;isAllot&#x27;: 0, &#x27;isOld&#x27;: False, &#x27;personAuthStatus&#x27;: 0, &#x27;personAuthType&#x27;: 2, &#x27;receiveEmail&#x27;: &#x27;test2018@sina.com&#x27;, &#x27;source&#x27;: 1, &#x27;sourceStr&#x27;: &#x27;PC&#x27;, &#x27;status&#x27;: 1, &#x27;userAvatarUrl&#x27;: &#x27;i/audio1/M00/01/C5/CgHIk1wQwXuAAz2hAAB1mvl2DME233.JPG&#x27;, &#x27;userEmail&#x27;: &#x27;&#x27;, &#x27;userId&#x27;: 88, &#x27;userName&#x27;: &#x27;拉勾网ceo51671255&#x27;, &#x27;userPhone&#x27;: &#x27;+0085251671255&#x27;, &#x27;userPosition&#x27;: &#x27;HR BP&#x27;, &#x27;userRealFileUrl&#x27;: &#x27;i/audio1/M00/01/C5/CgHIk1wQzR6AS8YlAAC5OWWN-yU456.JPG&#x27;}}], &#x27;pageSize&#x27;: 1, &#x27;totalCount&#x27;: 3, &#x27;totalPage&#x27;: 3}, &#x27;success&#x27;: True}
+
+util.py                     49 INFO     
+请求目的: 验证home后台-审核中心-个人认证-审核招聘者是否成功,
+ 请求url: https://home.lagou.com/audit/personApprove/passPersonApprove.json,
+ 请求数据: {&#x27;personCheckId&#x27;: 17},
+ 响应结果: {&#x27;success&#x27;: True}
+
+util.py                    189 INFO     验证home后台-审核中心-个人认证-审核招聘者成功</div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">tests/test_jianzhao_web/test_b_basic_process.py::test_passCompanyApprove</td>
+          <td class="col-duration">0.54</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log">------------------------------ Captured log setup ------------------------------<br/>util.py                     49 INFO     
+请求目的: 用户 18810896987 在登录拉勾home后台,
+ 请求url: https://passport.lagou.com/login/login.json,
+ 请求数据: {&#x27;isValidate&#x27;: &#x27;true&#x27;, &#x27;username&#x27;: &#x27;18810896987&#x27;, &#x27;password&#x27;: &#x27;c47eeb69fa4e64971fb29cb1e9163a19&#x27;},
+ 响应结果: {&#x27;state&#x27;: 1, &#x27;message&#x27;: &#x27;操作成功&#x27;, &#x27;content&#x27;: {&#x27;rows&#x27;: []}, &#x27;submitCode&#x27;: 62555664, &#x27;submitToken&#x27;: &#x27;5b863ce8-9d8e-4225-88a6-d354edf41899&#x27;}
+
+util.py                    156 INFO     用户名: 18810896987 登录成功------------------------------ Captured log call -------------------------------<br/>test_b_basic_process.py     68 INFO     验证home后台-公司认证-审核公司是否成功
+util.py                     49 INFO     
+请求目的: 倒序获取公司的id,
+ 请求url: https://home.lagou.com/audit/companyApprove/queryCompanyByParam.json,
+ 请求数据: {&#x27;startPage&#x27;: 1, &#x27;pageSize&#x27;: 1, &#x27;approveTimeSort&#x27;: &#x27;desc&#x27;, &#x27;auditStatusType&#x27;: &#x27;wait&#x27;},
+ 响应结果: {&#x27;data&#x27;: {&#x27;currentPage&#x27;: 1, &#x27;hasNextPage&#x27;: True, &#x27;pageData&#x27;: [{&#x27;checkInfoVo&#x27;: {&#x27;checkRecordList&#x27;: [{&#x27;applyTime&#x27;: &#x27;2019-01-09 11:37:29&#x27;, &#x27;status&#x27;: 1}], &#x27;currentUser&#x27;: &#x27;betty&#x27;, &#x27;operator&#x27;: True, &#x27;status&#x27;: 1}, &#x27;companyCheck&#x27;: {&#x27;addressId&#x27;: 2, &#x27;business&#x27;: &#x27;移动互联网,电子商务&#x27;, &#x27;companyId&#x27;: 10, &#x27;createTime&#x27;: &#x27;2019-01-09 11:37:29&#x27;, &#x27;createUserId&#x27;: &#x27;68&#x27;, &#x27;financeStage&#x27;: &#x27;上市公司&#x27;, &#x27;fullIntro&#x27;: &#x27;11122233333333333333&#x27;, &#x27;fullName&#x27;: &#x27;公司1892929&#x27;, &#x27;homepage&#x27;: &#x27;https://www.lagou.com/gongsi/10.html&#x27;, &#x27;id&#x27;: 2, &#x27;isAllot&#x27;: 0, &#x27;lastCheckStatus&#x27;: 1, &#x27;licenseFileUrl&#x27;: &#x27;i/resume1/M00/00/00/CgHJw1w1a56AZFoFAABgDEJDhws081.png&#x27;, &#x27;logoUrl&#x27;: &#x27;i/resume1/M00/00/00/CgHJxFwt28-AejOaAABjxl55vRs483.png&#x27;, &#x27;scale&#x27;: &#x27;15-50人&#x27;, &#x27;shortIntro&#x27;: &#x27;&quot;&quot;八八八八八八&#x27;, &#x27;shortName&#x27;: &#x27;公司1892929&#x27;, &#x27;source&#x27;: 2, &#x27;status&#x27;: 1}, &#x27;companyCheckVo&#x27;: {&#x27;addressId&#x27;: 2, &#x27;business&#x27;: &#x27;移动互联网,电子商务&#x27;, &#x27;companyId&#x27;: 10, &#x27;createTime&#x27;: &#x27;2019-01-09 11:37:29&#x27;, &#x27;createUserId&#x27;: &#x27;68&#x27;, &#x27;financeStage&#x27;: &#x27;上市公司&#x27;, &#x27;fullIntro&#x27;: &#x27;11122233333333333333&#x27;, &#x27;fullName&#x27;: &#x27;公司1892929&#x27;, &#x27;homepage&#x27;: &#x27;https://www.lagou.com/gongsi/10.html&#x27;, &#x27;id&#x27;: 2, &#x27;isAllot&#x27;: 0, &#x27;lastCheckStatus&#x27;: 1, &#x27;licenseFileUrl&#x27;: &#x27;i/resume1/M00/00/00/CgHJw1w1a56AZFoFAABgDEJDhws081.png&#x27;, &#x27;logoUrl&#x27;: &#x27;i/resume1/M00/00/00/CgHJxFwt28-AejOaAABjxl55vRs483.png&#x27;, &#x27;scale&#x27;: &#x27;15-50人&#x27;, &#x27;shortIntro&#x27;: &#x27;&quot;&quot;八八八八八八&#x27;, &#x27;shortName&#x27;: &#x27;公司1892929&#x27;, &#x27;source&#x27;: 2, &#x27;status&#x27;: 1}, &#x27;personCheck&#x27;: {&#x27;aptitudeFileType&#x27;: 4, &#x27;aptitudeFileUrl&#x27;: &#x27;/hr/static/service/modules/common/img/uploading.png&#x27;, &#x27;checkType&#x27;: 1, &#x27;checkTypeStr&#x27;: &#x27;证件&#x27;, &#x27;companyId&#x27;: 10, &#x27;createTime&#x27;: &#x27;2019-01-07 17:40:01&#x27;, &#x27;createUserId&#x27;: &#x27;68&#x27;, &#x27;id&#x27;: 11, &#x27;isAllot&#x27;: 0, &#x27;isOld&#x27;: False, &#x27;receiveEmail&#x27;: &#x27;betty@lagou.com&#x27;, &#x27;source&#x27;: 1, &#x27;sourceStr&#x27;: &#x27;PC&#x27;, &#x27;status&#x27;: 2, &#x27;userAvatarUrl&#x27;: &#x27;i/resume1/M00/00/00/CgHJxFwt27iAUq9KAABjxl55vRs644.png&#x27;, &#x27;userEmail&#x27;: &#x27;&#x27;, &#x27;userId&#x27;: 68, &#x27;userName&#x27;: &#x27;李道贝&#x27;, &#x27;userPhone&#x27;: &#x27;18929292929&#x27;, &#x27;userPosition&#x27;: &#x27;测试组长&#x27;, &#x27;userRealFileUrl&#x27;: &#x27;i/resume1/M00/00/00/CgHJw1wzHc2ASq_CAARsyfA214I681.png&#x27;}, &#x27;personCheckVo&#x27;: {&#x27;aptitudeFileType&#x27;: 4, &#x27;aptitudeFileUrl&#x27;: &#x27;/hr/static/service/modules/common/img/uploading.png&#x27;, &#x27;checkType&#x27;: 1, &#x27;checkTypeStr&#x27;: &#x27;证件&#x27;, &#x27;companyId&#x27;: 10, &#x27;createTime&#x27;: &#x27;2019-01-07 17:40:01&#x27;, &#x27;createUserId&#x27;: &#x27;68&#x27;, &#x27;id&#x27;: 11, &#x27;isAllot&#x27;: 0, &#x27;isOld&#x27;: False, &#x27;receiveEmail&#x27;: &#x27;betty@lagou.com&#x27;, &#x27;source&#x27;: 1, &#x27;sourceStr&#x27;: &#x27;PC&#x27;, &#x27;status&#x27;: 2, &#x27;userAvatarUrl&#x27;: &#x27;i/resume1/M00/00/00/CgHJxFwt27iAUq9KAABjxl55vRs644.png&#x27;, &#x27;userEmail&#x27;: &#x27;&#x27;, &#x27;userId&#x27;: 68, &#x27;userName&#x27;: &#x27;李道贝&#x27;, &#x27;userPhone&#x27;: &#x27;18929292929&#x27;, &#x27;userPosition&#x27;: &#x27;测试组长&#x27;, &#x27;userRealFileUrl&#x27;: &#x27;i/resume1/M00/00/00/CgHJw1wzHc2ASq_CAARsyfA214I681.png&#x27;}}], &#x27;pageSize&#x27;: 1, &#x27;totalCount&#x27;: 2, &#x27;totalPage&#x27;: 2}, &#x27;success&#x27;: True}
+
+util.py                     49 INFO     
+请求目的: home后台-公司认证-审核公司,
+ 请求url: https://home.lagou.com/audit/companyApprove/passCompanyApprove.json,
+ 请求数据: {&#x27;companyCheckId&#x27;: 2},
+ 响应结果: {&#x27;success&#x27;: True}
+
+util.py                    189 INFO     home后台-公司认证-审核公司成功！</div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">tests/test_jianzhao_web/test_candidate.py::test_can_new_list[login_web_k8s_env_b0]</td>
+          <td class="col-duration">1.98</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log">------------------------------ Captured log setup ------------------------------<br/>util.py                     49 INFO     
+请求目的: 20181205在登录拉勾,
+ 请求url: https://passport.lagou.com/login/login.json,
+ 请求数据: {&#x27;isValidate&#x27;: &#x27;true&#x27;, &#x27;username&#x27;: &#x27;20181205&#x27;, &#x27;phoneVerificationCode&#x27;: &#x27;049281&#x27;, &#x27;countryCode&#x27;: &#x27;00852&#x27;, &#x27;challenge&#x27;: 111},
+ 响应结果: {&#x27;state&#x27;: 1, &#x27;message&#x27;: &#x27;操作成功&#x27;, &#x27;content&#x27;: {&#x27;rows&#x27;: []}, &#x27;submitCode&#x27;: 91833921, &#x27;submitToken&#x27;: &#x27;2456972d-a4fe-4c33-a82d-2207212f8b67&#x27;}
+
+util.py                    137 INFO     用户名: 20181205 登录成功------------------------------ Captured log call -------------------------------<br/>util.py                     49 INFO     
+请求目的: 获取简历列表,
+ 请求url: https://easy.lagou.com/can/new/list.json,
+ 请求数据: {&#x27;stage&#x27;: &#x27;NEW&#x27;, &#x27;pageNo&#x27;: 1, &#x27;can&#x27;: True, &#x27;needQueryAmount&#x27;: True, &#x27;newDeliverTime&#x27;: 0},
+ 响应结果: {&#x27;state&#x27;: 1, &#x27;message&#x27;: &#x27;操作成功&#x27;, &#x27;content&#x27;: {&#x27;data&#x27;: {&#x27;stageNum&#x27;: {&#x27;newCount&#x27;: 0, &#x27;linkCount&#x27;: 0, &#x27;interViewCount&#x27;: 0, &#x27;luyongCount&#x27;: 0, &#x27;employedAndObsoleteCount&#x27;: 0}, &#x27;pageSize&#x27;: 20, &#x27;totalPageCount&#x27;: 0, &#x27;totalCount&#x27;: 0}, &#x27;rows&#x27;: []}}
+
+util.py                    189 INFO     获取简历列表成功</div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">tests/test_jianzhao_web/test_candidate.py::test_can_new_createFilter</td>
+          <td class="col-duration">2.38</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log">------------------------------ Captured log call -------------------------------<br/>util.py                     49 INFO     
+请求目的: 创建候选人筛选器,
+ 请求url: https://easy.lagou.com/can/new/createFilter.json,
+ 请求数据: {&#x27;name&#x27;: &#x27;1&#x27;, &#x27;newDeliverTime&#x27;: &#x27;0&#x27;, &#x27;channels&#x27;: &#x27;108&#x27;, &#x27;plusTypes&#x27;: &#x27;2,1&#x27;, &#x27;famousCompany&#x27;: &#x27;0&#x27;, &#x27;stages&#x27;: &#x27;NEW&#x27;},
+ 响应结果: {&#x27;state&#x27;: 1, &#x27;message&#x27;: &#x27;操作成功&#x27;, &#x27;content&#x27;: {&#x27;data&#x27;: {&#x27;resumeFilter&#x27;: {&#x27;id&#x27;: 5, &#x27;resumeFilterInfo&#x27;: {&#x27;newDeliverTime&#x27;: 0, &#x27;channels&#x27;: [108], &#x27;plusTypes&#x27;: [2, 1], &#x27;stages&#x27;: [&#x27;NEW&#x27;], &#x27;famousCompany&#x27;: 0}, &#x27;createTime&#x27;: &#x27;20190304T181807+0800&#x27;, &#x27;updateTime&#x27;: &#x27;20190304T181807+0800&#x27;, &#x27;userId&#x27;: 84, &#x27;companyId&#x27;: 13, &#x27;name&#x27;: &#x27;1&#x27;}}, &#x27;rows&#x27;: []}, &#x27;submitCode&#x27;: &#x27;f8fe1bad-5ec1-4fba-a02c-64fc5b4f17ae&#x27;, &#x27;submitToken&#x27;: &#x27;75ff7ac3-4804-4a4c-9630-aafabfe5e902&#x27;}
+
+util.py                    189 INFO     创建候选人筛选器成功</div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">tests/test_jianzhao_web/test_candidate.py::test_can_new_myfilters</td>
+          <td class="col-duration">2.52</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log">------------------------------ Captured log call -------------------------------<br/>util.py                     49 INFO     
+请求目的: 获取候选人筛选器,
+ 请求url: https://easy.lagou.com/can/new/myfilters.json,
+ 请求数据: None,
+ 响应结果: {&#x27;state&#x27;: 1, &#x27;message&#x27;: &#x27;操作成功&#x27;, &#x27;content&#x27;: {&#x27;rows&#x27;: [{&#x27;id&#x27;: 5, &#x27;resumeFilterInfo&#x27;: {&#x27;newDeliverTime&#x27;: 0, &#x27;channels&#x27;: [108], &#x27;plusTypes&#x27;: [2, 1], &#x27;stages&#x27;: [&#x27;NEW&#x27;], &#x27;famousCompany&#x27;: 0}, &#x27;createTime&#x27;: &#x27;20190304T181807+0800&#x27;, &#x27;updateTime&#x27;: &#x27;20190304T181807+0800&#x27;, &#x27;userId&#x27;: 84, &#x27;companyId&#x27;: 13, &#x27;name&#x27;: &#x27;1&#x27;}]}}
+
+util.py                    189 INFO     获取候选人筛选器成功</div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">tests/test_jianzhao_web/test_candidate.py::test_resume_deleteResumeFilter</td>
+          <td class="col-duration">2.04</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log">------------------------------ Captured log call -------------------------------<br/>util.py                     49 INFO     
+请求目的: 删除候选人筛选器,
+ 请求url: https://easy.lagou.com/resume/deleteResumeFilter.json,
+ 请求数据: {&#x27;resumeFilterId&#x27;: 5},
+ 响应结果: {&#x27;state&#x27;: 1, &#x27;message&#x27;: &#x27;操作成功&#x27;, &#x27;content&#x27;: {&#x27;rows&#x27;: []}}
+
+util.py                    189 INFO     删除候选人筛选器成功</div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">tests/test_jianzhao_web/test_interview.py::test_interview_index[login_web_k8s_env_b0]</td>
+          <td class="col-duration">0.99</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log">------------------------------ Captured log setup ------------------------------<br/>util.py                     49 INFO     
+请求目的: 20181205在登录拉勾,
+ 请求url: https://passport.lagou.com/login/login.json,
+ 请求数据: {&#x27;isValidate&#x27;: &#x27;true&#x27;, &#x27;username&#x27;: &#x27;20181205&#x27;, &#x27;phoneVerificationCode&#x27;: &#x27;049281&#x27;, &#x27;countryCode&#x27;: &#x27;00852&#x27;, &#x27;challenge&#x27;: 111},
+ 响应结果: {&#x27;state&#x27;: 1, &#x27;message&#x27;: &#x27;操作成功&#x27;, &#x27;content&#x27;: {&#x27;rows&#x27;: []}, &#x27;submitCode&#x27;: 17578017, &#x27;submitToken&#x27;: &#x27;b789db93-d26c-4094-b641-bdd68e6b63c8&#x27;}
+
+util.py                    137 INFO     用户名: 20181205 登录成功------------------------------ Captured log call -------------------------------<br/>util.py                     91 INFO     
+请求目的: None,
+ 请求url: https://easy.lagou.com/interview/index.htm
+util.py                    189 INFO     简历管理-面试日程页面成功</div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">tests/test_jianzhao_web/test_interview.py::test_interview_list</td>
+          <td class="col-duration">0.59</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log">------------------------------ Captured log call -------------------------------<br/>util.py                     49 INFO     
+请求目的: 面试签到列表,
+ 请求url: https://easy.lagou.com/interview/new/list.json,
+ 请求数据: {&#x27;sign&#x27;: False, &#x27;pageNo&#x27;: 1, &#x27;pageSize&#x27;: 20, &#x27;notlnterview&#x27;: False, &#x27;range&#x27;: 0},
+ 响应结果: {&#x27;state&#x27;: 1, &#x27;message&#x27;: &#x27;操作成功&#x27;, &#x27;content&#x27;: {&#x27;data&#x27;: {&#x27;page&#x27;: {&#x27;pageSize&#x27;: 15, &#x27;start&#x27;: 0, &#x27;result&#x27;: [], &#x27;totalCount&#x27;: 0, &#x27;pageNo&#x27;: 1}}, &#x27;rows&#x27;: []}}
+
+util.py                    189 INFO     面试签到列表获取成功</div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">tests/test_jianzhao_web/test_interview.py::test_interview_sign</td>
+          <td class="col-duration">0.71</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log">------------------------------ Captured log call -------------------------------<br/>util.py                     91 INFO     
+请求目的: None,
+ 请求url: https://easy.lagou.com/interview/sign.htm
+util.py                    189 INFO     简历管理-面试日程-面试签到设置主页面成功</div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">tests/test_jianzhao_web/test_interview.py::test_interview_setting_save</td>
+          <td class="col-duration">0.61</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log">------------------------------ Captured log call -------------------------------<br/>util.py                     49 INFO     
+请求目的: 保存面试签到设置,
+ 请求url: https://easy.lagou.com/interview/setting_save.json,
+ 请求数据: {&#x27;companyName&#x27;: &#x27;拉勾测试公司1&#x27;, &#x27;logo&#x27;: &#x27;https://yun.lagou.com/null&#x27;, &#x27;settinggld&#x27;: &#x27;4&#x27;},
+ 响应结果: {&#x27;state&#x27;: 1, &#x27;message&#x27;: &#x27;操作成功&#x27;, &#x27;content&#x27;: {&#x27;rows&#x27;: []}}
+
+util.py                    189 INFO     保存面试签到设置成功</div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">tests/test_jianzhao_web/test_interview.py::test_interview_get_code</td>
+          <td class="col-duration">0.54</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log">------------------------------ Captured log call -------------------------------<br/>util.py                     49 INFO     
+请求目的: 获取公开码和二维码,
+ 请求url: https://easy.lagou.com/interview/get_code.json,
+ 请求数据: None,
+ 响应结果: {&#x27;state&#x27;: 1, &#x27;message&#x27;: &#x27;操作成功&#x27;, &#x27;content&#x27;: {&#x27;data&#x27;: {&#x27;p&#x27;: &#x27;ed969934a9712e959a23e67066f588a5&#x27;, &#x27;qrCode&#x27;: &#x27;b14a25196c87df628833cc50fa136dad&#x27;}, &#x27;rows&#x27;: []}}
+
+util.py                    189 INFO     获取公开码和二维码成功</div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">tests/test_jianzhao_web/test_interview.py::test_interview_resetCode</td>
+          <td class="col-duration">0.57</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log">------------------------------ Captured log call -------------------------------<br/>util.py                     49 INFO     
+请求目的: 重置公开链接码,
+ 请求url: https://easy.lagou.com/interview/resetCode.json,
+ 请求数据: {&#x27;[object Object]&#x27;: &#x27;&#x27;},
+ 响应结果: {&#x27;state&#x27;: 1, &#x27;message&#x27;: &#x27;操作成功&#x27;, &#x27;content&#x27;: {&#x27;data&#x27;: {&#x27;p&#x27;: &#x27;9527e19bec6d201fa3c4f569252603a3&#x27;}, &#x27;rows&#x27;: []}}
+
+util.py                    189 INFO     重置公开链接码</div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">tests/test_jianzhao_web/test_job_inviation.py::test_hot[login_web_k8s_env_b0]</td>
+          <td class="col-duration">4.09</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log">------------------------------ Captured log setup ------------------------------<br/>util.py                     49 INFO     
+请求目的: 20181205在登录拉勾,
+ 请求url: https://passport.lagou.com/login/login.json,
+ 请求数据: {&#x27;isValidate&#x27;: &#x27;true&#x27;, &#x27;username&#x27;: &#x27;20181205&#x27;, &#x27;phoneVerificationCode&#x27;: &#x27;049281&#x27;, &#x27;countryCode&#x27;: &#x27;00852&#x27;, &#x27;challenge&#x27;: 111},
+ 响应结果: {&#x27;state&#x27;: 1, &#x27;message&#x27;: &#x27;操作成功&#x27;, &#x27;content&#x27;: {&#x27;rows&#x27;: []}, &#x27;submitCode&#x27;: 81433785, &#x27;submitToken&#x27;: &#x27;8c8a50ae-eabb-4dea-94c1-0cbc6abcb457&#x27;}
+
+util.py                    137 INFO     用户名: 20181205 登录成功------------------------------ Captured log call -------------------------------<br/>util.py                     88 INFO     
+请求目的: 判断是否是热门职位,
+ 请求url: https://easy.lagou.com/parentPosition/multiChannel/hot/测试.json,
+ 响应结果: {&#x27;state&#x27;: 1, &#x27;message&#x27;: &#x27;操作成功&#x27;, &#x27;content&#x27;: {&#x27;data&#x27;: {&#x27;hot&#x27;: True}, &#x27;rows&#x27;: []}}
+
+util.py                    189 INFO     判断是否是热门职位成功</div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">tests/test_jianzhao_web/test_open_channel.py::test_settings_channel_support[login_web_k8s_env_b0]</td>
+          <td class="col-duration">3.57</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log">------------------------------ Captured log setup ------------------------------<br/>util.py                     49 INFO     
+请求目的: 20181205在登录拉勾,
+ 请求url: https://passport.lagou.com/login/login.json,
+ 请求数据: {&#x27;isValidate&#x27;: &#x27;true&#x27;, &#x27;username&#x27;: &#x27;20181205&#x27;, &#x27;phoneVerificationCode&#x27;: &#x27;049281&#x27;, &#x27;countryCode&#x27;: &#x27;00852&#x27;, &#x27;challenge&#x27;: 111},
+ 响应结果: {&#x27;state&#x27;: 1, &#x27;message&#x27;: &#x27;操作成功&#x27;, &#x27;content&#x27;: {&#x27;rows&#x27;: []}, &#x27;submitCode&#x27;: 91984805, &#x27;submitToken&#x27;: &#x27;fa102235-0df4-4e09-aa42-246b1fcd3652&#x27;}
+
+util.py                    137 INFO     用户名: 20181205 登录成功------------------------------ Captured log call -------------------------------<br/>util.py                     49 INFO     
+请求目的: 查询当前平台支持的渠道,
+ 请求url: https://easy.lagou.com/settings/channel/support.json,
+ 请求数据: None,
+ 响应结果: {&#x27;state&#x27;: 1, &#x27;message&#x27;: &#x27;操作成功&#x27;, &#x27;content&#x27;: {&#x27;data&#x27;: {&#x27;channels&#x27;: [{&#x27;id&#x27;: 108, &#x27;channelName&#x27;: &#x27;拉勾网&#x27;, &#x27;channelType&#x27;: &#x27;LAGOU&#x27;, &#x27;needbind&#x27;: False, &#x27;cooperationMode&#x27;: &#x27;LAGOU&#x27;, &#x27;website&#x27;: &#x27;&#x27;, &#x27;channelStatus&#x27;: &#x27;ONLINE&#x27;, &#x27;loginUrl&#x27;: &#x27;&#x27;, &#x27;createTime&#x27;: &#x27;20171122T144545+0800&#x27;, &#x27;updateTime&#x27;: &#x27;20181128T165307+0800&#x27;, &#x27;channelCode&#x27;: &#x27;8&#x27;, &#x27;logo&#x27;: [{&#x27;descript&#x27;: &#x27;发职位绑定渠道页&#x27;, &#x27;width&#x27;: 200, &#x27;height&#x27;: 70, &#x27;path&#x27;: &#x27;audio1/M00/01/BA/CgHIk1v9532AF_DYAAAu-xGssVk006.png&#x27;}, {&#x27;descript&#x27;: &#x27;简历详情页&#x27;, &#x27;width&#x27;: 140, &#x27;height&#x27;: 60, &#x27;path&#x27;: &#x27;audio1/M00/01/BA/CgHIk1v9532AF_DYAAAu-xGssVk006.png&#x27;}, {&#x27;descript&#x27;: &#x27;绑定渠道弹框页&#x27;, &#x27;width&#x27;: 160, &#x27;height&#x27;: 56, &#x27;path&#x27;: &#x27;audio1/M00/01/BA/CgHIk1v9532AF_DYAAAu-xGssVk006.png&#x27;}], &#x27;supportRefreshPosition&#x27;: True}, {&#x27;id&#x27;: 109, &#x27;channelName&#x27;: &#x27;中华英才网&#x27;, &#x27;channelType&#x27;: &#x27;CHINAHR&#x27;, &#x27;needbind&#x27;: True, &#x27;cooperationMode&#x27;: &#x27;API&#x27;, &#x27;website&#x27;: &#x27;&#x27;, &#x27;channelStatus&#x27;: &#x27;ONLINE&#x27;, &#x27;loginUrl&#x27;: &#x27;&#x27;, &#x27;createTime&#x27;: &#x27;20171122T144545+0800&#x27;, &#x27;updateTime&#x27;: &#x27;20181128T165320+0800&#x27;, &#x27;channelCode&#x27;: &#x27;19&#x27;, &#x27;logo&#x27;: [{&#x27;descript&#x27;: &#x27;发职位绑定渠道页&#x27;, &#x27;width&#x27;: 200, &#x27;height&#x27;: 70, &#x27;path&#x27;: &#x27;audio1/M00/01/BA/CgHIk1v9Rv2AVuKdAABQscXbv2s490.png&#x27;}, {&#x27;descript&#x27;: &#x27;简历详情页&#x27;, &#x27;width&#x27;: 140, &#x27;height&#x27;: 60, &#x27;path&#x27;: &#x27;audio1/M00/01/BA/CgHIk1v9Rv2AVuKdAABQscXbv2s490.png&#x27;}, {&#x27;descript&#x27;: &#x27;绑定渠道弹框页&#x27;, &#x27;width&#x27;: 160, &#x27;height&#x27;: 56, &#x27;path&#x27;: &#x27;audio1/M00/01/BA/CgHIk1v9Rv2AVuKdAABQscXbv2s490.png&#x27;}], &#x27;supportRefreshPosition&#x27;: True}, {&#x27;id&#x27;: 110, &#x27;channelName&#x27;: &#x27;前程无忧&#x27;, &#x27;channelType&#x27;: &#x27;JOB_51&#x27;, &#x27;needbind&#x27;: True, &#x27;cooperationMode&#x27;: &#x27;EMAIL&#x27;, &#x27;website&#x27;: &#x27;&#x27;, &#x27;channelStatus&#x27;: &#x27;ONLINE&#x27;, &#x27;loginUrl&#x27;: &#x27;&#x27;, &#x27;createTime&#x27;: &#x27;20171122T144545+0800&#x27;, &#x27;updateTime&#x27;: &#x27;20181128T165336+0800&#x27;, &#x27;channelCode&#x27;: &#x27;13&#x27;, &#x27;logo&#x27;: [{&#x27;descript&#x27;: &#x27;发职位绑定渠道页&#x27;, &#x27;width&#x27;: 200, &#x27;height&#x27;: 70, &#x27;path&#x27;: &#x27;audio1/M00/01/BA/CgHIk1v9RyCAbomQAABRHUvKkqY632.png&#x27;}, {&#x27;descript&#x27;: &#x27;简历详情页&#x27;, &#x27;width&#x27;: 140, &#x27;height&#x27;: 60, &#x27;path&#x27;: &#x27;audio1/M00/01/BA/CgHIk1v9RyCAbomQAABRHUvKkqY632.png&#x27;}, {&#x27;descript&#x27;: &#x27;绑定渠道弹框页&#x27;, &#x27;width&#x27;: 160, &#x27;height&#x27;: 56, &#x27;path&#x27;: &#x27;audio1/M00/01/BA/CgHIk1v9RyCAbomQAABRHUvKkqY632.png&#x27;}], &#x27;supportRefreshPosition&#x27;: True}, {&#x27;id&#x27;: 112, &#x27;channelName&#x27;: &#x27;智联招聘&#x27;, &#x27;channelType&#x27;: &#x27;ZHILIAN&#x27;, &#x27;needbind&#x27;: True, &#x27;cooperationMode&#x27;: &#x27;EMAIL&#x27;, &#x27;website&#x27;: &#x27;&#x27;, &#x27;channelStatus&#x27;: &#x27;ONLINE&#x27;, &#x27;loginUrl&#x27;: &#x27;&#x27;, &#x27;createTime&#x27;: &#x27;20171122T144545+0800&#x27;, &#x27;updateTime&#x27;: &#x27;20181128T165352+0800&#x27;, &#x27;channelCode&#x27;: &#x27;12&#x27;, &#x27;logo&#x27;: [{&#x27;descript&#x27;: &#x27;发职位绑定渠道页&#x27;, &#x27;width&#x27;: 200, &#x27;height&#x27;: 70, &#x27;path&#x27;: &#x27;audio1/M00/01/BA/CgHIk1v9RuuADAEhAABZ0CF9xe8613.png&#x27;}, {&#x27;descript&#x27;: &#x27;简历详情页&#x27;, &#x27;width&#x27;: 140, &#x27;height&#x27;: 60, &#x27;path&#x27;: &#x27;audio1/M00/01/BA/CgHIk1v9RuuADAEhAABZ0CF9xe8613.png&#x27;}, {&#x27;descript&#x27;: &#x27;绑定渠道弹框页&#x27;, &#x27;width&#x27;: 160, &#x27;height&#x27;: 56, &#x27;path&#x27;: &#x27;audio1/M00/01/BA/CgHIk1v9RuuADAEhAABZ0CF9xe8613.png&#x27;}], &#x27;supportRefreshPosition&#x27;: True}, {&#x27;id&#x27;: 114, &#x27;channelName&#x27;: &#x27;猎聘网&#x27;, &#x27;channelType&#x27;: &#x27;LIEPIN&#x27;, &#x27;needbind&#x27;: True, &#x27;cooperationMode&#x27;: &#x27;EMAIL&#x27;, &#x27;website&#x27;: &#x27;&#x27;, &#x27;channelStatus&#x27;: &#x27;ONLINE&#x27;, &#x27;loginUrl&#x27;: &#x27;&#x27;, &#x27;createTime&#x27;: &#x27;20171122T144545+0800&#x27;, &#x27;updateTime&#x27;: &#x27;20181128T165404+0800&#x27;, &#x27;channelCode&#x27;: &#x27;14&#x27;, &#x27;logo&#x27;: [{&#x27;descript&#x27;: &#x27;发职位绑定渠道页&#x27;, &#x27;width&#x27;: 200, &#x27;height&#x27;: 70, &#x27;path&#x27;: &#x27;audio1/M00/01/BA/CgHIk1v9RxGALI6GAAA7aLU-Zy4993.png&#x27;}, {&#x27;descript&#x27;: &#x27;简历详情页&#x27;, &#x27;width&#x27;: 140, &#x27;height&#x27;: 60, &#x27;path&#x27;: &#x27;audio1/M00/01/BA/CgHIk1v9RxGALI6GAAA7aLU-Zy4993.png&#x27;}, {&#x27;descript&#x27;: &#x27;绑定渠道弹框页&#x27;, &#x27;width&#x27;: 160, &#x27;height&#x27;: 56, &#x27;path&#x27;: &#x27;audio1/M00/01/BA/CgHIk1v9RxGALI6GAAA7aLU-Zy4993.png&#x27;}], &#x27;supportRefreshPosition&#x27;: True}, {&#x27;id&#x27;: 118, &#x27;channelName&#x27;: &#x27;58同城&#x27;, &#x27;channelType&#x27;: &#x27;TONGCHENG_58&#x27;, &#x27;needbind&#x27;: True, &#x27;cooperationMode&#x27;: &#x27;GETAPI&#x27;, &#x27;website&#x27;: &#x27;https://openapi.58.com&#x27;, &#x27;channelStatus&#x27;: &#x27;ONLINE&#x27;, &#x27;loginUrl&#x27;: &#x27;&#x27;, &#x27;createTime&#x27;: &#x27;20171122T144545+0800&#x27;, &#x27;updateTime&#x27;: &#x27;20181128T165416+0800&#x27;, &#x27;channelCode&#x27;: &#x27;18&#x27;, &#x27;logo&#x27;: [{&#x27;descript&#x27;: &#x27;发职位绑定渠道页&#x27;, &#x27;width&#x27;: 200, &#x27;height&#x27;: 70, &#x27;path&#x27;: &#x27;audio1/M00/01/BA/CgHIk1v9RtyAR-sDAAA55JVy4sQ365.png&#x27;}, {&#x27;descript&#x27;: &#x27;简历详情页&#x27;, &#x27;width&#x27;: 140, &#x27;height&#x27;: 60, &#x27;path&#x27;: &#x27;audio1/M00/01/BA/CgHIk1v9RtyAR-sDAAA55JVy4sQ365.png&#x27;}, {&#x27;descript&#x27;: &#x27;绑定渠道弹框页&#x27;, &#x27;width&#x27;: 160, &#x27;height&#x27;: 56, &#x27;path&#x27;: &#x27;audio1/M00/01/BA/CgHIk1v9RtyAR-sDAAA55JVy4sQ365.png&#x27;}], &#x27;supportRefreshPosition&#x27;: True}]}, &#x27;rows&#x27;: []}}
+
+util.py                    189 INFO     查询当前平台支持的渠道成功</div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">tests/test_jianzhao_web/test_open_channel.py::test_settings_channel_my_channels</td>
+          <td class="col-duration">2.17</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log">------------------------------ Captured log call -------------------------------<br/>util.py                     91 INFO     
+请求目的: None,
+ 请求url: https://easy.lagou.com/settings/channel/my_channels.htm
+util.py                    189 INFO     已绑定渠道返回成功</div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">tests/test_jianzhao_web/test_resume_clean.py::test_can_new_index[login_web_k8s_env_b0]</td>
+          <td class="col-duration">0.94</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log">------------------------------ Captured log setup ------------------------------<br/>util.py                     49 INFO     
+请求目的: 20181205在登录拉勾,
+ 请求url: https://passport.lagou.com/login/login.json,
+ 请求数据: {&#x27;isValidate&#x27;: &#x27;true&#x27;, &#x27;username&#x27;: &#x27;20181205&#x27;, &#x27;phoneVerificationCode&#x27;: &#x27;049281&#x27;, &#x27;countryCode&#x27;: &#x27;00852&#x27;, &#x27;challenge&#x27;: 111},
+ 响应结果: {&#x27;state&#x27;: 1, &#x27;message&#x27;: &#x27;操作成功&#x27;, &#x27;content&#x27;: {&#x27;rows&#x27;: []}, &#x27;submitCode&#x27;: 56594961, &#x27;submitToken&#x27;: &#x27;c860f558-4668-4729-92b4-1bf7143527c6&#x27;}
+
+util.py                    137 INFO     用户名: 20181205 登录成功------------------------------ Captured log call -------------------------------<br/>util.py                     91 INFO     
+请求目的: None,
+ 请求url: https://easy.lagou.com/can/new/index.htm
+util.py                    189 INFO     候选人首页获取成功</div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">tests/test_jianzhao_web/test_resume_clean.py::test_can_new_clean</td>
+          <td class="col-duration">2.07</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log">------------------------------ Captured log call -------------------------------<br/>util.py                     49 INFO     
+请求目的: 清理30天内的新简历,
+ 请求url: https://easy.lagou.com/can/new/clean.json,
+ 请求数据: {&#x27;stages&#x27;: &#x27;NEW&#x27;, &#x27;days&#x27;: &#x27;30&#x27;},
+ 响应结果: {&#x27;state&#x27;: 1, &#x27;message&#x27;: &#x27;操作成功&#x27;, &#x27;content&#x27;: {&#x27;rows&#x27;: []}, &#x27;submitCode&#x27;: &#x27;85f27821-843b-4c29-ac07-68fb52e751a3&#x27;, &#x27;submitToken&#x27;: &#x27;3637aee6-8b15-42c5-9ce7-028dd624020e&#x27;}
+
+util.py                    189 INFO     清理30天内的新简历成功</div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">tests/test_jianzhao_web/test_search_optimization_phase_II.py::test_get_talent_index[login_web_k8s_env_b0]</td>
+          <td class="col-duration">1.13</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log">------------------------------ Captured log setup ------------------------------<br/>util.py                     49 INFO     
+请求目的: 20181205在登录拉勾,
+ 请求url: https://passport.lagou.com/login/login.json,
+ 请求数据: {&#x27;isValidate&#x27;: &#x27;true&#x27;, &#x27;username&#x27;: &#x27;20181205&#x27;, &#x27;phoneVerificationCode&#x27;: &#x27;049281&#x27;, &#x27;countryCode&#x27;: &#x27;00852&#x27;, &#x27;challenge&#x27;: 111},
+ 响应结果: {&#x27;state&#x27;: 1, &#x27;message&#x27;: &#x27;操作成功&#x27;, &#x27;content&#x27;: {&#x27;rows&#x27;: []}, &#x27;submitCode&#x27;: 62247610, &#x27;submitToken&#x27;: &#x27;d3b51ec9-b494-4ffc-ba41-b781d9023bfd&#x27;}
+
+util.py                    137 INFO     用户名: 20181205 登录成功------------------------------ Captured log call -------------------------------<br/>util.py                     91 INFO     
+请求目的: None,
+ 请求url: https://easy.lagou.com/talent/index.htm?filter=0&amp;pageNo=1&amp;strongly=False&amp;notSeen=False
+util.py                    189 INFO     获取找人才主页成功</div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">tests/test_jianzhao_web/test_search_optimization_phase_II.py::test_get_talent_hunting</td>
+          <td class="col-duration">0.67</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log">------------------------------ Captured log call -------------------------------<br/>util.py                     88 INFO     
+请求目的: None,
+ 请求url: https://easy.lagou.com/talent/hunting.json?keyword=JAVA&amp;city=北京&amp;education=本科及以上&amp;pageNo=1,
+ 响应结果: {&#x27;state&#x27;: 1, &#x27;message&#x27;: &#x27;操作成功&#x27;, &#x27;content&#x27;: {&#x27;data&#x27;: {}, &#x27;rows&#x27;: []}}
+
+util.py                    189 INFO     获取猎头数据成功</div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">tests/test_jianzhao_web/test_search_optimization_phase_II.py::test_get_talent_search_list_html</td>
+          <td class="col-duration">1.20</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log">------------------------------ Captured log call -------------------------------<br/>util.py                     91 INFO     
+请求目的: None,
+ 请求url: https://easy.lagou.com/talent/search/list.htm?orderWay=0&amp;createTime=1551694723190&amp;positionName=python
+util.py                    189 INFO     获取人才搜索主页成功</div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">tests/test_jianzhao_web/test_search_optimization_phase_II.py::test_get_talent_search_list</td>
+          <td class="col-duration">1.10</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log">------------------------------ Captured log call -------------------------------<br/>util.py                     88 INFO     
+请求目的: None,
+ 请求url: https://easy.lagou.com/talent/search/list.json?pageNo=1&amp;orderWay=0&amp;createTime=1551694724398&amp;positionName=python&amp;visible=true&amp;searchVersion=1,
+ 响应结果: {&#x27;state&#x27;: 1, &#x27;message&#x27;: &#x27;操作成功&#x27;, &#x27;content&#x27;: {&#x27;data&#x27;: {&#x27;binspectcSecret&#x27;: &#x27;na3UhMibD/uAeWg9cxQN849wd05Yqu7Px1lPEGabfAs=&#x27;, &#x27;page&#x27;: {&#x27;pageSize&#x27;: 15, &#x27;start&#x27;: 0, &#x27;result&#x27;: [{&#x27;userId&#x27;: 42, &#x27;sex&#x27;: &#x27;男&#x27;, &#x27;ageNum&#x27;: 29, &#x27;birthday&#x27;: &#x27;1990.09&#x27;, &#x27;workYear&#x27;: &#x27;应届毕业生&#x27;, &#x27;headPic&#x27;: &#x27;common/image/pc/default_boy_headpic2.png&#x27;, &#x27;updateTime&#x27;: &#x27;20181221T145250+0800&#x27;, &#x27;isExpired&#x27;: False, &#x27;isDelivered&#x27;: False, &#x27;highestEducation&#x27;: &#x27;本科&#x27;, &#x27;inspectRead&#x27;: False, &#x27;resumeRestrict&#x27;: False, &#x27;phoneCallStatus&#x27;: &#x27;phone_disabled&#x27;, &#x27;resumeFetchKey&#x27;: &#x27;hfaAKTWJigwBbE2wvocfhGkeDjs0Omeu4zBMvr6ULK89Wip971Tunb3TkehXJcwJ1A06Ubf_iq-61SHWBvs38Q==&#x27;, &#x27;name&#x27;: &#x27;周杰伦1&#x27;, &#x27;nickName&#x27;: &#x27;周杰伦1&#x27;, &#x27;expectJob&#x27;: {&#x27;city&#x27;: &#x27;北京&#x27;, &#x27;positionName&#x27;: &#x27;Java&#x27;, &#x27;salarys&#x27;: &#x27;15k-20k&#x27;}, &#x27;educationExperiences&#x27;: [{&#x27;isFamousSchool&#x27;: False, &#x27;collegeType&#x27;: &#x27;专科及其他&#x27;, &#x27;isOverSea&#x27;: False, &#x27;schoolname&#x27;: &#x27;清华大学&#x27;, &#x27;education&#x27;: &#x27;本科&#x27;, &#x27;professional&#x27;: &#x27;计算机科学与技术&#x27;, &#x27;startdate&#x27;: &#x27;2009&#x27;, &#x27;enddate&#x27;: &#x27;2013&#x27;}], &#x27;workExperiences&#x27;: [{&#x27;isFamousCompany&#x27;: False, &#x27;companyname&#x27;: &#x27;拉勾网&#x27;, &#x27;positionname&#x27;: &#x27;Python&#x27;, &#x27;companyIndustry&#x27;: &#x27;电商&#x27;, &#x27;skillLabels&#x27;: [&#x27;Python&#x27;], &#x27;startdate&#x27;: &#x27;2012.07&#x27;, &#x27;enddate&#x27;: &#x27;至今&#x27;}], &#x27;skillLabels&#x27;: [&#x27;Python&#x27;], &#x27;abilityLabels&#x27;: [&#x27;执行力&#x27;], &#x27;label&#x27;: &#x27;&#x27;, &#x27;deliverTimeStr&#x27;: &#x27;2017-07-23 12:11:38&#x27;, &#x27;updateResumeTimeStr&#x27;: &#x27;2018-12-21 14:52:50&#x27;, &#x27;loginTimeStr&#x27;: &#x27;2018-12-21 14:48:59&#x27;, &#x27;lastLoginTime&#x27;: &#x27;20181221T144859+0800&#x27;, &#x27;resumeUpdateTime&#x27;: &#x27;20181221T145250+0800&#x27;, &#x27;lastDeliverTime&#x27;: &#x27;20170723T121138+0800&#x27;, &#x27;lastChatTime&#x27;: &#x27;20160101T000028+0800&#x27;, &#x27;userIdentity&#x27;: 1, &#x27;oriLastLoginTime&#x27;: &#x27;20181221T144859+0800&#x27;, &#x27;oriResumeUpdateTime&#x27;: &#x27;20181221T145250+0800&#x27;, &#x27;oriLastDeliverTime&#x27;: &#x27;20170723T121138+0800&#x27;, &#x27;oriLastChatTime&#x27;: &#x27;20160101T000028+0800&#x27;, &#x27;userIdentityEnum&#x27;: &#x27;STUDENT&#x27;, &#x27;graduateYear&#x27;: &#x27;2013&#x27;, &#x27;isStrong&#x27;: False, &#x27;isFamousSchool&#x27;: False, &#x27;isFamousCompany&#x27;: False, &#x27;isOverSea&#x27;: False, &#x27;resumeId&#x27;: 0}, {&#x27;userId&#x27;: 43, &#x27;sex&#x27;: &#x27;男&#x27;, &#x27;ageNum&#x27;: 29, &#x27;birthday&#x27;: &#x27;1990.09&#x27;, &#x27;workYear&#x27;: &#x27;应届毕业生&#x27;, &#x27;headPic&#x27;: &#x27;common/image/pc/default_boy_headpic2.png&#x27;, &#x27;updateTime&#x27;: &#x27;20181221T145253+0800&#x27;, &#x27;isExpired&#x27;: False, &#x27;isDelivered&#x27;: False, &#x27;highestEducation&#x27;: &#x27;本科&#x27;, &#x27;inspectRead&#x27;: False, &#x27;resumeRestrict&#x27;: False, &#x27;phoneCallStatus&#x27;: &#x27;phone_disabled&#x27;, &#x27;resumeFetchKey&#x27;: &#x27;ibqU_OnXulY4zpKKxgCBMeQkMccljURO18kjI1wTbkOCDekJnCMxBMw2zFvCVMEF2IrH5BUxzOavNn4vyv3gPQ==&#x27;, &#x27;name&#x27;: &#x27;周杰伦2&#x27;, &#x27;nickName&#x27;: &#x27;周杰伦2&#x27;, &#x27;expectJob&#x27;: {&#x27;city&#x27;: &#x27;北京&#x27;, &#x27;positionName&#x27;: &#x27;Java&#x27;, &#x27;salarys&#x27;: &#x27;15k-20k&#x27;}, &#x27;educationExperiences&#x27;: [{&#x27;isFamousSchool&#x27;: False, &#x27;collegeType&#x27;: &#x27;专科及其他&#x27;, &#x27;isOverSea&#x27;: False, &#x27;schoolname&#x27;: &#x27;清华大学&#x27;, &#x27;education&#x27;: &#x27;本科&#x27;, &#x27;professional&#x27;: &#x27;计算机科学与技术&#x27;, &#x27;startdate&#x27;: &#x27;2009&#x27;, &#x27;enddate&#x27;: &#x27;2013&#x27;}], &#x27;workExperiences&#x27;: [{&#x27;isFamousCompany&#x27;: False, &#x27;companyname&#x27;: &#x27;拉勾网&#x27;, &#x27;positionname&#x27;: &#x27;Python&#x27;, &#x27;companyIndustry&#x27;: &#x27;电商&#x27;, &#x27;skillLabels&#x27;: [&#x27;Python&#x27;], &#x27;startdate&#x27;: &#x27;2012.07&#x27;, &#x27;enddate&#x27;: &#x27;至今&#x27;}], &#x27;skillLabels&#x27;: [&#x27;Python&#x27;], &#x27;abilityLabels&#x27;: [&#x27;执行力&#x27;], &#x27;label&#x27;: &#x27;&#x27;, &#x27;deliverTimeStr&#x27;: &#x27;2017-07-23 12:11:38&#x27;, &#x27;updateResumeTimeStr&#x27;: &#x27;2018-12-21 14:52:53&#x27;, &#x27;loginTimeStr&#x27;: &#x27;2018-12-21 14:49:01&#x27;, &#x27;lastLoginTime&#x27;: &#x27;20181221T144901+0800&#x27;, &#x27;resumeUpdateTime&#x27;: &#x27;20181221T145253+0800&#x27;, &#x27;lastDeliverTime&#x27;: &#x27;20170723T121138+0800&#x27;, &#x27;lastChatTime&#x27;: &#x27;20160101T000028+0800&#x27;, &#x27;userIdentity&#x27;: 1, &#x27;oriLastLoginTime&#x27;: &#x27;20181221T144901+0800&#x27;, &#x27;oriResumeUpdateTime&#x27;: &#x27;20181221T145253+0800&#x27;, &#x27;oriLastDeliverTime&#x27;: &#x27;20170723T121138+0800&#x27;, &#x27;oriLastChatTime&#x27;: &#x27;20160101T000028+0800&#x27;, &#x27;userIdentityEnum&#x27;: &#x27;STUDENT&#x27;, &#x27;graduateYear&#x27;: &#x27;2013&#x27;, &#x27;isStrong&#x27;: False, &#x27;isFamousSchool&#x27;: False, &#x27;isFamousCompany&#x27;: False, &#x27;isOverSea&#x27;: False, &#x27;resumeId&#x27;: 0}, {&#x27;userId&#x27;: 41, &#x27;sex&#x27;: &#x27;男&#x27;, &#x27;ageNum&#x27;: 29, &#x27;birthday&#x27;: &#x27;1990.09&#x27;, &#x27;workYear&#x27;: &#x27;应届毕业生&#x27;, &#x27;headPic&#x27;: &#x27;common/image/pc/default_boy_headpic2.png&#x27;, &#x27;updateTime&#x27;: &#x27;20181221T144836+0800&#x27;, &#x27;isExpired&#x27;: False, &#x27;isDelivered&#x27;: False, &#x27;highestEducation&#x27;: &#x27;本科&#x27;, &#x27;inspectRead&#x27;: False, &#x27;resumeRestrict&#x27;: False, &#x27;phoneCallStatus&#x27;: &#x27;phone_disabled&#x27;, &#x27;resumeFetchKey&#x27;: &#x27;F94qnqbZOAOJG0Rd-axNfZeACWUCpn4GYLXvWsUIKD-bDoaYPLVZcxKOCZ0JZaUf26rL-He039BGXb7SAE-9tw==&#x27;, &#x27;name&#x27;: &#x27;周杰伦2&#x27;, &#x27;nickName&#x27;: &#x27;周杰伦2&#x27;, &#x27;expectJob&#x27;: {&#x27;city&#x27;: &#x27;北京&#x27;, &#x27;positionName&#x27;: &#x27;Java&#x27;, &#x27;salarys&#x27;: &#x27;15k-20k&#x27;}, &#x27;educationExperiences&#x27;: [{&#x27;isFamousSchool&#x27;: False, &#x27;collegeType&#x27;: &#x27;专科及其他&#x27;, &#x27;isOverSea&#x27;: False, &#x27;schoolname&#x27;: &#x27;清华大学&#x27;, &#x27;education&#x27;: &#x27;本科&#x27;, &#x27;professional&#x27;: &#x27;计算机科学与技术&#x27;, &#x27;startdate&#x27;: &#x27;2009&#x27;, &#x27;enddate&#x27;: &#x27;2013&#x27;}], &#x27;workExperiences&#x27;: [{&#x27;isFamousCompany&#x27;: False, &#x27;companyname&#x27;: &#x27;拉勾网&#x27;, &#x27;positionname&#x27;: &#x27;Python&#x27;, &#x27;companyIndustry&#x27;: &#x27;电商&#x27;, &#x27;skillLabels&#x27;: [&#x27;Python&#x27;], &#x27;startdate&#x27;: &#x27;2012.07&#x27;, &#x27;enddate&#x27;: &#x27;至今&#x27;}], &#x27;skillLabels&#x27;: [&#x27;Python&#x27;], &#x27;abilityLabels&#x27;: [&#x27;执行力&#x27;], &#x27;label&#x27;: &#x27;&#x27;, &#x27;deliverTimeStr&#x27;: &#x27;2017-07-23 12:11:38&#x27;, &#x27;updateResumeTimeStr&#x27;: &#x27;2018-12-21 14:48:36&#x27;, &#x27;loginTimeStr&#x27;: &#x27;2018-12-21 14:44:41&#x27;, &#x27;lastLoginTime&#x27;: &#x27;20181221T144441+0800&#x27;, &#x27;resumeUpdateTime&#x27;: &#x27;20181221T144836+0800&#x27;, &#x27;lastDeliverTime&#x27;: &#x27;20170723T121138+0800&#x27;, &#x27;lastChatTime&#x27;: &#x27;20160101T000028+0800&#x27;, &#x27;userIdentity&#x27;: 1, &#x27;oriLastLoginTime&#x27;: &#x27;20181221T144441+0800&#x27;, &#x27;oriResumeUpdateTime&#x27;: &#x27;20181221T144836+0800&#x27;, &#x27;oriLastDeliverTime&#x27;: &#x27;20170723T121138+0800&#x27;, &#x27;oriLastChatTime&#x27;: &#x27;20160101T000028+0800&#x27;, &#x27;userIdentityEnum&#x27;: &#x27;STUDENT&#x27;, &#x27;graduateYear&#x27;: &#x27;2013&#x27;, &#x27;isStrong&#x27;: False, &#x27;isFamousSchool&#x27;: False, &#x27;isFamousCompany&#x27;: False, &#x27;isOverSea&#x27;: False, &#x27;resumeId&#x27;: 0}, {&#x27;userId&#x27;: 16, &#x27;sex&#x27;: &#x27;男&#x27;, &#x27;ageNum&#x27;: 29, &#x27;birthday&#x27;: &#x27;1990.09&#x27;, &#x27;workYear&#x27;: &#x27;应届毕业生&#x27;, &#x27;headPic&#x27;: &#x27;common/image/pc/default_boy_headpic2.png&#x27;, &#x27;updateTime&#x27;: &#x27;20181221T110319+0800&#x27;, &#x27;isExpired&#x27;: False, &#x27;isDelivered&#x27;: False, &#x27;highestEducation&#x27;: &#x27;本科&#x27;, &#x27;inspectRead&#x27;: False, &#x27;resumeRestrict&#x27;: False, &#x27;phoneCallStatus&#x27;: &#x27;phone_disabled&#x27;, &#x27;resumeFetchKey&#x27;: &#x27;S1FctZ0YKI_MP3_M8wdkD6pdhREZAke50lsFF5NIrDjt20cmVWfTCpHzZHxIbYoWatc4WvBXo6_90AsCfT1PZg==&#x27;, &#x27;name&#x27;: &#x27;周杰伦1&#x27;, &#x27;nickName&#x27;: &#x27;周杰伦1&#x27;, &#x27;expectJob&#x27;: {&#x27;city&#x27;: &#x27;北京&#x27;, &#x27;positionName&#x27;: &#x27;python后端开发&#x27;, &#x27;salarys&#x27;: &#x27;11k-12k&#x27;}, &#x27;educationExperiences&#x27;: [{&#x27;isFamousSchool&#x27;: False, &#x27;collegeType&#x27;: &#x27;专科及其他&#x27;, &#x27;isOverSea&#x27;: False, &#x27;schoolname&#x27;: &#x27;清华大学&#x27;, &#x27;education&#x27;: &#x27;本科&#x27;, &#x27;professional&#x27;: &#x27;计算机科学与技术&#x27;, &#x27;startdate&#x27;: &#x27;2014&#x27;, &#x27;enddate&#x27;: &#x27;2018&#x27;}], &#x27;abilityLabels&#x27;: [&#x27;执行力&#x27;], &#x27;label&#x27;: &#x27;&#x27;, &#x27;deliverTimeStr&#x27;: &#x27;2017-07-23 12:11:38&#x27;, &#x27;updateResumeTimeStr&#x27;: &#x27;2018-12-21 11:03:19&#x27;, &#x27;loginTimeStr&#x27;: &#x27;2018-12-21 11:01:14&#x27;, &#x27;lastLoginTime&#x27;: &#x27;20181221T110114+0800&#x27;, &#x27;resumeUpdateTime&#x27;: &#x27;20181221T110319+0800&#x27;, &#x27;lastDeliverTime&#x27;: &#x27;20170723T121138+0800&#x27;, &#x27;lastChatTime&#x27;: &#x27;20160101T000028+0800&#x27;, &#x27;userIdentity&#x27;: 1, &#x27;oriLastLoginTime&#x27;: &#x27;20181221T110114+0800&#x27;, &#x27;oriResumeUpdateTime&#x27;: &#x27;20181221T110319+0800&#x27;, &#x27;oriLastDeliverTime&#x27;: &#x27;20170723T121138+0800&#x27;, &#x27;oriLastChatTime&#x27;: &#x27;20160101T000028+0800&#x27;, &#x27;userIdentityEnum&#x27;: &#x27;STUDENT&#x27;, &#x27;graduateYear&#x27;: &#x27;2018&#x27;, &#x27;isStrong&#x27;: False, &#x27;isFamousSchool&#x27;: False, &#x27;isFamousCompany&#x27;: False, &#x27;isOverSea&#x27;: False, &#x27;resumeId&#x27;: 0}, {&#x27;userId&#x27;: 17, &#x27;sex&#x27;: &#x27;男&#x27;, &#x27;ageNum&#x27;: 29, &#x27;birthday&#x27;: &#x27;1990.09&#x27;, &#x27;workYear&#x27;: &#x27;应届毕业生&#x27;, &#x27;headPic&#x27;: &#x27;common/image/pc/default_boy_headpic2.png&#x27;, &#x27;updateTime&#x27;: &#x27;20181221T112702+0800&#x27;, &#x27;isExpired&#x27;: False, &#x27;isDelivered&#x27;: False, &#x27;highestEducation&#x27;: &#x27;本科&#x27;, &#x27;inspectRead&#x27;: False, &#x27;resumeRestrict&#x27;: False, &#x27;phoneCallStatus&#x27;: &#x27;phone_disabled&#x27;, &#x27;resumeFetchKey&#x27;: &#x27;zyGXZQTynfmgnaa-4pRuImSTtVgj5cVO6Xt-DUDWZCxeHuMxL6eKQTEy5uyKXvkf8QVEW47rVXBG_uKRtt0A9A==&#x27;, &#x27;name&#x27;: &#x27;周杰伦1&#x27;, &#x27;nickName&#x27;: &#x27;周杰伦1&#x27;, &#x27;expectJob&#x27;: {&#x27;city&#x27;: &#x27;北京&#x27;, &#x27;positionName&#x27;: &#x27;python后端开发&#x27;, &#x27;salarys&#x27;: &#x27;11k-12k&#x27;}, &#x27;educationExperiences&#x27;: [{&#x27;isFamousSchool&#x27;: False, &#x27;collegeType&#x27;: &#x27;专科及其他&#x27;, &#x27;isOverSea&#x27;: False, &#x27;schoolname&#x27;: &#x27;清华大学&#x27;, &#x27;education&#x27;: &#x27;本科&#x27;, &#x27;professional&#x27;: &#x27;计算机科学与技术&#x27;, &#x27;startdate&#x27;: &#x27;2014&#x27;, &#x27;enddate&#x27;: &#x27;2018&#x27;}], &#x27;abilityLabels&#x27;: [&#x27;执行力&#x27;], &#x27;label&#x27;: &#x27;&#x27;, &#x27;deliverTimeStr&#x27;: &#x27;2017-07-23 12:11:38&#x27;, &#x27;updateResumeTimeStr&#x27;: &#x27;2018-12-21 11:27:02&#x27;, &#x27;loginTimeStr&#x27;: &#x27;2018-12-21 13:52:03&#x27;, &#x27;lastLoginTime&#x27;: &#x27;20181221T135203+0800&#x27;, &#x27;resumeUpdateTime&#x27;: &#x27;20181221T112702+0800&#x27;, &#x27;lastDeliverTime&#x27;: &#x27;20170723T121138+0800&#x27;, &#x27;lastChatTime&#x27;: &#x27;20160101T000028+0800&#x27;, &#x27;userIdentity&#x27;: 1, &#x27;oriLastLoginTime&#x27;: &#x27;20181221T135203+0800&#x27;, &#x27;oriResumeUpdateTime&#x27;: &#x27;20181221T112702+0800&#x27;, &#x27;oriLastDeliverTime&#x27;: &#x27;20170723T121138+0800&#x27;, &#x27;oriLastChatTime&#x27;: &#x27;20160101T000028+0800&#x27;, &#x27;userIdentityEnum&#x27;: &#x27;STUDENT&#x27;, &#x27;graduateYear&#x27;: &#x27;2018&#x27;, &#x27;isStrong&#x27;: False, &#x27;isFamousSchool&#x27;: False, &#x27;isFamousCompany&#x27;: False, &#x27;isOverSea&#x27;: False, &#x27;resumeId&#x27;: 0}, {&#x27;userId&#x27;: 18, &#x27;sex&#x27;: &#x27;男&#x27;, &#x27;ageNum&#x27;: 29, &#x27;birthday&#x27;: &#x27;1990.09&#x27;, &#x27;workYear&#x27;: &#x27;应届毕业生&#x27;, &#x27;headPic&#x27;: &#x27;common/image/pc/default_boy_headpic2.png&#x27;, &#x27;updateTime&#x27;: &#x27;20181221T112858+0800&#x27;, &#x27;isExpired&#x27;: False, &#x27;isDelivered&#x27;: False, &#x27;highestEducation&#x27;: &#x27;本科&#x27;, &#x27;inspectRead&#x27;: False, &#x27;resumeRestrict&#x27;: False, &#x27;phoneCallStatus&#x27;: &#x27;phone_disabled&#x27;, &#x27;resumeFetchKey&#x27;: &#x27;tFdGp4rdGoh6kJ4wa9LSKIwuy82_TPoGN4b2Nw2b6YmGskbIVnS-Eyv9ervSQUdtvRLfL-hMXludNYHmV0UFTw==&#x27;, &#x27;name&#x27;: &#x27;周杰伦10&#x27;, &#x27;nickName&#x27;: &#x27;周杰伦10&#x27;, &#x27;expectJob&#x27;: {&#x27;city&#x27;: &#x27;北京&#x27;, &#x27;positionName&#x27;: &#x27;python后端开发&#x27;, &#x27;salarys&#x27;: &#x27;11k-12k&#x27;}, &#x27;educationExperiences&#x27;: [{&#x27;isFamousSchool&#x27;: False, &#x27;collegeType&#x27;: &#x27;专科及其他&#x27;, &#x27;isOverSea&#x27;: False, &#x27;schoolname&#x27;: &#x27;清华大学&#x27;, &#x27;education&#x27;: &#x27;本科&#x27;, &#x27;professional&#x27;: &#x27;计算机科学与技术&#x27;, &#x27;startdate&#x27;: &#x27;2014&#x27;, &#x27;enddate&#x27;: &#x27;2018&#x27;}, {&#x27;isFamousSchool&#x27;: False, &#x27;collegeType&#x27;: &#x27;专科及其他&#x27;, &#x27;isOverSea&#x27;: False, &#x27;schoolname&#x27;: &#x27;清华大学&#x27;, &#x27;education&#x27;: &#x27;本科&#x27;, &#x27;professional&#x27;: &#x27;计算机科学与技术&#x27;, &#x27;startdate&#x27;: &#x27;2014&#x27;, &#x27;enddate&#x27;: &#x27;2018&#x27;}, {&#x27;isFamousSchool&#x27;: False, &#x27;collegeType&#x27;: &#x27;专科及其他&#x27;, &#x27;isOverSea&#x27;: False, &#x27;schoolname&#x27;: &#x27;清华大学&#x27;, &#x27;education&#x27;: &#x27;本科&#x27;, &#x27;professional&#x27;: &#x27;计算机科学与技术&#x27;, &#x27;startdate&#x27;: &#x27;2014&#x27;, &#x27;enddate&#x27;: &#x27;2018&#x27;}, {&#x27;isFamousSchool&#x27;: False, &#x27;collegeType&#x27;: &#x27;专科及其他&#x27;, &#x27;isOverSea&#x27;: False, &#x27;schoolname&#x27;: &#x27;清华大学&#x27;, &#x27;education&#x27;: &#x27;本科&#x27;, &#x27;professional&#x27;: &#x27;计算机科学与技术&#x27;, &#x27;startdate&#x27;: &#x27;2014&#x27;, &#x27;enddate&#x27;: &#x27;2018&#x27;}, {&#x27;isFamousSchool&#x27;: False, &#x27;collegeType&#x27;: &#x27;专科及其他&#x27;, &#x27;isOverSea&#x27;: False, &#x27;schoolname&#x27;: &#x27;清华大学&#x27;, &#x27;education&#x27;: &#x27;本科&#x27;, &#x27;professional&#x27;: &#x27;计算机科学与技术&#x27;, &#x27;startdate&#x27;: &#x27;2014&#x27;, &#x27;enddate&#x27;: &#x27;2018&#x27;}, {&#x27;isFamousSchool&#x27;: False, &#x27;collegeType&#x27;: &#x27;专科及其他&#x27;, &#x27;isOverSea&#x27;: False, &#x27;schoolname&#x27;: &#x27;清华大学&#x27;, &#x27;education&#x27;: &#x27;本科&#x27;, &#x27;professional&#x27;: &#x27;计算机科学与技术&#x27;, &#x27;startdate&#x27;: &#x27;2014&#x27;, &#x27;enddate&#x27;: &#x27;2018&#x27;}, {&#x27;isFamousSchool&#x27;: False, &#x27;collegeType&#x27;: &#x27;专科及其他&#x27;, &#x27;isOverSea&#x27;: False, &#x27;schoolname&#x27;: &#x27;清华大学&#x27;, &#x27;education&#x27;: &#x27;本科&#x27;, &#x27;professional&#x27;: &#x27;计算机科学与技术&#x27;, &#x27;startdate&#x27;: &#x27;2014&#x27;, &#x27;enddate&#x27;: &#x27;2018&#x27;}, {&#x27;isFamousSchool&#x27;: False, &#x27;collegeType&#x27;: &#x27;专科及其他&#x27;, &#x27;isOverSea&#x27;: False, &#x27;schoolname&#x27;: &#x27;清华大学&#x27;, &#x27;education&#x27;: &#x27;本科&#x27;, &#x27;professional&#x27;: &#x27;计算机科学与技术&#x27;, &#x27;startdate&#x27;: &#x27;2014&#x27;, &#x27;enddate&#x27;: &#x27;2018&#x27;}, {&#x27;isFamousSchool&#x27;: False, &#x27;collegeType&#x27;: &#x27;专科及其他&#x27;, &#x27;isOverSea&#x27;: False, &#x27;schoolname&#x27;: &#x27;清华大学&#x27;, &#x27;education&#x27;: &#x27;本科&#x27;, &#x27;professional&#x27;: &#x27;计算机科学与技术&#x27;, &#x27;startdate&#x27;: &#x27;2014&#x27;, &#x27;enddate&#x27;: &#x27;2018&#x27;}, {&#x27;isFamousSchool&#x27;: False, &#x27;collegeType&#x27;: &#x27;专科及其他&#x27;, &#x27;isOverSea&#x27;: False, &#x27;schoolname&#x27;: &#x27;清华大学&#x27;, &#x27;education&#x27;: &#x27;本科&#x27;, &#x27;professional&#x27;: &#x27;计算机科学与技术&#x27;, &#x27;startdate&#x27;: &#x27;2014&#x27;, &#x27;enddate&#x27;: &#x27;2018&#x27;}], &#x27;abilityLabels&#x27;: [&#x27;执行力&#x27;], &#x27;label&#x27;: &#x27;&#x27;, &#x27;deliverTimeStr&#x27;: &#x27;2017-07-23 12:11:38&#x27;, &#x27;updateResumeTimeStr&#x27;: &#x27;2018-12-21 11:28:58&#x27;, &#x27;loginTimeStr&#x27;: &#x27;2018-12-21 11:24:02&#x27;, &#x27;lastLoginTime&#x27;: &#x27;20181221T112402+0800&#x27;, &#x27;resumeUpdateTime&#x27;: &#x27;20181221T112858+0800&#x27;, &#x27;lastDeliverTime&#x27;: &#x27;20170723T121138+0800&#x27;, &#x27;lastChatTime&#x27;: &#x27;20160101T000028+0800&#x27;, &#x27;userIdentity&#x27;: 1, &#x27;oriLastLoginTime&#x27;: &#x27;20181221T112402+0800&#x27;, &#x27;oriResumeUpdateTime&#x27;: &#x27;20181221T112858+0800&#x27;, &#x27;oriLastDeliverTime&#x27;: &#x27;20170723T121138+0800&#x27;, &#x27;oriLastChatTime&#x27;: &#x27;20160101T000028+0800&#x27;, &#x27;userIdentityEnum&#x27;: &#x27;STUDENT&#x27;, &#x27;graduateYear&#x27;: &#x27;2018&#x27;, &#x27;isStrong&#x27;: False, &#x27;isFamousSchool&#x27;: False, &#x27;isFamousCompany&#x27;: False, &#x27;isOverSea&#x27;: False, &#x27;resumeId&#x27;: 0}], &#x27;totalCount&#x27;: 6, &#x27;pageNo&#x27;: 1, &#x27;highLightStrs&#x27;: [&#x27;python&#x27;, &#x27;django&#x27;]}}, &#x27;rows&#x27;: []}}
+
+util.py                    189 INFO     单开页-人才搜索成功</div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">tests/test_jianzhao_web/test_search_optimization_phase_II.py::test_search_resume_fetchResume</td>
+          <td class="col-duration">1.06</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log">------------------------------ Captured log call -------------------------------<br/>util.py                     88 INFO     
+请求目的: None,
+ 请求url: https://easy.lagou.com/search/resume/fetchResume.json?resumeFetchKey=hfaAKTWJigwBbE2wvocfhGkeDjs0Omeu4zBMvr6ULK89Wip971Tunb3TkehXJcwJ1A06Ubf_iq-61SHWBvs38Q==,
+ 响应结果: {&#x27;state&#x27;: 1, &#x27;message&#x27;: &#x27;操作成功&#x27;, &#x27;content&#x27;: {&#x27;data&#x27;: {&#x27;data&#x27;: {&#x27;hasChat&#x27;: False, &#x27;remainTimes&#x27;: 1, &#x27;phoneCallStatus&#x27;: &#x27;phone_disabled&#x27;, &#x27;resume&#x27;: {&#x27;id&#x27;: &#x27;&#x27;, &#x27;sex&#x27;: &#x27;男&#x27;, &#x27;birthday&#x27;: &#x27;1990.09&#x27;, &#x27;birthYear&#x27;: 1990, &#x27;birthMonth&#x27;: &#x27;09&#x27;, &#x27;birthDate&#x27;: &#x27;1&#x27;, &#x27;ageNum&#x27;: 29, &#x27;workYear&#x27;: &#x27;应届毕业生&#x27;, &#x27;status&#x27;: &#x27;我是应届毕业生&#x27;, &#x27;myRemark&#x27;: &#x27;&lt;p&gt;哈哈哈哈&lt;/p&gt;&#x27;, &#x27;resumeName&#x27;: &#x27;周杰伦1&#x27;, &#x27;name&#x27;: &#x27;周杰伦1&#x27;, &#x27;nameDes&#x27;: &#x27;周杰伦1&#x27;, &#x27;createTime&#x27;: &#x27;20181221T145248+0800&#x27;, &#x27;updateTime&#x27;: &#x27;20181221T145250+0800&#x27;, &#x27;refreshTime&#x27;: &#x27;2018-12-21 14:52&#x27;, &#x27;perfect&#x27;: &#x27;10110101100000011110000011000010100011110011&#x27;, &#x27;headPic&#x27;: &#x27;common/image/pc/default_boy_headpic2.png&#x27;, &#x27;userId&#x27;: 42, &#x27;highestEducation&#x27;: &#x27;本科&#x27;, &#x27;oneWord&#x27;: &#x27;&#x27;, &#x27;liveCity&#x27;: &#x27;北京&#x27;, &#x27;userIdentity&#x27;: 1, &#x27;resumeId&#x27;: 16, &#x27;resumeScore&#x27;: -1, &#x27;resumeFetchKey&#x27;: &#x27;VkjWNzJ8H1EcTIxPU630-mnSQa6yAooUJolVCmZSNV25YMwHoqM7RVbjsfBWHYId6GV-N-D863WV9OC98JmXrQ==&#x27;, &#x27;companyName&#x27;: &#x27;&#x27;, &#x27;workExperiences&#x27;: [{&#x27;id&#x27;: 4, &#x27;companyName&#x27;: &#x27;拉勾网&#x27;, &#x27;positionName&#x27;: &#x27;Python&#x27;, &#x27;startDate&#x27;: &#x27;2012.07&#x27;, &#x27;endDate&#x27;: &#x27;至今&#x27;, &#x27;createTime&#x27;: &#x27;20181221T145248+0800&#x27;, &#x27;resumeId&#x27;: 16, &#x27;workContent&#x27;: &#x27;&lt;p&gt;哒哒哒哒哒哒多多多多多多多&lt;/p&gt;&#x27;, &#x27;department&#x27;: &#x27;用户价值部&#x27;, &#x27;skillLabels&#x27;: [&#x27;Python&#x27;]}], &#x27;latestWorkExperience&#x27;: {&#x27;id&#x27;: 4, &#x27;companyName&#x27;: &#x27;拉勾网&#x27;, &#x27;positionName&#x27;: &#x27;Python&#x27;, &#x27;startDate&#x27;: &#x27;2012.07&#x27;, &#x27;endDate&#x27;: &#x27;至今&#x27;, &#x27;createTime&#x27;: &#x27;20181221T145248+0800&#x27;, &#x27;resumeId&#x27;: 16, &#x27;workContent&#x27;: &#x27;&lt;p&gt;哒哒哒哒哒哒多多多多多多多&lt;/p&gt;&#x27;, &#x27;department&#x27;: &#x27;用户价值部&#x27;, &#x27;skillLabels&#x27;: [&#x27;Python&#x27;]}, &#x27;educationExperiences&#x27;: [{&#x27;id&#x27;: 21, &#x27;schoolName&#x27;: &#x27;清华大学&#x27;, &#x27;education&#x27;: &#x27;本科&#x27;, &#x27;professional&#x27;: &#x27;计算机科学与技术&#x27;, &#x27;startDate&#x27;: &#x27;2009&#x27;, &#x27;endDate&#x27;: &#x27;2013&#x27;, &#x27;resumeId&#x27;: 16, &#x27;schoolBadge&#x27;: &#x27;&#x27;, &#x27;whetherGraduate&#x27;: True, &#x27;whetherFresh&#x27;: False}], &#x27;latestEducationExperience&#x27;: {&#x27;id&#x27;: 21, &#x27;schoolName&#x27;: &#x27;清华大学&#x27;, &#x27;education&#x27;: &#x27;本科&#x27;, &#x27;professional&#x27;: &#x27;计算机科学与技术&#x27;, &#x27;startDate&#x27;: &#x27;2009&#x27;, &#x27;endDate&#x27;: &#x27;2013&#x27;, &#x27;resumeId&#x27;: 16, &#x27;schoolBadge&#x27;: &#x27;&#x27;, &#x27;whetherGraduate&#x27;: True, &#x27;whetherFresh&#x27;: False}, &#x27;latestEduAndExp&#x27;: &#x27;Python &amp;middot; 拉勾网 | 本科 &amp;middot; 清华大学&#x27;, &#x27;projectExperiences&#x27;: [], &#x27;expectJob&#x27;: {&#x27;id&#x27;: 22, &#x27;city&#x27;: &#x27;北京&#x27;, &#x27;positionType&#x27;: &#x27;全职&#x27;, &#x27;positionName&#x27;: &#x27;Java&#x27;, &#x27;salarys&#x27;: &#x27;15k-20k&#x27;, &#x27;addExplain&#x27;: &#x27;&#x27;, &#x27;resumeId&#x27;: 16, &#x27;arrivalTime&#x27;: &#x27;随时&#x27;, &#x27;status&#x27;: &#x27;随便看看&#x27;}, &#x27;expectJobStr&#x27;: &#x27;北京，全职，月薪15k-20k，Java&#x27;, &#x27;socialAccounts&#x27;: [], &#x27;skillEvaluates&#x27;: [], &#x27;workShows&#x27;: [], &#x27;abilityLabels&#x27;: [&#x27;执行力&#x27;], &#x27;resumeRestrict&#x27;: False}}}, &#x27;rows&#x27;: []}}
+
+util.py                    189 INFO     人才预览成功</div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">tests/test_jianzhao_web/test_search_optimization_phase_II.py::test_get_talent_search_index</td>
+          <td class="col-duration">1.02</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log">------------------------------ Captured log call -------------------------------<br/>util.py                     91 INFO     
+请求目的: None,
+ 请求url: https://easy.lagou.com/talent/search/index.htm
+util.py                    189 INFO     人才搜索落地页成功</div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">tests/test_jianzhao_web/test_search_optimization_phase_II.py::test_get_talent_search_similar</td>
+          <td class="col-duration">1.53</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log">------------------------------ Captured log call -------------------------------<br/>util.py                     49 INFO     
+请求目的: 获取相似人才,
+ 请求url: https://easy.lagou.com/talent/search/similar.json,
+ 请求数据: {&#x27;cUserId&#x27;: 42},
+ 响应结果: {&#x27;state&#x27;: 1, &#x27;message&#x27;: &#x27;操作成功&#x27;, &#x27;content&#x27;: {}}
+
+util.py                    189 INFO     获取相似人才成功</div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">tests/test_jianzhao_web/test_search_optimization_phase_II.py::test_get_talent_search_deliverInfo</td>
+          <td class="col-duration">0.62</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log">------------------------------ Captured log call -------------------------------<br/>util.py                     49 INFO     
+请求目的: 查询c端用户的投递，沟通信息,
+ 请求url: https://easy.lagou.com/talent/search/deliverInfo.json,
+ 请求数据: {&#x27;cUserIds&#x27;: &#x27;100014476,100015378,100015183,100015193,100015188,100015178,100014967,100015008,100014962,100015003,100015196,100015201,100015186,100014867,100014648&#x27;},
+ 响应结果: {&#x27;state&#x27;: 1, &#x27;message&#x27;: &#x27;操作成功&#x27;, &#x27;content&#x27;: {&#x27;data&#x27;: {&#x27;deliverInfo&#x27;: {&#x27;100014967&#x27;: {&#x27;hasChat&#x27;: False, &#x27;deliverTime&#x27;: 0}, &#x27;100015188&#x27;: {&#x27;hasChat&#x27;: False, &#x27;deliverTime&#x27;: 0}, &#x27;100015378&#x27;: {&#x27;hasChat&#x27;: False, &#x27;deliverTime&#x27;: 0}, &#x27;100014962&#x27;: {&#x27;hasChat&#x27;: False, &#x27;deliverTime&#x27;: 0}, &#x27;100015186&#x27;: {&#x27;hasChat&#x27;: False, &#x27;deliverTime&#x27;: 0}, &#x27;100014867&#x27;: {&#x27;hasChat&#x27;: False, &#x27;deliverTime&#x27;: 0}, &#x27;100015196&#x27;: {&#x27;hasChat&#x27;: False, &#x27;deliverTime&#x27;: 0}, &#x27;100015003&#x27;: {&#x27;hasChat&#x27;: False, &#x27;deliverTime&#x27;: 0}, &#x27;100014648&#x27;: {&#x27;hasChat&#x27;: False, &#x27;deliverTime&#x27;: 0}, &#x27;100015193&#x27;: {&#x27;hasChat&#x27;: False, &#x27;deliverTime&#x27;: 0}, &#x27;100015008&#x27;: {&#x27;hasChat&#x27;: False, &#x27;deliverTime&#x27;: 0}, &#x27;100015201&#x27;: {&#x27;hasChat&#x27;: False, &#x27;deliverTime&#x27;: 0}, &#x27;100015183&#x27;: {&#x27;hasChat&#x27;: False, &#x27;deliverTime&#x27;: 0}, &#x27;100014476&#x27;: {&#x27;hasChat&#x27;: False, &#x27;deliverTime&#x27;: 0}, &#x27;100015178&#x27;: {&#x27;hasChat&#x27;: False, &#x27;deliverTime&#x27;: 0}}}, &#x27;rows&#x27;: []}}
+
+util.py                    189 INFO     查询c端用户的投递，沟通信息成功</div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">tests/test_jianzhao_web/test_search_optimization_phase_II.py::test_get_search_saveFilter</td>
+          <td class="col-duration">0.60</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log">------------------------------ Captured log call -------------------------------<br/>util.py                     49 INFO     
+请求目的: 保存过滤器,
+ 请求url: https://easy.lagou.com/search/saveFilter.json,
+ 请求数据: {&#x27;orderWay&#x27;: 0, &#x27;city&#x27;: &#x27;不限&#x27;, &#x27;education&#x27;: &#x27;不限&#x27;, &#x27;workYear&#x27;: &#x27;不限&#x27;, &#x27;industryField&#x27;: &#x27;不限&#x27;, &#x27;expectSalary&#x27;: &#x27;不限&#x27;, &#x27;positionName&#x27;: &#x27;python&#x27;, &#x27;searchAlias&#x27;: &#x27;python&#x27;},
+ 响应结果: {&#x27;state&#x27;: 1, &#x27;message&#x27;: &#x27;操作成功&#x27;, &#x27;content&#x27;: {&#x27;rows&#x27;: []}}
+
+util.py                    189 INFO     单开页-保存过滤器成功</div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">tests/test_jianzhao_web/test_talent.py::test_list[login_web_k8s_env_b0]</td>
+          <td class="col-duration">14.24</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log">------------------------------ Captured log setup ------------------------------<br/>util.py                     49 INFO     
+请求目的: 20181205在登录拉勾,
+ 请求url: https://passport.lagou.com/login/login.json,
+ 请求数据: {&#x27;isValidate&#x27;: &#x27;true&#x27;, &#x27;username&#x27;: &#x27;20181205&#x27;, &#x27;phoneVerificationCode&#x27;: &#x27;049281&#x27;, &#x27;countryCode&#x27;: &#x27;00852&#x27;, &#x27;challenge&#x27;: 111},
+ 响应结果: {&#x27;state&#x27;: 1, &#x27;message&#x27;: &#x27;操作成功&#x27;, &#x27;content&#x27;: {&#x27;rows&#x27;: []}, &#x27;submitCode&#x27;: 47972955, &#x27;submitToken&#x27;: &#x27;c551c8a1-7325-4ffe-b549-f21bae33e028&#x27;}
+
+util.py                    137 INFO     用户名: 20181205 登录成功----------------------------- Captured stdout call -----------------------------<br/>5c7cfb51787637000ea817be
+5c7cfb51787637000ea817be
+5c7cfb51787637000ea817be
+5c7c9ff4787637000ea817b0
+5c7c9ff4787637000ea817b0
+5c7c9ff4787637000ea817b0
+5c7c9ff4787637000ea817b0
+------------------------------ Captured log call -------------------------------<br/>util.py                     88 INFO     
+请求目的: 全部标记已读,
+ 请求url: https://easy.lagou.com/im/session/allRead.json?createBy=0&amp;unReadOnly=0,
+ 响应结果: {&#x27;state&#x27;: 1, &#x27;message&#x27;: &#x27;操作成功&#x27;, &#x27;content&#x27;: {&#x27;rows&#x27;: []}}
+
+util.py                    189 INFO     全部标记已读成功
+util.py                     88 INFO     
+请求目的: 快捷回复列表,
+ 请求url: https://easy.lagou.com/im/quickReply/list.json,
+ 响应结果: {&#x27;state&#x27;: 1, &#x27;message&#x27;: &#x27;操作成功&#x27;, &#x27;content&#x27;: {&#x27;rows&#x27;: [{&#x27;id&#x27;: &#x27;5c7cfb51787637000ea817be&#x27;, &#x27;content&#x27;: &#x27;你好，我对你的经历比较感兴趣，目前考虑新的机会吗？&#x27;, &#x27;updateTime&#x27;: 1551694673928, &#x27;userId&#x27;: 84, &#x27;top&#x27;: False}, {&#x27;id&#x27;: &#x27;5c7c9ff4787637000ea817b0&#x27;, &#x27;content&#x27;: &#x27;你好，感觉你比较符合我们的职位要求，方便发个简历详细聊聊吗？&#x27;, &#x27;updateTime&#x27;: 1551694670764, &#x27;userId&#x27;: 84, &#x27;top&#x27;: True}, {&#x27;id&#x27;: &#x27;5c7c9ff4787637000ea817b1&#x27;, &#x27;content&#x27;: &#x27;抱歉，就我目前看到的信息，你和我们的职位不太匹配，感谢你的关注~&#x27;, &#x27;userId&#x27;: 84, &#x27;top&#x27;: False}, {&#x27;id&#x27;: &#x27;5c7c9ff4787637000ea817b2&#x27;, &#x27;content&#x27;: &#x27;很抱歉，暂时不再招人了~&#x27;, &#x27;userId&#x27;: 84, &#x27;top&#x27;: False}]}}
+
+util.py                    189 INFO     快捷回复列表成功
+util.py                     88 INFO     
+请求目的: 招呼模板列表,
+ 请求url: https://easy.lagou.com/im/greeting/list.json,
+ 响应结果: {&#x27;state&#x27;: 1, &#x27;message&#x27;: &#x27;操作成功&#x27;, &#x27;content&#x27;: {&#x27;data&#x27;: {&#x27;lagoutitle&#x27;: &#x27;招呼模板 - 拉勾&#x27;}, &#x27;rows&#x27;: [{&#x27;id&#x27;: &#x27;84_b_1&#x27;, &#x27;name&#x27;: &#x27;模板一&#x27;, &#x27;content&#x27;: &#x27;你好，在考虑新的工作机会吗？希望可以和你进一步沟通~&#x27;, &#x27;defaults&#x27;: True}, {&#x27;id&#x27;: &#x27;84_b_2&#x27;, &#x27;name&#x27;: &#x27;模板二&#x27;, &#x27;content&#x27;: &#x27;你好，看了你的介绍，我们这个职位正在急招，方便聊一下么？&#x27;, &#x27;defaults&#x27;: False}, {&#x27;id&#x27;: &#x27;84_b_3&#x27;, &#x27;name&#x27;: &#x27;模板三&#x27;, &#x27;content&#x27;: &#x27;你好，对这个职位感兴趣么？正在急招~&#x27;, &#x27;defaults&#x27;: False}]}}
+
+util.py                    189 INFO     招呼模板列表成功
+util.py                     88 INFO     
+请求目的: 快捷回复列表,
+ 请求url: https://easy.lagou.com/im/quickReply/list.json,
+ 响应结果: {&#x27;state&#x27;: 1, &#x27;message&#x27;: &#x27;操作成功&#x27;, &#x27;content&#x27;: {&#x27;rows&#x27;: [{&#x27;id&#x27;: &#x27;5c7cfb51787637000ea817be&#x27;, &#x27;content&#x27;: &#x27;你好，我对你的经历比较感兴趣，目前考虑新的机会吗？&#x27;, &#x27;updateTime&#x27;: 1551694673928, &#x27;userId&#x27;: 84, &#x27;top&#x27;: False}, {&#x27;id&#x27;: &#x27;5c7c9ff4787637000ea817b0&#x27;, &#x27;content&#x27;: &#x27;你好，感觉你比较符合我们的职位要求，方便发个简历详细聊聊吗？&#x27;, &#x27;updateTime&#x27;: 1551694670764, &#x27;userId&#x27;: 84, &#x27;top&#x27;: True}, {&#x27;id&#x27;: &#x27;5c7c9ff4787637000ea817b1&#x27;, &#x27;content&#x27;: &#x27;抱歉，就我目前看到的信息，你和我们的职位不太匹配，感谢你的关注~&#x27;, &#x27;userId&#x27;: 84, &#x27;top&#x27;: False}, {&#x27;id&#x27;: &#x27;5c7c9ff4787637000ea817b2&#x27;, &#x27;content&#x27;: &#x27;很抱歉，暂时不再招人了~&#x27;, &#x27;userId&#x27;: 84, &#x27;top&#x27;: False}]}}
+
+util.py                    189 INFO     快捷回复列表成功
+util.py                     88 INFO     
+请求目的: 快捷回复添加、修改,
+ 请求url: https://easy.lagou.com/im/quickReply/save.json?id=5c7cfb51787637000ea817be&amp;content=%E6%B5%8B%E8%AF%95%E6%B5%8B%E8%AF%95%E8%BD%A6%E5%B8%82%E6%98%AF%E6%98%AF%E5%95%A5is%E5%8F%91%E5%9C%B0%E6%96%B9%E7%AE%80%E5%8E%86%E7%82%B9%E5%87%BB%E6%B3%95%E6%8B%89%E7%9B%9B%E8%A7%A3%E6%94%BE%E8%B7%AF%E6%B3%95%E5%BE%8B%E7%9A%84%E8%A7%A3%E6%94%BE%E8%B7%AF%E5%8F%A3,
+ 响应结果: {&#x27;state&#x27;: 1, &#x27;message&#x27;: &#x27;操作成功&#x27;, &#x27;content&#x27;: {&#x27;rows&#x27;: []}}
+
+util.py                    189 INFO     快捷回复添加、修改成功
+util.py                     88 INFO     
+请求目的: 删除新增的模版,
+ 请求url: https://easy.lagou.com/im/quickReply/delete/5c7cfb51787637000ea817be.json,
+ 响应结果: {&#x27;state&#x27;: 1, &#x27;message&#x27;: &#x27;操作成功&#x27;, &#x27;content&#x27;: {&#x27;rows&#x27;: []}}
+
+util.py                    189 INFO     删除模版成功
+util.py                     88 INFO     
+请求目的: 快捷回复列表,
+ 请求url: https://easy.lagou.com/im/quickReply/list.json,
+ 响应结果: {&#x27;state&#x27;: 1, &#x27;message&#x27;: &#x27;操作成功&#x27;, &#x27;content&#x27;: {&#x27;rows&#x27;: [{&#x27;id&#x27;: &#x27;5c7c9ff4787637000ea817b0&#x27;, &#x27;content&#x27;: &#x27;你好，感觉你比较符合我们的职位要求，方便发个简历详细聊聊吗？&#x27;, &#x27;updateTime&#x27;: 1551694670764, &#x27;userId&#x27;: 84, &#x27;top&#x27;: True}, {&#x27;id&#x27;: &#x27;5c7c9ff4787637000ea817b1&#x27;, &#x27;content&#x27;: &#x27;抱歉，就我目前看到的信息，你和我们的职位不太匹配，感谢你的关注~&#x27;, &#x27;userId&#x27;: 84, &#x27;top&#x27;: False}, {&#x27;id&#x27;: &#x27;5c7c9ff4787637000ea817b2&#x27;, &#x27;content&#x27;: &#x27;很抱歉，暂时不再招人了~&#x27;, &#x27;userId&#x27;: 84, &#x27;top&#x27;: False}]}}
+
+util.py                    189 INFO     快捷回复列表成功
+util.py                     88 INFO     
+请求目的: 快捷回复置顶,
+ 请求url: https://easy.lagou.com/im/quickReply/top/5c7c9ff4787637000ea817b0.json,
+ 响应结果: {&#x27;state&#x27;: 1, &#x27;message&#x27;: &#x27;操作成功&#x27;, &#x27;content&#x27;: {&#x27;rows&#x27;: []}}
+
+util.py                    189 INFO     快捷回复置顶成功
+util.py                     88 INFO     
+请求目的: 快捷回复列表,
+ 请求url: https://easy.lagou.com/im/quickReply/list.json,
+ 响应结果: {&#x27;state&#x27;: 1, &#x27;message&#x27;: &#x27;操作成功&#x27;, &#x27;content&#x27;: {&#x27;rows&#x27;: [{&#x27;id&#x27;: &#x27;5c7c9ff4787637000ea817b0&#x27;, &#x27;content&#x27;: &#x27;你好，感觉你比较符合我们的职位要求，方便发个简历详细聊聊吗？&#x27;, &#x27;updateTime&#x27;: 1551694741719, &#x27;userId&#x27;: 84, &#x27;top&#x27;: True}, {&#x27;id&#x27;: &#x27;5c7c9ff4787637000ea817b1&#x27;, &#x27;content&#x27;: &#x27;抱歉，就我目前看到的信息，你和我们的职位不太匹配，感谢你的关注~&#x27;, &#x27;userId&#x27;: 84, &#x27;top&#x27;: False}, {&#x27;id&#x27;: &#x27;5c7c9ff4787637000ea817b2&#x27;, &#x27;content&#x27;: &#x27;很抱歉，暂时不再招人了~&#x27;, &#x27;userId&#x27;: 84, &#x27;top&#x27;: False}]}}
+
+util.py                    189 INFO     快捷回复列表成功
+util.py                     88 INFO     
+请求目的: 快捷回复添加、修改,
+ 请求url: https://easy.lagou.com/im/quickReply/save.json?&amp;content=你好，我对你的经历比较感兴趣，目前考虑新的机会吗？,
+ 响应结果: {&#x27;state&#x27;: 1, &#x27;message&#x27;: &#x27;操作成功&#x27;, &#x27;content&#x27;: {&#x27;rows&#x27;: []}}
+
+util.py                    189 INFO     快捷回复添加、修改成功</div></td></tr></tbody></table></body></html>
