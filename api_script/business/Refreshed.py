@@ -28,6 +28,5 @@ def Refreshed(second):
         time.sleep(second)
         jsonobject = form_post(url=refresh_url,headers=refresh_header,data=refresh_data,remark='刷新职位')
         assert_equal("操作成功",a,"首次刷新成功","首次刷新失败")
-#Refreshed(3000)
 
 

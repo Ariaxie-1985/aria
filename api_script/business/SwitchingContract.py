@@ -18,10 +18,10 @@ def lagouPlus(templateId):
     查看套餐是否正常
     :return:
     '''
-
+    login_home("18810896987", "c47eeb69fa4e64971fb29cb1e9163a19")
     header=get_header("https://home.lagou.com/")
     Request_url="https://home.lagou.com/crm/contractController/list.json"
-    data={"companyId":142136}
+    data={"companyId":14}
     object=form_post(url=Request_url,remark="查询当前公司下的合同",data=data,headers=header)
     #childaccount = jsonobject.json()['content']['data']['subAcccountPage']['totalCount']
     number=object['data']['pageData'][0]['number']
@@ -36,7 +36,7 @@ def lagouPlus(templateId):
     '''
     contractnumurl="https://home.lagou.com/crm/valueadded/product/open.json"
 
-    data={"templateId":templateId,"num":1,"companyId":142136,"contractNo":"LG-HD-WANGXIA-18112801","userId":100014641,"startTimeStr":"2019-01-07","endTimeStr":"2020-01-10","upgrade":"false"}
+    data={"templateId":templateId,"num":1,"companyId":14,"contractNo":"LG-HD-WANGXIA-2019030401","userId":84,"startTimeStr":"2019-01-07","endTimeStr":"2020-01-10","upgrade":"false"}
     object=form_post(url=contractnumurl,remark="新增合同, 其id: "+str(templateId),data=data,headers=header)
     # treatycontents=get_requests(url="https://home.lagou.com/crm/olddata/queryByCsv.json?userId=100014641&pageIndex=0&pageSize=100&sortField=&sortOrder=&_=1546593382369",headers=header,remark="获取合同内容")
     # print(treatycontents.json())
@@ -50,4 +50,3 @@ def lagouPlus(templateId):
     # users=treatycontents.json()['data'][3]['num']
     # print(str(str(TotalNum)+str(Pluspower)+str(PostsnNumber)+str(users)))
     # assert_equal("999.01.0999.0999.0",str(TotalNum)+str(Pluspower)+str(PostsnNumber)+str(users),"对比套餐内容，所得内容正确17版","对比套餐内容，所得内容不匹配")
-

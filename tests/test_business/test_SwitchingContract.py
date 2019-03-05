@@ -24,4 +24,4 @@ def test_lagouPlus(login_home_k8s_env_b):
     查看套餐是否正常
     :return:
     '''
-    lagouPlus(87)
+    lagouPlus(6)
