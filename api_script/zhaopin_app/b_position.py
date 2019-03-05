@@ -72,7 +72,7 @@ def post_positions(firstType, positionType, positionThirdType, positionName):
 		"positionThirdType": positionThirdType,
 		"jobNature": "全职",
 		"education": "本科",
-		"workAddressId": 191880,
+		"workAddressId": 7,
 		# "workAddressId": 191882,
 		"department": "技术部",
 		"salaryMax": 30,
@@ -103,7 +103,7 @@ def update_position(positionId):
 	data = {
 		"education": "本科",
 		"positionId": positionId,
-		"workAddressId": 191880,
+		"workAddressId": 7,
 		"jobNature": "全职",
 		"positionDesc": "22222222222222222222",
 		"workYear": "3-5年",

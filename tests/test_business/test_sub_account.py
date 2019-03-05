@@ -15,8 +15,8 @@ from utils.read_file import get_yaml_test_data
 test_data = get_yaml_test_data("test_sub_account.yaml")
 
 templateId = test_data['templateId']
-userId_list = [100014642, 100014643]
-invalidUserId = 100014642
+userId_list = [90, 95]
+invalidUserId = 90
 
 '''
 验证在不同套餐版本下子账号的添加, 权益调整, 移除, 无效后再恢复, 调整为分账号
