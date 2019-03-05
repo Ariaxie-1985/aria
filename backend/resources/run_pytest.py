@@ -119,9 +119,9 @@ class run_Pytest(Resource):
         state = 0
         info = None
         if args['module'] == "business":
-            # subprocess.call("sh {}/run_business.sh".format(project_path), shell=True)
-            subprocess.run("pytest {}/tests/test_business/".format(project_path), shell=True,
-                           stdout=subprocess.PIPE)
+            subprocess.call("sh {}/run_business.sh".format(project_path), shell=True)
+            # subprocess.run("pytest {}/tests/test_business/".format(project_path), shell=True,
+            #                stdout=subprocess.PIPE)
             result = analysis_html_report("{}/backend/templates/report.html".format(project_path), 1)
             state = 1
             info = {"result": result}
