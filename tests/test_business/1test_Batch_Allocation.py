@@ -30,7 +30,7 @@ def test_batch_allocation():
     print(goods_list)
     # print(r)
 
-    userId_list = [100014642, 100014643]
+    userId_list = [90, 95]
     batch_allocation(userId_list)
 
 def test_batchAllocate():
@@ -47,6 +47,6 @@ def test_batchAllocate():
     print(goods_list)
     # print(r)
 
-    userId_list = [100014642, 100014643]
+    userId_list = [90, 95]
     batchAllocate(userId_list, user_goods_info)
 

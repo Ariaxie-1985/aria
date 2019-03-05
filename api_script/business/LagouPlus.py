@@ -10,7 +10,7 @@ import json
 '''
 获取当前时间
 '''
-login_home("anan@lagou.com","990eb670f81e82f546cfaaae1587279a")
+login_home("18810896987", "c47eeb69fa4e64971fb29cb1e9163a19")
 
 def lagouPlus():
     '''
@@ -22,7 +22,7 @@ def lagouPlus():
 
     header=get_header("https://home.lagou.com/")
     Request_url="https://home.lagou.com/crm/contractController/list.json"
-    data={"companyId":142136}
+    data={"companyId":14}
     object=form_post(url=Request_url,remark="查询当前公司下的合同",data=data,headers=header)
     #childaccount = jsonobject.json()['content']['data']['subAcccountPage']['totalCount']
     number=object['data']['pageData'][0]['number']
@@ -37,10 +37,10 @@ def lagouPlus():
     '''
     contractnumurl="https://home.lagou.com/crm/valueadded/product/open.json"
 
-    data={"templateId":87,"num":1,"companyId":142136,"contractNo":"LG-HD-WANGXIA-18112801","userId":100014641,"startTimeStr":"2019-01-07","endTimeStr":"2020-01-10","upgrade":"false"}
+    data={"templateId":6,"num":1,"companyId":14,"contractNo":"LG-HD-WANGXIA-2019030401","userId":84,"startTimeStr":"2019-01-07","endTimeStr":"2020-01-10","upgrade":"false"}
     object=form_post(url=contractnumurl,remark="新增17版合同",data=data,headers=header)
     print(object)
-    treatycontents=get_requests(url="https://home.lagou.com/crm/olddata/queryByCsv.json?userId=100014641&pageIndex=0&pageSize=100&sortField=&sortOrder=&_=1546593382369",headers=header,remark="获取合同内容")
+    treatycontents=get_requests(url="https://home.lagou.com/crm/olddata/queryByCsv.json?userId=84&pageIndex=0&pageSize=100&sortField=&sortOrder=&_=1546593382369",headers=header,remark="获取合同内容")
     print(treatycontents.json())
     #在线职位数
     TotalNum=treatycontents.json()['data'][0]['num']
@@ -50,10 +50,12 @@ def lagouPlus():
     PostsnNumber=treatycontents.json()['data'][2]['num']
     #子账号数
     users=treatycontents.json()['data'][3]['num']
+    print('?????')
     print(str(str(TotalNum)+str(Pluspower)+str(PostsnNumber)+str(users)))
-    assert_equal("999.01.0999.0999.0",str(TotalNum)+str(Pluspower)+str(PostsnNumber)+str(users),"对比套餐内容，所得内容正确17版","对比套餐内容，所得内容不匹配")
+    print ('????')
+    assert_equal("1.01000.01.01000.0",str(TotalNum)+str(Pluspower)+str(PostsnNumber)+str(users),"对比套餐内容，所得内容正确17版","对比套餐内容，所得内容不匹配")
 
-#lagouPlus()
+lagouPlus()
 
 
 def lagouPlusqiu():
@@ -65,7 +67,7 @@ def lagouPlusqiu():
     '''
     header=get_header("https://home.lagou.com/")
     Request_url="https://home.lagou.com/crm/contractController/list.json"
-    data={"companyId":142136}
+    data={"companyId":14}
     object=form_post(url=Request_url,remark="查询当前公司下的合同",data=data,headers=header)
     #childaccount = jsonobject.json()['content']['data']['subAcccountPage']['totalCount']
     number=object['data']['pageData'][0]['number']
@@ -79,16 +81,18 @@ def lagouPlusqiu():
     增加17版合同,增加的固定合同
     '''
     contractnumurl="https://home.lagou.com/crm/valueadded/product/open.json"
-    data={"templateId":88,"num":1,"companyId":142136,"contractNo":"LG-HD-WANGXIA-18112801","userId":100014641,"startTimeStr":"2019-01-07","endTimeStr":"2020-01-10","upgrade":"false"}
+    data={"templateId":6,"num":1,"companyId":14,"contractNo":"LG-HD-WANGXIA-2019030401","userId":84,"startTimeStr":"2019-01-07","endTimeStr":"2020-01-10","upgrade":"false"}
     object=form_post(url=contractnumurl,remark="新增18版合同",data=data,headers=header)
     print(object)
-    treatycontents=get_requests(url="https://home.lagou.com/crm/olddata/queryByCsv.json?userId=100014641&pageIndex=0&pageSize=100&sortField=&sortOrder=&_=1546593382369",headers=header,remark="获取合同内容")
+    treatycontents=get_requests(url="https://home.lagou.com/crm/olddata/queryByCsv.json?userId=84&pageIndex=0&pageSize=100&sortField=&sortOrder=&_=1546593382369",headers=header,remark="获取合同内容")
     print(treatycontents.json())
     #在线职位数
     TotalNum=treatycontents.json()['data'][0]['num']
-    #子账号数
+    #子账号
     users=treatycontents.json()['data'][1]['num']
-    assert_equal("10.010.0",str(TotalNum)+str(users),"对比套餐内容，所得内容正确18版","对比套餐内容，所得内容不匹配")
+    print('?????')
+    print(str(TotalNum)+str(users))
+    assert_equal("1.01000.0",str(TotalNum)+str(users),"对比套餐内容，所得内容正确18版","对比套餐内容，所得内容不匹配")
     '''
       先终止合同
       '''
@@ -97,6 +101,6 @@ def lagouPlusqiu():
     object=form_post(url=Request_url,remark="终止所有合同",data=data,headers=header)
 
     contractnumurl="https://home.lagou.com/crm/valueadded/product/open.json"
-    data={"templateId":76,"num":1,"companyId":142136,"contractNo":"LG-HD-WANGXIA-18112801","userId":100014641,"startTimeStr":"2019-01-07","endTimeStr":"2020-01-10","upgrade":"false"}
+    data={"templateId":6,"num":1,"companyId":14,"contractNo":"LG-HD-WANGXIA-2019030401","userId":84,"startTimeStr":"2019-01-07","endTimeStr":"2020-01-10","upgrade":"false"}
     object=form_post(url=contractnumurl,remark="新增18版合同",data=data,headers=header)
-#lagouPlusqiu()
+lagouPlusqiu()

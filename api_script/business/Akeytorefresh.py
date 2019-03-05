@@ -54,6 +54,6 @@ def Refreshed(second):
         jsonobject = form_post(url=refresh_url,headers=refresh_header,data=refresh_data,remark='刷新职位')
         assert_equal("操作成功",a,"一键刷新成功","一键刷新失败")
 
-# akeyRefresh(3000)
-# Refreshed(3000)
+akeyRefresh(3000)
+Refreshed(3000)
 
