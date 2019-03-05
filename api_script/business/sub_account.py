@@ -66,7 +66,10 @@ def get_subaccunt_goods(userId_list):
 		querygoodsList_data = {'userId': userId}
 		remark = "获取子账号调整为分账号的权益id"
 		r = form_post(url=querygoodsList_url, headers=querygoodsList_header, data=querygoodsList_data, remark=remark)
-		portrait = r['content']['data']['portrait']
+		try:
+			portrait = r['content']['data']['portrait']
+		except KeyError:
+			portrait = None
 		name = r['content']['data']['userName']
 		if r['content']['data']['info'][-1]['baseGoodsName'] == "子账号数":
 			subaccunt_goodslist[userId] = [portrait, name, r['content']['data']['info'][-1]['baseGoodsId']]

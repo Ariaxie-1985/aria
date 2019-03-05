@@ -1,6 +1,8 @@
 # coding:utf-8
 # @Time  : 2018-12-26 15:37
 # @Author: Xiawang
+import pytest
+
 from api_script.business.SwitchingContract import lagouPlus
 from api_script.business.sub_account import add_sub_account, remove_sub_account, get_userId, reAssignAllGoods, \
 	get_user_goods_info, reAssign_subaccount_Goods, get_invalidUserId, get_subaccunt_goods, recover_sub_account
@@ -43,6 +45,7 @@ def test_add_sub_account(login_web_k8s_env_b):
 	assert_equal(userId_list[1], userId_r, "添加子账号成功, 其userId: " + str(userId_r), "添加子账号失败, 其响应内容: " + str(r))
 
 
+userinfolist = {}
 def test_reAssignAllGoods():
 	'''
 	调整子账号的权益
@@ -68,6 +71,7 @@ def test_reAssign_subaccount_Goods():
 	assert_equal("调整成功", r['message'], "调整子账号为分账号成功, 其userId: " + str(userId_list), "调整子账号为分账号失败, 其响应内容: " + str(r))
 
 
+@pytest.mark.skipif(userinfolist == {},reason="没获取到商品信息就跳过批量分配")
 def test_Batch_Allocation():
 	'''
 	批量分配

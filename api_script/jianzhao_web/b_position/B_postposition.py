@@ -14,7 +14,7 @@ def post_position():
                            'jobNature': '全职', 'salaryMin': '11', 'salaryMax': '12', 'education': '不限',
                            'positionBrightPoint': '11111',
                            'positionDesc': '<p>111111111111111111111111111111111111111111111</p>',
-                           'workAddressId': '191880',
+                           'workAddressId': '7',
                            'labels': '[{"id":"1","name":"电商"}]', 'extraInfor': '[{"labels":[{"id":"1","name":"电商"}]}]',
                            'channels': '108', 'useEnergyCard': 'false', 'recommend': 'false', "useEnergyCard": "false",
                            'workYear': '应届毕业生', 'typeId': ''}
