@@ -174,7 +174,7 @@ class B_Basic_Process(Resource):
                     Application['company'] = "公司申请认证成功"
                     state = 2
 
-                login_home("anan@lagou.com", "990eb670f81e82f546cfaaae1587279a")
+                login_home("18810896987", "c47eeb69fa4e64971fb29cb1e9163a19")
                 r8 = passCompanyApprove()
                 if r8['success'] != True:
                     state = 400
