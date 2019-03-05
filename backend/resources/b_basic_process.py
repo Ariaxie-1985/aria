@@ -146,7 +146,7 @@ class B_Basic_Process(Resource):
                 CompanyInfo['companyFullName'] = args['companyFullName']
 
             try:
-                login_home("anan@lagou.com", "990eb670f81e82f546cfaaae1587279a")
+                login_home("18810896987", "c47eeb69fa4e64971fb29cb1e9163a19")
                 r51, r52, r53 = passPersonApprove()
                 if r51['success'] != True:
                     state = 400

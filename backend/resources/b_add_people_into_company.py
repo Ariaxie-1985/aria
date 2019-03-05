@@ -124,7 +124,7 @@ class B_Add_People_Into_Company(Resource):
                 HRInfo['countryCode'] = args['countryCode']
                 CompanyInfo['companyFullName'] = args['companyFullName']
 
-            login_home("anan@lagou.com", "990eb670f81e82f546cfaaae1587279a")
+            login_home("18810896987", "c47eeb69fa4e64971fb29cb1e9163a19")
 
             r51, r52, r53 = passPersonApprove()
             try:
