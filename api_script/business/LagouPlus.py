@@ -5,7 +5,7 @@
 home,在当前公司的合同下增加17和18套餐
 '''
 
-from utils.util import login_home,get_code_token,form_post,get_header,get_requests,assert_equal
+from utils.util import login_home,get_code_token,form_post,get_header,get_requests,assert_equal,wait
 import json
 '''
 获取当前时间
@@ -30,6 +30,7 @@ def lagouPlus():
     先终止合同
     '''
     Request_url="https://home.lagou.com/crm/valueadded/product/close.json"
+
     data={"contractNo":number}
     object=form_post(url=Request_url,remark="终止所有合同",data=data,headers=header)
     '''
@@ -75,6 +76,7 @@ def lagouPlusqiu():
     先终止合同
     '''
     Request_url="https://home.lagou.com/crm/valueadded/product/close.json"
+    wait(5000)
     data={"contractNo":number}
     object=form_post(url=Request_url,remark="终止所有合同",data=data,headers=header)
     '''
@@ -103,5 +105,5 @@ def lagouPlusqiu():
     contractnumurl="https://home.lagou.com/crm/valueadded/product/open.json"
     data={"templateId":6,"num":1,"companyId":14,"contractNo":"LG-HD-WANGXIA-2019030401","userId":84,"startTimeStr":"2019-01-07","endTimeStr":"2020-01-10","upgrade":"false"}
     object=form_post(url=contractnumurl,remark="变成万能合同",data=data,headers=header)
-# lagouPlusqiu()
+lagouPlusqiu()
 
