@@ -55,7 +55,7 @@ def lagouPlus():
     print ('????')
     assert_equal("50.050.050.014.0",str(TotalNum)+str(Pluspower)+str(PostsnNumber)+str(users),"对比套餐内容，所得内容正确免费版","对比套餐内容，所得内容不匹配")
 
-lagouPlus()
+# lagouPlus()
 
 
 def lagouPlusqiu():
@@ -103,4 +103,5 @@ def lagouPlusqiu():
     contractnumurl="https://home.lagou.com/crm/valueadded/product/open.json"
     data={"templateId":6,"num":1,"companyId":14,"contractNo":"LG-HD-WANGXIA-2019030401","userId":84,"startTimeStr":"2019-01-07","endTimeStr":"2020-01-10","upgrade":"false"}
     object=form_post(url=contractnumurl,remark="新增18版合同",data=data,headers=header)
-lagouPlusqiu()
+# lagouPlusqiu()
+
