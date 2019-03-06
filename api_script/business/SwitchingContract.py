@@ -5,7 +5,7 @@
 登录home 然后根据版本号更换套餐
 '''
 
-from utils.util import login_home,form_post,get_header
+from utils.util import login_home, form_post, get_header, login_home_code
 import json
 '''
 获取当前时间
@@ -18,7 +18,7 @@ def lagouPlus(templateId):
     查看套餐是否正常
     :return:
     '''
-    login_home("18810896987", "c47eeb69fa4e64971fb29cb1e9163a19")
+    login_home_code("0086", "18810896987")
     header=get_header("https://home.lagou.com/")
     Request_url="https://home.lagou.com/crm/contractController/list.json"
     data={"companyId":14}

@@ -10,7 +10,7 @@ from utils.util import login, assert_equal
 
 
 def setup_module(module):
-	lagouPlus(90)
+	lagouPlus(6)
 
 
 def teardown_module(module):
