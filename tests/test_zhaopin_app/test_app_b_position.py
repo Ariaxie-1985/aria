@@ -49,18 +49,18 @@ def test_post_positions(positionName):
                          positionType,
                          positionThirdType,
                          positionName)
+    global positionId
+    positionId = res['content']['mdsPositionId']
     assert_equal(1, res['state'], "发布职位成功", "发布职位失败")
 
 
 def test_get_online_positions():
     res = get_online_positions()
-    global positionId
-    positionId = str(res['content']['positions']['result'][0]['positionId'])
-    ids = []
-    for i in res['content']['positions']['result']:
-        ids.append(i['positionId'])
-    assert_equal(True, int(positionId) in ids, "职位id: " + positionId + "在在线职位列表里",
-                 "职位id:" + positionId + " 不在在线职位列表里")
+    ids = [i['positionId'] for i in res['content']['positions']['result']]
+    # for i in res['content']['positions']['result']:
+    #     ids.append(i['positionId'])
+    assert_equal(True, positionId in ids, "职位id: " + str(positionId) + "在在线职位列表里",
+                 "职位id:" + str(positionId) + " 不在在线职位列表里")
 
 
 def test_positions_details():
@@ -90,17 +90,17 @@ def test_apply_privilege_position(apply_privilege_position_userId):
 
 
 def test_refresh_position():
-    res = refresh_position(positionId)
+    res = refresh_position(str(positionId))
     assert_equal(1, res['state'], "刷新职位成功", "刷新职位失败")
 
 
 def test_up_position_ranking():
-    res = up_position_ranking(positionId)
+    res = up_position_ranking(str(positionId))
     assert_equal(1, res['state'], "提升职位排名成功", "提升职位排名失败")
 
 
 def test_positions_top_check():
-    res = positions_top_check(positionId)
+    res = positions_top_check(str(positionId))
     assert_equal(1, res['state'], "职位置顶卡校验成功", "职位置顶卡校验失败")
 
 

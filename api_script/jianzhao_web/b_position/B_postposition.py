@@ -8,7 +8,7 @@ def post_position():
     refer_createPosition_url = "https://easy.lagou.com/position/multiChannel/createPosition.htm"
     Position_header = get_code_token(refer_createPosition_url)
     createPosition_url = "https://easy.lagou.com/parentPosition/multiChannel/create.json"
-    createPosition_data = {'isSchoolJob': '0', 'channelTypes': 'LAGOU', 'firstType': '开发|测试|运维类',
+    createPosition_data = {'isSchoolJob': '1', 'channelTypes': 'LAGOU', 'firstType': '开发|测试|运维类',
                            'positionType': '后端开发',
                            'positionThirdType': 'Python', 'positionName': 'python后端开发拉勾测试', 'department': '111',
                            'jobNature': '全职', 'salaryMin': '11', 'salaryMax': '12', 'education': '不限',

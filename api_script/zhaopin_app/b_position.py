@@ -64,12 +64,12 @@ def post_positions(firstType, positionType, positionThirdType, positionName):
 		}],
 		"positionType": positionType,
 		"positionDesc": "<p>11111111111111111111111111111</p>",
-		"workYear": "1-3年",
+		"workYear": "应届毕业生",
 		"salaryMin": 20,
 		"firstType": firstType,
 		"positionName": positionName,
 		"positionBrightPoint": "20薪",
-		"recruitmentType":1,
+		"recruitmentType":0,
 		"positionThirdType": positionThirdType,
 		"jobNature": "全职",
 		"education": "本科",
@@ -102,25 +102,23 @@ def update_position(positionId):
 	'''
 	url = host + "/positions/update"
 	data = {
-		"education": "本科",
-		"positionId": positionId,
-		"workAddressId": 7,
-		"jobNature": "全职",
-		"positionDesc": "22222222222222222222",
-		"workYear": "3-5年",
-		"department": "技术工程部",
-		"positionBrightPoint": "50薪",
-		"salaryMin": 25,
 		"labels": [{
-			"name": "旅游",
-			"id": 9
-		}, {
-			"name": "本地生活",
-			"id": 5
+			"name": "电商",
+			"id": 1
 		}],
-		"salaryMax": 30
+		"positionDesc": "这工作不错！",
+		"positionBrightPoint": "20薪",
+		"salaryMax": 12,
+		"recruitmentType": 0,
+		"positionId": positionId,
+		"education": "不限",
+		"jobNature": "全职",
+		"workAddressId": 7,
+		"department": "111",
+		"workYear": "应届毕业生",
+		"salaryMin": 11
 	}
-	remark = "发布职位"
+	remark = "更新校招职位"
 	return json_put(url=url, headers=headers, data=data, remark=remark)
 
 
