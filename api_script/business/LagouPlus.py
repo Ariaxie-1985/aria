@@ -105,5 +105,5 @@ def lagouPlusqiu():
     contractnumurl="https://home.lagou.com/crm/valueadded/product/open.json"
     data={"templateId":6,"num":1,"companyId":14,"contractNo":"LG-HD-WANGXIA-2019030401","userId":84,"startTimeStr":"2019-01-07","endTimeStr":"2020-01-10","upgrade":"false"}
     object=form_post(url=contractnumurl,remark="变成万能合同",data=data,headers=header)
-lagouPlusqiu()
+# lagouPlusqiu()
 
