@@ -42,14 +42,17 @@ def get_user_goods_info(userId_list):
 		querygoodsList_data = {'userId': userId}
 		remark = "获取调整的子账号的用户名称、头像、权益id"
 		r = form_post(url=querygoodsList_url, headers=querygoodsList_header, data=querygoodsList_data, remark=remark)
-		portrait = r['content']['data']['portrait']
-		name = r['content']['data']['userName']
-		user_goods_info[userId] = [portrait, name]
-		if r['content']['data']['info'][0]['baseGoodsName'] != "子账号数":
-			if r['content']['data']['info'][1]['baseGoodsName'] != "子账号数":
-				goods_list.append(r['content']['data']['info'][0]['baseGoodsId'])
-				goods_list.append(r['content']['data']['info'][1]['baseGoodsId'])
-				user_goods_info[userId].append(goods_list)
+		try:
+			portrait = r['content']['data']['portrait']
+			name = r['content']['data']['userName']
+			user_goods_info[userId] = [portrait, name]
+			if r['content']['data']['info'][0]['baseGoodsName'] != "子账号数":
+				if r['content']['data']['info'][1]['baseGoodsName'] != "子账号数":
+					goods_list.append(r['content']['data']['info'][0]['baseGoodsId'])
+					goods_list.append(r['content']['data']['info'][1]['baseGoodsId'])
+					user_goods_info[userId].append(goods_list)
+		except KeyError:
+			user_goods_info[userId] = "无子账号信息"
 	return user_goods_info
 
 
@@ -205,3 +208,4 @@ def reAssign_subaccount_Goods(subaccunt_goodslist):
 # goodslist = get_goodsList()
 # reAssignAllGoods(userinfo[0],userinfo[1],userinfo[2],goodslist)
 # recover_sub_account(userId)
+# get_user_goods_info([90])
