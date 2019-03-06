@@ -25,6 +25,7 @@ def get_file_path(file):
 	# 获取当前脚本所在文件夹路径
 	if os.name == "nt":
 		curPath = os.getcwd() + "\\tests\\testdata"
+		print(curPath)
 	else:
 		curPath = os.getcwd() + "/tests/testdata"
 

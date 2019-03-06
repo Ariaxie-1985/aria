@@ -9,8 +9,6 @@ def setup_module(module):
     pass
 
 
-def teardown_module(module):
-    pass
 
 def test_Refreshed(login_web_k8s_env_b):
     '''
@@ -19,4 +17,6 @@ def test_Refreshed(login_web_k8s_env_b):
     '''
     Refreshed(30)
 
+def teardown_module(module):
+    pass
 
