@@ -5,7 +5,8 @@
 home,在当前公司的合同下增加17和18套餐
 '''
 
-from utils.util import login_home,get_code_token,form_post,get_header,get_requests,assert_equal,wait
+from utils.util import login_home, get_code_token, form_post, get_header, get_requests, assert_equal, wait, \
+    login_home_code
 import json
 '''
 获取当前时间
