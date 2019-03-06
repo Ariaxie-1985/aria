@@ -8,7 +8,7 @@ from api_script.jianzhao_web.b_basic.home_review_company_4 import passCompanyApp
 from api_script.jianzhao_web.b_basic.home_review_person_2 import passPersonApprove
 from api_script.jianzhao_web.b_basic.toB_comleteInfo_3 import completeInfo_process
 from api_script.jianzhao_web.b_basic.toB_saveHR_1 import saveHR_process
-from utils.util import login_home, login
+from utils.util import login_home, login, login_home_code
 
 
 class B_Basic_Process(Resource):
@@ -146,7 +146,7 @@ class B_Basic_Process(Resource):
                 CompanyInfo['companyFullName'] = args['companyFullName']
 
             try:
-                login_home("18810896987", "c47eeb69fa4e64971fb29cb1e9163a19")
+                login_home_code("0086", "18810896987")
                 r51, r52, r53 = passPersonApprove()
                 if r51['success'] != True:
                     state = 400
@@ -174,7 +174,7 @@ class B_Basic_Process(Resource):
                     Application['company'] = "公司申请认证成功"
                     state = 2
 
-                login_res = login_home("18810896987", "c47eeb69fa4e64971fb29cb1e9163a19")
+                login_res = login_home_code("0086", "18810896987")
                 if not (login_res['state'] is 1):
                     info = "home后台登录失败，无法继续审核操作"
                 else:

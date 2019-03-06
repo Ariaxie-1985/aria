@@ -5,7 +5,7 @@ from flask_restful import Resource, reqparse
 
 from api_script.jianzhao_web.b_basic.home_review_person_2 import passPersonApprove
 from api_script.jianzhao_web.b_basic.toB_saveHR_1 import add_people_into_company
-from utils.util import login_home
+from utils.util import login_home, login_home_code
 
 
 class B_Add_People_Into_Company(Resource):
@@ -124,7 +124,7 @@ class B_Add_People_Into_Company(Resource):
                 HRInfo['countryCode'] = args['countryCode']
                 CompanyInfo['companyFullName'] = args['companyFullName']
 
-            login_res = login_home("18810896987", "c47eeb69fa4e64971fb29cb1e9163a19")
+            login_res = login_home_code("0086", "18810896987")
             if not (login_res['state'] is 1):
                 info = "home后台登录失败，无法继续审核操作"
             else:
