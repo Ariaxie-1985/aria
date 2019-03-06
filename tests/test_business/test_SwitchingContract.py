@@ -14,9 +14,6 @@ def setup_module(module):
     pass
 
 
-def teardown_module(module):
-    pass
-
 def test_lagouPlus(login_home_k8s_env_b):
     '''
     终止当前套餐
@@ -25,3 +22,7 @@ def test_lagouPlus(login_home_k8s_env_b):
     :return:
     '''
     lagouPlus(6)
+
+
+def teardown_module(module):
+    pass

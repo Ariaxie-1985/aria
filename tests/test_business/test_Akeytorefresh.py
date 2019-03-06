@@ -4,6 +4,7 @@
 import pytest
 
 from api_script.business.Akeytorefresh import akeyRefresh, Refreshed
+
 from utils.util import login
 
 
@@ -11,14 +12,14 @@ def setup_module(module):
 	pass
 
 
-def teardown_module(module):
-	pass
+
 
 
 def test_akeyRefresh(login_web_k8s_env_b):
 	''''
 	获取第二个职位进行一键刷新
 	'''
+
 	akeyRefresh(30)
 
 
@@ -29,3 +30,5 @@ def test_Refreshed():
 	:return:
 	'''
 	Refreshed(30)
+def teardown_module(module):
+	pass

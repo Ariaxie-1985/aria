@@ -6,6 +6,9 @@ from utils.util import login
 from utils.read_file import get_yaml_test_data
 
 
+
+def setup_module(module):
+    pass
 # login('00852','20181205')
 def test_refresh(login_web_k8s_env_b):
     logging.getLogger().setLevel(logging.INFO)
@@ -30,3 +33,6 @@ def test_refresh(login_web_k8s_env_b):
 
 
 # test_refresh()
+
+def teardown_module(module):
+    pass
