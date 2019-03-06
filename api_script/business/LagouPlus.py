@@ -10,7 +10,7 @@ import json
 '''
 获取当前时间
 '''
-login_home("18810896987", "c47eeb69fa4e64971fb29cb1e9163a19")
+
 
 def lagouPlus():
     '''
@@ -19,7 +19,7 @@ def lagouPlus():
     查看套餐是否正常
     :return:
     '''
-
+    login_home("18810896987", "c47eeb69fa4e64971fb29cb1e9163a19")
     header=get_header("https://home.lagou.com/")
     Request_url="https://home.lagou.com/crm/contractController/list.json"
     data={"companyId":14}
@@ -66,10 +66,13 @@ def lagouPlusqiu():
     查看套餐是否正常
     :return:
     '''
+    login_home("18810896987", "c47eeb69fa4e64971fb29cb1e9163a19")
     header=get_header("https://home.lagou.com/")
     Request_url="https://home.lagou.com/crm/contractController/list.json"
     data={"companyId":14}
     object=form_post(url=Request_url,remark="查询当前公司下的合同",data=data,headers=header)
+    print(object)
+    print(object['data']['pageData'][0]['number'])
     #childaccount = jsonobject.json()['content']['data']['subAcccountPage']['totalCount']
     number=object['data']['pageData'][0]['number']
     '''
