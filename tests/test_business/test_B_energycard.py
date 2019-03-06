@@ -6,6 +6,12 @@ from api_script.business.B_energycard import energycard,getpositionId
 from utils.util import login
 from utils.read_file import get_yaml_test_data
 
+def setup_module(module):
+    pass
+def teardown_module(module):
+    pass
+
+
 def test_energycard(login_web_k8s_env_b):
     logging.getLogger().setLevel(logging.INFO)
     s = energycard(getpositionId())

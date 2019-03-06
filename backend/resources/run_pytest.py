@@ -25,14 +25,44 @@ class run_Pytest(Resource):
         | Accept | text/html |
 
 
-        直接在浏览器请求访问即可
+        ### 参数
+
+        | 字段 | 必填 | 类型 | 描述|
+        | ---- | ---- | ---- | ---- |
+        | module | True | string | 选项值, business, jianzhao_web, zhaopin, all |
+        |  |  | string | jianzhao_web，简招web |
+        |  |  | string | zhaopin， 招聘业务 |
+        |  |  | string | business, 商业 |
+        |  |  | string | all, 商业 |
+
+
+        ### 请求示例--直接在浏览器请求访问
+        ```json
+        http://127.0.0.1:9004/pytest?module=business
+
+        http://127.0.0.1:9004/pytest?module=jianzhao_web
+
+        http://127.0.0.1:9004/pytest?module=zhaopin
+        ```
 
         ### 返回
          report html
 
         '''
+        parser = reqparse.RequestParser()
+        parser.add_argument('module', type=str, choices=('business', 'jianzhao_web', 'zhaopin', 'all'),
+                            help="请输入正确模块值: 'business' or 'jianzhao_web' or 'zhaopin' or 'all'", required=True)
+        args = parser.parse_args()
         headers = {'Content-Type': 'text/html'}
-        return make_response(render_template('report.html'), 200, headers)
+        if args.get('module') == 'business':
+            html = 'business_report.html'
+        elif args.get('module') == 'jianzhao_web':
+            html = 'jianzhao_report.html'
+        elif args.get('module') == 'zhaopin':
+            html = 'zhaopin_report.html'
+        elif args.get('module') == 'all':
+            html = 'report.html'
+        return make_response(render_template(html), 200, headers)
 
     def post(self):
         '''
@@ -122,17 +152,17 @@ class run_Pytest(Resource):
             subprocess.call("sh {}/run_business.sh".format(project_path), shell=True)
             # subprocess.run("pytest {}/tests/test_business/".format(project_path), shell=True,
             #                stdout=subprocess.PIPE)
-            result = analysis_html_report("{}/backend/templates/report.html".format(project_path), 1)
+            result = analysis_html_report("{}/backend/templates/business_report.html".format(project_path), 1)
             state = 1
             info = {"result": result}
         elif args['module'] == 'jianzhao_web':
             subprocess.call("sh {}/run_jianzhao_web.sh".format(project_path), shell=True)
-            result = analysis_html_report("{}/backend/templates/report.html".format(project_path), 1)
+            result = analysis_html_report("{}/backend/templates/jianzhao_report.html".format(project_path), 1)
             state = 1
             info = {"result": result}
         elif args['module'] == 'zhaopin':
             subprocess.call("sh {}/run_zhaopin.sh".format(project_path), shell=True)
-            result = analysis_html_report("{}/backend/templates/report.html".format(project_path), 1)
+            result = analysis_html_report("{}/backend/templates/zhaopin_report.html".format(project_path), 1)
             state = 1
             info = {"result": result}
         elif args['module'] == "all":

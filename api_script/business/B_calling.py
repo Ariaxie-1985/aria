@@ -6,7 +6,7 @@ from utils.util import get_code_token, get_requests, get_header ,form_post ,logi
 
 # rf_url = 'https://passport.lagou.com/grantServiceTicket/grant.html'
 # get_header(rf_url)
-cUserid = 100012422
+cUserid = 80
 
 def calling(cUserid):
 	calling_url = 'https://easy.lagou.com/phonecall/getVirtualNum.json'

@@ -4,8 +4,8 @@
 username: 20181205
 countrycode: "00852"
 
-# 18春版，id：90; 18秋特权职位 id：94;  18秋在线职位版本id：93
-templateId : 90
+# 万能，id：90
+templateId : 6
 
 # home后台登录
 username_home: "18810896987"
