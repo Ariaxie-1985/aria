@@ -4,7 +4,7 @@
 
 import pytest
 
-from utils.util import login, login_home
+from utils.util import login, login_home, login_home_code
 
 
 @pytest.fixture(params=[["00852", "20181205"]])
