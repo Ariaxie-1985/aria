@@ -45,5 +45,9 @@ def test_add_people_into_companyame(phone, countryCode, userName, companyFullNam
 def test_passPersonApprove(login_home_k8s_env_b):
     log = logging.getLogger('test_passPersonApprove')
     log.info('验证home后台-审核中心-个人认证-审核招聘者是否成功')
-    r1,r2,r3 = passPersonApprove()
-    assert_equal(True, r1['success'], "验证home后台-审核中心-个人认证-审核招聘者成功", "验证home后台-审核中心-个人认证-审核招聘者失败")
+    try:
+        r1,r2,r3 = passPersonApprove()
+        assert_equal(True, r1['success'], "验证home后台-审核中心-个人认证-审核招聘者成功", "验证home后台-审核中心-个人认证-审核招聘者失败")
+    except Exception:
+        assert_equal(True, False, "验证home后台-审核中心-个人认证-审核招聘者失败")
+

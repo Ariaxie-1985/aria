@@ -124,20 +124,22 @@ class B_Add_People_Into_Company(Resource):
                 HRInfo['countryCode'] = args['countryCode']
                 CompanyInfo['companyFullName'] = args['companyFullName']
 
-            login_home("18810896987", "c47eeb69fa4e64971fb29cb1e9163a19")
-
-            r51, r52, r53 = passPersonApprove()
-            try:
-                if r51['success'] != True:
-                    state = 400
-                    info = "home后台-审核中心-个人认证-审核招聘者失败, 该公司的简称: " + args['companyShortName']
-                else:
-                    CompanyInfo['companyId'] = r52
-                    HRInfo['userId'] = r53
-                    ApproveInfo['passPersonApprove'] = "招聘者认证提交及审核通过"
-                    state = 1
-            except TypeError:
-                info = info
+            login_res = login_home("18810896987", "c47eeb69fa4e64971fb29cb1e9163a19")
+            if not (login_res['state'] is 1):
+                info = "home后台登录失败，无法继续审核操作"
+            else:
+                r51, r52, r53 = passPersonApprove()
+                try:
+                    if r51['success'] != True:
+                        state = 400
+                        info = "home后台-审核中心-个人认证-审核招聘者失败, 该公司的简称: " + args['companyShortName']
+                    else:
+                        CompanyInfo['companyId'] = r52
+                        HRInfo['userId'] = r53
+                        ApproveInfo['passPersonApprove'] = "招聘者认证提交及审核通过"
+                        state = 1
+                except TypeError:
+                    info = info
 
         if state == 1:
             return {

@@ -21,7 +21,10 @@ def teardown_module(module):
 @pytest.mark.parametrize("type", [('POSITION_ENERGY_CARD_MESSAGE')])
 def test_positions_tag_report(type):
     res = crm_positions_tag_report(type)
-    assert_equal(1, res['state'], "CRM上报销售线索成功", "CRM上报销售线索失败, 失败信息: " + res['message'])
+    if res['state'] == 1007:
+        assert_equal(1007, res['state'], "CRM上报销售线索的操作次数已达上限，延迟至明天执行")
+    else:
+        assert_equal(1, res['state'], "CRM上报销售线索成功", "CRM上报销售线索失败, 失败信息: " + res['message'])
 
 
 def test_goods_product_version():
