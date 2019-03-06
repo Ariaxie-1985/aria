@@ -10,14 +10,14 @@ def setup_module(module):
 
 
 
-def test_lagouPlus(login_home_k8s_env_b):
-    '''
-    终止当前套餐
-    新增17套餐
-    查看套餐是否正常
-    :return:
-    '''
-    lagouPlus()
+# def test_lagouPlus():
+#     '''
+#     终止当前套餐
+#     新增17套餐
+#     查看套餐是否正常
+#     :return:
+#     '''
+#     lagouPlus()
 
 def test_lagouPlusqiu():
     '''
