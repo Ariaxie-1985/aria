@@ -8,8 +8,6 @@ def setup_module(module):
     pass
 
 
-def teardown_module(module):
-    pass
 
 
 def test_lagouPlus(login_home_k8s_env_b):
@@ -29,3 +27,5 @@ def test_lagouPlusqiu():
     :return:
     '''
     lagouPlusqiu()
+def teardown_module(module):
+    pass
