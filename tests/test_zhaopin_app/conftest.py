@@ -4,7 +4,7 @@
 
 import pytest
 
-from utils.util import login, login_home
+from utils.util import login, login_home, login_home_code
 
 
 @pytest.fixture(params=[["00852", "20181205"]])
@@ -14,4 +14,4 @@ def login_web_k8s_default(request):
 
 @pytest.fixture()
 def login_home_k8s_default():
-	login_home("anan@lagou.com", "990eb670f81e82f546cfaaae1587279a")
+	login_home_code('00853', 22222222)
