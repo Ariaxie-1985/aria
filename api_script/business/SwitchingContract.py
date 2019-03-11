@@ -18,7 +18,7 @@ def lagouPlus(templateId):
     查看套餐是否正常
     :return:
     '''
-
+    login_home("anan@lagou.com","990eb670f81e82f546cfaaae1587279a")
     header=get_header("https://home.lagou.com/")
     Request_url="https://home.lagou.com/crm/contractController/list.json"
     data={"companyId":142136}
@@ -51,3 +51,4 @@ def lagouPlus(templateId):
     # print(str(str(TotalNum)+str(Pluspower)+str(PostsnNumber)+str(users)))
     # assert_equal("999.01.0999.0999.0",str(TotalNum)+str(Pluspower)+str(PostsnNumber)+str(users),"对比套餐内容，所得内容正确17版","对比套餐内容，所得内容不匹配")
 
+lagouPlus(90)
