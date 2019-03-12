@@ -1,7 +1,8 @@
 # -*- coding: utf8 -*-
 __author__ = 'yqzhang'
 from utils.util import json_post, get_requests
-host = "http://10.1.201.237:32040/"
+# host = "http://10.1.201.237:32040/"
+host="https://gate.lagou.com/v1/entry/"
 
 def login():
     url =host+"account/passport/login"
@@ -10,7 +11,7 @@ def login():
     'content-type': "application/json",
     'x-l-req-header': "{\"appVersion\":\"V_70000_1\",\"deviceType\":200,\"lgId\":\"283d90c4-cd3c-410b-a75f-ce5ec0921bcf\",\"reqVersion\":70000,\"userType\":0}",
     'cache-control': "no-cache",
-
+    'x-l-da-header':'da5439aadaf04ade94a214d730b990d83ec71d3e9f274002951143c843badffbc543b213dfe84e21a37bb782dd9bbca4be8d947ead7041f79d336cb1217127d15'
 }
     # headers["X-L-REQ-HEADER"] = json.dumps(headers["X-L-REQ-HEADER"])
     # print(type(headers))
@@ -45,9 +46,10 @@ def setting():
     url=host+"account/oauth/settings"
     headers={
         'content-type': "application/json",
-        'x-l-req-header': "{\"appVersion\":\"V_70000_1\",\"deviceType\":200,\"lgId\":\"283d90c4-cd3c-410b-a75f-ce5ec0921bcf\",\"reqVersion\":70000,\"userType\":0,\"userToken\":\"1cce55d79b7c34acca97bd995fa1fd3d53011487415647a7bba6263e4b40a261\",\"appTime\":1551424200000,\"deviceToken\":\"SB_0000001\"}",
+        'x-l-req-header': "{\"appVersion\":\"V_70000_1\",\"deviceType\":200,\"userToken\":\"cacb95e99ca4d64b2a0e4f3dc9f2fb93b1635cf86b025d21fa61224f28d200e4\",\"lgId\":\"283d90c4-cd3c-410b-a75f-ce5ec0921bcf\",\"reqVersion\":70000,\"userType\":0,\"appTime\":1551424200000,\"deviceToken\":\"SB_0000001\"}",
         'cache-control': "no-cache",
-        'X-L-USER-ID':"100014023"
+        'X-L-USER-ID':"100014023",
+        'x-l-da-header':'da5439aadaf04ade94a214d730b990d83ec71d3e9f274002951143c843badffbc543b213dfe84e21a37bb782dd9bbca4be8d947ead7041f79d336cb1217127d15'
     }
     return get_requests(url=url,headers=headers)
 setting()
@@ -62,7 +64,7 @@ def B_basestatus():
     }
     remark='B端基本信息'
     return get_requests(url,headers,remark)
-B_basestatus()
+# B_basestatus()
 
 def C_basestatus():
     url =host+"cuser/baseStatus/get"
@@ -70,11 +72,12 @@ def C_basestatus():
         'content-type': "application/json",
         'x-l-req-header': "{\"appVersion\":\"V_70000_1\",\"deviceType\":200,\"lgId\":\"283d90c4-cd3c-410b-a75f-ce5ec0921bcf\",\"reqVersion\":70000,\"userType\":0,\"userToken\":\"1cce55d79b7c34acca97bd995fa1fd3d53011487415647a7bba6263e4b40a261\",\"appTime\":1551424200000,\"deviceToken\":\"SB_0000001\"}",
         'cache-control': "no-cache",
-        'X-L-USER-ID':"100014023"
-    }
+        'X-L-USER-ID':"100014023",
+        'x-l-da-header':'da5439aadaf04ade94a214d730b990d83ec71d3e9f274002951143c843badffbc543b213dfe84e21a37bb782dd9bbca4be8d947ead7041f79d336cb1217127d15'
+            }
     remark='C端基本信息'
     return get_requests(url,headers,remark)
-C_basestatus()
+# C_basestatus()
 
 def buser():
     url=host+"buser/get"
@@ -86,7 +89,7 @@ def buser():
     }
     remark='个人信息'
     return get_requests(url,headers,remark)
-buser()
+# buser()
 
 def appsetting():
     url=host+"config/appSetting/get"
