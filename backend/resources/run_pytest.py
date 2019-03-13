@@ -11,6 +11,12 @@ from utils.analysis_html_report import analysis_html_report
 
 
 class run_Pytest(Resource):
+    Business_module = {
+        'business': "/root/.local/bin/pipenv run pytest {}/tests/test_business/ --html=backend/templates/{}_report.html --self-contained-html",
+        'jianzhao_web': '/root/.local/bin/pipenv run pytest {}/tests/test_jianzhao_web/ --html=backend/templates/{}_report.html --self-contained-html',
+        'zhaopin': '/root/.local/bin/pipenv run pytest {}/tests/test_zhaopin_app/test_app_b_chat.py tests/test_zhaopin_app/test_app_b_position.py --html=backend/templates/{}_report.html --self-contained-html',
+        'all': '/root/.local/bin/pipenv run pytest {}/ --html=backend/templates/{}_report.html --self-contained-html',
+    }
 
     def get(self):
         '''
@@ -25,14 +31,37 @@ class run_Pytest(Resource):
         | Accept | text/html |
 
 
-        直接在浏览器请求访问即可
+        ### 参数
+
+        | 字段 | 必填 | 类型 | 描述|
+        | ---- | ---- | ---- | ---- |
+        | module | True | string | 选项值, business, jianzhao_web, zhaopin, all |
+        |  |  | string | jianzhao_web，简招web |
+        |  |  | string | zhaopin， 招聘业务 |
+        |  |  | string | business, 商业业务 |
+        |  |  | string | all, 全部业务 |
+
+
+        ### 请求示例--直接在浏览器请求访问
+        ```json
+        http://127.0.0.1:9004/pytest?module=business
+
+        http://127.0.0.1:9004/pytest?module=jianzhao_web
+
+        http://127.0.0.1:9004/pytest?module=zhaopin
+        ```
 
         ### 返回
          report html
 
         '''
+        parser = reqparse.RequestParser()
+        parser.add_argument('module', type=str, choices=('business', 'jianzhao_web', 'zhaopin', 'all'),
+                            help="请输入正确模块值: 'business' or 'jianzhao_web' or 'zhaopin' or 'all'", required=True)
+        args = parser.parse_args()
         headers = {'Content-Type': 'text/html'}
-        return make_response(render_template('report.html'), 200, headers)
+        html = '{}_report.html'.format(args['module'])
+        return make_response(render_template(html), 200, headers)
 
     def post(self):
         '''
@@ -54,8 +83,8 @@ class run_Pytest(Resource):
         | module | True | string | 选项值, business, jianzhao_web, zhaopin, all |
         |  |  | string | jianzhao_web，简招web |
         |  |  | string | zhaopin， 招聘业务 |
-        |  |  | string | business, 商业 |
-        |  |  | string | all, 商业 |
+        |  |  | string | business, 商业业务 |
+        |  |  | string | all, 全部业务 |
 
 
         ### 请求示例
@@ -111,34 +140,16 @@ class run_Pytest(Resource):
         @@@
         '''
         parser = reqparse.RequestParser()
-        parser.add_argument('module', type=str, choices=('business', 'jianzhao_web', 'zhaopin', 'all'),
+        parser.add_argument('module', type=str, choices=('business', 'jianzhao_web', 'zhaopin', 'all', 'bus'),
                             help="请输入正确模块值: 'business' or 'jianzhao_web' or 'zhaopin' or 'all'", required=True)
         args = parser.parse_args()
         project_path = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
         os.chdir(project_path)
         state = 0
         info = None
-        if args['module'] == "business":
-            subprocess.call("sh {}/run_business.sh".format(project_path), shell=True)
-            # subprocess.run("pytest {}/tests/test_business/".format(project_path), shell=True,
-            #                stdout=subprocess.PIPE)
-            result = analysis_html_report("{}/backend/templates/report.html".format(project_path), 1)
-            state = 1
-            info = {"result": result}
-        elif args['module'] == 'jianzhao_web':
-            subprocess.call("sh {}/run_jianzhao_web.sh".format(project_path), shell=True)
-            result = analysis_html_report("{}/backend/templates/report.html".format(project_path), 1)
-            state = 1
-            info = {"result": result}
-        elif args['module'] == 'zhaopin':
-            subprocess.call("sh {}/run_zhaopin.sh".format(project_path), shell=True)
-            result = analysis_html_report("{}/backend/templates/report.html".format(project_path), 1)
-            state = 1
-            info = {"result": result}
-        elif args['module'] == "all":
-            subprocess.call("sh {}/run.sh".format(project_path), shell=True)
-            result = analysis_html_report("{}/backend/templates/report.html".format(project_path), 1)
-            state = 1
-            info = {"result": result}
+        subprocess.call(self.Business_module[args['module']].format(project_path, args['module']), shell=True)
+        result = analysis_html_report("{}/backend/templates/{}_report.html".format(project_path, args['module']), 1)
+        state = 1
+        info = {"result": result}
 
         return {'state': state, "data": info}

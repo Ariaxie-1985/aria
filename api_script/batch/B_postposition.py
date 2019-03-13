@@ -24,7 +24,7 @@ def post_position(sum):
 
 	'''
 	reslist = []
-	for i in range(int(sum)):
+	for i in range(sum):
 		a = random.randint(0, 7)
 		postype_t = postype[a]
 		refer_createPosition_url = "https://easy.lagou.com/position/multiChannel/createPosition.htm"

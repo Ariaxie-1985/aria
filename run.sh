@@ -1,2 +1,2 @@
 #!/bin/bash
-/root/.local/bin/pipenv run pytest
+/root/.local/bin/pipenv run pytest --alluredir report

@@ -3,8 +3,6 @@
 # @Author: Xiawang
 import sys
 
-
-
 sys.path.append('.')
 from flask import Flask, config
 from flask_restful import Api
@@ -19,6 +17,8 @@ from backend.resources.b_add_people_into_company import B_Add_People_Into_Compan
 from backend.resources.hello import HelloWorld
 from backend.resources.run_pytest import run_Pytest
 from backend.resources.b_handle_resume import b_process_resume
+from backend.resources.submit_resume_to_position import submit_Resume_To_Position
+
 
 app = Flask(__name__)
 app.config.from_object(config)
@@ -36,7 +36,7 @@ api.add_resource(HelloWorld, '/')
 api.add_resource(B_Post_Position, '/jianzhao/position')
 api.add_resource(B_Basic_Process, '/jianzhao/company/registration')
 api.add_resource(B_Add_People_Into_Company, '/jianzhao/personal/registration')
-
+api.add_resource(submit_Resume_To_Position, '/customer/resume')
 api.add_resource(C_Basic_Process, '/customer/registration')
 api.add_resource(run_Pytest, '/pytest')
 api.add_resource(b_process_resume,'/jianzhao/resume')
