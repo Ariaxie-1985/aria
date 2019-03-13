@@ -52,7 +52,7 @@ def setting():
         'x-l-da-header':'da5439aadaf04ade94a214d730b990d83ec71d3e9f274002951143c843badffbc543b213dfe84e21a37bb782dd9bbca4be8d947ead7041f79d336cb1217127d15'
     }
     return get_requests(url=url,headers=headers)
-setting()
+# setting()
 
 def B_basestatus():
     url =host+"buser/baseStatus/get"
@@ -101,3 +101,16 @@ def appsetting():
     remark='app初始参数'
     return get_requests(url,headers,remark)
 # appsetting()
+
+
+def getInfo():
+    # url ='https://gate.lagou.com/account/users/0/'
+    url =host+'account/users/0/'
+    headers={
+        'content-type': "application/json;charset=UTF-8",
+        'x-l-req-header': "{\"deviceType\":1,\"lgId\":\"283d90c4-cd3c-410b-a75f-ce5ec0921bcf\",\"userType\":0,\"userToken\":\"0040844ff01814e4f72114d27cd8fa1c58b6833c1e99d40cdfcf3d92b75bb199\",\"deviceToken\":\"SB_0000001\"}",
+        'cache-control': "no-cache",
+        'x-l-da-header':'da5439aadaf04ade94a214d730b990d83ec71d3e9f274002951143c843badffbc543b213dfe84e21a37bb782dd9bbca4be8d947ead7041f79d336cb1217127d15'
+    }
+    return get_requests(url=url,headers=headers)
+getInfo()
