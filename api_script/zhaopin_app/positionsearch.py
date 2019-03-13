@@ -80,10 +80,13 @@ def getPromotionPositions(keyword, city, lastShowCompanyId):
     :param lastShowCompanyId: int, 曝光活动 二号广告位上次已展示过的公司id，无则不传
     :return:
     '''
+    c_headers = {"X-L-REQ-HEADER": {"deviceType": "150", "appVersion": "70800", "reqVersion": "70800"}}
+    c_headers["X-L-REQ-HEADER"] = json.dumps(c_headers["X-L-REQ-HEADER"])
+    header = dict(headers)
+    header.update(c_headers)
     if not (lastShowCompanyId == None):
-        url = host + "/promotion/getPromotionPositions?keyword={}&city={}&lastShowCompanyId={}".format(keyword, city,
-                                                                                                       lastShowCompanyId)
-    else:
         url = host + "/promotion/getPromotionPositions?keyword={}&city={}".format(keyword, city)
+    else:
+        url = host + "/promotion/getPromotionPositions?keyword={}&city={}&c={}".format(keyword, city, lastShowCompanyId)
     remark = "全民升职季"
-    return get_requests(url=url, headers=headers, remark=remark)
+    return get_requests(url=url, headers=header, remark=remark)

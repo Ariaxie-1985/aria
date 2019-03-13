@@ -191,6 +191,21 @@ def assert_equal(expectvalue, actualvalue, success_message, fail_message=None):
         logging.error(fail_message)
 
 
+
+def assert_not_equal(expectvalue, actualvalue, success_message, fail_message=None):
+    '''
+    断言两个值是否相等, 并对结果打印日志
+    :param expectvalue: 期望结果
+    :param actualvalue: 实际结果
+    :param success_message: str, 断言成功打印的日志
+    :param fail_message:str, 断言失败打印的日志
+    '''
+    assert expectvalue != actualvalue
+    if expectvalue != actualvalue:
+        logging.info(success_message)
+    else:
+        logging.error(fail_message)
+
 # 获取url的html源码
 def gethtml(url):
     '''

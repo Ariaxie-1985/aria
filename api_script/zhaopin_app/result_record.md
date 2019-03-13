@@ -12,3 +12,6 @@
            统计接口编写 7个，ResuemeState.py   简历状态
            统计接口编写 4个，TopCard.py   置顶卡
            --auther cloudyyuan
+           
+           
+2019.03.10 统计接口编写 3个，positionsearch.py 职位搜索

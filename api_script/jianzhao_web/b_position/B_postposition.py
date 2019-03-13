@@ -16,8 +16,8 @@ def post_position():
                            'positionDesc': '<p>111111111111111111111111111111111111111111111</p>',
                            'workAddressId': '191880',
                            'labels': '[{"id":"1","name":"电商"}]', 'extraInfor': '[{"labels":[{"id":"1","name":"电商"}]}]',
-                           'channels': '108', 'useEnergyCard': 'false', 'recommend': 'false', "useEnergyCard": "false",
-                           'workYear': '应届毕业生', 'typeId': ''}
+                           'channels': '108', 'useEnergyCard': 'false', 'recommend': 'false', 'workYear': '应届毕业生',
+                           'typeId': ''}
     remark = "发布职位"
     return form_post(url=createPosition_url, data=createPosition_data, headers=Position_header, remark=remark)
 
@@ -43,8 +43,7 @@ def update_position():
     }
     return form_post(url=url, headers=header, data=data, remark='职位类型升级')
 
-
-# login('00853', '05180001')
-# post_position()
+login('00852', '20181205')
+post_position()
 # republish_position()
 # update_position()
