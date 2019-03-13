@@ -12,10 +12,10 @@ from utils.analysis_html_report import analysis_html_report
 
 class run_Pytest(Resource):
     Business_module = {
-        'business': "pytest {}/tests/test_business/ --html=backend/templates/{}_report.html --self-contained-html",
-        'jianzhao_web': 'pytest {}/tests/test_jianzhao_web/ --html=backend/templates/{}_report.html --self-contained-html',
-        'zhaopin': 'pytest {}/tests/test_zhaopin_app/test_app_b_chat.py tests/test_zhaopin_app/test_app_b_position.py --html=backend/templates/{}_report.html --self-contained-html',
-        'all': 'pytest {}/ --html=backend/templates/{}_report.html --self-contained-html',
+        'business': "/root/.local/bin/pipenv run pytest {}/tests/test_business/ --html=backend/templates/{}_report.html --self-contained-html",
+        'jianzhao_web': '/root/.local/bin/pipenv run pytest {}/tests/test_jianzhao_web/ --html=backend/templates/{}_report.html --self-contained-html',
+        'zhaopin': '/root/.local/bin/pipenv run pytest {}/tests/test_zhaopin_app/test_app_b_chat.py tests/test_zhaopin_app/test_app_b_position.py --html=backend/templates/{}_report.html --self-contained-html',
+        'all': '/root/.local/bin/pipenv run pytest {}/ --html=backend/templates/{}_report.html --self-contained-html',
     }
 
     def get(self):
@@ -147,8 +147,6 @@ class run_Pytest(Resource):
         os.chdir(project_path)
         state = 0
         info = None
-        # 在服务器要转root权限
-        subprocess.call('sudo -s', shell=True)
         subprocess.call(self.Business_module[args['module']].format(project_path, args['module']), shell=True)
         result = analysis_html_report("{}/backend/templates/{}_report.html".format(project_path, args['module']), 1)
         state = 1
