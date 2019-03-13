@@ -147,6 +147,8 @@ class run_Pytest(Resource):
         os.chdir(project_path)
         state = 0
         info = None
+        # 在服务器要转root权限
+        subprocess.call('sudo -s', shell=True)
         subprocess.call(self.Business_module[args['module']].format(project_path, args['module']), shell=True)
         result = analysis_html_report("{}/backend/templates/{}_report.html".format(project_path, args['module']), 1)
         state = 1
