@@ -63,6 +63,28 @@ class run_Pytest(Resource):
         html = '{}_report.html'.format(args['module'])
         return make_response(render_template(html), 200, headers)
 
+    def get(self):
+        '''
+        @@@
+        ### 对外接口: 获取pytest测试报告
+
+
+        ### Request Header
+        | 字段 | 值 |
+        | ---- | ---- |
+        | method | GET |
+        | Accept | text/html |
+
+
+        直接在浏览器请求访问即可
+
+        ### 返回
+         report html
+
+        '''
+        headers = {'Content-Type': 'text/html'}
+        return make_response(render_template('report.html'), 200, headers)
+
     def post(self):
         '''
         @@@
@@ -147,9 +169,34 @@ class run_Pytest(Resource):
         os.chdir(project_path)
         state = 0
         info = None
+
         subprocess.call(self.Business_module[args['module']].format(project_path, args['module']), shell=True)
         result = analysis_html_report("{}/backend/templates/{}_report.html".format(project_path, args['module']), 1)
         state = 1
         info = {"result": result}
+
+        if args['module'] == "business":
+            subprocess.call("sh {}/run_business.sh".format(project_path), shell=True)
+            # subprocess.run("pytest {}/tests/test_business/".format(project_path), shell=True,
+            #                stdout=subprocess.PIPE)
+            result = analysis_html_report("{}/backend/templates/report.html".format(project_path), 1)
+            state = 1
+            info = {"result": result}
+        elif args['module'] == 'jianzhao_web':
+            subprocess.call("sh {}/run_jianzhao_web.sh".format(project_path), shell=True)
+            result = analysis_html_report("{}/backend/templates/report.html".format(project_path), 1)
+            state = 1
+            info = {"result": result}
+        elif args['module'] == 'zhaopin':
+            subprocess.call("sh {}/run_zhaopin.sh".format(project_path), shell=True)
+            result = analysis_html_report("{}/backend/templates/report.html".format(project_path), 1)
+            state = 1
+            info = {"result": result}
+        elif args['module'] == "all":
+            subprocess.call("sh {}/run.sh".format(project_path), shell=True)
+            result = analysis_html_report("{}/backend/templates/report.html".format(project_path), 1)
+            state = 1
+            info = {"result": result}
+
 
         return {'state': state, "data": info}

@@ -73,7 +73,7 @@ def json_post(url, remark, data=None, headers=None):
         return {"errors": str(e)}
 
 
-def get_requests(url, headers=None, remark=None):
+def get_requests(url, data=None, headers=None, remark=None):
     """
     get请求
     :param url: str, 接口地址
@@ -82,7 +82,7 @@ def get_requests(url, headers=None, remark=None):
     :return: object, 响应对象
     """
     try:
-        response = session.get(url=url, headers=headers, verify=False, timeout=10)
+        response = session.get(url=url, params=data, headers=headers, verify=False, timeout=10)
         if "application/json" in response.headers['content-type']:
             logging.info(
                 "\n请求目的: {},\n 请求url: {},\n 响应结果: {}\n".format(remark, url, str(response.json())))
@@ -159,9 +159,9 @@ def login_home(username, password):
 
 def login_home_code(countryCode, username):
     '''
-    从home.lagou.com登录，密码登录
-    :param username: str, 用户名
+    从www.lagou.com登录，验证码登录
     :param countryCode: str, 地区编号
+    :param username: str, 用户名
     '''
     session.cookies.clear()
     referer_login_home_url = "https://home.lagou.com/"
@@ -326,6 +326,3 @@ def zip_path(input_path, output_path, output_name):
     file_Path = os.path.abspath(os.path.join(os.getcwd(), ".."))
     zip_file_Path = os.path.join(file_Path, output_name)
     return zip_file_Path
-
-
-
