@@ -226,7 +226,7 @@ def wait(time):
 
 
 def get_app_header(userId):
-    header = {"Accept": "application/json", "X-L-REQ-HEADER": {"deviceType": 10}, "X-L-USER-ID": str(userId)}
+    header = {"Accept": "application/json", "X-L-REQ-HEADER": {"deviceType": 10}, "X-L-USER-ID": str(userId),"X-L-DA-HEADER":"da5439aadaf04ade94a214d730b990d83ec71d3e9f274002951143c843badffbc543b213dfe84e21a37bb782dd9bbca4be8d947ead7041f79d336cb1217127d15"}
     header["X-L-REQ-HEADER"] = json.dumps(header["X-L-REQ-HEADER"])
     return header
 
