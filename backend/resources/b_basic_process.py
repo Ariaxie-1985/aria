@@ -166,7 +166,7 @@ class B_Basic_Process(Resource):
                     info = "简称为 " + args['companyShortName'] + " 申请认证公司失败"
             except TypeError:
                 state = 400
-                info =info
+                info = info
 
             if not (state == 400):
                 if r4['state'] == r7['state'] == 1:
@@ -179,16 +179,16 @@ class B_Basic_Process(Resource):
                     info = "home后台登录失败，无法继续审核操作"
                 else:
                     r8 = passCompanyApprove()
-                    if r8['success'] != True:
-                        state = 400
-                        info = "home后台-公司认证-审核公司成功！该公司的简称: " + args['companyShortName']
+                if r8['success'] != True:
+                    state = 400
+                    info = "home后台-公司认证-审核公司成功！该公司的简称: " + args['companyShortName']
 
-                    if r51['success'] == True and r6['state'] == 1 and r8['success'] == True:
-                        ApproveInfo['passPersonApprove'] = "招聘者认证提交及审核通过"
-                        ApproveInfo['passCompanyApprove'] = "公司认证提交及审核通过"
-                        CompanyInfo['companyId'] = r52
-                        HRInfo['userId'] = r53
-                        state = 1
+                if r51['success'] == True and r6['state'] == 1 and r8['success'] == True:
+                    ApproveInfo['passPersonApprove'] = "招聘者认证提交及审核通过"
+                    ApproveInfo['passCompanyApprove'] = "公司认证提交及审核通过"
+                    CompanyInfo['companyId'] = r52
+                    HRInfo['userId'] = r53
+                    state = 1
 
         if state == 1:
             return {

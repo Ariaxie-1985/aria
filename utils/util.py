@@ -73,7 +73,7 @@ def json_post(url, remark, data=None, headers=None):
         return {"errors": str(e)}
 
 
-def get_requests(url, headers=None, remark=None):
+def get_requests(url, data=None, headers=None, remark=None):
     """
     get请求
     :param url: str, 接口地址
@@ -82,7 +82,7 @@ def get_requests(url, headers=None, remark=None):
     :return: object, 响应对象
     """
     try:
-        response = session.get(url=url, headers=headers, verify=False, timeout=10)
+        response = session.get(url=url, params=data, headers=headers, verify=False, timeout=10)
         if "application/json" in response.headers['content-type']:
             logging.info(
                 "\n请求目的: {},\n 请求url: {},\n 响应结果: {}\n".format(remark, url, str(response.json())))
@@ -159,9 +159,9 @@ def login_home(username, password):
 
 def login_home_code(countryCode, username):
     '''
-    从home.lagou.com登录，密码登录
-    :param username: str, 用户名
+    从www.lagou.com登录，验证码登录
     :param countryCode: str, 地区编号
+    :param username: str, 用户名
     '''
     session.cookies.clear()
     referer_login_home_url = "https://home.lagou.com/"
@@ -191,6 +191,21 @@ def assert_equal(expectvalue, actualvalue, success_message, fail_message=None):
         logging.error(fail_message)
 
 
+
+def assert_not_equal(expectvalue, actualvalue, success_message, fail_message=None):
+    '''
+    断言两个值是否相等, 并对结果打印日志
+    :param expectvalue: 期望结果
+    :param actualvalue: 实际结果
+    :param success_message: str, 断言成功打印的日志
+    :param fail_message:str, 断言失败打印的日志
+    '''
+    assert expectvalue != actualvalue
+    if expectvalue != actualvalue:
+        logging.info(success_message)
+    else:
+        logging.error(fail_message)
+
 # 获取url的html源码
 def gethtml(url):
     '''
@@ -211,7 +226,7 @@ def wait(time):
 
 
 def get_app_header(userId):
-    header = {"Accept": "application/json", "X-L-REQ-HEADER": {"deviceType": 10}, "X-L-USER-ID": str(userId)}
+    header = {"Accept": "application/json", "X-L-REQ-HEADER": {"deviceType": 10}, "X-L-USER-ID": str(userId),"X-L-DA-HEADER":"da5439aadaf04ade94a214d730b990d83ec71d3e9f274002951143c843badffbc543b213dfe84e21a37bb782dd9bbca4be8d947ead7041f79d336cb1217127d15"}
     header["X-L-REQ-HEADER"] = json.dumps(header["X-L-REQ-HEADER"])
     return header
 
@@ -326,6 +341,3 @@ def zip_path(input_path, output_path, output_name):
     file_Path = os.path.abspath(os.path.join(os.getcwd(), ".."))
     zip_file_Path = os.path.join(file_Path, output_name)
     return zip_file_Path
-
-
-
