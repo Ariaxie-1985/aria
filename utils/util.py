@@ -191,6 +191,21 @@ def assert_equal(expectvalue, actualvalue, success_message, fail_message=None):
         logging.error(fail_message)
 
 
+
+def assert_not_equal(expectvalue, actualvalue, success_message, fail_message=None):
+    '''
+    断言两个值是否相等, 并对结果打印日志
+    :param expectvalue: 期望结果
+    :param actualvalue: 实际结果
+    :param success_message: str, 断言成功打印的日志
+    :param fail_message:str, 断言失败打印的日志
+    '''
+    assert expectvalue != actualvalue
+    if expectvalue != actualvalue:
+        logging.info(success_message)
+    else:
+        logging.error(fail_message)
+
 # 获取url的html源码
 def gethtml(url):
     '''
@@ -211,7 +226,7 @@ def wait(time):
 
 
 def get_app_header(userId):
-    header = {"Accept": "application/json", "X-L-REQ-HEADER": {"deviceType": 10}, "X-L-USER-ID": str(userId)}
+    header = {"Accept": "application/json", "X-L-REQ-HEADER": {"deviceType": 10}, "X-L-USER-ID": str(userId),"X-L-DA-HEADER":"da5439aadaf04ade94a214d730b990d83ec71d3e9f274002951143c843badffbc543b213dfe84e21a37bb782dd9bbca4be8d947ead7041f79d336cb1217127d15"}
     header["X-L-REQ-HEADER"] = json.dumps(header["X-L-REQ-HEADER"])
     return header
 

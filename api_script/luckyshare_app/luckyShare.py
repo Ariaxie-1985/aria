@@ -3,8 +3,7 @@
 # @Author: Xiawang
 from utils.util import get_app_header, get_requests, json_post
 
-# host = "https://gate.lagou.com"
-host = "http://10.1.201.110:12790"
+host = "https://gate.lagou.com/v1/entry"
 
 headers = get_app_header(100014641)
 
@@ -27,32 +26,41 @@ def activity_carp_summary():
 
 
 def queryRedPointType(orderIds):
-    url = host + "/activity/carp/queryRedPointType?orderIds={}".format(orderIds)
+    if orderIds == None:
+        url = host + "/activity/carp/queryRedPointType"
+    else:
+        url = host + "/activity/carp/queryRedPointType?orderIds={}".format(orderIds)
     remark = "查询红点"
     return get_requests(url=url, headers=headers, remark=remark)
 
 
-def activity_carp_removeRedDot():
-    # todo 参数未放在body里
+def activity_carp_removeRedDot(type):
     url = host + "/activity/carp/removeRedDot"
+    data = {
+        "type": type
+    }
     remark = "删除红点"
-    return json_post(url=url, headers=headers, remark=remark)
+    return json_post(url=url, data=data, headers=headers, remark=remark)
 
 
-def activity_carp_queryNotes():
-    url = host + "/activity/carp/queryNotes"
+def activity_carp_queryNotes(category1, category2, category3):
+    url = host + "/activity/carp/queryNotes?pageNo=1&pageSize=20&category1={}&category2={}&category3={}".format(category1, category2,
+                                                                                           category3)
     remark = "查询帖子列表"
     return get_requests(url=url, headers=headers, remark=remark)
 
 
 def order_interview_queryList(ids):
-    url = host + "/order/interview/queryList?ids={}".format(ids)
+    if ids==None:
+        url = host + "/order/interview/queryList"
+    else:
+        url = host + "/order/interview/queryList?ids={}".format(ids)
     remark = "批量查询面试订单"
     return get_requests(url=url, headers=headers, remark=remark)
 
 
-def positions_queryList(ids):
-    url = host + "/position/queryList?ids={}".format(ids)
+def positions_queryList():
+    url = host + "/position/queryList"
     remark = "批量查询职位"
     return get_requests(url=url, headers=headers, remark=remark)
 
@@ -69,8 +77,8 @@ def positionCategories_get(type):
     return get_requests(url=url, headers=headers, remark=remark)
 
 
-def queryPositions(pageNo):
-    url = host + "/activity/carp/queryPositions?pageSize=20&pageNo={}".format(pageNo)
+def queryPositions():
+    url = host + "/activity/carp/queryPositions?pageSize=20&pageNo=1"
     remark = "查询曝光职位"
     return get_requests(url=url, headers=headers, remark=remark)
 
@@ -93,14 +101,11 @@ def activity_carp_queryNotePreview(orderId):
     return get_requests(url=url, headers=headers, remark=remark)
 
 
-def activity_carp_publicNote(companyId, content, interviewId, interviewTime, positionID, userName):
+def activity_carp_publicNote(content, userName):
     url = host + "/activity/carp/publicNote"
     data = {
-        "companyId": companyId,
         "content": content,
-        "interviewId": interviewId,
-        "interviewTime": interviewTime,
-        "positionID": positionID,
+        "interviewId": 0,
         "userName": userName
     }
     remark = "发帖"

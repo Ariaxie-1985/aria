@@ -46,7 +46,6 @@ def test_autoInviteSwitch_open_2():
 
 @pytest.mark.skipif(display == 1, reason="普通/特权邀约功能按钮不显示，跳过此用例")
 def test_autoInviteSwitch_open_3():
-    # todo 未对不显示按钮时开启或关闭状态做异常处理
     if status == 1:
         r = autoInviteSwitch_open(1, 2)
         assert_not_equal(1, r['state'], "普通/特权邀约功能的自动邀约无法开启, 因为不显示该按钮")
