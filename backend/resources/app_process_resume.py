@@ -6,25 +6,62 @@ from api_script.zhaopin_app.OrderResume_app.ResumeState import *
 
 class app_process_resume(Resource):
 
-    '''
-    app简历处理接口，resumeId非必填，默认该账号第一条数据
+    """
+        @@@
+        ### app简历处理接口，resumeId非必填，默认该账号第一条数据
 
-    请求参数示例：
-             {
+
+        ### Request Header
+        | 字段 | 值 |
+        | ---- | ---- |
+        | method | POST |
+        | content-type | application/json |
+
+
+        ### 参数
+
+        | 字段 | 必填 | 类型 | 描述|
+        | ---- | ---- | ---- | ---- |
+        | userid | True | int | B端用户id |
+        | type | True | int | 处理类型 |
+        | resumeid | false | int | 简历id |
+
+            type:1    待沟通
+            type:2    面试
+            type:3    淘汰
+            type:4    录用
+            type:5    入职
+            
+        ### 请求示例
+        ```json
+              {
         "userid": 100013384,
         "type": 3,
         "resumeId": 1081023879159488512,
 
     }
-    type:1    待沟通
-    type:2    面试
-    type:3    淘汰
-    type:4    录用
-    type:5    入职
+        ```
 
-    header:
-    content-type:application/json
-    '''
+
+        ### 返回
+
+        | 字段 | 类型 | 描述|
+        | ---- | ---- | ---- | ---- |
+        | state | int | 1表示成功 |
+        | message | string | 结果说明 |
+
+
+        ### 响应示例
+        ```json
+{
+    "state": 1,
+    "message": "入职成功"
+}
+        ```
+
+        @@@
+        """
+
 
     def post(self):
         parser = reqparse.RequestParser()

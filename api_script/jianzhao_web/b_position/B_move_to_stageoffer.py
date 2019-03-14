@@ -7,7 +7,7 @@ def move_to_stageoffer(positionId,resumeOwnerId):
     refer_listofcandidates_url = "https://easy.lagou.com/can/index.htm"
     listofcandidates_header = get_code_token(refer_listofcandidates_url)
     url = 'https://easy.lagou.com/settings/template/in_temp.json?positionId='+str(positionId)
-    get_requests(url,listofcandidates_header)
+    get_requests(url=url,headers=listofcandidates_header)
 
 
     stage_url = 'https://easy.lagou.com/can/batch/toStageOffer.json'
