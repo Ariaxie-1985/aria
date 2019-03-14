@@ -43,7 +43,12 @@ def update_position():
     }
     return form_post(url=url, headers=header, data=data, remark='职位类型升级')
 
-login('00852', '20181205')
-post_position()
-# republish_position()
-# update_position()
+
+def get_outerPositionId():
+    referer_url = 'https://easy.lagou.com/position/multiChannel/myOnlinePositions.htm?pageNo=1'
+    url = 'https://easy.lagou.com/parentPosition/multiChannel/myOnlinePositions.json'
+    data = {'pageNo':1}
+    header = get_code_token(url=url)
+    r=form_post(url=url, headers=header, data=data, remark='职位类型升级')
+    outerPositionId = r['content']['data']['parentPositionVOs'][0]['positions']['outerPositionId']
+    return outerPositionId
