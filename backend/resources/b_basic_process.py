@@ -146,7 +146,7 @@ class B_Basic_Process(Resource):
                 CompanyInfo['companyFullName'] = args['companyFullName']
 
             try:
-                login_home_code('00853', 22222222)
+                login_home_code("0086", "18810896987")
                 r51, r52, r53 = passPersonApprove()
                 if r51['success'] != True:
                     state = 400
@@ -174,7 +174,10 @@ class B_Basic_Process(Resource):
                     Application['company'] = "公司申请认证成功"
                     state = 2
 
-                login_home_code('00853', 22222222)
+                login_res = login_home_code("0086", "18810896987")
+                if not (login_res['state'] is 1):
+                    info = "home后台登录失败，无法继续审核操作"
+                else:
                 r8 = passCompanyApprove()
                 if r8['success'] != True:
                     state = 400
