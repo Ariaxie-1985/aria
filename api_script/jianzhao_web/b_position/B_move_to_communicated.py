@@ -25,7 +25,7 @@ def move_to_communicated(positionId,resumeOwnerId):
     url = 'https://easy.lagou.com/settings/template/in_temp.json?positionId='+str(positionId)
     refer_listofcandidates_url = "https://easy.lagou.com/can/index.htm"
     listofcandidates_header = get_code_token(refer_listofcandidates_url)
-    get_requests(url,listofcandidates_header)
+    get_requests(url=url,headers=listofcandidates_header)
 
     toStageLink_url = 'https://easy.lagou.com/can/batch/toStageLink.json'
     toStageLink_data = {"resumeIds":resumeOwnerId}

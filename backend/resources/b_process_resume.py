@@ -15,27 +15,67 @@ class b_process_resume(Resource):
 
     def post(self):
 
-        '''
-        web端简历处理接口，resumeId，positionId非必填，默认该账号第一条数据
 
-        请求参数示例：
-                 {
-            "countrycode": "00852",
-            "username": "20181205",
-            "type": 3,
-            "resumeId": 1081023879159488512,
-			"positionId": 13844989
-        }
+        """
+        @@@
+        ### web端简历处理接口，resumeId，positionId非必填，默认该账号第一条数据
+
+
+        ### Request Header
+        | 字段 | 值 |
+        | ---- | ---- |
+        | method | POST |
+        | content-type | application/json |
+
+
+        ### 参数
+
+        | 字段 | 必填 | 类型 | 描述|
+        | ---- | ---- | ---- | ---- |
+        | countryCode | True | string | B端注册用户手机号的地区编号 |
+        | phone | True | string | B端注册用户的手机号 |
+        | type | True | int | 处理类型 |
+        | resumeid | false| int | 简历id |
+        | positionid | false | int | 职位id |
+
         type:1    待沟通
         type:2    面试
         type:3    淘汰
         type:4    录用
         type:5    入职
 
-        header:
-        content-type:application/json
-        '''
 
+
+        ### 请求示例
+        ```json
+ {
+            "countrycode": "00852",
+            "username": "20181205",
+            "type": 3,
+            "resumeId": 1081023879159488512,
+			"positionId": 13844989
+        }
+        ```
+
+
+        ### 返回
+
+        | 字段 | 类型 | 描述|
+        | ---- | ---- | ---- | ---- |
+        | state | int | 1表示成功 |
+        | message | string | 构造数据的结果 |
+
+
+        ### 响应示例
+        ```json
+{
+    "state": 1,
+    "message": "入职成功"
+}
+        ```
+
+        @@@
+        """
 
         parser = reqparse.RequestParser()
 
