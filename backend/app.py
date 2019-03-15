@@ -19,7 +19,8 @@ from backend.resources.hello import HelloWorld
 from backend.resources.run_pytest import run_Pytest
 from backend.resources.b_process_resume import b_process_resume
 from backend.resources.app_process_resume import app_process_resume
-# from backend.resources.submit_Resume_To_Position import submit_Resume_To_Position
+from backend.resources.submit_resume_to_position import submit_Resume_To_Position
+
 
 
 app = Flask(__name__)
@@ -38,7 +39,7 @@ api.add_resource(HelloWorld, '/')
 api.add_resource(B_Post_Position, '/jianzhao/position')
 api.add_resource(B_Basic_Process, '/jianzhao/company/registration')
 api.add_resource(B_Add_People_Into_Company, '/jianzhao/personal/registration')
-# api.add_resource(submit_Resume_To_Position, '/customer/resume')
+api.add_resource(submit_Resume_To_Position, '/customer/resume')
 api.add_resource(C_Basic_Process, '/customer/registration')
 api.add_resource(run_Pytest, '/pytest')
 api.add_resource(b_process_resume,'/jianzhao/resume')
