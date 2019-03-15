@@ -42,6 +42,6 @@ api.add_resource(C_Basic_Process, '/customer/registration')
 api.add_resource(run_Pytest, '/pytest')
 api.add_resource(b_process_resume,'/jianzhao/resume')
 api.add_resource(app_process_resume,'/bapp/resume')
-api.add_resource(app_post_position,'/zyq')
+api.add_resource(app_post_position,'/bapp/position')
 
 app.run(debug=True, host='0.0.0.0', port=9004)
