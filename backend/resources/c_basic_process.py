@@ -76,6 +76,12 @@ class C_Basic_Process(Resource):
         parser.add_argument('sum', type=int, help="请输入注册C端用户的数量", required=True)
         parser.add_argument('userIdentity', type=int, help="请输入注册C端用户的类型, 1学生、2非学生", required=True)
         args = parser.parse_args()
+        # args = {
+        #         "phone": "19911258",
+        #         "countryCode": "00852",
+        #         "userIdentity": 1,
+        #         "sum": 2
+        #     }
         phone = int(args['phone'])
         a = 0
         c_list = []
@@ -88,22 +94,30 @@ class C_Basic_Process(Resource):
             if len(r) == 8:
                 [r1, r2, r3, r4, r5, r6, r7, r8] = r
                 if r1['state'] == 1:
-                    if r2['success'] == r3['success'] == r4['success'] == r5['success'] == r6['success'] == r7[
-                        'success'] == r8['success']:
-                        state = 1
-                        c_list.append(phone)
+                    try:
+                        if r2['success'] == r3['success'] == r4['success'] == r5['success'] == r6['success'] == r7[
+                            'success'] == r8['success']:
+                            state = 1
+                            c_list.append(phone)
+                    except KeyError:
+                        state = 400
+                        e_list.append(phone)
                 else:
-                    state = 1
+                    state = 400
                     e_list.append(phone)
             elif len(r) == 7:
                 [r1, r2, r4, r5, r6, r7, r8] = r
                 if r1['state'] == 1:
-                    if r1['state'] == 1 and r2['success'] == r4['success'] == r5['success'] == r6['success'] == r7[
-                        'success'] == r8['success']:
-                        state = 1
-                        c_list.append(phone)
+                    try:
+                        if r1['state'] == 1 and r2['success'] == r4['success'] == r5['success'] == r6['success'] == r7[
+                            'success'] == r8['success']:
+                            state = 1
+                            c_list.append(phone)
+                    except KeyError:
+                        state = 400
+                        e_list.append(phone)
                 else:
-                    state = 1
+                    state = 400
                     e_list.append(phone)
             else:
                 state = 400
@@ -112,6 +126,9 @@ class C_Basic_Process(Resource):
                 result_list.append(info)
             phone += a
         return {'state': state,
-                "content": "注册用户" + str(args['sum']) + "个, 其中注册成功" + str(len(c_list)) + "个, 注册失败" + str(
+                "content": "注册用户共" + str(args['sum']) + "个, 其中注册成功" + str(len(c_list)) + "个, 注册失败" + str(
                     len(e_list)) + "个",
                 "data": c_list, "errors": e_list, "detail": result_list}
+
+
+

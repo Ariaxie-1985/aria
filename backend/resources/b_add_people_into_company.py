@@ -30,7 +30,7 @@ class B_Add_People_Into_Company(Resource):
         | countryCode | True | string | B端注册用户手机号的地区编号 |
         | phone | True | string | B端注册用户的手机号 |
         | userName | True | string | B端注册用户的姓名 |
-        | companyFullName | True | string | B端注册公司的全称 |
+        | companyFullName | True | string | 已有的B端公司的全称 |
         | resumeReceiveEmail | True | string | B端注册用户接收简历的邮箱 |
 
         ### 请求示例
