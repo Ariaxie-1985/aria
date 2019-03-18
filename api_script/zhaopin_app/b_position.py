@@ -5,7 +5,7 @@
 from utils.util import get_app_header, get_requests, json_post, json_put
 
 host = "https://gate.lagou.com/v1/zhaopin"
-headers = get_app_header(84)
+headers = get_app_header(100014641)
 # headers = get_app_header(100013384)
 
 def positions_static_info():
@@ -45,39 +45,46 @@ def publish_position_check():
 	remark = "发布职位前校验"
 	return get_requests(url=url, headers=headers, remark=remark).json()
 
-# yazhang新增typeid字段，1：普通职位，2：特权，3：无曝光，4：校招
-def post_positions(firstType, positionType, positionThirdType, positionName):
+# yazhang新增typeid字段，1：普通职位，2：特权，3：无曝光
+def post_positions(firstType='开发|测试|运维类',workyear='应届毕业生', positionType='后端开发', positionThirdType='Java', positionName='java开发工程师',typeid=None):
 	'''
 	发布职位
 	:return:
 	'''
 	url = host + "/positions/publish"
 	data = {
-		"isConfirm": True,
+		"isConfirm": False,
 		"recommend": True,
 		"labels": [{
 			"name": "旅游",
-			"id": 9
+			"id": 9,
+			"isExpanded":False,
+			"isSelected":False,
+			"isSubTag":False
 		}, {
 			"name": "本地生活",
-			"id": 5
+			"id": 5,
+			"isExpanded":False,
+			"isSelected":False,
+			"isSubTag":False
 		}],
 		"positionType": positionType,
 		"positionDesc": "<p>11111111111111111111111111111</p>",
-		"workYear": "应届毕业生",
+		 "positionId":0,
+		"workYear": workyear,
 		"salaryMin": 20,
 		"firstType": firstType,
 		"positionName": positionName,
 		"positionBrightPoint": "20薪",
-		"recruitmentType":0,
 		"positionThirdType": positionThirdType,
 		"jobNature": "全职",
 		"education": "本科",
-		"workAddressId": 7,
+		"workAddressId": 191880,
+		# "recruitmentType":1,
 		# "workAddressId": 191882,
 		"department": "技术部",
 		"salaryMax": 30,
-		"typeId":''
+		"typeId":typeid
 	}
 	remark = "发布职位"
 	return json_post(url=url, headers=headers, data=data, remark=remark)
@@ -102,23 +109,25 @@ def update_position(positionId):
 	'''
 	url = host + "/positions/update"
 	data = {
-		"labels": [{
-			"name": "电商",
-			"id": 1
-		}],
-		"positionDesc": "这工作不错！",
-		"positionBrightPoint": "20薪",
-		"salaryMax": 12,
-		"recruitmentType": 0,
+		"education": "本科",
 		"positionId": positionId,
-		"education": "不限",
+		"workAddressId": 191880,
 		"jobNature": "全职",
-		"workAddressId": 7,
-		"department": "111",
-		"workYear": "应届毕业生",
-		"salaryMin": 11
+		"positionDesc": "22222222222222222222",
+		"workYear": "3-5年",
+		"department": "技术工程部",
+		"positionBrightPoint": "50薪",
+		"salaryMin": 25,
+		"labels": [{
+			"name": "旅游",
+			"id": 9
+		}, {
+			"name": "本地生活",
+			"id": 5
+		}],
+		"salaryMax": 30
 	}
-	remark = "更新校招职位"
+	remark = "发布职位"
 	return json_put(url=url, headers=headers, data=data, remark=remark)
 
 
@@ -243,7 +252,7 @@ def positions_republish(positionId):
 
 
 # category_mapping("Java开发")
-# post_positions('开发|测试|运维类','后端开发','Java','Java开发工程师5')
+# post_positions(workyear='3-5年')
 '''
 get_online_positions()
 # 100013384
