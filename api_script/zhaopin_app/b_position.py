@@ -46,7 +46,7 @@ def publish_position_check():
 	return get_requests(url=url, headers=headers, remark=remark).json()
 
 # yazhang新增typeid字段，1：普通职位，2：特权，3：无曝光
-def post_positions(firstType='开发|测试|运维类',workyear='应届毕业生', positionType='后端开发', positionThirdType='Java', positionName='java开发工程师',typeid=None,userid=100014641):
+def post_positions(firstType='开发|测试|运维类',workyear='应届毕业生', positionType='后端开发', positionThirdType='Java', positionName='java开发工程师',typeid=None,userid=84):
 	'''
 	发布职位
 	:return:
