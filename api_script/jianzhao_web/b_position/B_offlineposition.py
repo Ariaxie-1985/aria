@@ -35,6 +35,10 @@ def online_positionId_outerPositionId():
     myonlinepostions_data = {"pageNo": 1}
     remark = "获取下线职位的职位id"
     r = form_post(url=myonlinepostions_url, data=myonlinepostions_data, headers=Position_header, remark=remark)
-    positionId = r['content']['data']['parentPositionVOs'][0]['positions'][0]['positionId']
-    outerPositionId = r['content']['data']['parentPositionVOs'][0]['positions'][0]['outerPositionId']
+    try:
+        positionId = r['content']['data']['parentPositionVOs'][0]['positions'][0]['positionId']
+        outerPositionId = r['content']['data']['parentPositionVOs'][0]['positions'][0]['outerPositionId']
+    except KeyError:
+        positionId = 0
+        outerPositionId = 0
     return positionId, outerPositionId

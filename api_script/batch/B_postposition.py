@@ -3,6 +3,7 @@
 
 from utils.util import form_post, get_code_token, login
 import random
+from api_script.jianzhao_web.b_position.B_postposition import get_Address
 
 # 批量发布职位-拉勾渠道
 postype = [{'firstType': '开发|测试|运维类', 'positionType': '人工智能', 'positionThirdType': '机器学习', 'positionName': '机器学习'},
@@ -24,6 +25,7 @@ def post_position(sum):
 
 	'''
 	reslist = []
+	addressId=get_Address()
 	for i in range(sum):
 		a = random.randint(0, 7)
 		postype_t = postype[a]
@@ -32,7 +34,7 @@ def post_position(sum):
 		createPosition_url = "https://easy.lagou.com/parentPosition/multiChannel/create.json"
 
 		createPosition_data = {**{'isSchoolJob': '0', 'channelTypes': 'LAGOU', 'department': '111', 'jobNature': '全职',
-		                          'salaryMin': '11', 'salaryMax': '12', 'education': '不限', 'workAddressId': '191880',
+		                          'salaryMin': '11', 'salaryMax': '12', 'education': '不限', 'workAddressId': addressId,
 		                          'positionBrightPoint': '11111', 'workYear': '3-5年', 'channels': '108',
 		                          'recommend': True, 'extraInfor': '[{"labels":[{"id":"1","name":"电商"}]}]',
 		                          'positionDesc': '<p>111111111111111111111111111111111111111111111</p>',

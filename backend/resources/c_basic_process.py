@@ -79,6 +79,12 @@ class C_Basic_Process(Resource):
         parser.add_argument('sum', type=int, help="请输入注册C端用户的数量", required=True)
         parser.add_argument('userIdentity', type=int, help="请输入注册C端用户的类型, 1学生、2非学生", required=True)
         args = parser.parse_args()
+        # args = {
+        #         "phone": "19911258",
+        #         "countryCode": "00852",
+        #         "userIdentity": 1,
+        #         "sum": 2
+        #     }
         phone = int(args['phone'])
         a = 0
         c_list = []

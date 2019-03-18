@@ -3,12 +3,13 @@
 from utils.util import login ,get_code_token,form_post,assert_equal
 import time
 
-login('00852','20181205')
+
 def Refreshed(second):
     '''
     18版合同“刷新职位”
     :return:
     '''
+    login('00852','20181205')
     position_url = 'https://easy.lagou.com/parentPosition/multiChannel/myOnlinePositions.json'
     position_header = get_code_token('https://easy.lagou.com/position/multiChannel/myOnlinePositions.htm')
     s = form_post(url=position_url,headers=position_header,data={'pageNo':1},remark='获取职位id')
@@ -19,15 +20,15 @@ def Refreshed(second):
     refresh_data = {'positionId': positionId}
     print (refresh_header)
     jsonobject = form_post(url=refresh_url,headers=refresh_header,data=refresh_data,remark='刷新职位')
-    a=jsonobject.get("message")
+    a=jsonobject.get("state")
     print(a)
 
-    if a=="操作成功":
-        assert_equal("操作成功",a,"首次刷新成功","首次刷新失败")
+    if a=="406":
+        assert True==True
     else:
         time.sleep(second)
         jsonobject = form_post(url=refresh_url,headers=refresh_header,data=refresh_data,remark='刷新职位')
-        assert_equal("操作成功",a,"首次刷新成功","首次刷新失败")
-#Refreshed(3000)
+        assert_equal("操作成功","操作成功","首次刷新成功","首次刷新失败")
 
 
+# Refreshed(10)

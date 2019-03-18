@@ -99,11 +99,11 @@ def Save():
     assert_equal("操作成功",meassage,"快捷回复添加、修改成功","快捷回复添加、修改失败")
 
 
-
-list()
-allRead()
-quickReplyList()
-greetingList()
-quickReplySave()
-quickReplyTop()
-Save()
+#
+# list()
+# allRead()
+# quickReplyList()
+# greetingList()
+# quickReplySave()
+# quickReplyTop()
+# Save()

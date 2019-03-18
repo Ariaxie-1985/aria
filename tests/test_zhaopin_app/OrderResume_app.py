@@ -17,7 +17,7 @@ from utils.util import login
 
 
 @pytest.mark.skip(reason="有问题, 暂不执行")
-def test_MySchedule(login_web_k8s_default):
+def test_MySchedule(login_home_k8s_env_b):
 	'''
 	查询我的排期，包括共享职位
 	  发送商机线索
@@ -25,8 +25,8 @@ def test_MySchedule(login_web_k8s_default):
 	:return:
 	'''
 	# MySchedule(100014641)
-	SendBusiness(100014641)
-	ScheduleList(100014641)
+	SendBusiness(84)
+	ScheduleList(84)
 
 # def test_OrderResumes():
 #     '''

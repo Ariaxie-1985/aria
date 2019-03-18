@@ -13,7 +13,7 @@ def teardown_module(module):
 	pass
 
 
-def test_interview_index(login_web_k8s_default):
+def test_interview_index(login_web_k8s_env_b):
 	r = interview_index()
 	assert_equal(200, r.status_code, "简历管理-面试日程页面成功")
 

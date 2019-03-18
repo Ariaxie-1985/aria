@@ -4,7 +4,7 @@
 from utils.util import get_app_header, get_requests
 
 host = "https://gate.lagou.com/v1/zhaopin"
-headers = get_app_header(100014641)
+headers = get_app_header(84)
 
 
 def get_strict_pages_positions():

@@ -18,7 +18,7 @@ from utils.util import login
 pytest.skip("有问题, 暂不执行")
 
 
-def test_OrderResumes(login_web_k8s_default):
+def test_OrderResumes(login_home_k8s_env_b):
 	'''
 		1、分页查询简历
 	2、生成或获取简历公开查看链接

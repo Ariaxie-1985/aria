@@ -46,7 +46,7 @@ def publish_position_check():
 	return get_requests(url=url, headers=headers, remark=remark).json()
 
 # yazhang新增typeid字段，1：普通职位，2：特权，3：无曝光
-def post_positions(firstType='开发|测试|运维类',workyear='应届毕业生', positionType='后端开发', positionThirdType='Java', positionName='java开发工程师',typeid=None):
+def post_positions(firstType='开发|测试|运维类',workyear='应届毕业生', positionType='后端开发', positionThirdType='Java', positionName='java开发工程师',typeid=None,userid=100014641):
 	'''
 	发布职位
 	:return:
@@ -79,14 +79,15 @@ def post_positions(firstType='开发|测试|运维类',workyear='应届毕业生
 		"positionThirdType": positionThirdType,
 		"jobNature": "全职",
 		"education": "本科",
-		"workAddressId": 191880,
+		"workAddressId": 7,
 		# "recruitmentType":1,
 		# "workAddressId": 191882,
 		"department": "技术部",
 		"salaryMax": 30,
-		"typeId":typeid
+		"id":typeid
 	}
 	remark = "发布职位"
+	headers=get_app_header(userid)
 	return json_post(url=url, headers=headers, data=data, remark=remark)
 
 
@@ -253,15 +254,14 @@ def positions_republish(positionId):
 
 # category_mapping("Java开发")
 # post_positions(workyear='3-5年')
-'''
-get_online_positions()
+
+# get_online_positions()
 # 100013384
-positions_republish(str(13845257))
+# positions_republish(str(13845257))
 # 100013387
 # positions_republish(str(13687179))
-positions_query_position_type()
+# positions_query_position_type()
 # get_other_positions()
-get_offline_positions()
+# get_offline_positions()
 # positions_details(str(13845259))
-positions_details_app(str(13845370))
-'''
+# positions_details_app(str(13845370))
