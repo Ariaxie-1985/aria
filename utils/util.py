@@ -22,7 +22,7 @@ header = {
 @retry(stop=(stop_after_delay(2) | stop_after_attempt(3)))
 def get_code_token(url):
     try:
-        code = session.get(url=url, headers=header, verify=False, timeout=6)
+        code = session.get(url=url, headers=header, verify=False, timeout=60)
         token_values = re.findall("X_Anti_Forge_Token = '(.*?)'", code.text, re.S)[0]
         code_values = re.findall("X_Anti_Forge_Code = '(.*?)'", code.text, re.S)[0]
         headers = {"X-Anit-Forge-Code": code_values, "X-Anit-Forge-Token": token_values,
@@ -44,7 +44,7 @@ def form_post(url, remark, data=None, files=None, headers=None):
     """
     try:
         headers = {**headers, **header}
-        response = session.post(url=url, data=data, files=files, headers=headers, verify=False, timeout=6)
+        response = session.post(url=url, data=data, files=files, headers=headers, verify=False, timeout=60)
         logging.info(
             "\n请求目的: {},\n 请求url: {},\n 请求数据: {},\n 响应结果: {}\n".format(remark, url, data, str(response.json())))
         if response.status_code == 200:
@@ -64,7 +64,7 @@ def json_post(url, remark, data=None, headers=None):
     """
     try:
         headers = {**headers, **header}
-        response = session.post(url=url, json=data, headers=headers, verify=False, timeout=6)
+        response = session.post(url=url, json=data, headers=headers, verify=False, timeout=60)
         logging.info(
             "\n请求目的: {},\n 请求url: {},\n 请求数据: {},\n 响应结果: {}\n".format(remark, url, data, str(response.json())))
         if response.status_code == 200:
@@ -82,7 +82,7 @@ def get_requests(url, data=None, headers=None, remark=None):
     :return: object, 响应对象
     """
     try:
-        response = session.get(url=url, params=data, headers=headers, verify=False, timeout=10)
+        response = session.get(url=url, params=data, headers=headers, verify=False, timeout=60)
         if "application/json" in response.headers['content-type']:
             logging.info(
                 "\n请求目的: {},\n 请求url: {},\n 响应结果: {}\n".format(remark, url, str(response.json())))
@@ -99,7 +99,7 @@ def get_requests(url, data=None, headers=None, remark=None):
 # get请求---获取header
 def get_header(url):
     try:
-        response = session.get(url=url, headers=header, verify=False, timeout=20)
+        response = session.get(url=url, headers=header, verify=False, timeout=60)
         if response.status_code == 200:
             return response.request.headers
     except RequestException as e:
