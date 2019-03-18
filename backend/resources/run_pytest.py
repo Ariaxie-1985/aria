@@ -12,10 +12,10 @@ from utils.analysis_html_report import analysis_html_report
 
 class run_Pytest(Resource):
     Business_module = {
-        'business': "pytest {}/tests/test_business/ --html=backend/templates/{}_report.html --self-contained-html",
-        'jianzhao_web': 'pytest {}/tests/test_jianzhao_web/ --html=backend/templates/{}_report.html --self-contained-html',
-        'zhaopin': 'pytest {}/tests/test_zhaopin_app/test_app_b_chat.py tests/test_zhaopin_app/test_app_b_position.py --html=backend/templates/{}_report.html --self-contained-html',
-        'all': 'pytest {}/ --html=backend/templates/{}_report.html --self-contained-html',
+        'business': "/usr/local/python3/bin/pytest {}/tests/test_business/ --html=backend/templates/{}_report.html --self-contained-html",
+        'jianzhao_web': '/usr/local/python3/bin/pytest {}/tests/test_jianzhao_web/ --html=backend/templates/{}_report.html --self-contained-html',
+        'zhaopin': '/usr/local/python3/bin/pytest {}/tests/test_zhaopin_app/test_app_b_chat.py tests/test_zhaopin_app/test_app_b_position.py --html=backend/templates/{}_report.html --self-contained-html',
+        'all': '/usr/local/python3/bin/pytest {}/ --html=backend/templates/{}_report.html --self-contained-html',
     }
 
     def get(self):
