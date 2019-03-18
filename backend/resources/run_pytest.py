@@ -12,17 +12,15 @@ from utils.analysis_html_report import analysis_html_report
 
 class run_Pytest(Resource):
     Business_module = {
-        'business': "/root/.local/bin/pipenv run pytest {}/tests/test_business/ --html=backend/templates/{}_report.html --self-contained-html",
-        'jianzhao_web': '/root/.local/bin/pipenv run pytest {}/tests/test_jianzhao_web/ --html=backend/templates/{}_report.html --self-contained-html',
-        'zhaopin': '/root/.local/bin/pipenv run pytest {}/tests/test_zhaopin_app/test_app_b_chat.py tests/test_zhaopin_app/test_app_b_position.py --html=backend/templates/{}_report.html --self-contained-html',
-        'all': '/root/.local/bin/pipenv run pytest {}/ --html=backend/templates/{}_report.html --self-contained-html',
+        'business': "pytest {}/tests/test_business/ --html=backend/templates/{}_report.html --self-contained-html",
+        'jianzhao_web': 'pytest {}/tests/test_jianzhao_web/ --html=backend/templates/{}_report.html --self-contained-html',
+        'zhaopin': 'pytest {}/tests/test_zhaopin_app/test_app_b_chat.py tests/test_zhaopin_app/test_app_b_position.py --html=backend/templates/{}_report.html --self-contained-html',
+        'all': 'pytest {}/ --html=backend/templates/{}_report.html --self-contained-html',
     }
 
     def get(self):
         '''
         @@@
-        ### Author = Xiawang
-
         ### 对外接口: 获取pytest测试报告
 
 
@@ -68,9 +66,6 @@ class run_Pytest(Resource):
     def post(self):
         '''
         @@@
-        ### Author = Xiawang
-
-
         ### 对外接口: 执行pytest
 
 
@@ -152,33 +147,9 @@ class run_Pytest(Resource):
         os.chdir(project_path)
         state = 0
         info = None
-
         subprocess.call(self.Business_module[args['module']].format(project_path, args['module']), shell=True)
         result = analysis_html_report("{}/backend/templates/{}_report.html".format(project_path, args['module']), 1)
         state = 1
         info = {"result": result}
-
-        if args['module'] == "business":
-            subprocess.call("sh {}/run_business.sh".format(project_path), shell=True)
-            # subprocess.run("pytest {}/tests/test_business/".format(project_path), shell=True,
-            #                stdout=subprocess.PIPE)
-            result = analysis_html_report("{}/backend/templates/report.html".format(project_path), 1)
-            state = 1
-            info = {"result": result}
-        elif args['module'] == 'jianzhao_web':
-            subprocess.call("sh {}/run_jianzhao_web.sh".format(project_path), shell=True)
-            result = analysis_html_report("{}/backend/templates/report.html".format(project_path), 1)
-            state = 1
-            info = {"result": result}
-        elif args['module'] == 'zhaopin':
-            subprocess.call("sh {}/run_zhaopin.sh".format(project_path), shell=True)
-            result = analysis_html_report("{}/backend/templates/report.html".format(project_path), 1)
-            state = 1
-            info = {"result": result}
-        elif args['module'] == "all":
-            subprocess.call("sh {}/run.sh".format(project_path), shell=True)
-            result = analysis_html_report("{}/backend/templates/report.html".format(project_path), 1)
-            state = 1
-            info = {"result": result}
 
         return {'state': state, "data": info}
