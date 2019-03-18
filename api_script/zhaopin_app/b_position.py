@@ -79,7 +79,7 @@ def post_positions(firstType='开发|测试|运维类',workyear='应届毕业生
 		"positionThirdType": positionThirdType,
 		"jobNature": "全职",
 		"education": "本科",
-		"workAddressId": 191880,
+		"workAddressId": 7,
 		# "recruitmentType":1,
 		# "workAddressId": 191882,
 		"department": "技术部",
