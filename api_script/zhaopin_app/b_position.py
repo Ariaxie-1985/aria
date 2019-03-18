@@ -115,7 +115,7 @@ def update_position(positionId):
 		"workAddressId": 191880,
 		"jobNature": "全职",
 		"positionDesc": "22222222222222222222",
-		"workYear": "3-5年",
+		"workYear": "应届毕业生",
 		"department": "技术工程部",
 		"positionBrightPoint": "50薪",
 		"salaryMin": 25,
