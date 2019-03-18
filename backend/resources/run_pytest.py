@@ -21,6 +21,9 @@ class run_Pytest(Resource):
     def get(self):
         '''
         @@@
+        ### Auther = Xiawang
+
+
         ### 对外接口: 获取pytest测试报告
 
 
@@ -66,6 +69,9 @@ class run_Pytest(Resource):
     def post(self):
         '''
         @@@
+        ### Auther = Xiawang
+
+
         ### 对外接口: 执行pytest
 
 

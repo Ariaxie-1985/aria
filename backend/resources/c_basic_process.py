@@ -12,6 +12,9 @@ class C_Basic_Process(Resource):
     def post(self):
         '''
         @@@
+        ### Auther = Xiawang
+
+
         ### C端注册并生成简历
 
 

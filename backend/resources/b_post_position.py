@@ -13,6 +13,8 @@ class B_Post_Position(Resource):
     def post(self):
         """
         @@@
+        ### Auther = Xiawang
+
         ### 发布职位
 
 

@@ -18,6 +18,8 @@ class b_process_resume(Resource):
 
         """
         @@@
+        ### Auther = Xiawang
+
         ### web端简历处理接口，resumeId，positionId非必填，默认该账号第一条数据
 
 

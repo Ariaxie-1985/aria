@@ -15,6 +15,8 @@ class submit_Resume_To_Position(Resource):
     def post(self):
         '''
                 @@@
+                ### Auther = Xiawang
+
                 ### C端用户投递给B端公司在线的某职位
 
 
