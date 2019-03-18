@@ -17,7 +17,7 @@ from utils.util import login
 # pytest.skip("有问题, 暂不执行")
 
 @pytest.mark.skip(reason="有问题, 暂不执行")
-def test_OrderResumes(login_home_k8s_env_b):
+def test_OrderResumes(login_web_k8s_default):
 	'''
 	获得简历id
 	设置为待沟通

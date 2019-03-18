@@ -10,7 +10,7 @@ def setup_module(module):
 
 
 
-def test_Refreshed(login_web_k8s_env_b):
+def test_Refreshed(login_web_k8s_default):
     '''
     18版合同“刷新职位”
     :return:

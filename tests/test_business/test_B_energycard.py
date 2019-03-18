@@ -12,7 +12,7 @@ def teardown_module(module):
     pass
 
 
-def test_energycard(login_web_k8s_env_b):
+def test_energycard(login_web_k8s_default):
     logging.getLogger().setLevel(logging.INFO)
     s = energycard(getpositionId())
     if s['message'] == '操作成功':

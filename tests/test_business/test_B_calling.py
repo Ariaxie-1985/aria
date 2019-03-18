@@ -13,7 +13,7 @@ def teardown_module(module):
     pass
 
 # @pytest.mark.skip(reason="暂时注掉先不跑")
-def test_calling(login_web_k8s_env_b):
+def test_calling(login_web_k8s_default):
     s = calling(80)
     logging.getLogger().setLevel(logging.INFO)
     # assert s['message'] == '成功'

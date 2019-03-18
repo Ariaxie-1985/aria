@@ -4,7 +4,7 @@
 from utils.util import get_app_header, json_post
 
 host = "https://gate.lagou.com/v1/zhaopin"
-headers = get_app_header(84)
+headers = get_app_header(100014641)
 
 
 def crm_positions_tag_report(type):

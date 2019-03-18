@@ -17,8 +17,8 @@ from utils.read_file import get_yaml_test_data
 test_data = get_yaml_test_data("test_sub_account.yaml")
 
 templateId = test_data['templateId']
-userId_list = [90, 95]
-invalidUserId = 90
+userId_list = [100014642, 100014643]
+invalidUserId = 100014642
 
 '''
 验证在18秋版套餐版本下子账号的添加, 权益调整, 移除, 无效后再恢复, 调整为分账号
@@ -33,7 +33,7 @@ def teardown_module(module):
     pass
 
 
-def test_add_sub_account(login_web_k8s_env_b):
+def test_add_sub_account(login_web_k8s_default):
     '''
     测试验证添加子账号是否成功
     :return: Boolean, True表示测试通过, False表示测试失败

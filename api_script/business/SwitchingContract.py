@@ -18,10 +18,10 @@ def lagouPlus(templateId):
     查看套餐是否正常
     :return:
     '''
-    login_home_code("0086", "18810896987")
+    login_home_code('00853', 22222222)
     header=get_header("https://home.lagou.com/")
     Request_url="https://home.lagou.com/crm/contractController/list.json"
-    data={"companyId":14}
+    data={"companyId":141702}
     object=form_post(url=Request_url,remark="查询当前公司下的合同",data=data,headers=header)
     #childaccount = jsonobject.json()['content']['data']['subAcccountPage']['totalCount']
     number=object['data']['pageData'][0]['number']

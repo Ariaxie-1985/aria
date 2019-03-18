@@ -80,7 +80,7 @@ def test_get_other_positions():
     assert_equal(1, res['state'], "获取其他职位列表成功", "获取其他职位列表失败")
 
 
-@pytest.mark.parametrize("apply_privilege_position_userId", [(95)])
+@pytest.mark.parametrize("apply_privilege_position_userId", [(100014643)])
 def test_apply_privilege_position(apply_privilege_position_userId):
     res = apply_privilege_position(apply_privilege_position_userId)
     assert_equal(1, res['state'], "获取其他职位列表成功", "获取其他职位列表失败")

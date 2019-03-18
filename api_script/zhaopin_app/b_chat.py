@@ -6,7 +6,7 @@ import time
 from utils.util import get_app_header, json_post, get_requests
 
 host = "https://gate.lagou.com/v1/zhaopin"
-headers = get_app_header(84)
+headers = get_app_header(100014641)
 
 
 def chat_invite_msg(positionId, userId):
