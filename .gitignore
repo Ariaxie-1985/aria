@@ -8,3 +8,7 @@ report/report.html
 platform/
 report/
 assets/
+_windows/
+debugger.xml
+editor.xml
+filetypes.xml
