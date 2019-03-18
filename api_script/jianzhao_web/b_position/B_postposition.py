@@ -1,12 +1,14 @@
 # coding:utf-8
 # @Author: Xiawang
-from utils.util import form_post, get_code_token, login
-
+from utils.util import form_post, get_code_token, login ,get_requests
+import json
 
 # 发布单个职位-拉勾渠道
 def post_position():
     refer_createPosition_url = "https://easy.lagou.com/position/multiChannel/createPosition.htm"
     Position_header = get_code_token(refer_createPosition_url)
+    address=get_requests(url='https://easy.lagou.com/workAddress/list.json',headers=Position_header).content
+    addressId=json.loads(address)['content']['rows'][0]['id']
     createPosition_url = "https://easy.lagou.com/parentPosition/multiChannel/create.json"
     createPosition_data = {'isSchoolJob': '1', 'channelTypes': 'LAGOU', 'firstType': '开发|测试|运维类',
                            'positionType': '后端开发',
@@ -14,10 +16,10 @@ def post_position():
                            'jobNature': '全职', 'salaryMin': '11', 'salaryMax': '12', 'education': '不限',
                            'positionBrightPoint': '11111',
                            'positionDesc': '<p>111111111111111111111111111111111111111111111</p>',
-                           'workAddressId': '7',
+                           'workAddressId': addressId,
                            'labels': '[{"id":"1","name":"电商"}]', 'extraInfor': '[{"labels":[{"id":"1","name":"电商"}]}]',
-                           'channels': '108', 'useEnergyCard': 'false', 'recommend': 'false', "useEnergyCard": "false",
-                           'workYear': '1-3年', 'typeId': ''}
+                           'channels': '108', 'useEnergyCard': 'false', 'recommend': 'false', 'workYear': '应届毕业生',
+                           'typeId': ''}
     remark = "发布职位"
     return form_post(url=createPosition_url, data=createPosition_data, headers=Position_header, remark=remark)
 
@@ -44,7 +46,19 @@ def update_position():
     return form_post(url=url, headers=header, data=data, remark='职位类型升级')
 
 
-# login('00853', '05180001')
-# post_position()
-# republish_position()
-# update_position()
+def get_outerPositionId():
+    referer_url = 'https://easy.lagou.com/position/multiChannel/myOnlinePositions.htm?pageNo=1'
+    url = 'https://easy.lagou.com/parentPosition/multiChannel/myOnlinePositions.json'
+    data = {'pageNo':1}
+    header = get_code_token(url=url)
+    r=form_post(url=url, headers=header, data=data, remark='职位类型升级')
+    outerPositionId = r['content']['data']['parentPositionVOs'][0]['positions']['outerPositionId']
+    return outerPositionId
+
+def get_Address():
+    header = get_code_token('https://easy.lagou.com/position/multiChannel/createPosition.htm')
+    url = 'https://easy.lagou.com/workAddress/list.json'
+    r=get_requests(url=url,headers=header,remark='获取地址id').content
+    r=json.loads(r)
+    return r['content']['rows'][0]['id']
+

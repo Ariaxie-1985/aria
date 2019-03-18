@@ -3,7 +3,7 @@ __author__ = 'yqzhang'
 
 from flask_restful import Resource, reqparse
 from api_script.zhaopin_app.b_position import post_positions
-
+from utils.util import get_app_header
 
 class app_post_position(Resource):
 
@@ -37,7 +37,7 @@ class app_post_position(Resource):
            ```json
             {
 
-               "userid": 100013384,
+
                "sum": 1
            }
            ```
@@ -75,7 +75,7 @@ class app_post_position(Resource):
     def post(self):
 
         parser = reqparse.RequestParser()
-        parser.add_argument('userid', type=int, help="B端用户id", required=True)
+        # parser.add_argument('userid', type=int, help="B端用户id", required=True)
         parser.add_argument('positionname', type=str, help="请输入职位名", required=False,default='Java开发工程师')
         parser.add_argument('sum', type=int, help="请输入发布职位的数量", required=False,default=1)
         parser.add_argument('workyear', type=str, help="请输入经验", required=False,default='应届毕业生')
@@ -95,10 +95,11 @@ class app_post_position(Resource):
                     result.append(r['content']['mdsPositionId'])
                     s=s+1
                 else:
-                    # fail.append()
+                    # fail.append(r['message'])
                     f=f+1
             else:
-                return {'state':401,'message':'职位创建失败'}
+
+                return {'state':401,'message':r['message']}
         if s==0:
             return {'state':400,'message':'所有职位均创建失败'}
         else:
