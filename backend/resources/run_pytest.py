@@ -21,6 +21,8 @@ class run_Pytest(Resource):
     def get(self):
         '''
         @@@
+        ### Author = Xiawang
+
         ### 对外接口: 获取pytest测试报告
 
 
@@ -63,31 +65,12 @@ class run_Pytest(Resource):
         html = '{}_report.html'.format(args['module'])
         return make_response(render_template(html), 200, headers)
 
-    def get(self):
-        '''
-        @@@
-        ### 对外接口: 获取pytest测试报告
-
-
-        ### Request Header
-        | 字段 | 值 |
-        | ---- | ---- |
-        | method | GET |
-        | Accept | text/html |
-
-
-        直接在浏览器请求访问即可
-
-        ### 返回
-         report html
-
-        '''
-        headers = {'Content-Type': 'text/html'}
-        return make_response(render_template('report.html'), 200, headers)
-
     def post(self):
         '''
         @@@
+        ### Author = Xiawang
+
+
         ### 对外接口: 执行pytest
 
 
@@ -197,6 +180,5 @@ class run_Pytest(Resource):
             result = analysis_html_report("{}/backend/templates/report.html".format(project_path), 1)
             state = 1
             info = {"result": result}
-
 
         return {'state': state, "data": info}

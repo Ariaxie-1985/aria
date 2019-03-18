@@ -17,6 +17,9 @@ class B_Basic_Process(Resource):
 
         """
         @@@
+        ### Author = Xiawang
+
+
         ### B端注册-公司成立-招聘者认证提交及审核-公司认证及审核流程
 
 
