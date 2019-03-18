@@ -23,7 +23,6 @@ class app_post_position(Resource):
 
            | 字段 | 必填 | 类型 | 描述|
            | ---- | ---- | ---- | ---- |
-           | userid | True | int | B端用户id |
            | positionname | False | string | 职位名 |
            | sum | True | int | 发布职位总数 |
            | workyear | False | str | 经验 |
