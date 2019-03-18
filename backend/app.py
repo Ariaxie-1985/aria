@@ -19,6 +19,7 @@ from backend.resources.run_pytest import run_Pytest
 from backend.resources.b_process_resume import b_process_resume
 from backend.resources.submit_resume_to_position import submit_Resume_To_Position
 from backend.resources.app_process_resume import app_process_resume
+from backend.resources.app_post_position import app_post_position
 
 app = Flask(__name__)
 app.config.from_object(config)
@@ -41,5 +42,6 @@ api.add_resource(C_Basic_Process, '/customer/registration')
 api.add_resource(run_Pytest, '/pytest')
 api.add_resource(b_process_resume,'/jianzhao/resume')
 api.add_resource(app_process_resume,'/bapp/resume')
+api.add_resource(app_post_position,'/bapp/position')
 
 app.run(debug=True, host='0.0.0.0', port=9004)
