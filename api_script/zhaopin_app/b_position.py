@@ -112,10 +112,10 @@ def update_position(positionId):
 	data = {
 		"education": "本科",
 		"positionId": positionId,
-		"workAddressId": 191880,
+		"workAddressId": 7,
 		"jobNature": "全职",
 		"positionDesc": "22222222222222222222",
-		"workYear": "3-5年",
+		"workYear": "应届毕业生",
 		"department": "技术工程部",
 		"positionBrightPoint": "50薪",
 		"salaryMin": 25,
@@ -253,7 +253,7 @@ def positions_republish(positionId):
 
 
 # category_mapping("Java开发")
-# post_positions(workyear='3-5年')
+# post_positions()
 
 # get_online_positions()
 # 100013384

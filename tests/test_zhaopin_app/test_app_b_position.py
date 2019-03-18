@@ -45,10 +45,7 @@ def test_publish_position_check():
 
 @pytest.mark.parametrize("positionName", [('新媒体运营')])
 def test_post_positions(positionName):
-    res = post_positions(firstType,
-                         positionType,
-                         positionThirdType,
-                         positionName)
+    res = post_positions()
     global positionId
     positionId = res['content']['mdsPositionId']
     assert_equal(1, res['state'], "发布职位成功", "发布职位失败")
