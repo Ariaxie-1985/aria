@@ -51,7 +51,7 @@ def add_saveCompany():
 	step2_url = 'https://hr.lagou.com/corpCenter/openservice/step2.html'
 	saveCompany_url = "https://hr.lagou.com/corpCenter/openservice/saveCompany.json"
 	saveCompany_header = get_code_token(step2_url)
-	remark = "验证B端成立公司是否成功"
+	remark = "验证B端加入已有的公司是否成功"
 	return form_post(url=saveCompany_url, headers=saveCompany_header,remark=remark)
 
 
