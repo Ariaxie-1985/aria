@@ -16,7 +16,7 @@ def teardown_module(module):
 	pass
 
 
-def test_hot(login_web_k8s_env_b):
+def test_hot(login_web_k8s_default):
 	'''
 	判断是否是热门职位
 	:return:

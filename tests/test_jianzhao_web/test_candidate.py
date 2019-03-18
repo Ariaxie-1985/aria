@@ -28,7 +28,7 @@ positionId = 0
 resumeIds = 0
 
 
-def test_can_new_list(login_web_k8s_env_b):
+def test_can_new_list(login_web_k8s_default):
     r = can_new_list()
     global resumeId, positionId, resumeIds
     if len(r['content']['rows']):

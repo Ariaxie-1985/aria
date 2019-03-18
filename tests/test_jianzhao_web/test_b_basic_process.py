@@ -46,7 +46,7 @@ def test_saveHR_process(phone, countryCode, companyShortName, companyFullName, u
                  "B端提交招聘者审核失败，该公司简称: " + str(updateCompanyShortName))
 
 
-def test_passPersonApprove(login_home_k8s_env_b):
+def test_passPersonApprove(login_home_k8s_default):
     log = logging.getLogger('test_passPersonApprove')
     log.info('验证home后台-审核中心-个人认证-审核招聘者是否成功')
     r1, r2, r3 = passPersonApprove()
@@ -63,7 +63,7 @@ def test_completeInfo_process(phone):
     assert_equal(1, r2['state'], "B端申请认证公司成功", "B端申请认证公司失败")
 
 
-def test_passCompanyApprove(login_home_k8s_env_b):
+def test_passCompanyApprove(login_home_k8s_default):
     log = logging.getLogger('test_passCompanyApprove')
     log.info('验证home后台-公司认证-审核公司是否成功')
     r = passCompanyApprove()

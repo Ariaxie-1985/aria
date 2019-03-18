@@ -14,7 +14,7 @@ def teardown_module(module):
 
 
 
-def test_get_talent_index(login_web_k8s_env_b):
+def test_get_talent_index(login_web_k8s_default):
 	r = get_talent_index()
 	assert_equal(200, r.status_code, "获取找人才主页成功")
 

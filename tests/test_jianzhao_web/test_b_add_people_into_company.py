@@ -42,7 +42,7 @@ def test_add_people_into_companyame(phone, countryCode, userName, companyFullNam
                  "提交招聘者审核失败，该用户的手机号: " + str(phone))
 
 
-def test_passPersonApprove(login_home_k8s_env_b):
+def test_passPersonApprove(login_home_k8s_default):
     log = logging.getLogger('test_passPersonApprove')
     log.info('验证home后台-审核中心-个人认证-审核招聘者是否成功')
     try:

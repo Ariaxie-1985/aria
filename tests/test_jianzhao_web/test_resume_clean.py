@@ -12,7 +12,7 @@ def teardown_module(module):
 	pass
 
 
-def test_can_new_index(login_web_k8s_env_b):
+def test_can_new_index(login_web_k8s_default):
 	r = can_new_index()
 	assert_equal(200, r.status_code, "候选人首页获取成功")
 
