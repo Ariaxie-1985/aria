@@ -4,6 +4,7 @@ __author__ = 'yqzhang'
 from utils.util import get_code_token, get_requests, get_header ,form_post ,login ,json_post
 
 
+
 # login('00853','05180001')
 def getpositionId():
     position_url = 'https://easy.lagou.com/parentPosition/multiChannel/myOnlinePositions.json'

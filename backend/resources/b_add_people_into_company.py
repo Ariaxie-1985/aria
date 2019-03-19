@@ -5,7 +5,7 @@ from flask_restful import Resource, reqparse
 
 from api_script.jianzhao_web.b_basic.home_review_person_2 import passPersonApprove
 from api_script.jianzhao_web.b_basic.toB_saveHR_1 import add_people_into_company
-from utils.util import login_home
+from utils.util import login_home, login_home_code
 
 
 class B_Add_People_Into_Company(Resource):
@@ -13,6 +13,8 @@ class B_Add_People_Into_Company(Resource):
     def post(self):
         """
         @@@
+        ### Auther = Xiawang
+
         ### B端注册加入公司-招聘者认证提交及审核流程
 
 
@@ -30,7 +32,7 @@ class B_Add_People_Into_Company(Resource):
         | countryCode | True | string | B端注册用户手机号的地区编号 |
         | phone | True | string | B端注册用户的手机号 |
         | userName | True | string | B端注册用户的姓名 |
-        | companyFullName | True | string | B端注册公司的全称 |
+        | companyFullName | True | string | 已有的B端公司的全称 |
         | resumeReceiveEmail | True | string | B端注册用户接收简历的邮箱 |
 
         ### 请求示例
@@ -124,20 +126,22 @@ class B_Add_People_Into_Company(Resource):
                 HRInfo['countryCode'] = args['countryCode']
                 CompanyInfo['companyFullName'] = args['companyFullName']
 
-            login_home("anan@lagou.com", "990eb670f81e82f546cfaaae1587279a")
-
-            r51, r52, r53 = passPersonApprove()
-            try:
-                if r51['success'] != True:
-                    state = 400
-                    info = "home后台-审核中心-个人认证-审核招聘者失败, 该公司的简称: " + args['companyShortName']
-                else:
-                    CompanyInfo['companyId'] = r52
-                    HRInfo['userId'] = r53
-                    ApproveInfo['passPersonApprove'] = "招聘者认证提交及审核通过"
-                    state = 1
-            except TypeError:
-                info = info
+            login_res = login_home_code("0086", "18810896987")
+            if not (login_res['state'] is 1):
+                info = "home后台登录失败，无法继续审核操作"
+            else:
+                r51, r52, r53 = passPersonApprove()
+                try:
+                    if r51['success'] != True:
+                        state = 400
+                        info = "home后台-审核中心-个人认证-审核招聘者失败, 该公司的简称: " + args['companyShortName']
+                    else:
+                        CompanyInfo['companyId'] = r52
+                        HRInfo['userId'] = r53
+                        ApproveInfo['passPersonApprove'] = "招聘者认证提交及审核通过"
+                        state = 1
+                except TypeError:
+                    info = info
 
         if state == 1:
             return {

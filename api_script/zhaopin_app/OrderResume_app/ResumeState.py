@@ -13,10 +13,12 @@ def ResumeID(userid):
     :return:
     '''
     header=get_app_header(userid)
-    url="https://gate.lagou.com/v1/zhaopin/orderResumes/pages?positionId=0&resumeStage=2&onlyUnread=false&catchTag=0&pageSize=20"
-    id=get_requests(url=url,headers=header,remark="分页查询简历")
-    orderResumeId=id.json()['content']['result'][0]['orderResumeId']
+    # url="https://gate.lagou.com/v1/zhaopin/orderResumes/pages?positionId=0&resumeStage=2&onlyUnread=false&catchTag=0&pageSize=20"
+    url="https://gate.lagou.com/v1/zhaopin/orderResumes/query"
+    id=json_post(url=url,headers=header,data={'catchTag':'0','channelIds':[0],'pageSize':'20','positionIds':[0],'resumeStageCode':'1'},remark="分页查询简历")
+    orderResumeId=id['content']['result'][0]['orderResumeId']
     return orderResumeId
+
 
 def OrderResumeState(userid,orderResumeId):
     '''

@@ -25,8 +25,8 @@ def test_MySchedule(login_web_k8s_default):
 	:return:
 	'''
 	# MySchedule(100014641)
-	SendBusiness(100014641)
-	ScheduleList(100014641)
+	SendBusiness(84)
+	ScheduleList(84)
 
 # def test_OrderResumes():
 #     '''

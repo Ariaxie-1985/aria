@@ -45,7 +45,7 @@ def viewOrderResume(userid):
     :return:
     '''
     #print(str(orderResumes(100014641)))
-    list=orderResumes(100014641)
+    list=orderResumes(84)
     orderId=list[0]
     header=get_app_header(userid)
     url="https://gate.lagou.com/v1/zhaopin/orderResumes/getByLGOrderId?lgOrderId="+str(orderId)+"&needImg=false"
@@ -57,7 +57,7 @@ def viewOrderResume(userid):
 
 
 def viewOrderResumeid(userid):
-    list=orderResumes(100014641)
+    list=orderResumes(84)
     orderResumeId=list[1]
     orderId=list[0]
     print(orderResumeId)
@@ -74,7 +74,7 @@ def viewOrderResumeid(userid):
 
 
 
-orderResumes(100014641)
-checkOrderResumes(100014641)
-viewOrderResume(100014641)
-viewOrderResumeid(100014641)
+orderResumes(84)
+checkOrderResumes(84)
+viewOrderResume(84)
+viewOrderResumeid(84)

@@ -8,18 +8,16 @@ def setup_module(module):
     pass
 
 
-def teardown_module(module):
-    pass
 
 
-def test_lagouPlus(login_home_k8s_default):
-    '''
-    终止当前套餐
-    新增17套餐
-    查看套餐是否正常
-    :return:
-    '''
-    lagouPlus()
+# def test_lagouPlus():
+#     '''
+#     终止当前套餐
+#     新增17套餐
+#     查看套餐是否正常
+#     :return:
+#     '''
+#     lagouPlus()
 
 def test_lagouPlusqiu():
     '''
@@ -29,3 +27,5 @@ def test_lagouPlusqiu():
     :return:
     '''
     lagouPlusqiu()
+def teardown_module(module):
+    pass

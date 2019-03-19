@@ -8,6 +8,7 @@ import time
 获取第二个职位进行一键刷新
 '''
 def akeyRefresh(second):
+    login("00852","20181205")
     position_url = 'https://easy.lagou.com/parentPosition/multiChannel/myOnlinePositions.json'
     position_header = get_code_token('https://easy.lagou.com/position/multiChannel/myOnlinePositions.htm')
     s = form_post(url=position_url,headers=position_header,data={'pageNo':1},remark='获取职位id')
@@ -35,6 +36,7 @@ def Refreshed(second):
     刷新所有职位，包括已经刷新过一次的
     :return:
     '''
+    login("00852","20181205")
     position_url = 'https://easy.lagou.com/parentPosition/multiChannel/myOnlinePositions.json'
     position_header = get_code_token('https://easy.lagou.com/position/multiChannel/myOnlinePositions.htm')
     s = form_post(url=position_url,headers=position_header,data={'pageNo':1},remark='获取职位id')
@@ -56,3 +58,4 @@ def Refreshed(second):
 
 # akeyRefresh(3000)
 # Refreshed(3000)
+# #
