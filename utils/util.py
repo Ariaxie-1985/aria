@@ -1,6 +1,7 @@
 # coding:utf-8
 import os
 import zipfile
+from json import JSONDecodeError
 
 import requests
 import re
@@ -33,7 +34,6 @@ def get_code_token(url):
         return {"errors": str(e)}
 
 
-
 def form_post(url, remark, data=None, files=None, headers=None):
     """
     form表单传参的post请求
@@ -50,8 +50,10 @@ def form_post(url, remark, data=None, files=None, headers=None):
             "\n请求目的: {},\n 请求url: {},\n 请求数据: {},\n 响应结果: {}\n".format(remark, url, data, str(response.json())))
         if response.status_code == 200:
             return response.json()
-    except RequestException as e:
-        return {"errors": str(e)}
+    except RequestException:
+        return {'state': '500', "errors": "请求错误，请重试", 'url': url}
+    except JSONDecodeError:
+        return {'state': '500', "errors": "响应内容不是期望的json格式", 'url': url}
 
 
 def json_post(url, remark, data=None, headers=None):
@@ -70,8 +72,11 @@ def json_post(url, remark, data=None, headers=None):
             "\n请求目的: {},\n 请求url: {},\n 请求数据: {},\n 响应结果: {}\n".format(remark, url, data, str(response.json())))
         if response.status_code == 200:
             return response.json()
-    except RequestException as e:
-        return {"errors": str(e)}
+
+    except RequestException:
+        return {'state': '500', "errors": "请求错误，请重试", 'url': url}
+    except JSONDecodeError:
+        return {'state': '500', "errors": "响应内容不是期望的json格式", 'url': url}
 
 
 def get_requests(url, data=None, headers=None, remark=None):
@@ -84,6 +89,7 @@ def get_requests(url, data=None, headers=None, remark=None):
     """
     try:
         response = session.get(url=url, params=data, headers=headers, verify=False, timeout=60)
+
         if "application/json" in response.headers['content-type']:
             logging.info(
                 "\n请求目的: {},\n 请求url: {},\n 响应结果: {}\n".format(remark, url, str(response.json())))
@@ -93,8 +99,10 @@ def get_requests(url, data=None, headers=None, remark=None):
 
         if response.status_code == 200 or response.status_code == 302:
             return response
-    except RequestException as e:
-        return {"errors": str(e)}
+    except RequestException:
+        return {'state': '500', "errors": "请求错误，请重试", 'url': url}
+    except JSONDecodeError:
+        return {'state': '500', "errors": "响应内容不是json格式", 'url': url}
 
 
 # get请求---获取header

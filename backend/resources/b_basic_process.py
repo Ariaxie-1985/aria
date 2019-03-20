@@ -141,7 +141,7 @@ class B_Basic_Process(Resource):
 
         if not (state == 400):
             if r1['state'] == r2['state'] == r3['state'] == r4['state'] == 1:
-                state = 3
+                state = 1
                 HRInfo['phone'] = args['phone']
                 HRInfo['countryCode'] = args['countryCode']
                 CompanyInfo['companyShortName'] = args['companyShortName']
