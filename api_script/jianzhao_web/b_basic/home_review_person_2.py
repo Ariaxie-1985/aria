@@ -1,23 +1,27 @@
 # coding:utf-8
 # @Author: Xiawang
-from utils.util import form_post, get_header
+from utils.util import form_post, get_header, login_home_code
 
 
 # 审核招聘者
 def passPersonApprove():
-	referer_queryPerson_home_url = "https://home.lagou.com/#/h_review/company"
-	queryPerson_url = "https://home.lagou.com/audit/personApprove/queryPersonByParam.json"
-	queryPerson_data = {"startPage":1,"pageSize":1,"approveTimeSort":"desc","auditStatusType":"wait"}
-	queryPerson_header = get_header(referer_queryPerson_home_url)
-	remark="验证home后台-审核中心-倒序获取招聘者的id是否成功"
-	queryPerson_res = form_post(url=queryPerson_url, data=queryPerson_data, headers=queryPerson_header,remark=remark)
+    referer_queryPerson_home_url = "https://home.lagou.com/#/h_review/company"
+    queryPerson_url = "https://home.lagou.com/audit/personApprove/queryPersonByParam.json"
+    queryPerson_data = {"startPage": 1, "auditor": "", "searchParam": "", "searchContent": "", "pageSize": 1,
+                        "approveTimeSort": "desc", "auditStatusType": "wait"}
+    queryPerson_header = get_header(referer_queryPerson_home_url)
+    remark = "验证home后台-审核中心-倒序获取招聘者的id是否成功"
+    queryPerson_res = form_post(url=queryPerson_url, data=queryPerson_data, headers=queryPerson_header, remark=remark)
 
+    try:
+        personCheckId = queryPerson_res['data']['pageData'][0]['personCheck']['id']
+        companyId = queryPerson_res['data']['pageData'][0]['companyCheckVo']['companyId']
+        userId = queryPerson_res['data']['pageData'][0]['personCheckVo']['userId']
+    except KeyError:
+        personCheckId, companyId, userId = None, None, None
 
-	personCheckId = queryPerson_res['data']['pageData'][0]['personCheck']['id']
-	companyId = queryPerson_res['data']['pageData'][0]['companyCheckVo']['companyId']
-	userId = queryPerson_res['data']['pageData'][0]['personCheckVo']['userId']
-
-	passPersonApprove_url = "https://home.lagou.com/audit/personApprove/passPersonApprove.json"
-	passPersonApprove_data = {"personCheckId":personCheckId}
-	remark = "验证home后台-审核中心-个人认证-审核招聘者是否成功"
-	return form_post(url=passPersonApprove_url, data=passPersonApprove_data, headers=queryPerson_header,remark=remark), companyId, userId
+    passPersonApprove_url = "https://home.lagou.com/audit/personApprove/passPersonApprove.json"
+    passPersonApprove_data = {"personCheckId": personCheckId}
+    remark = "验证home后台-审核中心-个人认证-审核招聘者是否成功"
+    return form_post(url=passPersonApprove_url, data=passPersonApprove_data, headers=queryPerson_header,
+                     remark=remark), companyId, userId
