@@ -23,6 +23,7 @@ class run_Pytest(Resource):
         @@@
         ### 对外接口: 获取pytest测试报告
 
+        ### Author = Xiawang
 
         ### Request Header
         | 字段 | 值 |
@@ -68,6 +69,7 @@ class run_Pytest(Resource):
         @@@
         ### 对外接口: 执行pytest
 
+        ### Author = Xiawang
 
         ### Request Header
         | 字段 | 值 |
