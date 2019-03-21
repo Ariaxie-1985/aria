@@ -7,7 +7,7 @@ from utils.util import get_app_header
 
 
 class app_post_position(Resource):
-
+    """app发布职位"""
     def post(self):
 
         """

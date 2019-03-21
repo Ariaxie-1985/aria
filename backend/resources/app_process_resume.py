@@ -6,7 +6,7 @@ from api_script.zhaopin_app.OrderResume_app.ResumeState import *
 
 
 class app_process_resume(Resource):
-
+    """app简历处理接口"""
     def post(self):
         """
         @@@

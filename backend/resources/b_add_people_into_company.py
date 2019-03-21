@@ -9,7 +9,7 @@ from utils.util import login_home, login_home_code
 
 
 class B_Add_People_Into_Company(Resource):
-
+    """B端注册加入公司-招聘者认证提交及审核流程"""
     def post(self):
         """
         @@@

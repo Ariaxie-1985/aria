@@ -8,7 +8,7 @@ from api_script.batch.C_registe_resume import registe_c
 
 
 class C_Basic_Process(Resource):
-
+    """C端注册并生成简历"""
     def post(self):
         '''
         @@@

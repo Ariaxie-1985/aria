@@ -9,7 +9,7 @@ from utils.util import login
 
 
 class B_Post_Position(Resource):
-
+    """发布职位"""
     def post(self):
         """
         @@@

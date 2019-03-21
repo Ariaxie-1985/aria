@@ -10,7 +10,7 @@ from api_script.jianzhao_web.b_position.B_move_to_stageoffer import move_to_stag
 from  api_script.jianzhao_web.b_position.B_move_to_employ import move_to_employ
 
 class b_process_resume(Resource):
-
+    """web端简历处理接口"""
 
 
     def post(self):

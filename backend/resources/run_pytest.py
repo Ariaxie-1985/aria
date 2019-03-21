@@ -11,6 +11,7 @@ from utils.analysis_html_report import analysis_html_report
 
 
 class run_Pytest(Resource):
+    """执行pytest"""
     Business_module = {
         'business': "/root/.local/bin/pipenv run pytest {}/tests/test_business/ --html=backend/templates/{}_report.html --self-contained-html",
         'jianzhao_web': '/root/.local/bin/pipenv run pytest {}/tests/test_jianzhao_web/ --html=backend/templates/{}_report.html --self-contained-html',
@@ -19,7 +20,7 @@ class run_Pytest(Resource):
     }
 
     def get(self):
-        '''
+        '''获取pytest测试报告
         @@@
         ### 对外接口: 获取pytest测试报告
 
@@ -65,7 +66,7 @@ class run_Pytest(Resource):
         return make_response(render_template(html), 200, headers)
 
     def post(self):
-        '''
+        '''执行pytest
         @@@
         ### 对外接口: 执行pytest
 

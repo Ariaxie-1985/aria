@@ -11,6 +11,7 @@ from utils.util import login
 
 
 class submit_Resume_To_Position(Resource):
+    """C端用户投递给B端公司在线的某职位"""
 
     def post(self):
         '''

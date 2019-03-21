@@ -8,7 +8,7 @@ from utils.util import login_home_code
 
 
 class Contract_Data_Import(Resource):
-
+    """home后台-拉勾加-合同导入"""
     def post(self):
         '''
                 @@@
