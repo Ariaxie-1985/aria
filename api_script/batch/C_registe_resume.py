@@ -32,7 +32,7 @@ def registe_c(phone, countryCode, userIdentity):
         # 基本信息
         basicMain_url = 'https://www.lagou.com/resume/basicMain.json'
         basicMain_header = get_code_token(basicMain_html)
-        basicMain_data = {'name': '贾静雯', 'birthday': '1995.10', 'sex': '男', 'email': '940238856@qq.com',
+        basicMain_data = {'name': '贾静雯', 'birthday': '1995.10', 'sex': '男', 'email': '{}@testlagou.com'.format(phone),
                           'userIdentity': userIdentity, 'liveCity': '北京', 'joinWorkTime': '2018.07'}
         remark = "添加基本信息"
         r2 = form_post(url=basicMain_url, headers=basicMain_header, data=basicMain_data, remark=remark)
