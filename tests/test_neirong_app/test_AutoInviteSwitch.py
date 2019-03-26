@@ -11,6 +11,11 @@ noExposureSwitchDisplay = 2
 noExposureSwitchStatus = 1
 status = 1
 
+def setUp():
+    pass
+
+def tearDown():
+    pass
 
 def test_autoInviteSwitch_status():
     r = autoInviteSwitch_status().json()
