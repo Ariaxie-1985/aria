@@ -1,0 +1,271 @@
+{
+	"info": {
+		"_postman_id": "fc3f4fc9-b0e9-4aca-a987-6546f45df612",
+		"name": "言职社区通知页优化需求",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "校验列表数据是否为空",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a34de7a7-59be-45d2-9b94-58b954467bdc",
+						"exec": [
+							"// True",
+							"// bool(len(jsonData['content']['result']))",
+							"pm.test(\"用户100014641获取列表数据成功\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.state).to.eql(1);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "X-L-USER-ID",
+						"value": "100014641",
+						"type": "text"
+					},
+					{
+						"key": "X-L-REQ-HEADER",
+						"value": "{\"deviceType\": 10}",
+						"type": "text"
+					},
+					{
+						"key": "X-L-USER-ID",
+						"value": "100014648",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://gate.lagou.com/v1/neirong/communityMessage/userBasicInfo?start=0&size=10",
+					"protocol": "https",
+					"host": [
+						"gate",
+						"lagou",
+						"com"
+					],
+					"path": [
+						"v1",
+						"neirong",
+						"communityMessage",
+						"userBasicInfo"
+					],
+					"query": [
+						{
+							"key": "start",
+							"value": "0"
+						},
+						{
+							"key": "size",
+							"value": "10"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "校验用户100014648的\b社区通知列表数据是否获取成功",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "cc195a6c-b6ee-4384-bbc5-af2949dc5b2e",
+						"exec": [
+							"// 1",
+							"// jsonData['state']",
+							"pm.test(\"用户100014648获取列表数据成功\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.state).to.eql(1);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "X-L-USER-ID",
+						"type": "text",
+						"value": "100014648"
+					},
+					{
+						"key": "X-L-REQ-HEADER",
+						"type": "text",
+						"value": "{\"deviceType\": 10}"
+					},
+					{
+						"key": "X-L-USER-ID",
+						"type": "text",
+						"value": "100014648",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://gate.lagou.com/v1/neirong/communityMessage/userBasicInfo?start=0&size=10",
+					"protocol": "https",
+					"host": [
+						"gate",
+						"lagou",
+						"com"
+					],
+					"path": [
+						"v1",
+						"neirong",
+						"communityMessage",
+						"userBasicInfo"
+					],
+					"query": [
+						{
+							"key": "start",
+							"value": "0"
+						},
+						{
+							"key": "size",
+							"value": "10"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "校验清除红点是否成功",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "fb27b856-eb9e-478b-86c0-b949682bec82",
+						"exec": [
+							"// 操作成功",
+							"// jsonData['message']",
+							"pm.test(\"清除言职社区通知页的红点成功\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.state).to.eql(1);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-L-USER-ID",
+						"type": "text",
+						"value": "100014641"
+					},
+					{
+						"key": "X-L-REQ-HEADER",
+						"type": "text",
+						"value": "{\"deviceType\": 10}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://gate.lagou.com/v1/neirong/communityMessage/clearRedSpot",
+					"protocol": "https",
+					"host": [
+						"gate",
+						"lagou",
+						"com"
+					],
+					"path": [
+						"v1",
+						"neirong",
+						"communityMessage",
+						"clearRedSpot"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "校验用户100018443的社区通知列表数据是否成功",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "3804531b-a89c-42af-8824-66130c5404df",
+						"exec": [
+							"// 1",
+							"// jsonData['state']",
+							"pm.test(\"用户100018443获取列表数据成功\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.state).to.eql(1);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "X-L-USER-ID",
+						"value": "100018443",
+						"type": "text"
+					},
+					{
+						"key": "X-L-REQ-HEADER",
+						"value": "{\"deviceType\": 10}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://gate.lagou.com/v1/neirong/communityMessage/userBasicInfo?start=0&size=20",
+					"protocol": "https",
+					"host": [
+						"gate",
+						"lagou",
+						"com"
+					],
+					"path": [
+						"v1",
+						"neirong",
+						"communityMessage",
+						"userBasicInfo"
+					],
+					"query": [
+						{
+							"key": "start",
+							"value": "0"
+						},
+						{
+							"key": "size",
+							"value": "20"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
