@@ -21,10 +21,13 @@ def parser(data):
             if 'item' in t:
                 pass
             else:
+                pass
+    else:
+        return "请确认是否有用例"
 
 
 
-        yield
+
 
 
 r = read_json()

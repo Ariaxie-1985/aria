@@ -44,14 +44,15 @@ def activity_carp_removeRedDot(type):
 
 
 def activity_carp_queryNotes(category1, category2, category3):
-    url = host + "/activity/carp/queryNotes?pageNo=1&pageSize=20&category1={}&category2={}&category3={}".format(category1, category2,
-                                                                                           category3)
+    url = host + "/activity/carp/queryNotes?pageNo=1&pageSize=20&category1={}&category2={}&category3={}".format(
+        category1, category2,
+        category3)
     remark = "查询帖子列表"
     return get_requests(url=url, headers=headers, remark=remark)
 
 
 def order_interview_queryList(ids):
-    if ids==None:
+    if ids == None:
         url = host + "/order/interview/queryList"
     else:
         url = host + "/order/interview/queryList?ids={}".format(ids)

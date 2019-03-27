@@ -15,7 +15,8 @@ class run_Pytest(Resource):
     Business_module = {
         'business': "/root/.local/bin/pipenv run pytest {}/tests/test_business/ --html=backend/templates/{}_report.html --self-contained-html",
         'jianzhao_web': '/root/.local/bin/pipenv run pytest {}/tests/test_jianzhao_web/ --html=backend/templates/{}_report.html --self-contained-html',
-        'zhaopin': '/root/.local/bin/pipenv run pytest {}/tests/test_zhaopin_app/test_app_b_chat.py tests/test_zhaopin_app/test_app_b_position.py --html=backend/templates/{}_report.html --self-contained-html',
+        'zhaopin': '/root/.local/bin/pipenv run pytest {}/tests/test_zhaopin_app/ --html=backend/templates/{}_report.html --self-contained-html',
+        'entry_app': '/root/.local/bin/pipenv run pytest {}/test_entry_app/ --html=backend/templates/{}_report.html --self-contained-html',
         'all': '/root/.local/bin/pipenv run pytest {}/ --html=backend/templates/{}_report.html --self-contained-html',
     }
 
@@ -41,6 +42,7 @@ class run_Pytest(Resource):
         |  |  | string | jianzhao_web，简招web |
         |  |  | string | zhaopin， 招聘业务 |
         |  |  | string | business, 商业业务 |
+        |  |  | string | entry_app, app端的入口业务 |
         |  |  | string | all, 全部业务 |
 
 
@@ -58,7 +60,7 @@ class run_Pytest(Resource):
 
         '''
         parser = reqparse.RequestParser()
-        parser.add_argument('module', type=str, choices=('business', 'jianzhao_web', 'zhaopin', 'all'),
+        parser.add_argument('module', type=str, choices=('business', 'jianzhao_web', 'zhaopin', 'all', 'entry_app'),
                             help="请输入正确模块值: 'business' or 'jianzhao_web' or 'zhaopin' or 'all'", required=True)
         args = parser.parse_args()
         headers = {'Content-Type': 'text/html'}
@@ -87,6 +89,7 @@ class run_Pytest(Resource):
         |  |  | string | jianzhao_web，简招web |
         |  |  | string | zhaopin， 招聘业务 |
         |  |  | string | business, 商业业务 |
+        |  |  | string | entry_app, app端的入口业务 |
         |  |  | string | all, 全部业务 |
 
 
@@ -143,7 +146,7 @@ class run_Pytest(Resource):
         @@@
         '''
         parser = reqparse.RequestParser()
-        parser.add_argument('module', type=str, choices=('business', 'jianzhao_web', 'zhaopin', 'all', 'bus'),
+        parser.add_argument('module', type=str, choices=('business', 'jianzhao_web', 'zhaopin', 'all', 'entry_app'),
                             help="请输入正确模块值: 'business' or 'jianzhao_web' or 'zhaopin' or 'all'", required=True)
         args = parser.parse_args()
         project_path = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
