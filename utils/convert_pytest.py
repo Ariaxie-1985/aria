@@ -8,7 +8,9 @@ import re
 import requests
 
 from utils.util import get_requests, form_post, get_app_header, assert_equal, json_post
+
 requests.packages.urllib3.disable_warnings()
+
 
 def read_json(jsonfile):
     if os.name == "nt":
@@ -79,7 +81,7 @@ def run_case(
     if method == 'GET':
         jsonData = get_requests(
             url=url, headers=header, remark=remark).json()
-    elif method == 'POST':
+    elif method == 'POST' or method == 'PUT' or method == 'DELETE':
         if content_type == 'application/x-www-form-urlencoded':
             requets_data = dict()
             for i in body['urlencoded']:
@@ -97,65 +99,29 @@ def run_case(
                 data=requets_data,
                 headers=header,
                 remark=remark)
-        else:
-            jsonData = form_post(url=url, headers=header, remark=remark)
-    elif method == 'PUT':
-        if content_type == 'application/x-www-form-urlencoded':
-            requets_data = dict()
-            for i in body['urlencoded']:
-                requets_data[i['key']] = i['value']
-
-            jsonData = form_post(
-                url=url,
-                data=requets_data,
-                headers=header,
-                remark=remark)
-        elif content_type == 'application/x-www-form-urlencoded':
-            requets_data = json.loads(body['raw'])
-            jsonData = json_post(
-                url=url,
-                data=requets_data,
-                headers=header,
-                remark=remark)
-        else:
-            jsonData = form_post(url=url, headers=header, remark=remark)
-    elif method == 'DELETE':
-        if content_type == 'application/x-www-form-urlencoded':
-            requets_data = dict()
-            for i in body['urlencoded']:
-                requets_data[i['key']] = i['value']
-
-            jsonData = form_post(
-                url=url,
-                data=requets_data,
-                headers=header,
-                remark=remark)
-        elif content_type == 'application/json':
-            requets_data = json.loads(body['raw'])
-            jsonData = json_post(
-                url=url,
-                data=requets_data,
-                headers=header,
-                remark=remark)
-
         else:
             jsonData = form_post(url=url, headers=header, remark=remark)
 
     return jsonData
 
 
-# data = read_json(
-#     '/Users/wang/Desktop/lg-project/lg_api_script/tests/test_postman_script/testcase/言职社区通知页优化需求.postman_collection.json')
-#
-#
-# for url, method, content_type, header, body, remark, expect_res, actual_res in parser(data):
-#     run_case(url, method, content_type, header, body, remark)
-#     assert_equal(expect_res, eval(actual_res), ''.join(
-#         [remark, ' 用例通过']), ''.join([remark, ' 用例失败']))
-
 '''
 postman 用例编写规则
 
-1. url, body, header, 尽量不使用变量代替
+1. url, body, header, 不使用变量代替
 2. 在用例名称注明测试点
+3. 在 postman test断言处注释前两行，第一行写期望结果，第二行写实际结果，涉及到校验数据时，用python语法，响应结果统一为JsonData
+
+例如
+# 校验期望结果的某字段是否等于确定已知的值
+// 1
+// jsonData['state']
+
+# 校验期望结果的某字段的值不为空
+// True
+// bool(jsonData['state'])
+
+# 校验期望结果的某字段是否存在
+// True
+// bool('state' in jsonData)
 '''

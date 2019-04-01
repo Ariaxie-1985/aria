@@ -9,7 +9,80 @@ from multiprocessing import Process
 from utils.util import form_post, get_code_token, get_requests
 
 
-def registe_c(phone, countryCode, userIdentity):
+def registe_c(phone, countryCode, userIdentity, kwargs):
+    '''
+    C端注册并生成简历
+    :param phone: int, 注册手机号
+    :param countryCode: str, 手机号归属地
+    :param userIdentity: int, 是否学生，1学生, 2非学生
+    :param kwargs:
+    :return:
+    '''
+    if 'name' in kwargs:
+        name = kwargs['name']
+    else:
+        name = '向天歌'
+
+    if 'birthday' in kwargs:
+        birthday = kwargs['birthday']
+    else:
+        birthday = '1995.10'
+
+    if 'liveCity' in kwargs:
+        liveCity = kwargs['liveCity']
+    else:
+        liveCity = '北京'
+
+    if 'joinWorkTime' in kwargs:
+        joinWorkTime = kwargs['joinWorkTime']
+    else:
+        joinWorkTime = '2018.07'
+
+    if 'education' in kwargs:
+        education = kwargs['education']
+    else:
+        education = '本科'
+
+    if 'startDate' in kwargs:
+        startDate = kwargs['startDate']
+    else:
+        startDate = '2009'
+
+    if 'endDate' in kwargs:
+        endDate = kwargs['endDate']
+    else:
+        endDate = '2013'
+
+    if 'city' in kwargs:
+        city = kwargs['city']
+    else:
+        city = '北京'
+
+    if 'positionType' in kwargs:
+        positionType = kwargs['positionType']
+    else:
+        positionType = '全职'
+
+    if 'positionName' in kwargs:
+        positionName = kwargs['positionName']
+    else:
+        positionName = '机器学习'
+
+    if 'positionNameType1' in kwargs:
+        positionNameType1 = kwargs['positionNameType1']
+    else:
+        positionNameType1 = '开发|测试|运维类'
+
+    if 'positionNameType2' in kwargs:
+        positionNameType2 = kwargs['positionNameType2']
+    else:
+        positionNameType2 = '人工智能'
+
+    if 'salarys' in kwargs:
+        salarys = kwargs['salarys']
+    else:
+        salarys = '10k-20k'
+
     # 注册
     c_register_html = 'https://passport.lagou.com/register/register.html?from=c'
     register_url = 'https://passport.lagou.com/register/register.json'
@@ -32,8 +105,9 @@ def registe_c(phone, countryCode, userIdentity):
         # 基本信息
         basicMain_url = 'https://www.lagou.com/resume/basicMain.json'
         basicMain_header = get_code_token(basicMain_html)
-        basicMain_data = {'name': '贾静雯', 'birthday': '1995.10', 'sex': '男', 'email': '{}@testlagou.com'.format(phone),
-                          'userIdentity': userIdentity, 'liveCity': '北京', 'joinWorkTime': '2018.07'}
+        basicMain_data = {'name': ''.join([name, str(phone)]), 'birthday': birthday, 'sex': '男',
+                          'email': '{}@testlagou.com'.format(phone),
+                          'userIdentity': userIdentity, 'liveCity': liveCity, 'joinWorkTime': joinWorkTime}
         remark = "添加基本信息"
         r2 = form_post(url=basicMain_url, headers=basicMain_header, data=basicMain_data, remark=remark)
 
@@ -44,23 +118,23 @@ def registe_c(phone, countryCode, userIdentity):
                                "skillLabels": "机器学习",
                                "department": "大数据智能中心", "companyIndustry": "电商", "companyName": "拉勾网",
                                "positionName": "机器学习", "startDate": "2012.07",
-                               "endDate": "至今", "workContent": "<p>哒哒哒哒哒哒多多多多多多多</p>", "isItVisible": 1}
+                               "endDate": "2019.03", "workContent": "<p>哒哒哒哒哒哒多多多多多多多</p>", "isItVisible": 1}
         remark = "添加工作经历"
         r3 = form_post(url=workExperience_url, headers=workExperience_header, data=workExperience_data, remark=remark)
     else:
         # 基本信息
         basicMain_url = 'https://www.lagou.com/resume/basicMain.json'
         basicMain_header = get_code_token(basicMain_html)
-        basicMain_data = {'name': '贾静雯', 'birthday': '1995.10', 'sex': '男', 'email': '940238856@qq.com',
-                          'userIdentity': userIdentity, 'liveCity': '北京'}
+        basicMain_data = {'name': ''.join([name, str(phone)]), 'birthday': birthday, 'sex': '男', 'email': '{}@testlagou.com'.format(phone),
+                          'userIdentity': userIdentity, 'liveCity': liveCity}
         remark = "添加基本信息"
         r2 = form_post(url=basicMain_url, headers=basicMain_header, data=basicMain_data, remark=remark)
 
     # 教育经历
     edu_header = get_code_token(basicMain_html)
     edu_url = 'https://www.lagou.com/educationExperience/save.json'
-    edu_data = {'schoolName': '清华大学', 'education': '本科', 'professional': '计算机科学与技术', 'startDate': '2009',
-                'endDate': '2013'}
+    edu_data = {'schoolName': '清华大学', 'education': education, 'professional': '计算机科学与技术', 'startDate': startDate,
+                'endDate': endDate}
     remark = "添加教育经历"
     r4 = form_post(url=edu_url, headers=edu_header, data=edu_data, remark=remark)
 
@@ -74,8 +148,10 @@ def registe_c(phone, countryCode, userIdentity):
     # 求职意向
     expextJobs_url = 'https://www.lagou.com/expectJobs/expectJobs.json'
     expectJobs_header = get_code_token(basicMain_html)
-    expectJobs_data = {'city': '北京', 'positionType': '全职', 'positionName': '机器学习', 'positionNameType1': '开发|测试|运维类',
-                       'positionNameType2': '人工智能', 'salarys': '10k-20k', 'status': '随便看看', 'arrivalTime': '随时'}
+    expectJobs_data = {'city': city, 'positionType': positionType, 'positionName': positionName,
+                       'positionNameType1': positionNameType1,
+                       'positionNameType2': positionNameType2, 'salarys': salarys, 'status': '随便看看',
+                       'arrivalTime': '随时'}
     remark = "添加求职意向"
     r6 = form_post(url=expextJobs_url, headers=expectJobs_header, data=expectJobs_data, remark=remark)
 
@@ -100,6 +176,7 @@ def registe_c(phone, countryCode, userIdentity):
         return [r1, r2, r3, r4, r5, r6, r7, r8]
     else:
         return [r1, r2, r4, r5, r6, r7, r8]
+
 
 '''
 if __name__ == '__main__':
