@@ -126,8 +126,8 @@ class B_Add_People_Into_Company(Resource):
                 HRInfo['countryCode'] = args['countryCode']
                 CompanyInfo['companyFullName'] = args['companyFullName']
 
-            login_res = login_home_code("0086", "18810896987")
-            if not (login_res['state'] is 1):
+            login_res = login_home_code('00853', 22222222)
+            if not (login_res['state'] == 1):
                 info = "home后台登录失败，无法继续审核操作"
             else:
                 r51, r52, r53 = passPersonApprove()
