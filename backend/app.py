@@ -21,6 +21,8 @@ from backend.resources.submit_resume_to_position import submit_Resume_To_Positio
 from backend.resources.app_process_resume import app_process_resume
 from backend.resources.app_post_position import app_post_position
 from backend.resources.contract_data_import import Contract_Data_Import
+from backend.resources.get_userid import getUserId
+from backend.resources.operation_resume import getResume
 
 app = Flask(__name__)
 app.config.from_object(config)
@@ -45,5 +47,7 @@ api.add_resource(b_process_resume, '/jianzhao/resume')
 api.add_resource(app_process_resume, '/bapp/resume')
 api.add_resource(app_post_position, '/bapp/position')
 api.add_resource(Contract_Data_Import, '/home/import')
+api.add_resource(getUserId, '/customer')
+api.add_resource(getResume, '/customer/resume')
 
 app.run(debug=True, host='0.0.0.0', port=9004)

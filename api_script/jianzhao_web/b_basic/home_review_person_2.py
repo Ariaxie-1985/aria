@@ -25,3 +25,4 @@ def passPersonApprove():
     remark = "验证home后台-审核中心-个人认证-审核招聘者是否成功"
     return form_post(url=passPersonApprove_url, data=passPersonApprove_data, headers=queryPerson_header,
                      remark=remark), companyId, userId
+

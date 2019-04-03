@@ -9,11 +9,11 @@ DEBUG = True
 
 SECRET_KEY = os.urandom(24)
 
-HOSTNAME = '127.0.0.1'
+HOSTNAME = '10.1.200.127'
 PORT = '3306'
-DATABASE = 'lg_api_platform'
-USERNAME = 'root'
-PASSWORD = '2018Wang'
+DATABASE = 'lagou_resume'
+USERNAME = 'lagourw'
+PASSWORD = 'JUY#*f2349Kl'
 DB_URI = 'mysql+pymysql://{}:{}@{}:{}/{}?charset=utf8'.format(USERNAME, PASSWORD, HOSTNAME, PORT, DATABASE)
 SQLALCHEMY_DATABASE_URI = DB_URI
 

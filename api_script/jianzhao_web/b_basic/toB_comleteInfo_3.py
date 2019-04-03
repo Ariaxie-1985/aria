@@ -38,6 +38,3 @@ def completeInfo_process():
 		r2 = completeInfo()
 	return r1, r2
 
-
-# login("00852",20000415)
-# completeInfo_process()
