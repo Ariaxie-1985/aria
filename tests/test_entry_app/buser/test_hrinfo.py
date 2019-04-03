@@ -14,5 +14,5 @@ def teardown_module(module):
 
 
 def test_hrinfo():
-    r=hrinfo()
+    r=hrinfo().json()
     assert_equal(1, r['state'], "查询hr信息成功")

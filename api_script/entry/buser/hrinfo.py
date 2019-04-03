@@ -6,6 +6,6 @@ header=get_app_header(100014641)
 
 def hrinfo():
     url='https://gate.lagou.com/v1/entry/buser/hrInfo/100013384'
-    get_requests(url=url,headers=header,remark='hr信息')
+    return get_requests(url=url,headers=header,remark='hr信息')
 
 # hrinfo()
