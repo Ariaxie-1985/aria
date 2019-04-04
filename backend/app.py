@@ -48,6 +48,6 @@ api.add_resource(app_process_resume, '/bapp/resume')
 api.add_resource(app_post_position, '/bapp/position')
 api.add_resource(Contract_Data_Import, '/home/import')
 api.add_resource(getUserId, '/customer')
-api.add_resource(getResume, '/customer/resume')
+api.add_resource(getResume, '/customer/resumedata')
 
 app.run(debug=True, host='0.0.0.0', port=9004)

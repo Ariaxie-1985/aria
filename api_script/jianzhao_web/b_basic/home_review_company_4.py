@@ -1,6 +1,6 @@
 # coding:utf-8
 # @Author: Xiawang
-from utils.util import form_post, get_header
+from utils.util import form_post, get_header, login_home_code
 
 
 # home 审核公司
@@ -17,3 +17,4 @@ def passCompanyApprove():
 	passCompanyApprove_data = {"companyCheckId":companyCheckId}
 	remark = "home后台-公司认证-审核公司"
 	return form_post(url=passCompanyApprove_url, data=passCompanyApprove_data,headers=queryCompany_header,remark=remark)
+
