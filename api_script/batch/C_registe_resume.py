@@ -9,7 +9,7 @@ from multiprocessing import Process
 from utils.util import form_post, get_code_token, get_requests
 
 
-def registe_c(phone, countryCode, userIdentity, kwargs):
+def registe_c(phone, countryCode, userIdentity, kwargs={}):
     '''
     C端注册并生成简历
     :param phone: int, 注册手机号
@@ -18,72 +18,22 @@ def registe_c(phone, countryCode, userIdentity, kwargs):
     :param kwargs:
     :return:
     '''
-    if 'name' in kwargs:
-        name = kwargs['name']
-    else:
-        name = '向天歌'
+    if isinstance(kwargs, dict):
+        name = kwargs.get('name', '向天歌')
+        birthday = kwargs.get('birthday', '1995.10')
+        liveCity = kwargs.get('liveCity', '北京')
+        joinWorkTime = kwargs.get('joinWorkTime', '2018.07')
+        education = kwargs.get('education', '本科')
+        startDate = kwargs.get('startDate', '2009')
+        endDate = kwargs.get('endDate', '2013')
+        city = kwargs.get('city', '北京')
+        positionType = kwargs.get('positionType', '全职')
+        positionName = kwargs.get('positionName', '机器学习')
+        positionNameType1 = kwargs.get('positionNameType1', '开发|测试|运维类')
+        positionNameType2 = kwargs.get('positionNameType2', '人工智能')
+        salarys = kwargs.get('salarys', '10k-20k')
 
-    if 'birthday' in kwargs:
-        birthday = kwargs['birthday']
-    else:
-        birthday = '1995.10'
-
-    if 'liveCity' in kwargs:
-        liveCity = kwargs['liveCity']
-    else:
-        liveCity = '北京'
-
-    if 'joinWorkTime' in kwargs:
-        joinWorkTime = kwargs['joinWorkTime']
-    else:
-        joinWorkTime = '2018.07'
-
-    if 'education' in kwargs:
-        education = kwargs['education']
-    else:
-        education = '本科'
-
-    if 'startDate' in kwargs:
-        startDate = kwargs['startDate']
-    else:
-        startDate = '2009'
-
-    if 'endDate' in kwargs:
-        endDate = kwargs['endDate']
-    else:
-        endDate = '2013'
-
-    if 'city' in kwargs:
-        city = kwargs['city']
-    else:
-        city = '北京'
-
-    if 'positionType' in kwargs:
-        positionType = kwargs['positionType']
-    else:
-        positionType = '全职'
-
-    if 'positionName' in kwargs:
-        positionName = kwargs['positionName']
-    else:
-        positionName = '机器学习'
-
-    if 'positionNameType1' in kwargs:
-        positionNameType1 = kwargs['positionNameType1']
-    else:
-        positionNameType1 = '开发|测试|运维类'
-
-    if 'positionNameType2' in kwargs:
-        positionNameType2 = kwargs['positionNameType2']
-    else:
-        positionNameType2 = '人工智能'
-
-    if 'salarys' in kwargs:
-        salarys = kwargs['salarys']
-    else:
-        salarys = '10k-20k'
-
-    # 注册
+    # 注
     c_register_html = 'https://passport.lagou.com/register/register.html?from=c'
     register_url = 'https://passport.lagou.com/register/register.json'
     register_data = {'isValidate': 'true', 'phone': phone, 'phoneVerificationCode': '049281', 'challenge': 111,
@@ -125,7 +75,8 @@ def registe_c(phone, countryCode, userIdentity, kwargs):
         # 基本信息
         basicMain_url = 'https://www.lagou.com/resume/basicMain.json'
         basicMain_header = get_code_token(basicMain_html)
-        basicMain_data = {'name': ''.join([name, str(phone)]), 'birthday': birthday, 'sex': '男', 'email': '{}@testlagou.com'.format(phone),
+        basicMain_data = {'name': ''.join([name, str(phone)]), 'birthday': birthday, 'sex': '男',
+                          'email': '{}@testlagou.com'.format(phone),
                           'userIdentity': userIdentity, 'liveCity': liveCity}
         remark = "添加基本信息"
         r2 = form_post(url=basicMain_url, headers=basicMain_header, data=basicMain_data, remark=remark)
@@ -191,3 +142,5 @@ if __name__ == '__main__':
         p.start()
         p.join()
 '''
+
+registe_c('20080303', '00852', 2)
