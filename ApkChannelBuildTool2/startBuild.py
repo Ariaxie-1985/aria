@@ -14,7 +14,7 @@ from retry import retry
 class start():
 
     def __init__(self):
-        os.chdir(os.getcwd()+'/ApkChannelBuildTool2')
+        os.chdir(os.getcwd())
         self.jiagu = "/common jiaguapk"
         self.list = os.listdir(self.jiagu)
         self.builderobj = ApkBuilder()
