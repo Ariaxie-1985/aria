@@ -14,15 +14,15 @@ from retry import retry
 class start():
 
     def __init__(self):
-        os.chdir(os.getcwd())
-        self.jiagu = os.getcwd()+"/common jiaguapk"
+        os.chdir(os.getcwd()+'/ApkChannelBuildTool2')
+        self.jiagu = "/common jiaguapk"
         self.list = os.listdir(self.jiagu)
         self.builderobj = ApkBuilder()
         self.commonobj = common()
         self.getXlrdchannelobj = getXlrdchannel()
         self.ApkBuilderobj = ApkBuilder()
         self.getOtherchannelobj = getOtherchannel()
-        self.otherjiaguapk = os.getcwd()+"/other jiaguapk"
+        self.otherjiaguapk = "/other jiaguapk"
         # self.clearChannel()
 
     @retry(tries=3)
