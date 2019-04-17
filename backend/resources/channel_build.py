@@ -13,7 +13,7 @@ class channel_build(Resource):
         args = parser.parse_args()
         startobj=start()
         buildobj=ApkBuilder()
-        clearobj=clear('E:/android-c/')
+        clearobj=clear('../ApkChannelBuildTool2/android-c/Vt')
         if args['build_type']==1:
             startobj.clearTarget()
             buildobj.builder()

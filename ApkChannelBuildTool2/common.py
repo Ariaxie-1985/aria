@@ -9,7 +9,7 @@ class common():
     def __init__(self):
         self.srcDir =  'srcApks'
         # self.commonPath = '//file.oss.lagou.com/config/ACP/android-c/V'
-        self.commonPath = 'E:/android-c/V'
+        self.commonPath = '../ApkChannelBuildTool2/android-c/Vt'
         self.resultpath = 'targetApks'
 
     def getApkname(self,dirName):
