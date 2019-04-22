@@ -16,8 +16,10 @@ class run_Pytest(Resource):
         'business': "/root/.local/bin/pipenv run pytest {}/tests/test_business/ --html=backend/templates/{}_report.html --self-contained-html",
         'jianzhao_web': '/root/.local/bin/pipenv run pytest {}/tests/test_jianzhao_web/ --html=backend/templates/{}_report.html --self-contained-html',
         'zhaopin': '/root/.local/bin/pipenv run pytest {}/tests/test_zhaopin_app/ --html=backend/templates/{}_report.html --self-contained-html',
-        'entry_app': '/root/.local/bin/pipenv run pytest {}/test_entry_app/ --html=backend/templates/{}_report.html --self-contained-html',
+        'entry_app': '/root/.local/bin/pipenv run pytest {}/test_entry_app/test_luckyShare.py --html=backend/templates/{}_report.html --self-contained-html',
         'all': '/root/.local/bin/pipenv run pytest {}/ --html=backend/templates/{}_report.html --self-contained-html',
+        'neirong_app': '/root/.local/bin/pipenv run pytest {}/test_neirong_app/ --html=backend/templates/{}_report.html --self-contained-html',
+
     }
 
     def get(self):
@@ -43,6 +45,7 @@ class run_Pytest(Resource):
         |  |  | string | zhaopin， 招聘业务 |
         |  |  | string | business, 商业业务 |
         |  |  | string | entry_app, app端的入口业务 |
+        |  |  | string | neirong_app, app端的内容业务 |
         |  |  | string | all, 全部业务 |
 
 
@@ -90,6 +93,7 @@ class run_Pytest(Resource):
         |  |  | string | zhaopin， 招聘业务 |
         |  |  | string | business, 商业业务 |
         |  |  | string | entry_app, app端的入口业务 |
+        |  |  | string | neirong_app, app端的内容业务 |
         |  |  | string | all, 全部业务 |
 
 
