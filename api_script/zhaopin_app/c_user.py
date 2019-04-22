@@ -5,7 +5,7 @@ import json
 
 from utils.util import get_app_header, get_requests
 
-host = "http://10.1.200.220:32040"
+host = "https://gate.lagou.com/v1/entry"
 header = get_app_header(100014641)
 
 def baseStatus_get():

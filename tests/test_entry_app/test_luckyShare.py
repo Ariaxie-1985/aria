@@ -57,7 +57,7 @@ def test_queryInterviews():
     r = queryInterviews().json()
     assert_equal(1, r['state'], "查询历史晒贴")
 
-
+@pytest.mark.skip(reason="接口文档没发现此接口")
 @pytest.mark.parametrize('ids', [(None)])
 def test_order_interview_queryList(ids):
     r = order_interview_queryList(ids).json()
@@ -74,14 +74,14 @@ def test_positions_queryList():
 
 def test_queryPositions():
     r = queryPositions().json()
-    assert_equal(1002, r['state'], "对曝光职位为空判断成功")
+    assert_equal(1, r['state'], "对曝光职位为空判断成功")
 
 
 def test_queryHistoryNotes():
     r = queryHistoryNotes().json()
     assert_equal(1, r['state'], "查询历史晒贴")
 
-
+@pytest.mark.skip(reason="需要构造测试数据")
 @pytest.mark.parametrize('orderId', [(1104578225485787136)])
 def test_activity_carp_queryNotePreview(orderId):
     r = activity_carp_queryNotePreview(orderId).json()
