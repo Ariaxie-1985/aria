@@ -4,7 +4,7 @@
 
 import pytest
 
-from api_script.neirong.company.fuli import view_fuli
+from api_script.neirong.company.view_fuli import view_fuli
 from utils.util import assert_equal
 
 
@@ -14,10 +14,8 @@ def setup_module():
 def teardown_module():
     pass
 
-def test_app_company_info():
+def test_view_fuli():
     r = view_fuli()
     print(r)
     assert_equal(1,r['state'],"获取公司福利")
-
-def
-
+    assert_equal()
