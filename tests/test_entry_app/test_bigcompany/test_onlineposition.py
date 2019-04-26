@@ -17,4 +17,4 @@ def teardown_module(module):
 def test_onlineposition():
     onlineposition = onlinepositions().json()
 
-    assert_equal(1,r['state'],'在招职位页')
+    assert_equal(1,onlineposition['state'],'在招职位页')

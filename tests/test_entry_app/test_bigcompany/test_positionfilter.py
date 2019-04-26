@@ -18,4 +18,4 @@ def teardown_module(module):
 def test_positionfilter():
     companyscore = positionfilter().json()
 
-    assert_equal(1, r['state'], "公司主页职位筛选结果")
+    assert_equal(1, companyscore['state'], "公司主页职位筛选结果")

@@ -16,4 +16,4 @@ def teardown_module(module):
 def test_urgentposition():
     urgentposition=urgentpositions().json()
 
-    assert_equal(1,r['state'],"急招职位查询成功")
+    assert_equal(1,urgentposition['state'],"急招职位查询成功")

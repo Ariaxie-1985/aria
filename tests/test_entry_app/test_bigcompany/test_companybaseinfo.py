@@ -15,4 +15,4 @@ def teardown_module(module):
 #@pytest.mark.parametrize("companyid",[()])
 def test_companybaseinfo():
     company=companyinfos().json()
-    assert_equal(1,r['state'],"公司基本信息查询成功")
+    assert_equal(1,company['state'],"公司基本信息查询成功")

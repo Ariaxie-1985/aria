@@ -13,4 +13,4 @@ def urgentpositions():
     return get_requests(url=url,headers=header, remark='急招职位查询')
 
 
-#urgentpositions()
+urgentpositions()

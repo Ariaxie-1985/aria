@@ -16,4 +16,4 @@ def test_companyscore():
     companyscore=companyscores().json()
 
 
-    assert_equal(1,r['state'],"公司面试评分查询成功")
+    assert_equal(1,companyscore['state'],"公司面试评分查询成功")
