@@ -24,6 +24,8 @@ from backend.resources.contract_data_import import Contract_Data_Import
 from backend.resources.get_userid import getUserId
 from backend.resources.operation_resume import getResume
 from backend.resources.channel_build import channel_build
+from backend.resources.upload import upload
+from backend.resources.download import download
 app = Flask(__name__)
 app.config.from_object(config)
 
@@ -50,4 +52,6 @@ api.add_resource(Contract_Data_Import, '/home/import')
 api.add_resource(getUserId, '/customer')
 api.add_resource(getResume, '/customer/resumedata')
 api.add_resource(channel_build, '/build')
+api.add_resource(upload, '/upload')
+api.add_resource(download, '/download')
 app.run(debug=True, host='0.0.0.0', port=9004)
