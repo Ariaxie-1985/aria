@@ -17,8 +17,8 @@ class download(Resource):
                 zipf.write(pathfile, arcname)
         zipf.close()
 
-        if os.path.isfile('/var/backend/lg_api_script/ApkChannelBuildTool2/channelapks.zip'):
-            return send_from_directory('/var/backend/lg_api_script/ApkChannelBuildTool2','channelapks.zip',as_attachment=True)
+        if os.path.isfile('/var/backend/lg_api_script/channelapks.zip'):
+            return send_from_directory('/var/backend/lg_api_script/','channelapks.zip',as_attachment=True)
             #return{'message':'ok'}
         else:
             return{'message':'error'}
