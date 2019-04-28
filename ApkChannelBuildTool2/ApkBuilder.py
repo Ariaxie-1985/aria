@@ -32,7 +32,7 @@ class ApkBuilder():
             outname = os.path.join(self.tmpDir, filename)
             os.system(
                 'jarsigner -digestalg SHA1 -sigalg MD5withRSA -keystore ' + self.keyDir + ' -storepass ' + self.psw + ' -keypass ' + self.psw + ' -signedjar ' + signedname + ' ' + fullname + ' ' + self.alias)
-            os.system('zipalign -f -v 4 ' + signedname + ' ' + outname)
+            os.system('/var/android-sdk-linux/build-tools/24.0.0/zipalign -f -v 4 ' + signedname + ' ' + outname)
 
         print('end sign...')
         print('')

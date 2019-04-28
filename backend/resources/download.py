@@ -5,7 +5,7 @@ from flask import send_from_directory
 import os,zipfile
 class download(Resource):
     def get(self):
-
+        os.chdir('/var/backend/lg_api_script/')
         # parser = reqparse.RequestParser()
         zipf = zipfile.ZipFile('channelapks.zip', 'w')
         pre_len = len(os.path.dirname('/var/backend/lg_api_script/ApkChannelBuildTool2/targetApks'))

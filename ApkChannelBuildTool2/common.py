@@ -30,7 +30,7 @@ class common():
     def getVersion(self):
         apklist = self.getApkname(self.srcDir)
         apk = apklist[0]
-        cmd = 'aapt d badging srcApks/'+apk
+        cmd = '/var/android-sdk-linux/build-tools/24.0.0/aapt d badging srcApks/'+apk
         os.chdir(os.getcwd())
         value = os.popen(cmd)
         # a=bytes(value.read())

@@ -34,5 +34,5 @@ class channel_build(Resource):
             try:
                 clearobj.clearC()
             except Exception as e:
-                return {'message':'2 ok,but clear Exception','content':e}
+                return {'message':'2 ok,but clear Exception'}
             return {'message':'2 ok'}
