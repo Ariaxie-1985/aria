@@ -18,4 +18,3 @@ def test_view_fuli():
     r = view_fuli()
     print(r)
     assert_equal(1,r['state'],"获取公司福利")
-    assert_equal()

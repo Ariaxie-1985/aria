@@ -235,7 +235,7 @@ def wait(time):
 
 
 def get_app_header(userId):
-    header = {"Accept": "application/json", "X-L-REQ-HEADER": {"deviceType": 10}, "X-L-USER-ID": str(userId),
+    header = {"Accept": "application/json", "X-L-REQ-HEADER": {"deviceType": 10, "reqVersion": 80201}, "X-L-USER-ID": str(userId),
               "X-L-DA-HEADER": "da5439aadaf04ade94a214d730b990d83ec71d3e9f274002951143c843badffbc543b213dfe84e21a37bb782dd9bbca4be8d947ead7041f79d336cb1217127d15"}
     header["X-L-REQ-HEADER"] = json.dumps(header["X-L-REQ-HEADER"])
     return header
@@ -303,6 +303,30 @@ def put_requests(url, headers=None, remark=None):
     except Exception as e:
         wxsend("Xiawang", "该请求: " + url + " 重试后依然有异常: " + str(e))
         logging.ERROR("异常日志: " + "该请求: " + url + " 重试后依然有异常: " + str(e))
+
+
+def delete_requests(url, headers=None, remark=None):
+    """
+    put请求
+    :param url: str, 接口地址
+    :param remark: str, 备注
+    :param headers: dict, requests header
+    :return: object, 响应对象
+    """
+    try:
+        response = session.delete(url=url, headers=headers, verify=False, timeout=3)
+        if "application/json" in response.headers['content-type']:
+            logging.info(
+                "\n请求目的: {},\n 请求url: {},\n 响应结果: {}\n".format(remark, url, str(response.json())))
+            return response.json()
+        else:
+            logging.info(
+                "\n请求目的: {},\n 请求url: {}".format(remark, url))
+            return response.text
+    except RequestException:
+        return {'state': '500', "errors": "请求错误，请重试", 'url': url}
+    except JSONDecodeError:
+        return {'state': '500', "errors": "响应内容不是json格式", 'url': url}
 
 
 def multipart_post(url, remark, data=None, headers=None):
