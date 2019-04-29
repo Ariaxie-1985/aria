@@ -9,7 +9,7 @@ class common():
     def __init__(self):
         os.chdir('/var/backend/lg_api_script/ApkChannelBuildTool2/')
         self.srcDir =  'srcApks'
-        self.commonPath = '/var/androidchannel/ACP/android-c/Vt'
+        self.commonPath = '/var/androidchannel/ACP/android-c/V'
         # self.commonPath = './android-c/Vt'
         self.resultpath = 'targetApks'
 

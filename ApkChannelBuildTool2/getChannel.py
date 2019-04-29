@@ -12,7 +12,7 @@ class getXlrdchannel():
         # self.day = strftime("%d",localtime())
         # self.mon = strftime("%m",localtime())
         # self.xlsfile =  self.mon + self.day + r'.xlsx'
-        self.xlsfile = 'channel.xlsx'
+        self.xlsfile = 'cha.xlsx'
         self.book = xlrd.open_workbook(self.xlsfile)
         self.path = "config/channel.txt"
         self.srcDir = 'srcApks'
