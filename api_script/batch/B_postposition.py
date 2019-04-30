@@ -17,7 +17,7 @@ postype = [{'firstType': '开发|测试|运维类', 'positionType': '人工智�
            {'firstType': '非互联网职位', 'positionType': '生产|加工|制造', 'positionThirdType': '技工', 'positionName': '模具工'}]
 
 
-def post_position(sum):
+def post_position(sum, **kwargs):
     '''
     批量发布职位
     :param sum: 发布职位个数
@@ -26,13 +26,15 @@ def post_position(sum):
     '''
     reslist = []
     addressId = get_Address()
+    firstType = kwargs.get("firstType", "市场|商务类")
+    positionType = kwargs.get("positionType", "市场|营销")
+    positionThirdType = kwargs.get("positionThirdType", "市场营销")
+    positionName = kwargs.get("positionName", "高级市场营销经理")
+
     for i in range(sum):
-        a = random.randint(0, 7)
-        postype_t = postype[a]
         refer_createPosition_url = "https://easy.lagou.com/position/multiChannel/createPosition.htm"
         Position_header = get_code_token(refer_createPosition_url)
         createPosition_url = "https://easy.lagou.com/parentPosition/multiChannel/create.json"
-
         createPosition_data = {**{'isSchoolJob': '0',
                                   'channelTypes': 'LAGOU',
                                   'department': '111',
@@ -50,7 +52,11 @@ def post_position(sum):
                                   'labels': '[{"id":"1","name":"电商"}]',
                                   'parentExtraInfo': '{}',
                                   "useEnergyCard": False},
-                               **postype_t}
+                               "firstType": firstType,
+                               "positionType": positionType,
+                               "positionThirdType": positionThirdType,
+                               "positionName": positionName}
+
         remark = "批量发布职位" + str(sum) + "个成功"
         r = form_post(
             url=createPosition_url,
@@ -59,3 +65,7 @@ def post_position(sum):
             remark=remark)
         reslist.append(r)
     return reslist
+
+
+# login("00852",20181205)
+# post_position(1,firstType="金融类",positionType="互联网金融",positionThirdType="金融产品经理",positionName="金融产品实习生")

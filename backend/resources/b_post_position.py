@@ -10,6 +10,7 @@ from utils.util import login
 
 class B_Post_Position(Resource):
     """发布职位"""
+
     def post(self):
         """
         @@@
@@ -80,12 +81,20 @@ class B_Post_Position(Resource):
         parser = reqparse.RequestParser()
         parser.add_argument('countrycode', type=str, help="请输入用户手机号的归属区号", required=True)
         parser.add_argument('username', type=str, help="请输入用户的手机号", required=True)
+        parser.add_argument('firstType', type=str, help="请输入职位的一级类别", default="市场|商务类")
+        parser.add_argument('positionType', help="请输入职位的二级类别", default="市场|营销")
+        parser.add_argument('positionThirdType', type=str, help="请输入职位的三级类别", default="市场营销")
+        parser.add_argument('positionName', default="高级市场营销经理", type=str, help="职位名称")
         parser.add_argument('sum', type=int, help="请输入发布职位的数量", required=True)
         args = parser.parse_args()
+
         login_res = login(args['countrycode'], args['username'])
         if login_res['state'] != 1:
             return {"message": login_res['message']}
-        result = post_position(args['sum'])
+
+        result = post_position(sum=args['sum'], positionName=args['positionName'], firstType=args['firstType'],
+                               positionType=args['positionType'],
+                               positionThirdType=args['positionThirdType'])
 
         state = 0
         for i in result:

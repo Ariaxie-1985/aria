@@ -33,7 +33,7 @@ def registe_c(phone, countryCode, userIdentity, kwargs={}):
         positionNameType2 = kwargs.get('positionNameType2', '人工智能')
         salarys = kwargs.get('salarys', '10k-20k')
 
-    # 注
+    # 注册
     c_register_html = 'https://passport.lagou.com/register/register.html?from=c'
     register_url = 'https://passport.lagou.com/register/register.json'
     register_data = {'isValidate': 'true', 'phone': phone, 'phoneVerificationCode': '049281', 'challenge': 111,
@@ -143,4 +143,3 @@ if __name__ == '__main__':
         p.join()
 '''
 
-registe_c('20080303', '00852', 2)

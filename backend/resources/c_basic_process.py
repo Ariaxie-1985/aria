@@ -113,7 +113,9 @@ class C_Basic_Process(Resource):
         parser.add_argument('city', type=str, default='北京', help="请输入注册C端用户的求职意向的期望城市")
         parser.add_argument('positionType', type=str, default='全职', choices=('全职', '兼职', '实习'),
                             help="请输入注册C端用户的求职意向的职位类型， 例如 全职, 兼职, 实习")
-        parser.add_argument('positionName', default=["开发|测试|运维类", "后端开发", "PHP"], help="请输入注册C端用户的求职意向的职位名称")
+        parser.add_argument('positionNameType1', help="请输入注册C端用户的求职意向的职位名称",default="开发|测试|运维类")
+        parser.add_argument('positionNameType2', help="请输入注册C端用户的求职意向的职位名称",default="人工智能")
+        parser.add_argument('positionName', help="请输入注册C端用户的求职意向的职位名称",default="机器学习")
         parser.add_argument('salarys', type=str, default='10k-20k', help="请输入注册C端用户的求职意向的期望薪资")
         args = parser.parse_args()
 
@@ -132,8 +134,8 @@ class C_Basic_Process(Resource):
         kw = {'name': args['name'], 'birthday': args['birthday'], 'liveCity': args['liveCity'],
               'joinWorkTime': args['joinWorkTime'], 'education': args['education'], 'startDate': args['startDate'],
               'endDate': args['endDate'], 'city': args['city'], 'positionType': args['positionType'],
-              'positionName': args['positionName'][2], 'positionNameType1': args['positionName'][0],
-              'positionNameType2': args['positionName'][1],
+              'positionName': args['positionName'], 'positionNameType1': args['positionNameType1'],
+              'positionNameType2': args['positionNameType2'],
               'salarys': args['salarys']}
         kw_list = [kw for i in range(phone_sum)]
         c_set = set()
