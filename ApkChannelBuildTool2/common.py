@@ -9,8 +9,8 @@ class common():
     def __init__(self):
         os.chdir('/var/backend/lg_api_script/ApkChannelBuildTool2/')
         self.srcDir =  'srcApks'
-        # self.commonPath = '//file.oss.lagou.com/config/ACP/android-c/V'
-        self.commonPath = './android-c/Vt'
+        self.commonPath = '/var/androidchannel/ACP/android-c/V'
+        # self.commonPath = './android-c/Vt'
         self.resultpath = 'targetApks'
 
     def getApkname(self,dirName):
@@ -30,7 +30,7 @@ class common():
     def getVersion(self):
         apklist = self.getApkname(self.srcDir)
         apk = apklist[0]
-        cmd = 'aapt d badging srcApks/'+apk
+        cmd = '/var/android-sdk-linux/build-tools/24.0.0/aapt d badging srcApks/'+apk
         os.chdir(os.getcwd())
         value = os.popen(cmd)
         # a=bytes(value.read())
