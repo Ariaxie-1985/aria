@@ -3,7 +3,7 @@
 # @Author: Xiawang
 from flask_restful import Resource, reqparse
 
-from api_script.batch.C_registe_resume import registe_c
+from api_script.batch.C_registe_resume import registe_c, create_resume
 from pathos.multiprocessing import ProcessingPool as newPool
 
 
@@ -100,7 +100,7 @@ class C_Basic_Process(Resource):
         parser = reqparse.RequestParser()
         parser.add_argument('countryCode', type=str, help="请输入注册用户手机号的归属区号", required=True)
         parser.add_argument('phone', type=str, help="请输入注册用户的手机号", required=True)
-        parser.add_argument('sum', type=int, help="请输入注册C端用户的数量")
+        # parser.add_argument('sum', type=int, help="请输入注册C端用户的数量")
         parser.add_argument('userIdentity', type=int, help="请输入注册C端用户的类型, 1学生、2非学生", required=True)
         parser.add_argument('name', type=str, default='向天歌', help="请输入注册C端用户的姓名")
         parser.add_argument('birthday', type=str, default='1995.10', help="请输入注册C端用户的生日")
@@ -113,20 +113,21 @@ class C_Basic_Process(Resource):
         parser.add_argument('city', type=str, default='北京', help="请输入注册C端用户的求职意向的期望城市")
         parser.add_argument('positionType', type=str, default='全职', choices=('全职', '兼职', '实习'),
                             help="请输入注册C端用户的求职意向的职位类型， 例如 全职, 兼职, 实习")
-        parser.add_argument('positionNameType1', help="请输入注册C端用户的求职意向的职位名称",default="开发|测试|运维类")
-        parser.add_argument('positionNameType2', help="请输入注册C端用户的求职意向的职位名称",default="人工智能")
-        parser.add_argument('positionName', help="请输入注册C端用户的求职意向的职位名称",default="机器学习")
+        parser.add_argument('positionNameType1', help="请输入注册C端用户的求职意向的职位名称", default="开发|测试|运维类")
+        parser.add_argument('positionNameType2', help="请输入注册C端用户的求职意向的职位名称", default="人工智能")
+        parser.add_argument('positionName', help="请输入注册C端用户的求职意向的职位名称", default="机器学习")
         parser.add_argument('salarys', type=str, default='10k-20k', help="请输入注册C端用户的求职意向的期望薪资")
         args = parser.parse_args()
 
         phone_list = args['phone'].split(',')
+        '''弃用sum字段, 无需作此判断
         if (len(phone_list) > 1) and args['sum']:
             return {'state': 400, 'content': "多个手机号和多个账号数量互斥, 请二选一"}
         elif len(phone_list) >= 1:
             phone_list = phone_list
         elif args['sum'] >= 1:
             phone_list = [phone_list[0] + i for i in range(args['sum'])]
-
+        '''
         phone_sum = len(phone_list)
         countryCode_list = [args['countryCode'] for i in range(phone_sum)]
         userIdentity_list = [args['userIdentity'] for i in range(phone_sum)]
@@ -143,7 +144,7 @@ class C_Basic_Process(Resource):
         result_list = []
         state = 0
         pool = newPool()
-        res_list = pool.map(registe_c, phone_list, countryCode_list, userIdentity_list, kw_list)
+        res_list = pool.map(create_resume, phone_list, countryCode_list, userIdentity_list, kw_list)
         for i, r in enumerate(res_list):
             if r[0]['state'] == 1:
                 if len(r) == 8:
@@ -185,6 +186,6 @@ class C_Basic_Process(Resource):
                 result_list.append(r[0]['message'])
 
         return {'state': state,
-                "content": "注册用户共" + str(phone_sum) + "个, 其中注册成功" + str(len(c_set)) + "个, 注册失败或生成简历失败" + str(
+                "content": "创建简历共" + str(phone_sum) + "个, 其中创建成功" + str(len(c_set)) + "个, 创建简历失败" + str(
                     len(e_list)) + "个",
                 "data": list(c_set), "errors": e_list, "detail": result_list}

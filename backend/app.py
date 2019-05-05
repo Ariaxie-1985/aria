@@ -26,6 +26,8 @@ from backend.resources.operation_resume import getResume
 from backend.resources.channel_build import channel_build
 from backend.resources.upload import upload
 from backend.resources.download import download
+from backend.resources.registe import registe
+
 app = Flask(__name__)
 app.config.from_object(config)
 
@@ -54,4 +56,5 @@ api.add_resource(getResume, '/customer/resumedata')
 api.add_resource(channel_build, '/build')
 api.add_resource(upload, '/upload')
 api.add_resource(download, '/download')
+api.add_resource(registe, '/entry/registration')
 app.run(debug=True, host='0.0.0.0', port=9004)

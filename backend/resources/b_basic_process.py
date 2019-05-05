@@ -7,7 +7,7 @@ from flask_restful import Resource, reqparse
 from api_script.jianzhao_web.b_basic.home_review_company_4 import passCompanyApprove
 from api_script.jianzhao_web.b_basic.home_review_person_2 import passPersonApprove
 from api_script.jianzhao_web.b_basic.toB_comleteInfo_3 import completeInfo_process
-from api_script.jianzhao_web.b_basic.toB_saveHR_1 import saveHR_process
+from api_script.jianzhao_web.b_basic.toB_saveHR_1 import saveHR_process, creatCompany_process
 from utils.util import login_home, login, login_home_code
 
 
@@ -112,7 +112,7 @@ class B_Basic_Process(Resource):
         ApproveInfo = {}
         Application = {}
         info = None
-        r1, r2, r3, r4 = saveHR_process(args['phone'],
+        r1, r2, r3, r4 = creatCompany_process(args['phone'],
                                         args['countryCode'],
                                         args['companyShortName'],
                                         args['companyFullName'],
@@ -123,7 +123,7 @@ class B_Basic_Process(Resource):
         try:
             if r1['state'] != 1:
                 state = 400
-                info = "该手机号已被注册, 该用户的手机号: " + args['phone']
+                info = "该手机号登录失败, 该用户的手机号: " + args['phone']
 
             if r2['state'] != 1:
                 state = 400
