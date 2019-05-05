@@ -9,8 +9,53 @@ from pathos.multiprocessing import ProcessingPool as newPool
 
 
 class registe(Resource):
+    """注册账号(B端&C端，可批量)"""
 
     def post(self):
+        '''
+        @@@
+        ### Author = Xiawang
+
+        ### Request Header
+        | 字段 | 值 |
+        | ---- | ---- |
+        | method | POST |
+        | Accept | application/json |
+
+
+        ### 参数
+
+        | 字段 | 必填 | 类型 | 描述|
+        | ---- | ---- | ---- | ---- |
+        | countryCode | True | string | 用户地区编号 |
+        | phone | True | string | 用户手机号,支持用多个英文逗号分隔多个手机号 |
+        | type | True | string | 用户注册类型 b表示b端，c表示c端 |
+
+
+
+        ### 请求示例
+        ```json
+            {
+                "countryCode": "00852",
+                "phone": "19900223",
+                "type": "c"
+            }
+
+        ```
+
+        ### 返回
+         ```json
+         {
+            state: 1,
+            content: "创建用户成功1个",
+            detail: {
+                操作成功: ["19900223"],
+                该手机号已被注册: [],
+                请输入正确的手机号码: []
+            }
+        }
+        ```
+        '''
         parser = reqparse.RequestParser()
         parser.add_argument('countryCode', type=str, help="请输入注册用户手机号的归属区号", required=True)
         parser.add_argument('phone', type=str, help="请输入注册用户的手机号", required=True)
