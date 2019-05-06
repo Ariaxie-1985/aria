@@ -53,10 +53,11 @@ def test_post_positions(positionName):
 
 def test_get_online_positions():
     res = get_online_positions()
-    ids = [i['positionId'] for i in res['content']['positions']['result']]
+    # ids = [i['positionId'] for i in res['content']['positions']['result']]
+    ids = [v['positionId'] for v in res['content']['positions']['result'] if v['isSoonOffline'] == False]
     # for i in res['content']['positions']['result']:
     #     ids.append(i['positionId'])
-    assert_equal(True, positionId in ids, "职位id: " + str(positionId) + "在在线职位列表里",
+    assert_equal(True, positionId == ids[0], "职位id: " + str(positionId) + "在在线职位列表里",
                  "职位id:" + str(positionId) + " 不在在线职位列表里")
 
 

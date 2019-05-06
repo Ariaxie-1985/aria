@@ -111,18 +111,18 @@ class submit_Resume_To_Position(Resource):
                     if sendResume_r['success'] == True:
                         state = 1
                         info = "C端用户{} {} 投递职位id: {}".format(args['c_username'], new_msg, positionId)
-                        b_login_r = login('00852', '20181205')
-                        if b_login_r['state'] == 1:
-                            offline_res = offlinePosition(positionId)
-                            if offline_res['state'] == 1:
-                                state = 1
-                                info = "恭喜C端用户 {} {}，投递职位id: {}".format(args['c_username'], new_msg,
-                                                                        positionId)
-                            else:
-                                state = 1
-                                info = "恭喜C端用户 {} {}，投递职位id: {}, 但该职位没下线成功，再次投递此职位会报错哦".format(args['c_username'],
-                                                                                               new_msg,
-                                                                                               positionId)
+                        # b_login_r = login('00852', '20181205')
+                        # if b_login_r['state'] == 1:
+                        #     offline_res = offlinePosition(positionId)
+                        #     if offline_res['state'] == 1:
+                        #         state = 1
+                        #         info = "恭喜C端用户 {} {}，投递职位id: {}".format(args['c_username'], new_msg,
+                        #                                                 positionId)
+                        #     else:
+                        #         state = 1
+                        #         info = "恭喜C端用户 {} {}，投递职位id: {}, 但该职位没下线成功，再次投递此职位会报错哦".format(args['c_username'],
+                        #                                                                        new_msg,
+                        #                                                                        positionId)
                     else:
                         state = 400
                         info = "C端用户 {} {}，投递职位id: {}".format(args['c_username'], new_msg, positionId)

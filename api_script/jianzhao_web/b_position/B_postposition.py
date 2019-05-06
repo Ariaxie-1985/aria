@@ -50,7 +50,7 @@ def get_outerPositionId():
     referer_url = 'https://easy.lagou.com/position/multiChannel/myOnlinePositions.htm?pageNo=1'
     url = 'https://easy.lagou.com/parentPosition/multiChannel/myOnlinePositions.json'
     data = {'pageNo':1}
-    header = get_code_token(url=url)
+    header = get_code_token(url=referer_url)
     r=form_post(url=url, headers=header, data=data, remark='职位类型升级')
     outerPositionId = r['content']['data']['parentPositionVOs'][0]['positions']['outerPositionId']
     return outerPositionId
@@ -62,3 +62,10 @@ def get_Address():
     r=json.loads(r)
     return r['content']['rows'][0]['id']
 
+
+def myOnlinePositions(pageNo):
+    referer_url = 'https://easy.lagou.com/position/multiChannel/myOnlinePositions.htm?pageNo=1'
+    url = 'https://easy.lagou.com/parentPosition/multiChannel/myOnlinePositions.json'
+    data = {'pageNo': pageNo}
+    header = get_code_token(url=referer_url)
+    return form_post(url=url, headers=header, data=data, remark='获取在线职位')

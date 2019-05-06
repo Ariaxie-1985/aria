@@ -20,7 +20,7 @@ def category_mapping(positionName):
 	:param positionName: str, 职位名称
 	:return:
 	'''
-	url = host + "/positions/category_mapping?positionName=" + positionName
+	url = host + "/positions/category_mapping?positionName={}".format(positionName)
 	remark = "职位名称映射职位分类"
 	return get_requests(url=url, headers=headers, remark=remark).json()
 
@@ -137,7 +137,7 @@ def get_online_positions():
 	获取在线职位列表
 	:return:
 	'''
-	url = host + "/positions/online/pages?pageNo=1&pageSize=20"
+	url = host + "/positions/online/pages?pageNo=1&pageSize=80"
 	remark = "获取在线职位列表"
 	return get_requests(url=url, headers=headers, remark=remark).json()
 
@@ -155,7 +155,7 @@ def get_other_positions():
 
 
 def refresh_position(positionId):
-	url = host + "/positions/" + positionId + "/refresh_position"
+	url = host + "/positions/{}/refresh_position".format(positionId)
 	data = {
 		"isConfirm": False
 	}
@@ -164,7 +164,7 @@ def refresh_position(positionId):
 
 
 def up_position_ranking(positionId):
-	url = host + "/positions/" + positionId + "/up_position_ranking"
+	url = host + "/positions/{}/up_position_ranking".format(positionId)
 	data = {
 		"isConfirm": False
 	}
@@ -173,7 +173,7 @@ def up_position_ranking(positionId):
 
 
 def positions_top_check(positionId):
-	url = host + "/positions/top/" + positionId + "/check"
+	url = host + "/positions/top/{}/check".format(positionId)
 	remark = "职位置顶卡校验信息"
 	return get_requests(url=url, headers=headers, remark=remark).json()
 
@@ -230,7 +230,7 @@ def positions_red_point_hint():
 
 # yqzhang新增
 def positions_details_app(positionId):
-	url = host + '/positions/'+positionId+'/details/app'
+	url = host + '/positions/{}/details/app'.format(positionId)
 	remark = '获取职位详情新'
 	return get_requests(url=url,remark=remark,headers=headers)
 
@@ -240,7 +240,7 @@ def positions_query_position_type():
 	return get_requests(url=url,remark=remark,headers=headers)
 
 def positions_republish(positionId):
-	url = host + "/positions/" + positionId + "/republish"
+	url = host + "/positions/{}/republish".format(positionId)
 	data = {
 		# "attachParam":"{\"typeId\":3,\"step\":\"TWO\"}",
 		# "typeId":typeId,
