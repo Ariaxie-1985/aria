@@ -18,7 +18,7 @@ def get_yaml_test_data(yamlfile):
 	yamlPath = os.path.join(curPath, yamlfile)
 	# open方法打开直接读出来
 	cfg = open(yamlPath, 'r', encoding='utf-8').read()
-	return yaml.load(cfg, Loader=yaml.FullLoader)  # 用load方法转字典
+	return yaml.load(cfg)  # 用load方法转字典
 
 
 def get_file_path(file):
