@@ -13,6 +13,6 @@ def teardown_module(module):
     pass
 
 
-def test_hrinfo():
+def test_hasDelivered():
     r=hasDelivered().json()
-    assert_equal('1', r['content']['5378018'], "职位已投递")
+    assert_equal(1, r['content']['5378018'], "职位已投递")
