@@ -51,8 +51,8 @@ def form_post(url, remark, data=None, files=None, headers=None):
         response = session.post(url=url, data=data, files=files, headers=headers, verify=False, timeout=60).json()
         logging.info(
             "\n请求目的: {},\n 请求url: {},\n 请求数据: {},\n 响应结果: {}\n".format(remark, url, data, str(response)))
-        if response['state'] == 1 or response.get('success', False):
-            return response.json()
+        if response.get('state', 0) == 1 or response.get('success', False):
+            return response
         else:
             if count < 2:
                 count = count + 1
@@ -80,8 +80,8 @@ def json_post(url, remark, data=None, headers=None):
         response = session.post(url=url, json=data, headers=headers, verify=False, timeout=60).json()
         logging.info(
             "\n请求目的: {},\n 请求url: {},\n 请求数据: {},\n 响应结果: {}\n".format(remark, url, data, str(response)))
-        if response['state'] == 1 or response.get('success', False):
-            return response.json()
+        if response.get('state', 0) == 1 or response.get('success', False):
+            return response
         else:
             if count < 2:
                 count = count + 1
@@ -108,11 +108,11 @@ def get_requests(url, data=None, headers=None, remark=None):
         response = session.get(url=url, params=data, headers=headers, verify=False, timeout=60)
 
         if "application/json" in response.headers['content-type']:
-            response = response.json()
+            response_json = response.json()
             logging.info(
                 "\n请求目的: {},\n 请求url: {},\n 响应结果: {}\n".format(remark, url, str(response)))
-            if response['state'] == 1 or response.get('success', False):
-                return response.json()
+            if response_json.get('state', 0) == 1 or response_json.get('success', False):
+                return response
             else:
                 if count < 2:
                     count = count + 1
@@ -283,8 +283,8 @@ def json_put(url, remark, data=None, headers=None):
         logging.info(
             "\n请求目的: {},\n 请求url: {},\n 请求数据: {},\n 响应结果: {}\n".format(remark, url, data, str(response)))
 
-        if response['state'] == 1 or response.get('success', False):
-            return response.json()
+        if response.get('state', 0) == 1 or response.get('success', False):
+            return response
         else:
             if count < 2:
                 count = count + 1
@@ -314,8 +314,8 @@ def put_requests(url, headers=None, remark=None):
         if "application/json" in response.headers['content-type']:
             logging.info(
                 "\n请求目的: {},\n 请求url: {},\n 响应结果: {}\n".format(remark, url, str(response)))
-            if response['state'] == 1 or response.get('success', False):
-                return response.json()
+            if response.get('state', 0) == 1 or response.get('success', False):
+                return response
             else:
                 if count < 2:
                     count = count + 1
@@ -326,10 +326,7 @@ def put_requests(url, headers=None, remark=None):
             logging.info(
                 "\n请求目的: {},\n 请求url: {}".format(remark, url))
             return response
-
-
     except exceptions.Timeout as e:
-
         content = "该请求超时: " + url + str(e)
         logging.ERROR("异常日志: " + content)
         wxsend("Xiawang", content)
@@ -355,8 +352,8 @@ def delete_requests(url, headers=None, remark=None):
         if "application/json" in response.headers['content-type']:
             logging.info(
                 "\n请求目的: {},\n 请求url: {},\n 响应结果: {}\n".format(remark, url, str(response)))
-            if response['state'] == 1 or response.get('success', False):
-                return response.json()
+            if response.get('state', 0) == 1 or response.get('success', False):
+                return response
             else:
                 if count < 2:
                     count = count + 1
@@ -419,3 +416,6 @@ def zip_path(input_path, output_path, output_name):
     file_Path = os.path.abspath(os.path.join(os.getcwd(), ".."))
     zip_file_Path = os.path.join(file_Path, output_name)
     return zip_file_Path
+
+
+
