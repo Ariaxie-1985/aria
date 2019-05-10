@@ -18,6 +18,8 @@ session = requests.session()
 header = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36'}
 
+count = 0
+
 
 # 获取页面的token和code
 @retry(stop=(stop_after_delay(2) | stop_after_attempt(3)))
@@ -43,13 +45,20 @@ def form_post(url, remark, data=None, files=None, headers=None):
     :param headers: dict, 请求header
     :return: json格式化的响应结果
     """
+    global count
     try:
         headers = {**headers, **header}
-        response = session.post(url=url, data=data, files=files, headers=headers, verify=False, timeout=60)
+        response = session.post(url=url, data=data, files=files, headers=headers, verify=False, timeout=60).json()
         logging.info(
-            "\n请求目的: {},\n 请求url: {},\n 请求数据: {},\n 响应结果: {}\n".format(remark, url, data, str(response.json())))
-        if response.status_code == 200:
+            "\n请求目的: {},\n 请求url: {},\n 请求数据: {},\n 响应结果: {}\n".format(remark, url, data, str(response)))
+        if response['state'] == 1 or response.get('success', False):
             return response.json()
+        else:
+            if count < 2:
+                count = count + 1
+                form_post(url, remark, data=data, files=files, headers=headers)
+            else:
+                return {'state': '500', "errors": "请求错误，请重试", 'url': url}
     except RequestException:
         return {'state': '500', "errors": "请求错误，请重试", 'url': url}
     except JSONDecodeError:
@@ -65,13 +74,20 @@ def json_post(url, remark, data=None, headers=None):
     :param headers: dict, 请求header
     :return: json格式化的响应结果
     """
+    global count
     try:
         headers = {**headers, **header}
-        response = session.post(url=url, json=data, headers=headers, verify=False, timeout=60)
+        response = session.post(url=url, json=data, headers=headers, verify=False, timeout=60).json()
         logging.info(
-            "\n请求目的: {},\n 请求url: {},\n 请求数据: {},\n 响应结果: {}\n".format(remark, url, data, str(response.json())))
-        if response.status_code == 200:
+            "\n请求目的: {},\n 请求url: {},\n 请求数据: {},\n 响应结果: {}\n".format(remark, url, data, str(response)))
+        if response['state'] == 1 or response.get('success', False):
             return response.json()
+        else:
+            if count < 2:
+                count = count + 1
+                form_post(url, remark, data=data, headers=headers)
+            else:
+                return {'state': '500', "errors": "请求错误，请重试", 'url': url}
 
     except RequestException:
         return {'state': '500', "errors": "请求错误，请重试", 'url': url}
@@ -87,18 +103,27 @@ def get_requests(url, data=None, headers=None, remark=None):
     :param headers: dict, requests header
     :return: object, 响应对象
     """
+    global count
     try:
         response = session.get(url=url, params=data, headers=headers, verify=False, timeout=60)
 
         if "application/json" in response.headers['content-type']:
+            response = response.json()
             logging.info(
-                "\n请求目的: {},\n 请求url: {},\n 响应结果: {}\n".format(remark, url, str(response.json())))
+                "\n请求目的: {},\n 请求url: {},\n 响应结果: {}\n".format(remark, url, str(response)))
+            if response['state'] == 1 or response.get('success', False):
+                return response.json()
+            else:
+                if count < 2:
+                    count = count + 1
+                    form_post(url, remark, data=data, headers=headers)
+                else:
+                    return {'state': '500', "errors": "请求错误，请重试", 'url': url}
         else:
             logging.info(
                 "\n请求目的: {},\n 请求url: {}".format(remark, url))
-
-        if response.status_code == 200 or response.status_code == 302:
-            return response
+            if response.status_code == 200 or response.status_code == 302:
+                return response
     except RequestException:
         return {'state': '500', "errors": "请求错误，请重试", 'url': url}
     except JSONDecodeError:
@@ -235,7 +260,8 @@ def wait(time):
 
 
 def get_app_header(userId):
-    header = {"Accept": "application/json", "X-L-REQ-HEADER": {"deviceType": 10, "reqVersion": 80201}, "X-L-USER-ID": str(userId),
+    header = {"Accept": "application/json", "X-L-REQ-HEADER": {"deviceType": 10, "reqVersion": 80201},
+              "X-L-USER-ID": str(userId),
               "X-L-DA-HEADER": "da5439aadaf04ade94a214d730b990d83ec71d3e9f274002951143c843badffbc543b213dfe84e21a37bb782dd9bbca4be8d947ead7041f79d336cb1217127d15"}
     header["X-L-REQ-HEADER"] = json.dumps(header["X-L-REQ-HEADER"])
     return header
@@ -250,16 +276,21 @@ def json_put(url, remark, data=None, headers=None):
     :param headers: dict, 请求header
     :return: json格式化的响应结果
     """
+    global count
     try:
         headers = {**headers, **header}
-        response = session.put(url=url, json=data, headers=headers, verify=False, timeout=3)
+        response = session.put(url=url, json=data, headers=headers, verify=False, timeout=3).json()
         logging.info(
-            "\n请求目的: {},\n 请求url: {},\n 请求数据: {},\n 响应结果: {}\n".format(remark, url, data, str(response.json())))
-        if response.status_code == 200:
+            "\n请求目的: {},\n 请求url: {},\n 请求数据: {},\n 响应结果: {}\n".format(remark, url, data, str(response)))
+
+        if response['state'] == 1 or response.get('success', False):
             return response.json()
         else:
-            content = "该请求: " + url + " 的状态码: " + str(response.status_code)
-            wxsend("Xiawang", content)
+            if count < 2:
+                count = count + 1
+                form_post(url, remark, data=data, headers=headers)
+            else:
+                return {'state': '500', "errors": "请求错误，请重试", 'url': url}
     except exceptions.Timeout as e:
         content = "该请求超时: " + url + str(e)
         wxsend("Xiawang", content)
@@ -277,21 +308,26 @@ def put_requests(url, headers=None, remark=None):
     :param headers: dict, requests header
     :return: object, 响应对象
     """
+    global count
     try:
-        response = session.put(url=url, headers=headers, verify=False, timeout=3)
+        response = session.put(url=url, headers=headers, verify=False, timeout=3).json()
         if "application/json" in response.headers['content-type']:
             logging.info(
-                "\n请求目的: {},\n 请求url: {},\n 响应结果: {}\n".format(remark, url, str(response.json())))
+                "\n请求目的: {},\n 请求url: {},\n 响应结果: {}\n".format(remark, url, str(response)))
+            if response['state'] == 1 or response.get('success', False):
+                return response.json()
+            else:
+                if count < 2:
+                    count = count + 1
+                    form_post(url, remark, headers=headers)
+                else:
+                    return {'state': '500', "errors": "请求错误，请重试", 'url': url}
         else:
             logging.info(
                 "\n请求目的: {},\n 请求url: {}".format(remark, url))
-
-        if response.status_code == 200 or response.status_code == 302:
             return response
-        else:
-            content = "该请求: " + url + " 的状态码: " + str(response.status_code)
-            logging.ERROR("异常日志: " + content)
-            wxsend("Xiawang", content)
+
+
     except exceptions.Timeout as e:
 
         content = "该请求超时: " + url + str(e)
@@ -313,12 +349,20 @@ def delete_requests(url, headers=None, remark=None):
     :param headers: dict, requests header
     :return: object, 响应对象
     """
+    global count
     try:
-        response = session.delete(url=url, headers=headers, verify=False, timeout=3)
+        response = session.delete(url=url, headers=headers, verify=False, timeout=3).json()
         if "application/json" in response.headers['content-type']:
             logging.info(
-                "\n请求目的: {},\n 请求url: {},\n 响应结果: {}\n".format(remark, url, str(response.json())))
-            return response.json()
+                "\n请求目的: {},\n 请求url: {},\n 响应结果: {}\n".format(remark, url, str(response)))
+            if response['state'] == 1 or response.get('success', False):
+                return response.json()
+            else:
+                if count < 2:
+                    count = count + 1
+                    form_post(url, remark, headers=headers)
+                else:
+                    return {'state': '500', "errors": "请求错误，请重试", 'url': url}
         else:
             logging.info(
                 "\n请求目的: {},\n 请求url: {}".format(remark, url))
