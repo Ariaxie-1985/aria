@@ -267,6 +267,13 @@ def get_app_header(userId):
     return header
 
 
+def get_app_header1(userId):
+    header = {"Content-Type": "application/json", "X-L-REQ-HEADER": {"deviceType": 10},
+              "X-L-USER-ID": str(userId),
+              "X-L-DA-HEADER": "da5439aadaf04ade94a214d730b990d83ec71d3e9f274002951143c843badffbc543b213dfe84e21a37bb782dd9bbca4be8d947ead7041f79d336cb1217127d15"}
+    header["X-L-REQ-HEADER"] = json.dumps(header["X-L-REQ-HEADER"])
+    return header
+
 def json_put(url, remark, data=None, headers=None):
     """
     json传参的put请求
