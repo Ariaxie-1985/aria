@@ -58,7 +58,7 @@ def form_post(url, remark, data=None, files=None, headers=None):
                 count = count + 1
                 form_post(url, remark, data=data, files=files, headers=headers)
             else:
-                return {'state': '500', "errors": "请求错误，请重试", 'url': url}
+                return response
     except RequestException:
         return {'state': '500', "errors": "请求错误，请重试", 'url': url}
     except JSONDecodeError:
@@ -85,9 +85,9 @@ def json_post(url, remark, data=None, headers=None):
         else:
             if count < 2:
                 count = count + 1
-                form_post(url, remark, data=data, headers=headers)
+                json_post(url, remark, data=data, headers=headers)
             else:
-                return {'state': '500', "errors": "请求错误，请重试", 'url': url}
+                return response
 
     except RequestException:
         return {'state': '500', "errors": "请求错误，请重试", 'url': url}
@@ -110,15 +110,19 @@ def get_requests(url, data=None, headers=None, remark=None):
         if "application/json" in response.headers['content-type']:
             response_json = response.json()
             logging.info(
-                "\n请求目的: {},\n 请求url: {},\n 响应结果: {}\n".format(remark, url, str(response)))
+                "\n请求目的: {},\n 请求url: {},\n 响应结果: {}\n".format(remark, url, str(response_json)))
             if response_json.get('state', 0) == 1 or response_json.get('success', False):
                 return response
             else:
                 if count < 2:
                     count = count + 1
-                    form_post(url, remark, data=data, headers=headers)
+                    print(data)
+                    if data:
+                        get_requests(url, data=data, headers=headers, remark=remark)
+                    else:
+                        get_requests(url, data=None, remark=remark, headers=headers)
                 else:
-                    return {'state': '500', "errors": "请求错误，请重试", 'url': url}
+                    return response
         else:
             logging.info(
                 "\n请求目的: {},\n 请求url: {}".format(remark, url))
@@ -288,9 +292,9 @@ def json_put(url, remark, data=None, headers=None):
         else:
             if count < 2:
                 count = count + 1
-                form_post(url, remark, data=data, headers=headers)
+                json_put(url, remark, data=data, headers=headers)
             else:
-                return {'state': '500', "errors": "请求错误，请重试", 'url': url}
+                return response
     except exceptions.Timeout as e:
         content = "该请求超时: " + url + str(e)
         wxsend("Xiawang", content)
@@ -319,9 +323,9 @@ def put_requests(url, headers=None, remark=None):
             else:
                 if count < 2:
                     count = count + 1
-                    form_post(url, remark, headers=headers)
+                    put_requests(url, remark, headers=headers)
                 else:
-                    return {'state': '500', "errors": "请求错误，请重试", 'url': url}
+                    return response
         else:
             logging.info(
                 "\n请求目的: {},\n 请求url: {}".format(remark, url))
@@ -357,9 +361,9 @@ def delete_requests(url, headers=None, remark=None):
             else:
                 if count < 2:
                     count = count + 1
-                    form_post(url, remark, headers=headers)
+                    delete_requests(url, remark, headers=headers)
                 else:
-                    return {'state': '500', "errors": "请求错误，请重试", 'url': url}
+                    return response
         else:
             logging.info(
                 "\n请求目的: {},\n 请求url: {}".format(remark, url))
@@ -414,8 +418,5 @@ def zip_path(input_path, output_path, output_name):
         f.write(file)
     f.close()
     file_Path = os.path.abspath(os.path.join(os.getcwd(), ".."))
-    zip_file_Path = os.path.join(file_Path, output_name)
+    zip_file_Path = os.path.join(fille_Path, output_name)
     return zip_file_Path
-
-
-

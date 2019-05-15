@@ -58,7 +58,7 @@ def registe_c(phone, countryCode, userIdentity, kwargs={}):
         # 基本信息
         basicMain_url = 'https://www.lagou.com/resume/basicMain.json'
         basicMain_header = get_code_token(basicMain_html)
-        basicMain_data = {'name': ''.join([name, str(phone)]), 'birthday': birthday, 'sex': '男',
+        basicMain_data = {'name': name, 'birthday': birthday, 'sex': '男',
                           'email': '{}@testlagou.com'.format(phone),
                           'userIdentity': userIdentity, 'liveCity': liveCity, 'joinWorkTime': joinWorkTime}
         remark = "添加基本信息"
@@ -78,7 +78,7 @@ def registe_c(phone, countryCode, userIdentity, kwargs={}):
         # 基本信息
         basicMain_url = 'https://www.lagou.com/resume/basicMain.json'
         basicMain_header = get_code_token(basicMain_html)
-        basicMain_data = {'name': ''.join([name, str(phone)]), 'birthday': birthday, 'sex': '男',
+        basicMain_data = {'name': name, 'birthday': birthday, 'sex': '男',
                           'email': '{}@testlagou.com'.format(phone),
                           'userIdentity': userIdentity, 'liveCity': liveCity}
         remark = "添加基本信息"
@@ -193,7 +193,7 @@ def create_resume(phone, countryCode, userIdentity, kwargs={}):
         # 基本信息
         basicMain_url = 'https://www.lagou.com/resume/basicMain.json'
         basicMain_header = get_code_token(basicMain_html)
-        basicMain_data = {'name': ''.join([name, str(phone)]), 'birthday': birthday, 'sex': '男',
+        basicMain_data = {'name': name, 'birthday': birthday, 'sex': '男',
                           'email': '{}@testlagou.com'.format(phone),
                           'userIdentity': userIdentity, 'liveCity': liveCity}
         remark = "添加基本信息"

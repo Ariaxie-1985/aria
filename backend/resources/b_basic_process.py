@@ -6,13 +6,16 @@ from flask_restful import Resource, reqparse
 
 from api_script.jianzhao_web.b_basic.home_review_company_4 import passCompanyApprove
 from api_script.jianzhao_web.b_basic.home_review_person_2 import passPersonApprove
-from api_script.jianzhao_web.b_basic.toB_comleteInfo_3 import completeInfo_process
 from api_script.jianzhao_web.b_basic.toB_saveHR_1 import saveHR_process, creatCompany_process
 from utils.util import login_home, login, login_home_code
+from faker import Faker
+
+fake = Faker("zh_CN")
 
 
 class B_Basic_Process(Resource):
     """B端注册-公司成立-招聘者认证提交及审核-公司认证及审核流程"""
+
     def post(self):
 
         """
@@ -97,15 +100,15 @@ class B_Basic_Process(Resource):
 
         @@@
         """
-
+        company_name = fake.company()
         parser = reqparse.RequestParser()
         parser.add_argument('countryCode', type=str, help="请输入B端注册用户手机号的归属区号", required=True)
         parser.add_argument('phone', type=str, help="请输入B端注册用户的手机号", required=True)
-        parser.add_argument('userName', type=str, help="请输入B端注册用户的姓名", required=True)
-        parser.add_argument('resumeReceiveEmail', type=str, help="请输入接收简历的邮箱地址", required=True)
-        parser.add_argument('companyShortName', type=str, help="请输入注册公司的简称", required=True)
-        parser.add_argument('companyFullName', type=str, help="请输入注册公司的全称", required=True)
-        parser.add_argument('updateCompanyShortName', type=str, help="请输入注册公司的别称", required=True)
+        parser.add_argument('userName', type=str, default=fake.name(), help="请输入B端注册用户的姓名")
+        parser.add_argument('resumeReceiveEmail', type=str, default=fake.email(), help="请输入接收简历的邮箱地址")
+        parser.add_argument('companyShortName', type=str, default=company_name, help="请输入注册公司的简称")
+        parser.add_argument('companyFullName', type=str, default=company_name, help="请输入注册公司的全称")
+        parser.add_argument('updateCompanyShortName', type=str, default=company_name, help="请输入注册公司的别称")
         args = parser.parse_args()
         HRInfo = {}
         CompanyInfo = {}
@@ -113,12 +116,12 @@ class B_Basic_Process(Resource):
         Application = {}
         info = None
         r1, r2, r3, r4 = creatCompany_process(args['phone'],
-                                        args['countryCode'],
-                                        args['companyShortName'],
-                                        args['companyFullName'],
-                                        args['userName'],
-                                        args['resumeReceiveEmail'],
-                                        args['updateCompanyShortName'])
+                                              args['countryCode'],
+                                              args['companyShortName'],
+                                              args['companyFullName'],
+                                              args['userName'],
+                                              args['resumeReceiveEmail'],
+                                              args['updateCompanyShortName'])
         state = 0
         try:
             if r1['state'] != 1:

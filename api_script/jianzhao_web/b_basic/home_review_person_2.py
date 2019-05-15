@@ -27,4 +27,3 @@ def passPersonApprove():
                      remark=remark), companyId, userId
 
 
-

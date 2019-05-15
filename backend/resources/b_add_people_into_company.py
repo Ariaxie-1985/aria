@@ -6,10 +6,14 @@ from flask_restful import Resource, reqparse
 from api_script.jianzhao_web.b_basic.home_review_person_2 import passPersonApprove
 from api_script.jianzhao_web.b_basic.toB_saveHR_1 import add_people_into_company
 from utils.util import login_home, login_home_code
+from faker import Faker
+
+fake = Faker("zh_CN")
 
 
 class B_Add_People_Into_Company(Resource):
     """B端注册加入公司-招聘者认证提交及审核流程"""
+
     def post(self):
         """
         @@@
@@ -86,9 +90,9 @@ class B_Add_People_Into_Company(Resource):
         parser = reqparse.RequestParser()
         parser.add_argument('countryCode', type=str, help="请输入B端注册用户手机号的归属区号", required=True)
         parser.add_argument('phone', type=str, help="请输入B端注册用户的手机号", required=True)
-        parser.add_argument('userName', type=str, help="请输入B端注册用户的姓名", required=True)
-        parser.add_argument('resumeReceiveEmail', type=str, help="请输入接收简历的邮箱地址", required=True)
-        parser.add_argument('companyFullName', type=str, help="请输入注册公司的全称", required=True)
+        parser.add_argument('userName', type=str, help="请输入B端注册用户的姓名", default=fake.name())
+        parser.add_argument('resumeReceiveEmail', type=str, help="请输入接收简历的邮箱地址", default=fake.email())
+        parser.add_argument('companyFullName', type=str, help="请输入已注册公司的全称", required=True)
         args = parser.parse_args()
         HRInfo = {}
         CompanyInfo = {}

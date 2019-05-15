@@ -5,6 +5,9 @@ from flask_restful import Resource, reqparse
 
 from api_script.batch.C_registe_resume import registe_c, create_resume
 from pathos.multiprocessing import ProcessingPool as newPool
+from faker import Faker
+
+fake = Faker("zh_CN")
 
 
 class C_Basic_Process(Resource):
@@ -102,7 +105,7 @@ class C_Basic_Process(Resource):
         parser.add_argument('phone', type=str, help="请输入注册用户的手机号", required=True)
         # parser.add_argument('sum', type=int, help="请输入注册C端用户的数量")
         parser.add_argument('userIdentity', type=int, help="请输入注册C端用户的类型, 1学生、2非学生", required=True)
-        parser.add_argument('name', type=str, default='向天歌', help="请输入注册C端用户的姓名")
+        parser.add_argument('name', type=str, default=fake.name(), help="请输入注册C端用户的姓名")
         parser.add_argument('birthday', type=str, default='1995.10', help="请输入注册C端用户的生日")
         parser.add_argument('liveCity', type=str, default='北京', help="请输入注册C端用户的基本信息的生活所在地")
         parser.add_argument('joinWorkTime', type=str, default='2018.07', help="请输入注册C端用户参加工作的时间")

@@ -15,11 +15,11 @@ def b_register(phone, countryCode):
 
 
 # 上传B端用户信息
-def saveHR(companyFullName, userName, resumeReceiveEmail):
+def saveHR(companyFullName, userName, resumeReceiveEmail,userPosition='HR'):
     step1_url = 'https://hr.lagou.com/corpCenter/openservice/step1.html'
     saveHR_url = "https://hr.lagou.com/corpCenter/openservice/saveHR.json"
     saveHR_data = {"userAvatar": "i/audio1/M00/01/C5/CgHIk1wQwXuAAz2hAAB1mvl2DME233.JPG", "userName": userName,
-                   "userPosition": "HR BP", "companyFullName": companyFullName,
+                   "userPosition": userPosition, "companyFullName": companyFullName,
                    "resumeReceiveEmail": resumeReceiveEmail}
     saveHR_header = get_code_token(step1_url)
     remark = "验证上传B端用户信息是否成功"
@@ -89,3 +89,5 @@ def creatCompany_process(phone, countryCode, companyShortName, companyFullName, 
         r3 = saveCompany(companyShortName)
         r4 = submit(updateCompanyShortName)
     return r1, r2, r3, r4
+
+

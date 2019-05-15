@@ -8,7 +8,7 @@ from api_script.zhaopin_app.b_position import post_positions, category_mapping, 
     positions_details, update_position, get_online_positions, positions_static_info, get_offline_positions, \
     get_other_positions, apply_privilege_position, refresh_position, up_position_ranking, positions_top_check, \
     positions_is_hot, positions_query_position_type, positions_republish, positions_details_app, \
-    positions_red_point_hint
+    positions_red_point_hint, positions_offline
 # invite_userId_list = test_data['invite_userId_list']
 # session = requests.session()
 # session.cookies.clear()
@@ -144,3 +144,12 @@ def test_positions_recommend():
 def test_positions_red_point_hint():
     res = positions_red_point_hint()
     assert_equal(True, res['content']['isShowRedPointHint'], "首页导航职位无红点", "首页导航职位有红点")
+
+@pytest.skip(reason='等发布上线后再执行此用例')
+def test_positions_offline(position_id,attachParam):
+    res = positions_offline(position_id,attachParam)
+    assert_equal(1, res['state'], '下线职位成功')
+
+
+
+

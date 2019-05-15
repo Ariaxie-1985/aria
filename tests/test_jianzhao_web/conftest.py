@@ -16,3 +16,12 @@ def login_web_k8s_default(request):
 def login_home_k8s_default():
 	login_home_code('00853', 22222222)
 
+
+@pytest.fixture(params=[["00852", "20030813"]])
+def login_web_k8s_143228_0HR(request):
+	login(request.param[0],request.param[1])
+
+@pytest.fixture(params=[["00852", "20030812"]])
+def login_web_k8s_143228_1HR(request):
+	login(request.param[0],request.param[1])
+
