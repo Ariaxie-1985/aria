@@ -2,7 +2,7 @@
 # @Time  : 2019-01-14 14:41
 # @Author: Xiawang
 
-from utils.util import get_app_header, get_requests, json_post, json_put
+from utils.util import get_app_header, get_requests, json_post, json_put, get_app_header1
 
 host = "https://gate.lagou.com/v1/zhaopin"
 headers = get_app_header(100014641)
@@ -91,7 +91,7 @@ def post_positions(firstType='开发|测试|运维类', workyear='应届毕业�
         "id": typeid
     }
     remark = "发布职位"
-    headers = get_app_header(userid)
+    headers = get_app_header1(userid)
     return json_post(url=url, headers=headers, data=data, remark=remark)
 
 

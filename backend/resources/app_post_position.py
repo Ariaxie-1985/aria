@@ -96,7 +96,7 @@ class app_post_position(Resource):
                     f = f + 1
             else:
 
-                return {'state': 401, 'message': r['message']}
+                return {'state': 401, 'message': r}
         if s == 0:
             return {'state': 400, 'message': '所有职位均创建失败'}
         else:
