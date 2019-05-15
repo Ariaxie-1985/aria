@@ -19,7 +19,6 @@ def teardown_module(module):
 company_lgId = 143228
 userId = 100019158
 
-
 def test_recruitcard_pop_1(login_web_k8s_default):
     res = recruitcard_pop().json()
     assert_equal(469, res['state'], '非灰度公司不能领取直招卡校验通过')
@@ -55,3 +54,5 @@ def test_recruitcard_pop_4():
 def test_recruitcard_pop_5(login_web_k8s_143228_1HR):
     res = recruitcard_pop().json()
     assert_equal(463, res['state'], '北京的付费公司非HR不能领取直招卡校验通过')
+
+#foxtang test
