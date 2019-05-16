@@ -383,32 +383,6 @@ def delete_requests(url, headers=None, remark=None):
         return {'state': '500', "errors": "响应内容不是json格式", 'url': url}
 
 
-def multipart_post(url, remark, data=None, headers=None):
-    try:
-        m = encoder.MultipartEncoder(fields=data)
-        headers['Content-Type'] = m.content_type
-        headers = {**headers, **header}
-
-        response = session.post(url=url, data=m, headers=headers, verify=False, timeout=3)
-        logging.info(
-            "\n请求目的: {},\n 请求url: {},\n 请求数据: {},\n 响应结果: {}\n".format(remark, url, data, str(response.json())))
-        if response.status_code == 200:
-            return response.json()
-        else:
-            content = "该请求: " + url + " 的状态码: " + str(response.status_code)
-            wxsend("Xiawang", content)
-    except exceptions.Timeout as e:
-        content = "该请求超时: " + url + str(e)
-        wxsend("Xiawang", content)
-        logging.ERROR("异常日志: " + content)
-    except exceptions.HTTPError as e:
-        logging.ERROR("异常日志: " + "HTTP请求错误: " + str(e))
-        wxsend("Xiawang", "HTTP请求错误: " + str(e))
-    except Exception as e:
-        logging.ERROR("异常日志: " + "该请求: " + url + " 重试后依然有异常: " + str(e))
-        wxsend("Xiawang", "该请求: " + url + " 重试后依然有异常: " + str(e))
-
-
 def dfs_get_zip_file(input_path, result):
     #
     files = os.listdir(input_path)
@@ -427,5 +401,5 @@ def zip_path(input_path, output_path, output_name):
         f.write(file)
     f.close()
     file_Path = os.path.abspath(os.path.join(os.getcwd(), ".."))
-    zip_file_Path = os.path.join(fille_Path, output_name)
+    zip_file_Path = os.path.join(file_Path, output_name)
     return zip_file_Path
