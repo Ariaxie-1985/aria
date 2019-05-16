@@ -29,5 +29,10 @@ def completeInfo():
     remark = "验证B端申请认证公司是否成功"
     return form_post(url=completeInfo_url, data=completeInfo_data, headers=completeInfo_header, remark=remark)
 
-
+def completeInfo_process():
+    r1, r2 = None, None
+    r1 = company_auth()
+    if r1['state'] == 1:
+        r2 = completeInfo()
+        return r1, r2
 
