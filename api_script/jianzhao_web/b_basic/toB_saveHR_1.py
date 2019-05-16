@@ -15,7 +15,7 @@ def b_register(phone, countryCode):
 
 
 # 上传B端用户信息
-def saveHR(companyFullName, userName, resumeReceiveEmail,userPosition='HR'):
+def saveHR(companyFullName, userName, resumeReceiveEmail, userPosition='HR'):
     step1_url = 'https://hr.lagou.com/corpCenter/openservice/step1.html'
     saveHR_url = "https://hr.lagou.com/corpCenter/openservice/saveHR.json"
     saveHR_data = {"userAvatar": "i/audio1/M00/01/C5/CgHIk1wQwXuAAz2hAAB1mvl2DME233.JPG", "userName": userName,
@@ -70,24 +70,23 @@ def saveHR_process(phone, countryCode, companyShortName, companyFullName, userNa
     return r1, r2, r3, r4
 
 
-def add_people_into_company(phone, countryCode, companyFullName, userName, resumeReceiveEmail):
+def add_people_into_company(phone, countryCode, companyFullName, userName, userPosition, resumeReceiveEmail):
     r1, r2, r3, r4 = {'state': 0}, {'state': 0}, {'state': 0}, {'state': 0}
     r1 = b_register(phone, countryCode)
     if r1['state'] == 1:
-        r2 = saveHR(companyFullName, userName, resumeReceiveEmail)
+        r2 = saveHR(companyFullName, userName, userPosition, resumeReceiveEmail)
         r3 = add_saveCompany()
         r4 = submit(companyFullName)
     return r1, r2, r3, r4
 
 
-def creatCompany_process(phone, countryCode, companyShortName, companyFullName, userName, resumeReceiveEmail,
+def creatCompany_process(phone, countryCode, companyShortName, companyFullName, userName, userPosition,
+                         resumeReceiveEmail,
                          updateCompanyShortName):
     r1, r2, r3, r4 = None, None, None, None
     r1 = login(countryCode, phone)
     if r1['state'] == 1:
-        r2 = saveHR(companyFullName, userName, resumeReceiveEmail)
+        r2 = saveHR(companyFullName, userName, userPosition, resumeReceiveEmail)
         r3 = saveCompany(companyShortName)
         r4 = submit(updateCompanyShortName)
     return r1, r2, r3, r4
-
-

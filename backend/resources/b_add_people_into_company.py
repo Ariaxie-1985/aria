@@ -91,6 +91,7 @@ class B_Add_People_Into_Company(Resource):
         parser.add_argument('countryCode', type=str, help="请输入B端注册用户手机号的归属区号", required=True)
         parser.add_argument('phone', type=str, help="请输入B端注册用户的手机号", required=True)
         parser.add_argument('userName', type=str, help="请输入B端注册用户的姓名", default=fake.name())
+        parser.add_argument('userPosition', type=str, help="请输入B端注册用户的职位")
         parser.add_argument('resumeReceiveEmail', type=str, help="请输入接收简历的邮箱地址", default=fake.email())
         parser.add_argument('companyFullName', type=str, help="请输入已注册公司的全称", required=True)
         args = parser.parse_args()
@@ -101,6 +102,7 @@ class B_Add_People_Into_Company(Resource):
                                                  args['countryCode'],
                                                  args['companyFullName'],
                                                  args['userName'],
+                                                 args['userPosition'],
                                                  args['resumeReceiveEmail']
                                                  )
         state = 0

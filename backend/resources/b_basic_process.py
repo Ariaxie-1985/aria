@@ -106,6 +106,7 @@ class B_Basic_Process(Resource):
         parser.add_argument('countryCode', type=str, help="请输入B端注册用户手机号的归属区号", required=True)
         parser.add_argument('phone', type=str, help="请输入B端注册用户的手机号", required=True)
         parser.add_argument('userName', type=str, default=fake.name(), help="请输入B端注册用户的姓名")
+        parser.add_argument('userPosition', type=str, help="请输入B端注册用户的职位")
         parser.add_argument('resumeReceiveEmail', type=str, default=fake.email(), help="请输入接收简历的邮箱地址")
         parser.add_argument('companyShortName', type=str, default=company_name, help="请输入注册公司的简称")
         parser.add_argument('companyFullName', type=str, default=company_name, help="请输入注册公司的全称")
@@ -121,6 +122,7 @@ class B_Basic_Process(Resource):
                                               args['companyShortName'],
                                               args['companyFullName'],
                                               args['userName'],
+                                              args['userPosition'],
                                               args['resumeReceiveEmail'],
                                               args['updateCompanyShortName'])
         state = 0
