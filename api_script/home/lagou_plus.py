@@ -26,7 +26,7 @@ def open_product(companyId, userId, contractNo):
     headers = get_header('https://home.lagou.com/')
     url = 'https://home.lagou.com/crm/valueadded/product/open.json'
     data = {
-        'templateId': 88,
+        'templateId': 90,
         'num': 10,
         'companyId': companyId,
         'contractNo': contractNo,

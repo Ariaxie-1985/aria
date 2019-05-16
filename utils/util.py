@@ -54,9 +54,9 @@ def form_post(url, remark, data=None, files=None, headers=None):
         if response.get('state', 0) == 1 or response.get('success', False):
             return response
         else:
-            if count < 2:
+            if count < 1:
                 count = count + 1
-                form_post(url, remark, data=data, files=files, headers=headers)
+                return form_post(url, remark, data=data, files=files, headers=headers)
             else:
                 return response
     except RequestException:
@@ -83,9 +83,9 @@ def json_post(url, remark, data=None, headers=None):
         if response.get('state', 0) == 1 or response.get('success', False):
             return response
         else:
-            if count < 2:
+            if count < 1:
                 count = count + 1
-                json_post(url, remark, data=data, headers=headers)
+                return json_post(url, remark, data=data, headers=headers)
             else:
                 return response
 
@@ -114,13 +114,12 @@ def get_requests(url, data=None, headers=None, remark=None):
             if response_json.get('state', 0) == 1 or response_json.get('success', False):
                 return response
             else:
-                if count < 2:
+                if count < 1:
                     count = count + 1
-                    print(data)
                     if data:
-                        get_requests(url, data=data, headers=headers, remark=remark)
+                        return get_requests(url, data=data, headers=headers, remark=remark)
                     else:
-                        get_requests(url, data=None, remark=remark, headers=headers)
+                        return get_requests(url, data=None, remark=remark, headers=headers)
                 else:
                     return response
         else:
@@ -263,8 +262,8 @@ def wait(time):
     '''
 
 
-def get_app_header(userId):
-    header = {"Accept": "application/json", "X-L-REQ-HEADER": {"deviceType": 10, "reqVersion": 80201},
+def get_app_header(userId, reqVersion=80201):
+    header = {"Accept": "application/json", "X-L-REQ-HEADER": {"deviceType": 10, "reqVersion": reqVersion},
               "X-L-USER-ID": str(userId),
               "X-L-DA-HEADER": "da5439aadaf04ade94a214d730b990d83ec71d3e9f274002951143c843badffbc543b213dfe84e21a37bb782dd9bbca4be8d947ead7041f79d336cb1217127d15"}
     header["X-L-REQ-HEADER"] = json.dumps(header["X-L-REQ-HEADER"])
@@ -277,6 +276,7 @@ def get_app_header1(userId):
               "X-L-DA-HEADER": "da5439aadaf04ade94a214d730b990d83ec71d3e9f274002951143c843badffbc543b213dfe84e21a37bb782dd9bbca4be8d947ead7041f79d336cb1217127d15"}
     header["X-L-REQ-HEADER"] = json.dumps(header["X-L-REQ-HEADER"])
     return header
+
 
 def json_put(url, remark, data=None, headers=None):
     """
@@ -297,11 +297,13 @@ def json_put(url, remark, data=None, headers=None):
         if response.get('state', 0) == 1 or response.get('success', False):
             return response
         else:
-            if count < 2:
+            if count < 1:
                 count = count + 1
-                json_put(url, remark, data=data, headers=headers)
+                return json_put(url, remark, data=data, headers=headers)
             else:
                 return response
+
+
     except exceptions.Timeout as e:
         content = "该请求超时: " + url + str(e)
         wxsend("Xiawang", content)
@@ -328,9 +330,9 @@ def put_requests(url, headers=None, remark=None):
             if response.get('state', 0) == 1 or response.get('success', False):
                 return response
             else:
-                if count < 2:
+                if count < 1:
                     count = count + 1
-                    put_requests(url, remark, headers=headers)
+                    return put_requests(url, remark, headers=headers)
                 else:
                     return response
         else:
@@ -366,9 +368,9 @@ def delete_requests(url, headers=None, remark=None):
             if response.get('state', 0) == 1 or response.get('success', False):
                 return response
             else:
-                if count < 2:
+                if count < 1:
                     count = count + 1
-                    delete_requests(url, remark, headers=headers)
+                    return delete_requests(url, remark, headers=headers)
                 else:
                     return response
         else:

@@ -8,7 +8,7 @@ from api_script.zhaopin_app.b_position import post_positions, category_mapping, 
     positions_details, update_position, get_online_positions, positions_static_info, get_offline_positions, \
     get_other_positions, apply_privilege_position, refresh_position, up_position_ranking, positions_top_check, \
     positions_is_hot, positions_query_position_type, positions_republish, positions_details_app, \
-    positions_red_point_hint, positions_offline
+    positions_red_point_hint, positions_offline, post_myOnlinePositions
 # invite_userId_list = test_data['invite_userId_list']
 # session = requests.session()
 # session.cookies.clear()
@@ -109,11 +109,13 @@ def test_positions_is_hot(positionName):
 
 
 # yqzhang新增
-'''
-def test_positions_query_position_type():
-	res = positions_query_position_type()
-	assert_equal(1, res['state'], '获取成功', '获取失败')
 
+def test_positions_query_position_type():
+    res = positions_query_position_type()
+    assert_equal(1, res['state'], '获取成功', '获取失败')
+
+
+'''
 
 def test_positions_republish():
 	res = positions_republish(str(positionId))
@@ -145,11 +147,68 @@ def test_positions_red_point_hint():
     res = positions_red_point_hint()
     assert_equal(True, res['content']['isShowRedPointHint'], "首页导航职位无红点", "首页导航职位有红点")
 
-@pytest.skip(reason='等发布上线后再执行此用例')
-def test_positions_offline(position_id,attachParam):
-    res = positions_offline(position_id,attachParam)
-    assert_equal(1, res['state'], '下线职位成功')
+
+mdsPositionId = 0
 
 
+@pytest.mark.skip(reason="等大厂引入TL上线后再执行")
+@pytest.mark.monthly_position
+def test_query_monthly_position_type():
+    res = positions_query_position_type(userId=100019158, reqVersion=71600).json()
+    name_list = [i['name'] for i in res['content']['positionTypes']]
+    assert_equal(True, '月度职位' in name_list, '获取成功', '获取失败')
 
 
+@pytest.mark.skip(reason="等大厂引入TL上线后再执行")
+@pytest.mark.monthly_position
+def test_post_monthly_position():
+    res = post_myOnlinePositions(userid=100019158, workAddressId=192378, typeid=5)
+    global mdsPositionId
+    try:
+        mdsPositionId = res['content']['mdsPositionId']
+    except KeyError:
+        mdsPositionId = 0
+    assert_equal(1, res['state'], '发布月度职位成功！')
+
+
+@pytest.mark.skip(reason="等大厂引入TL上线后再执行")
+@pytest.mark.monthly_position
+def test_get_online_monthly_position():
+    res = get_online_positions(userId=100019158)
+    try:
+        positions_typeTag_list = [(i['positionId'], i['typeTag']) for i in res['content']['positions']['result']]
+        for value in positions_typeTag_list:
+            if value[0] == mdsPositionId:
+                typeTag = value[1]
+    except KeyError:
+        typeTag = '非月度'
+    assert_equal('月度', typeTag, '在线职位列表包含刚发布的月度职位')
+
+
+@pytest.mark.skip(reason="等大厂引入TL上线后再执行")
+@pytest.mark.monthly_position
+def test_refresh_monthly_position():
+    res = refresh_position(mdsPositionId, userId=100019158)
+    assert_equal(107036, res['state'], "月度职位不能刷新校验通过")
+
+
+@pytest.mark.skip(reason="等大厂引入TL上线后再执行")
+@pytest.mark.monthly_position
+def test_up_monthly_position_ranking():
+    res = up_position_ranking(mdsPositionId, userId=100019158)
+    assert_equal(107037, res['state'], "月度职位不能提升排名校验通过")
+
+
+@pytest.mark.skip(reason="等大厂引入TL上线后再执行")
+@pytest.mark.monthly_position
+def test_monthly_positions_offline():
+    res = positions_offline(mdsPositionId, userId=100019158)
+    desc = res['content']['tipsInfo']['popUpTipsInfo']['desc']
+    assert_equal(True, '月度职位' in desc, '下线月度职位成功')
+
+
+@pytest.mark.skip(reason="等大厂引入TL上线后再执行")
+@pytest.mark.monthly_position
+def test_monthly_positions_republish():
+    res = positions_republish(mdsPositionId, userId=100019158)
+    assert_equal(107039, res['state'], '月度职位不能再发布的校验通过')

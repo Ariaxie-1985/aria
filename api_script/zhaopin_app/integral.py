@@ -10,4 +10,6 @@ def integral_recruitcard_pop(userId):
     url = host + '/integral/mall/recruitcard/pop'
     header = get_app_header(userId=userId)
     remark = '是否弹出直招卡弹窗'
-    return json_post(url=url, headers=header, remark=remark)
+    return get_requests(url=url, headers=header, remark=remark)
+
+
