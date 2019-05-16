@@ -6,6 +6,7 @@ from flask_restful import Resource, reqparse
 
 from api_script.jianzhao_web.b_basic.home_review_company_4 import passCompanyApprove
 from api_script.jianzhao_web.b_basic.home_review_person_2 import passPersonApprove
+from api_script.jianzhao_web.b_basic.toB_comleteInfo_3 import completeInfo_process
 from api_script.jianzhao_web.b_basic.toB_saveHR_1 import saveHR_process, creatCompany_process
 from utils.util import login_home, login, login_home_code
 from faker import Faker
