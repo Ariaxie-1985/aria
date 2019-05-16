@@ -50,7 +50,7 @@ def publish_position_check():
 
 # yazhang新增typeid字段，1：普通职位，2：特权，3：无曝光
 def post_positions(firstType='开发|测试|运维类', workyear='应届毕业生', positionType='后端开发', positionThirdType='Java',
-                   positionName='java开发工程师', typeid=None, userid=100014641):
+                   positionName='java开发工程师', typeid=None, userid=100014641, workAddressId=191880):
     '''
     发布职位
     :return:
@@ -83,7 +83,7 @@ def post_positions(firstType='开发|测试|运维类', workyear='应届毕业�
         "positionThirdType": positionThirdType,
         "jobNature": "全职",
         "education": "本科",
-        "workAddressId": 191880,
+        "workAddressId": workAddressId,
         # "recruitmentType":1,
         # "workAddressId": 191882,
         "department": "技术部",
@@ -136,11 +136,12 @@ def update_position(positionId):
     return json_put(url=url, headers=headers, data=data, remark=remark)
 
 
-def get_online_positions():
+def get_online_positions(userId=100014641):
     '''
     获取在线职位列表
     :return:
     '''
+    headers = get_app_header(userId)
     url = host + "/positions/online/pages?pageNo=1&pageSize=80"
     remark = "获取在线职位列表"
     return get_requests(url=url, headers=headers, remark=remark).json()
@@ -158,20 +159,22 @@ def get_other_positions():
     return get_requests(url=url, headers=headers, remark=remark).json()
 
 
-def refresh_position(positionId):
+def refresh_position(positionId, reqVersion=None, userId=100014641):
     url = host + "/positions/{}/refresh_position".format(positionId)
     data = {
         "isConfirm": False
     }
+    headers = get_app_header(userId, reqVersion)
     remark = "刷新职位"
     return json_put(url=url, data=data, headers=headers, remark=remark)
 
 
-def up_position_ranking(positionId):
+def up_position_ranking(positionId, reqVersion=None, userId=100014641):
     url = host + "/positions/{}/up_position_ranking".format(positionId)
     data = {
         "isConfirm": False
     }
+    headers = get_app_header(userId, reqVersion)
     remark = "提升职位排名"
     return json_put(url=url, data=data, headers=headers, remark=remark)
 
@@ -240,30 +243,75 @@ def positions_details_app(positionId):
     return get_requests(url=url, remark=remark, headers=headers)
 
 
-def positions_query_position_type():
+def positions_query_position_type(reqVersion, userId=100014641):
     url = host + '/positions/query_position_type'
     remark = '查询可选择的职位分类'
+    headers = get_app_header(userId, reqVersion)
     return get_requests(url=url, remark=remark, headers=headers)
 
 
-def positions_republish(positionId):
+def positions_republish(positionId, userId):
     url = host + "/positions/{}/republish".format(positionId)
     data = {
         # "attachParam":"{\"typeId\":3,\"step\":\"TWO\"}",
         # "typeId":typeId,
-
     }
-    remark = "重新发布"
+    remark = "再发布职位"
+    headers = get_app_header(userId)
     return json_put(url=url, data=data, headers=headers, remark=remark)
 
 
-def positions_offline(id, attachParam=None):
+def positions_offline(id, reqVersion=None, attachParam=None, userId=100014641):
     url = host + '/positions/{}/offline'.format(id)
     data = {
         'attachParam': attachParam
     }
     remark = '下线职位'
-    return json_post(url=url, data=data, remark=remark, headers=headers)
+    headers = get_app_header(userId, reqVersion)
+    return json_put(url=url, data=data, remark=remark, headers=headers)
+
+
+def post_myOnlinePositions(firstType='开发|测试|运维类', workyear='3-5年', positionType='后端开发', positionThirdType='Java',
+                           positionName='java开发工程师', typeid=None, userid=100014641, workAddressId=191880):
+    '''
+    发布职位
+    :return:
+    '''
+    url = host + "/positions/publish"
+    data = {
+        "isConfirm": True,
+        "recommend": True,
+        "labels": [{
+            "name": "旅游",
+            "id": 9,
+            "isExpanded": False,
+            "isSelected": False,
+            "isSubTag": False
+        }, {
+            "name": "本地生活",
+            "id": 5,
+            "isExpanded": False,
+            "isSelected": False,
+            "isSubTag": False
+        }],
+        "positionType": positionType,
+        "positionDesc": "<p>11111111111111111111111111111</p>",
+        "workYear": workyear,
+        "salaryMin": 20,
+        "firstType": firstType,
+        "positionName": positionName,
+        "positionBrightPoint": "20薪",
+        "positionThirdType": positionThirdType,
+        "jobNature": "全职",
+        "education": "本科",
+        "workAddressId": workAddressId,
+        "department": "技术部",
+        "salaryMax": 30,
+        "typeId": typeid
+    }
+    remark = "发布职位"
+    headers = get_app_header1(userid)
+    return json_post(url=url, headers=headers, data=data, remark=remark)
 
 # category_mapping("Java开发")
 # post_positions(workyear='3-5年')

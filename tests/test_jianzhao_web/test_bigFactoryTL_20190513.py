@@ -7,7 +7,7 @@ from api_script.home.lagou_plus import get_contract_No, close_contract, open_pro
 from api_script.jianzhao_web.b_position.bigFactoryTL_20190513 import recruitcard_pop
 from utils.util import assert_equal
 
-@pytest.importorskip('test_bigFactoryTL_20190513.py', reason="需要等上线后才可在default环境用, 预计15号上线")
+@pytest.importorskip('test_bigFactoryTL_20190513.py', reason="等大厂引入TL上线后再执行")
 def setup_module(module):
     pass
 
