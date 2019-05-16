@@ -70,23 +70,22 @@ def saveHR_process(phone, countryCode, companyShortName, companyFullName, userNa
     return r1, r2, r3, r4
 
 
-def add_people_into_company(phone, countryCode, companyFullName, userName, userPosition, resumeReceiveEmail):
+def add_people_into_company(phone, countryCode, companyFullName, userName, resumeReceiveEmail, userPosition):
     r1, r2, r3, r4 = {'state': 0}, {'state': 0}, {'state': 0}, {'state': 0}
     r1 = b_register(phone, countryCode)
     if r1['state'] == 1:
-        r2 = saveHR(companyFullName, userName, userPosition, resumeReceiveEmail)
+        r2 = saveHR(companyFullName, userName, resumeReceiveEmail, userPosition)
         r3 = add_saveCompany()
         r4 = submit(companyFullName)
     return r1, r2, r3, r4
 
 
-def creatCompany_process(phone, countryCode, companyShortName, companyFullName, userName, userPosition,
-                         resumeReceiveEmail,
-                         updateCompanyShortName):
+def creatCompany_process(phone, countryCode, companyShortName, companyFullName, userName,
+                         resumeReceiveEmail, userPosition, updateCompanyShortName):
     r1, r2, r3, r4 = None, None, None, None
     r1 = login(countryCode, phone)
     if r1['state'] == 1:
-        r2 = saveHR(companyFullName, userName, userPosition, resumeReceiveEmail)
+        r2 = saveHR(companyFullName, userName, resumeReceiveEmail, userPosition)
         r3 = saveCompany(companyShortName)
         r4 = submit(updateCompanyShortName)
     return r1, r2, r3, r4
