@@ -32,7 +32,7 @@ def saveCompany(companyShortName):
     saveCompany_url = "https://hr.lagou.com/corpCenter/openservice/saveCompany.json"
     saveCompany_data = {"logo": "i/audio1/M00/01/C5/CgHIk1wQzAuAZ5-EAAmU9-3HjA4414.JPG",
                         "companyShortName": companyShortName,
-                        "industryField": "移动互联网", "companySize": "150-500人", "financeStage": "不需要融资"}
+                        "industryField": "电商", "companySize": "150-500人", "financeStage": "不需要融资"}
     saveCompany_header = get_code_token(step2_url)
     remark = "验证B端成立公司是否成功"
     return form_post(url=saveCompany_url, data=saveCompany_data, headers=saveCompany_header, remark=remark)
