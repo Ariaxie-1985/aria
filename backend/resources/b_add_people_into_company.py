@@ -140,7 +140,7 @@ class B_Add_People_Into_Company(Resource):
                 try:
                     if r51['success'] != True:
                         state = 400
-                        info = "home后台-审核中心-个人认证-审核招聘者失败, 该公司的简称: " + args['companyShortName']
+                        info = "home后台-审核中心-个人认证-审核招聘者失败, 该公司的简称: " + args['companyFullName']
                     else:
                         CompanyInfo['companyId'] = r52
                         HRInfo['userId'] = r53
