@@ -121,7 +121,7 @@ class B_Add_People_Into_Company(Resource):
 
             if r4['state'] != 1:
                 state = 400
-                info = "B端提交招聘者审核失败，该公司简称: " + args['companyShortName']
+                info = "B端提交招聘者审核失败，该公司简称: " + args['companyFullName']
         except TypeError:
             info = info
 
