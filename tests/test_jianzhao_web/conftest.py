@@ -7,65 +7,54 @@ import pytest
 from utils.util import login, login_home, login_home_code
 
 
-#非灰度公司帐号
+# 非灰度公司帐号
 @pytest.fixture(params=[["00852", "20181205"]])
 def login_web_k8s_default(request):
-	login(request.param[0],request.param[1])
+    login(request.param[0], request.param[1])
 
 
 @pytest.fixture()
-def gidefault():
-	login_home_code('00853', 22222222)
+def login_home_k8s_default():
+    login_home_code('00853', 22222222)
 
 
-#灰度公司，北京，免费，开通招聘服务，职务非HR
+# 灰度公司，北京，免费，开通招聘服务，职务非HR
 @pytest.fixture(params=[["0086", "18850430034"]])
 def login_web_k8s_143242_TL1(request):
-	login(request.param[0],request.param[1])
+    login(request.param[0], request.param[1])
 
-#灰度公司，北京，付费，开通招聘服务，职务HR
+
+# 灰度公司，北京，付费，开通招聘服务，职务HR
 @pytest.fixture(params=[["0086", "18850430035"]])
 def login_web_k8s_142373_TL1(request):
-	login(request.param[0],request.param[1])
+    login(request.param[0], request.param[1])
 
-#灰度公司，北京，付费，开通招聘服务，职务非HR
+
+# 灰度公司，北京，付费，开通招聘服务，职务非HR
 @pytest.fixture(params=[["0086", "18850430036"]])
 def login_web_k8s_142373_TL2(request):
-	login(request.param[0],request.param[1])
+    login(request.param[0], request.param[1])
 
-#灰度公司，北京，付费，开通招聘服务，职务非HR
+
+# 灰度公司，北京，付费，开通招聘服务，职务非HR
 @pytest.fixture(params=[["0086", "18850430037"]])
 def login_web_k8s_142373_TL3(request):
-	login(request.param[0],request.param[1])
+    login(request.param[0], request.param[1])
 
-#灰度公司，太原，免费，开通招聘服务，职务HR
+
+# 灰度公司，太原，免费，开通招聘服务，职务HR
 @pytest.fixture(params=[["0086", "18850430030"]])
 def login_web_k8s_143232_TL1(request):
-	login(request.param[0],request.param[1])
+    login(request.param[0], request.param[1])
 
-#灰度公司，无城市，免费，开通招聘服务，职务非HR
+
+# 灰度公司，无城市，免费，开通招聘服务，职务非HR
 @pytest.fixture(params=[["0086", "18850430031"]])
 def login_web_k8s_143235_TL1(request):
-	login(request.param[0],request.param[1])
+    login(request.param[0], request.param[1])
 
-#灰度公司，无城市，免费，未完成招聘者审核
+
+# 灰度公司，无城市，免费，未完成招聘者审核
 @pytest.fixture(params=[["0086", "18850430032"]])
 def login_web_k8s_143236_TL1(request):
-	login(request.param[0],request.param[1])
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    login(request.param[0], request.param[1])

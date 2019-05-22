@@ -5,6 +5,8 @@ from utils.util import assert_equal
 import pytest
 from api_script.entry.buser.hrinfo import *
 from api_script.entry.bigcompany.companybaseinfo import *
+@pytest.importorskip('test_companybaseinfo.py', reason="等上线后再执行")
+
 def setup_module(module):
     pass
 
@@ -12,7 +14,8 @@ def setup_module(module):
 def teardown_module(module):
     pass
 
-#@pytest.mark.parametrize("companyid",[()])
+
+# @pytest.mark.parametrize("companyid",[()])
 def test_companybaseinfo():
-    company=companyinfos().json()
-    assert_equal(1,company['state'],"公司基本信息查询成功")
+    company = companyinfos().json()
+    assert_equal(1, company['state'], "公司基本信息查询成功")

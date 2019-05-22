@@ -243,10 +243,10 @@ def positions_details_app(positionId):
     return get_requests(url=url, remark=remark, headers=headers)
 
 
-def positions_query_position_type(reqVersion, userId=100014641):
+def positions_query_position_type(userId=100014641):
     url = host + '/positions/query_position_type'
     remark = '查询可选择的职位分类'
-    headers = get_app_header(userId, reqVersion)
+    headers = get_app_header(userId)
     return get_requests(url=url, remark=remark, headers=headers)
 
 

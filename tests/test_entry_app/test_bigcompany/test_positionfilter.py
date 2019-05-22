@@ -4,6 +4,7 @@ __author__ = 'arayang'
 from utils.util import assert_equal
 import pytest
 from api_script.entry.bigcompany.positionfilter import *
+@pytest.importorskip('test_positionfilter.py', reason="等上线后再执行")
 
 
 def setup_module(module):
