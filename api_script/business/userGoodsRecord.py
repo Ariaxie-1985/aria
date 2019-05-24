@@ -23,7 +23,7 @@ def sendApplyAssignGoodsWithNum(parentId, applyForSubAccount, applybaseGoods):
         'applyForSubAccount': applyForSubAccount,
         'applyGoods': [applybaseGoods]
     }
-    data["applyGoods"] = json.dumps(data["applyGoods"])
+    data["applyGoods"] = json.dumps(data["applyGoods"], ensure_ascii=False)
     remark = '普通账号/子账号权益申请提交接口'
     return form_post(url=url, data=data, headers=header, remark=remark)
 
@@ -52,7 +52,7 @@ def addAccountFromApply(applyRecordId):
     return form_post(url=url, headers=header, data=data, remark=remark)
 
 
-def allocateGoodsFromApply(applyRecordId,allocateGoods):
+def allocateGoodsFromApply(applyRecordId, allocateGoods):
     url = 'https://easy.lagou.com/userGoodsRecord/allocateGoodsFromApply.json'
     header = get_header('https://easy.lagou.com/dashboard/index.htm?')
     data = {
@@ -61,10 +61,9 @@ def allocateGoodsFromApply(applyRecordId,allocateGoods):
             allocateGoods
         ]
     }
-    data["allocateDetail"] = json.dumps(data["allocateDetail"])
+    data["allocateDetail"] = json.dumps(data["allocateDetail"], ensure_ascii=False)
     remark = '管理员 分配接口'
     return form_post(url=url, headers=header, data=data, remark=remark)
-
 
 # login('00852', 20021215)
 # r = queryParentUser()

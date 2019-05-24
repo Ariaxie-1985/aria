@@ -9,6 +9,8 @@ import pytest
 
 applyForSubAccount = 2
 test_queryParentUser_result = 2
+
+
 @pytest.importorskip('test_userGoodsRecord.py', reason="等招聘线-添加和分配流程优化上线后再执行")
 
 def test_queryParentUser(login_k8s_default_20021215):
@@ -35,14 +37,14 @@ def test_sendApplyAssignGoodsWithNum():
 
 def test_countPendingApplyRecords(login_web_k8s_default):
     res = countPendingApplyRecords()
-    assert_equal(1, res['state'], '查询成功')
+    assert_equal(1, res['state'], '查询管理员 待处理申请付费权益统计成功')
 
 
 def test_pendingApplyRecords():
     res = pendingApplyRecords()
     global applyRecordId
     applyRecordId = res['content']['data']['recordList'][0]['applyRecordId']
-    assert_equal(1, res['state'], '查询成功')
+    assert_equal(1, res['state'], '查询管理员 待处理申请付费权益列表成功')
 
 
 @pytest.mark.skipif(applyForSubAccount == 0, reason='仅申请付费权益,非子账号')
@@ -51,7 +53,6 @@ def test_addAccountFromApply():
     assert_equal(1, res['state'], '添加子账号成功')
 
 
-# @pytest.mark.skipif(applyForSubAccount == 0, reason='')
 def test_allocateGoodsFromApply():
     global applybaseGoods
     applybaseGoods['allocateNum'] = 10

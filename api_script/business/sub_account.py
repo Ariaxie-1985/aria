@@ -158,7 +158,7 @@ def reAssignAllGoods(userinfolist):
                                   {"userid": user, "userName": info[0], "email": "",
                                    "baseGoodsId": info[1][1], "totalNum": "0", "num": "0", "reAssignNum": "1"}
                               ]}
-        recoverAcount_data["assignInfo"] = json.dumps(recoverAcount_data["assignInfo"])
+        recoverAcount_data["assignInfo"] = json.dumps(recoverAcount_data["assignInfo"], ensure_ascii=False)
         recoverAcount_header = {}
         remark = "验证调整子账号为分账号且及其权益功能是否ok"
         r = form_post(url=recoverAcount_url, data=recoverAcount_data, headers=recoverAcount_header, remark=remark)
@@ -179,12 +179,11 @@ def reAssign_subaccount_Goods(subaccunt_goodslist):
         recoverAcount_data = {"accountType": 1, "userId": user,
                               "assignInfo": [{"userid": user, "userName": info[0], "email": "",
                                               "baseGoodsId": info[1], "totalNum": "0", "num": "0", "reAssignNum": "1"}]}
-        recoverAcount_data["assignInfo"] = json.dumps(recoverAcount_data["assignInfo"])
+        recoverAcount_data["assignInfo"] = json.dumps(recoverAcount_data["assignInfo"], ensure_ascii=False)
         recoverAcount_header = {}
         remark = "验证调整子账号为分账号且及其权益功能是否ok"
         r = form_post(url=recoverAcount_url, data=recoverAcount_data, headers=recoverAcount_header, remark=remark)
     return r
-
 
 # username = 20181205
 # login("00852", username)
