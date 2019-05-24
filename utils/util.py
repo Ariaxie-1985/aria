@@ -5,8 +5,7 @@ from json import JSONDecodeError
 
 import requests
 import re
-from requests import exceptions, RequestException
-from tenacity import *
+from requests import RequestException
 import json
 import logging
 
@@ -22,21 +21,25 @@ count = 0
 
 
 # 获取页面的token和code
-@retry(stop=(stop_after_delay(2) | stop_after_attempt(3)))
 def get_code_token(url):
+    global count
     try:
+        token_values, code_values = '', ''
         code = session.get(url=url, headers=header, verify=False, timeout=60)
         token_values = re.findall("X_Anti_Forge_Token = '(.*?)'", code.text, re.S)[0]
         code_values = re.findall("X_Anti_Forge_Code = '(.*?)'", code.text, re.S)[0]
         headers = {"X-Anit-Forge-Code": code_values, "X-Anit-Forge-Token": token_values,
                    "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3615.0 Safari/537.36"}
-        if code.status_code == 200:
+        if token_values != '' and code_values != '':
             return headers
-    except RequestException as e:
-        return {"errors": str(e)}
-    except IndexError as e:
-        return {"X-Anit-Forge-Code": '', "X-Anit-Forge-Token": '',
-                "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3615.0 Safari/537.36"}
+        else:
+            if count < 1:
+                count = count + 1
+                return get_code_token(url=url)
+            else:
+                return headers
+    except (RequestException, IndexError):
+        return get_code_token(url=url)
 
 
 def form_post(url, remark, data=None, files=None, headers={}):
@@ -66,18 +69,8 @@ def form_post(url, remark, data=None, files=None, headers={}):
                 else:
                     logging.error(msg='该接口URL {} , 备注: {},  响应内容: {} 请求成功, 但断言错误\n'.format(url, remark, response_json))
                     return response_json
-        elif status_code == 500:
-            logging.error(msg="该接口URL {} , 备注 {} 报错500, 请检查业务服务是否可用\n".format(url, remark))
-            return {'content': '报错500, 服务端错误', 'url': url, 'remark': remark}
-        elif status_code == 415:
-            logging.error(msg="该接口URL {} 备注 {} 报错415, 请检查接口的请求方法是否正确\n".format(url, remark))
-            return {'content': '报错415, 接口请求方法不可用', 'url': url, 'remark': remark}
-        elif status_code == 404:
-            logging.error(msg="该接口URL {} , 备注 {} 报错404, 请检查接口地址是否正确及业务服务是否可用\n".format(url, remark))
-            return {'content': '报错404, 接口地址不可用', 'url': url, 'remark': remark}
-        elif status_code == 502:
-            logging.error(msg="该接口URL {} , 备注 {} 报错502, 请检查业务服务是否可用\n".format(url, remark))
-            return {'content': '报错502, 业务服务不可用', 'url': url, 'remark': remark}
+        else:
+            return judging_other_abnormal_conditions(status_code, url, remark)
     except RequestException:
         logging.error(msg="该接口URL {} , 备注 {} 请求异常, 请检查接口服务并重试一次\n".format(url, remark))
         return {'content': '请求异常(requests捕获的异常)', 'url': url, 'remark': remark}
@@ -113,18 +106,8 @@ def json_post(url, remark, data=None, headers=None):
                 else:
                     logging.error(msg='该接口URL {} , 备注 {}, 响应内容: {} 请求成功, 但断言错误\n'.format(url, remark, response_json))
                     return response_json
-        elif status_code == 500:
-            logging.error(msg="该接口URL {} , 备注 {} 报错500, 请检查业务服务是否可用\n".format(url, remark))
-            return {'content': '报错500, 服务端错误', 'url': url, 'remark': remark}
-        elif status_code == 415:
-            logging.error(msg="该接口URL {} 备注 {} 报错415, 请检查接口的请求方法是否正确\n".format(url, remark))
-            return {'content': '报错415, 接口请求方法不可用', 'url': url, 'remark': remark}
-        elif status_code == 404:
-            logging.error(msg="该接口URL {} , 备注 {} 报错404, 请检查接口地址是否正确及业务服务是否可用\n".format(url, remark))
-            return {'content': '报错404, 接口地址不可用', 'url': url, 'remark': remark}
-        elif status_code == 502:
-            logging.error(msg="该接口URL {} , 备注 {} 报错502, 请检查业务服务是否可用\n".format(url, remark))
-            return {'content': '报错502, 业务服务不可用', 'url': url, 'remark': remark}
+        else:
+            return judging_other_abnormal_conditions(status_code, url, remark)
     except RequestException:
         logging.error(msg="该接口URL {} , 备注 {} 请求异常, 请检查接口服务并重试一次\n".format(url, remark))
         return {'content': '请求执行错误', 'url': url, 'remark': remark}
@@ -164,18 +147,8 @@ def get_requests(url, data=None, headers=None, remark=None):
                             return response
             else:
                 return response
-        elif status_code == 500:
-            logging.error(msg="该接口URL {} , 备注 {} 报错500, 请检查业务服务是否可用\n".format(url, remark))
-            return {'content': '报错500, 服务端错误', 'url': url, 'remark': remark}
-        elif status_code == 415:
-            logging.error(msg="该接口URL {} 备注 {} 报错415, 请检查接口的请求方法是否正确\n".format(url, remark))
-            return {'content': '报错415, 接口请求方法不可用', 'url': url, 'remark': remark}
-        elif status_code == 404:
-            logging.error(msg="该接口URL {} , 备注 {} 报错404, 请检查接口地址是否正确及业务服务是否可用\n".format(url, remark))
-            return {'content': '报错404, 接口地址不可用', 'url': url, 'remark': remark}
-        elif status_code == 502:
-            logging.error(msg="该接口URL {} , 备注 {} 报错502, 请检查业务服务是否可用\n".format(url, remark))
-            return {'content': '报错502, 业务服务不可用', 'url': url, 'remark': remark}
+        else:
+            return judging_other_abnormal_conditions(status_code, url, remark)
     except RequestException:
         logging.error(msg="该接口URL {} , 备注 {} 请求异常, 请检查接口服务并重试一次\n".format(url, remark))
         return {'content': '请求执行错误', 'url': url, 'remark': remark}
@@ -195,7 +168,6 @@ def get_header(url):
 
 
 # 企业微信报警
-@retry
 def wxsend(username, content):
     s = {'userids': username, 'msgtype': 'text', 'content': content}
     params = json.dumps(s)
@@ -358,18 +330,8 @@ def json_put(url, remark, data=None, headers=None):
                 else:
                     logging.error(msg='该接口URL {} , 备注 {}, 响应内容: {} 请求成功, 但断言错误\n'.format(url, remark, response_json))
                     return response_json
-        elif status_code == 500:
-            logging.error(msg="该接口URL {} , 备注 {} 报错500, 请检查业务服务是否可用\n".format(url, remark))
-            return {'content': '报错500, 服务端错误', 'url': url, 'remark': remark}
-        elif status_code == 415:
-            logging.error(msg="该接口URL {} 备注 {} 报错415, 请检查接口的请求方法是否正确\n".format(url, remark))
-            return {'content': '报错415, 接口请求方法不可用', 'url': url, 'remark': remark}
-        elif status_code == 404:
-            logging.error(msg="该接口URL {} , 备注 {} 报错404, 请检查接口地址是否正确及业务服务是否可用\n".format(url, remark))
-            return {'content': '报错404, 接口地址不可用', 'url': url, 'remark': remark}
-        elif status_code == 502:
-            logging.error(msg="该接口URL {} , 备注 {} 报错502, 请检查业务服务是否可用\n".format(url, remark))
-            return {'content': '报错502, 业务服务不可用', 'url': url, 'remark': remark}
+        else:
+            return judging_other_abnormal_conditions(status_code, url, remark)
     except RequestException:
         logging.error(msg="该接口URL {} , 备注 {} 请求异常, 请检查接口服务并重试一次\n".format(url, remark))
         return {'content': '请求执行错误', 'url': url, 'remark': remark}
@@ -403,18 +365,8 @@ def put_requests(url, headers=None, remark=None):
                 else:
                     logging.error(msg='该接口URL {} , 备注 {}, 响应内容: {} 请求成功, 但断言错误\n'.format(url, remark, response_json))
                     return response_json
-        elif status_code == 500:
-            logging.error(msg="该接口URL {} , 备注 {} 报错500, 请检查业务服务是否可用\n".format(url, remark))
-            return {'content': '报错500, 服务端错误', 'url': url, 'remark': remark}
-        elif status_code == 415:
-            logging.error(msg="该接口URL {} 备注 {} 报错415, 请检查接口的请求方法是否正确\n".format(url, remark))
-            return {'content': '报错415, 接口请求方法不可用', 'url': url, 'remark': remark}
-        elif status_code == 404:
-            logging.error(msg="该接口URL {} , 备注 {} 报错404, 请检查接口地址是否正确及业务服务是否可用\n".format(url, remark))
-            return {'content': '报错404, 接口地址不可用', 'url': url, 'remark': remark}
-        elif status_code == 502:
-            logging.error(msg="该接口URL {} , 备注 {} 报错502, 请检查业务服务是否可用\n".format(url, remark))
-            return {'content': '报错502, 业务服务不可用', 'url': url, 'remark': remark}
+        else:
+            return judging_other_abnormal_conditions(status_code, url, remark)
     except RequestException:
         logging.error(msg="该接口URL {} , 备注 {} 请求异常, 请检查接口服务并重试一次\n".format(url, remark))
         return {'content': '请求执行错误', 'url': url, 'remark': remark}
@@ -448,18 +400,8 @@ def delete_requests(url, headers=None, remark=None):
                 else:
                     logging.error(msg='该接口URL {} , 备注 {}, 响应内容: {} 请求成功, 但断言错误\n'.format(url, remark, response_json))
                     return response_json
-        elif status_code == 500:
-            logging.error(msg="该接口URL {} , 备注 {} 报错500, 请检查业务服务是否可用\n".format(url, remark))
-            return {'content': '报错500, 服务端错误', 'url': url, 'remark': remark}
-        elif status_code == 415:
-            logging.error(msg="该接口URL {} 备注 {} 报错415, 请检查接口的请求方法是否正确\n".format(url, remark))
-            return {'content': '报错415, 接口请求方法不可用', 'url': url, 'remark': remark}
-        elif status_code == 404:
-            logging.error(msg="该接口URL {} , 备注 {} 报错404, 请检查接口地址是否正确及业务服务是否可用\n".format(url, remark))
-            return {'content': '报错404, 接口地址不可用', 'url': url, 'remark': remark}
-        elif status_code == 502:
-            logging.error(msg="该接口URL {} , 备注 {} 报错502, 请检查业务服务是否可用\n".format(url, remark))
-            return {'content': '报错502, 业务服务不可用', 'url': url, 'remark': remark}
+        else:
+            return judging_other_abnormal_conditions(status_code, url, remark)
     except RequestException:
         logging.error(msg="该接口URL {} , 备注 {} 请求异常, 请检查接口服务并重试一次\n".format(url, remark))
         return {'content': '请求执行错误', 'url': url, 'remark': remark}
@@ -488,3 +430,20 @@ def zip_path(input_path, output_path, output_name):
     file_Path = os.path.abspath(os.path.join(os.getcwd(), ".."))
     zip_file_Path = os.path.join(file_Path, output_name)
     return zip_file_Path
+
+
+def judging_other_abnormal_conditions(status_code, url, remark):
+    if status_code == 500:
+        logging.error(msg="该接口URL {} , 备注 {} 报错500, 请检查业务服务是否可用\n".format(url, remark))
+        return {'content': '报错500, 服务端错误', 'url': url, 'remark': remark}
+    elif status_code == 415:
+        logging.error(msg="该接口URL {} 备注 {} 报错415, 请检查接口的请求方法是否正确\n".format(url, remark))
+        return {'content': '报错415, 接口请求方法不可用', 'url': url, 'remark': remark}
+    elif status_code == 404:
+        logging.error(msg="该接口URL {} , 备注 {} 报错404, 请检查接口地址是否正确及业务服务是否可用\n".format(url, remark))
+        return {'content': '报错404, 接口地址不可用', 'url': url, 'remark': remark}
+    elif status_code == 502:
+        logging.error(msg="该接口URL {} , 备注 {} 报错502, 请检查业务服务是否可用\n".format(url, remark))
+        return {'content': '报错502, 业务服务不可用', 'url': url, 'remark': remark}
+    else:
+        return {'content': '报错{}, 请检查业务服务是否正常'.format(status_code), 'url': url, 'remark': remark}
