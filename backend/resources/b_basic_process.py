@@ -111,6 +111,7 @@ class B_Basic_Process(Resource):
         parser.add_argument('companyShortName', type=str, default=company_name, help="请输入注册公司的简称")
         parser.add_argument('companyFullName', type=str, default=company_name, help="请输入注册公司的全称")
         parser.add_argument('updateCompanyShortName', type=str, default=company_name, help="请输入注册公司的别称")
+        parser.add_argument('checkedindustryField', help="请输入注册公司的行业标签")
         args = parser.parse_args()
         HRInfo = {}
         CompanyInfo = {}
@@ -124,7 +125,8 @@ class B_Basic_Process(Resource):
                                               args['userName'],
                                               args['userPosition'],
                                               args['resumeReceiveEmail'],
-                                              args['updateCompanyShortName'])
+                                              args['updateCompanyShortName'],
+                                              ",".join(args['checkedindustryField']))
         state = 0
         try:
             if r1['state'] != 1:
