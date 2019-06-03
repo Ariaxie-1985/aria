@@ -14,5 +14,3 @@ def recruitcard_pop():
     return get_requests(url=url, headers=header, remark=remark)
 
 
-login('00852', 20181205)
-recruitcard_pop()
