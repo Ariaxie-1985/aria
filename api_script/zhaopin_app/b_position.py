@@ -313,6 +313,13 @@ def post_myOnlinePositions(firstType='开发|测试|运维类', workyear='3-5年
     headers = get_app_header1(userid)
     return json_post(url=url, headers=headers, data=data, remark=remark)
 
+
+def publish_guide(userId):
+    url = host + '/positions/publish_guide'
+    header = get_app_header(userId=userId)
+    remark = '发布职位页引导'
+    return get_requests(url=url, headers=header, remark=remark).json()
+
 # category_mapping("Java开发")
 # post_positions(workyear='3-5年')
 
