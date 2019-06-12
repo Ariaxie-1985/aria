@@ -24,9 +24,10 @@ class work_address(Resource):
         parser.add_argument('address2', type=int, help="请输入正确手机号", required=True)
         parser.add_argument('province', type=str, help="请输入正确手机号", required=True)
         args = parser.parse_args()
-        print()
+        db.ping(reconnect=True)
         cursor.execute(
             "SELECT id, province,city,district,detail_address FROM t_work_address where {} <= id and id <= {} and province = '{}'".format(
                 args['address1'], args['address2'], args['province']))
         results = cursor.fetchall()
+        db.close()
         return results
