@@ -5,6 +5,8 @@ from flask import request
 from flask_restful import Resource, reqparse
 
 from api_script.batch.B_postposition import post_position
+from backend.common.address import junge_address
+from backend.common.update_user_company_id import get_user_company_id, update_user_company_id
 from utils.util import login
 
 
@@ -85,17 +87,29 @@ class B_Post_Position(Resource):
         parser.add_argument('positionType', help="请输入职位的二级类别", default="市场|营销")
         parser.add_argument('positionThirdType', type=str, help="请输入职位的三级类别", default="市场营销")
         parser.add_argument('positionName', default="高级市场营销经理", type=str, help="职位名称")
-        parser.add_argument('workAddressId', type=int, help="工作地址id", required=True)
+        parser.add_argument('workAddress', type=str, help="工作地址", required=True)
         parser.add_argument('sum', type=int, help="请输入发布职位的数量", required=True)
         args = parser.parse_args()
+
+        address_id = junge_address(args['workAddress'])
+
+        if args['workAddress'] == '' or not bool(address_id):
+            return {'state': 400, 'message': '输入的工作地址没存在对应id,请重新输入'}
 
         login_res = login(args['countrycode'], args['username'])
         if login_res['state'] != 1:
             return {"message": login_res['message']}
+        else:
+            userId, companyId = get_user_company_id()
+            print(userId, companyId)
+            flag = update_user_company_id(address_id, userId, companyId)
+            if flag == False:
+                return {'state': 400, 'message': '输入的工作地址没存在对应id,请重新输入'}
 
         result = post_position(sum=args['sum'], positionName=args['positionName'], firstType=args['firstType'],
                                positionType=args['positionType'],
-                               positionThirdType=args['positionThirdType'], workAddressId=args['workAddressId'])
+                               positionThirdType=args['positionThirdType'],
+                               workAddressId=address_id)
 
         state = 0
         for i in result:

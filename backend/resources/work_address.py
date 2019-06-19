@@ -10,7 +10,7 @@ db = pymysql.connect(
     port=3306,
     user='lagouro',
     passwd='Q12_#*s#$opIx',
-    db='mds_position',
+    db='testing_platform',
     charset='utf8',
     cursorclass=pymysql.cursors.DictCursor
 )
@@ -20,14 +20,20 @@ cursor = db.cursor()
 class work_address(Resource):
     def get(self):
         parser = reqparse.RequestParser()
-        parser.add_argument('address1', type=int, help="请输入正确手机号", required=True)
-        parser.add_argument('address2', type=int, help="请输入正确手机号", required=True)
-        parser.add_argument('province', type=str, help="请输入正确手机号", required=True)
+        parser.add_argument('address', type=str, help="请输入正确地址", required=True)
         args = parser.parse_args()
         db.ping(reconnect=True)
         cursor.execute(
-            "SELECT id, province,city,district,detail_address FROM t_work_address where {} <= id and id <= {} and province = '{}'".format(
-                args['address1'], args['address2'], args['province']))
+            "SELECT id, CONCAT(city,district,detail_address) FROM t_work_address WHERE CONCAT(city,district,detail_address) like '{}%' LIMIT 50".format(
+                args['address']))
         results = cursor.fetchall()
         db.close()
-        return results
+
+        data = []
+        for address in results:
+            items = {}
+            items['id'] = address['id']
+            items['address'] = address['CONCAT(city,district,detail_address)']
+            data.append(items)
+
+        return {'message': 'success', 'items': data}
