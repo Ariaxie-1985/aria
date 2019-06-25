@@ -1,6 +1,8 @@
 # coding:utf-8
 # @Time  : 2019-02-15 15:44
 # @Author: Xiawang
+import json
+
 from flask import request
 from flask_restful import Resource, reqparse
 
@@ -118,15 +120,16 @@ class B_Basic_Process(Resource):
         ApproveInfo = {}
         Application = {}
         info = None
+        industryField = ",".join(json.loads(args['checkedindustryField']))
         r1, r2, r3, r4 = creatCompany_process(args['phone'],
                                               args['countryCode'],
                                               args['companyShortName'],
                                               args['companyFullName'],
                                               args['userName'],
-                                              args['userPosition'],
                                               args['resumeReceiveEmail'],
+                                              args['userPosition'],
                                               args['updateCompanyShortName'],
-                                              ",".join(args['checkedindustryField']))
+                                              industryField)
         state = 0
         try:
             if r1['state'] != 1:

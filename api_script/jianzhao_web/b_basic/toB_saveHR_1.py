@@ -86,6 +86,6 @@ def creatCompany_process(phone, countryCode, companyShortName, companyFullName, 
     r1 = login(countryCode, phone)
     if r1['state'] == 1:
         r2 = saveHR(companyFullName, userName, resumeReceiveEmail, userPosition)
-        r3 = saveCompany(companyShortName,industryField)
+        r3 = saveCompany(companyShortName, industryField)
         r4 = submit(updateCompanyShortName)
     return r1, r2, r3, r4

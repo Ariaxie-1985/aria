@@ -102,8 +102,8 @@ class B_Add_People_Into_Company(Resource):
                                                  args['countryCode'],
                                                  args['companyFullName'],
                                                  args['userName'],
-                                                 args['userPosition'],
-                                                 args['resumeReceiveEmail']
+                                                 args['resumeReceiveEmail'],
+                                                 args['userPosition']
                                                  )
         state = 0
         try:

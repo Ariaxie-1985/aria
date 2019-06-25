@@ -18,3 +18,6 @@ def passCompanyApprove():
 	remark = "home后台-公司认证-审核公司"
 	return form_post(url=passCompanyApprove_url, data=passCompanyApprove_data,headers=queryCompany_header,remark=remark)
 
+if __name__ == '__main__':
+	login_home_code('00853','22222222')
+	passCompanyApprove()
