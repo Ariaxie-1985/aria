@@ -7,7 +7,7 @@ from utils.util import login,get_code_token,form_post,get_header,get_requests,as
 人才沟通
 '''
 login('00852','20181205')
-def list():
+def session_list():
     '''
     获取会话列表
     :return:

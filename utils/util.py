@@ -24,7 +24,7 @@ count = 0
 def get_code_token(url):
     global count
     try:
-        token_values, code_values = '', ''
+        token_values, code_values = 0, None
         code = session.get(url=url, headers=header, verify=False, timeout=60)
         token_values = re.findall("X_Anti_Forge_Token = '(.*?)'", code.text, re.S)[0]
         code_values = re.findall("X_Anti_Forge_Code = '(.*?)'", code.text, re.S)[0]
