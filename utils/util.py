@@ -79,7 +79,7 @@ def form_post(url, remark, data=None, files=None, headers={}):
         return {'content': '响应内容不是期望的json格式', 'url': url, 'remark': remark}
 
 
-def json_post(url, remark, data=None, headers=None):
+def json_post(url, remark, data=None, headers={}):
     """
     json传参的post请求
     :param url: 请求url
@@ -116,7 +116,7 @@ def json_post(url, remark, data=None, headers=None):
         return {'content': '响应内容不是期望的json格式', 'url': url, 'remark': remark}
 
 
-def get_requests(url, data=None, headers=None, remark=None):
+def get_requests(url, data=None, headers={}, remark=None):
     """
     get请求
     :param url: str, 接口地址
@@ -303,7 +303,7 @@ def get_app_header1(userId):
     return header
 
 
-def json_put(url, remark, data=None, headers=None):
+def json_put(url, remark, data=None, headers={}):
     """
     json传参的put请求
     :param url: 请求url
@@ -340,7 +340,7 @@ def json_put(url, remark, data=None, headers=None):
         return {'content': '响应内容不是期望的json格式', 'url': url, 'remark': remark}
 
 
-def put_requests(url, headers=None, remark=None):
+def put_requests(url, headers={}, remark=None):
     """
     put请求
     :param url: str, 接口地址
@@ -375,7 +375,7 @@ def put_requests(url, headers=None, remark=None):
         return {'content': '响应内容不是期望的json格式', 'url': url, 'remark': remark}
 
 
-def delete_requests(url, headers=None, remark=None):
+def delete_requests(url, headers={}, remark=None):
     """
     put请求
     :param url: str, 接口地址

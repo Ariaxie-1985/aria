@@ -11,7 +11,7 @@
 import json
 import pymysql
 from pathos.multiprocessing import ProcessingPool as newPool
-from utils.util import form_post, get_code_token, login
+from utils.util import form_post, get_code_token, login, json_post
 
 
 def get_data(city):
@@ -51,12 +51,11 @@ def process_data(db_data):
     return list(set(id_area_data))
 
 
-def run(address_list):
+def run(phone_list, address_list):
     error = 0
     success = 0
     pool = newPool()
-    sum_list = [1 for x in range(len(address_list))]
-    res_list = pool.map(post_position, sum_list, address_list)
+    res_list = pool.map(post_position, phone_list, address_list)
     for index, value in enumerate(res_list):
         if 'state' not in value[0] or value[0]['state'] != 1:
             error = error + 1
@@ -72,16 +71,18 @@ def run(address_list):
     print('失败发布职位 {} 个'.format(error))
 
 
-def post_position(sum, addressId):
+def post_position(phone, addressId):
     '''
     批量发布职位
     :param sum: 发布职位个数
     :return: 发布职位的请求
 
     '''
-    login('00852', 20021215)
+    login('00852', phone)
     reslist = []
-    for i in range(sum):
+    posit_list = [('开发|测试|运维类', '后端开发', 'Java', '高级Java'), ('开发|测试|运维类', '移动前端开发', 'IOS', '高级IOS'),
+                  ('开发|测试|运维类', '移动前端开发', 'Android', '高级Android')]
+    for i in range(3):
         refer_createPosition_url = "https://easy.lagou.com/position/multiChannel/createPosition.htm"
         Position_header = get_code_token(refer_createPosition_url)
         createPosition_url = "https://easy.lagou.com/parentPosition/multiChannel/create.json"
@@ -102,10 +103,10 @@ def post_position(sum, addressId):
                                   'labels': '[{"id":"1","name":"电商"}]',
                                   'parentExtraInfo': '{}',
                                   "useEnergyCard": False},
-                               "firstType": "开发|测试|运维类",
-                               "positionType": "后端开发",
-                               "positionThirdType": "Java",
-                               "positionName": "高级Java"}
+                               "firstType": posit_list[i][0],
+                               "positionType": posit_list[i][1],
+                               "positionThirdType": posit_list[i][2],
+                               "positionName": posit_list[i][3]}
 
         remark = "批量发布职位" + str(sum) + "个成功"
         r = form_post(
@@ -117,7 +118,40 @@ def post_position(sum, addressId):
     return reslist
 
 
+def setup_data(phone):
+    phone_list = []
+    # url_b = 'http://10.1.200.141:9004/entry/registration'
+    url_b = 'http://127.0.0.1:9004/entry/registration'
+    data_b = {
+        "countryCode": "00852",
+        "phone": phone,
+        "type": 'b'
+    }
+    r1 = json_post(url=url_b, headers={}, data=data_b, remark='注册B端')
+    if r1['state'] == 1:
+        url = 'http://127.0.0.1:9004/jianzhao/company/registration'
+        data = {
+            "countryCode": "00852",
+            "phone": phone
+        }
+        r = json_post(url=url, headers={}, data=data, remark='创建公司')
+        if r.get('state', 0) == 1:
+            phone_list.append(phone)
+    return phone_list
+
+
+def run_setup():
+    phone_list = [x + 1 for x in range(60000000, 90000000)]
+    pool = newPool()
+    res_list = pool.map(setup_data, phone_list)
+    return res_list
+
+
 if __name__ == '__main__':
     db_data = get_data('北京')
+    phone_list = run_setup()
+    pool = newPool()
+    b_phone_list = pool.map(setup_data, phone_list)
     address_list = process_data(db_data)
-    run(address_list)
+    run(b_phone_list, address_list)
+    # setup_data(18900208)

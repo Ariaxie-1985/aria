@@ -108,7 +108,7 @@ class B_Basic_Process(Resource):
         parser.add_argument('countryCode', type=str, help="请输入B端注册用户手机号的归属区号", required=True)
         parser.add_argument('phone', type=str, help="请输入B端注册用户的手机号", required=True)
         parser.add_argument('userName', type=str, default=fake.name(), help="请输入B端注册用户的姓名")
-        parser.add_argument('userPosition', type=str, help="请输入B端注册用户的职位")
+        parser.add_argument('userPosition', type=str, default='ceo',help="请输入B端注册用户的职位")
         parser.add_argument('resumeReceiveEmail', type=str, default=fake.email(), help="请输入接收简历的邮箱地址")
         parser.add_argument('companyShortName', type=str, default=company_name, help="请输入注册公司的简称")
         parser.add_argument('companyFullName', type=str, default=company_name, help="请输入注册公司的全称")
@@ -120,7 +120,10 @@ class B_Basic_Process(Resource):
         ApproveInfo = {}
         Application = {}
         info = None
-        industryField = ",".join(json.loads(args['checkedindustryField']))
+        if bool(args['checkedindustryField']) == True:
+            industryField = ",".join(json.loads(args['checkedindustryField']))
+        else:
+            industryField = '电商'
         r1, r2, r3, r4 = creatCompany_process(args['phone'],
                                               args['countryCode'],
                                               args['companyShortName'],
