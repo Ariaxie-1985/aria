@@ -25,7 +25,10 @@ def post_position(sum, **kwargs):
 
     '''
     reslist = []
-    addressId = get_Address()
+    if bool(kwargs.get('workAddressId')) == False:
+        addressId = get_Address()
+    else:
+        addressId = kwargs.get('workAddressId')
     firstType = kwargs.get("firstType", "市场|商务类")
     positionType = kwargs.get("positionType", "市场|营销")
     positionThirdType = kwargs.get("positionThirdType", "市场营销")
@@ -65,7 +68,6 @@ def post_position(sum, **kwargs):
             remark=remark)
         reslist.append(r)
     return reslist
-
 
 # login("00852",20181205)
 # post_position(1,firstType="金融类",positionType="互联网金融",positionThirdType="金融产品经理",positionName="金融产品实习生")

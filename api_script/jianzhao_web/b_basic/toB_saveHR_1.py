@@ -27,12 +27,12 @@ def saveHR(companyFullName, userName, resumeReceiveEmail, userPosition='HR'):
 
 
 # B端成立公司
-def saveCompany(companyShortName):
+def saveCompany(companyShortName, industryField="电商"):
     step2_url = 'https://hr.lagou.com/corpCenter/openservice/step2.html'
     saveCompany_url = "https://hr.lagou.com/corpCenter/openservice/saveCompany.json"
     saveCompany_data = {"logo": "i/audio1/M00/01/C5/CgHIk1wQzAuAZ5-EAAmU9-3HjA4414.JPG",
                         "companyShortName": companyShortName,
-                        "industryField": "电商", "companySize": "150-500人", "financeStage": "不需要融资"}
+                        "industryField": industryField, "companySize": "150-500人", "financeStage": "不需要融资"}
     saveCompany_header = get_code_token(step2_url)
     remark = "验证B端成立公司是否成功"
     return form_post(url=saveCompany_url, data=saveCompany_data, headers=saveCompany_header, remark=remark)
@@ -81,11 +81,11 @@ def add_people_into_company(phone, countryCode, companyFullName, userName, resum
 
 
 def creatCompany_process(phone, countryCode, companyShortName, companyFullName, userName,
-                         resumeReceiveEmail, userPosition, updateCompanyShortName):
+                         resumeReceiveEmail, userPosition, updateCompanyShortName, industryField):
     r1, r2, r3, r4 = None, None, None, None
     r1 = login(countryCode, phone)
     if r1['state'] == 1:
         r2 = saveHR(companyFullName, userName, resumeReceiveEmail, userPosition)
-        r3 = saveCompany(companyShortName)
+        r3 = saveCompany(companyShortName, industryField)
         r4 = submit(updateCompanyShortName)
     return r1, r2, r3, r4

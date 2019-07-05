@@ -26,4 +26,6 @@ def passPersonApprove():
     return form_post(url=passPersonApprove_url, data=passPersonApprove_data, headers=queryPerson_header,
                      remark=remark), companyId, userId
 
-
+if __name__ == '__main__':
+    login_home_code('00853','22222222')
+    passPersonApprove()

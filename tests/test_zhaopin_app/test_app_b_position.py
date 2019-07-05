@@ -8,7 +8,7 @@ from api_script.zhaopin_app.b_position import post_positions, category_mapping, 
     positions_details, update_position, get_online_positions, positions_static_info, get_offline_positions, \
     get_other_positions, apply_privilege_position, refresh_position, up_position_ranking, positions_top_check, \
     positions_is_hot, positions_query_position_type, positions_republish, positions_details_app, \
-    positions_red_point_hint, positions_offline, post_myOnlinePositions
+    positions_red_point_hint, positions_offline, post_myOnlinePositions, publish_guide
 # invite_userId_list = test_data['invite_userId_list']
 # session = requests.session()
 # session.cookies.clear()
@@ -212,3 +212,19 @@ def test_monthly_positions_offline():
 def test_monthly_positions_republish():
     res = positions_republish(mdsPositionId, userId=100019158)
     assert_equal(107039, res['state'], '月度职位不能再发布的校验通过')
+
+
+@pytest.mark.skip(reason="等大厂引入TL上线后再执行")
+@pytest.mark.parametrize('userId, assert_info',
+                         [(100014641, '非灰度公司无法开启邀请好友领取月度职位卡的启动页'), (100019165, '灰度公司的HR岗无法开启邀请好友领取月度职位卡的启动页')])
+def test_publish_guide_0(userId, assert_info):
+    res = publish_guide(userId)
+    assert_equal(False, res['content']['guide'], assert_info)
+
+
+@pytest.mark.skip(reason="等大厂引入TL上线后再执行")
+@pytest.mark.parametrize('userId, assert_info',
+                         [(100019158, '灰度公司的非HR岗可开启邀请好友领取月度职位卡的启动页')])
+def test_publish_guide_1(userId, assert_info):
+    res = publish_guide(userId)
+    assert_equal(True, res['content']['guide'], assert_info)
