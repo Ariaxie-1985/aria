@@ -53,7 +53,7 @@ def form_post(url, remark, data=None, files=None, headers={}):
     """
     global count
     try:
-        headers = {**headers, **header}
+        headers = {**header,**headers}
         response = session.post(url=url, data=data, files=files, headers=headers, verify=False, timeout=60)
         response_json = response.json()
         status_code = response.status_code
@@ -90,7 +90,7 @@ def json_post(url, remark, data=None, headers={}):
     """
     global count
     try:
-        headers = {**headers, **header}
+        headers = {**header,**headers}
         response = session.post(url=url, json=data, headers=headers, verify=False, timeout=60)
         response_json = response.json()
         status_code = response.status_code
@@ -124,6 +124,7 @@ def get_requests(url, data=None, headers={}, remark=None):
     :param headers: dict, requests header
     :return: object, 响应对象
     """
+    headers = {**header,**headers}
     global count
     try:
         response = session.get(url=url, params=data, headers=headers, verify=False, timeout=60)
@@ -298,6 +299,17 @@ def get_app_header(userId, reqVersion=80201):
 def get_app_header1(userId):
     header = {"Content-Type": "application/json", "X-L-REQ-HEADER": {"deviceType": 10},
               "X-L-USER-ID": str(userId),
+              "X-L-DA-HEADER": "da5439aadaf04ade94a214d730b990d83ec71d3e9f274002951143c843badffbc543b213dfe84e21a37bb782dd9bbca4be8d947ead7041f79d336cb1217127d15"}
+    header["X-L-REQ-HEADER"] = json.dumps(header["X-L-REQ-HEADER"])
+    return header
+
+
+def get_app_header_new(userId, X_L_REQ_HEADER={}):
+    app_header = {"deviceType": 10}
+    X_L_REQ_HEADER = {**app_header,**X_L_REQ_HEADER}
+    header = {"Accept": "application/json", "X-L-REQ-HEADER": X_L_REQ_HEADER,
+              "X-L-USER-ID": str(userId),
+              "User-Agent": "%E6%8B%89%E5%8B%BE%E6%8B%9B%E8%81%98/7945 CFNetwork/978.0.7 Darwin/18.5.0",
               "X-L-DA-HEADER": "da5439aadaf04ade94a214d730b990d83ec71d3e9f274002951143c843badffbc543b213dfe84e21a37bb782dd9bbca4be8d947ead7041f79d336cb1217127d15"}
     header["X-L-REQ-HEADER"] = json.dumps(header["X-L-REQ-HEADER"])
     return header

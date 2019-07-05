@@ -2,6 +2,7 @@
 # @Time  : 2019-07-03 10:53
 # @Author: Xiawang
 import random
+import string
 import time
 
 from utils.util import get_code_token, get_requests, login, get_header, json_post, form_post
@@ -92,10 +93,21 @@ def can_recentInterviewCc():
     return form_post(url=url, headers=header, remark='获取最近抄送信息')
 
 
+def send_chat():
+    url = 'https://easy.lagou.com/im/chat/send/100015734.json'
+    header = get_header(url='https://easy.lagou.com/im/chat/index.htm')
+    data = {
+        'content':'第一次测试',
+        'attach':''.join(random.sample(string.ascii_letters + string.digits, 11)),
+        'lagouPositionId' : '5378661'
+    }
+    return form_post(url=url, headers=header, data=data,remark='发送消息会话')
+
 if __name__ == '__main__':
     login('00852', '20181205')
-    print(data_provider())
+    print(send_chat())
+    # print(data_provider())
     # position_selector(1144459583050354688,100019968)
-    chat_getMDSUserInfo(100014095)
+    # chat_getMDSUserInfo(100014095)
     # resume_interview(1144459583050354688,13849191)
     # resume_lastInterview(1144459583050354688)
