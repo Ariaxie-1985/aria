@@ -320,6 +320,9 @@ def publish_guide(userId):
     remark = '发布职位页引导'
     return get_requests(url=url, headers=header, remark=remark).json()
 
+
+if __name__ == '__main__':
+    print(get_online_positions())
 # category_mapping("Java开发")
 # post_positions(workyear='3-5年')
 
