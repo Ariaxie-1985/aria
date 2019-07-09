@@ -7,7 +7,16 @@ from api_script.entry.deliver.deliver import deliver_check, deliver_create, deli
 from api_script.zhaopin_app.b_position import get_online_positions
 from utils.util import assert_equal
 import pytest
-@pytest.importorskip('test_deliver.py', reason="等TCP转HTTP投递相关接口上线后再执行")
+
+
+@pytest.importorskip('test_deliver.py', reason='等TCP转HTTP投递相关接口上线后再执行')
+def setup_module(module):
+    pass
+
+
+def teardown_module(module):
+    pass
+
 
 orderId = 0
 
