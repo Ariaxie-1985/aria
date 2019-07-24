@@ -3,7 +3,6 @@
 # @Author: Xiawang
 import sys
 
-from backend.resources.product_template import productTemplate
 
 sys.path.append('.')
 from flask import Flask, config
