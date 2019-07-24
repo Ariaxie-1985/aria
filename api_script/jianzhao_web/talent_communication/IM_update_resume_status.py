@@ -105,7 +105,7 @@ def send_chat():
 
 if __name__ == '__main__':
     login('00852', '20181205')
-    print(send_chat())
+    # print(send_chat())
     # print(data_provider())
     # position_selector(1144459583050354688,100019968)
     # chat_getMDSUserInfo(100014095)
