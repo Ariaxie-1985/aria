@@ -41,8 +41,6 @@ def open_product(templateId, companyId, contractNo, userId, startTimeStr, endTim
     url = 'https://home.lagou.com/crm/valueadded/product/open.json'
     header = get_header('https://home.lagou.com/')
     data = {'templateId': templateId, 'num': 100, 'companyId': companyId, 'contractNo': contractNo,
-
-
             'userId': userId, 'startTimeStr': startTimeStr, 'endTimeStr': endTimeStr, 'upgrade': False}
     return form_post(url=url, data=data, headers=header, remark='开启合同')
 

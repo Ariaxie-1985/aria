@@ -39,12 +39,27 @@ class Dubbo(telnetlib.Telnet):
 
 if __name__ == '__main__':
     conn = Dubbo('10.1.201.182', 30060)
+    # conn999 = Dubbo('172.20.13.218', 30060)
+    # connyq = Dubbo('10.1.201.136', 30060)
 
-    data = 143033
+    data = 146827
 
     result = conn.invoke(
         "com.lagou.service.business.base.company.api.CompanysQueryService",
         "queryCompanyById",
         data
     )
+    print('dubbo接口版本: "0.0.1_zhaiyanjia"')
     print(result)
+
+    # result1 = connyq.invoke(
+    #     "com.lagou.service.business.base.company.api.CompanysQueryService",
+    #     "queryCompanyById",
+    #     data
+    # )
+    # print('dubbo接口版本: "0.0.1"')
+    # print(result1)
+    # for key1, value1 in result.items():
+    #     print(key1, "的值的数据类型是: ", type(value))
+    # for key, value in result.items():
+    #     print(key, "的值的数据类型是: ", type(value))

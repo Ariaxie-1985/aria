@@ -3,6 +3,8 @@
 # @Author: Xiawang
 import sys
 
+from backend.resources.product_template import productTemplate
+
 sys.path.append('.')
 from flask import Flask, config
 from flask_restful import Api
@@ -28,6 +30,8 @@ from backend.resources.upload import upload
 from backend.resources.download import download
 from backend.resources.registe import registe
 from backend.resources.work_address import work_address
+from backend.resources.new_lagouPlus_open_product import openProduct
+from backend.resources.product_template import productTemplate
 
 app = Flask(__name__)
 app.config.from_object(config)
@@ -59,4 +63,6 @@ api.add_resource(upload, '/upload')
 api.add_resource(download, '/download')
 api.add_resource(registe, '/entry/registration')
 api.add_resource(work_address, '/jianzhao/address')
+api.add_resource(openProduct, '/home/product')
+api.add_resource(productTemplate, '/home/product/template')
 app.run(debug=True, host='0.0.0.0', port=18980)
