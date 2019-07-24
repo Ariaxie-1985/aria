@@ -111,7 +111,7 @@ def test_positions_is_hot(positionName):
 # yqzhang新增
 
 def test_positions_query_position_type():
-    res = positions_query_position_type()
+    res = positions_query_position_type().json()
     assert_equal(1, res['state'], '获取成功', '获取失败')
 
 

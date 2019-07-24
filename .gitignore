@@ -10,3 +10,11 @@ report/
 assets/
 _windows/
 codestyles/
+ApkChannelBuildTool2/debug/
+ApkChannelBuildTool2/cha.xlsx
+ApkChannelBuildTool2/channel.xlsx
+ApkChannelBuildTool2/OtherChannel.xlsx
+ApkChannelBuildTool2/targetApks/
+ApkChannelBuildTool2/config/
+ApkChannelBuildTool2/other_jiaguapk/
+ApkChannelBuildTool2/common_jiaguapk/

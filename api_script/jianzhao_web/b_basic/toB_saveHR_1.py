@@ -70,7 +70,7 @@ def saveHR_process(phone, countryCode, companyShortName, companyFullName, userNa
     return r1, r2, r3, r4
 
 
-def add_people_into_company(phone, countryCode, companyFullName, userName, resumeReceiveEmail, userPosition=None):
+def add_people_into_company(phone, countryCode, companyFullName, userName, resumeReceiveEmail, userPosition='HR'):
     r1, r2, r3, r4 = {'state': 0}, {'state': 0}, {'state': 0}, {'state': 0}
     r1 = b_register(phone, countryCode)
     if r1['state'] == 1:

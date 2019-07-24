@@ -38,7 +38,7 @@ def test_queryRedPointType(orderIds):
         assert_equal(1, r['state'], "查询红点成功")
 
 
-@pytest.mark.parametrize('type', [(1), (2), (3), (0), (4)])
+@pytest.mark.parametrize('type', [(1), (2), (3)])
 def test_activity_carp_removeRedDot(type):
     r = activity_carp_removeRedDot(type)
     if 1 <= type <= 3:
@@ -87,7 +87,7 @@ def test_activity_carp_queryNotePreview(orderId):
     r = activity_carp_queryNotePreview(orderId).json()
     assert_equal(1, r['state'], "查询发帖前的预览信息")
 
-
+@pytest.mark.skip(reason="暂无面试记录，数据需构造")
 @pytest.mark.parametrize('content, userName', [('测试发帖了', '小宸')])
 def test_activity_carp_publicNote(content, userName):
     r = activity_carp_publicNote(content, userName)
