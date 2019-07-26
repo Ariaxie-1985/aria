@@ -27,12 +27,19 @@ def saveHR(companyFullName, userName, resumeReceiveEmail, userPosition='HR'):
 
 
 # B端成立公司
-def saveCompany(companyShortName, industryField="电商"):
+def saveCompany(companyShortName, industryField="电商", financeStage='未融资'):
+    financeStage, stages = get_financeStage(financeStage)
     step2_url = 'https://hr.lagou.com/corpCenter/openservice/step2.html'
     saveCompany_url = "https://hr.lagou.com/corpCenter/openservice/saveCompany.json"
-    saveCompany_data = {"logo": "i/audio1/M00/01/C5/CgHIk1wQzAuAZ5-EAAmU9-3HjA4414.JPG",
-                        "companyShortName": companyShortName,
-                        "industryField": industryField, "companySize": "150-500人", "financeStage": "不需要融资"}
+    if stages is None:
+        saveCompany_data = {"logo": "i/audio1/M00/01/C5/CgHIk1wQzAuAZ5-EAAmU9-3HjA4414.JPG",
+                            "companyShortName": companyShortName,
+                            "industryField": industryField, "companySize": "150-500人", "financeStage": financeStage}
+    else:
+        saveCompany_data = {"logo": "i/audio1/M00/01/C5/CgHIk1wQzAuAZ5-EAAmU9-3HjA4414.JPG",
+                            "companyShortName": companyShortName,
+                            "industryField": industryField, "companySize": "150-500人", "financeStage": financeStage,
+                            'stages': stages}
     saveCompany_header = get_code_token(step2_url)
     remark = "验证B端成立公司是否成功"
     return form_post(url=saveCompany_url, data=saveCompany_data, headers=saveCompany_header, remark=remark)
@@ -81,11 +88,46 @@ def add_people_into_company(phone, countryCode, companyFullName, userName, resum
 
 
 def creatCompany_process(phone, countryCode, companyShortName, companyFullName, userName,
-                         resumeReceiveEmail, userPosition, updateCompanyShortName, industryField):
+                         resumeReceiveEmail, userPosition, updateCompanyShortName, industryField, financeStage):
     r1, r2, r3, r4 = None, None, None, None
     r1 = login(countryCode, phone)
     if r1['state'] == 1:
         r2 = saveHR(companyFullName, userName, resumeReceiveEmail, userPosition)
-        r3 = saveCompany(companyShortName, industryField)
+        r3 = saveCompany(companyShortName, industryField, financeStage)
         r4 = submit(updateCompanyShortName)
     return r1, r2, r3, r4
+
+
+def get_financeStage(financeStage):
+    financeStage_stages = {'天使轮': [{"stage": "天使轮", "investTime": "2016-07-07", "org": "真格基金", "investMoney": "100w"},
+                                   {"stage": "A轮", "investTime": "", "org": "", "investMoney": ""},
+                                   {"stage": "B轮", "investTime": "", "org": "", "investMoney": ""},
+                                   {"stage": "C轮", "investTime": "", "org": "", "investMoney": ""},
+                                   {"stage": "D轮及以上", "investTime": "", "org": "", "investMoney": ""}],
+                           'A轮': [{"stage": "天使轮", "investTime": "2019-01-07", "org": "真格基金", "investMoney": "100w"},
+                                  {"stage": "A轮", "investTime": "2019-02-07", "org": "腾讯", "investMoney": "1000w"},
+                                  {"stage": "B轮", "investTime": "", "org": "", "investMoney": ""},
+                                  {"stage": "C轮", "investTime": "", "org": "", "investMoney": ""},
+                                  {"stage": "D轮及以上", "investTime": "", "org": "", "investMoney": ""}],
+                           'B轮': [{"stage": "天使轮", "investTime": "2019-01-07", "org": "真格基金", "investMoney": "100w"},
+                                  {"stage": "A轮", "investTime": "2019-02-07", "org": "腾讯", "investMoney": "1000w"},
+                                  {"stage": "B轮", "investTime": "2019-03-07", "org": "真格基金", "investMoney": "5000w"},
+                                  {"stage": "C轮", "investTime": "", "org": "", "investMoney": ""},
+                                  {"stage": "D轮及以上", "investTime": "", "org": "", "investMoney": ""}],
+                           'C轮': [{"stage": "天使轮", "investTime": "2019-01-07", "org": "真格基金", "investMoney": "100w"},
+                                  {"stage": "A轮", "investTime": "2019-02-07", "org": "腾讯", "investMoney": "1000w"},
+                                  {"stage": "B轮", "investTime": "2019-03-07", "org": "真格基金", "investMoney": "5000w"},
+                                  {"stage": "C轮", "investTime": "2019-04-07", "org": "腾讯", "investMoney": "8000w"},
+                                  {"stage": "D轮及以上", "investTime": "", "org": "", "investMoney": ""}],
+                           'D轮及以上': [{"stage": "天使轮", "investTime": "2019-01-07", "org": "真格基金", "investMoney": "100w"},
+                                     {"stage": "A轮", "investTime": "2019-02-07", "org": "腾讯", "investMoney": "1000w"},
+                                     {"stage": "B轮", "investTime": "2019-03-07", "org": "真格基金", "investMoney": "5000w"},
+                                     {"stage": "C轮", "investTime": "2019-04-07", "org": "腾讯", "investMoney": "8000w"},
+                                     {"stage": "D轮及以上", "investTime": "2019-05-07", "org": "腾讯",
+                                      "investMoney": "一亿美金"}]}
+    stages = financeStage_stages.get(financeStage, None)
+    return financeStage, stages
+
+
+if __name__ == '__main__':
+    print(get_financeStage('未融资'))

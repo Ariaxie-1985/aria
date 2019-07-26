@@ -9,6 +9,8 @@
 3.执行请求、输出日志
 '''
 import json
+import random
+
 import pymysql
 from pathos.multiprocessing import ProcessingPool as newPool
 from utils.util import form_post, get_code_token, login, json_post
@@ -30,7 +32,7 @@ def get_data(city):
 
     db, cursor = connect_db()
     db.ping(reconnect=True)
-    cursor.execute('select id,biz_area from t_work_address where city = "{}"'.format(city))
+    cursor.execute('select id,biz_area from t_work_address where city = "{}" limit 200'.format(city))
     return cursor.fetchall()
 
 
@@ -146,12 +148,77 @@ def run_setup():
     res_list = pool.map(setup_data, phone_list)
     return res_list
 
+postype = [{'firstType': '开发|测试|运维类', 'positionType': '人工智能', 'positionThirdType': '机器学习', 'positionName': '机器学习'},
+           {'firstType': '产品|需求|项目类', 'positionType': '产品经理', 'positionThirdType': '产品经理', 'positionName': '产品经理'},
+           {'firstType': '设计类', 'positionType': '交互', 'positionThirdType': '交互设计师', 'positionName': 'UI设计'},
+           {'firstType': '运营|编辑|客服类', 'positionType': '运营', 'positionThirdType': '用户运营', 'positionName': '用户运营'},
+           {'firstType': '市场|商务类', 'positionType': '市场|营销', 'positionThirdType': '市场营销', 'positionName': '市场营销'},
+           {'firstType': '销售类', 'positionType': '销售', 'positionThirdType': '销售经理', 'positionName': '销售经理'},
+           {'firstType': '综合职能|高级管理', 'positionType': '人力资源', 'positionThirdType': 'HRBP', 'positionName': 'HRBP'},
+           {'firstType': '金融类', 'positionType': '互联网金融', 'positionThirdType': '金融产品经理', 'positionName': '金融产品经理'},
+           {'firstType': '非互联网职位', 'positionType': '生产|加工|制造', 'positionThirdType': '技工', 'positionName': '模具工'}]
+
+
+def post_position_city(sum, addressId):
+    '''
+    批量发布职位
+    :param sum: 发布职位个数
+    :return: 发布职位的请求
+
+    '''
+    reslist = []
+    login('00852', 20181205)
+    for i in range(sum):
+        position_info = postype[random.randint(0,8)]
+        firstType = position_info['firstType']
+        positionType = position_info['positionType']
+        positionThirdType = position_info['positionThirdType']
+        positionName = position_info['positionName']
+        refer_createPosition_url = "https://easy.lagou.com/position/multiChannel/createPosition.htm"
+        Position_header = get_code_token(refer_createPosition_url)
+        createPosition_url = "https://easy.lagou.com/parentPosition/multiChannel/create.json"
+        createPosition_data = {**{'isSchoolJob': '1',
+                                  'channelTypes': 'LAGOU',
+                                  'department': '111',
+                                  'jobNature': '全职',
+                                  'salaryMin': '11',
+                                  'salaryMax': '12',
+                                  'education': '不限',
+                                  'workAddressId': addressId,
+                                  'positionBrightPoint': '11111',
+                                  'workYear': '应届毕业生',
+                                  'channels': '108',
+                                  'recommend': True,
+                                  'extraInfor': '[{"labels":[{"id":"1","name":"电商"}]}]',
+                                  'positionDesc': '<p>111111111111111111111111111111111111111111111</p>',
+                                  'labels': '[{"id":"1","name":"电商"}]',
+                                  'parentExtraInfo': '{}',
+                                  "useEnergyCard": False},
+                               "firstType": firstType,
+                               "positionType": positionType,
+                               "positionThirdType": positionThirdType,
+                               "positionName": positionName+str(random.randint(10,110))}
+
+        remark = "批量发布职位" + str(sum) + "个成功"
+        r = form_post(
+            url=createPosition_url,
+            data=createPosition_data,
+            headers=Position_header,
+            remark=remark)
+        reslist.append(r)
+    return reslist
 
 if __name__ == '__main__':
-    db_data = get_data('北京')
-    phone_list = run_setup()
-    pool = newPool()
-    b_phone_list = pool.map(setup_data, phone_list)
+    db_data = get_data('成都')
+    # print(db_data)
+    # phone_list = run_setup()
+    sum_list = [i for i in range(100)]
+    # print(sum_list)
     address_list = process_data(db_data)
-    run(b_phone_list, address_list)
+    # print(len(address_list))
+    pool = newPool()
+
+    b_phone_list = pool.map(post_position_city, sum_list, address_list)
+
+    # run(b_phone_list, address_list)
     # setup_data(18900208)

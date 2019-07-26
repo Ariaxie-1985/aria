@@ -322,17 +322,18 @@ def publish_guide(userId):
 
 
 if __name__ == '__main__':
-    print(get_online_positions())
-# category_mapping("Java开发")
-# post_positions(workyear='3-5年')
+    pass
+    # print(get_online_positions())
+    # category_mapping("Java开发")
+    # post_positions(workyear='3-5年')
 
-# get_online_positions()
-# 100013384
-# positions_republish(str(13845257))
-# 100013387
-# positions_republish(str(13687179))
-# positions_query_position_type()
-# get_other_positions()
-# get_offline_positions()
-# positions_details(str(13845259))
-# positions_details_app(str(13845370))
+    # get_online_positions()
+    # 100013384
+    # positions_republish(str(13845257))
+    # 100013387
+    # positions_republish(str(13687179))
+    # positions_query_position_type()
+    # get_other_positions()
+    # get_offline_positions()
+    # positions_details(str(13845259))
+    # positions_details_app(str(13845370))

@@ -3,6 +3,7 @@
 # @Author: Xiawang
 import sys
 
+from backend.resources.company_user_resume import getInfo
 
 sys.path.append('.')
 from flask import Flask, config
@@ -31,6 +32,7 @@ from backend.resources.registe import registe
 from backend.resources.work_address import work_address
 from backend.resources.new_lagouPlus_open_product import openProduct
 from backend.resources.product_template import productTemplate
+from backend.resources.company_user_resume import getInfo
 
 app = Flask(__name__)
 app.config.from_object(config)
@@ -64,4 +66,5 @@ api.add_resource(registe, '/entry/registration')
 api.add_resource(work_address, '/jianzhao/address')
 api.add_resource(openProduct, '/home/product')
 api.add_resource(productTemplate, '/home/product/template')
+api.add_resource(getInfo, '/person/info')
 app.run(debug=True, host='0.0.0.0', port=18980)
