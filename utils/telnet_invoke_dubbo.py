@@ -32,24 +32,39 @@ class Dubbo(telnetlib.Telnet):
             service_name, method_name, json.dumps(arg))
         self.command(Dubbo.prompt, command_str)
         data = self.command(Dubbo.prompt, "")
-        data = json.loads(data.decode(Dubbo.coding,
-                                      errors='ignore').split('\n')[0].strip())
+        data = json.loads(data.decode(Dubbo.coding, errors='ignore').split('\n')[0].strip())
+        return data
+
+    def invoke_1(self, service_name, method_name, arg):
+        command_str = "invoke {0}.{1}({2})".format(
+            service_name, method_name, json.dumps(arg))
+        self.command(Dubbo.prompt, command_str)
+        data = self.command(Dubbo.prompt, "")
+        # data = json.loads(data.decode(Dubbo.coding, errors='ignore').split('\n')[0].strip())
         return data
 
 
 if __name__ == '__main__':
-    conn = Dubbo('10.1.201.182', 30060)
+    conn = Dubbo('10.1.200.120', 30034)
     # conn999 = Dubbo('172.20.13.218', 30060)
     # connyq = Dubbo('10.1.201.136', 30060)
 
-    data = 146827
+    json_data = [{
+        "userAvatar": "i/audio1/M00/01/C5/CgHIk1wQwXuAAz2hAAB1mvl2DME233.JPG",
+        "companyFullName": "dubbo test demo",
+        "userName": "jay chou",
+        "userPosition": "songer",
+        "resumeReceiveEmail": "tester2018@sina.com",
+        "userId": 100020305,
+        "class": "com.lagou.service.business.openservice.api.JoinCompanyRemoteService"
+    }]
 
     result = conn.invoke(
-        "com.lagou.service.business.base.company.api.CompanysQueryService",
-        "queryCompanyById",
-        data
+        "com.lagou.service.business.openservice.api.JoinCompanyRemoteService",
+        "saveBasics",
+        json_data
     )
-    print('dubbo接口版本: "0.0.1_zhaiyanjia"')
+    print('dubbo接口版本: "0.1"')
     print(result)
 
     # result1 = connyq.invoke(

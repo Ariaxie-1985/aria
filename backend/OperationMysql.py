@@ -12,7 +12,7 @@ class OperationMysql:
         初始连接数据库, 此数据库部署在测试环境A
         '''
         self.conn = pymysql.connect(
-            host='10.1.200.127',
+            host='10.1.200.166',
             port=3306,
             user='lagourw',
             passwd='JUY#*f2349Kl',

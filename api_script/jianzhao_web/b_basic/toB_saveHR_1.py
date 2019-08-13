@@ -1,5 +1,8 @@
 # coding:utf-8
 # @Author: Xiawang
+import json
+import time
+
 from utils.util import get_code_token, form_post, login
 
 
@@ -36,6 +39,7 @@ def saveCompany(companyShortName, industryField="电商", financeStage='未融�
                             "companyShortName": companyShortName,
                             "industryField": industryField, "companySize": "150-500人", "financeStage": financeStage}
     else:
+        stages = json.dumps(stages)
         saveCompany_data = {"logo": "i/audio1/M00/01/C5/CgHIk1wQzAuAZ5-EAAmU9-3HjA4414.JPG",
                             "companyShortName": companyShortName,
                             "industryField": industryField, "companySize": "150-500人", "financeStage": financeStage,
@@ -130,4 +134,14 @@ def get_financeStage(financeStage):
 
 
 if __name__ == '__main__':
-    print(get_financeStage('未融资'))
+    # print(get_financeStage('未融资'))
+    # b_register(20030100,'00853')
+    success_list = [i for i in range(20030252, 20030291)]
+    # phone_list = [i for i in range(20030252,20030352)]
+    # for phone in phone_list:
+    #     res = b_register(phone, '00853')
+    #     if res['state'] == 1:
+    #         success_list.append(phone)
+    #     if len(success_list) == 39:
+    #         break
+    print(success_list)

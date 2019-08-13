@@ -22,6 +22,17 @@ def get_userId_resumeId():
     return userId, resumeId
 
 
+def get_userId():
+    url = 'https://www.lagou.com/'
+    page = get_requests(url=url, remark="拉勾网页面--获取userId").text
+    try:
+        soup = BeautifulSoup(page, "html.parser")
+        userId = soup.find(id="userid")['value']
+    except IndexError:
+        userId = 0
+    return userId
+
+
 if __name__ == '__main__':
-    login('00852', "20190701")
+    login('00852', "20030100")
     print(get_userId_resumeId())

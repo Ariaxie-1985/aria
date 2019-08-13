@@ -110,11 +110,20 @@ class B_Basic_Process(Resource):
         parser.add_argument('userName', type=str, default=fake.name(), help="请输入B端注册用户的姓名")
         parser.add_argument('userPosition', type=str, default='ceo', help="请输入B端注册用户的职位")
         parser.add_argument('resumeReceiveEmail', type=str, default=fake.email(), help="请输入接收简历的邮箱地址")
-        parser.add_argument('companyShortName', type=str, default=company_name, help="请输入注册公司的简称")
-        parser.add_argument('companyFullName', type=str, default=company_name, help="请输入注册公司的全称")
+        parser.add_argument('companyShortName', type=str, default=company_name, help="请输入注册公司的简称,要唯一")
+        parser.add_argument('companyFullName', type=str, default=company_name, help="请输入注册公司的全称,要唯一")
         parser.add_argument('updateCompanyShortName', type=str, default=company_name, help="请输入注册公司的别称")
         parser.add_argument('checkedindustryField', help="请输入注册公司的行业标签")
         parser.add_argument('financeStage', help="请输入发展阶段")
+        # 为构造校招职位增加的字段,之后补充至平台上
+        parser.add_argument('detailAddress', help="请输入详细地址")
+        parser.add_argument('provinceId', type=int, help="请输入省、直辖市id")
+        parser.add_argument('cityId', type=int, help="请输入城市id")
+        parser.add_argument('districtId', type=int, help="请输入区域id")
+        parser.add_argument('businessArea', help="请输入商圈")
+        parser.add_argument('companyLng', help="请输入经度")
+        parser.add_argument('companyLat', help="请输入维度")
+
         args = parser.parse_args()
         HRInfo = {}
         CompanyInfo = {}
@@ -123,9 +132,10 @@ class B_Basic_Process(Resource):
         info = None
         if bool(args['checkedindustryField']) == True:
             industryField = ",".join(json.loads(args['checkedindustryField']))
+            # industryField = args['checkedindustryField']
         else:
             industryField = '电商'
-        r1, r2, r3, r4 = creatCompanys_process(args['phone'],
+        r1, r2, r3, r4 = creatCompany_process(args['phone'],
                                               args['countryCode'],
                                               args['companyShortName'],
                                               args['companyFullName'],
@@ -173,9 +183,16 @@ class B_Basic_Process(Resource):
                 state = 400
                 info = info
 
-            login(args['countryCode'], args['phone'])
+            login_r = login(args['countryCode'], args['phone'])
             try:
-                [r6, r7] = completeInfo_process()
+                if login_r['state'] == 1:
+                    # if not args['detailAddress'] is None:
+                    #     [r6, r7] = completeInfo_process(detailAddress=args['detailAddress'], provinceId=args['provinceId'],
+                    #                                     cityId=args['cityId'], districtId=args['districtId'],
+                    #                                     businessArea=args['businessArea'], companyLng=args['companyLng'],
+                    # #                                     companyLat=args['companyLat'])
+                    # else:
+                    r6, r7 = completeInfo_process()
                 if r6['state'] != 1:
                     state = 400
                     info = "上传营业执照失败, 该公司的简称: " + args['companyShortName'] + "，"
