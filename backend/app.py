@@ -2,69 +2,47 @@
 # @Time  : 2019-02-15 15:34
 # @Author: Xiawang
 import sys
-
-from backend.resources.company_user_resume import getInfo
-
 sys.path.append('.')
 from flask import Flask, config
 from flask_restful import Api
-
 from flask_cors import CORS
 from flask_docs import ApiDoc
+from flask_bcrypt import Bcrypt
+from flask_login import LoginManager
 
-from backend.resources.b_basic_process import B_Basic_Process
-from backend.resources.b_post_position import B_Post_Position
-from backend.resources.c_basic_process import C_Basic_Process
-from backend.resources.b_add_people_into_company import B_Add_People_Into_Company
-from backend.resources.hello import HelloWorld
-from backend.resources.run_pytest import run_Pytest
-from backend.resources.b_process_resume import b_process_resume
-from backend.resources.submit_resume_to_position import submit_Resume_To_Position
-from backend.resources.app_process_resume import app_process_resume
-from backend.resources.app_post_position import app_post_position
-from backend.resources.contract_data_import import Contract_Data_Import
-from backend.resources.get_userid import getUserId
-from backend.resources.operation_resume import getResume
-from backend.resources.channel_build import channel_build
-from backend.resources.upload import upload
-from backend.resources.download import download
-from backend.resources.registe import registe
-from backend.resources.work_address import work_address
-from backend.resources.new_lagouPlus_open_product import openProduct
-from backend.resources.product_template import productTemplate
-from backend.resources.company_user_resume import getInfo
+flask_bcrypt = Bcrypt()
+login_manager = LoginManager()
 
-app = Flask(__name__)
-app.config.from_object(config)
 
-CORS(app)
+def create_app():
+    app = Flask(__name__)
 
-cors = CORS(app, resources={r"/*": {"origins": "*"}})
+    with app.app_context():
+        flask_bcrypt.init_app(app)
+        CORS(app)
+        login_manager.init_app(app)
+        app.config['SECRET_KEY'] = 'the quick brown fox jumps over the lazy dog'
 
-api = Api(app)
+        cors = CORS(app, resources={r"/*": {"origins": "*"}})
 
-app.config['API_DOC_MEMBER'] = ['api', 'platform']
-ApiDoc(app)
+        ApiDoc(app)
 
-api.add_resource(HelloWorld, '/')
-api.add_resource(B_Post_Position, '/jianzhao/position')
-api.add_resource(B_Basic_Process, '/jianzhao/company/registration')
-api.add_resource(B_Add_People_Into_Company, '/jianzhao/personal/registration')
-api.add_resource(submit_Resume_To_Position, '/customer/resume')
-api.add_resource(C_Basic_Process, '/customer/registration')
-api.add_resource(run_Pytest, '/pytest')
-api.add_resource(b_process_resume, '/jianzhao/resume')
-api.add_resource(app_process_resume, '/bapp/resume')
-api.add_resource(app_post_position, '/bapp/position')
-api.add_resource(Contract_Data_Import, '/home/import')
-api.add_resource(getUserId, '/customer')
-api.add_resource(getResume, '/customer/resumedata')
-api.add_resource(channel_build, '/build')
-api.add_resource(upload, '/upload')
-api.add_resource(download, '/download')
-api.add_resource(registe, '/entry/registration')
-api.add_resource(work_address, '/jianzhao/address')
-api.add_resource(openProduct, '/home/product')
-api.add_resource(productTemplate, '/home/product/template')
-api.add_resource(getInfo, '/person/info')
-app.run(debug=True, host='0.0.0.0', port=18980)
+        api = Api(app)
+        app.config['API_DOC_MEMBER'] = ['api', 'platform']
+
+        from backend.resources.user import user
+        app.register_blueprint(user)
+
+        from backend.resources.spring import spring
+        app.register_blueprint(spring)
+
+        from backend.resources.data import data
+        app.register_blueprint(data)
+
+        app.config.from_object(config)
+    return app
+
+
+if __name__ == '__main__':
+    app = create_app()
+    app.run(debug=True, host='0.0.0.0', port=18980)

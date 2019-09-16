@@ -70,8 +70,8 @@ class registe(Resource):
             res_list = pool.map(b_register, phone_list, countryCode_list)
         else:
             return {'state': 400, 'content': '类型错误无法执行注册流程，请输入"c"或"b"'}
-
-        detail_info = {'操作成功': [], '该手机号已被注册': [], '请输入正确的手机号码': []}
+        print(res_list)
+        detail_info = {'操作成功': [], '该手机号已被注册': [], '请输入正确的手机号码': [], '请勿重复提交,刷新页面后重试': []}
         for i, r in enumerate(res_list):
             state = 1
             detail_info[r['message']].append(phone_list[i])
@@ -80,8 +80,11 @@ class registe(Resource):
             content = "创建用户成功{}个".format(len(detail_info['操作成功']))
         elif len(detail_info['操作成功']) and (len(detail_info['该手机号已被注册']) or len(detail_info['请输入正确的手机号码'])):
             content = "创建用户成功{}个, 创建用户失败{}个".format(len(detail_info['操作成功']),
-                                                    (len(detail_info['该手机号已被注册']) + len(detail_info['请输入正确的手机号码'])))
+                                                    (len(detail_info['该手机号已被注册']) + len(
+                                                        detail_info['请输入正确的手机号码']) + len(
+                                                        detail_info['请勿重复提交,刷新页面后重试'])))
         else:
-            content = "创建用户失败{}个".format(len(detail_info['该手机号已被注册']) + len(detail_info['请输入正确的手机号码']))
+            content = "创建用户失败{}个".format(
+                len(detail_info['该手机号已被注册']) + len(detail_info['请输入正确的手机号码']) + len(detail_info['请勿重复提交,刷新页面后重试']))
 
         return {'state': state, "content": content, "detail": detail_info}
