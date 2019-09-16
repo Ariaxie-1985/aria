@@ -48,7 +48,8 @@ class User(BaseModel, UserMixin):
         except BadSignature:
             # invalid token
             return None
-        user = User.get_by_id(data['id'])
+        # user = User.get_by_id(data['id'])
+        user = User.get_or_none(User.id == data['id'])
         return user
 
 
