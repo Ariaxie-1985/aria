@@ -3,7 +3,8 @@
 # @Author: Xiawang
 from flask_login import login_required, logout_user
 from flask_restful import Resource
-from common.state import ResponseCode, Results
+
+from backend.common.state import Results, ResponseCode
 
 
 class Logout(Resource):

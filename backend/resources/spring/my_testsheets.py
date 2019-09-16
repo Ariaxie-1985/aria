@@ -4,10 +4,10 @@
 # Description:
 from flask_restful import Resource, reqparse
 
-from common.extensions import convert_json
-from common.new_models import User, TestSheet
-from common.state import Results, ResponseCode
-from common.response_structure import ResponseStructure
+from backend.common.extensions import convert_json
+from backend.common.new_models import User, TestSheet
+from backend.common.response_structure import ResponseStructure
+from backend.common.state import Results, ResponseCode
 
 
 class MyTestSheets(Resource):

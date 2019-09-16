@@ -4,8 +4,9 @@ import time
 
 from flask import g
 from flask_restful import fields, Resource, reqparse
-from common.new_models import User
-from common.state import Results, ResponseCode
+
+from backend.common.new_models import User
+from backend.common.state import Results, ResponseCode
 
 
 def email(email_str):

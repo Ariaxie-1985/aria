@@ -2,9 +2,9 @@
 from flask import g, current_app, make_response
 from flask_restful import Resource, reqparse
 
-from common.authentication import load_user
-from common.new_models import User
-from common.state import Results, ResponseCode
+from backend.common.authentication import load_user
+from backend.common.new_models import User
+from backend.common.state import Results, ResponseCode
 
 
 class Login(Resource):

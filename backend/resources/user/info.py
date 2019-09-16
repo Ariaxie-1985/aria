@@ -4,8 +4,8 @@
 # Description:
 from flask_restful import Resource, reqparse
 
-from common.new_models import User
-from common.state import Results, ResponseCode
+from backend.common.new_models import User
+from backend.common.state import ResponseCode, Results
 
 
 class Info(Resource):

@@ -9,8 +9,8 @@ from flask import current_app
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer, SignatureExpired, BadSignature
 from flask_bcrypt import generate_password_hash, check_password_hash
 
-mysql_db = MySQLDatabase('platform', user='root', password='2018Wang',
-                         host='127.0.0.1', port=3306)
+mysql_db = MySQLDatabase('testing_platform', user='lagourw', password='JUY#*f2349Kl',
+                         host='10.1.200.166', port=3306)
 
 
 class BaseModel(Model):

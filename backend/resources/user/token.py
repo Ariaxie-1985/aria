@@ -4,7 +4,9 @@
 # Description:
 from flask import g
 from flask_restful import Resource
-from common.authentication import auth
+
+from backend.common.authentication import auth
+
 
 class Token(Resource):
 
