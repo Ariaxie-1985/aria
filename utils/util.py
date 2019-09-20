@@ -16,6 +16,8 @@ session = requests.session()
 
 header = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36'}
+app_header = {
+    'User-Agent': '%E6%8B%89%E5%8B%BE%E6%8B%9B%E8%81%98/7988 CFNetwork/978.0.7 Darwin/18.5.0'}
 
 count = 0
 
@@ -79,7 +81,7 @@ def form_post(url, remark, data=None, files=None, headers={}):
         return {'content': '响应内容不是期望的json格式', 'url': url, 'remark': remark}
 
 
-def json_post(url, remark, data=None, headers={}):
+def json_post(url, remark, data=None, headers={}, verifystate=True):
     """
     json传参的post请求
     :param url: 请求url
@@ -89,6 +91,8 @@ def json_post(url, remark, data=None, headers={}):
     :return: json格式化的响应结果
     """
     global count
+    if verifystate == False:
+        count = 3
     try:
         headers = {**header, **headers}
         response = session.post(url=url, json=data, headers=headers, verify=False, timeout=60)
@@ -459,6 +463,34 @@ def judging_other_abnormal_conditions(status_code, url, remark):
         return {'content': '报错502, 业务服务不可用', 'url': url, 'remark': remark}
     else:
         return {'content': '报错{}, 请检查业务服务是否正常'.format(status_code), 'url': url, 'remark': remark}
+
+
+def verify_code_message(countryCode, phone):
+    if countryCode == '0086':
+        countryCode = 0
+    url = 'https://msgv3.lagou.com/msc/message/page'
+    data = {"commId": countryCode + phone, "startTime": "2019-09-17T06:36:36.801Z", "page": 1, "count": 10}
+    header = {"X-L-REQ-HEADER": '{deviceType:1}',
+              "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36"}
+    r = requests.post(url=url, json=data, verify=False).json()
+    if len(r['content']['result']) > 0:
+        id = r['content']['result'][0]['msgId']
+        time = r['content']['result'][0]['createTime']
+
+        url = 'https://msgv3.lagou.com/msc/message/view'
+        data = {"createTime": time, "msgId": id}
+        header = {"X-L-REQ-HEADER": '{deviceType:1}',
+                  "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36"}
+        r = requests.post(url=url, json=data, verify=False).json()
+        verify_code = r['content']['content'][3:9]
+    else:
+        verify_code = None
+    return verify_code
+
+
+def app_header_999(header={}):
+    header = {**app_header, **header}
+    return header
 
 # def login1(username,password,):
 #     '''
