@@ -17,7 +17,8 @@ session = requests.session()
 header = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36'}
 app_header = {
-    'User-Agent': '%E6%8B%89%E5%8B%BE%E6%8B%9B%E8%81%98/7988 CFNetwork/978.0.7 Darwin/18.5.0'}
+    'User-Agent': '%E6%8B%89%E5%8B%BE%E6%8B%9B%E8%81%98/7988 CFNetwork/978.0.7 Darwin/18.5.0'
+}
 
 count = 0
 
@@ -81,7 +82,7 @@ def form_post(url, remark, data=None, files=None, headers={}):
         return {'content': '响应内容不是期望的json格式', 'url': url, 'remark': remark}
 
 
-def json_post(url, remark, data=None, headers={}, verifystate=True):
+def json_post(url, remark, data=None, headers={}, app=False, verifystate=True):
     """
     json传参的post请求
     :param url: 请求url
@@ -93,8 +94,9 @@ def json_post(url, remark, data=None, headers={}, verifystate=True):
     global count
     if verifystate == False:
         count = 3
-    try:
+    if app == False:
         headers = {**header, **headers}
+    try:
         response = session.post(url=url, json=data, headers=headers, verify=False, timeout=60)
         response_json = response.json()
         status_code = response.status_code
@@ -112,7 +114,8 @@ def json_post(url, remark, data=None, headers={}, verifystate=True):
                     return response_json
         else:
             return judging_other_abnormal_conditions(status_code, url, remark)
-    except RequestException:
+    except RequestException as e:
+        print(e)
         logging.error(msg="该接口URL {} , 备注 {} 请求异常, 请检查接口服务并重试一次\n".format(url, remark))
         return {'content': '请求执行错误', 'url': url, 'remark': remark}
     except JSONDecodeError:
@@ -488,8 +491,19 @@ def verify_code_message(countryCode, phone):
     return verify_code
 
 
-def app_header_999(header={}):
-    header = {**app_header, **header}
+def app_header_999(userToken=None, DA=True):
+    if not userToken is None:
+        header = {"deviceType": '150', "userType": '0', "lgId": "898BCC3F-E662-4761-87E8-845788525443_1532945379",
+                  "reqVersion": '72200', "appVersion": "7.21.0", "userToken": userToken}
+    else:
+        header = {"deviceType": '150', "userType": '0', "lgId": "898BCC3F-E662-4761-87E8-845788525443_1532945379",
+                  "reqVersion": '72200', "appVersion": "7.21.0"}
+
+    header = {'X-L-REQ-HEADER': json.dumps(header)}
+    if DA == False:
+        return {**app_header, **header}
+    header = {**app_header, **header,
+              "X-L-DA-HEADER": "da5439aadaf04ade94a214d730b990d83ec71d3e9f274002951143c843badffbc543b213dfe84e21a37bb782dd9bbca4be8d947ead7041f79d336cb1217127d15"}
     return header
 
 # def login1(username,password,):
