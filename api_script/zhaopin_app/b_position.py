@@ -2,7 +2,7 @@
 # @Time  : 2019-01-14 14:41
 # @Author: Xiawang
 
-from utils.util import get_app_header, get_requests, json_post, json_put, get_app_header1
+from utils.util import get_app_header, get_requests, json_post, json_put, get_app_header1, app_header_999
 
 host = "https://gate.lagou.com/v1/zhaopin"
 headers = get_app_header(100014641)
@@ -136,15 +136,18 @@ def update_position(positionId):
     return json_put(url=url, headers=headers, data=data, remark=remark)
 
 
-def get_online_positions(userId=100014641):
+def get_online_positions(userToken=None,H9=False,userId=100014641):
     '''
     获取在线职位列表
     :return:
     '''
-    headers = get_app_header(userId)
+    if H9==True:
+        header = app_header_999(userToken,DA=False)
+    else:
+        header = get_app_header(userId)
     url = host + "/positions/online/pages?pageNo=1&pageSize=80"
     remark = "获取在线职位列表"
-    return get_requests(url=url, headers=headers, remark=remark).json()
+    return get_requests(url=url, headers=header, remark=remark).json()
 
 
 def get_offline_positions():

@@ -1,7 +1,8 @@
 # -*- coding: utf8 -*-
 __author__ = 'yqzhang'
-from utils.util import get_app_header, get_requests, json_post
+from utils.util import get_app_header, get_requests, json_post, app_header_999
 import json
+
 # header=get_app_header(100014641)
 header = {"Accept": "application/json", "X-L-REQ-HEADER": {"deviceType": 10}, "X-L-USER-ID": str(100018375),
           'appVerdion': 70100,
@@ -15,3 +16,9 @@ def hrinfo():
 
 
 # print(hrinfo())
+
+
+def get_hr_info(userToken, publisherId):
+    url = 'https://gate.lagou.com/v1/entry/buser/hrInfo/{}'.format(publisherId)
+    header = app_header_999(userToken)
+    return get_requests(url=url, headers=header, remark="跟职位的HR立即沟通").json()
