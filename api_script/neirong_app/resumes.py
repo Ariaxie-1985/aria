@@ -4,7 +4,7 @@
 import json
 import random
 
-from utils.util import get_app_header, json_post, form_post, app_header_999
+from utils.util import get_app_header, json_post, form_post, app_header_999, get_requests, delete_requests
 from faker import Faker
 
 host = 'https://gate.lagou.com/v1/neirong'
@@ -71,19 +71,23 @@ def guideBasicInfo(phone, userIdentity, userToken, joinWorkTime="2013.07"):
     return json_post(url=url, data=data, headers=header, app=True, remark="提交类型为非学生但有工作经历的基本信息")
 
 
-def educationExperiences(userToken):
+def educationExperiences(userToken, **kwargs):
     url = 'https://gate.lagou.com/v1/neirong/educationExperiences/'
+    schoolName = kwargs.get('schoolName', '北京理工大学')
+    education = kwargs.get('education', '本科')
+    startDate = kwargs.get('startDate', '2009')
+    endDate = kwargs.get('endDate', 2013)
     data = {
         "cardType": 0,
         "resumeId": 0,
         "major": "计算机科学与技术",
         "professional": "计算机科学与技术",
         "schoolBadge": "",
-        "schoolName": "北京理工大学",
+        "schoolName": schoolName,
         "id": 0,
-        "education": "本科",
-        "startDate": "2009",
-        "endDate": "2013",
+        "education": education,
+        "startDate": startDate,
+        "endDate": endDate,
         "logo": ""
     }
     header = app_header_999(userToken, DA=False)
@@ -122,8 +126,11 @@ def expectJob(userToken):
     return json_post(url=url, data=data, headers=header, remark="提交求职意向")
 
 
-def workExperiences(userToken):
+def workExperiences(userToken, **kwargs):
     url = 'https://gate.lagou.com/v1/neirong/workExperiences/'
+    startDate = kwargs.get('startDate', '2015.09')
+    endDate = kwargs.get('endDate', '至今')
+    companyName = kwargs.get('companyName', '拉勾网')
     data = {
         "id": 0,
         "workContent": "<p>跟进迭代测试工作，用户反馈；</p><p>dubbo接口测试，http接口测试</p>",
@@ -131,16 +138,52 @@ def workExperiences(userToken):
         "isFilter": True,
         "positionType": "测试工程师",
         "positionType2": "测试",
-        "endDate": "至今",
+        "endDate": endDate,
         "positionName": "测试工程师",
-        "companyName": "拉勾网",
-        "startDate": "2015.09",
+        "companyName": companyName,
+        "startDate": startDate,
         "companyIndustry": "分类信息",
         "department": "用户价值部",
         "skillLabels": ["测试"]
     }
     header = app_header_999(userToken, DA=False)
     return json_post(url=url, data=data, headers=header, remark="提交工作经历")
+
+
+def set_basicInfo(userToken, phone):
+    url = 'https://gate.lagou.com/v1/neirong/resumes/basicInfo/'
+    header = app_header_999(userToken)
+    data = {
+        "phone": phone,
+        "userIdentity": 2,
+        "joinWorkTime": "2013.07",
+        "headPic": "https://www.lgstatic.com/common/image/pc/default_boy_headpic2.png",
+        "portrait": "https://www.lgstatic.com/common/image/pc/default_boy_headpic2.png",
+        "birthday": "1990.05",
+        "email": "bcui@jing.cn",
+        "liveCity": "北京",
+        "sex": "男",
+        "name": "刘岩"
+    }
+    return json_post(url=url, headers=header, data=data, remark="更新简历的基本信息")
+
+
+def get_detail(userToken):
+    url = 'https://gate.lagou.com/v1/neirong/resumes/detail'
+    header = app_header_999(userToken, DA=False)
+    return get_requests(url=url, headers=header, remark="获取简历详情").json()
+
+
+def delete_education_experiences(userToken, id):
+    url = 'https://gate.lagou.com/v1/neirong/educationExperiences/{}'.format(id)
+    header = app_header_999(userToken, DA=False)
+    return delete_requests(url=url, headers=header, remark="删除教育经历")
+
+
+def delete_workExperiences(userToken, id):
+    url = 'https://gate.lagou.com/v1/neirong/workExperiences/{}'.format(id)
+    header = app_header_999(userToken, DA=False)
+    return delete_requests(url=url, headers=header, remark="删除工作经历")
 
 
 if __name__ == '__main__':

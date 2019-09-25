@@ -36,13 +36,13 @@ def verifyCode_login(countryCode, phone, verify_code):
     return r
 
 
-def send_verify_code(countryCode, phone):
+def send_verify_code(countryCode, phone,businessType):
     url = 'https://gate.lagou.com/v1/entry/account/verifyCode/phone'
     data = {
         "countryCode": countryCode,
         "phone": phone,
         "verifyCodeType": 0,
-        "businessType": "PASSPORT_REGISTER"
+        "businessType": businessType
     }
     header = app_header_999()
     remark = "验证码登录，发送验证码"
