@@ -23,14 +23,14 @@ def test_send_verify_code():
     assert_equal(1, r['state'], '校验发送验证码成功', "校验发送验证码失败")
 
 
-@pytest.mark.dependency()
+time.sleep(2)
+
 def test_get_verify_code():
     global verify_code
     verify_code = verify_code_message(countryCode, phone)
     assert_equal(True, bool(verify_code), "校验获取验证码成功")
 
 
-@pytest.mark.dependency(depends=['test_get_verify_code'])
 def test_verifyCode_login():
     r = verifyCode_login(countryCode, phone, verify_code)
     assert_equal(201001, r['state'], "校验验证码登录转注册成功")

@@ -1,6 +1,7 @@
 # coding:utf-8
 # @Time  : 2019-01-14 14:41
 # @Author: Xiawang
+import random
 
 from utils.util import get_app_header, get_requests, json_post, json_put, get_app_header1, app_header_999
 
@@ -136,13 +137,13 @@ def update_position(positionId):
     return json_put(url=url, headers=headers, data=data, remark=remark)
 
 
-def get_online_positions(userToken=None,H9=False,userId=100014641):
+def get_online_positions(userToken=None, H9=False, userId=100014641):
     '''
     获取在线职位列表
     :return:
     '''
-    if H9==True:
-        header = app_header_999(userToken,DA=False)
+    if H9 == True:
+        header = app_header_999(userToken, DA=False)
     else:
         header = get_app_header(userId)
     url = host + "/positions/online/pages?pageNo=1&pageSize=80"
@@ -322,6 +323,41 @@ def publish_guide(userId):
     header = get_app_header(userId=userId)
     remark = '发布职位页引导'
     return get_requests(url=url, headers=header, remark=remark).json()
+
+
+def publish_position(userToken):
+    '''
+    发布职位
+    :return:
+    '''
+    url = "https://gate.lagou.com/v1/zhaopin/positions/publish"
+    data = {
+        "isConfirm": True,
+        "recruitmentType": 1,
+        "typeId": 0,
+        "recommend": False,
+        "positionType": "测试",
+        "workYear": "3-5年",
+        "positionDesc": "<p>由于岗位称谓每个公司不尽相同，所以发布职位时同一职位我们会以不同标题发布多条。</p>",
+        "labels": [{
+            "name": "电商",
+            "id": 1
+        }],
+        "salaryMin": 15,
+        "positionDescPlainText": "\n1、组织完成项目质量计划，针对项目问题组织回溯，推动短板改进；\n2、进行质量文化宣传培训，提升项目的质量效率；",
+        "positionName": "测试工程师" + str(random.randint(0, 99)),
+        "positionThirdType": "测试工程师",
+        "firstType": "开发|测试|运维类",
+        "positionBrightPoint": "每年18薪",
+        "education": "本科",
+        "jobNature": "全职",
+        "department": "",
+        "workAddressId": 1560096,
+        "salaryMax": 25
+    }
+    remark = "发布职位"
+    headers = app_header_999(userToken,DA=False)
+    return json_post(url=url, headers=headers, data=data, remark=remark)
 
 
 if __name__ == '__main__':

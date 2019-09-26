@@ -9,17 +9,33 @@ from api_script.entry.account.passport import password_login
 from api_script.entry.buser.hrinfo import get_hr_info
 from api_script.entry.deliver.deliver import deliver_check, get_resume_info, deliver_create
 from api_script.entry.position.jd import get_jd
-from api_script.zhaopin_app.b_position import get_online_positions
+from api_script.zhaopin_app.b_position import get_online_positions, publish_position
 from utils.util import assert_equal
 
 
+
 @pytest.mark.parametrize("accountName,password", [("19910626899", "123456")])
-def test_get_online_positions(accountName, password):
+def test_publish_position(accountName, password):
     r = password_login(accountName, password)
+    global userToken
     userToken = r['content']['userToken']
+    r = publish_position(userToken)
+    assert_equal(1, r['state'], "校验发布职位成功")
+    global positionId
+    try:
+        positionId = r['content']['lagouPositionId']
+    except:
+        positionId = 0
+
+
+@pytest.mark.skip(reason="无需获取在线职位id")
+def test_get_online_positions():
     r = get_online_positions(userToken, H9=True)
     global positionId
-    positionId = r['content']['positions']['result'][random.randint(0, 5)]['outerPositionId']
+    try:
+        positionId = r['content']['positions']['result'][random.randint(0, 5)]['outerPositionId']
+    except:
+        positionId = r['content']['positions']['result'][0]['outerPositionId']
     assert_equal(1, r['state'], "校验获取在线职位成功！")
 
 
