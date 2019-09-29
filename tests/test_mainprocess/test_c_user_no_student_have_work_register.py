@@ -25,6 +25,7 @@ def test_send_verify_code():
 
 time.sleep(2)
 
+
 def test_get_verify_code():
     global verify_code
     verify_code = verify_code_message(countryCode, phone)
@@ -83,6 +84,7 @@ def test_get_info():
     assert_equal(1, r['state'], '获取C端用户信息')
 
 
+'''
 countryCode_change, phone_change = "00852", str(20000000 + int(str(time.time()).split('.')[1]))
 
 
@@ -100,6 +102,7 @@ def test_update_phone_get_verify_code():
 def test_change_phone():
     r = bing_or_change_phone(userToken, countryCode_change, phone_change, verify_code)
     assert_equal(1, r['state'], "校验绑定新手机号成功！")
+'''
 
 
 def test_get_detail():
