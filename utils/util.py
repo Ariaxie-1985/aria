@@ -1,6 +1,8 @@
 # coding:utf-8
 import os
 import zipfile
+from datetime import datetime, time, timedelta
+import datetime
 from json import JSONDecodeError
 
 import requests
@@ -472,7 +474,7 @@ def verify_code_message(countryCode, phone):
     if countryCode == '0086':
         countryCode = 0
     url = 'https://msgv3.lagou.com/msc/message/page'
-    data = {"commId": countryCode + phone, "startTime": "2019-09-17T06:36:36.801Z", "page": 1, "count": 10}
+    data = {"commId": countryCode + phone, "startTime": str(datetime.date.today() - datetime.timedelta(days=1)), "page": 1, "count": 10}
     header = {"X-L-REQ-HEADER": '{deviceType:1}',
               "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36"}
     r = requests.post(url=url, json=data, verify=False).json()
@@ -575,3 +577,7 @@ def app_header_999(userToken=None, DA=True):
 # #     header={"userToken":"42950bed7acc28db48ed54ab14d367caf758f16bd45c3347","reqVersion":71800,"lgId":"99000646684560_1560396841537","appVersion":"7.18.0","userType":0,"deviceType":200}
 # #     return json_post(url=url, headers=header, remark=remark)
 # # print(searchPositions())
+
+if __name__ == '__main__':
+    r = verify_code_message('00852','20180917')
+    print(r)
