@@ -19,6 +19,7 @@ class run_Pytest(Resource):
         'entry_app': '/root/.local/bin/pipenv run pytest {}/tests/test_entry_app/ --html=backend/templates/{}_report.html --self-contained-html',
         'all': '/root/.local/bin/pipenv run pytest {}/ --html=backend/templates/{}_report.html --self-contained-html',
         'neirong_app': '/root/.local/bin/pipenv run pytest {}/test_neirong_app/ --html=backend/templates/{}_report.html --self-contained-html',
+        'mainprocess': '/root/.local/bin/pipenv run pytest {}/test_mainprocess/ --html=backend/templates/{}_report.html --self-contained-html',
 
     }
 
