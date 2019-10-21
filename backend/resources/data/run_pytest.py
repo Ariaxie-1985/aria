@@ -64,7 +64,7 @@ class run_Pytest(Resource):
 
         '''
         parser = reqparse.RequestParser()
-        parser.add_argument('module', type=str, choices=('business', 'jianzhao_web', 'zhaopin', 'all', 'entry_app'),
+        parser.add_argument('module', type=str, choices=('business', 'jianzhao_web', 'zhaopin', 'all', 'entry_app','mainprocess'),
                             help="请输入正确模块值: 'business' or 'jianzhao_web' or 'zhaopin' or 'all'", required=True)
         args = parser.parse_args()
         headers = {'Content-Type': 'text/html'}
