@@ -18,8 +18,8 @@ class run_Pytest(Resource):
         'zhaopin': '/root/.local/bin/pipenv run pytest {}/tests/test_zhaopin_app/ --html=backend/templates/{}_report.html --self-contained-html',
         'entry_app': '/root/.local/bin/pipenv run pytest {}/tests/test_entry_app/ --html=backend/templates/{}_report.html --self-contained-html',
         'all': '/root/.local/bin/pipenv run pytest {}/ --html=backend/templates/{}_report.html --self-contained-html',
-        'neirong_app': '/root/.local/bin/pipenv run pytest {}/test_neirong_app/ --html=backend/templates/{}_report.html --self-contained-html',
-        'mainprocess': '/root/.local/bin/pipenv run pytest {}/test_mainprocess/ --html=backend/templates/{}_report.html --self-contained-html',
+        'neirong_app': '/root/.local/bin/pipenv run pytest {}/tests/test_neirong_app/ --html=backend/templates/{}_report.html --self-contained-html',
+        'mainprocess': 'pytest {}/tests/test_mainprocess/ --html=backend/templates/{}_report.html --self-contained-html',
 
     }
 
@@ -154,8 +154,9 @@ class run_Pytest(Resource):
         parser.add_argument('module', type=str, choices=('business', 'jianzhao_web', 'zhaopin', 'all', 'entry_app','mainprocess'),
                             help="请输入正确模块值: 'business' or 'jianzhao_web' or 'zhaopin' or 'all'", required=True)
         args = parser.parse_args()
-        project_path = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
+        project_path = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
         os.chdir(project_path)
+        print(project_path)
         state = 0
         info = None
         subprocess.call(self.Business_module[args['module']].format(project_path, args['module']), shell=True)

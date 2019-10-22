@@ -33,7 +33,7 @@ def test_switch_city(city):
 def test_search_positions(keyword, city, salaryLower, salaryUpper):
     r = search_positions(userToken, keyword=keyword, city=city, salaryLower=salaryLower, salaryUpper=salaryUpper)
     for position_info in r['content']['positionCardVos']:
-        assert keyword in position_info['positionName']
+        assert keyword.upper() in position_info['positionName'].upper()
         break
 
 

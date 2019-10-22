@@ -10,7 +10,7 @@ from api_script.entry.cuser.baseStatus import get_info
 from api_script.neirong_app.resumes import guideBasicInfo, educationExperiences, personalCards, abilityLabels, \
     expectJob, workExperiences
 from utils.util import assert_equal, verify_code_message
-
+time.sleep(1)
 countryCode, phone = "00852", str(20000000 + int(str(time.time()).split('.')[1]))
 
 
