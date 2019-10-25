@@ -12,6 +12,7 @@ from api_script.neirong_app.resumes import guideBasicInfo, educationExperiences,
 from utils.util import assert_equal, verify_code_message
 time.sleep(1)
 countryCode, phone = "00852", str(20000000 + int(str(time.time()).split('.')[1]))
+time.sleep(5)
 
 
 def test_send_verify_code():
