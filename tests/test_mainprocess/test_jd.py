@@ -14,7 +14,7 @@ from utils.util import assert_equal
 
 
 
-@pytest.mark.parametrize("accountName,password", [("19910626899", "123456")])
+@pytest.mark.parametrize("accountName,password", [("19910626899", "000000")])
 def test_publish_position(accountName, password):
     r = password_login(accountName, password)
     global userToken
