@@ -345,7 +345,7 @@ def publish_position(userToken):
         }],
         "salaryMin": 15,
         "positionDescPlainText": "\n1、组织完成项目质量计划，针对项目问题组织回溯，推动短板改进；\n2、进行质量文化宣传培训，提升项目的质量效率；",
-        "positionName": "测试工程师" + str(random.randint(0, 99)),
+        "positionName": "拉勾测试测试工程师" + str(random.randint(0, 99)),
         "positionThirdType": "测试工程师",
         "firstType": "开发|测试|运维类",
         "positionBrightPoint": "每年18薪",
