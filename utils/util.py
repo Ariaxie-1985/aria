@@ -491,7 +491,7 @@ def verify_code_message(countryCode, phone):
         r = requests.post(url=url, json=data, verify=False).json()
         verify_code = r['content']['content'][3:9]
     else:
-        verify_code = None
+        return verify_code_message(countryCode, phone)
     return verify_code
 
 
