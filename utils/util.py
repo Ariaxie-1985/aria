@@ -473,7 +473,7 @@ def verify_code_message(countryCode, phone):
     if countryCode == '0086':
         countryCode = 0
     url = 'https://msgv3.lagou.com/msc/message/page'
-    data = {"commId": countryCode + phone, "startTime": str(datetime.date.today() - datetime.timedelta(days=1)),
+    data = {"commId": countryCode + phone, "startTime": str(datetime.date.today()),
             "page": 1, "count": 10}
     header = {"X-L-REQ-HEADER": '{deviceType:1}',
               "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36"}
