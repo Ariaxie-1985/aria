@@ -477,9 +477,9 @@ def verify_code_message(countryCode, phone):
             "page": 1, "count": 10}
     header = {"X-L-REQ-HEADER": '{deviceType:1}',
               "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36"}
-    r = requests.post(url=url, json=data, verify=False).json()
     import time
     time.sleep(2)
+    r = requests.post(url=url, json=data, verify=False).json()
     if len(r['content']['result']) > 0:
         id = r['content']['result'][0]['msgId']
         time = r['content']['result'][0]['createTime']
