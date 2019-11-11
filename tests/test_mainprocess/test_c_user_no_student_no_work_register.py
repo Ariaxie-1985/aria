@@ -6,7 +6,7 @@ import time
 
 from api_script.entry.account.passport import password_login, send_verify_code, verifyCode_login, register_by_phone, \
     get_login_by_token
-from api_script.entry.cuser.baseStatus import get_info
+from api_script.entry.cuser.baseStatus import get_info, batchCancel
 from api_script.neirong_app.resumes import guideBasicInfo, educationExperiences, personalCards, abilityLabels, \
     expectJob, workExperiences
 from utils.util import assert_equal, verify_code_message
@@ -35,8 +35,9 @@ def test_verifyCode_login():
 def test_register_by_phone():
     r = register_by_phone(countryCode, phone, verify_code)
     assert_equal(1, r['state'], "校验注册成功")
-    global userToken
+    global userToken, userId
     userToken = r['content']['userToken']
+    userId = r['content']['userInfo']['userId']
 
 
 def test_get_login_by_token():
@@ -72,3 +73,8 @@ def test_expectJob():
 def test_get_info():
     r = get_info(userToken)
     assert_equal(1, r['state'], '获取C端用户信息')
+
+
+def test_batchCancel():
+    r = batchCancel(userToken=userToken, userIds=userId)
+    assert_equal(1, r['state'], "用户注册非学生但无工作经验的注销账号成功")
