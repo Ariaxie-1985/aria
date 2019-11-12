@@ -495,6 +495,20 @@ def verify_code_message(countryCode, phone):
     return verify_code
 
 
+def get_verify_code_message_len(countryCode, phone):
+    if countryCode == '0086':
+        countryCode = 0
+    url = 'https://msgv3.lagou.com/msc/message/page'
+    data = {"commId": countryCode + phone, "startTime": str(datetime.date.today()),
+            "page": 1, "count": 10}
+    header = {"X-L-REQ-HEADER": '{deviceType:1}',
+              "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36"}
+    r = requests.post(url=url, json=data, verify=False).json()
+    if len(r['content']['result']) >= 2:
+        return 1
+
+
+
 def app_header_999(userToken=None, DA=True):
     if not userToken is None:
         header = {"deviceType": '150', "userType": '0', "lgId": "898BCC3F-E662-4761-87E8-845788525443_1532945379",
