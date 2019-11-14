@@ -504,9 +504,10 @@ def get_verify_code_message_len(countryCode, phone):
     header = {"X-L-REQ-HEADER": '{deviceType:1}',
               "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36"}
     r = requests.post(url=url, json=data, verify=False).json()
-    if len(r['content']['result']) >= 2:
+    if r['content']['totalCount'] >= 2:
         return 1
-
+    else:
+        return 0
 
 
 def app_header_999(userToken=None, DA=True):

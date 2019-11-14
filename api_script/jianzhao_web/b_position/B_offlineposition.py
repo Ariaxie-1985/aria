@@ -1,5 +1,6 @@
 # coding:utf-8
 # @Author: Xiawang
+from api_script.entry.account.passport import password_login
 from utils.util import form_post, get_code_token, login
 
 '''
@@ -42,3 +43,25 @@ def online_positionId_outerPositionId():
         positionId = 0
         outerPositionId = 0
     return positionId, outerPositionId
+
+
+def get_online_positions():
+    refer_offlinePosition_url = "https://easy.lagou.com/position/multiChannel/myOnlinePositions.htm?pageNo=1"
+    Position_header = get_code_token(refer_offlinePosition_url)
+    myonlinepostions_url = "https://easy.lagou.com/parentPosition/multiChannel/myOnlinePositions.json"
+    myonlinepostions_data = {"pageNo": 1}
+    remark = "获取下线职位的职位id"
+    r = form_post(url=myonlinepostions_url, data=myonlinepostions_data, headers=Position_header, remark=remark)
+    positionIds = []
+    if r['content']['data']['pageSize'] >= 10:
+        for position_info in r['content']['data']['parentPositionVOs']:
+            positionId = position_info['positions'][0]['positionId']
+            positionIds.append(positionId)
+    return positionIds
+
+
+if __name__ == '__main__':
+    login("0086", "19910626899")
+    positionIds = get_online_positions()
+    print(positionIds)
+    # offlinePosition(positionId=positionId)

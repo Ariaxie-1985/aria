@@ -3,6 +3,7 @@
 # @Author: Xiawang
 import random
 
+from api_script.entry.account.passport import password_login
 from utils.util import get_app_header, get_requests, json_post, json_put, get_app_header1, app_header_999
 
 host = "https://gate.lagou.com/v1/zhaopin"
@@ -265,14 +266,14 @@ def positions_republish(positionId, userId):
     return json_put(url=url, data=data, headers=headers, remark=remark)
 
 
-def positions_offline(id, reqVersion=None, attachParam=None, userId=100014641):
+def positions_offline(id, reqVersion=None, userToken=None, H9=False, userId=100014641):
     url = host + '/positions/{}/offline'.format(id)
-    data = {
-        'attachParam': attachParam
-    }
     remark = '下线职位'
-    headers = get_app_header(userId, reqVersion)
-    return json_put(url=url, data=data, remark=remark, headers=headers)
+    if H9 == True:
+        headers = app_header_999(userToken, DA=False)
+    else:
+        headers = get_app_header(userId, reqVersion)
+    return json_put(url=url, data={}, remark=remark, headers=headers)
 
 
 def post_myOnlinePositions(firstType='开发|测试|运维类', workyear='3-5年', positionType='后端开发', positionThirdType='Java',
@@ -356,12 +357,22 @@ def publish_position(userToken):
         "salaryMax": 25
     }
     remark = "发布职位"
-    headers = app_header_999(userToken,DA=False)
+    headers = app_header_999(userToken, DA=False)
     return json_post(url=url, headers=headers, data=data, remark=remark)
 
 
 if __name__ == '__main__':
-    pass
+    r = password_login("19910626899", "000000")
+    userToken = r['content']['userToken']
+    r = get_online_positions(userToken=userToken, H9=True)
+    positionIds = []
+    if r['content']['positions']['pageSize'] > 10:
+        for position_info in r['content']['positions']['result']:
+            positionId = position_info['positionId']
+            positionIds.append(positionId)
+    for id in positionIds:
+        positions_offline(id, userToken=userToken, H9=True)
+
     # print(get_online_positions())
     # category_mapping("Java开发")
     # post_positions(workyear='3-5年')
