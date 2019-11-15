@@ -15,16 +15,16 @@ from utils.util import assert_equal
 r = password_login("19910626899", "000000")
 userToken = r['content']['userToken']
 positions_result = get_online_positions(userToken=userToken, H9=True)
-offline_mark = pytest.mark.skip(positions_result['content']['onlinePositionNum'] < 10, "发布职位权益足够，无需下线职位")
+flag = positions_result['content']['onlinePositionNum']
+offline_mark = pytest.mark.skipif(flag <= 20, reason="发布职位权益足够，无需下线职位")
 
 
 @offline_mark
 def test_offline_position():
     positionIds = []
-    if positions_result['content']['positions']['pageSize'] > 10:
-        for position_info in r['content']['positions']['result']:
-            positionId = position_info['positionId']
-            positionIds.append(positionId)
+    for position_info in positions_result['content']['positions']['result']:
+        positionId = position_info['positionId']
+        positionIds.append(positionId)
     for id in positionIds:
         positions_offline(id, userToken=userToken, H9=True)
 
