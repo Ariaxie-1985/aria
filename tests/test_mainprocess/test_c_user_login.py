@@ -10,7 +10,7 @@ from utils.util import assert_equal, verify_code_message, get_verify_code_messag
 
 countryCode, phone = "00852", "20180917"
 r = get_verify_code_message_len(countryCode, phone)
-pytestmark = pytest.mark.skipif(r == 1, reason="验证码发送超过上限，跳过此用例")
+pytestmark = pytest.mark.skip(r == 1, reason="验证码发送超过上限，跳过此用例")
 
 
 @pytestmark
