@@ -18,7 +18,7 @@ from backend.resources.data.channel_build import channel_build
 from backend.resources.data.company_user_resume import getInfo
 from backend.resources.data.contract_data_import import Contract_Data_Import
 from backend.resources.data.download import download
-from backend.resources.data.get_userid import getUserId
+# from backend.resources.data.get_userid import getUserId
 from backend.resources.data.hello import HelloWorld
 from backend.resources.data.new_lagouPlus_open_product import openProduct
 from backend.resources.data.operation_resume import getResume
@@ -42,7 +42,7 @@ api.add_resource(b_process_resume, '/jianzhao/resume')
 api.add_resource(app_process_resume, '/bapp/resume')
 api.add_resource(app_post_position, '/bapp/position')
 api.add_resource(Contract_Data_Import, '/home/import')
-api.add_resource(getUserId, '/customer')
+# api.add_resource(getUserId, '/customer')
 api.add_resource(getResume, '/customer/resumedata')
 api.add_resource(channel_build, '/build')
 api.add_resource(upload, '/upload')
