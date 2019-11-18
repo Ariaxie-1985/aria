@@ -34,8 +34,8 @@ def test_send_verify_code():
 
 time.sleep(3)
 
-
-def test_get_verify_code():
+@pytest.mark.parametrize("countryCode, phone",[(countryCode, phone)])
+def test_get_verify_code(countryCode, phone):
     global verify_code
     verify_code = verify_code_message(countryCode, phone)
     assert_equal(True, bool(verify_code), "校验获取验证码成功")

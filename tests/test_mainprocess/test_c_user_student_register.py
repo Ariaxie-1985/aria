@@ -4,6 +4,8 @@
 # Description:
 import time
 
+import pytest
+
 from api_script.entry.account.passport import password_login, send_verify_code, verifyCode_login, register_by_phone, \
     get_login_by_token
 from api_script.entry.cuser.baseStatus import get_info, batchCancel
@@ -20,8 +22,8 @@ def test_send_verify_code():
 
 time.sleep(3)
 
-
-def test_get_verify_code():
+@pytest.mark.parametrize("countryCode, phone", [(countryCode, phone)])
+def test_get_verify_code(countryCode, phone):
     global verify_code
     verify_code = verify_code_message(countryCode, phone)
     assert_equal(True, bool(verify_code), "校验获取验证码成功")
