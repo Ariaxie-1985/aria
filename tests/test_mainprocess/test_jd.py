@@ -12,19 +12,13 @@ from api_script.entry.position.jd import get_jd
 from api_script.zhaopin_app.b_position import get_online_positions, publish_position, positions_offline
 from utils.util import assert_equal
 
-flag = 0
-
-
-def test_b_login_get_online():
-    r = password_login("19910626899", "000000")
-    assert_equal(1, r['state'], '校验登录成功、获取userToken成功！')
-    global flag, userToken, positions_result
-    userToken = r['content']['userToken']
-    positions_result = get_online_positions(userToken=userToken, H9=True)
-    flag = positions_result['content']['onlinePositionNum']
-
-
-offline_mark = pytest.mark.skipif(flag <= 20, reason="发布职位权益足够，无需下线职位")
+r = password_login("19910626899", "000000")
+assert_equal(1, r['state'], '校验登录成功、获取userToken成功！')
+global userToken, positions_result
+userToken = r['content']['userToken']
+positions_result = get_online_positions(userToken=userToken, H9=True)
+flag = positions_result['content']['onlinePositionNum']
+offline_mark = pytest.mark.skipif(flag < 20, reason="发布职位权益足够，无需下线职位")
 
 
 @offline_mark
