@@ -35,7 +35,8 @@ def get_summary_result(soup):
 
     passed, skipped, failed, errors, expected_failures, unexpected_passes = span_list[0], span_list[1], span_list[2], \
                                                                             span_list[3], span_list[4], span_list[5]
-    return passed, skipped, failed, errors, expected_failures, unexpected_passes
+    return {"pass": passed, 'skip': skipped, 'fail': failed, 'errors': errors, 'expect_failures': expected_failures,
+            'unexpect_passes': unexpected_passes}
 
 
 def get_testresults_details(soup):
@@ -56,6 +57,13 @@ def get_testresults_details(soup):
     return testresults
 
 
+def get_fail_detail_result(soup):
+    for r in soup.find_all(attrs={'class': 'failed results-table-row'}):
+        print(r)
+    fail_result = {'test_name': {'error_type': 'E       AssertionError', 'log': 'ERROR    未获取到验证码，手机号为0085228581831'}}
+    return fail_result
+
+
 def analysis_html_report(report_path, type):
     soup = BeautifulSoup(open(report_path, encoding='utf-8'), "html.parser")
     result_time = None
@@ -68,4 +76,17 @@ def analysis_html_report(report_path, type):
         result_time = get_summary(soup)
         result = get_summary_result(soup)
         detail_result = get_testresults_details(soup)
-    return {"content": "报告生成成功", "info": {"time": result_time, "result": [result, detail_result]}}
+    elif type == 3:
+        result_time = get_summary(soup)
+        result = get_summary_result(soup)
+        fail_detail = get_fail_detail_result(soup)
+    return {"content": "报告生成成功", "info": {"time": result_time,
+                                          "result": {'summary_result': result, 'detail_result': detail_result,
+                                                     'fail_result': fail_detail}}}
+
+
+if __name__ == '__main__':
+    r = analysis_html_report(
+        '/Users/wang/Desktop/lg-project/lg_api_script/backend/templates/mainprocess_report31.html',
+        3)
+    print(r)

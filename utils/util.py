@@ -475,7 +475,7 @@ f = 0
 def verify_code_message(countryCode, phone):
     if countryCode == '0086':
         countryCode = 0
-    url = 'https://msgv3.lagou.com/msc/message/page'
+    url = 'http://msg.lagou.com/msc/message/page'
     yesterday = datetime.date.today() - datetime.timedelta(days=1)
     data = {"commId": countryCode + phone, "startTime": str(yesterday) + "T16:00:00.000Z",
             "page": 1, "count": 10}
@@ -499,7 +499,7 @@ def verify_code_message(countryCode, phone):
 
 
 def get_verify_code(id, time):
-    url = 'https://msgv3.lagou.com/msc/message/view'
+    url = 'http://msg.lagou.com/msc/message/view'
     data = {"createTime": time, "msgId": id}
     header = {"X-L-REQ-HEADER": '{deviceType:1}',
               "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36"}
@@ -511,7 +511,7 @@ def get_verify_code(id, time):
 def get_verify_code_message_len(countryCode, phone):
     if countryCode == '0086':
         countryCode = 0
-    url = 'https://msgv3.lagou.com/msc/message/page'
+    url = 'http://msg.lagou.com/msc/message/page'
     yesterday = datetime.date.today() - datetime.timedelta(days=1)
     data = {"commId": countryCode + phone, "startTime": str(yesterday) + "T16:00:00.000Z",
             "page": 1, "count": 10}
@@ -612,5 +612,7 @@ def app_header_999(userToken=None, DA=True):
 
 if __name__ == '__main__':
     # r = get_verify_code_message_len('00852', '20180917')
-    r = verify_code_message('00852', '21104488')
+    r = verify_code_message('00852', '20180917')
+    r1 = get_verify_code_message_len('00852', '20180917')
     print(r)
+    print(r1)

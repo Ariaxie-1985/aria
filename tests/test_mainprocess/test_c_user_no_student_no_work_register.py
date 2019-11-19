@@ -22,7 +22,7 @@ def test_send_verify_code():
     assert_equal(1, r['state'], '校验发送验证码成功', "校验发送验证码失败")
 
 
-time.sleep(3)
+time.sleep(10)
 @pytest.mark.parametrize("countryCode, phone", [(countryCode, phone)])
 def test_get_verify_code(countryCode, phone):
     global verify_code
