@@ -1,6 +1,8 @@
 # coding:utf-8
 # @Time  : 2019-01-16 10:41
 # @Author: Xiawang
+import re
+
 from bs4 import BeautifulSoup
 
 
@@ -58,10 +60,22 @@ def get_testresults_details(soup):
 
 
 def get_fail_detail_result(soup):
-    for r in soup.find_all(attrs={'class': 'failed results-table-row'}):
-        print(r)
-    fail_result = {'test_name': {'error_type': 'E       AssertionError', 'log': 'ERROR    未获取到验证码，手机号为0085228581831'}}
-    return fail_result
+    fail_results = {}
+    for fail_result in soup.find_all(attrs={'class': 'failed results-table-row'}):
+        test_name = fail_result.find(attrs={'class': 'col-name'}).get_text().split('tests/test_mainprocess/')[1].encode('latin-1').decode('unicode_escape')
+        error_type = fail_result.find(attrs={'class': 'error'}).get_text().split('E       ')[1]
+        captured_log = fail_result.find(attrs={'class': 'log'}).get_text()
+        try:
+            detail_log = \
+                re.findall(
+                    r"------------------------------ Captured log call -------------------------------util.py(.*)",
+                    captured_log)[0][33:]
+        except IndexError:
+            pass
+        test_case = {test_name: {'error_type': error_type, 'log': detail_log}}
+        fail_results = {**fail_results, **test_case}
+    # print(test_name, error_type, detail_log)
+    return fail_results
 
 
 def analysis_html_report(report_path, type):

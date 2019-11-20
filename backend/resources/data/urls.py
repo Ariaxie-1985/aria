@@ -19,6 +19,7 @@ from backend.resources.data.company_user_resume import getInfo
 from backend.resources.data.contract_data_import import Contract_Data_Import
 from backend.resources.data.download import download
 # from backend.resources.data.get_userid import getUserId
+from backend.resources.data.get_mainprocess_report import GetReport
 from backend.resources.data.hello import HelloWorld
 from backend.resources.data.new_lagouPlus_open_product import openProduct
 # from backend.resources.data.operation_resume import getResume
@@ -52,5 +53,5 @@ api.add_resource(registe, '/entry/registration')
 api.add_resource(openProduct, '/home/product')
 api.add_resource(productTemplate, '/home/product/template')
 api.add_resource(getInfo, '/person/info')
-
+api.add_resource(GetReport,'/mainprocess/report')
 import backend.resources.user.urls
