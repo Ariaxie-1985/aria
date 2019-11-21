@@ -129,7 +129,7 @@ def test_delete_education_experiences():
 
 
 @pytest.mark.parametrize("schoolName,education,startDate,endDate",
-                         [('清华大学', '硕士', '2014', '2017')])
+                         [('陕西文理大学', '硕士', '2014', '2017')])
 def test_update_educationExperiences(schoolName, education, startDate, endDate):
     r = educationExperiences(userToken=userToken, schoolName=schoolName, education=education, startDate=startDate,
                              endDate=endDate)
@@ -146,7 +146,7 @@ def test_delete_workExperiences():
     assert_equal(2105005, r['state'], '校验删除唯一段工作经历成功')
 
 
-@pytest.mark.parametrize("companyName,startDate,endDate", [("阿里巴巴集团钉钉事业部", "2013.07", "2015.09")])
+@pytest.mark.parametrize("companyName,startDate,endDate", [("好又多网销售事业部", "2013.07", "2015.09")])
 def test_update_workExperiences(companyName, startDate, endDate):
     r = workExperiences(userToken, companyName=companyName, startDate=startDate, endDate=endDate)
     assert_equal(1, r['state'], '校验增加一段工作经历成功')
