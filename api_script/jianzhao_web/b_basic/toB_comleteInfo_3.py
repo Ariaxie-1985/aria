@@ -2,7 +2,7 @@
 # @Author: Xiawang
 import time
 
-from utils.util import get_code_token, form_post, get_requests, login, get_header
+from utils.util import get_code_token, form_post, get_requests, login, get_header, json_post
 import re
 
 
@@ -16,7 +16,6 @@ def company_auth():
     auth_file_header = get_code_token(com_step1_url)
     remark = "上传营业执照"
     return form_post(url=auth_file_url, data=auth_file_data, headers=auth_file_header, remark=remark)
-
 
 def completeInfo(**kwargs):
     if kwargs.get('detailAddress', None) == None:

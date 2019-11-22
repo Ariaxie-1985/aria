@@ -45,6 +45,27 @@ def get_code_token(url):
     except (RequestException, IndexError):
         return get_code_token(url=url)
 
+def get_code_token_new(url: object) -> object:
+    global count
+    try:
+        token_values, code_values = 0, None
+        code = session.get(url=url, headers=header, verify=False, timeout=60)
+        token_values = re.findall("X_Anti_Forge_Token = '(.*?)'", code.text, re.S)[0]
+        code_values = re.findall("X_Anti_Forge_Code = '(.*?)'", code.text, re.S)[0]
+        headers = {"Content-Type": "application/json", "X-Anit-Forge-Code": code_values, "X-Anit-Forge-Token": token_values,
+                   "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3615.0 Safari/537.36"}
+        if token_values != '' and code_values != '':
+            return headers
+        else:
+            if count < 1:
+                count = count + 1
+                return get_code_token(url=url)
+            else:
+                return headers
+    except (RequestException, IndexError):
+        return get_code_token(url=url)
+
+
 
 def form_post(url, remark, data=None, files=None, headers={}):
     """

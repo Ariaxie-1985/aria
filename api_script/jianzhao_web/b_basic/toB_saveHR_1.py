@@ -2,8 +2,9 @@
 # @Author: Xiawang
 import json
 import time
+from typing import Dict
 
-from utils.util import get_code_token, form_post, login
+from utils.util import get_code_token, form_post, login, json_post
 
 
 # 注册B端
@@ -27,7 +28,6 @@ def saveHR(companyFullName, userName, resumeReceiveEmail, userPosition='HR'):
     saveHR_header = get_code_token(step1_url)
     remark = "验证上传B端用户信息是否成功"
     return form_post(url=saveHR_url, data=saveHR_data, headers=saveHR_header, remark=remark)
-
 
 # B端成立公司
 def saveCompany(companyShortName, industryField="电商", financeStage='未融资'):
@@ -59,6 +59,16 @@ def submit(updateCompanyShortName):
     submit_header = get_code_token(step2_url)
     remark = "验证B端提交招聘者审核是否成功"
     return form_post(url=submit_url, data=submit_data, headers=submit_header, remark=remark)
+
+
+# 新B端提交招聘者审核
+def submit_new():
+    submit_url = "https://hr.lagou.com/corpCenter/auth/person/idcard/submit.json"
+    submit_data = {"imgUrl" : "i/audio1/M00/01/C5/CgHIk1wQzR6AS8YlAAC5OWWN-yU456.JPG"}
+    step2_url = 'https://hr.lagou.com/corpCenter/openservice/step2.html'
+    submit_header = get_code_token(step2_url)
+    remark = "验证B端提交招聘者审核是否成功"
+    return json_post(url=submit_url, data=submit_data, headers=submit_header, remark=remark)
 
 
 # 加入B端的公司
