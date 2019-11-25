@@ -13,6 +13,7 @@ from api_script.entry.account.passport import password_login, send_verify_code, 
 from api_script.entry.cuser.baseStatus import get_info, batchCancel
 from api_script.neirong_app.resumes import guideBasicInfo, educationExperiences, personalCards, abilityLabels, \
     expectJob, workExperiences, set_basicInfo, delete_education_experiences, get_detail, delete_workExperiences
+from utils.read_file import record_test_data
 from utils.util import assert_equal, verify_code_message
 
 
@@ -34,7 +35,8 @@ def test_send_verify_code():
 
 time.sleep(10)
 
-@pytest.mark.parametrize("countryCode, phone",[(countryCode, phone)])
+
+@pytest.mark.parametrize("countryCode, phone", [(countryCode, phone)])
 def test_get_verify_code(countryCode, phone):
     global verify_code
     verify_code = verify_code_message(countryCode, phone)
@@ -160,3 +162,7 @@ def test_delete_workExperiences_2():
 def test_batchCancel():
     r = batchCancel(userToken=userToken, userIds=userId)
     assert_equal(1, r['state'], "用户注册非学生但有工作经验的注销账号成功")
+
+
+# def test_record():
+#     record_test_data(type=1, userId=userId, phone=countryCode + phone)
