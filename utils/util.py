@@ -25,15 +25,20 @@ count = 0
 
 
 # 获取页面的token和code
-def get_code_token(url):
+def get_code_token(url, referer=False):
     global count
     try:
         token_values, code_values = 0, None
         code = session.get(url=url, headers=header, verify=False, timeout=60)
         token_values = re.findall("X_Anti_Forge_Token = '(.*?)'", code.text, re.S)[0]
         code_values = re.findall("X_Anti_Forge_Code = '(.*?)'", code.text, re.S)[0]
-        headers = {"X-Anit-Forge-Code": code_values, "X-Anit-Forge-Token": token_values,
-                   "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3615.0 Safari/537.36"}
+        if referer == False:
+            headers = {"X-Anit-Forge-Code": code_values, "X-Anit-Forge-Token": token_values,
+                       "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3615.0 Safari/537.36"}
+        else:
+            headers = {"X-Anit-Forge-Code": code_values, "X-Anit-Forge-Token": token_values,
+                       'referer': 'www.lagou.com',
+                       "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3615.0 Safari/537.36"}
         if token_values != '' and code_values != '':
             return headers
         else:
@@ -44,6 +49,7 @@ def get_code_token(url):
                 return headers
     except (RequestException, IndexError):
         return get_code_token(url=url)
+
 
 def get_code_token_new(url: object) -> object:
     global count
@@ -52,7 +58,8 @@ def get_code_token_new(url: object) -> object:
         code = session.get(url=url, headers=header, verify=False, timeout=60)
         token_values = re.findall("X_Anti_Forge_Token = '(.*?)'", code.text, re.S)[0]
         code_values = re.findall("X_Anti_Forge_Code = '(.*?)'", code.text, re.S)[0]
-        headers = {"Content-Type": "application/json", "X-Anit-Forge-Code": code_values, "X-Anit-Forge-Token": token_values,
+        headers = {"Content-Type": "application/json", "X-Anit-Forge-Code": code_values,
+                   "X-Anit-Forge-Token": token_values,
                    "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3615.0 Safari/537.36"}
         if token_values != '' and code_values != '':
             return headers
@@ -64,7 +71,6 @@ def get_code_token_new(url: object) -> object:
                 return headers
     except (RequestException, IndexError):
         return get_code_token(url=url)
-
 
 
 def form_post(url, remark, data=None, files=None, headers={}):
@@ -634,10 +640,30 @@ def app_header_999(userToken=None, DA=True):
 # #     header={"userToken":"42950bed7acc28db48ed54ab14d367caf758f16bd45c3347","reqVersion":71800,"lgId":"99000646684560_1560396841537","appVersion":"7.18.0","userType":0,"deviceType":200}
 # #     return json_post(url=url, headers=header, remark=remark)
 # # print(searchPositions())
+def login_password(username, password):
+    '''
+    从www.lagou.com登录，验证码登录
+    :param countryCode: str, 地区编号
+    :param username: str, 用户名
+    '''
+    session.cookies.clear()
+    # login_url = 'https://passport.lagou.com/login/login.json?isValidate=true&username={}&password={}&request_form_verifyCode=&_={}'.format()
+    login_url = 'https://passport.lagou.com/login/login.json'
+    login_data = {'isValidate': 'true', 'username': username,
+                  'password': password}
+    referer_login_html = 'https://passport.lagou.com/login/login.html'
+    login_header = get_code_token(referer_login_html)
+    remark = str(username) + "在登录拉勾"
+    r = form_post(url=login_url, data=login_data, headers=login_header, remark=remark)
+    if r['message'] == "操作成功":
+        logging.info("用户名: " + str(username) + " 登录成功")
+    return r
+
 
 if __name__ == '__main__':
     # r = get_verify_code_message_len('00852', '20180917')
-    r = verify_code_message('00852', '20180917')
-    r1 = get_verify_code_message_len('00852', '20180917')
-    print(r)
-    print(r1)
+    # r = verify_code_message('00852', '20180917')
+    # r1 = get_verify_code_message_len('00852', '20180917')
+    # print(r)
+    # print(r1)
+    login_password('betty@lagou.com', '00f453dfec0f2806db5cfabe3ea94a35')
