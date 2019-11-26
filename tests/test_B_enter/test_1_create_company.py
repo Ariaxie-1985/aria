@@ -10,10 +10,10 @@ from utils.util import assert_equal
 
 fake = Faker("zh_CN")
 countryCode, phone = "00852", str(20000000 + int(str(time.time()).split('.')[1]))
-company_name = fake.company()
+company_name = fake.company() + str(20000000 + int(str(time.time()).split('.')[1]))
 name = fake.name()
 @pytest.mark.parametrize("name", [(fake.name())])
-def test_company_new(name):
+def test_create_company_info(name):
     register = b_register(phone, countryCode)
     if register['state'] == 1:
         personal_msg_save_and_creat_company = saveHR('拉勾测试公司全称{}'.format(company_name), name, 'ariaxie@lagou.com')
@@ -21,7 +21,7 @@ def test_company_new(name):
             company_msg_save = saveCompany('公司简称{}'.format(company_name))
             assert_equal(1, company_msg_save['state'], "校验公司是否新建成功")
         else:
-            assert_equal(1, personal_msg_save['stste'], "校验HR信息是否保存成功")
+            assert_equal(1, personal_msg_save_and_creat_company['state'], "校验HR信息是否保存成功")
     else:
         assert_equal(1, register['state'], "校验B端用户注册是否成功")
 
@@ -36,5 +36,5 @@ def test_personal_certificate():
 
 
 if __name__ == '__main__':
-    test_company_new(name)
+    test_create_company_info(name)
     test_personal_certificate()
