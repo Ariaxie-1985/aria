@@ -3,7 +3,7 @@ from utils.util import login, login_password, login_verifyCode, pc_send_register
     assert_equal
 
 
-def test_register_user(get_countryCode_phone_admin_user):
+def test_login_user(get_countryCode_phone_admin_user):
     global countryCode, phone, user_name, verify_code
     countryCode, phone, user_name = get_countryCode_phone_admin_user[0], get_countryCode_phone_admin_user[1], \
                                     get_countryCode_phone_admin_user[2]

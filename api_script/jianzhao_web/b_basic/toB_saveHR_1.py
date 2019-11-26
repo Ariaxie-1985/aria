@@ -190,7 +190,6 @@ def close_trial_package(lg_CompanyId):
 
 if __name__ == '__main__':
     from faker import Faker
-
     # fake = Faker('zh_CN')
     # phone, countryCode = 20020026, '00852'
     # companyShortName, companyFullName = '验证是否能移除招聘者认证2', '验证是否能移除招聘者认证2'
