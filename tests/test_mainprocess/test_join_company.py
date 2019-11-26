@@ -9,7 +9,7 @@ from utils.util import assert_equal
 fake = Faker("zh_CN")
 countryCode, phone = "00852", str(20000000 + int(str(time.time()).split('.')[1]))
 company_name = fake.name()
-def test_join_company_2():
+def test_join_company():
     register = b_register(phone, contryCode)
     if register['state'] == 1:
         personal_msg_save_and_join_company = add_saveCompany()

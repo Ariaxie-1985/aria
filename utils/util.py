@@ -45,7 +45,7 @@ def get_code_token(url):
     except (RequestException, IndexError):
         return get_code_token(url=url)
 
-def get_code_token_new(url: object) -> object:
+def get_code_token_new(url) :
     global count
     try:
         token_values, code_values = 0, None
