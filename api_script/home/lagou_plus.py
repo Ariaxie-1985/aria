@@ -5,7 +5,7 @@ from utils.util import get_header, form_post, login_home_code
 
 
 def get_contract_No(companyId):
-    header = get_header("https://home.lagou.com/")
+    header = get_header("http://home.lagou.com/")
     Request_url = "https://home.lagou.com/crm/contractController/list.json"
     data = {"companyId": companyId}
     object = form_post(url=Request_url, remark="查询当前公司下的合同", data=data, headers=header)
@@ -39,12 +39,7 @@ def open_product(companyId, userId, contractNo):
     return form_post(url=url, data=data, headers=headers, remark=remark)['success']
 
 
-
-
-
-
-
-
-
-
-
+if __name__ == '__main__':
+    login_home_code('00853', 22222222)
+    no = get_contract_No(96109603)
+    print(close_contract(no))

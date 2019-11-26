@@ -10,22 +10,34 @@ import pytest
 from api_script.entry.account.me import bing_or_change_phone
 from api_script.entry.account.passport import password_login, send_verify_code, verifyCode_login, register_by_phone, \
     get_login_by_token
-from api_script.entry.cuser.baseStatus import get_info
+from api_script.entry.cuser.baseStatus import get_info, batchCancel
 from api_script.neirong_app.resumes import guideBasicInfo, educationExperiences, personalCards, abilityLabels, \
     expectJob, workExperiences, set_basicInfo, delete_education_experiences, get_detail, delete_workExperiences
+from utils.read_file import record_test_data
 from utils.util import assert_equal, verify_code_message
 
+
+def setup_module(module):
+    pass
+
+
+def teardown_module(module):
+    pass
+
+
 countryCode, phone = "00852", str(20000000 + int(str(time.time()).split('.')[1]))
+
 
 def test_send_verify_code():
     r = send_verify_code(countryCode, phone, "PASSPORT_REGISTER")
     assert_equal(1, r['state'], '校验发送验证码成功', "校验发送验证码失败")
 
 
-time.sleep(3)
+time.sleep(10)
 
 
-def test_get_verify_code():
+@pytest.mark.parametrize("countryCode, phone", [(countryCode, phone)])
+def test_get_verify_code(countryCode, phone):
     global verify_code
     verify_code = verify_code_message(countryCode, phone)
     assert_equal(True, bool(verify_code), "校验获取验证码成功")
@@ -39,8 +51,9 @@ def test_verifyCode_login():
 def test_register_by_phone():
     r = register_by_phone(countryCode, phone, verify_code)
     assert_equal(1, r['state'], "校验注册成功")
-    global userToken
+    global userToken, userId
     userToken = r['content']['userToken']
+    userId = r['content']['userInfo']['userId']
 
 
 def test_get_login_by_token():
@@ -118,7 +131,7 @@ def test_delete_education_experiences():
 
 
 @pytest.mark.parametrize("schoolName,education,startDate,endDate",
-                         [('清华大学', '硕士', '2014', '2017')])
+                         [('陕西文理大学', '硕士', '2014', '2017')])
 def test_update_educationExperiences(schoolName, education, startDate, endDate):
     r = educationExperiences(userToken=userToken, schoolName=schoolName, education=education, startDate=startDate,
                              endDate=endDate)
@@ -135,7 +148,7 @@ def test_delete_workExperiences():
     assert_equal(2105005, r['state'], '校验删除唯一段工作经历成功')
 
 
-@pytest.mark.parametrize("companyName,startDate,endDate", [("阿里巴巴集团钉钉事业部", "2013.07", "2015.09")])
+@pytest.mark.parametrize("companyName,startDate,endDate", [("好又多网销售事业部", "2013.07", "2015.09")])
 def test_update_workExperiences(companyName, startDate, endDate):
     r = workExperiences(userToken, companyName=companyName, startDate=startDate, endDate=endDate)
     assert_equal(1, r['state'], '校验增加一段工作经历成功')
@@ -144,3 +157,12 @@ def test_update_workExperiences(companyName, startDate, endDate):
 def test_delete_workExperiences_2():
     r = delete_workExperiences(userToken, wk_id)
     assert_equal(1, r['state'], '校验删除一段工作经历成功')
+
+
+def test_batchCancel():
+    r = batchCancel(userToken=userToken, userIds=userId)
+    assert_equal(1, r['state'], "用户注册非学生但有工作经验的注销账号成功")
+
+
+# def test_record():
+#     record_test_data(type=1, userId=userId, phone=countryCode + phone)

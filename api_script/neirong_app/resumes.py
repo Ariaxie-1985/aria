@@ -73,7 +73,7 @@ def guideBasicInfo(phone, userIdentity, userToken, joinWorkTime="2013.07"):
 
 def educationExperiences(userToken, **kwargs):
     url = 'https://gate.lagou.com/v1/neirong/educationExperiences/'
-    schoolName = kwargs.get('schoolName', '北京理工大学')
+    schoolName = kwargs.get('schoolName', '陕西文理学院')
     education = kwargs.get('education', '本科')
     startDate = kwargs.get('startDate', '2009')
     endDate = kwargs.get('endDate', 2013)
@@ -130,16 +130,16 @@ def workExperiences(userToken, **kwargs):
     url = 'https://gate.lagou.com/v1/neirong/workExperiences/'
     startDate = kwargs.get('startDate', '2015.09')
     endDate = kwargs.get('endDate', '至今')
-    companyName = kwargs.get('companyName', '拉勾网')
+    companyName = kwargs.get('companyName', '火星情报局')
     data = {
         "id": 0,
         "workContent": "<p>跟进迭代测试工作，用户反馈；</p><p>dubbo接口测试，http接口测试</p>",
-        "positionType1": "开发|测试|运维类",
+        "positionType1": "销售类",
         "isFilter": True,
-        "positionType": "测试工程师",
-        "positionType2": "测试",
+        "positionType": "销售顾问",
+        "positionType2": "销售",
         "endDate": endDate,
-        "positionName": "测试工程师",
+        "positionName": "拉勾测试销售顾问",
         "companyName": companyName,
         "startDate": startDate,
         "companyIndustry": "分类信息",

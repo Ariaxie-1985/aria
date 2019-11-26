@@ -9,16 +9,30 @@ from api_script.entry.account.passport import password_login
 from api_script.entry.buser.hrinfo import get_hr_info
 from api_script.entry.deliver.deliver import deliver_check, get_resume_info, deliver_create
 from api_script.entry.position.jd import get_jd
-from api_script.zhaopin_app.b_position import get_online_positions, publish_position
+from api_script.zhaopin_app.b_position import get_online_positions, publish_position, positions_offline
 from utils.util import assert_equal
 
+r = password_login("19910626899", "000000")
+assert_equal(1, r['state'], '校验登录成功、获取userToken成功！')
+global userToken, positions_result
+userToken = r['content']['userToken']
+positions_result = get_online_positions(userToken=userToken, H9=True)
+flag = positions_result['content']['onlinePositionNum']
+offline_mark = pytest.mark.skipif(flag < 20, reason="发布职位权益足够，无需下线职位")
 
 
-@pytest.mark.parametrize("accountName,password", [("19910626899", "000000")])
-def test_publish_position(accountName, password):
-    r = password_login(accountName, password)
-    global userToken
-    userToken = r['content']['userToken']
+@offline_mark
+def test_offline_position():
+    positionIds = []
+    for position_info in positions_result['content']['positions']['result']:
+        positionId = position_info['positionId']
+        positionIds.append(positionId)
+    for id in positionIds:
+        positions_offline(id, userToken=userToken, H9=True)
+
+
+# @pytest.mark.parametrize("accountName,password", [("19910626899", "000000")])
+def test_publish_position():
     r = publish_position(userToken)
     assert_equal(1, r['state'], "校验发布职位成功")
     global positionId
@@ -28,15 +42,15 @@ def test_publish_position(accountName, password):
         positionId = 0
 
 
-@pytest.mark.skip(reason="无需获取在线职位id")
-def test_get_online_positions():
-    r = get_online_positions(userToken, H9=True)
-    global positionId
-    try:
-        positionId = r['content']['positions']['result'][random.randint(0, 5)]['outerPositionId']
-    except:
-        positionId = r['content']['positions']['result'][0]['outerPositionId']
-    assert_equal(1, r['state'], "校验获取在线职位成功！")
+# @pytest.mark.skip(reason="无需获取在线职位id")
+# def test_get_online_positions():
+#     r = get_online_positions(userToken, H9=True)
+#     global positionId
+#     try:
+#         positionId = r['content']['positions']['result'][random.randint(0, 5)]['outerPositionId']
+#     except:
+#         positionId = r['content']['positions']['result'][0]['outerPositionId']
+#     assert_equal(1, r['state'], "校验获取在线职位成功！")
 
 
 # @pytest.mark.parametrize("accountName,password", [("0085220181205", "0085220181205")])

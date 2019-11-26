@@ -30,11 +30,11 @@ def create_app():
         api = Api(app)
         app.config['API_DOC_MEMBER'] = ['api', 'platform']
 
-        from backend.resources.user import user
-        app.register_blueprint(user)
+        # from backend.resources.user import user
+        # app.register_blueprint(user)
 
-        from backend.resources.spring import spring
-        app.register_blueprint(spring)
+        # from backend.resources.spring import spring
+        # app.register_blueprint(spring)
 
         from backend.resources.data import data
         app.register_blueprint(data)

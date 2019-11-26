@@ -1,9 +1,10 @@
 # coding:utf-8
 # @Author: Xiawang
 import json
-import time
-from typing import Dict
-
+import re
+from bs4 import BeautifulSoup
+from api_script.home.lagou_plus import get_contract_No, close_contract
+from utils.util import get_code_token, form_post, login, get_requests, get_header, login_home, login_home_code
 from utils.util import get_code_token, form_post, login, json_post
 
 
@@ -88,6 +89,8 @@ def saveHR_process(phone, countryCode, companyShortName, companyFullName, userNa
         r2 = saveHR(companyFullName, userName, resumeReceiveEmail)
         r3 = saveCompany(companyShortName)
         r4 = submit(updateCompanyShortName)
+        userId = get_b_userId()
+        print(userId)
     return r1, r2, r3, r4
 
 
@@ -143,15 +146,52 @@ def get_financeStage(financeStage):
     return financeStage, stages
 
 
+def get_b_userId():
+    url = 'https://easy.lagou.com/bstatus/auth/index.htm?verifyTypeList=enterprise'
+    header = get_header(url='https://hr.lagou.com/corpCenter/auth/person/status.html')
+    r = get_requests(url=url, headers=header, remark='获取提交招聘者认证的用户id').text
+    soup = BeautifulSoup(r, "html.parser")
+    userId = soup.find(id="UserId")['value']
+    UserCompanyId = soup.find(id="UserCompanyId")['value']
+    lg_CompanyId = re.findall('lgId: "(.*?)"', r, re.S)[0]
+    return userId, UserCompanyId, lg_CompanyId
+
+
+def remove_member(verity_userId):
+    url = 'https://easy.lagou.com/member/recruiterMembers.json?pageNo=1&pageSize=50&keyword='
+    header = get_code_token(url='https://easy.lagou.com/settings/channel/my_channels.htm')
+    r = get_requests(url=url, headers=header, remark="核对招聘者信息").json()
+    userId = r['content']['data']['members']['result'][0]['userId']
+    if verity_userId == userId:
+        url = 'https://easy.lagou.com/member/removeMember.json?hasRecruitmentService=true&ignoreOfflinePosition=true'
+        r = get_requests(url=url, headers=header, remark="解除招聘者信息").json()
+        if r['state'] == 1:
+            return True
+    return False
+
+
+def close_trial_package(lg_CompanyId):
+    login_home_code('00853', 22222222)
+    contractNo = get_contract_No(lg_CompanyId)
+    close_result = close_contract(contractNo=contractNo)
+    return close_result
+
+
 if __name__ == '__main__':
-    # print(get_financeStage('未融资'))
-    # b_register(20030100,'00853')
-    success_list = [i for i in range(20030252, 20030291)]
-    # phone_list = [i for i in range(20030252,20030352)]
-    # for phone in phone_list:
-    #     res = b_register(phone, '00853')
-    #     if res['state'] == 1:
-    #         success_list.append(phone)
-    #     if len(success_list) == 39:
-    #         break
-    print(success_list)
+    from faker import Faker
+
+    # fake = Faker('zh_CN')
+    # phone, countryCode = 20020026, '00852'
+    # companyShortName, companyFullName = '验证是否能移除招聘者认证2', '验证是否能移除招聘者认证2'
+    # userName, resumeReceiveEmail = fake.name(), fake.email()
+    # updateCompanyShortName = '验证是否能移除招聘者认证1'
+    # r = saveHR_process(phone, countryCode, companyShortName, companyFullName, userName, resumeReceiveEmail,
+    #                    updateCompanyShortName)
+
+    r = login('00852', '20020026')
+    if not remove_member(100024844):
+        close_trial_package(96109603)
+        login('00852', '20020026')
+        print(remove_member(100024844))
+
+
