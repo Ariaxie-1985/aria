@@ -1,5 +1,6 @@
 # coding:utf-8
 import os
+import time
 import zipfile
 from datetime import datetime
 import datetime
@@ -660,10 +661,38 @@ def login_password(username, password):
     return r
 
 
+def login_verifyCode(countryCode, phone, verifyCode):
+    '''
+    从www.lagou.com登录，验证码登录
+    :param countryCode: str, 地区编号
+    :param username: str, 用户名
+    '''
+    session.cookies.clear()
+    login_url = 'https://passport.lagou.com/login/login.json'
+    login_data = {'isValidate': 'true', 'username': phone,
+                  'phoneVerificationCode': verifyCode, 'countryCode': countryCode}
+    referer_login_html = 'https://passport.lagou.com/login/login.html'
+    login_header = get_code_token(referer_login_html)
+    remark = str(phone) + "在登录拉勾"
+    r = form_post(url=login_url, data=login_data, headers=login_header, remark=remark)
+    if r['message'] == "操作成功":
+        logging.info("用户名: " + str(phone) + " 登录成功")
+    return r
+
+
+def pc_send_register_verifyCode(countryCode, phone):
+    url = 'https://passport.lagou.com/register/getPhoneVerificationCode.json'
+    header = get_header(url='https://passport.lagou.com/register/register.html')
+    send_data = {'countryCode': countryCode, 'phone': phone, 'type': 0, 'request_form_verifyCode': '', '_': str(int(
+        time.time())) + '000'}
+    return form_post(url=url, headers=header, data=send_data, remark='发送验证码')['state']
+
+
 if __name__ == '__main__':
     # r = get_verify_code_message_len('00852', '20180917')
     # r = verify_code_message('00852', '20180917')
     # r1 = get_verify_code_message_len('00852', '20180917')
     # print(r)
     # print(r1)
-    login_password('betty@lagou.com', '00f453dfec0f2806db5cfabe3ea94a35')
+    # login_password('betty@lagou.com', '00f453dfec0f2806db5cfabe3ea94a35')
+    pc_send_register_verifyCode('00852', 20030103)
