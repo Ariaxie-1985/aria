@@ -64,7 +64,8 @@ class run_Pytest(Resource):
 
         '''
         parser = reqparse.RequestParser()
-        parser.add_argument('module', type=str, choices=('business', 'jianzhao_web', 'zhaopin', 'all', 'entry_app','mainprocess'),
+        parser.add_argument('module', type=str,
+                            choices=('business', 'jianzhao_web', 'zhaopin', 'all', 'entry_app', 'mainprocess'),
                             help="请输入正确模块值: 'business' or 'jianzhao_web' or 'zhaopin' or 'all'", required=True)
         args = parser.parse_args()
         headers = {'Content-Type': 'text/html'}
@@ -151,17 +152,17 @@ class run_Pytest(Resource):
         @@@
         '''
         parser = reqparse.RequestParser()
-        parser.add_argument('module', type=str, choices=('business', 'jianzhao_web', 'zhaopin', 'all', 'entry_app','mainprocess'),
+        parser.add_argument('module', type=str,
+                            choices=('business', 'jianzhao_web', 'zhaopin', 'all', 'entry_app', 'mainprocess'),
                             help="请输入正确模块值: 'business' or 'jianzhao_web' or 'zhaopin' or 'all'", required=True)
         args = parser.parse_args()
         project_path = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
         os.chdir(project_path)
-        print(project_path)
-        state = 0
+        state = 1
         info = None
         subprocess.call(self.Business_module[args['module']].format(project_path, args['module']), shell=True)
         result = analysis_html_report("{}/backend/templates/{}_report.html".format(project_path, args['module']), 3)
-        state = 1
+        if not bool(result['data']['result']['info']['result']['fail_result']):
+            state = 0
         info = {"result": result}
-
         return {'state': state, "data": info}

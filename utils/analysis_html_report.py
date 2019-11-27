@@ -70,9 +70,9 @@ def get_fail_detail_result(soup):
             detail_log = \
                 re.findall(
                     r"------------------------------ Captured log call -------------------------------util.py(.*)",
-                    captured_log)[0][33:]
+                    captured_log)[0][40:]
         except IndexError:
-            pass
+            detail_log = '具体详情,请查看测试报告'
         test_case = {test_name: {'error_type': error_type, 'log': detail_log}}
         fail_results = {**fail_results, **test_case}
 
@@ -80,15 +80,16 @@ def get_fail_detail_result(soup):
         test_name = error_result.find(attrs={'class': 'col-name'}).get_text().split('tests/test_mainprocess/')[
             1].encode('latin-1').decode('unicode_escape')
         error_type = error_result.find(attrs={'class': 'error'}).get_text().split('E   ')[1]
-        # captured_log = error_result.find(attrs={'class': 'log'}).get_text()
-        # try:
-        #     detail_log = \
-        #         re.findall(
-        #             r"------------------------------ Captured log call -------------------------------util.py(.*)",
-        #             captured_log)[0][33:]
-        # except IndexError:
-        #     pass
-        test_case = {test_name: {'error_type': error_type, 'log': '程序异常,请查看测试报告'}}
+        captured_log = error_result.find(attrs={'class': 'log'}).get_text()
+        try:
+            detail_log = \
+                re.findall(
+                    r"------------------------------- Captured stderr --------------------------------ERROR:root:(.*)",
+                    captured_log)[0][7:]
+
+        except IndexError:
+            detail_log = '程序异常,请查看测试报告'
+        test_case = {test_name: {'error_type': error_type, 'log': detail_log}}
         fail_results = {**fail_results, **test_case}
 
     return fail_results
@@ -117,6 +118,6 @@ def analysis_html_report(report_path, type):
 
 if __name__ == '__main__':
     r = analysis_html_report(
-        '/Users/wang/Desktop/lg-project/lg_api_script/backend/templates/mainprocess_report31.html',
+        '/Users/wang/Desktop/lg-project/lg_api_script/backend/templates/mainprocess_report.html',
         3)
     print(r)
