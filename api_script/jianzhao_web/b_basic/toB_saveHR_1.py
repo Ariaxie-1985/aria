@@ -30,6 +30,7 @@ def saveHR(companyFullName, userName, resumeReceiveEmail, userPosition='HR'):
     remark = "验证上传B端用户信息是否成功"
     return form_post(url=saveHR_url, data=saveHR_data, headers=saveHR_header, remark=remark)
 
+
 # B端成立公司
 def saveCompany(companyShortName, industryField="电商", financeStage='未融资'):
     financeStage, stages = get_financeStage(financeStage)
@@ -65,7 +66,7 @@ def submit(updateCompanyShortName):
 # 新B端提交招聘者审核
 def submit_new():
     submit_url = "https://hr.lagou.com/corpCenter/auth/person/idcard/submit.json"
-    submit_data = {"imgUrl" : "i/audio1/M00/01/C5/CgHIk1wQzR6AS8YlAAC5OWWN-yU456.JPG"}
+    submit_data = {"imgUrl": "i/audio1/M00/01/C5/CgHIk1wQzR6AS8YlAAC5OWWN-yU456.JPG"}
     step2_url = 'https://hr.lagou.com/corpCenter/openservice/step2.html'
     submit_header = get_code_token(step2_url)
     remark = "验证B端提交招聘者审核是否成功"
@@ -95,6 +96,16 @@ def saveHR_process(phone, countryCode, companyShortName, companyFullName, userNa
 
 
 def add_people_into_company(phone, countryCode, companyFullName, userName, resumeReceiveEmail, userPosition='HR'):
+    r1, r2, r3, r4 = {'state': 0}, {'state': 0}, {'state': 0}, {'state': 0}
+    r1 = b_register(phone, countryCode)
+    if r1['state'] == 1:
+        r2 = saveHR(companyFullName, userName, resumeReceiveEmail, userPosition)
+        r3 = add_saveCompany()
+        r4 = submit(companyFullName)
+    return r1, r2, r3, r4
+
+
+def user_join_exist_company(countryCode, phone, companyFullName, userName, resumeReceiveEmail, userPosition='HR'):
     r1, r2, r3, r4 = {'state': 0}, {'state': 0}, {'state': 0}, {'state': 0}
     r1 = b_register(phone, countryCode)
     if r1['state'] == 1:
@@ -179,7 +190,6 @@ def close_trial_package(lg_CompanyId):
 
 if __name__ == '__main__':
     from faker import Faker
-
     # fake = Faker('zh_CN')
     # phone, countryCode = 20020026, '00852'
     # companyShortName, companyFullName = '验证是否能移除招聘者认证2', '验证是否能移除招聘者认证2'
@@ -193,5 +203,3 @@ if __name__ == '__main__':
         close_trial_package(96109603)
         login('00852', '20020026')
         print(remove_member(100024844))
-
-

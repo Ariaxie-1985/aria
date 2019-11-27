@@ -35,12 +35,12 @@ def get_file_path(file):
 
 
 def record_test_data(type, **kw):
-    with open('/home/testdata_no_delete_Xiawang.txt', 'at') as f:
-        if type == 1:
-            f.write('C端用户id:{}, 手机号:{} \n'.format(kw['userId'], kw['phone']))
-        elif type == 2:
-            f.write('B端用户id:{},用户姓名:')
-
+    if type == 1:
+        with open('/home/testdata_no_delete_Xiawang_c.txt', 'at') as f:
+            f.write('{},'.format(kw['userId']))
+    elif type == 2:
+        with open('/home/testdata_no_delete_Xiawang_b.txt', 'at') as f:
+            f.write('({},{},{}),'.format(kw['userId'], kw['UserCompanyId'], kw['lg_CompanyId']))
 
 
 if __name__ == '__main__':
