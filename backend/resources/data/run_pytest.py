@@ -160,7 +160,7 @@ class run_Pytest(Resource):
         state = 0
         info = None
         subprocess.call(self.Business_module[args['module']].format(project_path, args['module']), shell=True)
-        result = analysis_html_report("{}/backend/templates/{}_report.html".format(project_path, args['module']), 1)
+        result = analysis_html_report("{}/backend/templates/{}_report.html".format(project_path, args['module']), 3)
         state = 1
         info = {"result": result}
 

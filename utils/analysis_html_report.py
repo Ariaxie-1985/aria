@@ -62,7 +62,8 @@ def get_testresults_details(soup):
 def get_fail_detail_result(soup):
     fail_results = {}
     for fail_result in soup.find_all(attrs={'class': 'failed results-table-row'}):
-        test_name = fail_result.find(attrs={'class': 'col-name'}).get_text().split('tests/test_mainprocess/')[1].encode('latin-1').decode('unicode_escape')
+        test_name = fail_result.find(attrs={'class': 'col-name'}).get_text().split('tests/test_mainprocess/')[1].encode(
+            'latin-1').decode('unicode_escape')
         error_type = fail_result.find(attrs={'class': 'error'}).get_text().split('E       ')[1]
         captured_log = fail_result.find(attrs={'class': 'log'}).get_text()
         try:
@@ -74,7 +75,22 @@ def get_fail_detail_result(soup):
             pass
         test_case = {test_name: {'error_type': error_type, 'log': detail_log}}
         fail_results = {**fail_results, **test_case}
-    # print(test_name, error_type, detail_log)
+
+    for error_result in soup.find_all(attrs={'class': 'error results-table-row'}):
+        test_name = error_result.find(attrs={'class': 'col-name'}).get_text().split('tests/test_mainprocess/')[
+            1].encode('latin-1').decode('unicode_escape')
+        error_type = error_result.find(attrs={'class': 'error'}).get_text().split('E   ')[1]
+        # captured_log = error_result.find(attrs={'class': 'log'}).get_text()
+        # try:
+        #     detail_log = \
+        #         re.findall(
+        #             r"------------------------------ Captured log call -------------------------------util.py(.*)",
+        #             captured_log)[0][33:]
+        # except IndexError:
+        #     pass
+        test_case = {test_name: {'error_type': error_type, 'log': '程序异常,请查看测试报告'}}
+        fail_results = {**fail_results, **test_case}
+
     return fail_results
 
 
