@@ -14,16 +14,8 @@ def get_msgid():
             print(msgid)
             return msgid
 
-def admin_review():
-    get_sessionId = get_msgid()
-    url = 'https://easy.lagou.com/im/chat/mark_read/{}.json'.format(get_sessionId)
-    print(url)
+def admin_review(userid):
+    url = "https://easy.lagou.com/bstatus/auth/manager/assist.json"
     header = get_header(url="https://easy.lagou.com/im/chat/index.htm")
-
-
-if __name__ == '__main__':
-    l = login(countryCode='00852', username='20181205')
-    print(l)
-    get_msgid()
-    admin_review()
-
+    data = {'applyUserId':userid, 'confirmButton':'True'}
+    result = get_requests(url=url, headers=header, data=data, remark="管理员审核通过")
