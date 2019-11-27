@@ -2,22 +2,23 @@ from api_script.jianzhao_web.b_basic.admin_review import admin_review
 from api_script.jianzhao_web.b_basic.b_upload import upload_permit
 from api_script.jianzhao_web.b_basic.toB_saveHR_1 import saveHR, add_saveCompany, submit_new
 from api_script.jianzhao_web.company_new.users import user_register_lagou
-from utils.util import assert_equal, pc_send_register_verifyCode, verify_code_message, login_verifyCode
+from utils.util import assert_equal, pc_send_register_verifyCode, verify_code_message, login_verifyCode, \
+    pc_send_login_verifyCode
 
 
 def test_register_user(get_countryCode_phone_general_user):
-    global countryCode, phone, user_name, verify_code
-    countryCode, phone, user_name = get_countryCode_phone_general_user[0], get_countryCode_phone_general_user[1], \
+    global general_countryCode, general_phone, general_user_name, verify_code
+    general_countryCode, general_phone, general_user_name = get_countryCode_phone_general_user[0], get_countryCode_phone_general_user[1], \
                                     get_countryCode_phone_general_user[2]
-    if pc_send_register_verifyCode(countryCode, phone) == 1:
-        verify_code = verify_code_message(countryCode, phone)
+    if pc_send_register_verifyCode(general_countryCode, general_phone) == 1:
+        verify_code = verify_code_message(general_countryCode, general_phone)
         assert_equal(True, bool(verify_code), '获取验证码成功')
 
 def test_join_company(get_company_name):
-    register = user_register_lagou(countryCode, phone, verify_code)
+    register = user_register_lagou(general_countryCode, general_phone, verify_code)
     company_name = get_company_name[0]
     if register['state'] == 1:
-        personal_msg_save = saveHR(company_name, user_name, 'ariaxie@lagou.com', '技术总监')
+        personal_msg_save = saveHR(company_name, general_user_name, 'ariaxie@lagou.com', '技术总监')
     else:
         assert_equal(1, register['state'], "校验B端用户注册是否成功")
     if personal_msg_save['state'] == 1:
@@ -37,17 +38,17 @@ def test_join_company(get_company_name):
 def test_get_userid(get_user_info):
     global general_user_id
     general_user_id = get_user_info[0]
-    assert_equal(True, bool(userid), '获取用户ID是否成功')
+    assert_equal(True, bool(general_user_id), '获取用户ID是否成功')
 
 def test_login_user(get_countryCode_phone_admin_user):
-    global countryCode, phone, user_name, verify_code
-    countryCode, phone, user_name = get_countryCode_phone_admin_user[0], get_countryCode_phone_admin_user[1], \
+    global admin_countryCode, amdin_phone, admin_user_name, verify_code
+    admin_countryCode, amdin_phone, admin_user_name = get_countryCode_phone_admin_user[0], get_countryCode_phone_admin_user[1], \
                                     get_countryCode_phone_admin_user[2]
-    if pc_send_register_verifyCode(countryCode, phone) == 1:
-        verify_code = verify_code_message(countryCode, phone)
+    if pc_send_login_verifyCode(admin_countryCode, amdin_phone) == 1:
+        verify_code = verify_code_message(admin_countryCode, amdin_phone)
         assert_equal(True, bool(verify_code), '获取验证码成功')
 
 def test_admin_review():
-    login_verifyCode(countryCode, phone, verify_code)
+    login_verifyCode(admin_countryCode, amdin_phone, verify_code)
     admin_review(userid=general_user_id)
 

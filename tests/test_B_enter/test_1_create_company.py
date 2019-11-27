@@ -1,3 +1,7 @@
+import time
+
+import pytest
+
 from api_script.jianzhao_web.b_basic.toB_saveHR_1 import b_register, saveHR, saveCompany, submit, add_saveCompany, \
     submit_new, get_b_userId
 from api_script.jianzhao_web.b_basic.b_upload import upload_permit
@@ -16,7 +20,7 @@ def test_register_user(get_countryCode_phone_admin_user):
 
 def test_create_company_info(get_company_name):
     register = user_register_lagou(countryCode, phone, verify_code)
-    company_name = get_company_name[0]
+    company_name = get_company_name
     if register['state'] == 1:
         personal_msg_save_and_creat_company = saveHR(company_name, user_name,
                                                      'ariaxie@lagou.com')
@@ -38,6 +42,10 @@ def test_personal_certificate():
         assert_equal(1, upload_p['state'], "校验提交身份信息是否成功")
 
 
+def test_():
+    time.sleep(120)
+
+@pytest.mark.skip(reason='暂时不需要执行')
 def test_record_data():
     userId, UserCompanyId, lg_CompanyId = get_b_userId()
     assert_equal(True, bool(userId), '校验获取用户id是否成功')

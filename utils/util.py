@@ -51,7 +51,8 @@ def get_code_token(url, referer=False):
     except (RequestException, IndexError):
         return get_code_token(url=url)
 
-def get_code_token_new(url) :
+
+def get_code_token_new(url):
     global count
     try:
         token_values, code_values = 0, None
@@ -687,11 +688,19 @@ def pc_send_register_verifyCode(countryCode, phone):
     return form_post(url=url, headers=header, data=send_data, remark='发送验证码')['state']
 
 
+def pc_send_login_verifyCode(countryCode, phone):
+    url = 'https://passport.lagou.com/login/sendLoginVerifyCode.json'
+    header = get_header(url='https://passport.lagou.com/login/login.html')
+    send_data = {'countryCode': countryCode, 'phone': phone, 'type': 0, 'request_form_verifyCode': '', '_': str(int(
+        time.time())) + '000'}
+    return form_post(url=url, headers=header, data=send_data, remark='发送验证码')['state']
+
+
 if __name__ == '__main__':
     # r = get_verify_code_message_len('00852', '20180917')
     # r = verify_code_message('00852', '20180917')
     # r1 = get_verify_code_message_len('00852', '20180917')
     # print(r)
-    # print(r1)
+    # print(r1l)
     # login_password('betty@lagou.com', '00f453dfec0f2806db5cfabe3ea94a35')
     pc_send_register_verifyCode('00852', 20030103)
