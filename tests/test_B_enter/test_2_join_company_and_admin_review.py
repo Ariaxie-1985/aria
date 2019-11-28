@@ -37,7 +37,7 @@ def test_join_company(get_company_name):
 
 def test_get_userid(get_user_info):
     global general_user_id
-    general_user_id = get_user_info[0]
+    general_user_id, general_company_id, general_lg_company_id = get_user_info[0], get_user_info[1], get_user_info[2]
     assert_equal(True, bool(general_user_id), '获取用户ID是否成功')
 
 def test_login_user(get_countryCode_phone_admin_user):
@@ -50,5 +50,5 @@ def test_login_user(get_countryCode_phone_admin_user):
 
 def test_admin_review():
     login_verifyCode(admin_countryCode, amdin_phone, verify_code)
-    admin_review(userid=general_user_id)
-
+    admin_check = admin_review(userid=general_user_id)
+    assert_equal(general_user_name, ar['content']['data']['applyUserName'], "验证是加入公司是否成功")
