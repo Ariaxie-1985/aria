@@ -4,7 +4,8 @@ import json
 import re
 from bs4 import BeautifulSoup
 from api_script.home.lagou_plus import get_contract_No, close_contract
-from utils.util import get_code_token, form_post, login, get_requests, get_header, login_home, login_home_code
+from utils.util import get_code_token, form_post, login, get_requests, get_header, login_home, login_home_code, \
+    login_password
 from utils.util import get_code_token, form_post, login, json_post
 
 
@@ -174,7 +175,7 @@ def remove_member(verity_userId):
     r = get_requests(url=url, headers=header, remark="核对招聘者信息").json()
     userId = r['content']['data']['members']['result'][0]['userId']
     if verity_userId == userId:
-        url = 'https://easy.lagou.com/member/removeMember.json?hasRecruitmentService=true&ignoreOfflinePosition=true'
+        url = 'https://easy.lagou.com/member/removeMember.json?hasRecruitmentService=true'
         r = get_requests(url=url, headers=header, remark="解除招聘者信息").json()
         if r['state'] == 1:
             return True
@@ -182,7 +183,7 @@ def remove_member(verity_userId):
 
 
 def close_trial_package(lg_CompanyId):
-    login_home_code('00853', 22222222)
+    login_password('betty@lagou.com', '00f453dfec0f2806db5cfabe3ea94a35')
     contractNo = get_contract_No(lg_CompanyId)
     close_result = close_contract(contractNo=contractNo)
     return close_result

@@ -500,7 +500,7 @@ def judging_other_abnormal_conditions(status_code, url, remark):
 f = 0
 
 
-def verify_code_message(countryCode, phone):
+def verify_code_message(countryCode, phone, flag_num=0):
     if countryCode == '0086':
         countryCode = 0
     url = 'http://msg.lagou.com/msc/message/page'
@@ -510,7 +510,7 @@ def verify_code_message(countryCode, phone):
     header = {"X-L-REQ-HEADER": '{deviceType:1}',
               "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36"}
     r = requests.post(url=url, json=data, headers=header, verify=False).json()
-    if len(r['content']['result']) > 0:
+    if len(r['content']['result']) > flag_num:
         id, createTime = r['content']['result'][0]['msgId'], r['content']['result'][0]['createTime']
         verify_code = get_verify_code(id, createTime)
     else:
@@ -530,9 +530,9 @@ def verify_code_message(countryCode, phone):
     return verify_code
 
 
-def get_verify_code(id, time):
+def get_verify_code(id, createTime):
     url = 'http://msg.lagou.com/msc/message/view'
-    data = {"createTime": time, "msgId": id}
+    data = {"createTime": createTime, "msgId": id}
     header = {"X-L-REQ-HEADER": '{deviceType:1}',
               "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36"}
     r = requests.post(url=url, json=data, headers=header, verify=False).json()
@@ -549,7 +549,7 @@ def get_verify_code_message_len(countryCode, phone):
             "page": 1, "count": 10}
     header = {"X-L-REQ-HEADER": '{deviceType:1}',
               "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36"}
-    r = requests.post(url=url, json=data, verify=False).json()
+    r = requests.post(url=url, json=data, header=header, verify=False).json()
     if r['content']['totalCount'] >= 2:
         return 1
     else:
@@ -702,5 +702,6 @@ if __name__ == '__main__':
     # r1 = get_verify_code_message_len('00852', '20180917')
     # print(r)
     # print(r1l)
-    # login_password('betty@lagou.com', '00f453dfec0f2806db5cfabe3ea94a35')
-    pc_send_register_verifyCode('00852', 20030103)
+    login_password('betty@lagou.com', '00f453dfec0f2806db5cfabe3ea94a35')
+    # state_code = pc_send_register_verifyCode('00852', 20030105)
+    # print(verify_code_message('00852', '20030105', flag_num=1))
