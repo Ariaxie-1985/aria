@@ -3,7 +3,7 @@ from api_script.jianzhao_web.b_basic.b_upload import upload_permit
 from api_script.jianzhao_web.b_basic.toB_saveHR_1 import saveHR, add_saveCompany, submit_new
 from api_script.jianzhao_web.company_new.users import user_register_lagou
 from utils.util import assert_equal, pc_send_register_verifyCode, verify_code_message, login_verifyCode, \
-    pc_send_login_verifyCode
+    pc_send_login_verifyCode, login_password
 
 
 def test_register_general_user(get_countryCode_phone_general_user):
@@ -16,6 +16,8 @@ def test_register_general_user(get_countryCode_phone_general_user):
         assert_equal(True, bool(verify_code), '获取验证码成功')
         register = user_register_lagou(general_countryCode, general_phone, verify_code)
         assert_equal(1, register['state'], "校验普通用户注册是否成功")
+    else:
+        assert_equal(1, 2, '校验发送验证码是否成功')
 
 
 def test_general_user_join_company(get_company_name):
@@ -42,16 +44,13 @@ def test_get_general_user_info(get_user_info):
     assert_equal(True, bool(general_user_id), '获取用户ID是否成功')
 
 
-def test_login_admin_user(get_countryCode_phone_admin_user):
-    global admin_countryCode, amdin_phone, admin_user_name, verify_code
-    admin_countryCode, amdin_phone, admin_user_name = get_countryCode_phone_admin_user[0], \
+def test_login_admin_user(get_countryCode_phone_admin_user, get_password):
+    global admin_countryCode, admin_phone, admin_user_name, verify_code
+    admin_countryCode, admin_phone, admin_user_name = get_countryCode_phone_admin_user[0], \
                                                       get_countryCode_phone_admin_user[1], \
                                                       get_countryCode_phone_admin_user[2]
-    if pc_send_login_verifyCode(admin_countryCode, amdin_phone) == 1:
-        verify_code = verify_code_message(admin_countryCode, amdin_phone, flag_num=1)
-        assert_equal(True, bool(verify_code), '获取验证码成功')
-        login_result = login_verifyCode(admin_countryCode, amdin_phone, verify_code)
-        assert_equal(1, login_result['state'], '校验管理员登录是否成功')
+    login_result = login_password(admin_countryCode + admin_phone, get_password)
+    assert_equal(1, login_result['state'], '校验管理员登录是否成功')
 
 
 def test_admin_review():

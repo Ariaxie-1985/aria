@@ -9,7 +9,7 @@ def forbid_user(userId):
     url = 'http://home.lagou.com/forbid/user/forbidUser.json'
     header = get_header(url='http://home.lagou.com/')
     data = {'forbidAccount': '删除已投递简历,关闭简历,', 'reason': '冒用他人信息,', 'forbidAccountReason': '冒用他人信息,', 'userId': userId}
-    return form_post(url=url, headers=header, data=data, remark="封禁账号")
+    return form_post(url=url, headers=header, data=data, remark="封禁账号")['success']
 
 
 def verify_user_is_forbid(userId):
@@ -19,6 +19,24 @@ def verify_user_is_forbid(userId):
     result = form_post(url=url, headers=header, data=data, remark='校验用户是否禁用成功')
     if result['success'] == True and result['data']['pageData'][0]['id'] == userId:
         return result['data']['pageData'][0]['isForbid']
+    else:
+        return False
+
+
+def forbid_company(companyId):
+    url = 'http://home.lagou.com/forbid/companyController/forbid.json'
+    data = {'companyId': companyId, 'forbidReason': '公司信息不实（发布职位与公司经营范围不符）,'}
+    header = get_header(url='http://home.lagou.com/')
+    return form_post(url=url, headers=header, data=data, remark='封禁公司')['success']
+
+
+def verify_company_is_forbid(companyId):
+    url = 'http://home.lagou.com/forbid/companyController/queryCompanys.json'
+    header = get_header(url='http://home.lagou.com/')
+    data = {'searchContent': companyId, 'limit': 35, 'limitEnd': 30, 'currentPage': 0, 'type': 1}
+    result = form_post(url=url, headers=header, data=data, remark='校验用户是否禁用成功')
+    if result['success'] == True and result['data']['pageData'][0]['id'] == companyId:
+        return result['data']['pageData'][0]['status']
     else:
         return False
 
@@ -34,7 +52,8 @@ if __name__ == '__main__':
     #        15567390, 15562495, 15562483, 15558634]
     # ids = [15558629, 15554148, 15554140, 15553909, 15553655, 15252648, 15255408, 15232933, 15233096, 15233116,
     #          15255474, 15255485, 15429912]
+    # for id in ids:
+    # forbid_user(id)
+    print('用户封禁结果是{}'.format(verify_user_is_forbid(15747362)))
+    print('公司封禁结果是{}'.format(verify_company_is_forbid(117437231)))
 
-    for id in ids:
-        # forbid_user(id)
-        print('用户{}封禁结果是{}'.format(id, verify_user_is_forbid(id)))

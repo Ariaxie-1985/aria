@@ -1,11 +1,10 @@
 import time
-
 import pytest
-
 from api_script.jianzhao_web.b_basic.toB_saveHR_1 import saveHR, saveCompany, \
-    submit_new, get_b_userId
+    submit_new
 from api_script.jianzhao_web.b_basic.b_upload import upload_permit
 from api_script.jianzhao_web.company_new.users import user_register_lagou
+from api_script.neirong_app.account import upate_user_password
 from utils.util import assert_equal, pc_send_register_verifyCode, verify_code_message
 
 
@@ -18,6 +17,8 @@ def test_register_admin_user(get_countryCode_phone_admin_user):
         assert_equal(True, bool(verify_code), '获取验证码成功')
         register = user_register_lagou(countryCode, phone, verify_code)
         assert_equal(1, register['state'], '校验管理员注册是否成功！')
+    else:
+        assert_equal(1, 2, '校验发送验证码是否成功')
 
 
 def test_create_company_info(get_company_name):
@@ -44,9 +45,9 @@ def test_():
     time.sleep(120)
 
 
-@pytest.mark.skip(reason='暂时不需要执行')
-def test_record_data():
-    userId, UserCompanyId, lg_CompanyId = get_b_userId()
-    assert_equal(True, bool(userId), '校验获取用户id是否成功')
-    assert_equal(True, bool(UserCompanyId), '校验获取简招公司id是否成功')
-    assert_equal(True, bool(lg_CompanyId), '校验获取拉勾公司id是否成功')
+@pytest.mark.parametrize('newPassword', [('990eb670f81e82f546cfaaae1587279a')])
+def test_update_admin_user(newPassword):
+    r = upate_user_password(newPassword)
+    assert_equal(1, r['state'], '管理员修改密码成功')
+
+

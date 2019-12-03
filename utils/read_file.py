@@ -36,10 +36,10 @@ def get_file_path(file):
 
 def record_test_data(type, **kw):
     if type == 1:
-        with open('/home/testdata_no_delete_Xiawang_c.txt', 'at') as f:
+        with open('/Users/wang/Desktop/lg-project/lg_api_script/tests/test_B_enter/testdata_no_delete_Xiawang_c.txt', 'at') as f:
             f.write('{},'.format(kw['userId']))
     elif type == 2:
-        with open('/home/testdata_no_delete_Xiawang_b.txt', 'at') as f:
+        with open('/Users/wang/Desktop/lg-project/lg_api_script/tests/test_B_enter/testdata_no_delete_Xiawang_b.txt', 'at') as f:
             f.write('({},{},{}),'.format(kw['userId'], kw['UserCompanyId'], kw['lg_CompanyId']))
 
 

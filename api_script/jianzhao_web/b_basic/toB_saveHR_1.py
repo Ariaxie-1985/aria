@@ -158,9 +158,20 @@ def get_financeStage(financeStage):
     return financeStage, stages
 
 
-def get_b_userId():
+def get_b_person_userId():
     url = 'https://easy.lagou.com/bstatus/auth/index.htm?verifyTypeList=enterprise'
     header = get_header(url='https://hr.lagou.com/corpCenter/auth/person/status.html')
+    r = get_requests(url=url, headers=header, remark='获取提交招聘者认证的用户id').text
+    soup = BeautifulSoup(r, "html.parser")
+    userId = soup.find(id="UserId")['value']
+    UserCompanyId = soup.find(id="UserCompanyId")['value']
+    lg_CompanyId = re.findall('lgId: "(.*?)"', r, re.S)[0]
+    return userId, UserCompanyId, lg_CompanyId
+
+
+def get_b_index_userId():
+    url = 'https://easy.lagou.com/dashboard/index.htm?from=c_index'
+    header = get_header(url='https://www.lagou.com/')
     r = get_requests(url=url, headers=header, remark='获取提交招聘者认证的用户id').text
     soup = BeautifulSoup(r, "html.parser")
     userId = soup.find(id="UserId")['value']
@@ -174,7 +185,7 @@ def remove_member(verity_userId):
     header = get_code_token(url='https://easy.lagou.com/settings/channel/my_channels.htm')
     r = get_requests(url=url, headers=header, remark="核对招聘者信息").json()
     userId = r['content']['data']['members']['result'][0]['userId']
-    if verity_userId == userId:
+    if int(verity_userId) == userId:
         url = 'https://easy.lagou.com/member/removeMember.json?hasRecruitmentService=true'
         r = get_requests(url=url, headers=header, remark="解除招聘者信息").json()
         if r['state'] == 1:
@@ -191,6 +202,7 @@ def close_trial_package(lg_CompanyId):
 
 if __name__ == '__main__':
     from faker import Faker
+
     # fake = Faker('zh_CN')
     # phone, countryCode = 20020026, '00852'
     # companyShortName, companyFullName = '验证是否能移除招聘者认证2', '验证是否能移除招聘者认证2'

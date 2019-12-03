@@ -2,6 +2,8 @@
 # @Time  : 2019-11-07 11:46
 # @Author: Xiawang
 # Description:
+import time
+
 import pytest
 
 from backend.common.get_data import get_www_company_id
@@ -22,3 +24,9 @@ def login_web_k8s_default(request):
 @pytest.fixture()
 def get_company_id():
     return get_www_company_id()
+
+
+@pytest.fixture()
+def get_countryCode_phone():
+    countryCode, phone = "00852", str(20000000 + int(str(time.time()).split('.')[1]))
+    return countryCode, phone

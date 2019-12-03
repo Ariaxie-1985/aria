@@ -13,7 +13,7 @@ def get_info(userToken):
     return get_requests(url=url, headers=header, remark="跳转到首页，获取C端用户信息").json()
 
 
-def batchCancel(userToken, userIds):
+def batchCancel(userIds, userToken=None):
     url = 'https://gate.lagou.com/v1/entry/helper/user/batchCancel'
     header = app_header_999(userToken, DA=False)
     data = {

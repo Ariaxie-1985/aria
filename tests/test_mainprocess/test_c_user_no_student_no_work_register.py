@@ -14,17 +14,19 @@ from api_script.neirong_app.resumes import guideBasicInfo, educationExperiences,
 from utils.util import assert_equal, verify_code_message
 
 time.sleep(1)
-countryCode, phone = "00852", str(20000000 + int(str(time.time()).split('.')[1]))
 
 
-def test_send_verify_code():
+def test_send_verify_code(get_countryCode_phone):
+    global countryCode, phone
+    countryCode, phone = get_countryCode_phone[0], get_countryCode_phone[1]
     r = send_verify_code(countryCode, phone, "PASSPORT_REGISTER")
     assert_equal(1, r['state'], '校验发送验证码成功', "校验发送验证码失败")
 
 
-time.sleep(10)
-@pytest.mark.parametrize("countryCode, phone", [(countryCode, phone)])
-def test_get_verify_code(countryCode, phone):
+time.sleep(1)
+
+
+def test_get_verify_code():
     global verify_code
     verify_code = verify_code_message(countryCode, phone)
     assert_equal(True, bool(verify_code), "校验获取验证码成功")

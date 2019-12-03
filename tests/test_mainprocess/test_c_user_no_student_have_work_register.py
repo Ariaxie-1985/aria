@@ -7,37 +7,25 @@ import time
 
 import pytest
 
-from api_script.entry.account.me import bing_or_change_phone
 from api_script.entry.account.passport import password_login, send_verify_code, verifyCode_login, register_by_phone, \
     get_login_by_token
 from api_script.entry.cuser.baseStatus import get_info, batchCancel
 from api_script.neirong_app.resumes import guideBasicInfo, educationExperiences, personalCards, abilityLabels, \
     expectJob, workExperiences, set_basicInfo, delete_education_experiences, get_detail, delete_workExperiences
-from utils.read_file import record_test_data
 from utils.util import assert_equal, verify_code_message
 
 
-def setup_module(module):
-    pass
-
-
-def teardown_module(module):
-    pass
-
-
-countryCode, phone = "00852", str(20000000 + int(str(time.time()).split('.')[1]))
-
-
-def test_send_verify_code():
+def test_send_verify_code(get_countryCode_phone):
+    global countryCode, phone
+    countryCode, phone = get_countryCode_phone[0], get_countryCode_phone[1]
     r = send_verify_code(countryCode, phone, "PASSPORT_REGISTER")
     assert_equal(1, r['state'], '校验发送验证码成功', "校验发送验证码失败")
 
 
-time.sleep(10)
+time.sleep(1)
 
 
-@pytest.mark.parametrize("countryCode, phone", [(countryCode, phone)])
-def test_get_verify_code(countryCode, phone):
+def test_get_verify_code():
     global verify_code
     verify_code = verify_code_message(countryCode, phone)
     assert_equal(True, bool(verify_code), "校验获取验证码成功")
@@ -162,7 +150,6 @@ def test_delete_workExperiences_2():
 def test_batchCancel():
     r = batchCancel(userToken=userToken, userIds=userId)
     assert_equal(1, r['state'], "用户注册非学生但有工作经验的注销账号成功")
-
 
 # def test_record():
 #     record_test_data(type=1, userId=userId, phone=countryCode + phone)

@@ -9,7 +9,10 @@ def get_contract_No(companyId):
     Request_url = "https://home.lagou.com/crm/contractController/list.json"
     data = {"companyId": companyId}
     object = form_post(url=Request_url, remark="查询当前公司下的合同", data=data, headers=header)
-    contractNo = object['data']['pageData'][0]['number']
+    try:
+        contractNo = object['data']['pageData'][0]['number']
+    except KeyError:
+        return 0
     return contractNo
 
 
