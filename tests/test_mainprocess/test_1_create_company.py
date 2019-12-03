@@ -5,9 +5,8 @@ from api_script.jianzhao_web.b_basic.company import jump_html
 from api_script.jianzhao_web.b_basic.toB_saveHR_1 import saveHR, saveCompany, \
     submit_new
 from api_script.jianzhao_web.b_basic.b_upload import upload_permit
-from api_script.jianzhao_web.company_new.users import user_register_lagou
 from api_script.neirong_app.account import upate_user_password
-from utils.util import assert_equal, pc_send_register_verifyCode, verify_code_message
+from utils.util import assert_equal, pc_send_register_verifyCode, verify_code_message, user_register_lagou
 
 
 def test_register_admin_user(get_countryCode_phone_admin_user):
@@ -24,11 +23,10 @@ def test_register_admin_user(get_countryCode_phone_admin_user):
 
 
 def test_create_company_info(get_company_name):
-    company_name = get_company_name
-    personal_msg_save_and_creat_company = saveHR(company_name, user_name,
+    personal_msg_save_and_creat_company = saveHR(get_company_name, user_name,
                                                  'ariaxie@lagou.com')
     if personal_msg_save_and_creat_company['state'] == 1:
-        company_msg_save = saveCompany(company_name)
+        company_msg_save = saveCompany(get_company_name)
         assert_equal(1, company_msg_save['state'], "校验公司是否新建成功")
     else:
         assert_equal(1, personal_msg_save_and_creat_company['state'], "校验HR信息是否保存成功")

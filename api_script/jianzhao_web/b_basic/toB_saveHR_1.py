@@ -91,8 +91,6 @@ def saveHR_process(phone, countryCode, companyShortName, companyFullName, userNa
         r2 = saveHR(companyFullName, userName, resumeReceiveEmail)
         r3 = saveCompany(companyShortName)
         r4 = submit(updateCompanyShortName)
-        userId = get_b_userId()
-        print(userId)
     return r1, r2, r3, r4
 
 

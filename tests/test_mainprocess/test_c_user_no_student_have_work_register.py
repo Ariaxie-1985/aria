@@ -10,9 +10,11 @@ import pytest
 from api_script.entry.account.passport import password_login, send_verify_code, verifyCode_login, register_by_phone, \
     get_login_by_token
 from api_script.entry.cuser.baseStatus import get_info, batchCancel
+from api_script.home import forbid
 from api_script.neirong_app.resumes import guideBasicInfo, educationExperiences, personalCards, abilityLabels, \
     expectJob, workExperiences, set_basicInfo, delete_education_experiences, get_detail, delete_workExperiences
-from utils.util import assert_equal, verify_code_message
+from utils.read_file import record_test_data
+from utils.util import assert_equal, verify_code_message, login_password
 
 
 def test_send_verify_code(get_countryCode_phone):
@@ -151,5 +153,15 @@ def test_batchCancel():
     r = batchCancel(userToken=userToken, userIds=userId)
     assert_equal(1, r['state'], "用户注册非学生但有工作经验的注销账号成功")
 
-# def test_record():
-#     record_test_data(type=1, userId=userId, phone=countryCode + phone)
+def test_record():
+    record_test_data(type=1, userId=userId)
+
+def test_login_home():
+    # 线上home后台的用户账号和密码, 勿动
+    r = login_password('betty@lagou.com', '00f453dfec0f2806db5cfabe3ea94a35')
+    assert_equal(1, r['state'], '校验登录home成功！')
+
+
+def test_forbid_general_user():
+    forbid_result = forbid.forbid_user(userId)
+    assert_equal(True, forbid_result, '校验非学生用户有工作经验的C端是否封禁成功')

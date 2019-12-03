@@ -1,6 +1,15 @@
 import time
 from api_script.jianzhao_web.b_basic.toB_comleteInfo_3 import company_auth, completeInfo
-from utils.util import assert_equal
+from utils.util import assert_equal, login_password
+
+
+def test_login_admin_user(get_countryCode_phone_admin_user, get_password):
+    global admin_countryCode, admin_phone, admin_user_name, verify_code
+    admin_countryCode, admin_phone, admin_user_name = get_countryCode_phone_admin_user[0], \
+                                                      get_countryCode_phone_admin_user[1], \
+                                                      get_countryCode_phone_admin_user[2]
+    login_result = login_password(admin_countryCode + admin_phone, get_password)
+    assert_equal(1, login_result['state'], '校验管理员登录是否成功')
 
 
 def test_company_certification():

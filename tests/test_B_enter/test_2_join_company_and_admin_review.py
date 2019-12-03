@@ -2,7 +2,7 @@ import pytest
 
 from api_script.jianzhao_web.b_basic.admin_review import admin_review
 from api_script.jianzhao_web.b_basic.b_upload import upload_permit
-from api_script.jianzhao_web.b_basic.company import jump_step1
+from api_script.jianzhao_web.b_basic.company import jump_step1, jump_html
 from api_script.jianzhao_web.b_basic.toB_saveHR_1 import saveHR, add_saveCompany, submit_new
 from api_script.jianzhao_web.company_new.users import user_register_lagou
 from api_script.neirong_app.account import upate_user_password
@@ -41,10 +41,9 @@ def test_general_user_join_company(get_company_name):
         assert_equal(1, personal_msg_save['state'], "校验保存用户信息是否成功")
 
 
-# def test_get_general_user_info(get_user_id):
-#     global general_user_id
-#     general_user_id = get_user_id
-#     assert_equal(True, bool(general_user_id), '获取用户ID是否成功')
+def test_jump_html():
+    save_result = jump_html()
+    assert_equal(1, save_result['state'], '校验是否跳过选择优质简历')
 
 
 @pytest.mark.parametrize('newPassword', [('990eb670f81e82f546cfaaae1587279a')])

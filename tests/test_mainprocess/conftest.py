@@ -55,11 +55,6 @@ def get_positionType():
     return firstType, positionType, positionThirdType, positionName
 
 
-@pytest.fixture()
-def get_positionType():
-    firstType, positionType, positionThirdType, positionName = "开发|测试|运维类", "后端开发", "Java", "java工程师"
-    return firstType, positionType, positionThirdType, positionName
-
 
 @pytest.fixture(params=[["00852", "20181205"]])
 def login_web_k8s_default(request):
