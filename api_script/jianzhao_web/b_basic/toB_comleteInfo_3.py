@@ -32,7 +32,7 @@ def completeInfo(**kwargs):
     com_html = get_requests(com_step2_url)
     comAuthId = re.findall('userId: "(.*?)"', com_html.text, re.S)[0]
     completeInfo_url = "https://hr.lagou.com/corpCenter/company/auth/completeInfo.json"
-    completeInfo_data = {"id": comAuthId, "logo": "i/audio1/M00/01/C6/CgHIk1wSFMeAeIoaAAB1mvl2DME518.JPG",
+    completeInfo_data = {"id": comAuthId, "logo": "i/image2/M01/B0/0F/CgotOV3mDn6AQdeXAABc2chZae0419.png",
                          "officialWebsite": "www.lagou.com", "fullIntro": "愿天下没有难找的工作", "shortIntro": "一天就能找到满意的工作",
                          "detailAddress": detailAddress, "provinceId": provinceId, "cityId": cityId,
                          "districtId": districtId, "businessArea": businessArea, "companyLng": companyLng,

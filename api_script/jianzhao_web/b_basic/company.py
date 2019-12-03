@@ -50,3 +50,11 @@ def jump_html():
     save_result = save_recruitment_needs(header)
     get_requests(url=url, headers=header, remark='跳转提交招聘者认证')
     return save_result
+
+
+def jump_step1():
+    url = 'https://easy.lagou.com/dashboard/index.htm?from=c_index'
+    # header = get_header(url='https://www.lagou.com/')
+    header = {'Upgrade-Insecure-Requests': 1, 'Sec-Fetch-Mode': 'navigate', 'Sec-Fetch-Site': 'same-site',
+              'Sec-Fetch-User': '?1', 'Referer': 'https://www.lagou.com/'}
+    return get_requests(url=url, headers=header, remark="注册成功后跳转完善个人信息页")

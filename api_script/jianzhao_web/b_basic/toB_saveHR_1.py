@@ -38,7 +38,7 @@ def saveCompany(companyShortName, industryField="电商", financeStage='未融�
     step2_url = 'https://hr.lagou.com/corpCenter/openservice/step2.html'
     saveCompany_url = "https://hr.lagou.com/corpCenter/openservice/saveCompany.json"
     if stages is None:
-        saveCompany_data = {"logo": "i/audio1/M00/01/C5/CgHIk1wQzAuAZ5-EAAmU9-3HjA4414.JPG",
+        saveCompany_data = {"logo": "i/image2/M01/B0/0F/CgotOV3mDn6AQdeXAABc2chZae0419.png",
                             "companyShortName": companyShortName,
                             "industryField": industryField, "companySize": "150-500人", "financeStage": financeStage}
     else:
@@ -67,7 +67,7 @@ def submit(updateCompanyShortName):
 # 新B端提交招聘者审核
 def submit_new():
     submit_url = "https://hr.lagou.com/corpCenter/auth/person/idcard/submit.json"
-    submit_data = {"imgUrl": "i/audio1/M00/01/C5/CgHIk1wQzR6AS8YlAAC5OWWN-yU456.JPG"}
+    submit_data = {"imgUrl": "i/image2/M01/B0/0F/CgotOV3mDn6AQdeXAABc2chZae0419.png"}
     step2_url = 'https://hr.lagou.com/corpCenter/openservice/step2.html'
     submit_header = get_code_token(step2_url)
     remark = "验证B端提交招聘者审核是否成功"
@@ -159,19 +159,17 @@ def get_financeStage(financeStage):
 
 
 def get_b_person_userId():
-    url = 'https://easy.lagou.com/bstatus/auth/index.htm?verifyTypeList=enterprise'
+    url = 'https://www.lagou.com/'
     header = get_header(url='https://hr.lagou.com/corpCenter/auth/person/status.html')
     r = get_requests(url=url, headers=header, remark='获取提交招聘者认证的用户id').text
     soup = BeautifulSoup(r, "html.parser")
-    userId = soup.find(id="UserId")['value']
-    UserCompanyId = soup.find(id="UserCompanyId")['value']
-    lg_CompanyId = re.findall('lgId: "(.*?)"', r, re.S)[0]
-    return userId, UserCompanyId, lg_CompanyId
+    userId = soup.find(id="userid")['value']
+    return userId
 
 
-def get_b_index_userId():
-    url = 'https://easy.lagou.com/dashboard/index.htm?from=c_index'
-    header = get_header(url='https://www.lagou.com/')
+def get_b_index_Id():
+    url = 'https://easy.lagou.com/bstatus/auth/index.htm?verifyTypeList=enterprise'
+    header = get_header(url='https://hr.lagou.com/corpCenter/auth/person/status.html')
     r = get_requests(url=url, headers=header, remark='获取提交招聘者认证的用户id').text
     soup = BeautifulSoup(r, "html.parser")
     userId = soup.find(id="UserId")['value']

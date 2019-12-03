@@ -10,7 +10,7 @@ def upload_permit():
     # com_header = get_header("https://easy.lagou.com/dashboard/index.htm?from=c_index")headers=com_header
     get_requests("https://hr.lagou.com/corpCenter/staff/index.html")
     verify_url = "https://hr.lagou.com/corpCenter/staff/next/enterprise.json"
-    verify_data = {"fileUrl": "i/audio1/M00/01/C5/CgHIk1wQzSaAcR09AAqex8SeJls235.JPG", "force": True}
+    verify_data = {"fileUrl": "i/image2/M01/AF/EF/CgoB5l3mDqWAPbXyAACQ9vLCc5I534.png", "force": True}
     verify_header = get_code_token_new("https://hr.lagou.com/corpCenter/staff/index.html")
     remark = "上传营业执照"
     return json_post(url=verify_url, data=verify_data, headers=verify_header, remark=remark)

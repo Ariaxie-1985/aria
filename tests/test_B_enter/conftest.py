@@ -7,7 +7,7 @@ import time
 import pytest
 from faker import Faker
 
-from api_script.jianzhao_web.b_basic.toB_saveHR_1 import get_b_userId, get_b_index_userId
+from api_script.jianzhao_web.b_basic.toB_saveHR_1 import get_b_person_userId, get_b_index_Id
 
 fake = Faker("zh_CN")
 
@@ -33,9 +33,14 @@ def get_countryCode_phone_general_user():
 
 
 @pytest.fixture()
+def get_user_id():
+    userId = get_b_person_userId()
+    return userId
+
+
+@pytest.fixture()
 def get_user_info():
-    # userId, UserCompanyId, lg_CompanyId = get_b_userId()
-    userId, UserCompanyId, lg_CompanyId = get_b_index_userId()
+    userId, UserCompanyId, lg_CompanyId = get_b_index_Id()
     return userId, UserCompanyId, lg_CompanyId
 
 

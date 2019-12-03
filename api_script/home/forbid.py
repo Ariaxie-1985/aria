@@ -54,6 +54,7 @@ if __name__ == '__main__':
     #          15255474, 15255485, 15429912]
     # for id in ids:
     # forbid_user(id)
-    print('用户封禁结果是{}'.format(verify_user_is_forbid(15747362)))
+    print(type(verify_user_is_forbid(15754261)))
+    print('用户封禁结果是{}'.format(verify_user_is_forbid(15754261)))
     print('公司封禁结果是{}'.format(verify_company_is_forbid(117437231)))
 
