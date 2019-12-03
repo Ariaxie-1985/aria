@@ -4,7 +4,7 @@
 import json
 
 from backend.common.data import provider_data
-from utils.util import get_code_token, form_post, login, get_header
+from utils.util import get_code_token, form_post, login, get_header, json_post, get_requests
 
 
 def saveCompanyProfile(companyId):
@@ -37,3 +37,16 @@ def isHuntingGray():
         return False
 
 
+def save_recruitment_needs(header):
+    url = 'https://hr.lagou.com/corpCenter/openservice/saveRecruitmentNeeds.json'
+    data = {'type': 2, 'recruitment': []}
+    return json_post(url=url, data=data, headers=header, remark='跳过选择优质简历')
+
+
+def jump_html():
+    url = 'https://hr.lagou.com/corpCenter/openservice/jumphtml.json'
+    refer_url = 'https://hr.lagou.com/corpCenter/openservice/step3.html'
+    header = get_header(url=refer_url)
+    save_result = save_recruitment_needs(header)
+    get_requests(url=url, headers=header, remark='跳转提交招聘者认证')
+    return save_result

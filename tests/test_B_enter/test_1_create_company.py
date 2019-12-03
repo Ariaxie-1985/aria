@@ -1,5 +1,7 @@
 import time
 import pytest
+
+from api_script.jianzhao_web.b_basic.company import jump_html
 from api_script.jianzhao_web.b_basic.toB_saveHR_1 import saveHR, saveCompany, \
     submit_new
 from api_script.jianzhao_web.b_basic.b_upload import upload_permit
@@ -32,6 +34,11 @@ def test_create_company_info(get_company_name):
         assert_equal(1, personal_msg_save_and_creat_company['state'], "校验HR信息是否保存成功")
 
 
+def test_jump_html():
+    save_result = jump_html()
+    assert_equal(1, save_result['state'], '校验是否跳过选择优质简历')
+
+
 def test_admin_personal_certificate():
     upload_p = upload_permit()
     if upload_p['state'] == 1:
@@ -49,5 +56,3 @@ def test_():
 def test_update_admin_user(newPassword):
     r = upate_user_password(newPassword)
     assert_equal(1, r['state'], '管理员修改密码成功')
-
-
