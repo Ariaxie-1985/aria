@@ -1,5 +1,6 @@
 # coding:utf-8
 import os
+import time
 import zipfile
 from datetime import datetime
 import datetime
@@ -25,14 +26,41 @@ count = 0
 
 
 # 获取页面的token和code
-def get_code_token(url):
+def get_code_token(url, referer=False):
     global count
     try:
         token_values, code_values = 0, None
         code = session.get(url=url, headers=header, verify=False, timeout=60)
         token_values = re.findall("X_Anti_Forge_Token = '(.*?)'", code.text, re.S)[0]
         code_values = re.findall("X_Anti_Forge_Code = '(.*?)'", code.text, re.S)[0]
-        headers = {"X-Anit-Forge-Code": code_values, "X-Anit-Forge-Token": token_values,
+        if referer == False:
+            headers = {"X-Anit-Forge-Code": code_values, "X-Anit-Forge-Token": token_values,
+                       "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3615.0 Safari/537.36"}
+        else:
+            headers = {"X-Anit-Forge-Code": code_values, "X-Anit-Forge-Token": token_values,
+                       'referer': 'www.lagou.com',
+                       "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3615.0 Safari/537.36"}
+        if token_values != '' and code_values != '':
+            return headers
+        else:
+            if count < 1:
+                count = count + 1
+                return get_code_token(url=url)
+            else:
+                return headers
+    except (RequestException, IndexError):
+        return get_code_token(url=url)
+
+
+def get_code_token_new(url):
+    global count
+    try:
+        token_values, code_values = 0, None
+        code = session.get(url=url, headers=header, verify=False, timeout=60)
+        token_values = re.findall("X_Anti_Forge_Token = '(.*?)'", code.text, re.S)[0]
+        code_values = re.findall("X_Anti_Forge_Code = '(.*?)'", code.text, re.S)[0]
+        headers = {"Content-Type": "application/json", "X-Anit-Forge-Code": code_values,
+                   "X-Anit-Forge-Token": token_values,
                    "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3615.0 Safari/537.36"}
         if token_values != '' and code_values != '':
             return headers
@@ -472,7 +500,7 @@ def judging_other_abnormal_conditions(status_code, url, remark):
 f = 0
 
 
-def verify_code_message(countryCode, phone):
+def verify_code_message(countryCode, phone, flag_num=0):
     if countryCode == '0086':
         countryCode = 0
     url = 'http://msg.lagou.com/msc/message/page'
@@ -482,7 +510,7 @@ def verify_code_message(countryCode, phone):
     header = {"X-L-REQ-HEADER": '{deviceType:1}',
               "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36"}
     r = requests.post(url=url, json=data, headers=header, verify=False).json()
-    if len(r['content']['result']) > 0:
+    if len(r['content']['result']) > flag_num:
         id, createTime = r['content']['result'][0]['msgId'], r['content']['result'][0]['createTime']
         verify_code = get_verify_code(id, createTime)
     else:
@@ -502,9 +530,9 @@ def verify_code_message(countryCode, phone):
     return verify_code
 
 
-def get_verify_code(id, time):
+def get_verify_code(id, createTime):
     url = 'http://msg.lagou.com/msc/message/view'
-    data = {"createTime": time, "msgId": id}
+    data = {"createTime": createTime, "msgId": id}
     header = {"X-L-REQ-HEADER": '{deviceType:1}',
               "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36"}
     r = requests.post(url=url, json=data, headers=header, verify=False).json()
@@ -521,7 +549,7 @@ def get_verify_code_message_len(countryCode, phone):
             "page": 1, "count": 10}
     header = {"X-L-REQ-HEADER": '{deviceType:1}',
               "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36"}
-    r = requests.post(url=url, json=data, verify=False).json()
+    r = requests.post(url=url, json=data, headers=header, verify=False).json()
     if r['content']['totalCount'] >= 2:
         return 1
     else:
@@ -613,10 +641,67 @@ def app_header_999(userToken=None, DA=True):
 # #     header={"userToken":"42950bed7acc28db48ed54ab14d367caf758f16bd45c3347","reqVersion":71800,"lgId":"99000646684560_1560396841537","appVersion":"7.18.0","userType":0,"deviceType":200}
 # #     return json_post(url=url, headers=header, remark=remark)
 # # print(searchPositions())
+def login_password(username, password):
+    '''
+    从www.lagou.com登录，验证码登录
+    :param countryCode: str, 地区编号
+    :param username: str, 用户名
+    '''
+    session.cookies.clear()
+    # login_url = 'https://passport.lagou.com/login/login.json?isValidate=true&username={}&password={}&request_form_verifyCode=&_={}'.format()
+    login_url = 'https://passport.lagou.com/login/login.json'
+    login_data = {'isValidate': 'true', 'username': username,
+                  'password': password}
+    referer_login_html = 'https://passport.lagou.com/login/login.html'
+    login_header = get_code_token(referer_login_html)
+    remark = str(username) + "在登录拉勾"
+    r = form_post(url=login_url, data=login_data, headers=login_header, remark=remark)
+    if r['message'] == "操作成功":
+        logging.info("用户名: " + str(username) + " 登录成功")
+    return r
+
+
+def login_verifyCode(countryCode, phone, verifyCode):
+    '''
+    从www.lagou.com登录，验证码登录
+    :param countryCode: str, 地区编号
+    :param username: str, 用户名
+    '''
+    session.cookies.clear()
+    login_url = 'https://passport.lagou.com/login/login.json'
+    login_data = {'isValidate': 'true', 'username': phone,
+                  'phoneVerificationCode': verifyCode, 'countryCode': countryCode}
+    referer_login_html = 'https://passport.lagou.com/login/login.html'
+    login_header = get_code_token(referer_login_html)
+    remark = str(phone) + "在登录拉勾"
+    r = form_post(url=login_url, data=login_data, headers=login_header, remark=remark)
+    if r['message'] == "操作成功":
+        logging.info("用户名: " + str(phone) + " 登录成功")
+    return r
+
+
+def pc_send_register_verifyCode(countryCode, phone):
+    url = 'https://passport.lagou.com/register/getPhoneVerificationCode.json'
+    header = get_header(url='https://passport.lagou.com/register/register.html')
+    send_data = {'countryCode': countryCode, 'phone': phone, 'type': 0, 'request_form_verifyCode': '', '_': str(int(
+        time.time())) + '000'}
+    return form_post(url=url, headers=header, data=send_data, remark='发送验证码')['state']
+
+
+def pc_send_login_verifyCode(countryCode, phone):
+    url = 'https://passport.lagou.com/login/sendLoginVerifyCode.json'
+    header = get_header(url='https://passport.lagou.com/login/login.html')
+    send_data = {'countryCode': countryCode, 'phone': phone, 'type': 0, 'request_form_verifyCode': '', '_': str(int(
+        time.time())) + '000'}
+    return form_post(url=url, headers=header, data=send_data, remark='发送验证码')['state']
+
 
 if __name__ == '__main__':
     # r = get_verify_code_message_len('00852', '20180917')
-    r = verify_code_message('00852', '20180917')
-    r1 = get_verify_code_message_len('00852', '20180917')
-    print(r)
-    print(r1)
+    # r = verify_code_message('00852', '20180917')
+    # r1 = get_verify_code_message_len('00852', '20180917')
+    # print(r)
+    # print(r1l)
+    # login_password('betty@lagou.com', '00f453dfec0f2806db5cfabe3ea94a35')
+    state_code = pc_send_register_verifyCode('00852', 20030105)
+    # print(verify_code_message('00852', '20030105', flag_num=1))

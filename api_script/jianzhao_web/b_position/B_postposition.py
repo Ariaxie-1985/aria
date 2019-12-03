@@ -1,6 +1,6 @@
 # coding:utf-8
 # @Author: Xiawang
-from utils.util import form_post, get_code_token, login, get_requests
+from utils.util import form_post, get_code_token, login, get_requests, get_header
 import json
 
 
@@ -119,3 +119,24 @@ def myOnlinePositions(pageNo):
     data = {'pageNo': pageNo}
     header = get_code_token(url=referer_url)
     return form_post(url=url, headers=header, data=data, remark='获取在线职位')
+
+
+def get_online_positions(pageNo=1):
+    referer_url = 'https://easy.lagou.com/position/multiChannel/myOnlinePositions.htm?pageNo=1'
+    url = 'https://easy.lagou.com/parentPosition/multiChannel/myOnlinePositions.json'
+    data = {'pageNo': pageNo}
+    header = get_code_token(url=referer_url)
+    return form_post(url=url, headers=header, data=data, remark='获取在线职位')
+
+
+def offline_position(positionId):
+    url = 'https://easy.lagou.com/position/offlinePosition.json'
+    header = get_code_token(url='https://easy.lagou.com/position/my_online_positions.htm?pageNo=1')
+    data = {'positionId': positionId}
+    return form_post(url=url, headers=header, data=data, remark='下线职位')
+
+
+def www_redirect_easy():
+    url = 'https://easy.lagou.com/dashboard/index.htm?from=c_index'
+    header = get_header(url='https://www.lagou.com/')
+    return get_requests(url=url, headers=header, remark='从主站跳转到企业版页')

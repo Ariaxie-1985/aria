@@ -31,7 +31,6 @@ def test_offline_position():
         positions_offline(id, userToken=userToken, H9=True)
 
 
-# @pytest.mark.parametrize("accountName,password", [("19910626899", "000000")])
 def test_publish_position():
     r = publish_position(userToken)
     assert_equal(1, r['state'], "校验发布职位成功")
@@ -42,18 +41,6 @@ def test_publish_position():
         positionId = 0
 
 
-# @pytest.mark.skip(reason="无需获取在线职位id")
-# def test_get_online_positions():
-#     r = get_online_positions(userToken, H9=True)
-#     global positionId
-#     try:
-#         positionId = r['content']['positions']['result'][random.randint(0, 5)]['outerPositionId']
-#     except:
-#         positionId = r['content']['positions']['result'][0]['outerPositionId']
-#     assert_equal(1, r['state'], "校验获取在线职位成功！")
-
-
-# @pytest.mark.parametrize("accountName,password", [("0085220181205", "0085220181205")])
 @pytest.mark.parametrize("accountName,password", [("0085220711424", "123456")])
 def test_password_login(accountName, password):
     r = password_login(accountName, password)

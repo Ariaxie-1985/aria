@@ -2,12 +2,11 @@
 # @Author: Xiawang
 import json
 import re
-import time
-
 from bs4 import BeautifulSoup
-
 from api_script.home.lagou_plus import get_contract_No, close_contract
-from utils.util import get_code_token, form_post, login, get_requests, get_header, login_home, login_home_code
+from utils.util import get_code_token, form_post, login, get_requests, get_header, login_home, login_home_code, \
+    login_password
+from utils.util import get_code_token, form_post, login, json_post
 
 
 # 注册B端
@@ -39,7 +38,7 @@ def saveCompany(companyShortName, industryField="电商", financeStage='未融�
     step2_url = 'https://hr.lagou.com/corpCenter/openservice/step2.html'
     saveCompany_url = "https://hr.lagou.com/corpCenter/openservice/saveCompany.json"
     if stages is None:
-        saveCompany_data = {"logo": "i/audio1/M00/01/C5/CgHIk1wQzAuAZ5-EAAmU9-3HjA4414.JPG",
+        saveCompany_data = {"logo": "i/image2/M01/B0/0F/CgotOV3mDn6AQdeXAABc2chZae0419.png",
                             "companyShortName": companyShortName,
                             "industryField": industryField, "companySize": "150-500人", "financeStage": financeStage}
     else:
@@ -65,6 +64,16 @@ def submit(updateCompanyShortName):
     return form_post(url=submit_url, data=submit_data, headers=submit_header, remark=remark)
 
 
+# 新B端提交招聘者审核
+def submit_new():
+    submit_url = "https://hr.lagou.com/corpCenter/auth/person/idcard/submit.json"
+    submit_data = {"imgUrl": "i/image2/M01/B0/0F/CgotOV3mDn6AQdeXAABc2chZae0419.png"}
+    step2_url = 'https://hr.lagou.com/corpCenter/openservice/step2.html'
+    submit_header = get_code_token(step2_url)
+    remark = "验证B端提交招聘者审核是否成功"
+    return json_post(url=submit_url, data=submit_data, headers=submit_header, remark=remark)
+
+
 # 加入B端的公司
 def add_saveCompany():
     step2_url = 'https://hr.lagou.com/corpCenter/openservice/step2.html'
@@ -88,6 +97,16 @@ def saveHR_process(phone, countryCode, companyShortName, companyFullName, userNa
 
 
 def add_people_into_company(phone, countryCode, companyFullName, userName, resumeReceiveEmail, userPosition='HR'):
+    r1, r2, r3, r4 = {'state': 0}, {'state': 0}, {'state': 0}, {'state': 0}
+    r1 = b_register(phone, countryCode)
+    if r1['state'] == 1:
+        r2 = saveHR(companyFullName, userName, resumeReceiveEmail, userPosition)
+        r3 = add_saveCompany()
+        r4 = submit(companyFullName)
+    return r1, r2, r3, r4
+
+
+def user_join_exist_company(countryCode, phone, companyFullName, userName, resumeReceiveEmail, userPosition='HR'):
     r1, r2, r3, r4 = {'state': 0}, {'state': 0}, {'state': 0}, {'state': 0}
     r1 = b_register(phone, countryCode)
     if r1['state'] == 1:
@@ -139,7 +158,16 @@ def get_financeStage(financeStage):
     return financeStage, stages
 
 
-def get_b_userId():
+def get_b_person_userId():
+    url = 'https://www.lagou.com/'
+    header = get_header(url='https://hr.lagou.com/corpCenter/auth/person/status.html')
+    r = get_requests(url=url, headers=header, remark='获取提交招聘者认证的用户id').text
+    soup = BeautifulSoup(r, "html.parser")
+    userId = soup.find(id="userid")['value']
+    return userId
+
+
+def get_b_index_Id():
     url = 'https://easy.lagou.com/bstatus/auth/index.htm?verifyTypeList=enterprise'
     header = get_header(url='https://hr.lagou.com/corpCenter/auth/person/status.html')
     r = get_requests(url=url, headers=header, remark='获取提交招聘者认证的用户id').text
@@ -155,8 +183,8 @@ def remove_member(verity_userId):
     header = get_code_token(url='https://easy.lagou.com/settings/channel/my_channels.htm')
     r = get_requests(url=url, headers=header, remark="核对招聘者信息").json()
     userId = r['content']['data']['members']['result'][0]['userId']
-    if verity_userId == userId:
-        url = 'https://easy.lagou.com/member/removeMember.json?hasRecruitmentService=true&ignoreOfflinePosition=true'
+    if int(verity_userId) == userId:
+        url = 'https://easy.lagou.com/member/removeMember.json?hasRecruitmentService=true'
         r = get_requests(url=url, headers=header, remark="解除招聘者信息").json()
         if r['state'] == 1:
             return True
@@ -164,7 +192,7 @@ def remove_member(verity_userId):
 
 
 def close_trial_package(lg_CompanyId):
-    login_home_code('00853', 22222222)
+    login_password('betty@lagou.com', '00f453dfec0f2806db5cfabe3ea94a35')
     contractNo = get_contract_No(lg_CompanyId)
     close_result = close_contract(contractNo=contractNo)
     return close_result
@@ -186,5 +214,3 @@ if __name__ == '__main__':
         close_trial_package(96109603)
         login('00852', '20020026')
         print(remove_member(100024844))
-
-
