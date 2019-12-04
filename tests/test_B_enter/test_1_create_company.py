@@ -5,9 +5,8 @@ from api_script.jianzhao_web.b_basic.company import jump_html
 from api_script.jianzhao_web.b_basic.toB_saveHR_1 import saveHR, saveCompany, \
     submit_new
 from api_script.jianzhao_web.b_basic.b_upload import upload_permit
-from api_script.jianzhao_web.company_new.users import user_register_lagou
 from api_script.neirong_app.account import upate_user_password
-from utils.util import assert_equal, pc_send_register_verifyCode, verify_code_message
+from utils.util import assert_equal, pc_send_register_verifyCode, verify_code_message, user_register_lagou
 
 
 def test_register_admin_user(get_countryCode_phone_admin_user):
