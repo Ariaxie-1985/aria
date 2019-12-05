@@ -69,8 +69,9 @@ def get_fail_detail_result(soup):
         try:
             detail_log = \
                 re.findall(
-                    r"------------------------------ Captured log call -------------------------------util.py(.*)",
-                    captured_log)[0][40:]
+                    r"------------------------------ Captured log call -------------------------------(.*)",
+                    captured_log)[0]
+            detail_log = '该接口URL' + re.findall('该接口URL(.*)', detail_log, re.S)[0]
         except IndexError:
             detail_log = '具体详情,请查看测试报告'
         test_case = {test_name: {'error_type': error_type, 'log': detail_log}}
@@ -118,6 +119,6 @@ def analysis_html_report(report_path, type):
 
 if __name__ == '__main__':
     r = analysis_html_report(
-        '/Users/wang/Desktop/lg-project/lg_api_script/backend/templates/mainprocess_report.html',
+        '/Users/wang/Desktop/lg-project/lg_api_script/backend/templates/mainprocess_report33.html',
         3)
     print(r)
