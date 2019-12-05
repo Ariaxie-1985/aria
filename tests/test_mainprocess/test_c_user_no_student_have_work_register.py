@@ -86,27 +86,6 @@ def test_get_info():
     assert_equal(1, r['state'], '获取C端用户信息')
 
 
-'''
-countryCode_change, phone_change = "00852", str(20000000 + int(str(time.time()).split('.')[1]))
-
-
-def test_change_phone_send_verify_code():
-    r = send_verify_code(countryCode_change, phone_change, "RESUME_CHANGE_BIND_PHONE")
-    assert_equal(1, r['state'], '校验发送验证码成功')
-
-
-def test_update_phone_get_verify_code():
-    global verify_code
-    verify_code = verify_code_message(countryCode_change, phone_change)
-    assert_equal(True, bool(verify_code), "校验获取验证码成功")
-
-
-def test_change_phone():
-    r = bing_or_change_phone(userToken, countryCode_change, phone_change, verify_code)
-    assert_equal(1, r['state'], "校验绑定新手机号成功！")
-'''
-
-
 def test_get_detail():
     r = get_detail(userToken)
     assert_equal(1, r['state'], "校验获取简历详情页面成功")
@@ -153,11 +132,13 @@ def test_batchCancel():
     r = batchCancel(userToken=userToken, userIds=userId)
     assert_equal(1, r['state'], "用户注册非学生但有工作经验的注销账号成功")
 
+
 def test_record():
     record_test_data(type=1, userId=userId)
 
+
 def test_login_home():
-    # 线上home后台的用户账号和密码, 勿动
+    # 线上home后台的用户号和密码, 勿动
     r = login_password('betty@lagou.com', '00f453dfec0f2806db5cfabe3ea94a35')
     assert_equal(1, r['state'], '校验登录home成功！')
 
