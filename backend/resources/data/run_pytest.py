@@ -160,7 +160,8 @@ class run_Pytest(Resource):
         os.chdir(project_path)
         state = 1
         info = None
-        subprocess.call(self.Business_module[args['module']].format(project_path, args['module']), shell=True)
+        subprocess.call(self.Business_module[args['module']].format(project_path, args['module']), shell=True,
+                        timeout=300)
         result = analysis_html_report("{}/backend/templates/{}_report.html".format(project_path, args['module']), 3)
         if bool(result['info']['result']['fail_result']):
             state = 0
