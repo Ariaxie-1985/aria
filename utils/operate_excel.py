@@ -4,7 +4,7 @@
 
 import pandas as pd
 from pandas import DataFrame
-
+pd.set_option('mode.chained_assignment', None)
 
 def update_excel(file_path, companyId, contractNo):
     data = pd.read_excel(file_path,sheet_name='import')
