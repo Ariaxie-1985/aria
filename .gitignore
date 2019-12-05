@@ -19,4 +19,4 @@ ApkChannelBuildTool2/config/
 ApkChannelBuildTool2/other_jiaguapk/
 ApkChannelBuildTool2/common_jiaguapk/
 backend/templates/
-tests/testdata/
+tests/testdata/*.xls
