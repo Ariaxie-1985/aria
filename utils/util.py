@@ -490,6 +490,9 @@ def judging_other_abnormal_conditions(status_code, url, remark):
     elif status_code == 404:
         logging.error(msg="该接口URL {} , 备注 {} 报错404, 请检查接口地址是否正确及业务服务是否可用\n".format(url, remark))
         return {'content': '报错404, 接口地址不可用', 'url': url, 'remark': remark}
+    elif status_code == 401:
+        logging.error(msg="该接口URL {} , 备注 {} 报错401 请检查接口的用户认证是否有效\n".format(url, remark))
+        return {'content': '报错401, 接口的用户认证失效', 'url': url, 'remark': remark}
     elif status_code == 502:
         logging.error(msg="该接口URL {} , 备注 {} 报错502, 请检查业务服务是否可用\n".format(url, remark))
         return {'content': '报错502, 业务服务不可用', 'url': url, 'remark': remark}
