@@ -505,7 +505,7 @@ f = 0
 
 def verify_code_message(countryCode, phone, flag_num=0):
     if countryCode == '0086':
-        countryCode = 0
+        countryCode = ''
     url = 'http://msg.lagou.com/msc/message/page'
     yesterday = datetime.date.today() - datetime.timedelta(days=1)
     data = {"commId": countryCode + phone, "startTime": str(yesterday) + "T16:00:00.000Z",
@@ -545,7 +545,7 @@ def get_verify_code(id, createTime):
 
 def get_verify_code_message_len(countryCode, phone):
     if countryCode == '0086':
-        countryCode = 0
+        countryCode = ''
     url = 'http://msg.lagou.com/msc/message/page'
     yesterday = datetime.date.today() - datetime.timedelta(days=1)
     data = {"commId": countryCode + phone, "startTime": str(yesterday) + "T16:00:00.000Z",
@@ -553,10 +553,11 @@ def get_verify_code_message_len(countryCode, phone):
     header = {"X-L-REQ-HEADER": '{deviceType:1}',
               "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36"}
     r = requests.post(url=url, json=data, headers=header, verify=False).json()
-    if r['content']['totalCount'] >= 2:
-        return 1
-    else:
-        return 0
+    return r['content']['totalCount']
+    # if r['content']['totalCount'] >= 1:
+    #     return 1
+    # else:
+    #     return 0
 
 
 def app_header_999(userToken=None, DA=True):
@@ -712,9 +713,9 @@ def user_register_lagou(countryCode, phone, verify_code):
 if __name__ == '__main__':
     # r = get_verify_code_message_len('00852', '20180917')
     # r = verify_code_message('00852', '20180917')
-    # r1 = get_verify_code_message_len('00852', '20180917')
-    # print(r)
+    r1 = get_verify_code_message_len('00852', '20180917')
+    print(r1)
     # print(r1l)
     # login_password('betty@lagou.com', '00f453dfec0f2806db5cfabe3ea94a35')
-    state_code = pc_send_register_verifyCode('00852', 20030105)
+    # state_code = pc_send_register_verifyCode('00852', 20030105)
     # print(verify_code_message('00852', '20030105', flag_num=1))
