@@ -87,9 +87,9 @@ def form_post(url, remark, data=None, files=None, headers={}):
     try:
         headers = {**header, **headers}
         response = session.post(url=url, data=data, files=files, headers=headers, verify=False, timeout=60)
-        response_json = response.json()
         status_code = response.status_code
         if 200 <= status_code <= 400:
+            response_json = response.json()
             if response_json.get('state', 0) == 1 or response_json.get('success', False):
                 logging.info(msg='该接口URL {} ,备注 {} 执行成功\n'.format(url, remark))
                 return response_json
@@ -127,9 +127,9 @@ def json_post(url, remark, data=None, headers={}, app=False, verifystate=True):
         headers = {**header, **headers}
     try:
         response = session.post(url=url, json=data, headers=headers, verify=False, timeout=60)
-        response_json = response.json()
         status_code = response.status_code
         if 200 <= status_code <= 400:
+            response_json = response.json()
             if response_json.get('state', 0) == 1 or response_json.get('success', False):
                 logging.info(msg='该接口URL {} ,备注 {} 执行成功\n'.format(url, remark))
                 return response_json
@@ -364,9 +364,9 @@ def json_put(url, remark, data=None, headers={}):
     try:
         headers = {**headers, **header}
         response = session.put(url=url, json=data, headers=headers, verify=False, timeout=3)
-        response_json = response.json()
         status_code = response.status_code
         if 200 <= status_code <= 400:
+            response_json = response.json()
             if response_json.get('state', 0) == 1 or response_json.get('success', False):
                 logging.info(msg='该接口URL {} ,备注 {} 执行成功\n'.format(url, remark))
                 return response_json
@@ -399,9 +399,9 @@ def put_requests(url, headers={}, remark=None):
     global count
     try:
         response = session.put(url=url, headers=headers, verify=False, timeout=3).json()
-        response_json = response.json()
         status_code = response.status_code
         if 200 <= status_code <= 400:
+            response_json = response.json()
             if response_json.get('state', 0) == 1 or response_json.get('success', False):
                 logging.info(msg='该接口URL {} ,备注 {} 执行成功\n'.format(url, remark))
                 return response_json
@@ -434,9 +434,9 @@ def delete_requests(url, headers={}, remark=None):
     global count
     try:
         response = session.delete(url=url, headers=headers, verify=False, timeout=3)
-        response_json = response.json()
         status_code = response.status_code
         if 200 <= status_code <= 400:
+            response_json = response.json()
             if response_json.get('state', 0) == 1 or response_json.get('success', False):
                 logging.info(msg='该接口URL {} ,备注 {} 执行成功\n'.format(url, remark))
                 return response_json

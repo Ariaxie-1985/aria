@@ -4,12 +4,12 @@
 import os
 
 from utils.operate_excel import update_excel
-from utils.util import get_header, form_post
+from utils.util import get_header, form_post, login_password
 
 
 def import_linkManInfo(companyId, contractNo):
     referer_url = 'https://home.lagou.com/#/h_crm/plus/excelImport'
-    url = 'https://home.lagou.com/crm/excelImportController/linkManInfo.json'
+    url = 'http://home.lagou.com/crm/excelImportController/linkManInfo.json'
     header = get_header(referer_url)
 
     project_path = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
@@ -35,4 +35,6 @@ def import_contacts(companyId, contractNo):
     return form_post(url=url, files=files, headers=header, remark=remark)
 
 
-
+if __name__ == '__main__':
+    login_password('betty@lagou.com', '00f453dfec0f2806db5cfabe3ea94a35')
+    import_linkManInfo(999999999,999999999)
