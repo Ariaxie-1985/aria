@@ -37,4 +37,4 @@ def import_contacts(companyId, contractNo):
 
 if __name__ == '__main__':
     login_password('betty@lagou.com', '00f453dfec0f2806db5cfabe3ea94a35')
-    import_linkManInfo(999999999,999999999)
+    import_linkManInfo(999999998,999999998)

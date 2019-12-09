@@ -380,8 +380,8 @@ def json_put(url, remark, data=None, headers={}):
                     return response_json
         else:
             return judging_other_abnormal_conditions(status_code, url, remark)
-    except RequestException:
-        logging.error(msg="该接口URL {} , 备注 {} 请求异常, 请检查接口服务并重试一次\n".format(url, remark))
+    except RequestException as e:
+        logging.error(msg="该接口URL {} , 备注 {} 请求异常, 请检查接口服务并重试一次\n该异常为{}".format(url, remark, e))
         return {'content': '请求执行错误', 'url': url, 'remark': remark}
     except JSONDecodeError:
         logging.error(msg="该接口URL {} ,备注 {} 报错json解码错误, 请检查接口的响应是否正确的返回并解析\n".format(url, remark))
