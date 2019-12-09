@@ -102,7 +102,12 @@ def form_post(url, remark, data=None, files=None, headers={}):
                     logging.error(msg='该接口URL {} , 备注: {},  响应内容: {} 请求成功, 但断言错误\n'.format(url, remark, response_json))
                     return response_json
         else:
-            return judging_other_abnormal_conditions(status_code, url, remark)
+            if count < 1:
+                count = count + 1
+                logging.error(msg='该接口URL {} , 备注: {} , 响应内容: {} 断言失败, 在重试\n'.format(url, remark, response.text))
+                return form_post(url=url, headers=headers, remark=remark, data=data)
+            else:
+                return judging_other_abnormal_conditions(status_code, url, remark)
     except RequestException:
         logging.error(msg="该接口URL {} , 备注 {} 请求异常, 请检查接口服务并重试一次\n".format(url, remark))
         return {'content': '请求异常(requests捕获的异常)', 'url': url, 'remark': remark}
@@ -142,7 +147,12 @@ def json_post(url, remark, data=None, headers={}, app=False, verifystate=True):
                     logging.error(msg='该接口URL {} , 备注 {}, 响应内容: {} 请求成功, 但断言错误\n'.format(url, remark, response_json))
                     return response_json
         else:
-            return judging_other_abnormal_conditions(status_code, url, remark)
+            if count < 1:
+                count = count + 1
+                logging.error(msg='该接口URL {} , 备注: {} , 响应内容: {} 断言失败, 在重试\n'.format(url, remark, response.text))
+                return json_post(url=url, headers=headers, remark=remark, data=data)
+            else:
+                return judging_other_abnormal_conditions(status_code, url, remark)
     except RequestException as e:
         print(e)
         logging.error(msg="该接口URL {} , 备注 {} 请求异常, 请检查接口服务并重试一次\n".format(url, remark))
@@ -185,7 +195,13 @@ def get_requests(url, data=None, headers={}, remark=None):
             else:
                 return response
         else:
-            return judging_other_abnormal_conditions(status_code, url, remark)
+            if count < 1:
+                count += 1
+                logging.error(
+                    msg='该接口URL {} , 备注: {} , 响应内容: {} 断言失败, 在重试\n'.format(url, remark, response.text))
+                return get_requests(url, data=data, headers=headers, remark=remark)
+            else:
+                return judging_other_abnormal_conditions(status_code, url, remark)
     except RequestException:
         logging.error(msg="该接口URL {} , 备注 {} 请求异常, 请检查接口服务并重试一次\n".format(url, remark))
         return {'content': '请求执行错误', 'url': url, 'remark': remark}
@@ -379,7 +395,12 @@ def json_put(url, remark, data=None, headers={}):
                     logging.error(msg='该接口URL {} , 备注 {}, 响应内容: {} 请求成功, 但断言错误\n'.format(url, remark, response_json))
                     return response_json
         else:
-            return judging_other_abnormal_conditions(status_code, url, remark)
+            if count < 1:
+                count = count + 1
+                logging.error(msg='该接口URL {} , 备注: {} , 响应内容: {} 断言失败, 在重试\n'.format(url, remark, response.text))
+                return json_put(url=url, headers=headers, remark=remark, data=data)
+            else:
+                return judging_other_abnormal_conditions(status_code, url, remark)
     except RequestException as e:
         logging.error(msg="该接口URL {} , 备注 {} 请求异常, 请检查接口服务并重试一次\n该异常为{}".format(url, remark, e))
         return {'content': '请求执行错误', 'url': url, 'remark': remark}
@@ -414,7 +435,12 @@ def put_requests(url, headers={}, remark=None):
                     logging.error(msg='该接口URL {} , 备注 {}, 响应内容: {} 请求成功, 但断言错误\n'.format(url, remark, response_json))
                     return response_json
         else:
-            return judging_other_abnormal_conditions(status_code, url, remark)
+            if count < 1:
+                count = count + 1
+                logging.error(msg='该接口URL {} , 备注: {} , 响应内容: {} 断言失败, 在重试\n'.format(url, remark, response.text))
+                return put_requests(url=url, headers=headers, remark=remark)
+            else:
+                return judging_other_abnormal_conditions(status_code, url, remark)
     except RequestException:
         logging.error(msg="该接口URL {} , 备注 {} 请求异常, 请检查接口服务并重试一次\n".format(url, remark))
         return {'content': '请求执行错误', 'url': url, 'remark': remark}
@@ -449,7 +475,12 @@ def delete_requests(url, headers={}, remark=None):
                     logging.error(msg='该接口URL {} , 备注 {}, 响应内容: {} 请求成功, 但断言错误\n'.format(url, remark, response_json))
                     return response_json
         else:
-            return judging_other_abnormal_conditions(status_code, url, remark)
+            if count < 1:
+                count = count + 1
+                logging.error(msg='该接口URL {} , 备注: {} , 响应内容: {} 断言失败, 在重试\n'.format(url, remark, response.text))
+                return delete_requests(url=url, headers=headers, remark=remark)
+            else:
+                return judging_other_abnormal_conditions(status_code, url, remark)
     except RequestException:
         logging.error(msg="该接口URL {} , 备注 {} 请求异常, 请检查接口服务并重试一次\n".format(url, remark))
         return {'content': '请求执行错误', 'url': url, 'remark': remark}
