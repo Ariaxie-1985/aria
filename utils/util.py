@@ -741,6 +741,16 @@ def user_register_lagou(countryCode, phone, verify_code):
     return form_post(url=register_url, data=register_data, headers=register_header, remark=remark)
 
 
+def request_retry(count, request_func, judging_func=None, response_text=None):
+    if count < 1:
+        count += 1
+        return request_func
+    elif not response_text is None:
+        return response_text
+    else:
+        judging_func
+
+
 if __name__ == '__main__':
     # r = get_verify_code_message_len('00852', '20180917')
     # r = verify_code_message('00852', '20180917')

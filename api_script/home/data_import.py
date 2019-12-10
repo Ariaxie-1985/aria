@@ -11,13 +11,11 @@ def import_linkManInfo(companyId, contractNo):
     referer_url = 'https://home.lagou.com/#/h_crm/plus/excelImport'
     url = 'http://home.lagou.com/crm/excelImportController/linkManInfo.json'
     header = get_header(referer_url)
-
     project_path = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
     file_Path = '{}/tests/testdata/import1.xls'.format(project_path)
     update_excel(file_Path, companyId, contractNo)
     files = {'file': open(file_Path, 'rb')}
-
-    remark = 'home后台-拉勾加-数据导入-导入公司联系人信息'
+    remark = 'home后台-拉勾加-数据导入-导入公司联系人信息, 其header:{}'.format(header)
     return form_post(url=url, files=files, headers=header, remark=remark)
 
 
@@ -37,4 +35,4 @@ def import_contacts(companyId, contractNo):
 
 if __name__ == '__main__':
     login_password('betty@lagou.com', '00f453dfec0f2806db5cfabe3ea94a35')
-    import_linkManInfo(999999998,999999998)
+    import_linkManInfo(999999998, 999999998)
