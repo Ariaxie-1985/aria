@@ -379,7 +379,7 @@ def json_put(url, remark, data=None, headers={}):
     global count
     try:
         headers = {**headers, **header}
-        response = session.put(url=url, json=data, headers=headers, verify=False, timeout=3)
+        response = session.put(url=url, json=data, headers=headers, verify=False, timeout=60)
         status_code = response.status_code
         if 200 <= status_code <= 400:
             response_json = response.json()
@@ -419,7 +419,7 @@ def put_requests(url, headers={}, remark=None):
     """
     global count
     try:
-        response = session.put(url=url, headers=headers, verify=False, timeout=3).json()
+        response = session.put(url=url, headers=headers, verify=False, timeout=60).json()
         status_code = response.status_code
         if 200 <= status_code <= 400:
             response_json = response.json()
@@ -459,7 +459,7 @@ def delete_requests(url, headers={}, remark=None):
     """
     global count
     try:
-        response = session.delete(url=url, headers=headers, verify=False, timeout=3)
+        response = session.delete(url=url, headers=headers, verify=False, timeout=60)
         status_code = response.status_code
         if 200 <= status_code <= 400:
             response_json = response.json()
