@@ -2,9 +2,9 @@
 # @Time  : 2019-09-24 14:41
 # @Author: Xiawang
 # Description:
-import pytest
-import random
+import logging
 
+import pytest
 from api_script.entry.account.passport import password_login
 from api_script.entry.buser.hrinfo import get_hr_info
 from api_script.entry.deliver.deliver import deliver_check, get_resume_info, deliver_create
@@ -14,11 +14,15 @@ from utils.util import assert_equal
 
 r = password_login("19910626899", "000000")
 assert_equal(1, r['state'], '校验登录成功、获取userToken成功！')
-global userToken, positions_result
-userToken = r['content']['userToken']
-positions_result = get_online_positions(userToken=userToken, H9=True)
-flag = positions_result['content']['onlinePositionNum']
-offline_mark = pytest.mark.skipif(flag < 20, reason="发布职位权益足够，无需下线职位")
+try:
+    global userToken, positions_result
+    userToken = r['content']['userToken']
+    positions_result = get_online_positions(userToken=userToken, H9=True)
+    flag = positions_result['content']['onlinePositionNum']
+    offline_mark = pytest.mark.skipif(flag < 20, reason="发布职位权益足够，无需下线职位")
+except Exception as e:
+    logging.error(msg="获取在线职位报异常:{},用户\n".format(e))
+    offline_mark = pytest.mark.skip(reason="发布职位权益足够，无需下线职位")
 
 
 @offline_mark
