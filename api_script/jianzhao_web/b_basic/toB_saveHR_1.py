@@ -4,6 +4,7 @@ import json
 import re
 from bs4 import BeautifulSoup
 from api_script.home.lagou_plus import get_contract_No, close_contract
+from api_script.jianzhao_web.b_basic.b_upload import upload_permit
 from utils.util import get_code_token, form_post, login, get_requests, get_header, login_home, login_home_code, \
     login_password
 from utils.util import get_code_token, form_post, login, json_post
@@ -115,13 +116,15 @@ def user_join_exist_company(countryCode, phone, companyFullName, userName, resum
 
 
 def creatCompany_process(phone, countryCode, companyShortName, companyFullName, userName,
-                         resumeReceiveEmail, userPosition, updateCompanyShortName, industryField, financeStage):
+                         resumeReceiveEmail, userPosition, industryField, financeStage):
     r1, r2, r3, r4 = None, None, None, None
     r1 = login(countryCode, phone)
     if r1['state'] == 1:
         r2 = saveHR(companyFullName, userName, resumeReceiveEmail, userPosition)
         r3 = saveCompany(companyShortName, industryField, financeStage)
-        r4 = submit(updateCompanyShortName)
+        upload_p = upload_permit()
+        if upload_p['state'] == 1:
+            r4 = submit_new()
     return r1, r2, r3, r4
 
 

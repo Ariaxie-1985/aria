@@ -112,7 +112,6 @@ class B_Basic_Process(Resource):
         parser.add_argument('resumeReceiveEmail', type=str, default=fake.email(), help="请输入接收简历的邮箱地址")
         parser.add_argument('companyShortName', type=str, default=company_name, help="请输入注册公司的简称,要唯一")
         parser.add_argument('companyFullName', type=str, default=company_name, help="请输入注册公司的全称,要唯一")
-        parser.add_argument('updateCompanyShortName', type=str, default=company_name, help="请输入注册公司的别称")
         parser.add_argument('checkedindustryField', help="请输入注册公司的行业标签")
         parser.add_argument('financeStage', help="请输入发展阶段")
         # 为构造校招职位增加的字段,之后补充至平台上
@@ -142,7 +141,6 @@ class B_Basic_Process(Resource):
                                               args['userName'],
                                               args['resumeReceiveEmail'],
                                               args['userPosition'],
-                                              args['updateCompanyShortName'],
                                               industryField,
                                               args['financeStage'])
         state = 0

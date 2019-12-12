@@ -2,7 +2,7 @@
 # @Time  : 2019-09-03 14:47
 # @Author: Xiawang
 # Description:
-from common.new_models import User
+from backend.common.new_models import User
 
 
 class ResponseStructure:
