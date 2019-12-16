@@ -29,12 +29,12 @@ def test_switch_city(city):
 
 
 @pytest.mark.parametrize("keyword,city,salaryLower,salaryUpper",
-                         [("测试", "上海", 20000, 35000), ("Java", "北京", 15000, 25000)])
+                         [("测试", "上海", 20000, 35000), ("JAVA", "北京", 15000, 25000)])
 def test_search_positions(keyword, city, salaryLower, salaryUpper):
     r = search_positions(userToken, keyword=keyword, city=city, salaryLower=salaryLower, salaryUpper=salaryUpper)
-    for position_info in r['content']['positionCardVos']:
-        continue
-        assert_equal(True, bool(keyword.upper() in position_info['positionName'].upper()),
+    positionName_list = [position_info['positionName'] for position_info in r['content']['positionCardVos']]
+    for positionName in positionName_list:
+        assert_equal(True, bool(keyword in positionName.upper()),
                      "校验搜索职位{}成功！".format(keyword))
         break
 
