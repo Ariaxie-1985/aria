@@ -101,7 +101,10 @@ def add_people_into_company(phone, countryCode, companyFullName, userName, resum
     if r1['state'] == 1:
         r2 = saveHR(companyFullName, userName, resumeReceiveEmail, userPosition)
         r3 = add_saveCompany()
-        r4 = submit(companyFullName)
+        # r4 = submit(companyFullName)
+        upload_p = upload_permit()
+        if upload_p['state'] == 1:
+            r4 = submit_new()
     return r1, r2, r3, r4
 
 

@@ -18,17 +18,17 @@ from backend.resources.data.channel_build import channel_build
 from backend.resources.data.company_user_resume import getInfo
 from backend.resources.data.contract_data_import import Contract_Data_Import
 from backend.resources.data.download import download
-# from backend.resources.data.get_userid import getUserId
+from backend.resources.data.get_userid import getUserId
 from backend.resources.data.get_mainprocess_report import GetReport
 from backend.resources.data.hello import HelloWorld
 from backend.resources.data.new_lagouPlus_open_product import openProduct
-# from backend.resources.data.operation_resume import getResume
+from backend.resources.data.operation_resume import getResume
 from backend.resources.data.product_template import productTemplate
 from backend.resources.data.registe import registe
 from backend.resources.data.run_pytest import run_Pytest
 from backend.resources.data.submit_resume_to_position import submit_Resume_To_Position
 from backend.resources.data.upload import upload
-# from backend.resources.data.work_address import work_address
+from backend.resources.data.work_address import work_address
 
 api = Api(data)
 
