@@ -2,6 +2,7 @@
 # @Time  : 2019-09-20 17:25
 # @Author: Xiawang
 # Description:
+import logging
 import time
 
 import pytest
@@ -46,6 +47,7 @@ def test_register_by_phone():
 
 def test_get_login_by_token():
     r = get_login_by_token(userToken)
+    logging.info(msg='userToken {} \n'.format(userToken))
     assert_equal(1, r['state'], '校验token登录成功')
 
 

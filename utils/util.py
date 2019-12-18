@@ -175,8 +175,8 @@ def get_requests(url, data=None, headers={}, remark=None):
     try:
         response = session.get(url=url, params=data, headers=headers, verify=False, timeout=60)
         status_code = response.status_code
-        if 200 <= status_code <= 400:
-            if "application/json" in response.headers['content-type']:
+        if 200 <= status_code <= 302:
+            try:
                 response_json = response.json()
                 if 200 <= status_code <= 400:
                     if response_json.get('state', 0) == 1 or response_json.get('success', False):
@@ -184,15 +184,17 @@ def get_requests(url, data=None, headers={}, remark=None):
                         return response
                     else:
                         if count < 1:
-                            count += 1
+                            count = count + 1
                             logging.error(
                                 msg='该接口URL {} , 备注: {} , 响应内容: {} 断言失败, 在重试\n'.format(url, remark, response_json))
-                            return get_requests(url, data=data, headers=headers, remark=remark)
+                            return get_requests(url=url, data=data, headers=headers, remark=remark)
                         else:
                             logging.error(
                                 msg='该接口URL {} , 备注 {}, 响应内容: {} 请求成功, 但断言错误\n'.format(url, remark, response_json))
                             return response
-            else:
+                else:
+                    return response
+            except JSONDecodeError:
                 return response
         else:
             if count < 1:
