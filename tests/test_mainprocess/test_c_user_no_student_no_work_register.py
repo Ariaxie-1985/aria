@@ -22,6 +22,7 @@ time.sleep(1)
 def test_send_verify_code(get_countryCode_phone):
     global countryCode, phone
     countryCode, phone = get_countryCode_phone[0], get_countryCode_phone[1]
+    logging.info(msg='手机号 {} \n'.format(countryCode + phone))
     r = send_verify_code(countryCode, phone, "PASSPORT_REGISTER")
     assert_equal(1, r['state'], '校验发送验证码成功', "校验发送验证码失败")
 

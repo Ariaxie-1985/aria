@@ -2,9 +2,8 @@
 # @Time  : 2019-03-20 17:58
 # @Author: Xiawang
 import os
-
 from utils.operate_excel import update_excel
-from utils.util import get_header, form_post, login_password
+from utils.util import get_header, form_post
 
 
 def import_linkManInfo(companyId, contractNo):
@@ -33,6 +32,3 @@ def import_contacts(companyId, contractNo):
     return form_post(url=url, files=files, headers=header, remark=remark)
 
 
-if __name__ == '__main__':
-    login_password('betty@lagou.com', '00f453dfec0f2806db5cfabe3ea94a35')
-    import_linkManInfo(999999998, 999999998)

@@ -44,7 +44,12 @@ def test_login_home():
 def test_buy_paid_package():
     contractNo = 'lagou-autotest-{}-{}'.format(str(datetime.date.today()), str(random.randint(1, 99)))
     r1 = import_linkManInfo(admin_lg_company_id, contractNo)
-    assert_equal(True, r1['success'], "导入公司联系人信息成功！")
+    assert_result = assert_equal(True, r1['success'], "导入公司联系人信息成功！")
+    if assert_result == 0:
+        r = login_password('betty@lagou.com', '00f453dfec0f2806db5cfabe3ea94a35')
+        assert_equal(1, r['state'], '校验登录home成功！')
+        r1 = import_linkManInfo(admin_lg_company_id, contractNo)
+        assert_equal(True, r1['success'], "导入公司联系人信息成功！")
     r2 = import_contacts(admin_lg_company_id, contractNo)
     assert_equal(True, r2['success'], "导入合同信息成功！")
     r3 = open_product(templateId=79, companyId=admin_lg_company_id, contractNo=contractNo, userId=admin_user_id,

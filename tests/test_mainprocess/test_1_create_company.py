@@ -1,3 +1,4 @@
+import logging
 import time
 import pytest
 
@@ -13,6 +14,7 @@ def test_register_admin_user(get_countryCode_phone_admin_user):
     global countryCode, phone, user_name, verify_code
     countryCode, phone, user_name = get_countryCode_phone_admin_user[0], get_countryCode_phone_admin_user[1], \
                                     get_countryCode_phone_admin_user[2]
+    logging.info(msg='管理员手机号 {} \n'.format(countryCode + phone))
     if pc_send_register_verifyCode(countryCode, phone) == 1:
         verify_code = verify_code_message(countryCode, phone)
         assert_equal(True, bool(verify_code), '获取验证码成功')

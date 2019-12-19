@@ -213,9 +213,10 @@ def get_requests(url, data=None, headers={}, remark=None):
 
 
 # get请求---获取header
-def get_header(url):
+def get_header(url, headers={}):
+    headers = {**header, **headers}
     try:
-        response = session.get(url=url, headers=header, verify=False, timeout=60)
+        response = session.get(url=url, headers=headers, verify=False, timeout=60)
         if response.status_code == 200:
             return response.request.headers
     except RequestException as e:

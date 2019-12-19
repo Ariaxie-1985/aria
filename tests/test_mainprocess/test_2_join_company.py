@@ -1,3 +1,5 @@
+import logging
+
 import pytest
 
 from api_script.jianzhao_web.b_basic.admin_review import admin_review
@@ -14,6 +16,7 @@ def test_register_general_user(get_countryCode_phone_general_user):
     general_countryCode, general_phone, general_user_name = get_countryCode_phone_general_user[0], \
                                                             get_countryCode_phone_general_user[1], \
                                                             get_countryCode_phone_general_user[2]
+    logging.info(msg='普通用户手机号 {} \n'.format(general_countryCode + general_phone))
     if pc_send_register_verifyCode(general_countryCode, general_phone) == 1:
         verify_code = verify_code_message(general_countryCode, general_phone)
         assert_equal(True, bool(verify_code), '获取验证码成功')
