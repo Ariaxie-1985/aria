@@ -43,5 +43,18 @@ def record_test_data(type, **kw):
             f.write('({},{},{}),'.format(kw['userId'], kw['UserCompanyId'], kw['lg_CompanyId']))
 
 
+def record_jsessionid(file_path, jsessionid):
+    with open('{}/tests/testdata/JSESSIONID.txt'.format(file_path), 'w') as f:
+        f.write('{}'.format(jsessionid))
+
+
+def read_jsessionid(file_path):
+    with open('{}/tests/testdata/JSESSIONID.txt'.format(file_path), 'r') as f:
+        jsessionid = f.read()
+    return jsessionid
+
+
 if __name__ == '__main__':
-    record_test_data(1, userId=123124, phone='0085220190909')
+    # record_test_data(1, userId=123124, phone='0085220190909')
+    # print(read_jsessionid())
+    record_jsessionid('fhkjashdfkasjdhkj')

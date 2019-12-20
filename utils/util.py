@@ -74,7 +74,7 @@ def get_code_token_new(url):
         return get_code_token(url=url)
 
 
-def form_post(url, remark, data=None, files=None, headers={}):
+def form_post(url, remark, data=None, files=None, headers={}, allow_redirects=True):
     """
     form表单传参的post请求
     :param url: 请求url
@@ -86,7 +86,8 @@ def form_post(url, remark, data=None, files=None, headers={}):
     global count
     try:
         headers = {**header, **headers}
-        response = session.post(url=url, data=data, files=files, headers=headers, verify=False, timeout=60)
+        response = session.post(url=url, data=data, files=files, headers=headers, verify=False, timeout=60,
+                                allow_redirects=allow_redirects)
         status_code = response.status_code
         if 200 <= status_code <= 400:
             response_json = response.json()
@@ -213,10 +214,10 @@ def get_requests(url, data=None, headers={}, remark=None):
 
 
 # get请求---获取header
-def get_header(url, headers={}):
+def get_header(url, headers={}, allow_redirects=True):
     headers = {**header, **headers}
     try:
-        response = session.get(url=url, headers=headers, verify=False, timeout=60)
+        response = session.get(url=url, headers=headers, verify=False, timeout=60, allow_redirects=allow_redirects)
         if response.status_code == 200:
             return response.request.headers
     except RequestException as e:
