@@ -43,8 +43,10 @@ def import_contacts(companyId, contractNo):
 
 if __name__ == '__main__':
     login_password('betty@lagou.com', '00f453dfec0f2806db5cfabe3ea94a35')
-    import_linkManInfo(117448258, 'lg-auto-test-20191219-10')
-    import_contacts(117448258, 'lg-auto-test-20191219-10')
+    r =import_linkManInfo(117448258, 'lg-auto-test-20191219-12')
+    # import_contacts(117448258, 'lg-auto-test-20191219-11')
+    print(type(r))
+    print(r)
     # project_path = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
     # os.chdir(project_path)
     # print(project_path)

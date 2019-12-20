@@ -44,7 +44,7 @@ def test_login_home():
 def test_buy_paid_package():
     contractNo = 'lagou-autotest-{}-{}'.format(str(datetime.date.today()), str(random.randint(1, 99)))
     r1 = import_linkManInfo(admin_lg_company_id, contractNo)
-    if not r1['success']:
+    if not r1.get('success', True):
         login_password('betty@lagou.com', '00f453dfec0f2806db5cfabe3ea94a35')
         r1 = import_linkManInfo(admin_lg_company_id, contractNo)
         assert_equal(True, r1['success'], "导入公司联系人信息成功！")
