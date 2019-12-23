@@ -226,7 +226,7 @@ def login(countryCode, username):
     login_url = 'https://passport.lagou.com/login/login.json'
     login_data = {'isValidate': 'true', 'username': username, 'phoneVerificationCode': '049281',
                   'countryCode': countryCode, 'challenge': 111}
-    referer_login_html = 'https://www.lagou.com/frontLogin.do'
+    referer_login_html = 'https://passport.lagou.com/login/login.html'
     login_header = get_code_token(referer_login_html)
     remark = str(username) + "在登录拉勾"
     r = form_post(url=login_url, data=login_data, headers=login_header, remark=remark)
@@ -713,9 +713,10 @@ def user_register_lagou(countryCode, phone, verify_code):
 if __name__ == '__main__':
     # r = get_verify_code_message_len('00852', '20180917')
     # r = verify_code_message('00852', '20180917')
-    r1 = get_verify_code_message_len('00852', '20180917')
-    print(r1)
+    # r1 = get_verify_code_message_len('00852', '20180917')
+    # print(r1)
     # print(r1l)
     # login_password('betty@lagou.com', '00f453dfec0f2806db5cfabe3ea94a35')
     # state_code = pc_send_register_verifyCode('00852', 20030105)
     # print(verify_code_message('00852', '20030105', flag_num=1))
+    login('00852','20191220')

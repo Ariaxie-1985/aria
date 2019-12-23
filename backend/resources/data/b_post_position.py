@@ -93,7 +93,7 @@ class B_Post_Position(Resource):
 
         address_id = junge_address(args['workAddress'])
 
-        if args['workAddress'] == '' or not bool(address_id):
+        if args['workAddress'] == '' or (not bool(address_id)):
             return {'state': 400, 'message': '输入的工作地址没存在对应id,请重新输入'}
 
         login_res = login(args['countrycode'], args['username'])
@@ -101,10 +101,9 @@ class B_Post_Position(Resource):
             return {"message": login_res['message']}
         else:
             userId, companyId = get_user_company_id()
-            print(userId, companyId)
             flag = update_user_company_id(address_id, userId, companyId)
             if flag == False:
-                return {'state': 400, 'message': '输入的工作地址没存在对应id,请重新输入'}
+                return {'state': 400, 'message': '工作地址修改不成功,请重新输入'}
 
         result = post_position(sum=args['sum'], positionName=args['positionName'], firstType=args['firstType'],
                                positionType=args['positionType'],
@@ -115,7 +114,8 @@ class B_Post_Position(Resource):
         for i in result:
             if i['state'] == 1:
                 j += 1
-                data["position_name"] = i['content']['data']['onlinehunting_position_name']
+                print(i)
+                data["position_name"] = i['content']['data']['parentPositionInfo']['positionName']
                 data["parentPositionId"] = i['content']['data']['parentPositionInfo']['parentPositionId']
                 data["positionId"] = i['content']['data']['parentPositionInfo']['positionChannelInfoList'][0][
                     'positionId']
@@ -131,3 +131,8 @@ class B_Post_Position(Resource):
 
         return {"state": state, "content": "发布职位" + str(args['sum']) + "个, 其中" + str(j) + "个成功", "data": successlist,
                 "errors": faillist}
+
+
+if __name__ == '__main__':
+    b = B_Post_Position()
+    b.post()

@@ -19,10 +19,14 @@ def get_user_company_id():
 def update_user_company_id(address_id, userId, companyId):
     db, cursor = connect_mds_position()
     db.ping(reconnect=True)
-    res = cursor.execute(
+    cursor.execute(
         "UPDATE t_work_address set company_id = {}, user_id = {} WHERE id = {}".format(companyId, userId,
                                                                                        address_id))
     db.commit()
+    res = cursor.execute(
+        "SELECT * FROM t_work_address WHERE id = {} and company_id = {} and user_id = {}".format(address_id, companyId,
+                                                                                                 userId,
+                                                                                                 ))
     db.close()
     return bool(res)
 
