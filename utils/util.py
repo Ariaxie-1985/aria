@@ -85,7 +85,7 @@ def form_post(url, remark, data=None, files=None, headers={}, allow_redirects=Tr
     """
     global count
     try:
-        headers = {**header, **headers}
+        headers = {**header, **headers, **{'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'}}
         response = session.post(url=url, data=data, files=files, headers=headers, verify=False, timeout=60,
                                 allow_redirects=allow_redirects)
         status_code = response.status_code
@@ -130,7 +130,7 @@ def json_post(url, remark, data=None, headers={}, app=False, verifystate=True):
     if verifystate == False:
         count = 3
     if app == False:
-        headers = {**header, **headers}
+        headers = {**header, **headers, **{'Content-Type': 'application/json;charset=UTF-8'}}
     try:
         response = session.post(url=url, json=data, headers=headers, verify=False, timeout=60)
         status_code = response.status_code
@@ -171,7 +171,7 @@ def get_requests(url, data=None, headers={}, remark=None):
     :param headers: dict, requests header
     :return: object, 响应对象
     """
-    headers = {**header, **headers}
+    headers = {**header, **headers, **{'Content-Type': 'charset=UTF-8'}}
     global count
     try:
         response = session.get(url=url, params=data, headers=headers, verify=False, timeout=60)
@@ -382,7 +382,7 @@ def json_put(url, remark, data=None, headers={}):
     """
     global count
     try:
-        headers = {**headers, **header}
+        headers = {**headers, **header, **{'Content-Type': 'application/json;charset=UTF-8'}}
         response = session.put(url=url, json=data, headers=headers, verify=False, timeout=60)
         status_code = response.status_code
         if 200 <= status_code <= 400:
