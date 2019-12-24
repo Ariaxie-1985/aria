@@ -85,7 +85,11 @@ def form_post(url, remark, data=None, files=None, headers={}, allow_redirects=Tr
     """
     global count
     try:
-        headers = {**header, **headers, **{'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'}}
+        if not data is None:
+            headers = {**header, **headers, **{'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'}}
+        else:
+            headers = {**header, **headers}
+
         response = session.post(url=url, data=data, files=files, headers=headers, verify=False, timeout=60,
                                 allow_redirects=allow_redirects)
         status_code = response.status_code
