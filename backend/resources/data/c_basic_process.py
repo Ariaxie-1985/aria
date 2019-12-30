@@ -113,6 +113,7 @@ class C_Basic_Process(Resource):
                             help="请输入注册C端用户的学历层次, 例如 大专, 本科, 硕士, 博士, 其他")
         parser.add_argument('startDate', type=str, default='2009', help="请输入注册C端用户的在校时间的开始时间")
         parser.add_argument('endDate', type=str, default='2013', help="请输入注册C端用户的在校时间的结束时间")
+        parser.add_argument('isUnifiedEntrance', type=int, default=1, help="教育经历是否统招")
         parser.add_argument('city', type=str, default='北京', help="请输入注册C端用户的求职意向的期望城市")
         parser.add_argument('positionType', type=str, default='全职', choices=('全职', '兼职', '实习'),
                             help="请输入注册C端用户的求职意向的职位类型， 例如 全职, 兼职, 实习")
@@ -140,7 +141,7 @@ class C_Basic_Process(Resource):
               'endDate': args['endDate'], 'city': args['city'], 'positionType': args['positionType'],
               'positionName': args['positionName'], 'positionNameType1': args['positionNameType1'],
               'positionNameType2': args['positionNameType2'],
-              'salarys': args['salarys']}
+              'salarys': args['salarys'],'isUnifiedEntrance': args['isUnifiedEntrance']}
         kw_list = [kw for i in range(phone_sum)]
         c_set = set()
         e_list = []

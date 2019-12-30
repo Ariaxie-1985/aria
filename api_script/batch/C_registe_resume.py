@@ -68,7 +68,7 @@ def registe_c(phone, countryCode, userIdentity, kwargs={}):
         workExperience_url = 'https://www.lagou.com/workExperience/save.json'
         workExperience_header = get_code_token(basicMain_html)
         workExperience_data = {"positionType": "机器学习", "positionType1": "开发|测试|运维类", "positionType2": "人工智能",
-                               "skillLabels": "机器学习",
+                               "skillLabels": "机器学习", "requestSource": 1,
                                "department": "大数据智能中心", "companyIndustry": "电商", "companyName": "拉勾网",
                                "positionName": "机器学习", "startDate": "2012.07",
                                "endDate": "2019.03", "workContent": "<p>哒哒哒哒哒哒多多多多多多多</p>", "isItVisible": 1}
@@ -149,6 +149,7 @@ def create_resume(phone, countryCode, userIdentity, kwargs={}):
         liveCity = kwargs.get('liveCity', '北京')
         joinWorkTime = kwargs.get('joinWorkTime', '2018.07')
         education = kwargs.get('education', '本科')
+        isUnifiedEntrance = kwargs.get('isUnifiedEntrance', 1)  # 1表示统招，0表示非统招
         startDate = kwargs.get('startDate', '2009')
         endDate = kwargs.get('endDate', '2013')
         city = kwargs.get('city', '北京')
@@ -185,7 +186,7 @@ def create_resume(phone, countryCode, userIdentity, kwargs={}):
         workExperience_data = {"positionType": "机器学习", "positionType1": "开发|测试|运维类", "positionType2": "人工智能",
                                "skillLabels": "机器学习",
                                "department": "大数据智能中心", "companyIndustry": "电商", "companyName": "拉勾网",
-                               "positionName": "机器学习", "startDate": "2012.07",
+                               "positionName": "机器学习", "startDate": "2012.07", "requestSource": 1,
                                "endDate": "2019.03", "workContent": "<p>哒哒哒哒哒哒多多多多多多多</p>", "isItVisible": 1}
         remark = "添加工作经历"
         r3 = form_post(url=workExperience_url, headers=workExperience_header, data=workExperience_data, remark=remark)
@@ -203,7 +204,7 @@ def create_resume(phone, countryCode, userIdentity, kwargs={}):
     edu_header = get_code_token(basicMain_html)
     edu_url = 'https://www.lagou.com/educationExperience/save.json'
     edu_data = {'schoolName': '清华大学', 'education': education, 'professional': '计算机科学与技术', 'startDate': startDate,
-                'endDate': endDate}
+                'endDate': endDate, 'isUnifiedEntrance': isUnifiedEntrance}
     remark = "添加教育经历"
     r4 = form_post(url=edu_url, headers=edu_header, data=edu_data, remark=remark)
 
@@ -217,9 +218,9 @@ def create_resume(phone, countryCode, userIdentity, kwargs={}):
     # 求职意向
     expextJobs_url = 'https://www.lagou.com/expectJobs/expectJobs.json'
     expectJobs_header = get_code_token(basicMain_html)
-    expectJobs_data = {'city': city, 'positionType': positionType, 'positionName': positionName,
+    expectJobs_data = {'city': city, 'positionName': positionName,
                        'positionNameType1': positionNameType1,
-                       'positionNameType2': positionNameType2, 'salarys': salarys, 'status': '随便看看',
+                       'positionNameType2': positionNameType2, 'salarys': salarys, 'status': '积极找工作',
                        'arrivalTime': '随时'}
     remark = "添加求职意向"
     r6 = form_post(url=expextJobs_url, headers=expectJobs_header, data=expectJobs_data, remark=remark)
