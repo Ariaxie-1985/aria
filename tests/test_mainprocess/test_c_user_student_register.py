@@ -4,9 +4,6 @@
 # Description:
 import logging
 import time
-
-import pytest
-
 from api_script.entry.account.passport import password_login, send_verify_code, verifyCode_login, register_by_phone, \
     get_login_by_token
 from api_script.entry.cuser.baseStatus import get_info, batchCancel

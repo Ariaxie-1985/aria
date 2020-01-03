@@ -560,9 +560,8 @@ def verify_code_message(countryCode, phone, flag_num=0):
     if len(r['content']['result']) > flag_num:
         id, createTime = r['content']['result'][0]['msgId'], r['content']['result'][0]['createTime']
         verify_code = get_verify_code(id, createTime)
-
-    if verify_code:
-        return verify_code
+        if verify_code:
+            return verify_code
 
     import time
     for i in range(10):
@@ -773,8 +772,8 @@ def request_retry(count, request_func, judging_func=None, response_text=None):
 
 if __name__ == '__main__':
     # r = get_verify_code_message_len('00852', '20180917')
-    pc_send_register_verifyCode("00852", "26026615")
-    verify_code = verify_code_message("00852", "26026615")
+    pc_send_register_verifyCode("00852", "26026619")
+    verify_code = verify_code_message("00852", "26026619")
     print(verify_code)
     # r = verify_code_message('00852', '20180917')
     # get_verify_code('r23wr23','423423')
