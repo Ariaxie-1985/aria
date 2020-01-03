@@ -567,15 +567,13 @@ def verify_code_message(countryCode, phone, flag_num=0):
     for i in range(10):
         time.sleep(12)
         r = get_verify_code_list(countryCode, phone)
-        if len(r['content']['result']) == 0:
-            if i == 9:
-                logging.error(msg="未获取到验证码，手机号为{}".format(countryCode + phone))
-                return None
-            continue
-        else:
+        if len(r['content']['result']) > flag_num:
             id, createTime = r['content']['result'][0]['msgId'], r['content']['result'][0]['createTime']
             verify_code = get_verify_code(id, createTime)
-            break
+            if verify_code:
+                break
+        else:
+            continue
 
     return verify_code
 
@@ -587,10 +585,10 @@ def get_verify_code(id, createTime):
               "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36"}
     r = requests.post(url=url, json=data, headers=header, verify=False).json()
     try:
-        verify_code = int(r['content']['content'][3:9])
+        int(r['content']['content'][3:9])
     except ValueError:
         return None
-    return verify_code
+    return r['content']['content'][3:9]
 
 
 def get_verify_code_message_len(countryCode, phone):
@@ -772,8 +770,8 @@ def request_retry(count, request_func, judging_func=None, response_text=None):
 
 if __name__ == '__main__':
     # r = get_verify_code_message_len('00852', '20180917')
-    pc_send_register_verifyCode("00852", "26026619")
-    verify_code = verify_code_message("00852", "26026619")
+    pc_send_register_verifyCode("00853", "26026626")
+    verify_code = verify_code_message("00853", "26026626")
     print(verify_code)
     # r = verify_code_message('00852', '20180917')
     # get_verify_code('r23wr23','423423')
