@@ -542,7 +542,7 @@ def judging_other_abnormal_conditions(status_code, url, remark):
 f = 0
 
 
-def verify_code_message(countryCode, phone, flag_num=0):
+def get_verify_code_list(countryCode, phone):
     if countryCode == '0086':
         countryCode = ''
     url = 'http://msg.lagou.com/msc/message/page'
@@ -552,23 +552,32 @@ def verify_code_message(countryCode, phone, flag_num=0):
     header = {"X-L-REQ-HEADER": '{deviceType:1}',
               "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36"}
     r = requests.post(url=url, json=data, headers=header, verify=False).json()
+    return r
+
+
+def verify_code_message(countryCode, phone, flag_num=0):
+    r = get_verify_code_list(countryCode, phone)
     if len(r['content']['result']) > flag_num:
         id, createTime = r['content']['result'][0]['msgId'], r['content']['result'][0]['createTime']
         verify_code = get_verify_code(id, createTime)
-    else:
-        import time
-        for i in range(10):
-            time.sleep(12)
-            r = requests.post(url=url, json=data, headers=header, verify=False).json()
-            if len(r['content']['result']) == 0:
-                if i == 9:
-                    logging.error(msg="未获取到验证码，手机号为{}".format(countryCode + phone))
-                    return None
-                continue
-            else:
-                id, createTime = r['content']['result'][0]['msgId'], r['content']['result'][0]['createTime']
-                verify_code = get_verify_code(id, createTime)
-                break
+
+    if verify_code:
+        return verify_code
+
+    import time
+    for i in range(10):
+        time.sleep(12)
+        r = get_verify_code_list(countryCode, phone)
+        if len(r['content']['result']) == 0:
+            if i == 9:
+                logging.error(msg="未获取到验证码，手机号为{}".format(countryCode + phone))
+                return None
+            continue
+        else:
+            id, createTime = r['content']['result'][0]['msgId'], r['content']['result'][0]['createTime']
+            verify_code = get_verify_code(id, createTime)
+            break
+
     return verify_code
 
 
@@ -578,7 +587,10 @@ def get_verify_code(id, createTime):
     header = {"X-L-REQ-HEADER": '{deviceType:1}',
               "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36"}
     r = requests.post(url=url, json=data, headers=header, verify=False).json()
-    verify_code = r['content']['content'][3:9]
+    try:
+        verify_code = int(r['content']['content'][3:9])
+    except ValueError:
+        return None
     return verify_code
 
 
@@ -761,9 +773,13 @@ def request_retry(count, request_func, judging_func=None, response_text=None):
 
 if __name__ == '__main__':
     # r = get_verify_code_message_len('00852', '20180917')
+    pc_send_register_verifyCode("00852", "26026615")
+    verify_code = verify_code_message("00852", "26026615")
+    print(verify_code)
     # r = verify_code_message('00852', '20180917')
-    r1 = get_verify_code_message_len('00852', '20180917')
-    print(r1)
+    # get_verify_code('r23wr23','423423')
+    # r1 = get_verify_code_message_len('00852', '20180917')
+    # print(r1)
     # print(r1l)
     # login_password('betty@lagou.com', '00f453dfec0f2806db5cfabe3ea94a35')
     # state_code = pc_send_register_verifyCode('00852', 20030105)
