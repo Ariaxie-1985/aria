@@ -552,23 +552,18 @@ def get_verify_code_list(countryCode, phone):
     header = {"X-L-REQ-HEADER": '{deviceType:1}',
               "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36"}
     r = requests.post(url=url, json=data, headers=header, verify=False).json()
-    return r
+    if r['content']['totalCount'] == 0:
+        return r['content']['totalCount'], None, None
+    else:
+        return r['content']['totalCount'], r['content']['result'][0]['msgId'], r['content']['result'][0]['createTime']
 
 
 def verify_code_message(countryCode, phone, flag_num=0):
-    r = get_verify_code_list(countryCode, phone)
-    if len(r['content']['result']) > flag_num:
-        id, createTime = r['content']['result'][0]['msgId'], r['content']['result'][0]['createTime']
-        verify_code = get_verify_code(id, createTime)
-        if verify_code:
-            return verify_code
-
     import time
     for i in range(10):
         time.sleep(12)
-        r = get_verify_code_list(countryCode, phone)
-        if len(r['content']['result']) > flag_num:
-            id, createTime = r['content']['result'][0]['msgId'], r['content']['result'][0]['createTime']
+        total_count, id, createTime = get_verify_code_list(countryCode, phone)
+        if total_count > flag_num:
             verify_code = get_verify_code(id, createTime)
             if verify_code:
                 return verify_code

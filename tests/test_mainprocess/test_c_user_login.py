@@ -24,9 +24,6 @@ def test_send_verify_code():
     assert_equal(1, r['state'], '校验发送验证码成功', "校验发送验证码失败")
 
 
-time.sleep(1)
-
-
 @pytestmark
 def test_get_verify_code():
     global verify_code

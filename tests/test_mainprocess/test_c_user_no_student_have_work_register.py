@@ -16,6 +16,8 @@ from api_script.neirong_app.resumes import guideBasicInfo, educationExperiences,
 from utils.read_file import record_test_data
 from utils.util import assert_equal, verify_code_message, login_password
 
+time.sleep(1)
+
 
 def test_send_verify_code(get_countryCode_phone):
     global countryCode, phone
@@ -23,9 +25,6 @@ def test_send_verify_code(get_countryCode_phone):
     logging.info(msg='手机号 {} \n'.format(countryCode + phone))
     r = send_verify_code(countryCode, phone, "PASSPORT_REGISTER")
     assert_equal(1, r['state'], '校验发送验证码成功', "校验发送验证码失败")
-
-
-time.sleep(1)
 
 
 def test_get_verify_code():

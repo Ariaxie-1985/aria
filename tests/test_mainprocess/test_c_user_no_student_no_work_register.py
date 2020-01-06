@@ -27,9 +27,6 @@ def test_send_verify_code(get_countryCode_phone):
     assert_equal(1, r['state'], '校验发送验证码成功', "校验发送验证码失败")
 
 
-time.sleep(1)
-
-
 def test_get_verify_code():
     global verify_code
     verify_code = verify_code_message(countryCode, phone)
