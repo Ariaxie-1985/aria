@@ -1,6 +1,6 @@
 # coding:utf-8
 # @Author: Xiawang
-from utils.util import form_post, get_code_token, login, get_requests, get_header
+from utils.util import form_post, get_code_token, login, get_requests, get_header, login_password
 import json
 
 
@@ -47,7 +47,7 @@ def createPosition_999(firstType, positionType, positionThirdType, positionName)
                            'workAddressId': addressId,
                            'labels': '[{"id":"1","name":"电商"}]', 'extraInfor': '[{"labels":[{"id":"1","name":"电商"}]}]',
                            'channels': '108', 'useEnergyCard': 'false', 'recommend': 'false', 'workYear': '3-5年',
-                           'typeId': ''}
+                           'typeId': '', 'newVersion': 'true'}
     remark = "发布职位"
     return form_post(url=createPosition_url, data=createPosition_data, headers=Position_header, remark=remark)
 
@@ -140,3 +140,4 @@ def www_redirect_easy():
     url = 'https://easy.lagou.com/dashboard/index.htm?from=c_index'
     header = get_header(url='https://www.lagou.com/')
     return get_requests(url=url, headers=header, remark='从主站跳转到企业版页')
+

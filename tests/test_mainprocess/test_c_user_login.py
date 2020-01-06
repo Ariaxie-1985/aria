@@ -30,7 +30,7 @@ time.sleep(1)
 @pytestmark
 def test_get_verify_code():
     global verify_code
-    verify_code = verify_code_message(countryCode, phone, flag_num=r + 1)
+    verify_code = verify_code_message(countryCode, phone, flag_num=r)
     assert_equal(True, bool(verify_code), "校验获取验证码成功")
 
 

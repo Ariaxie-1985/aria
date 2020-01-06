@@ -571,11 +571,7 @@ def verify_code_message(countryCode, phone, flag_num=0):
             id, createTime = r['content']['result'][0]['msgId'], r['content']['result'][0]['createTime']
             verify_code = get_verify_code(id, createTime)
             if verify_code:
-                break
-        else:
-            continue
-
-    return verify_code
+                return verify_code
 
 
 def get_verify_code(id, createTime):
