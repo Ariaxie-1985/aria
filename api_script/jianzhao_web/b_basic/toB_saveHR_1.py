@@ -170,7 +170,12 @@ def get_b_index_Id():
     header = get_header(url='https://hr.lagou.com/corpCenter/auth/person/status.html')
     r = get_requests(url=url, headers=header, remark='获取提交招聘者认证的用户id').text
     soup = BeautifulSoup(r, "html.parser")
-    userId = soup.find(id="UserId")['value']
+    try:
+        userId = soup.find(id="UserId")['value']
+    except TypeError:
+        r = get_requests(url=url, headers=header, remark='获取提交招聘者认证的用户id').text
+        soup = BeautifulSoup(r, "html.parser")
+        userId = soup.find(id="UserId")['value']
     UserCompanyId = soup.find(id="UserCompanyId")['value']
     lg_CompanyId = re.findall('lgId: "(.*?)"', r, re.S)[0]
     return userId, UserCompanyId, lg_CompanyId
@@ -180,7 +185,10 @@ def remove_member(verity_userId):
     url = 'https://easy.lagou.com/member/recruiterMembers.json?pageNo=1&pageSize=50&keyword='
     header = get_code_token(url='https://easy.lagou.com/settings/channel/my_channels.htm')
     r = get_requests(url=url, headers=header, remark="核对招聘者信息").json()
-    userId = r['content']['data']['members']['result'][0]['userId']
+    try:
+        userId = r['content']['data']['members']['result'][0]['userId']
+    except IndexError:
+        r = get_requests(url=url, headers=header, remark="核对招聘者信息").json()
     if int(verity_userId) == userId:
         url = 'https://easy.lagou.com/member/removeMember.json?hasRecruitmentService=true'
         r = get_requests(url=url, headers=header, remark="解除招聘者信息").json()
