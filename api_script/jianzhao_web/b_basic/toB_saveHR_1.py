@@ -189,6 +189,7 @@ def remove_member(verity_userId):
         userId = r['content']['data']['members']['result'][0]['userId']
     except IndexError:
         r = get_requests(url=url, headers=header, remark="核对招聘者信息").json()
+        userId = r['content']['data']['members']['result'][0]['userId']
     if int(verity_userId) == userId:
         url = 'https://easy.lagou.com/member/removeMember.json?hasRecruitmentService=true'
         r = get_requests(url=url, headers=header, remark="解除招聘者信息").json()
