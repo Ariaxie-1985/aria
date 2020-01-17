@@ -62,7 +62,7 @@ def get_code_token_new(url):
         headers = {"Content-Type": "application/json", "X-Anit-Forge-Code": code_values,
                    "X-Anit-Forge-Token": token_values,
                    "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3615.0 Safari/537.36"}
-        if token_values != '' and code_values != '':
+        if token_values != '' and  code_values != '':
             return headers
         else:
             if count < 1:
@@ -93,7 +93,7 @@ def form_post(url, remark, data=None, files=None, headers={}, allow_redirects=Tr
         response = session.post(url=url, data=data, files=files, headers=headers, verify=False, timeout=60,
                                 allow_redirects=allow_redirects)
         status_code = response.status_code
-        if 200 <= status_code <= 400:
+        if 200 <= status_code <= 302:
             response_json = response.json()
             if response_json.get('state', 0) == 1 or response_json.get('success', False):
                 logging.info(msg='该接口URL {} ,备注 {} 执行成功\n'.format(url, remark))
@@ -138,7 +138,7 @@ def json_post(url, remark, data=None, headers={}, app=False, verifystate=True):
     try:
         response = session.post(url=url, json=data, headers=headers, verify=False, timeout=60)
         status_code = response.status_code
-        if 200 <= status_code <= 400:
+        if 200 <= status_code <= 302:
             response_json = response.json()
             if response_json.get('state', 0) == 1 or response_json.get('success', False):
                 logging.info(msg='该接口URL {} ,备注 {} 执行成功\n'.format(url, remark))
@@ -183,22 +183,19 @@ def get_requests(url, data=None, headers={}, remark=None):
         if 200 <= status_code <= 302:
             try:
                 response_json = response.json()
-                if 200 <= status_code <= 400:
-                    if response_json.get('state', 0) == 1 or response_json.get('success', False):
-                        logging.info(msg='该接口URL {} ,备注 {} 执行成功\n'.format(url, remark))
-                        return response
-                    else:
-                        if count < 1:
-                            count = count + 1
-                            logging.error(
-                                msg='该接口URL {} , 备注: {} , 响应内容: {} 断言失败, 在重试\n'.format(url, remark, response_json))
-                            return get_requests(url=url, data=data, headers=headers, remark=remark)
-                        else:
-                            logging.error(
-                                msg='该接口URL {} , 备注 {}, 响应内容: {} 请求成功, 但断言错误\n'.format(url, remark, response_json))
-                            return response
-                else:
+                if response_json.get('state', 0) == 1 or response_json.get('success', False):
+                    logging.info(msg='该接口URL {} ,备注 {} 执行成功\n'.format(url, remark))
                     return response
+                else:
+                    if count < 1:
+                        count = count + 1
+                        logging.error(
+                            msg='该接口URL {} , 备注: {} , 响应内容: {} 断言失败, 在重试\n'.format(url, remark, response_json))
+                        return get_requests(url=url, data=data, headers=headers, remark=remark)
+                    else:
+                        logging.error(
+                            msg='该接口URL {} , 备注 {}, 响应内容: {} 请求成功, 但断言错误\n'.format(url, remark, response_json))
+                        return response
             except JSONDecodeError:
                 return response
         else:
@@ -469,7 +466,7 @@ def delete_requests(url, headers={}, remark=None):
     try:
         response = session.delete(url=url, headers=headers, verify=False, timeout=60)
         status_code = response.status_code
-        if 200 <= status_code <= 400:
+        if 200 <= status_code <= 302:
             response_json = response.json()
             if response_json.get('state', 0) == 1 or response_json.get('success', False):
                 logging.info(msg='该接口URL {} ,备注 {} 执行成功\n'.format(url, remark))
@@ -532,6 +529,9 @@ def judging_other_abnormal_conditions(status_code, url, remark):
     elif status_code == 401:
         logging.error(msg="该接口URL {} , 备注 {} 报错401 请检查接口的用户认证是否有效\n".format(url, remark))
         return {'content': '报错401, 接口的用户认证失效', 'url': url, 'remark': remark}
+    elif status_code == 400:
+        logging.error(msg="该接口URL {} , 备注 {} 报错400 请检查接口的传参是否有效\n".format(url, remark))
+        return {'content': '报错400, 接口的传参有误', 'url': url, 'remark': remark}
     elif status_code == 502:
         logging.error(msg="该接口URL {} , 备注 {} 报错502, 请检查业务服务是否可用\n".format(url, remark))
         return {'content': '报错502, 业务服务不可用', 'url': url, 'remark': remark}
