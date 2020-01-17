@@ -33,7 +33,12 @@ def test_switch_city(city):
 def test_search_positions(keyword, city, salaryLower, salaryUpper):
     r = search_positions(userToken, keyword=keyword, city=city, salaryLower=salaryLower, salaryUpper=salaryUpper)
     positionName_list = [position_info['positionName'] for position_info in r['content']['positionCardVos']]
+
     for positionName in positionName_list:
+        if keyword == "测试":
+            check_result = "测试" in positionName.upper() or "QA" in positionName.upper()
+            assert_equal(True, check_result, "校验搜索职位{}成功！".format(keyword))
+
         assert_equal(True, bool(keyword in positionName.upper()),
                      "校验搜索职位{}成功！".format(keyword))
         break
