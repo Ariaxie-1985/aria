@@ -19,12 +19,12 @@ def getPopUpData():
 	remark = '试用期弹窗'
 	return json_post(url=url, headers=headers, remark=remark)
 
-def getRightsList ():
+def getRightsList():
 	url = host+'/rights/getRightsList'
 	remark = '查询我的权益'
 	return json_post(url=url, headers=headers, remark=remark)
 
-def getUserInfo ():
+def getUserInfo():
 	url = host+'/userInfo/getUserInfo'
 	remark = '获取用户信息'
 	return json_post(url=url, headers=headers, remark=remark)

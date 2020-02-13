@@ -19,7 +19,7 @@ def test_register_admin_user(get_countryCode_phone_admin_user):
         verify_code = verify_code_message(countryCode, phone)
         assert_equal(True, bool(verify_code), '获取验证码成功')
         register = user_register_lagou(countryCode, phone, verify_code)
-        assert_equal(1, register['state'], '校验管理员注册是否成功！')
+        assert_equal(1, register.get('state', 0), '校验管理员注册是否成功！')
     else:
         assert_equal(1, 2, '校验发送验证码是否成功')
 
@@ -27,25 +27,25 @@ def test_register_admin_user(get_countryCode_phone_admin_user):
 def test_create_company_info(get_company_name):
     personal_msg_save_and_creat_company = saveHR(get_company_name, user_name,
                                                  'ariaxie@lagou.com')
-    if personal_msg_save_and_creat_company['state'] == 1:
+    if personal_msg_save_and_creat_company.get('state', 0) == 1:
         company_msg_save = saveCompany(get_company_name)
-        assert_equal(1, company_msg_save['state'], "校验公司是否新建成功")
+        assert_equal(1, company_msg_save.get('state', 0), "校验公司是否新建成功")
     else:
-        assert_equal(1, personal_msg_save_and_creat_company['state'], "校验HR信息是否保存成功")
+        assert_equal(1, personal_msg_save_and_creat_company.get('state', 0), "校验HR信息是否保存成功")
 
 
 def test_jump_html():
     save_result = jump_html()
-    assert_equal(1, save_result['state'], '校验是否跳过选择优质简历')
+    assert_equal(1, save_result.get('state', 0), '校验是否跳过选择优质简历')
 
 
 def test_admin_personal_certificate():
     upload_p = upload_permit()
-    if upload_p['state'] == 1:
+    if upload_p.get('state', 0) == 1:
         personal_certificate_submit = submit_new()
         assert_equal(1, personal_certificate_submit['state'], "校验提交招聘者身份审核是否成功")
     else:
-        assert_equal(1, upload_p['state'], "校验提交身份信息是否成功")
+        assert_equal(1, upload_p.get('state', 0), "校验提交身份信息是否成功")
 
 
 def test_():

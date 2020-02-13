@@ -62,7 +62,7 @@ def get_code_token_new(url):
         headers = {"Content-Type": "application/json", "X-Anit-Forge-Code": code_values,
                    "X-Anit-Forge-Token": token_values,
                    "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3615.0 Safari/537.36"}
-        if token_values != '' and  code_values != '':
+        if token_values != '' and code_values != '':
             return headers
         else:
             if count < 1:
@@ -601,7 +601,7 @@ def get_verify_code_message_len(countryCode, phone):
 
 def app_header_999(userToken=None, DA=True):
     header = {"deviceType": '150', "userType": '0', "lgId": "898BCC3F-E662-4761-87E8-845788525443_1532945379",
-              "reqVersion": '72200', "appVersion": "7.21.0"}
+              "reqVersion": '7.31.0', "appVersion": "7.31.0"}
     if not userToken is None:
         header['userToken'] = userToken
 

@@ -185,17 +185,27 @@ def remove_member(verity_userId):
     url = 'https://easy.lagou.com/member/recruiterMembers.json?pageNo=1&pageSize=50&keyword='
     header = get_code_token(url='https://easy.lagou.com/settings/channel/my_channels.htm')
     r = get_requests(url=url, headers=header, remark="核对招聘者信息").json()
-    try:
-        userId = r['content']['data']['members']['result'][0]['userId']
-    except IndexError:
-        r = get_requests(url=url, headers=header, remark="核对招聘者信息").json()
-        userId = r['content']['data']['members']['result'][0]['userId']
-    if int(verity_userId) == userId:
-        url = 'https://easy.lagou.com/member/removeMember.json?hasRecruitmentService=true'
-        r = get_requests(url=url, headers=header, remark="解除招聘者信息").json()
-        if r['state'] == 1:
-            return True
+    userId_list = []
+    if len(r['content']['data']['members']['result']) > 0:
+        for user in r['content']['data']['members']['result']:
+            userId_list.append(user.get('userId', 0))
+        if int(verity_userId) in userId_list:
+            url = 'https://easy.lagou.com/member/removeMember.json?hasRecruitmentService=true'
+            r = get_requests(url=url, headers=header, remark="解除招聘者信息").json()
+            if r.get('state') == 1:
+                return True
     return False
+    # try:
+    #     userId = r['content']['data']['members']['result'][0]['userId']
+    # except IndexError:
+    #     r = get_requests(url=url, headers=header, remark="核对招聘者信息").json()
+    #     userId = r['content']['data']['members']['result'][0]['userId']
+    # if int(verity_userId) == userId:
+    #     url = 'https://easy.lagou.com/member/removeMember.json?hasRecruitmentService=true'
+    #     r = get_requests(url=url, headers=header, remark="解除招聘者信息").json()
+    #     if r['state'] == 1:
+    #         return True
+    # return False
 
 
 def close_trial_package(lg_CompanyId):

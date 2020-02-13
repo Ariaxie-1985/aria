@@ -2,8 +2,6 @@
 # @Time  : 2019-09-19 11:24
 # @Author: Xiawang
 # Description:
-import json
-
 from utils.util import json_post, get_requests, app_header_999
 
 

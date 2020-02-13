@@ -13,14 +13,17 @@ from utils.analysis_html_report import analysis_html_report
 class run_Pytest(Resource):
     """执行pytest"""
     Business_module = {
-        'business': "/root/.local/bin/pipenv run pytest {}/tests/test_business/ --html=backend/templates/{}_report.html --self-contained-html",
-        'jianzhao_web': '/root/.local/bin/pipenv run pytest {}/tests/test_jianzhao_web/ --html=backend/templates/{}_report.html --self-contained-html',
-        'zhaopin': '/root/.local/bin/pipenv run pytest {}/tests/test_zhaopin_app/ --html=backend/templates/{}_report.html --self-contained-html',
-        'entry_app': '/root/.local/bin/pipenv run pytest {}/tests/test_entry_app/ --html=backend/templates/{}_report.html --self-contained-html',
-        'all': '/root/.local/bin/pipenv run pytest {}/ --html=backend/templates/{}_report.html --self-contained-html',
-        'neirong_app': '/root/.local/bin/pipenv run pytest {}/tests/test_neirong_app/ --html=backend/templates/{}_report.html --self-contained-html',
+        # 'business': "/root/.local/bin/pipenv run pytest {}/tests/test_business/ --html=backend/templates/{}_report.html --self-contained-html",
+        # 'jianzhao_web': '/root/.local/bin/pipenv run pytest {}/tests/test_jianzhao_web/ --html=backend/templates/{}_report.html --self-contained-html',
+        # 'zhaopin': '/root/.local/bin/pipenv run pytest {}/tests/test_zhaopin_app/ --html=backend/templates/{}_report.html --self-contained-html',
+        # 'entry_app': '/root/.local/bin/pipenv run pytest {}/tests/test_entry_app/ --html=backend/templates/{}_report.html --self-contained-html',
+        # 'all': '/root/.local/bin/pipenv run pytest {}/ --html=backend/templates/{}_report.html --self-contained-html',
+        # 'neirong_app': '/root/.local/bin/pipenv run pytest {}/tests/test_neirong_app/ --html=backend/templates/{}_report.html --self-contained-html',
         'mainprocess': 'pytest {}/tests/test_mainprocess/ --html=backend/templates/{}_report.html --self-contained-html',
-
+        'lg-zhaopin-boot': 'pytest {}/tests/test_lg-zhaopin-boot/ --html=backend/templates/{}_report.html --self-contained-html',
+        'lg-entry-boot': 'pytest {}/tests/test_lg-entry-boot/ --html=backend/templates/{}_report.html --self-contained-html',
+        'lg-neirong-boot': 'pytest {}/tests/test_lg-neirong-boot/ --html=backend/templates/{}_report.html --self-contained-html',
+        'mds-web-tomcat': 'pytest {}/tests/test_mds-web-tomcat/ --html=backend/templates/{}_report.html --self-contained-html',
     }
 
     def get(self):
@@ -65,8 +68,10 @@ class run_Pytest(Resource):
         '''
         parser = reqparse.RequestParser()
         parser.add_argument('module', type=str,
-                            choices=('business', 'jianzhao_web', 'zhaopin', 'all', 'entry_app', 'mainprocess'),
-                            help="请输入正确模块值: 'business' or 'jianzhao_web' or 'zhaopin' or 'all'", required=True)
+                            choices=(
+                                'lg-entry-boot', 'lg-zhaopin-boot', 'lg-neirong-boot', 'mds-web-tomcat', 'mainprocess'),
+                            help="请输入正确模块值: 'lg-entry-boot' or 'lg-zhaopin-boot' or 'lg-neirong-boot' or 'mds-web-tomcat' or 'mainprocess'",
+                            required=True)
         args = parser.parse_args()
         headers = {'Content-Type': 'text/html'}
         html = '{}_report.html'.format(args['module'])
@@ -90,7 +95,7 @@ class run_Pytest(Resource):
 
         | 字段 | 必填 | 类型 | 描述|
         | ---- | ---- | ---- | ---- |
-        | module | True | string | 选项值, business, jianzhao_web, zhaopin, all |
+        | module | True | string | 选项值, lg-zhaopin-boot, jianzhao_web, zhaopin, all |
         |  |  | string | jianzhao_web，简招web |
         |  |  | string | zhaopin， 招聘业务 |
         |  |  | string | business, 商业业务 |
@@ -153,8 +158,10 @@ class run_Pytest(Resource):
         '''
         parser = reqparse.RequestParser()
         parser.add_argument('module', type=str,
-                            choices=('business', 'jianzhao_web', 'zhaopin', 'all', 'entry_app', 'mainprocess'),
-                            help="请输入正确模块值: 'business' or 'jianzhao_web' or 'zhaopin' or 'all'", required=True)
+                            choices=('lg-entry-boot', 'lg-neirong-boot', 'lg-zhaopin-boot', 'mds-web-tomcat',
+                                     'mainprocess'),
+                            help="请输入正确模块值, 'mainprocess' or 'lg-entry-boot' or 'lg-neirong-boot' or 'mds-web-tomcat' or 'lg-zhaopin-boot' ",
+                            required=True)
         args = parser.parse_args()
         project_path = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
         os.chdir(project_path)

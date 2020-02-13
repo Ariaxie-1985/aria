@@ -25,7 +25,7 @@ def add_workAddress(header):
     }
     remark = "创建工作地址"
     r = form_post(url=url, data=data, headers=header, remark=remark)
-    if r['state'] == 1:
+    if r.get('state', 0) == 1:
         address_id = r['content']['data']['address']['id']
     else:
         address_id = 0
@@ -140,4 +140,3 @@ def www_redirect_easy():
     url = 'https://easy.lagou.com/dashboard/index.htm?from=c_index'
     header = get_header(url='https://www.lagou.com/')
     return get_requests(url=url, headers=header, remark='从主站跳转到企业版页')
-
