@@ -59,10 +59,11 @@ def get_testresults_details(soup):
     return testresults
 
 
-def get_fail_detail_result(soup):
+def get_fail_detail_result(soup, module):
     fail_results = {}
     for fail_result in soup.find_all(attrs={'class': 'failed results-table-row'}):
-        test_name = fail_result.find(attrs={'class': 'col-name'}).get_text().split('tests/test_mainprocess/')[1].encode(
+        test_name = fail_result.find(attrs={'class': 'col-name'}).get_text().split('tests/test_{}/'.format(module.replace('-','_')))[
+            1].encode(
             'latin-1').decode('unicode_escape')
         error_type = fail_result.find(attrs={'class': 'error'}).get_text().split('E       ')[1]
         captured_log = fail_result.find(attrs={'class': 'log'}).get_text()
@@ -96,7 +97,7 @@ def get_fail_detail_result(soup):
     return fail_results
 
 
-def analysis_html_report(report_path, type):
+def analysis_html_report(report_path, type, module):
     soup = BeautifulSoup(open(report_path, encoding='utf-8'), "html.parser")
     result_time = None
     result = None
@@ -111,7 +112,7 @@ def analysis_html_report(report_path, type):
     elif type == 3:
         result_time = get_summary(soup)
         result = get_summary_result(soup)
-        fail_detail = get_fail_detail_result(soup)
+        fail_detail = get_fail_detail_result(soup, module)
     return {"content": "报告生成成功", "info": {"time": result_time,
                                           "result": {'summary_result': result, 'detail_result': detail_result,
                                                      'fail_result': fail_detail}}}

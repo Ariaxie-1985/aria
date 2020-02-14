@@ -5,14 +5,6 @@ from api_script.neirong_app.resumes import resumes_list
 from utils.util import assert_equal
 
 
-def setup_module(module):
-    pass
-
-
-def teardown_module(module):
-    pass
-
-
-def test_resumes_list():
-    res = resumes_list()
+def test_resumes_list(login_app):
+    res = resumes_list(userToken=login_app)
     assert_equal(1, res['state'], '查询简历列表数据成功')

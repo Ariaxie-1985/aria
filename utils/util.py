@@ -601,7 +601,7 @@ def get_verify_code_message_len(countryCode, phone):
 
 def app_header_999(userToken=None, DA=True):
     header = {"deviceType": '150', "userType": '0', "lgId": "898BCC3F-E662-4761-87E8-845788525443_1532945379",
-              "reqVersion": '7.31.0', "appVersion": "7.31.0"}
+              "reqVersion": '73100', "appVersion": "7.31.0"}
     if not userToken is None:
         header['userToken'] = userToken
 

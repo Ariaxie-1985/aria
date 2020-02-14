@@ -22,7 +22,7 @@ class run_Pytest(Resource):
         'mainprocess': 'pytest {}/tests/test_mainprocess/ --html=backend/templates/{}_report.html --self-contained-html',
         'lg-zhaopin-boot': 'pytest {}/tests/test_lg-zhaopin-boot/ --html=backend/templates/{}_report.html --self-contained-html',
         'lg-entry-boot': 'pytest {}/tests/test_lg-entry-boot/ --html=backend/templates/{}_report.html --self-contained-html',
-        'lg-neirong-boot': 'pytest {}/tests/test_lg-neirong-boot/ --html=backend/templates/{}_report.html --self-contained-html',
+        'lg-neirong-boot': 'pytest {}/tests/test_lg_neirong_boot/ --html=backend/templates/{}_report.html --self-contained-html',
         'mds-web-tomcat': 'pytest {}/tests/test_mds-web-tomcat/ --html=backend/templates/{}_report.html --self-contained-html',
     }
 
@@ -169,7 +169,8 @@ class run_Pytest(Resource):
         info = None
         subprocess.call(self.Business_module[args['module']].format(project_path, args['module']), shell=True,
                         timeout=300)
-        result = analysis_html_report("{}/backend/templates/{}_report.html".format(project_path, args['module']), 3)
+        result = analysis_html_report("{}/backend/templates/{}_report.html".format(project_path, args['module']), 3,
+                                      args['module'])
         if bool(result['info']['result']['fail_result']):
             state = 0
         info = {"result": result}

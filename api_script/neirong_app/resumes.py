@@ -8,14 +8,14 @@ from utils.util import get_app_header, json_post, form_post, app_header_999, get
 from faker import Faker
 
 host = 'https://gate.lagou.com/v1/neirong'
-header = get_app_header(100014641)
 
 fake = Faker('zh_CN')
 sex = ['女', '男']
 
 
-def resumes_list():
+def resumes_list(userToken):
     url = host + '/resumes/list'
+    header = app_header_999(userToken, DA=False)
     remark = '消息--对话--发送简历--显示简历列表，包含附件和在线简历'
     return form_post(url=url, headers=header, remark=remark)
 
