@@ -101,7 +101,7 @@ def test_delete_education_experiences():
 
 
 @pytest.mark.parametrize("schoolName,education,startDate,endDate",
-                         [('陕西文理大学', '硕士', '2014', '2017')])
+                         [('陕西文理大学', '硕士', '2014.09', '2017.07')])
 def test_update_educationExperiences(schoolName, education, startDate, endDate):
     r = educationExperiences(userToken=userToken, schoolName=schoolName, education=education, startDate=startDate,
                              endDate=endDate)

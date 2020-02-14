@@ -75,8 +75,8 @@ def educationExperiences(userToken, **kwargs):
     url = 'https://gate.lagou.com/v1/neirong/educationExperiences/'
     schoolName = kwargs.get('schoolName', '陕西文理学院')
     education = kwargs.get('education', '本科')
-    startDate = kwargs.get('startDate', '2009')
-    endDate = kwargs.get('endDate', 2013)
+    startDate = kwargs.get('startDate', '2009.09')
+    endDate = kwargs.get('endDate', '2013.07')
     data = {
         "education": education,
         "endDate": endDate,
