@@ -2,7 +2,7 @@
 # @Time  : 2020/2/14 12:16
 # @Author: Xiawang
 # Description:
-from api_script.neirong_app.home import deliver_rec, fast_feedback, headline
+from api_script.neirong_app.home import deliver_rec, fast_feedback, headline, searchBySalary
 from utils.util import assert_equal
 
 
@@ -22,5 +22,5 @@ def test_headline(login_app):
 
 
 def test_searchBySalary(login_app):
-    r = headline(userToken=login_app)
+    r = searchBySalary(userToken=login_app)
     assert_equal(True, bool(r['content']), '薪资最高用例通过')

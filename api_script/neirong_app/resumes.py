@@ -41,7 +41,7 @@ def guideBasicInfo(phone, userIdentity, userToken, joinWorkTime="2013.07"):
             "email": fake.email(),
             "birthday": "1990.05",
             "sex": sex[random.randint(0, 1)],
-            "name": '拉勾测试自动化'+fake.name()
+            "name": '拉勾测试自动化' + fake.name()
         }
         return json_post(url=url, data=data, headers=header, app=True, remark="提交类型为学生的基本信息")
     if joinWorkTime == '暂无工作经历':
@@ -53,7 +53,7 @@ def guideBasicInfo(phone, userIdentity, userToken, joinWorkTime="2013.07"):
             "email": fake.email(),
             "birthday": "1990.05",
             "sex": sex[random.randint(0, 1)],
-            "name": '拉勾测试自动化'+fake.name(),
+            "name": '拉勾测试自动化' + fake.name(),
             "joinWorkTime": "暂无工作经历"
         }
         return json_post(url=url, data=data, headers=header, app=True, remark="提交类型为非学生但无工作经历的基本信息")
@@ -78,17 +78,13 @@ def educationExperiences(userToken, **kwargs):
     startDate = kwargs.get('startDate', '2009')
     endDate = kwargs.get('endDate', 2013)
     data = {
-        "cardType": 0,
-        "resumeId": 0,
-        "major": "计算机科学与技术",
-        "professional": "计算机科学与技术",
-        "schoolBadge": "",
-        "schoolName": schoolName,
-        "id": 0,
         "education": education,
-        "startDate": startDate,
         "endDate": endDate,
-        "logo": ""
+        "id": 0,
+        "isUnifiedEntrance": 1,
+        "professional": "计算机科学与技术",
+        "schoolName": schoolName,
+        "startDate": startDate
     }
     header = app_header_999(userToken, DA=False)
     return json_post(url=url, data=data, headers=header, remark="提交教育经历")
