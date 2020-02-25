@@ -20,10 +20,10 @@ class run_Pytest(Resource):
         # 'all': '/root/.local/bin/pipenv run pytest {}/ --html=backend/templates/{}_report.html --self-contained-html',
         # 'neirong_app': '/root/.local/bin/pipenv run pytest {}/tests/test_neirong_app/ --html=backend/templates/{}_report.html --self-contained-html',
         'mainprocess': 'pytest {}/tests/test_mainprocess/ --html=backend/templates/{}_report.html --self-contained-html',
-        'lg-zhaopin-boot': 'pytest {}/tests/test_lg-zhaopin-boot/ --html=backend/templates/{}_report.html --self-contained-html',
-        'lg-entry-boot': 'pytest {}/tests/test_lg-entry-boot/ --html=backend/templates/{}_report.html --self-contained-html',
+        'lg-zhaopin-boot': 'pytest {}/tests/test_lg_zhaopin_boot/ --html=backend/templates/{}_report.html --self-contained-html',
+        'lg-entry-boot': 'pytest {}/tests/test_lg_entry_boot/ --html=backend/templates/{}_report.html --self-contained-html',
         'lg-neirong-boot': 'pytest {}/tests/test_lg_neirong_boot/ --html=backend/templates/{}_report.html --self-contained-html',
-        'mds-web-tomcat': 'pytest {}/tests/test_mds-web-tomcat/ --html=backend/templates/{}_report.html --self-contained-html',
+        'mds-web-tomcat': 'pytest {}/tests/test_mds_web_tomcat/ --html=backend/templates/{}_report.html --self-contained-html',
     }
 
     def get(self):

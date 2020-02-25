@@ -3,7 +3,7 @@ __author__ = 'yqzhang'
 
 from utils.util import assert_equal
 import pytest
-from api_script.entry.buser.hrinfo import *
+from api_script.entry.buser.hr_info import *
 
 def setup_module(module):
     pass

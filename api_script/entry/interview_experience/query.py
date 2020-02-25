@@ -18,3 +18,7 @@ def query_positionTypes(userToken, companyId):
     return get_requests(url=url, headers=header, remark="查询筛选条件").json()
 
 
+def query_company_score(userToken, companyId):
+    url = 'https://gate.lagou.com/v1/entry/interviewExperience/queryCompanyScore?companyId={}'.format(companyId)
+    header = app_header_999(userToken, DA=False)
+    return get_requests(url=url, headers=header, remark="查询公司面试评价分数").json()

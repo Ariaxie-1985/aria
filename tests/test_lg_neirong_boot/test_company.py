@@ -60,31 +60,31 @@ def test_get_benefit_baseInfo1(login_app):
 @pytest.mark.parametrize('city', [('深圳'), ('上海'), ('广州'), ('北京')])
 def test_company_tab(city, login_app):
     r = queryCompanyList(city=city, userToken=login_app)
-    global sz_companyId
-    sz_companyId = r['content']['companyMsgVos'][randint(0, 5)]['companyId']
+    global bj_companyId
+    bj_companyId = r['content']['companyMsgVos'][randint(0, 5)]['companyId']
     assert_equal(True, len(r['content']['companyMsgVos']) > 6, '查询公司TAB页用例成功')
 
 
 def test_company_baseInfo(login_app):
-    r = company_baseInfo(userToken=login_app, companyId=sz_companyId)
-    assert_equal(sz_companyId, r['content']['companyId'], '查询公司基本信息用例成功')
+    r = company_baseInfo(userToken=login_app, companyId=bj_companyId)
+    assert_equal(bj_companyId, r['content']['companyId'], '查询公司基本信息用例成功')
 
 
 def test_company_culture(login_app):
-    r = company_culture(userToken=login_app, companyId=sz_companyId)
-    assert_equal(sz_companyId, r['content']['companyId'], '查询公司文化用例成功')
+    r = company_culture(userToken=login_app, companyId=bj_companyId)
+    assert_equal(bj_companyId, r['content']['companyId'], '查询公司文化用例成功')
 
 
 def test_company_detail(login_app):
-    r = company_detail(userToken=login_app, companyId=sz_companyId)
-    assert_equal(sz_companyId, r['content']['companyId'], '查询公司详情用例成功')
+    r = company_detail(userToken=login_app, companyId=bj_companyId)
+    assert_equal(bj_companyId, r['content']['companyId'], '查询公司详情用例成功')
 
 
 def test_company_hasBenefit(login_app):
-    r = company_hasBenefit(userToken=login_app, companyId=sz_companyId)
+    r = company_hasBenefit(userToken=login_app, companyId=bj_companyId)
     assert_equal(r['content'], r['content'], '查询公司是否有福利用例成功')
 
 
 def test_company_question(login_app):
-    r = company_question(userToken=login_app, companyId=sz_companyId)
+    r = company_question(userToken=login_app, companyId=bj_companyId)
     assert_equal(True, bool(r['content']), '查询公司是否有福利用例成功')

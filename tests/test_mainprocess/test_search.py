@@ -5,7 +5,7 @@
 import random
 import pytest
 from api_script.entry.account.passport import password_login
-from api_script.entry.bigcompany.companybaseinfo import query_company_info
+from api_script.entry.bigcompany.big_company import query_company_index
 from api_script.entry.interview_experience.query import query_positionTypes, query_interview_experience
 from api_script.entry.position.communicatePositions import query_positions, query_by_company
 from api_script.entry.positionindex.hotCompany import switch_city
@@ -55,7 +55,7 @@ def test_search_company(city, keyword):
 
 
 def test_query_company_info():
-    r = query_company_info(userToken, companyId)
+    r = query_company_index(userToken, companyId)
     assert_equal("百度", r['content']['companyShortName'], "校验获取百度公司信息成功")
 
 

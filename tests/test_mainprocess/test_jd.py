@@ -6,9 +6,9 @@ import logging
 
 import pytest
 from api_script.entry.account.passport import password_login
-from api_script.entry.buser.hrinfo import get_hr_info
+from api_script.entry.buser.hr_info import get_hr_info
 from api_script.entry.deliver.deliver import deliver_check, get_resume_info, deliver_create
-from api_script.entry.position.jd import get_jd
+from api_script.entry.position.communicatePositions import get_jd
 from api_script.zhaopin_app.b_position import get_online_positions, publish_position, positions_offline
 from utils.util import assert_equal
 

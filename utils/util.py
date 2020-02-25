@@ -326,6 +326,22 @@ def assert_not_equal(expectvalue, actualvalue, success_message, fail_message=Non
         logging.error(fail_message)
 
 
+def assert_in(expect_value, actual_value, success_message, fail_message=None):
+    '''
+    断言两个值是否相等, 并对结果打印日志
+    :param expectvalue: 期望结果
+    :param actualvalue: 实际结果
+    :param success_message: str, 断言成功打印的日志
+    :param fail_message:str, 断言失败打印的日志
+    '''
+    try:
+        assert expect_value in actual_value
+        logging.info(success_message)
+    except AssertionError:
+        logging.info(fail_message)
+        raise AssertionError
+
+
 # 获取url的html源码
 def gethtml(url):
     '''
@@ -599,7 +615,7 @@ def get_verify_code_message_len(countryCode, phone):
     #     return 0
 
 
-def app_header_999(userToken=None, DA=True):
+def app_header_999(userToken=None, DA=True, userId=None):
     header = {"deviceType": '150', "userType": '0', "lgId": "898BCC3F-E662-4761-87E8-845788525443_1532945379",
               "reqVersion": '73100', "appVersion": "7.31.0"}
     if not userToken is None:
@@ -610,6 +626,8 @@ def app_header_999(userToken=None, DA=True):
     header = {**app_header, **header}
     if DA == False:
         return header
+    if userId:
+        header['X-L-USER-ID'] = userId
 
     header[
         'X-L-DA-HEADER'] = "da5439aadaf04ade94a214d730b990d83ec71d3e9f274002951143c843badffbc543b213dfe84e21a37bb782dd9bbca4be8d947ead7041f79d336cb1217127d15"

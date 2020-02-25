@@ -1,10 +1,10 @@
 # -*- coding: utf8 -*-
 __author__ = 'yqzhang'
 
-from utils.util import get_app_header_new, get_requests, json_post
-header=get_app_header_new(100014641,{"deviceType":10,"appVersion":"7.17.0","reqVersion":71700})
-def checkHomepageStatus():
-    url='https://gate.lagou.com/v1/entry/positionindex/checkHomepageStatus'
-    return get_requests(url=url,headers=header,remark='查询是否有刷新')
+from utils.util import app_header_999, get_requests
 
-# print(checkHomepageStatus().text)
+
+def position_index_suggestion(userToken):
+    url = 'https://gate.lagou.com/v1/entry/positionindex/suggestion'
+    header = app_header_999(userToken, DA=False)
+    return get_requests(url=url, headers=header, remark="个性化搜索").json()
