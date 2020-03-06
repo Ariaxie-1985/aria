@@ -2,12 +2,10 @@
 # @Time  : 2020/3/6 16:11
 # @Author: Xiawang
 # Description:
-import pysnooper
 
 from utils.util import app_header_999, get_requests
 
 
-# @pysnooper.snoop()
 def get_homepage_cards(userToken):
     url = 'https://gate.lagou.com/v1/neirong/app/getHomePageCards'
     header = app_header_999(userToken=userToken, DA=False)

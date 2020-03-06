@@ -7,7 +7,6 @@ from api_script.entry.account.passport import password_login
 from utils.util import get_app_header_new, json_post, app_header_999, get_requests
 
 
-@pysnooper.snoop('/Users/wang/Desktop/lg-project/lg_api_script/tests/test_mainprocess/deliver_check.log')
 def deliver_check(positionId, H9=False, userToken=None):
     url = 'https://gate.lagou.com/v1/entry/deliver/check'
     if H9 == True:
