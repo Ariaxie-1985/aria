@@ -4,9 +4,10 @@
 import random
 
 from api_script.entry.account.passport import password_login
-from utils.util import get_app_header, get_requests, json_post, json_put, app_header_999
+from utils.util import get_app_header, get_requests, json_post, json_put, app_header_999, get_app_header1
 
 host = "https://gate.lagou.com/v1/zhaopin"
+headers = get_app_header(100014641)
 
 
 def positions_category(userToken):
@@ -29,7 +30,7 @@ def category_mapping(userToken, positionName):
     :return:
     '''
     url = host + "/positions/category_mapping?positionName={}".format(positionName)
-    header = app_header_999(userToken=userToken,DA=False)
+    header = app_header_999(userToken=userToken, DA=False)
     remark = "职位名称映射职位分类"
     return get_requests(url=url, headers=header, remark=remark).json()
 
@@ -53,6 +54,52 @@ def publish_position_check():
     url = host + "/positions/publish_position_check"
     remark = "发布职位前校验"
     return get_requests(url=url, headers=headers, remark=remark).json()
+
+
+def post_positions(firstType='开发|测试|运维类', workyear='应届毕业生', positionType='后端开发', positionThirdType='Java',
+                   positionName='java开发工程师', typeid=None, userid=100014641, workAddressId=191880):
+    '''
+    发布职位
+    :return:
+    '''
+    url = host + "/positions/publish"
+    data = {
+        "isConfirm": False,
+        "recommend": True,
+        "labels": [{
+            "name": "旅游",
+            "id": 9,
+            "isExpanded": False,
+            "isSelected": False,
+            "isSubTag": False
+        }, {
+            "name": "本地生活",
+            "id": 5,
+            "isExpanded": False,
+            "isSelected": False,
+            "isSubTag": False
+        }],
+        "positionType": positionType,
+        "positionDesc": "<p>11111111111111111111111111111</p>",
+        "positionId": 0,
+        "workYear": workyear,
+        "salaryMin": 20,
+        "firstType": firstType,
+        "positionName": positionName,
+        "positionBrightPoint": "20薪",
+        "positionThirdType": positionThirdType,
+        "jobNature": "全职",
+        "education": "本科",
+        "workAddressId": workAddressId,
+        # "recruitmentType":1,
+        # "workAddressId": 191882,
+        "department": "技术部",
+        "salaryMax": 30,
+        "id": typeid
+    }
+    remark = "发布职位"
+    headers = get_app_header1(userid)
+    return json_post(url=url, headers=headers, data=data, remark=remark)
 
 
 def positions_details(positionId):
