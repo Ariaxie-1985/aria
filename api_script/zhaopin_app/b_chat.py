@@ -1,53 +1,39 @@
 # coding:utf-8
 # @Time  : 2019-01-17 14:35
 # @Author: Xiawang
-import time
-
-from utils.util import get_app_header, json_post, get_requests
-
-host = "https://gate.lagou.com/v1/zhaopin"
-headers = get_app_header(100014641)
+from utils.util import get_requests, app_header_999
 
 
-def chat_invite_msg(positionId, userId):
-	url = host + "/chat/invite_msg"
-	data = {
-		"positionId": positionId, "message": "您好，我对您的简历非常感兴趣, 可否发我简历进一步沟通呢？", "userId": userId
-	}
-	remark = "邀请投递"
-	return json_post(url=url, data=data, headers=headers, remark=remark)
+def chat_c_info(userToken, cUserId):
+    url = 'https://gate.lagou.com/v1/zhaopin/chat/cinfo?cUserId={}'.format(cUserId)
+    header = app_header_999(userToken=userToken, DA=False)
+    remark = "获取C端用户信息"
+    return get_requests(url=url, headers=header, remark=remark).json()
 
 
-def chat_inspect_reports(ids):
-	'''
-	:param ids: list, C端用户的userid
-	:return:
-	'''
-	url = host + "/chat/inspect/reports"
-	data = {
-		"ids": ids
-	}
-	remark = "谁看过我,标记已读"
-	return json_post(url=url, data=data, headers=headers, remark=remark)
+def chat_c_lastResume(userToken, cUserId):
+    url = 'https://gate.lagou.com/v1/zhaopin/chat/lastResume/{}'.format(cUserId)
+    header = app_header_999(userToken=userToken, DA=False)
+    remark = "获取候选人最近一次投递状态"
+    return get_requests(url=url, headers=header, remark=remark).json()
 
 
-def chat_inspect_reports_all(createBy):
-	'''
-	:param createBy: int, 谁发起的:0全部，1我发起的，2对方发起的
-	:return:
-	'''
-	url = host + "/chat/inspect/reports/all?createBy="+str(createBy)
-	remark = "谁看过我,标记已读"
-	return get_requests(url=url, headers=headers, remark=remark).json()
+def chat_inspect_list(userToken):
+    url = "https://gate.lagou.com/v1/zhaopin/chat/inspect/list?pageSize=20&lastInspectId=&showId="
+    header = app_header_999(userToken=userToken, DA=False)
+    remark = "谁看过我"
+    return get_requests(url=url, headers=header, remark=remark).json()
 
 
-def chat_inspect_list():
-	'''
-	:param createBy: int, 谁发起的:0全部，1我发起的，2对方发起的
-	:return:
-	'''
-	url = host + "/chat/inspect/list?pageSize=20"
-	remark = "谁看过我"
-	return get_requests(url=url, headers=headers, remark=remark).json()
+def chat_position(userToken, cUserId, positionId):
+    url = "https://gate.lagou.com/v1/zhaopin/chat/position?cUserId={}&positionId={}".format(cUserId, positionId)
+    header = app_header_999(userToken=userToken, DA=False)
+    remark = "获取IM在沟通的职位"
+    return get_requests(url=url, headers=header, remark=remark).json()
 
 
+def chat_interview_check(userToken, resumeId):
+    url = "https://gate.lagou.com/v1/zhaopin/chat/interview/check?resumeId={}".format(resumeId)
+    header = app_header_999(userToken=userToken, DA=False)
+    remark = "检查IM是否能邀约面试"
+    return get_requests(url=url, headers=header, remark=remark).json()

@@ -4,13 +4,17 @@
 import random
 
 from api_script.entry.account.passport import password_login
-from utils.util import get_app_header, get_requests, json_post, json_put, get_app_header1, app_header_999
+from utils.util import get_app_header, get_requests, json_post, json_put, app_header_999
 
 host = "https://gate.lagou.com/v1/zhaopin"
-headers = get_app_header(100014641)
 
 
-# headers = get_app_header(100013384)
+def positions_category(userToken):
+    url = 'https://gate.lagou.com/v1/zhaopin/positions/category'
+    header = app_header_999(userToken=userToken)
+    remark = '获取职业静态信息'
+    return get_requests(url=url, headers=header, remark=remark).json()
+
 
 def positions_static_info():
     url = host + "/positions/static_info"
@@ -18,15 +22,16 @@ def positions_static_info():
     return get_requests(url=url, headers=headers, remark=remark).json()
 
 
-def category_mapping(positionName):
+def category_mapping(userToken, positionName):
     '''
     职位名称映射职位分类
     :param positionName: str, 职位名称
     :return:
     '''
     url = host + "/positions/category_mapping?positionName={}".format(positionName)
+    header = app_header_999(userToken=userToken,DA=False)
     remark = "职位名称映射职位分类"
-    return get_requests(url=url, headers=headers, remark=remark).json()
+    return get_requests(url=url, headers=header, remark=remark).json()
 
 
 def positions_tag_report(firstCateGory, secCategory, tagName):
@@ -50,53 +55,6 @@ def publish_position_check():
     return get_requests(url=url, headers=headers, remark=remark).json()
 
 
-# yazhang新增typeid字段，1：普通职位，2：特权，3：无曝光
-def post_positions(firstType='开发|测试|运维类', workyear='应届毕业生', positionType='后端开发', positionThirdType='Java',
-                   positionName='java开发工程师', typeid=None, userid=100014641, workAddressId=191880):
-    '''
-    发布职位
-    :return:
-    '''
-    url = host + "/positions/publish"
-    data = {
-        "isConfirm": False,
-        "recommend": True,
-        "labels": [{
-            "name": "旅游",
-            "id": 9,
-            "isExpanded": False,
-            "isSelected": False,
-            "isSubTag": False
-        }, {
-            "name": "本地生活",
-            "id": 5,
-            "isExpanded": False,
-            "isSelected": False,
-            "isSubTag": False
-        }],
-        "positionType": positionType,
-        "positionDesc": "<p>11111111111111111111111111111</p>",
-        "positionId": 0,
-        "workYear": workyear,
-        "salaryMin": 20,
-        "firstType": firstType,
-        "positionName": positionName,
-        "positionBrightPoint": "20薪",
-        "positionThirdType": positionThirdType,
-        "jobNature": "全职",
-        "education": "本科",
-        "workAddressId": workAddressId,
-        # "recruitmentType":1,
-        # "workAddressId": 191882,
-        "department": "技术部",
-        "salaryMax": 30,
-        "id": typeid
-    }
-    remark = "发布职位"
-    headers = get_app_header1(userid)
-    return json_post(url=url, headers=headers, data=data, remark=remark)
-
-
 def positions_details(positionId):
     '''
     查看职位详情
@@ -108,7 +66,7 @@ def positions_details(positionId):
     return get_requests(url=url, headers=headers, remark=remark).json()
 
 
-def update_position(positionId):
+def update_position(positionId, workAddressId):
     '''
     编辑职位
     :param positionId:
@@ -118,7 +76,7 @@ def update_position(positionId):
     data = {
         "education": "本科",
         "positionId": positionId,
-        "workAddressId": 191880,
+        "workAddressId": workAddressId,
         "jobNature": "全职",
         "positionDesc": "22222222222222222222",
         "workYear": "应届毕业生",
@@ -134,7 +92,7 @@ def update_position(positionId):
         }],
         "salaryMax": 30
     }
-    remark = "发布职位"
+    remark = "编辑职位"
     return json_put(url=url, headers=headers, data=data, remark=remark)
 
 
@@ -160,6 +118,7 @@ def get_offline_positions():
 
 def get_other_positions():
     url = host + "/positions/company/other/pages"
+    header = app_header_999(userToken=userToken, DA=False)
     remark = "获取其他职位列表"
     return get_requests(url=url, headers=headers, remark=remark).json()
 
@@ -241,7 +200,6 @@ def positions_red_point_hint():
     return get_requests(url=url, remark=remark, headers=headers).json()
 
 
-# yqzhang新增
 def positions_details_app(positionId):
     url = host + '/positions/{}/details/app'.format(positionId)
     remark = '获取职位详情新'
@@ -274,49 +232,6 @@ def positions_offline(id, reqVersion=None, userToken=None, H9=False, userId=1000
     else:
         headers = get_app_header(userId, reqVersion)
     return json_put(url=url, data={}, remark=remark, headers=headers)
-
-
-def post_myOnlinePositions(firstType='开发|测试|运维类', workyear='3-5年', positionType='后端开发', positionThirdType='Java',
-                           positionName='java开发工程师', typeid=None, userid=100014641, workAddressId=191880):
-    '''
-    发布职位
-    :return:
-    '''
-    url = host + "/positions/publish"
-    data = {
-        "isConfirm": True,
-        "recommend": True,
-        "labels": [{
-            "name": "旅游",
-            "id": 9,
-            "isExpanded": False,
-            "isSelected": False,
-            "isSubTag": False
-        }, {
-            "name": "本地生活",
-            "id": 5,
-            "isExpanded": False,
-            "isSelected": False,
-            "isSubTag": False
-        }],
-        "positionType": positionType,
-        "positionDesc": "<p>11111111111111111111111111111</p>",
-        "workYear": workyear,
-        "salaryMin": 20,
-        "firstType": firstType,
-        "positionName": positionName,
-        "positionBrightPoint": "20薪",
-        "positionThirdType": positionThirdType,
-        "jobNature": "全职",
-        "education": "本科",
-        "workAddressId": workAddressId,
-        "department": "技术部",
-        "salaryMax": 30,
-        "typeId": typeid
-    }
-    remark = "发布职位"
-    headers = get_app_header1(userid)
-    return json_post(url=url, headers=headers, data=data, remark=remark)
 
 
 def publish_guide(userId):
@@ -353,6 +268,7 @@ def publish_position(userToken):
         "education": "本科",
         "jobNature": "全职",
         "department": "",
+        # "workAddressId" : 1629630,
         "workAddressId": 1560096,
         "salaryMax": 25
     }
