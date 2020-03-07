@@ -54,22 +54,25 @@ def test_talent_recTalent(b_login_app):
     r = talent_recTalent(userToken=b_login_app[0], positionId=positionId)
     assert_equal(True, bool(len(r['content']['result'])), "推荐人才用例通过")
     for talent in r['content']['result']:
-        assert_in(talent['portrait'].split(".")[-1], portrait_format, "推荐人才的头像信息用例通过")
+        if bool(talent.get('portrait', False)):
+            assert_in(talent['portrait'].split(".")[-1], portrait_format, "推荐人才的头像信息用例通过")
 
 
 def test_talent_newTalent(b_login_app):
     r = talent_newTalent(userToken=b_login_app[0], positionId=positionId)
     assert_equal(True, bool(len(r['content']['result'])), "最新人才用例通过")
     for talent in r['content']['result']:
-        assert_in(talent['portrait'].split(".")[-1], portrait_format, "最新人才的头像信息用例通过")
+        if bool(talent.get('portrait', False)):
+            assert_in(talent['portrait'].split(".")[-1], portrait_format, "最新人才的头像信息用例通过")
 
 
 def test_talent_collections(b_login_app):
     r = talent_collections(userToken=b_login_app[0])
     assert_equal(True, bool(len(r['content']['result'])), "人才收藏用例通过")
     for talent in r['content']['result']:
-        portrait = json.loads(talent['portrait'])
-        assert_in(portrait['url'].split(".")[-1], portrait_format, "人才收藏的头像信息用例通过")
+        if bool(talent.get('portrait', False)):
+            portrait = json.loads(talent['portrait'])
+            assert_in(portrait['url'].split(".")[-1], portrait_format, "人才收藏的头像信息用例通过")
 
 
 @pytest.mark.parametrize("city, positionName, pageNo", [("北京", "测试工程师", 1), ("北京", "测试工程师", 2)])
@@ -137,6 +140,7 @@ def test_chat_c_lastResume(b_login_app, c_login_app):
     # assert_equal(4, actualvalue=r['content']['resumeStageCode'], success_message="获取候选人最近一次投递状态用例通过")
     assert_equal(1, r['state'], '查询面试安排记录-新简历用例通过')
 
+
 def test_chat_c_info(b_login_app, c_login_app):
     r = chat_c_info(userToken=b_login_app[0], cUserId=c_login_app[1])
     assert_equal(1, r['state'], "获取候选人的详情信息用例通过")
@@ -157,6 +161,7 @@ def test_chat_c_lastResume_1(b_login_app, c_login_app):
     # assert_equal(4, r['content']['resumeStageCode'], "查询面试安排记录-新简历用例通过")
     assert_equal(1, r['state'], '查询面试安排记录-新简历用例通过')
 
+
 def test_orderResumes_resume_interview(b_login_app):
     r = orderResumes_resume_interview(userToken=b_login_app[0], resumeId=long_resumeId,
                                       positionId=mdsPositionId)
@@ -168,6 +173,7 @@ def test_chat_c_lastResume_4(b_login_app, c_login_app):
     # assert_equal(4, r['content']['resumeStageCode'], "查询面试安排记录-面试用例通过")
     assert_equal(1, r['state'], '查询面试安排记录-新简历用例通过')
 
+
 def test_orderResumes_resume_obsolete(b_login_app):
     r = orderResumes_resume_obsolete(userToken=b_login_app[0], resumeId=long_resumeId)
     assert_equal(1, r['state'], '候选人状态调整为不合适用例通过')
@@ -177,6 +183,7 @@ def test_chat_c_lastResume_64(b_login_app, c_login_app):
     r = chat_c_lastResume(userToken=b_login_app[0], cUserId=c_login_app[1])
     # assert_equal(4, r['content']['resumeStageCode'], "查询面试安排记录-淘汰用例通过")
     assert_equal(1, r['state'], '查询面试安排记录-新简历用例通过')
+
 
 def test_orderResumes_detail(b_login_app):
     r = orderResumes_detail(userToken=b_login_app[0], resumeId=long_resumeId)

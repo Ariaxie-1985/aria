@@ -52,6 +52,7 @@ def talent_app_search(userToken, city, positionName, pageNo=1):
     remark = "人才搜索"
     return json_post(url=url, headers=header, data=data, remark=remark)
 
+
 @pysnooper.snoop()
 def talent_info_get(userToken, userId):
     url = "https://gate.lagou.com/v1/zhaopin/talent/info/get?userId={}&comeFrom=7".format(userId)
@@ -61,7 +62,9 @@ def talent_info_get(userToken, userId):
 
 
 if __name__ == '__main__':
-    result = password_login("13033647506", "000000")
+    result = password_login("19910626899", "000000")
     userToken = result['content']['userToken']
-    r = talent_collections(userToken)
-
+    r = talent_recTalent(userToken, positionId=6868116)
+    for talent in r['content']['result']:
+        if bool(talent['portrait']):
+            print(talent['portrait'].split(".")[-1])
