@@ -47,7 +47,7 @@ def test_publish_position(b_login_app):
         positionId = 0
 
 
-portrait_format = ['jpg', 'png', 'jpeg']
+portrait_format = ['jpg', 'png', 'jpeg', 'JPG', 'PNG', 'JPEG']
 
 
 def test_talent_recTalent(b_login_app):
