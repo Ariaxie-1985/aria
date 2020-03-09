@@ -165,7 +165,11 @@ def test_chat_c_lastResume_1(b_login_app, c_login_app):
 def test_orderResumes_resume_interview(b_login_app):
     r = orderResumes_resume_interview(userToken=b_login_app[0], resumeId=long_resumeId,
                                       positionId=mdsPositionId)
-    assert_equal(1, r['state'], '邀约面试用例通过')
+    global interview_state
+    interview_state = r.get('state', 9)
+    if interview_state == 9:
+        pytest.skip("候选人已淘汰, 跳过执行")
+    assert_equal(1, interview_state, '邀约面试用例通过')
 
 
 def test_chat_c_lastResume_4(b_login_app, c_login_app):
@@ -174,6 +178,7 @@ def test_chat_c_lastResume_4(b_login_app, c_login_app):
     assert_equal(1, r['state'], '查询面试安排记录-新简历用例通过')
 
 
+@pytest.mark.skipif('interview_state == 9', reason="候选人已淘汰,无需执行")
 def test_orderResumes_resume_obsolete(b_login_app):
     r = orderResumes_resume_obsolete(userToken=b_login_app[0], resumeId=long_resumeId)
     assert_equal(1, r['state'], '候选人状态调整为不合适用例通过')
