@@ -153,7 +153,11 @@ def test_chat_c_position(b_login_app, c_login_app):
 
 def test_chat_interview_check(b_login_app):
     r = chat_interview_check(userToken=b_login_app[0], resumeId=long_resumeId)
-    assert_equal(1, r['state'], "检查IM是否能邀约面试用例通过")
+    global interview_state
+    interview_state = r.get('state', 9)
+    if interview_state == 9:
+        pytest.skip("候选人已淘汰, 跳过执行")
+    assert_equal(1, interview_state, '检查IM是否能邀约面试用例通过')
 
 
 def test_chat_c_lastResume_1(b_login_app, c_login_app):
@@ -165,11 +169,7 @@ def test_chat_c_lastResume_1(b_login_app, c_login_app):
 def test_orderResumes_resume_interview(b_login_app):
     r = orderResumes_resume_interview(userToken=b_login_app[0], resumeId=long_resumeId,
                                       positionId=mdsPositionId)
-    global interview_state
-    interview_state = r.get('state', 9)
-    if interview_state == 9:
-        pytest.skip("候选人已淘汰, 跳过执行")
-    assert_equal(1, interview_state, '邀约面试用例通过')
+    assert_equal(1, r.get('state', 0), '邀约面试用例通过')
 
 
 def test_chat_c_lastResume_4(b_login_app, c_login_app):
