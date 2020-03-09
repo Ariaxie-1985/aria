@@ -53,7 +53,7 @@ def test_buy_paid_package():
     r3 = open_product(templateId=79, companyId=admin_lg_company_id, contractNo=contractNo, userId=admin_user_id,
                       startTimeStr=str(datetime.date.today()),
                       endTimeStr=str(datetime.date.today() + datetime.timedelta(days=366)))
-    assert_equal(True, r3['success'], "开通付费套餐成功！")
+    assert_equal(True, r3['success'], "开通付费套餐成功！","公司主站id:{}".format(admin_lg_company_id))
 
 
 def test_login_admin_user(get_countryCode_phone_admin_user, get_password):
