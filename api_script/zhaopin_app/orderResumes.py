@@ -10,38 +10,35 @@ host = 'https://gate.lagou.com/v1/zhaopin'
 header = get_app_header(100014641)
 
 
-def orderResumes_query(resumeStageCode):
+def orderResumes_query(userToken, resumeStageCode):
     url = host + '/orderResumes/query'
     data = {
-        "catchTag": 0,
-        "channelIds": [
-            0
-        ],
-        "deliverTimeCode": 0,
-        "educationCode": 0,
+        "pageSize": 20,
+        "channelIds": [0],
         "famousCompanyCode": 0,
-        "famousSchoolCode": 0,
-        "otherCode": 0,
-        "pageSize": 0,
-        "positionIds": [
-            0
-        ],
         "resumeStageCode": resumeStageCode,
-        "resumeSubStage": "NOT_READ",
-        "workYearCode": 0
+        "educationCode": 0,
+        "deliverTimeCode": 0,
+        "otherCode": 0,
+        "famousSchoolCode": 0,
+        "workYearCode": 0,
+        "catchTag": 0
     }
-    remark = '根据条件筛选获取简历列表'
+    header = app_header_999(userToken=userToken, DA=False)
+    remark = '根据简历状态筛选获取简历列表'
     return json_post(url=url, headers=header, data=data, remark=remark)
 
 
-def orderResumes_filter():
+def orderResumes_filter(userToken):
     url = host + '/orderResumes/filter'
+    header = app_header_999(userToken=userToken, DA=False)
     remark = '简历搜索筛选条目'
     return get_requests(url=url, headers=header, remark=remark).json()
 
 
-def orderResumes_positions_pages():
-    url = host + '/orderResumes/positions/pages?pageNo=1&pageSize=2'
+def orderResumes_positions_pages(userToken):
+    url = host + '/orderResumes/positions/pages?pageNo=1&pageSize=20'
+    header = app_header_999(userToken=userToken, DA=False)
     remark = '分页查询用于简历查询的职位'
     return get_requests(url=url, headers=header, remark=remark).json()
 

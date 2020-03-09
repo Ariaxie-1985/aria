@@ -24,7 +24,7 @@ def test_send_verify_code(get_countryCode_phone):
     countryCode, phone = get_countryCode_phone[0], get_countryCode_phone[1]
     logging.info(msg='手机号 {} \n'.format(countryCode + phone))
     r = send_verify_code(countryCode, phone, "PASSPORT_REGISTER")
-    assert_equal(1, r['state'], '校验发送验证码成功', "校验发送验证码失败")
+    assert_equal(1, r['state'], '校验发送验证码成功', "失败的手机号:{}".format(phone))
 
 
 def test_get_verify_code():
@@ -35,7 +35,7 @@ def test_get_verify_code():
 
 def test_verifyCode_login():
     r = verifyCode_login(countryCode, phone, verify_code)
-    assert_equal(201001, r['state'], "校验验证码登录转注册成功")
+    assert_equal(201001, r['state'], "校验验证码登录转注册成功","失败的手机号:{}".format(phone))
 
 
 def test_register_by_phone():

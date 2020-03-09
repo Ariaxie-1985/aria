@@ -741,7 +741,6 @@ def login_verifyCode(countryCode, phone, verifyCode):
         logging.info("用户名: " + str(phone) + " 登录成功")
     return r
 
-
 def pc_send_register_verifyCode(countryCode, phone):
     url = 'https://passport.lagou.com/register/getPhoneVerificationCode.json'
     header = get_header(url='https://passport.lagou.com/register/register.html')
