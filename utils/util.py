@@ -342,6 +342,22 @@ def assert_in(expect_value, actual_value, success_message, fail_message=None):
         raise AssertionError
 
 
+def assert_not_in(expect_value, actual_value, success_message, fail_message=None):
+    '''
+    断言两个值是否相等, 并对结果打印日志
+    :param expectvalue: 期望结果
+    :param actualvalue: 实际结果
+    :param success_message: str, 断言成功打印的日志
+    :param fail_message:str, 断言失败打印的日志
+    '''
+    try:
+        assert expect_value not in actual_value
+        logging.info(success_message)
+    except AssertionError:
+        logging.info(fail_message)
+        raise AssertionError
+
+
 # 获取url的html源码
 def gethtml(url):
     '''
@@ -740,6 +756,7 @@ def login_verifyCode(countryCode, phone, verifyCode):
     if r['message'] == "操作成功":
         logging.info("用户名: " + str(phone) + " 登录成功")
     return r
+
 
 def pc_send_register_verifyCode(countryCode, phone):
     url = 'https://passport.lagou.com/register/getPhoneVerificationCode.json'

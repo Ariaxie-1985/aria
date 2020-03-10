@@ -102,15 +102,16 @@ def post_positions(firstType='开发|测试|运维类', workyear='应届毕业�
     return json_post(url=url, headers=headers, data=data, remark=remark)
 
 
-def positions_details(positionId):
+def positions_details(userToken, positionId):
     '''
     查看职位详情
     :param positionId: int
     :return:
     '''
-    url = host + "/positions/" + positionId + "/details"
+    url = host + "/positions/{}/details".format(positionId)
+    header = app_header_999(userToken, DA=False)
     remark = "查看职位详情"
-    return get_requests(url=url, headers=headers, remark=remark).json()
+    return get_requests(url=url, headers=header, remark=remark).json()
 
 
 def update_position(positionId, workAddressId):
@@ -157,17 +158,18 @@ def get_online_positions(userToken=None, H9=False, userId=100014641):
     return get_requests(url=url, headers=header, remark=remark).json()
 
 
-def get_offline_positions():
+def get_offline_positions(userToken):
     url = host + "/positions/offline/pages"
+    header = app_header_999(userToken=userToken, DA=False)
     remark = "获取已下线列表"
-    return get_requests(url=url, headers=headers, remark=remark).json()
+    return get_requests(url=url, headers=header, remark=remark).json()
 
 
-def get_other_positions():
+def get_other_positions(userToken):
     url = host + "/positions/company/other/pages"
     header = app_header_999(userToken=userToken, DA=False)
     remark = "获取其他职位列表"
-    return get_requests(url=url, headers=headers, remark=remark).json()
+    return get_requests(url=url, headers=header, remark=remark).json()
 
 
 def refresh_position(positionId, reqVersion=None, userId=100014641):
@@ -208,13 +210,14 @@ def apply_privilege_position(userId):
     return get_requests(url=url, headers=headers, remark=remark).json()
 
 
-def positions_is_hot(positionName):
+def positions_is_hot(userToken, positionName):
     url = host + "/positions/is_hot?positionName=" + positionName
+    headers = app_header_999(userToken, DA=False)
     remark = "是否热门职位"
     return json_post(url=url, headers=headers, remark=remark)
 
 
-def positions_invite(positionId, userId):
+def positions_invite(userToken, positionId, userId):
     '''
     批量邀约候选人
     :param positionId: int, 职位id
@@ -226,6 +229,7 @@ def positions_invite(positionId, userId):
         "positionId": positionId,
         "userIds": [userId]
     }
+    headers = app_header_999(userToken, DA=False)
     remark = "批量邀约候选人"
     return json_post(url=url, data=data, headers=headers, remark=remark)
 
@@ -241,10 +245,11 @@ def positions_recommend(positionId):
     return json_post(url=url, headers=headers, remark=remark)
 
 
-def positions_red_point_hint():
+def positions_red_point_hint(userToken):
     url = host + "/positions/red_point_hint"
+    header = app_header_999(userToken, DA=False)
     remark = "首页导航职位红点"
-    return get_requests(url=url, remark=remark, headers=headers).json()
+    return get_requests(url=url, remark=remark, headers=header).json()
 
 
 def positions_details_app(positionId):

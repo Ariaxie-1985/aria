@@ -4,7 +4,10 @@
 import datetime
 import time
 
-from utils.util import get_app_header, json_post, get_requests, app_header_999, put_requests
+import pysnooper
+
+from api_script.entry.account.passport import password_login
+from utils.util import get_app_header, json_post, get_requests, app_header_999, put_requests, json_put
 
 host = 'https://gate.lagou.com/v1/zhaopin'
 header = get_app_header(100014641)
@@ -107,7 +110,7 @@ def orderResumes_resume_interview(userToken, resumeId, positionId):
     data = {
         "orderResumeId": resumeId,
         "templateId": 0,
-        "contact": "技术总监",
+        "contact": "王子",
         "positionId": positionId,
         "interviewTime": ten_min_after_timestamp,
         "contactAddress": "北京市海淀区海置创投大厦4楼",
@@ -137,3 +140,58 @@ def orderResumes_read(userToken, resumeId):
     header = app_header_999(userToken=userToken, DA=False)
     remark = "设置简历已读"
     return get_requests(url=url, headers=header, remark=remark).json()
+
+
+def orderResumes_resume_link(userToken, resumeId):
+    url = "https://gate.lagou.com/v1/zhaopin/orderResumes/{}/link".format(resumeId)
+    header = app_header_999(userToken=userToken, DA=False)
+    remark = "标记初筛"
+    return put_requests(url=url, headers=header, remark=remark)
+
+
+def orderResumes_resume_luyong(userToken, resumeId):
+    url = "https://gate.lagou.com/v1/zhaopin/orderResumes/{}/luyong".format(resumeId)
+    header = app_header_999(userToken=userToken, DA=False)
+    remark = "录用候选人"
+    return put_requests(url=url, headers=header, remark=remark)
+
+
+def orderResumes_resume_employed(userToken, resumeId):
+    url = "https://gate.lagou.com/v1/zhaopin/orderResumes/{}/employed".format(resumeId)
+    header = app_header_999(userToken=userToken, DA=False)
+    remark = "候选人已入职"
+    return put_requests(url=url, headers=header, remark=remark)
+
+
+def orderResumes_resume_new(userToken, resumeId):
+    url = "https://gate.lagou.com/v1/zhaopin/orderResumes/{}/new".format(resumeId)
+    header = app_header_999(userToken=userToken, DA=False)
+    remark = "将淘汰简历重新恢复为候选人"
+    return put_requests(url=url, headers=header, remark=remark)
+
+
+def orderResumes_interview_datetime(userToken, resumeId):
+    url = "https://gate.lagou.com/v1/zhaopin/orderResumes/{}/interview/datetime".format(resumeId)
+    header = app_header_999(userToken=userToken, DA=False)
+    ten_min_after = datetime.datetime.now() - datetime.timedelta(minutes=-10)
+    ten_min_after_timestamp = time.mktime(ten_min_after.timetuple()) * 1000
+    data = {
+        "interviewTime": ten_min_after_timestamp,
+        "orderResumeId": resumeId
+    }
+    remark = "修改面试时间"
+    return json_put(url=url, headers=header, data=data, remark=remark)
+
+
+# @pysnooper.snoop()
+def orderResumes_stage(userToken, resumeId):
+    url = "https://gate.lagou.com/v1/zhaopin/orderResumes/{}/stage".format(resumeId)
+    header = app_header_999(userToken=userToken, DA=False)
+    remark = "查询简历阶段"
+    return get_requests(url=url, headers=header, remark=remark).json()
+
+
+if __name__ == '__main__':
+    result = password_login("19910626899", "000000")
+    userToken = result['content']['userToken']
+    orderResumes_stage(userToken, "1235904602201923584")
