@@ -32,35 +32,47 @@ def test_orderResumes_query(b_login_app, resumeStageCode):
 
 def test_orderResumes_sameResume_query(b_login_app):
     r = orderResumes_sameResume_query(userToken=b_login_app[0], resumeId=orderResumeId)
+    global order_resumeId, positionId
+    for result in r['content']['result']:
+        if result['resumeStage'] == "NEW":
+            order_resumeId = result['id']
+            positionId = result['positionId']
+            break
     assert_equal(True, bool(r['content']['totalCount']), "多次投递记录用例通过")
 
 
+def test_orderResumes_stage_NEW(b_login_app):
+    r = orderResumes_stage(userToken=b_login_app[0], resumeId=order_resumeId)
+    assert_equal("NEW", r['content']['stage'], '新简历阶段用例通过')
+
+
 def test_orderResumes_detail(b_login_app):
-    r = orderResumes_detail(userToken=b_login_app[0], resumeId=orderResumeId)
-    assert_equal(str(orderResumeId), r['content']['orderResumeId'], "查询简历详情用例通过")
+    r = orderResumes_detail(userToken=b_login_app[0], resumeId=order_resumeId)
+    assert_equal(str(order_resumeId), r['content']['orderResumeId'], "查询简历详情用例通过")
 
 
 def test_orderResumes_read(b_login_app):
-    r = orderResumes_read(userToken=b_login_app[0], resumeId=orderResumeId)
+    r = orderResumes_read(userToken=b_login_app[0], resumeId=order_resumeId)
     assert_equal(1, r['state'], '设置简历已读用例通过')
 
 
 def test_orderResumes_resume_link(b_login_app):
-    r = orderResumes_resume_link(userToken=b_login_app[0], resumeId=orderResumeId)
+    r = orderResumes_resume_link(userToken=b_login_app[0], resumeId=order_resumeId)
     assert_equal(1, r['state'], '标记初筛用例通过')
 
 
+def test_orderResumes_stage_LINK(b_login_app):
+    r = orderResumes_stage(userToken=b_login_app[0], resumeId=order_resumeId)
+    assert_equal("LINK", r['content']['stage'], '标记初筛阶段用例通过')
+
+
 def test_orderResumes_process_query(b_login_app):
-    r = orderResumes_process_query(userToken=b_login_app[0], resumeId=orderResumeId)
-    for comment in r['content']['comments']:
-        if comment['operate'].get('operateType') == 'DELIVER_RESUME':
-            global positionId
-            positionId = comment['operate']['parameters']['positionId']
+    r = orderResumes_process_query(userToken=b_login_app[0], resumeId=order_resumeId)
     assert_equal(1, r.get('state', 0), "查询简历参与者的评价记录")
 
 
 def test_orderResumes_resume_interview(b_login_app):
-    r = orderResumes_resume_interview(userToken=b_login_app[0], resumeId=orderResumeId, positionId=positionId)
+    r = orderResumes_resume_interview(userToken=b_login_app[0], resumeId=order_resumeId, positionId=positionId)
     global resume_state
     resume_state = r['state']
     if resume_state == 2002016:
@@ -68,34 +80,54 @@ def test_orderResumes_resume_interview(b_login_app):
     assert_equal(1, r['state'], '邀约面试用例通过')
 
 
-def test_orderResumes_resume_luyong(b_login_app):
-    r = orderResumes_resume_luyong(userToken=b_login_app[0], resumeId=orderResumeId)
-    assert_equal(1, r['state'], '录用候选人用例通过')
-
-
-def test_orderResumes_resume_employed(b_login_app):
-    r = orderResumes_resume_employed(userToken=b_login_app[0], resumeId=orderResumeId)
-    assert_equal(1, r['state'], '候选人已入职用例通过')
-
-
-def test_orderResumes_resume_obsolete(b_login_app):
-    r = orderResumes_resume_obsolete(userToken=b_login_app[0], resumeId=orderResumeId)
-    assert_equal(1, r['state'], '候选人状态调整为不合适用例通过')
-
-
-def test_orderResumes_resume_new(b_login_app):
-    r = orderResumes_resume_new(userToken=b_login_app[0], resumeId=orderResumeId)
-    assert_equal(1, r['state'], '将淘汰简历重新恢复为候选人用例通过')
-
-
-# todo 需要抓包看看，明天到公司
-def test_orderResumes_stage(b_login_app):
-    r = orderResumes_stage(userToken=b_login_app[0], resumeId=orderResumeId)
-    assert_equal(1, r['state'], '查询简历阶段用例通过')
+@pytest.mark.skipif("resume_state == 2002016", "候选人已经有面试, 无需邀约面试, 跳过")
+def test_orderResumes_stage_INTERVIEW(b_login_app):
+    r = orderResumes_stage(userToken=b_login_app[0], resumeId=order_resumeId)
+    assert_equal("INTERVIEW", r['content']['stage'], '面试阶段用例通过')
 
 
 def test_orderResumes_interview_datetime(b_login_app):
-    r = orderResumes_interview_datetime(userToken=b_login_app[0], resumeId=orderResumeId)
+    r = orderResumes_interview_datetime(userToken=b_login_app[0], resumeId=order_resumeId)
     if r.get('state', 1) == 2002010:
         pytest.skip("简历处于不能修改面试时间的阶段, 跳过")
     assert_equal(1, r['state'], '修改面试时间用例通过')
+
+
+def test_orderResumes_resume_luyong(b_login_app):
+    r = orderResumes_resume_luyong(userToken=b_login_app[0], resumeId=order_resumeId)
+    assert_equal(1, r['state'], '录用候选人用例通过')
+
+
+def test_orderResumes_stage_OFFER(b_login_app):
+    r = orderResumes_stage(userToken=b_login_app[0], resumeId=order_resumeId)
+    assert_equal("OFFER", r['content']['stage'], '录用阶段用例通过')
+
+
+def test_orderResumes_resume_employed(b_login_app):
+    r = orderResumes_resume_employed(userToken=b_login_app[0], resumeId=order_resumeId)
+    assert_equal(1, r['state'], '候选人已入职用例通过')
+
+
+def test_orderResumes_stage_EMPLOYED(b_login_app):
+    r = orderResumes_stage(userToken=b_login_app[0], resumeId=order_resumeId)
+    assert_equal("EMPLOYED", r['content']['stage'], '已入职阶段用例通过')
+
+
+def test_orderResumes_resume_obsolete(b_login_app):
+    r = orderResumes_resume_obsolete(userToken=b_login_app[0], resumeId=order_resumeId)
+    assert_equal(1, r['state'], '候选人状态调整为不合适用例通过')
+
+
+def test_orderResumes_stage_obsolete(b_login_app):
+    r = orderResumes_stage(userToken=b_login_app[0], resumeId=order_resumeId)
+    assert_equal("OBSOLETE", r['content']['stage'], '淘汰阶段用例通过')
+
+
+def test_orderResumes_resume_new(b_login_app):
+    r = orderResumes_resume_new(userToken=b_login_app[0], resumeId=order_resumeId)
+    assert_equal(1, r['state'], '将淘汰简历重新恢复为候选人用例通过')
+
+
+def test_orderResumes_stage(b_login_app):
+    r = orderResumes_stage(userToken=b_login_app[0], resumeId=order_resumeId)
+    assert_equal("NEW", r['content']['stage'], '查询简历阶段用例通过')
