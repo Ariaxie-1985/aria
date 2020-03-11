@@ -80,7 +80,7 @@ def test_orderResumes_resume_interview(b_login_app):
     assert_equal(1, r['state'], '邀约面试用例通过')
 
 
-@pytest.mark.skipif("resume_state == 2002016", "候选人已经有面试, 无需邀约面试, 跳过")
+@pytest.mark.skipif("resume_state == 2002016", reason="候选人已经有面试, 无需邀约面试, 跳过")
 def test_orderResumes_stage_INTERVIEW(b_login_app):
     r = orderResumes_stage(userToken=b_login_app[0], resumeId=order_resumeId)
     assert_equal("INTERVIEW", r['content']['stage'], '面试阶段用例通过')

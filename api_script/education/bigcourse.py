@@ -5,13 +5,6 @@
 from utils.util import app_header_999, get_requests
 
 
-def get_all_course_purchased_record(userToken, courseId):
-    url = 'https://gate.lagou.com/v1/neirong/bigcourse/getCourseInfo?courseId={}'.format(courseId)
-    header = app_header_999(userToken=userToken, DA=False)
-    remark = "获取大课的课程基本信息"
-    return get_requests(url=url, headers=header, remark=remark).json()
-
-
 def get_course_info(userToken, courseId):
     url = 'https://gate.lagou.com/v1/neirong/bigcourse/getCourseInfo?courseId={}'.format(courseId)
     header = app_header_999(userToken=userToken, DA=False)

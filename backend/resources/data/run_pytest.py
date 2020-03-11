@@ -24,6 +24,8 @@ class run_Pytest(Resource):
         'lg-entry-boot': 'pytest {}/tests/test_lg_entry_boot/ --html=backend/templates/{}_report.html --self-contained-html',
         'lg-neirong-boot': 'pytest {}/tests/test_lg_neirong_boot/ --html=backend/templates/{}_report.html --self-contained-html',
         'mds-web-tomcat': 'pytest {}/tests/test_mds_web_tomcat/ --html=backend/templates/{}_report.html --self-contained-html',
+        'kw-course-java': 'pytest {}/tests/test_kw_course_java/ --html=backend/templates/{}_report.html --self-contained-html',
+
     }
 
     def get(self):
@@ -158,15 +160,17 @@ class run_Pytest(Resource):
         '''
         parser = reqparse.RequestParser()
         parser.add_argument('module', type=str,
-                            choices=('lg-entry-boot', 'lg-neirong-boot', 'lg-zhaopin-boot', 'mds-web-tomcat',
-                                     'mainprocess'),
-                            help="请输入正确模块值, 'mainprocess' or 'lg-entry-boot' or 'lg-neirong-boot' or 'mds-web-tomcat' or 'lg-zhaopin-boot' ",
+                            help="请输入正确模块值",
                             required=True)
         args = parser.parse_args()
         project_path = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
         os.chdir(project_path)
         state = 1
         info = None
+
+        if self.Business_module.get(args['module'], None) == None:
+            return {'state': 0, "data": "不支持该业务模块"}
+
         subprocess.call(self.Business_module[args['module']].format(project_path, args['module']), shell=True,
                         timeout=300)
         result = analysis_html_report("{}/backend/templates/{}_report.html".format(project_path, args['module']), 3,
