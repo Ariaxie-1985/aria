@@ -23,6 +23,17 @@ def verify_user_is_forbid(userId):
         return False
 
 
+def home_query_user_id(telephone):
+    url = 'http://home.lagou.com/forbid/user/queryUser.json'
+    header = get_header(url='http://home.lagou.com/')
+    data = {'searchContent': "+{}".format(telephone), 'limit': 15, 'currentPage': 0, 'typeSearch': 1}
+    result = form_post(url=url, headers=header, data=data, remark='查询成功')
+    if result['success'] == True and result['data']['pageData'][0]['isForbid'] == True:
+        return result['data']['pageData'][0]['id']
+    else:
+        return False
+
+
 def forbid_company(companyId):
     url = 'http://home.lagou.com/forbid/companyController/forbid.json'
     data = {'companyId': companyId, 'forbidReason': '公司信息不实（发布职位与公司经营范围不符）,'}
@@ -57,4 +68,3 @@ if __name__ == '__main__':
     print(type(verify_user_is_forbid(15754261)))
     print('用户封禁结果是{}'.format(verify_user_is_forbid(15754261)))
     print('公司封禁结果是{}'.format(verify_company_is_forbid(117437231)))
-
