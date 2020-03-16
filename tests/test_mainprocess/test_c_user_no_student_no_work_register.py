@@ -17,6 +17,8 @@ from utils.read_file import record_test_data
 from utils.util import assert_equal, verify_code_message, login_password
 
 time.sleep(1)
+register_state = 201001
+skip_ = pytest.mark.skipif('register_state != 201001', reason='注册失败,跳过执行')
 
 
 def test_send_verify_code(get_countryCode_phone):
@@ -35,9 +37,12 @@ def test_get_verify_code():
 
 def test_verifyCode_login():
     r = verifyCode_login(countryCode, phone, verify_code)
-    assert_equal(201001, r['state'], "校验验证码登录转注册成功","失败的手机号:{}".format(phone))
+    global register_state
+    register_state = r.get('state', 0)
+    assert_equal(201001, register_state, "校验验证码登录转注册成功", "失败的手机号:{}".format(phone))
 
 
+@skip_
 def test_register_by_phone():
     r = register_by_phone(countryCode, phone, verify_code)
     assert_equal(1, r['state'], "校验注册成功")
@@ -46,57 +51,68 @@ def test_register_by_phone():
     userId = r['content']['userInfo']['userId']
 
 
+@skip_
 def test_get_login_by_token():
     r = get_login_by_token(userToken)
     logging.info(msg='userToken {} \n'.format(userToken))
     assert_equal(1, r['state'], '校验token登录成功')
 
 
+@skip_
 def test_guideBasicInfo():
     r = guideBasicInfo(countryCode + phone, 2, userToken, joinWorkTime="暂无工作经历")
     assert_equal(1, r['state'], '校验提交基本信息成功')
 
 
+@skip_
 def test_educationExperiences():
     r = educationExperiences(userToken)
     assert_equal(1, r['state'], "校验提交教育经历成功")
 
 
+@skip_
 def test_personalCards():
     r = personalCards(userToken)
     assert_equal(1, r['state'], '校验提交个人名片成功')
 
 
+@skip_
 def test_abilityLabels():
     r = abilityLabels(userToken)
     assert_equal(1, r['state'], '校验提交综合能力成功')
 
 
+@skip_
 def test_expectJob():
     r = expectJob(userToken)
     assert_equal(1, r['state'], '校验提交求职意向')
 
 
+@skip_
 def test_get_info():
     r = get_info(userToken)
     assert_equal(1, r['state'], '获取C端用户信息')
 
 
+@skip_
 def test_batchCancel():
     r = batchCancel(userToken=userToken, userIds=userId)
     assert_equal(1, r['state'], "用户注册非学生但无工作经验的注销账号成功")
 
 
+@skip_
 def test_record():
     record_test_data(type=1, userId=userId)
 
 
+@skip_
 def test_login_home():
     # 线上home后台的用户账号和密码, 勿动
     r = login_password('betty@lagou.com', '00f453dfec0f2806db5cfabe3ea94a35')
     assert_equal(1, r['state'], '校验登录home成功！')
 
 
+@skip_
 def test_forbid_general_user():
     forbid_result = forbid.forbid_user(userId)
     assert_equal(True, forbid_result, '校验非学生用户无工作经验的C端是否封禁成功')

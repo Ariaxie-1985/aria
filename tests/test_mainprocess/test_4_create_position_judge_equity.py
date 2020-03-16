@@ -9,14 +9,20 @@ from api_script.home.data_import import import_linkManInfo, import_contacts
 from api_script.jianzhao_web.b_position.B_postposition import createPosition_999, get_online_positions, \
     offline_position, www_redirect_easy
 from utils.util import assert_equal, login_password
+from .test_1_create_company import skip_
+from .test_2_join_company import skip__
 
 
+@skip__
+@skip_
 def test_get_admin_user_info(get_user_info):
     global admin_user_id, admin_lg_company_id
     admin_user_id, admin_company_id, admin_lg_company_id = get_user_info[0], get_user_info[1], get_user_info[2]
     assert_equal(True, bool(admin_user_id), '获取用户ID是否成功')
 
 
+@skip__
+@skip_
 def test_free_company_create_position_person_and_company_enough_equity(get_positionType):
     r = createPosition_999(firstType=get_positionType[0], positionType=get_positionType[1],
                            positionThirdType=get_positionType[2],
@@ -26,6 +32,8 @@ def test_free_company_create_position_person_and_company_enough_equity(get_posit
     free_positionId = r['content']['data']['parentPositionInfo']['positionChannelInfoList'][0]['positionId']
 
 
+@skip__
+@skip_
 def test_free_position_is_in_online_position():
     positions_result = get_online_positions()
     positionIds = []
@@ -35,12 +43,16 @@ def test_free_position_is_in_online_position():
     assert_equal(True, free_positionId in positionIds, '校验获取发布的职位是否在线职位是否成功！')
 
 
+@skip__
+@skip_
 def test_login_home():
     # 线上home后台的用户账号和密码, 勿动
     r = login_password('betty@lagou.com', '00f453dfec0f2806db5cfabe3ea94a35')
     assert_equal(1, r.get('state', 0), '校验登录home成功！')
 
 
+@skip__
+@skip_
 def test_buy_paid_package():
     contractNo = 'lagou-autotest-{}-{}'.format(str(datetime.date.today()), str(random.randint(1, 99)))
     r1 = import_linkManInfo(admin_lg_company_id, contractNo)
@@ -53,9 +65,11 @@ def test_buy_paid_package():
     r3 = open_product(templateId=79, companyId=admin_lg_company_id, contractNo=contractNo, userId=admin_user_id,
                       startTimeStr=str(datetime.date.today()),
                       endTimeStr=str(datetime.date.today() + datetime.timedelta(days=366)))
-    assert_equal(True, r3['success'], "开通付费套餐成功！","公司主站id:{}".format(admin_lg_company_id))
+    assert_equal(True, r3['success'], "开通付费套餐成功！", "公司主站id:{}".format(admin_lg_company_id))
 
 
+@skip__
+@skip_
 def test_login_admin_user(get_countryCode_phone_admin_user, get_password):
     global admin_countryCode, admin_phone, admin_user_name
     admin_countryCode, admin_phone, admin_user_name = get_countryCode_phone_admin_user[0], \
@@ -66,6 +80,8 @@ def test_login_admin_user(get_countryCode_phone_admin_user, get_password):
     www_redirect_easy()
 
 
+@skip__
+@skip_
 def test_paid_company_create_position_person_and_company_enough_equity(get_positionType):
     r = createPosition_999(firstType=get_positionType[0], positionType=get_positionType[1],
                            positionThirdType=get_positionType[2],
@@ -75,6 +91,8 @@ def test_paid_company_create_position_person_and_company_enough_equity(get_posit
     paid_positionId = r['content']['data']['parentPositionInfo']['positionChannelInfoList'][0]['positionId']
 
 
+@skip__
+@skip_
 def test_paid_position_is_in_online_position():
     positions_result = get_online_positions()
     positionIds = []
@@ -84,11 +102,15 @@ def test_paid_position_is_in_online_position():
     assert_equal(True, paid_positionId in positionIds, '校验获取发布的职位是否在线职位是否成功！')
 
 
+@skip__
+@skip_
 def test_offline_free_position():
     offline_result = offline_position(positionId=free_positionId)
     assert_equal(1, offline_result.get('state', 0), '校验下线免费职位是否成功！')
 
 
+@skip__
+@skip_
 def test_offline_paid_position():
     offline_result = offline_position(positionId=paid_positionId)
     assert_equal(1, offline_result.get('state', 0), '校验下线付费职位是否成功！')
