@@ -16,9 +16,9 @@ def test_register_admin_user(get_countryCode_phone_admin_user):
                                     get_countryCode_phone_admin_user[2]
     if pc_send_register_verifyCode(countryCode, phone) == 1:
         verify_code = verify_code_message(countryCode, phone)
-        assert_equal(True, bool(verify_code), '获取验证码成功','失败手机号:{}'.format(countryCode+phone))
+        assert_equal(True, bool(verify_code), '获取验证码成功')
         register = user_register_lagou(countryCode, phone, verify_code)
-        assert_equal(1, register.get('state', 0), '校验管理员注册是否成功！')
+        assert_equal(1, register.get('state', 0), '校验管理员注册是否成功！', '失败手机号:{}'.format(countryCode + phone))
     else:
         assert_equal(1, 2, '校验发送验证码是否成功')
 
