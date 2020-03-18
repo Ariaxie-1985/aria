@@ -594,7 +594,11 @@ def get_verify_code_list(countryCode, phone):
             "page": 1, "count": 10}
     header = {"X-L-REQ-HEADER": '{deviceType:1}',
               "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36"}
-    r = requests.post(url=url, json=data, headers=header, verify=False).json()
+    try:
+        r = requests.post(url=url, json=data, headers=header, verify=False).json()
+    except JSONDecodeError:
+        logging.error(msg="获取验证码请求失败, 请重试! ")
+        return 0, None, None
     if r['content']['totalCount'] == 0:
         return r['content']['totalCount'], None, None
     else:

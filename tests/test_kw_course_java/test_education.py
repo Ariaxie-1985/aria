@@ -5,10 +5,10 @@
 import pytest
 
 from api_script.education.app import get_homepage_cards, get_all_course_purchased_record
-from api_script.education.bigcourse import get_course_info, get_course_outline, \
-    get_week_lessons, get_watch_percent
+from api_script.education.bigcourse import get_course_info, get_course_outline, get_week_lessons, get_watch_percent
 from api_script.education.course import get_course_commentList
-from api_script.education.kaiwu import check_course_share_status, get_course_description, get_distribution_info
+from api_script.education.kaiwu import get_course_description, get_distribution_info, check_course_share_status, \
+    get_course_lessons
 from utils.util import assert_equal
 
 
@@ -19,14 +19,20 @@ def test_get_homepage_cards(c_login_education, expect_card_type, expect_title):
     #     assert_equal(expect_card_type, card['cardType'], "拉勾教育-获取首页卡片信息列表用例通过")
     #     assert_equal(expect_title, card['title'], "拉勾教育-获取首页卡片信息列表用例通过")
     assert_equal(1, r['state'], "拉勾教育-获取首页卡片信息列表用例通过")
-    global first_small_course_id, first_small_course_brief
+    global first_small_course_id, first_small_course_brief,first_small_course_title
     first_small_course_id = r['content']['pageCardList'][2]['smallCourseList'][0]['id']
     first_small_course_brief = r['content']['pageCardList'][2]['smallCourseList'][0]['brief']
+    first_small_course_title = r['content']['pageCardList'][2]['smallCourseList'][0]['title']
 
 
 def test_check_course_share_status(c_login_education):
     r = check_course_share_status(userToken=c_login_education[0], courseId=first_small_course_id)
     assert_equal(1, r['state'], "选课查询课程详情用例通过")
+
+
+def test_get_course_lessons(c_login_education):
+    r = get_course_lessons(userToken=c_login_education[0], courseId=first_small_course_id)
+    assert_equal(first_small_course_title, r['content']['courseName'], '查询课程详情用例通过')
 
 
 def test_get_course_description(c_login_education):

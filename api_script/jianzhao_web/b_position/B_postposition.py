@@ -140,3 +140,27 @@ def www_redirect_easy():
     url = 'https://easy.lagou.com/dashboard/index.htm?from=c_index'
     header = get_header(url='https://www.lagou.com/')
     return get_requests(url=url, headers=header, remark='从主站跳转到企业版页')
+
+
+def get_all_position_category():
+    url = 'https://easy.lagou.com/position/multiChannel/getAllPositionCategory.json'
+    header = get_header(url='https://easy.lagou.com/position/multiChannel/myOnlinePositions.htm?pageNo=1')
+    return get_requests(url=url, headers=header, remark="获取职位的全部分类").json()
+
+
+def multiChannel_filter():
+    url = 'https://easy.lagou.com/parentPosition/multiChannel/filter.json'
+    header = get_header(url='https://easy.lagou.com/position/multiChannel/myOnlinePositions.htm?pageNo=1')
+    return form_post(url=url, headers=header, remark="职位类型(特权职位)")
+
+
+def my_parent_positions():
+    url = 'https://easy.lagou.com/parentPosition/multiChannel/myParentPositions.json'
+    header = get_header(url='https://easy.lagou.com/position/multiChannel/myOnlinePositions.htm?pageNo=1')
+    return form_post(url=url, headers=header, remark="获取在线职位")
+
+
+def count_by_status():
+    url = 'https://easy.lagou.com/parentPosition/multiChannel/countByStatus.json'
+    header = get_header(url='https://easy.lagou.com/position/multiChannel/myOnlinePositions.htm?pageNo=1')
+    return form_post(url=url, headers=header, remark="统计当前自己和公司的职位数量")

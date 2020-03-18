@@ -7,7 +7,7 @@ import pytest
 
 from api_script.entry.account.passport import password_login
 from backend.common.get_data import get_www_company_id
-from utils.util import login
+from utils.util import login, login_password
 from faker import Faker
 from api_script.jianzhao_web.b_basic.toB_saveHR_1 import get_b_person_userId, get_b_index_Id
 
@@ -91,3 +91,8 @@ def c_login_app(request):
 def c_login_education(request):
     result = password_login(request.param[0], request.param[1])
     return result['content']['userToken'], result['content']['userInfo']['userId']
+
+@pytest.fixture(scope='session', params=[["19910626899", "9062e77da243687c68bf9665727b5c01"]])
+def b_login_web(request):
+    r = login_password(request.param[0], request.param[1])
+    return r.get('state',0)

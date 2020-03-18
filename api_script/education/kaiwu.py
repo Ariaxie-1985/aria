@@ -24,3 +24,9 @@ def get_distribution_info(userToken, courseId):
     header = app_header_999(userToken=userToken, DA=False)
     remark = "言职/开悟/获取分销信息"
     return get_requests(url=url, headers=header, remark=remark).json()
+
+def get_course_lessons(userToken, courseId):
+    url = 'https://gate.lagou.com/v1/neirong/kaiwu/getCourseLessons?courseId={}'.format(courseId)
+    header = app_header_999(userToken=userToken, DA=False)
+    remark = "获取课程信息"
+    return get_requests(url=url, headers=header, remark=remark).json()
