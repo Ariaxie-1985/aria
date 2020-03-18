@@ -164,3 +164,29 @@ def count_by_status():
     url = 'https://easy.lagou.com/parentPosition/multiChannel/countByStatus.json'
     header = get_header(url='https://easy.lagou.com/position/multiChannel/myOnlinePositions.htm?pageNo=1')
     return form_post(url=url, headers=header, remark="统计当前自己和公司的职位数量")
+
+
+def my_offline_positions(pageNo):
+    url = 'https://easy.lagou.com/parentPosition/multiChannel/myOfflinePositions.json'
+    header = get_header(url='https://easy.lagou.com/position/multiChannel/myOfflinePositions.htm?pageNo=1')
+    data = {
+        'pageNo': pageNo
+    }
+    return form_post(url=url, headers=header, data=data, remark="获取已下线的职位")
+
+
+def company_other_positions(pageNo):
+    url = 'https://easy.lagou.com/parentPosition/multiChannel/companyOtherPositions.json'
+    header = get_header(url='https://easy.lagou.com/position/multiChannel/companyOtherPositions.htm?pageNo=1')
+    data = {
+        'pageNo': pageNo
+    }
+    return form_post(url=url, headers=header, data=data, remark="获取公司其他人的职位")
+
+
+
+def redirect_original_page(positionId):
+    url = 'https://easy.lagou.com/position/redirectOriginalPage.htm?positionId={}'.format(positionId)
+    header = get_header(url='https://easy.lagou.com/position/multiChannel/myOnlinePositions.htm?pageNo=1')
+    remark = '获取职位详情'
+    return get_requests(url=url, headers=header, remark=remark)

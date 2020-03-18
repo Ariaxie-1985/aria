@@ -66,3 +66,10 @@ def get_product_version():
     header = get_header(url='https://easy.lagou.com/position/multiChannel/myOnlinePositions.htm?pageNo=1')
     remark = '获取当前公司的拉勾加版本号'
     return get_requests(url=url, headers=header, remark=remark).json()
+
+
+def get_all_members():
+    url = 'https://easy.lagou.com/member/allMembers.json?pageNum=1&pageSize=1'
+    header = get_header(url='https://easy.lagou.com/position/multiChannel/companyOtherPositions.htm?pageNo=1')
+    remark = '获取公司内的所有成员'
+    return get_requests(url=url, headers=header, remark=remark).json()
