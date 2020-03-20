@@ -135,7 +135,7 @@ def workExperiences(userToken, **kwargs):
         "positionType": "销售顾问",
         "positionType2": "销售",
         "endDate": endDate,
-        "positionName": "拉勾测试销售顾问",
+        "positionName": "请忽略此职位",
         "companyName": companyName,
         "startDate": startDate,
         "companyIndustry": "分类信息",

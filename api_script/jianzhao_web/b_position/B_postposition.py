@@ -190,3 +190,11 @@ def redirect_original_page(positionId):
     header = get_header(url='https://easy.lagou.com/position/multiChannel/myOnlinePositions.htm?pageNo=1')
     remark = '获取职位详情'
     return get_requests(url=url, headers=header, remark=remark)
+
+
+def batch_refresh_info():
+    url = 'https://easy.lagou.com/position/batchRefreshInfo.json'
+    refer_url = f'https://easy.lagou.com/position/multiChannel/myOnlinePositions.htm?pageNo=1&citys=&publishUserId=&channelTypes=&typeId=&firstTypes=&keyword='
+    header = get_code_token(url=refer_url)
+    remark = '批量刷新职位'
+    return form_post(url=url, headers=header, remark=remark)
