@@ -17,16 +17,16 @@ def test_register_admin_user(get_countryCode_phone_admin_user):
     global countryCode, phone, user_name, verify_code
     countryCode, phone, user_name = get_countryCode_phone_admin_user[0], get_countryCode_phone_admin_user[1], \
                                     get_countryCode_phone_admin_user[2]
+    global register_state
     if pc_send_register_verifyCode(countryCode, phone) == 1:
         verify_code = verify_code_message(countryCode, phone)
         assert_equal(True, bool(verify_code), '获取验证码成功')
         register = user_register_lagou(countryCode, phone, verify_code)
-        global register_state
         register_state = register.get('state', 0)
         assert_equal(1, register_state, '校验管理员注册是否成功！', '失败手机号:{}'.format(countryCode + phone))
     else:
         register_state = 0
-        assert_equal(1, 2, '校验发送验证码是否成功')
+        assert_equal(1, register_state, '校验发送验证码是否成功')
 
 
 @skip_

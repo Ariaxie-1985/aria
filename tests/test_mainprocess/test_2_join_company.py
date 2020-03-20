@@ -17,11 +17,11 @@ def test_register_general_user(get_countryCode_phone_general_user):
     general_countryCode, general_phone, general_user_name = get_countryCode_phone_general_user[0], \
                                                             get_countryCode_phone_general_user[1], \
                                                             get_countryCode_phone_general_user[2]
+    global register_state
     if pc_send_register_verifyCode(general_countryCode, general_phone) == 1:
         verify_code = verify_code_message(general_countryCode, general_phone)
         assert_equal(True, bool(verify_code), '获取验证码成功')
         register = user_register_lagou(general_countryCode, general_phone, verify_code)
-        global register_state
         register_state = register.get('state', 0)
         assert_equal(1, register['state'], "校验普通用户注册是否成功", '失败手机号:{}'.format(general_countryCode + general_phone))
     else:
