@@ -9,7 +9,7 @@ from api_script.jianzhao_web.im import settings_template, resume_report_reasons,
 from utils.util import assert_equal
 
 
-def test_settings_template():
+def test_settings_template(b_login_web):
     r = settings_template()
     assert_equal(1, r.get('state'), '获取面试模板用例通过')
 

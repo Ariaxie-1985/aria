@@ -62,19 +62,15 @@ def test_get_all_members():
     assert_equal(True, bool(r['content']['data']['members']['result']), '获取公司内的所有成员用例通过')
 
 
-second = 5
-
 
 @pytest.mark.skip(reason="接口有拦截，暂跳过执行")
 def test_rec_talent():
-    time.sleep(second)
     r = rec_talent(positionId=outerPositionId)
     assert_equal(True, bool(r['content']['data']['page']['result']), "推荐人才用例通过")
 
 
 @pytest.mark.skip(reason="接口有拦截，暂跳过执行")
 def test_new_talent():
-    time.sleep(second)
     r = new_talent(positionId=outerPositionId)
     global encryptUserId_list, show_id
     show_id = r['content']['data']['show_id']
@@ -86,34 +82,29 @@ def test_new_talent():
 
 @pytest.mark.skip(reason="接口有拦截，暂跳过执行")
 def test_talent_get_experiences():
-    time.sleep(second)
     r = talent_get_experiences(positionId=outerPositionId, show_id=show_id, cUserIds=','.join(encryptUserId_list))
     assert_equal(True, bool(r['content']['rows']), "获取推荐人才的教育经历用例通过")
 
 
 @pytest.mark.skip(reason="接口有拦截，暂跳过执行")
 def test_talent_get_action_labels():
-    time.sleep(second)
     r = talent_get_action_labels(positionId=outerPositionId, show_id=show_id, cUserIds=','.join(encryptUserId_list))
     assert_equal(True, bool(r['content']['rows']), "获取推荐人才的简历动态用例通过")
 
 
 @pytest.mark.skip(reason="接口有拦截，暂跳过执行")
 def test_talent_hunting():
-    time.sleep(second)
     r = talent_hunting(positionId=outerPositionId)
     assert_equal(1, r['state'], '人才猎手用例通过')
 
 
 @pytest.mark.skip(reason="接口有拦截，暂跳过执行")
 def test_talent_inspect():
-    time.sleep(second)
     r = talent_inspect(positionId=outerPositionId)
     assert_equal(1, r['state'], '谁看过我用例通过')
 
 
 def test_plus_search_selector():
-    time.sleep(second)
     r = plus_search_selector()
     assert_equal(1, r['state'], '人才搜索筛选器用例通过')
 
@@ -121,19 +112,16 @@ def test_plus_search_selector():
 @pytest.mark.skip(reason="接口有拦截，暂跳过执行")
 @pytest.mark.parametrize("positionName", [('测试开发'), ('Java开发')])
 def test_talent_search_list(positionName):
-    time.sleep(second)
     r = talent_search_list(positionName=positionName)
     assert_equal(1, r.get('state'), "通过职位名称来搜索人才用例通过")
 
 
 def test_talent_collection_list():
-    time.sleep(second)
     r = talent_collection_list()
     assert_equal(1, r.get('state'), '人才收藏列表用例通过')
 
 
 def test_talent_collection_count():
-    time.sleep(second)
     r = talent_collection_count()
     assert_equal(1, r.get('state'), '人才收藏统计用例通过')
 
