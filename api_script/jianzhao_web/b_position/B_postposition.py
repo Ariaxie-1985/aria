@@ -184,7 +184,6 @@ def company_other_positions(pageNo):
     return form_post(url=url, headers=header, data=data, remark="获取公司其他人的职位")
 
 
-
 def redirect_original_page(positionId):
     url = 'https://easy.lagou.com/position/redirectOriginalPage.htm?positionId={}'.format(positionId)
     header = get_header(url='https://easy.lagou.com/position/multiChannel/myOnlinePositions.htm?pageNo=1')
@@ -198,3 +197,19 @@ def batch_refresh_info():
     header = get_code_token(url=refer_url)
     remark = '批量刷新职位'
     return form_post(url=url, headers=header, remark=remark)
+
+
+def plus_search_selector():
+    url = 'https://easy.lagou.com/search/plusSearchSelector.json?from=talentsearch'
+    refer_url = 'https://easy.lagou.com/talent/index.htm?'
+    header = get_header(url=refer_url)
+    remark = '人才搜索筛选器'
+    return get_requests(url=url, headers=header, remark=remark).json()
+
+
+def will_offline_positionCount():
+    url = 'https://easy.lagou.com/parentPosition/multiChannel/willOfflinePositionCount.json'
+    refer_url = 'https://easy.lagou.com/bstatus/auth/index.htm?'
+    header = get_header(url=refer_url)
+    remark = '统计将要下线的职位'
+    return get_requests(url=url, headers=header, remark=remark).json()

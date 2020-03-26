@@ -45,21 +45,45 @@ def talent_get_action_labels(positionId, show_id, cUserIds):
 
 def talent_hunting(positionId):
     # 猎头人才
-    refer_query_talent_url = f"https://easy.lagou.com/talent/hunting.json?positionId={positionId}&pageNo=1"
-    query_talent_url = f"https://easy.lagou.com/talent/index.htm?positionId={positionId}&showId=&tab=inspect&pageNo=1"
+    query_talent_url = f"https://easy.lagou.com/talent/hunting.json?positionId={positionId}&pageNo=1"
+    refer_query_talent_url = f"https://easy.lagou.com/talent/index.htm?positionId={positionId}&showId=&tab=inspect&pageNo=1"
     query_talent_header = get_code_token(refer_query_talent_url)
-    remark = "猎头人才"
+    remark = "人才猎手"
     return get_requests(url=query_talent_url, headers=query_talent_header, remark=remark).json()
 
 
 def talent_inspect(positionId):
-    refer_query_talent_url = f"https://easy.lagou.com/talent/inspect/1.json?positionId={positionId}&showId="
-    query_talent_url = f"https://easy.lagou.com/talent/index.htm?positionId={positionId}&showId=&tab=inspect&pageNo=1"
+    query_talent_url = f"https://easy.lagou.com/talent/inspect/1.json?positionId={positionId}&showId="
+    refer_query_talent_url = f"https://easy.lagou.com/talent/index.htm?positionId={positionId}&showId=&tab=inspect&pageNo=1"
     query_talent_header = get_code_token(refer_query_talent_url)
     remark = "谁看过我"
     return get_requests(url=query_talent_url, headers=query_talent_header, remark=remark).json()
 
 
+def talent_search_list(positionName):
+    url = 'https://easy.lagou.com/talent/search/list.json'
+    refer_url = f'https://easy.lagou.com/talent/search/list.htm?pageNo=1&positionName={positionName}'
+    header = get_code_token(url=refer_url)
+    data = {'pageNo': 1, 'positionName': positionName, 'searchVersion': 1}
+    remark = '通过职位名称来搜索人才'
+    return form_post(url=url, data=data, headers=header, remark=remark)
+
+
+def talent_collection_list():
+    url = 'https://easy.lagou.com/collection/collection/list.json'
+    refer_url = f'https://easy.lagou.com/collection/index.htm?'
+    header = get_code_token(url=refer_url)
+    data = {'pageNo': 1, 'pageSize': 15}
+    remark = '人才收藏列表'
+    return form_post(url=url, data=data, headers=header, remark=remark)
+
+
+def talent_collection_count():
+    refer_query_talent_url = f"https://easy.lagou.com/collection/index.htm?"
+    query_talent_url = f"https://easy.lagou.com/collection/count.json"
+    query_talent_header = get_code_token(refer_query_talent_url)
+    remark = "人才收藏统计"
+    return get_requests(url=query_talent_url, headers=query_talent_header, remark=remark).json()
 
 
 if __name__ == '__main__':

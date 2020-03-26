@@ -2,7 +2,7 @@
 # @Time  : 2020/3/18 12:13
 # @Author: Xiawang
 # Description:
-from utils.util import get_header, get_requests, form_post
+from utils.util import get_header, get_requests, form_post, get_code_token
 
 
 def jump_easy_index_html():
@@ -73,3 +73,81 @@ def get_all_members():
     header = get_header(url='https://easy.lagou.com/position/multiChannel/companyOtherPositions.htm?pageNo=1')
     remark = '获取公司内的所有成员'
     return get_requests(url=url, headers=header, remark=remark).json()
+
+
+def head_notifications():
+    url = 'https://easy.lagou.com/notification/headNotifications.json?start=0&size=5'
+    header = get_code_token(url='https://easy.lagou.com/settings/account/me.htm?')
+    remark = '通知'
+    return get_requests(url=url, headers=header, remark=remark).json()
+
+
+def account_my_role():
+    url = 'https://easy.lagou.com/user/account/my/role.json'
+    header = get_code_token(url='https://easy.lagou.com/settings/account/me.htm?')
+    remark = '获取当前用户的角色权限'
+    return get_requests(url=url, headers=header, remark=remark).json()
+
+
+def get_shield_expire():
+    url = 'https://easy.lagou.com/im/chat/getShieldExpire.json'
+    header = get_code_token(url='https://easy.lagou.com/settings/account/me.htm?')
+    remark = '获取当前消息是否过期'
+    return get_requests(url=url, headers=header, remark=remark).json()
+
+
+def account_portrait():
+    url = 'https://easy.lagou.com/settings/account/portrait.json'
+    header = get_code_token(url='https://easy.lagou.com/settings/account/me.htm?')
+    remark = '获取当前用户的头像'
+    return form_post(url=url, headers=header, remark=remark)
+
+
+def notice_show():
+    url = 'https://easy.lagou.com/notice/show.json'
+    header = get_code_token(url='https://easy.lagou.com/settings/account/me.htm?')
+    data = {
+        'noticeType': 'FIRST_PUBLISH_POSITION'
+    }
+    remark = '是否显示通知'
+    return form_post(url=url, headers=header, data=data, remark=remark)
+
+
+def check_upgrade_to_share():
+    url = 'https://easy.lagou.com/productContract/checkUpgradeToShare.json'
+    header = get_code_token(url='https://easy.lagou.com/bstatus/auth/index.htm?')
+    remark = '检查产品升级更新'
+    return get_requests(url=url, headers=header, remark=remark).json()
+
+
+def get_my_member_info():
+    url = 'https://easy.lagou.com/member/getMyMemberInfo.json'
+    header = get_header(url='https://easy.lagou.com/member/all_members.htm?')
+    remark = '获取当前用户信息'
+    return get_requests(url=url, headers=header, remark=remark).json()
+
+
+def search_colleague():
+    url = 'https://easy.lagou.com/member/searchColleague.json'
+    header = get_header(url='https://easy.lagou.com/member/all_members.htm?')
+    data = {
+        'isRecruiter': 'false'
+    }
+    remark = '寻找同事'
+    return form_post(url=url, headers=header, data=data, remark=remark)
+
+
+def sub_account_button():
+    url = 'https://easy.lagou.com/colleague/subAccountButton/display.json'
+    header = get_header(url='https://easy.lagou.com/member/all_members.htm?')
+    remark = '是否显示子账号按钮'
+    return get_requests(url=url, headers=header, remark=remark).json()
+
+
+def is_show_position_notice():
+    url = 'https://easy.lagou.com/position/multiChannel/isShowPositionNotice.json'
+    header = get_header(url='https://easy.lagou.com/settings/new/channel/my_channels.htm?')
+    remark = '是否显示职位通知'
+    return form_post(url=url, headers=header, remark=remark)
+
+

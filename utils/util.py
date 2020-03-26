@@ -35,6 +35,7 @@ def get_code_token(url, referer=False):
         code_values = re.findall("X_Anti_Forge_Code = '(.*?)'", code.text, re.S)[0]
         if referer == False:
             headers = {"X-Anit-Forge-Code": code_values, "X-Anit-Forge-Token": token_values,
+                       'Referer': url,
                        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3615.0 Safari/537.36"}
         else:
             headers = {"X-Anit-Forge-Code": code_values, "X-Anit-Forge-Token": token_values,
@@ -89,8 +90,10 @@ def form_post(url, remark, data=None, files=None, headers={}, allow_redirects=Tr
             headers = {**header, **headers, **{'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'}}
         else:
             headers = {**header, **headers}
+        # cookies = dict(X_HTTP_TOKEN='07488fa454ce922a578040585170f3c4f12e21b679')
 
-        response = session.post(url=url, data=data, files=files, headers=headers, verify=False, timeout=60,
+        response = session.post(url=url, data=data, files=files, headers=headers, verify=False,
+                                timeout=60,
                                 allow_redirects=allow_redirects)
         pard_id = response.headers.get('Pard-Id', 0)
         status_code = response.status_code

@@ -35,9 +35,9 @@ def pendingApplyRecords():
     return get_requests(url=url, headers=header, remark=remark).json()
 
 
-def countPendingApplyRecords():
+def count_pending_apply_records():
     url = 'https://easy.lagou.com/userGoodsRecord/countPendingApplyRecords.json'
-    header = get_header('https://easy.lagou.com/dashboard/index.htm?')
+    header = get_header('https://easy.lagou.com/bstatus/auth/index.htm?')
     remark = '管理员 查询待处理权益申请数量接口'
     return get_requests(url=url, headers=header, remark=remark).json()
 
