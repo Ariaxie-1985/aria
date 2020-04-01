@@ -591,17 +591,11 @@ f = 0
 def get_verify_code_list(countryCode, phone):
     if countryCode == '0086':
         countryCode = ''
-    url = 'http://msg.lagou.com/msc/message/page'
+    url = 'https://home.lagou.com/msc/message/page'
     yesterday = datetime.date.today() - datetime.timedelta(days=1)
     data = {"commId": countryCode + phone, "startTime": str(yesterday) + "T16:00:00.000Z",
             "page": 1, "count": 10}
-    header = {"X-L-REQ-HEADER": '{deviceType:1}',
-              "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36"}
-    try:
-        r = requests.post(url=url, json=data, headers=header, verify=False).json()
-    except JSONDecodeError:
-        logging.error(msg="获取验证码请求失败, 请重试! ")
-        return 0, None, None
+    r = json_post(url=url, data=data, headers={}, remark="获取验证码列表")
     if r['content']['totalCount'] == 0:
         return r['content']['totalCount'], None, None
     else:
@@ -609,6 +603,8 @@ def get_verify_code_list(countryCode, phone):
 
 
 def verify_code_message(countryCode, phone, flag_num=0):
+    login_home('betty@lagou.com', '00f453dfec0f2806db5cfabe3ea94a35')
+    get_requests(url='https://passport.lagou.com/grantServiceTicket/grant.html')
     import time
     for i in range(10):
         time.sleep(12)
@@ -620,11 +616,9 @@ def verify_code_message(countryCode, phone, flag_num=0):
 
 
 def get_verify_code(id, createTime):
-    url = 'http://msg.lagou.com/msc/message/view'
+    url = 'https://home.lagou.com/msc/message/view'
     data = {"createTime": createTime, "msgId": id}
-    header = {"X-L-REQ-HEADER": '{deviceType:1}',
-              "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36"}
-    r = requests.post(url=url, json=data, headers=header, verify=False).json()
+    r = json_post(url=url, data=data, headers={}, remark="获取验证码")
     try:
         int(r['content']['content'][3:9])
     except ValueError:
@@ -635,13 +629,11 @@ def get_verify_code(id, createTime):
 def get_verify_code_message_len(countryCode, phone):
     if countryCode == '0086':
         countryCode = ''
-    url = 'http://msg.lagou.com/msc/message/page'
+    url = 'https://home.lagou.com/msc/message/page'
     yesterday = datetime.date.today() - datetime.timedelta(days=1)
     data = {"commId": countryCode + phone, "startTime": str(yesterday) + "T16:00:00.000Z",
             "page": 1, "count": 10}
-    header = {"X-L-REQ-HEADER": '{deviceType:1}',
-              "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36"}
-    r = requests.post(url=url, json=data, headers=header, verify=False).json()
+    r = json_post(url=url, data=data, headers={}, remark="获取验证码列表")
     return r['content']['totalCount']
     # if r['content']['totalCount'] >= 1:
     #     return 1
@@ -750,6 +742,8 @@ def login_password(username, password):
                   'password': password}
     referer_login_html = 'https://passport.lagou.com/login/login.html'
     login_header = get_code_token(referer_login_html)
+    print(login_header)
+
     remark = str(username) + "在登录拉勾"
     r = form_post(url=login_url, data=login_data, headers=login_header, remark=remark)
     if r['message'] == "操作成功":
@@ -814,9 +808,9 @@ def request_retry(count, request_func, judging_func=None, response_text=None):
 
 if __name__ == '__main__':
     # r = get_verify_code_message_len('00852', '20180917')
-    pc_send_register_verifyCode("00853", "26026626")
-    verify_code = verify_code_message("00853", "26026626")
-    print(verify_code)
+    # pc_send_register_verifyCode("00853", "26026626")
+    # verify_code = verify_code_message("00853", "26026626")
+    # print(verify_code)
     # r = verify_code_message('00852', '20180917')
     # get_verify_code('r23wr23','423423')
     # r1 = get_verify_code_message_len('00852', '20180917')
@@ -825,3 +819,14 @@ if __name__ == '__main__':
     # login_password('betty@lagou.com', '00f453dfec0f2806db5cfabe3ea94a35')
     # state_code = pc_send_register_verifyCode('00852', 20030105)
     # print(verify_code_message('00852', '20030105', flag_num=1))
+    # login_home('betty@lagou.com', '00f453dfec0f2806db5cfabe3ea94a35')
+    # get_requests(url='https://passport.lagou.com/grantServiceTicket/grant.html')
+    # url = 'https://home.lagou.com/msc/message/page'
+    # data = {"commId": "0085220180917", "startTime": "2020-03-30T12:19:52.709Z", "page": 1, "count": 10}
+    # r = requests.post(url=url, json=data, verify=False).text
+
+    # url = 'https://home.lagou.com/msg/message-service/index.html'
+    # header = get_header(url='http://home.lagou.com/index.html')
+    # get_requests(url=url,headers=header,remark='23')
+    r = verify_code_message('00852', '20180917')
+    print(r)
