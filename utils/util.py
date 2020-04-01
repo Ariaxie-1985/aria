@@ -627,6 +627,8 @@ def get_verify_code(id, createTime):
 
 
 def get_verify_code_message_len(countryCode, phone):
+    login_home('betty@lagou.com', '00f453dfec0f2806db5cfabe3ea94a35')
+    get_requests(url='https://passport.lagou.com/grantServiceTicket/grant.html')
     if countryCode == '0086':
         countryCode = ''
     url = 'https://home.lagou.com/msc/message/page'
