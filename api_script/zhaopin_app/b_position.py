@@ -149,8 +149,8 @@ def get_online_positions(ip_port=None, userToken=None, H9=False, userId=10001464
     获取在线职位列表
     :return:
     '''
-    if H9 == True and userId != 100014641:
-        header = app_header_999(userToken, DA=False, userId=userId)
+    if H9 == True:
+        header = app_header_999(userToken, DA=False)
     else:
         header = get_app_header(userId)
     url = host + "/positions/online/pages?pageNo=1&pageSize=80"
