@@ -13,7 +13,7 @@ fake = Faker('zh_CN')
 sex = ['女', '男']
 
 
-def resumes_list(userToken, ip_port):
+def resumes_list(userToken, ip_port=None):
     url = host + '/resumes/list'
     header = app_header_999(userToken, DA=False)
     remark = '消息--对话--发送简历--显示简历列表，包含附件和在线简历'

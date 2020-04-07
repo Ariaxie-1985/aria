@@ -5,7 +5,7 @@
 from utils.util import app_header_999, get_requests
 
 
-def queryCompanyList(city, userToken, ip_port):
+def queryCompanyList(city, userToken, ip_port=None):
     url = "https://gate.lagou.com/v1/neirong/companyTab/queryCompanyList?pageNo=0&pageSize=20&city={}".format(city)
     header = app_header_999(userToken, DA=False)
     remark = '查询公司TAB页'

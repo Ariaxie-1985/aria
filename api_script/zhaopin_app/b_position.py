@@ -144,7 +144,7 @@ def update_position(positionId, workAddressId):
     return json_put(url=url, headers=headers, data=data, remark=remark)
 
 
-def get_online_positions(ip_port,userToken=None, H9=False, userId=100014641):
+def get_online_positions(ip_port=None,userToken=None, H9=False, userId=100014641):
     '''
     获取在线职位列表
     :return:

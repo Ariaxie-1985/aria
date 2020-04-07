@@ -4,7 +4,7 @@
 from utils.util import get_requests, app_header_999
 
 
-def positions_mark_info(userToken, positionId,ip_port):
+def positions_mark_info(userToken, positionId,ip_port=None):
     url = 'https://gate.lagou.com/v1/neirong/positions/mark_info?positionIds={}'.format(positionId)
     remark = '标记职位为直招'
     header = app_header_999(userToken, DA=False)

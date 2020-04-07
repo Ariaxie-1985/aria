@@ -7,7 +7,7 @@ from utils.util import get_requests, json_post, app_header_999
 host = "https://gate.lagou.com/v1/neirong"
 
 
-def autoInviteSwitch_status(userToken, ip_port):
+def autoInviteSwitch_status(userToken, ip_port=None):
     '''
     :return:
     '''
