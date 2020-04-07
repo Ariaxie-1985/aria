@@ -14,6 +14,6 @@ def tearDown():
     pass
 
 
-def test_autoInviteSwitch_status(login_app):
-    r = autoInviteSwitch_status(userToken=login_app)
+def test_autoInviteSwitch_status(login_app,ip_port):
+    r = autoInviteSwitch_status(userToken=login_app,ip_port=ip_port)
     assert_equal(1, r['state'], "获取自动邀约的开关状态成功")

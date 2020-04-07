@@ -5,6 +5,8 @@ import zipfile
 from datetime import datetime
 import datetime
 from json import JSONDecodeError
+from urllib.parse import urlparse
+
 import requests
 import re
 from requests import RequestException
@@ -26,11 +28,15 @@ count = 0
 
 
 # 获取页面的token和code
-def get_code_token(url, referer=False):
+def get_code_token(url, referer=False, ip_port=None):
     global count
     try:
         token_values, code_values = 0, None
-        code = session.get(url=url, headers=header, verify=False, timeout=60)
+        if ip_port is None:
+            code = session.get(url=url, headers=header, verify=False, timeout=60)
+        else:
+            ip_port_url = domain_convert_ip_port(url=url, ip_port=ip_port)
+            code = session.get(url=ip_port_url, headers=header, verify=False, timeout=60)
         token_values = re.findall("X_Anti_Forge_Token = '(.*?)'", code.text, re.S)[0]
         code_values = re.findall("X_Anti_Forge_Code = '(.*?)'", code.text, re.S)[0]
         if referer == False:
@@ -75,7 +81,7 @@ def get_code_token_new(url):
         return get_code_token(url=url)
 
 
-def form_post(url, remark, data=None, files=None, headers={}, allow_redirects=True):
+def form_post(url, remark, data=None, files=None, headers={}, allow_redirects=True, ip_port=None):
     """
     form表单传参的post请求
     :param url: 请求url
@@ -91,10 +97,15 @@ def form_post(url, remark, data=None, files=None, headers={}, allow_redirects=Tr
         else:
             headers = {**header, **headers}
         # cookies = dict(X_HTTP_TOKEN='07488fa454ce922a578040585170f3c4f12e21b679')
-
-        response = session.post(url=url, data=data, files=files, headers=headers, verify=False,
-                                timeout=60,
-                                allow_redirects=allow_redirects)
+        if ip_port is None:
+            response = session.post(url=url, data=data, files=files, headers=headers, verify=False,
+                                    timeout=60,
+                                    allow_redirects=allow_redirects)
+        else:
+            ip_port_url = domain_convert_ip_port(url=url, ip_port=ip_port)
+            response = session.post(url=ip_port_url, data=data, files=files, headers=headers, verify=False,
+                                    timeout=60,
+                                    allow_redirects=allow_redirects)
         pard_id = response.headers.get('Pard-Id', 0)
         status_code = response.status_code
         if 200 <= status_code <= 302:
@@ -125,7 +136,7 @@ def form_post(url, remark, data=None, files=None, headers={}, allow_redirects=Tr
         return {'content': '响应内容不是期望的json格式', 'url': url, 'remark': remark}
 
 
-def json_post(url, remark, data=None, headers={}, app=False, verifystate=True):
+def json_post(url, remark, data=None, headers={}, app=False, verifystate=True, ip_port=None):
     """
     json传参的post请求
     :param url: 请求url
@@ -140,7 +151,12 @@ def json_post(url, remark, data=None, headers={}, app=False, verifystate=True):
     if app == False:
         headers = {**header, **headers, **{'Content-Type': 'application/json;charset=UTF-8'}}
     try:
-        response = session.post(url=url, json=data, headers=headers, verify=False, timeout=60)
+        if ip_port is None:
+            response = session.post(url=url, json=data, headers=headers, verify=False, timeout=60)
+        else:
+            ip_port_url = domain_convert_ip_port(url=url, ip_port=ip_port)
+            response = session.post(url=ip_port_url, json=data, headers=headers, verify=False,
+                                    timeout=60)
         pard_id = response.headers.get('Pard-Id', 0)
         status_code = response.status_code
         if 200 <= status_code <= 302:
@@ -172,7 +188,7 @@ def json_post(url, remark, data=None, headers={}, app=False, verifystate=True):
         return {'content': '响应内容不是期望的json格式', 'url': url, 'remark': remark}
 
 
-def get_requests(url, data=None, headers={}, remark=None):
+def get_requests(url, data=None, headers={}, remark=None, ip_port=None):
     """
     get请求
     :param url: str, 接口地址
@@ -183,7 +199,12 @@ def get_requests(url, data=None, headers={}, remark=None):
     headers = {**header, **headers, **{'Content-Type': 'charset=UTF-8'}}
     global count
     try:
-        response = session.get(url=url, params=data, headers=headers, verify=False, timeout=60)
+
+        if ip_port is None:
+            response = session.get(url=url, params=data, headers=headers, verify=False, timeout=60)
+        else:
+            ip_port_url = domain_convert_ip_port(url=url, ip_port=ip_port)
+            response = session.get(url=ip_port_url, params=data, headers=headers, verify=False, timeout=60)
         status_code = response.status_code
         pard_id = response.headers.get('Pard-Id', 0)
         if 200 <= status_code <= 302:
@@ -221,10 +242,15 @@ def get_requests(url, data=None, headers={}, remark=None):
 
 
 # get请求---获取header
-def get_header(url, headers={}, allow_redirects=True):
+def get_header(url, headers={}, allow_redirects=True, ip_port=None):
     headers = {**header, **headers}
     try:
-        response = session.get(url=url, headers=headers, verify=False, timeout=60, allow_redirects=allow_redirects)
+        if ip_port is None:
+            response = session.get(url=url, headers=headers, verify=False, timeout=60, allow_redirects=allow_redirects)
+        else:
+            ip_port_url = domain_convert_ip_port(url=url, ip_port=ip_port)
+            response = session.get(url=ip_port_url, headers=headers, verify=False, timeout=60,
+                                   allow_redirects=allow_redirects)
         if response.status_code == 200:
             return response.request.headers
     except RequestException as e:
@@ -410,7 +436,7 @@ def get_app_header_new(userId, X_L_REQ_HEADER={}):
     return header
 
 
-def json_put(url, remark, data=None, headers={}):
+def json_put(url, remark, data=None, headers={}, ip_port=None):
     """
     json传参的put请求
     :param url: 请求url
@@ -422,7 +448,12 @@ def json_put(url, remark, data=None, headers={}):
     global count
     try:
         headers = {**headers, **header, **{'Content-Type': 'application/json;charset=UTF-8'}}
-        response = session.put(url=url, json=data, headers=headers, verify=False, timeout=60)
+        if ip_port is None:
+            response = session.put(url=url, json=data, headers=headers, verify=False, timeout=60)
+        else:
+            ip_port_url = domain_convert_ip_port(url=url, ip_port=ip_port)
+            response = session.put(url=ip_port_url, json=data, headers=headers, verify=False, timeout=60)
+
         pard_id = response.headers.get('Pard-Id', 0)
         status_code = response.status_code
         if 200 <= status_code <= 400:
@@ -453,7 +484,7 @@ def json_put(url, remark, data=None, headers={}):
         return {'content': '响应内容不是期望的json格式', 'url': url, 'remark': remark}
 
 
-def put_requests(url, headers={}, remark=None):
+def put_requests(url, headers={}, remark=None, ip_port=None):
     """
     put请求
     :param url: str, 接口地址
@@ -463,7 +494,11 @@ def put_requests(url, headers={}, remark=None):
     """
     global count
     try:
-        response = session.put(url=url, headers=headers, verify=False, timeout=60)
+        if ip_port is None:
+            response = session.put(url=url, headers=headers, verify=False, timeout=60)
+        else:
+            ip_port_url = domain_convert_ip_port(url=url, ip_port=ip_port)
+            response = session.put(url=ip_port_url, headers=headers, verify=False, timeout=60)
         pard_id = response.headers.get('Pard-Id', 0)
         status_code = response.status_code
         if 200 <= status_code <= 400:
@@ -494,7 +529,7 @@ def put_requests(url, headers={}, remark=None):
         return {'content': '响应内容不是期望的json格式', 'url': url, 'remark': remark}
 
 
-def delete_requests(url, headers={}, remark=None):
+def delete_requests(url, headers={}, remark=None, ip_port=None):
     """
     put请求
     :param url: str, 接口地址
@@ -504,7 +539,11 @@ def delete_requests(url, headers={}, remark=None):
     """
     global count
     try:
-        response = session.delete(url=url, headers=headers, verify=False, timeout=60)
+        if ip_port is None:
+            response = session.delete(url=url, headers=headers, verify=False, timeout=60)
+        else:
+            ip_port_url = domain_convert_ip_port(url=url, ip_port=ip_port)
+            response = session.delete(url=ip_port_url, headers=headers, verify=False, timeout=60)
         pard_id = response.headers.get('Pard-Id', 0)
         status_code = response.status_code
         if 200 <= status_code <= 302:
@@ -808,6 +847,16 @@ def request_retry(count, request_func, judging_func=None, response_text=None):
         judging_func
 
 
+def domain_convert_ip_port(url, ip_port):
+    parsed = urlparse(url)
+    if 'gate.lagou.com' == parsed.hostname:
+        gate_lagou_com_rule = {'entry': 'gate.lagou.com/v1/entry', 'neirong': 'gate.lagou.com/v1/neirong',
+                               'zhaopin': 'gate.lagou.com/v1/zhaopin'}
+        domain, verison, module = re.findall(r"https://(.+?)/(.+?)/(.+?)/", url)[0]
+        return url.replace('https', 'http').replace(gate_lagou_com_rule.get(module), ip_port)
+    return url.replace('https', 'http').replace(parsed.hostname, ip_port)
+
+
 if __name__ == '__main__':
     # r = get_verify_code_message_len('00852', '20180917')
     # pc_send_register_verifyCode("00853", "26026626")
@@ -830,5 +879,7 @@ if __name__ == '__main__':
     # url = 'https://home.lagou.com/msg/message-service/index.html'
     # header = get_header(url='http://home.lagou.com/index.html')
     # get_requests(url=url,headers=header,remark='23')
-    r = verify_code_message('00852', '20180917')
+    # r = verify_code_message('00852', '20180917')
+    # r = domain_convert_ip_port('https://gate.lagou.com/v1/entry/demo/demo/sdfas', '127.0.0.1:8080')
+    r = domain_convert_ip_port('https://easy.lagou.com/v1/entry/demo/demo/sdfas', '127.0.0.1:8080')
     print(r)

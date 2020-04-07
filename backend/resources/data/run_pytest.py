@@ -20,10 +20,10 @@ class run_Pytest(Resource):
         # 'all': '/root/.local/bin/pipenv run pytest {}/ --html=backend/templates/{}_report.html --self-contained-html',
         # 'neirong_app': '/root/.local/bin/pipenv run pytest {}/tests/test_neirong_app/ --html=backend/templates/{}_report.html --self-contained-html',
         'mainprocess': 'pytest {}/tests/test_mainprocess/ --html=backend/templates/{}_report.html --self-contained-html',
-        'lg-zhaopin-boot': 'pytest {}/tests/test_lg_zhaopin_boot/ --html=backend/templates/{}_report.html --self-contained-html',
-        'lg-entry-boot': 'pytest {}/tests/test_lg_entry_boot/ --html=backend/templates/{}_report.html --self-contained-html',
-        'lg-neirong-boot': 'pytest {}/tests/test_lg_neirong_boot/ --html=backend/templates/{}_report.html --self-contained-html',
-        'mds-web-tomcat': 'pytest {}/tests/test_mds_web_tomcat/ --html=backend/templates/{}_report.html --self-contained-html',
+        'lg-zhaopin-boot': 'pytest {}/tests/test_lg_zhaopin_boot/ --html=backend/templates/{}_report.html --self-contained-html {}',
+        'lg-entry-boot': 'pytest {}/tests/test_lg_entry_boot/ --html=backend/templates/{}_report.html --self-contained-html {}',
+        'lg-neirong-boot': 'pytest {}/tests/test_lg_neirong_boot/ --html=backend/templates/{}_report.html --self-contained-html {}',
+        'mds-web-tomcat': 'pytest {}/tests/test_mds_web_tomcat/ --html=backend/templates/{}_report.html --self-contained-html {}',
         'kw-course-java': 'pytest {}/tests/test_kw_course_java/ --html=backend/templates/{}_report.html --self-contained-html',
 
     }
@@ -162,19 +162,35 @@ class run_Pytest(Resource):
         parser.add_argument('module', type=str,
                             help="请输入正确模块值",
                             required=True)
+        parser.add_argument('ip_port', type=str,
+                            help="ip:port",
+                            )
         args = parser.parse_args()
+        if self.Business_module.get(args['module'], None) == None:
+            return {'state': 0, "data": "不支持该业务模块"}
+        if args['ip_port']:
+            if not (len(args['ip_port'].split('.')) == 4 and len(args['ip_port'].split(':')) == 2):
+                return {'state': 0, "data": "ip:port 不正确"}
         project_path = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
         os.chdir(project_path)
         state = 1
         info = None
+        if args['ip_port'] is None:
+            subprocess.call(self.Business_module[args['module']].format(project_path, args['module'],''), shell=True,
+                            timeout=300)
+        else:
+            subprocess.call(self.Business_module[args['module']].format(project_path, args['module'], f'--ip_port {args["ip_port"]}'), shell=True,
+                            timeout=300)
 
-        if self.Business_module.get(args['module'], None) == None:
-            return {'state': 0, "data": "不支持该业务模块"}
+        # if args['ip_port'] is None:
+        #     return self.Business_module[args['module']].format(project_path, args['module'], '')
+        # else:
+        #     return self.Business_module[args['module']].format(project_path, args['module'],
+        #                                                        f'--ip_port {args["ip_port"]}')
 
-        subprocess.call(self.Business_module[args['module']].format(project_path, args['module']), shell=True,
-                        timeout=300)
         result = analysis_html_report("{}/backend/templates/{}_report.html".format(project_path, args['module']), 3,
                                       args['module'])
+
         if bool(result['info']['result']['fail_result']):
             state = 0
         info = {"result": result}

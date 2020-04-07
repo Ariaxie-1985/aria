@@ -11,3 +11,14 @@ from api_script.entry.account.passport import password_login
 def login_app(request):
     result = password_login(request.param[0], request.param[1])
     return result['content']['userToken']
+
+
+def pytest_addoption(parser):
+    parser.addoption(
+        "--ip_port", action="store", default=None, help="ip:port"
+    )
+
+
+@pytest.fixture
+def ip_port(request):
+    return request.config.getoption("--ip_port")

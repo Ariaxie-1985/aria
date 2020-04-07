@@ -13,18 +13,18 @@ fake = Faker('zh_CN')
 sex = ['女', '男']
 
 
-def resumes_list(userToken):
+def resumes_list(userToken, ip_port):
     url = host + '/resumes/list'
     header = app_header_999(userToken, DA=False)
     remark = '消息--对话--发送简历--显示简历列表，包含附件和在线简历'
-    return form_post(url=url, headers=header, remark=remark)
+    return form_post(url=url, headers=header, remark=remark, ip_port=ip_port)
 
 
 def guideBasicInfo(phone, userIdentity, userToken, joinWorkTime="2013.07"):
     '''
 
     :param phone:
-    :param userIdentity:1 学生, 2非学生
+    :param userIdentity:1 学生, 2 非学生
     :param userToken:
     :return:
     '''

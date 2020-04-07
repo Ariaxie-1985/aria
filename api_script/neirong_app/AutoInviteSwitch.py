@@ -7,14 +7,14 @@ from utils.util import get_requests, json_post, app_header_999
 host = "https://gate.lagou.com/v1/neirong"
 
 
-def autoInviteSwitch_status(userToken):
+def autoInviteSwitch_status(userToken, ip_port):
     '''
     :return:
     '''
     url = host + "/autoInviteSwitch/status"
     headers = app_header_999(userToken, DA=False)
     remark = "开关状态"
-    return get_requests(url=url, headers=headers, remark=remark).json()
+    return get_requests(url=url, headers=headers, remark=remark, ip_port=ip_port).json()
 
 
 def autoInviteSwitch_open(autoInviteType, status, userToken):

@@ -57,7 +57,6 @@ def get_positionType():
     return firstType, positionType, positionThirdType, positionName
 
 
-
 @pytest.fixture(params=[["00852", "20181205"]])
 def login_web_k8s_default(request):
     login(request.param[0], request.param[1])
