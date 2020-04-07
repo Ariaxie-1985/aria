@@ -8,7 +8,6 @@ from utils.util import json_post, get_requests, app_header_999
 def password_login(accountName, password):
     url = 'https://gate.lagou.com/v1/entry/account/passport/login'
     header = app_header_999()
-    print(header)
     data = {
         "password": password,
         "UrlType": 1,

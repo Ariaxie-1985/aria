@@ -17,6 +17,7 @@ def create_benefit(userToken, id, ip_port=None, userId=None):
 def benefit_category_left(userToken, ip_port=None, userId=None):
     url = "https://gate.lagou.com/v1/neirong/company/benefit/category/left"
     header = app_header_999(userToken, DA=False, userId=userId)
+    print(header)
     return get_requests(url=url, headers=header, ip_port=ip_port, remark="查询公司该城市下未添加的的福利标签数据").json()
 
 
@@ -80,5 +81,6 @@ def company_question(userToken, companyId, ip_port=None, userId=None):
 if __name__ == '__main__':
     result = password_login("19910626899", "000000")
     userToken = result['content']['userToken']
-    r = company_positionTypes(userToken=userToken, companyId=418937)
-    print(bool(r['content']['positionTypes']))
+    userId = result['content']['userInfo']['userId']
+    print(userId)
+    r = benefit_category_left(userToken=userToken, userId=userId)

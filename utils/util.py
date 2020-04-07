@@ -691,11 +691,10 @@ def app_header_999(userToken=None, DA=True, userId=None):
     header = {'X-L-REQ-HEADER': json.dumps(header)}
 
     header = {**app_header, **header}
-    if DA == False:
-        return header
     if userId:
         header['X-L-USER-ID'] = str(userId)
-
+    if DA == False:
+        return header
     header[
         'X-L-DA-HEADER'] = "da5439aadaf04ade94a214d730b990d83ec71d3e9f274002951143c843badffbc543b213dfe84e21a37bb782dd9bbca4be8d947ead7041f79d336cb1217127d15"
     return header
