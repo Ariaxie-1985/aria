@@ -119,7 +119,7 @@ def test_recommend_isExistPositionList(c_login_app):
 
 def test_recommend_positionList(c_login_app):
     r = recommend_positionList(userToken=c_login_app[0], orderId=orderId, positionId=positionId)
-    assert_equal(True, bool(r['content']['positionList']), '投递后推荐的职位 （投了又投)用例通过')
+    assert_equal(1, r.get('state'), '投递后推荐的职位 （投了又投)用例通过')
 
 
 def test_talent_info_get(b_login_app, c_login_app):
