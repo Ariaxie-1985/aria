@@ -65,7 +65,10 @@ def get_fail_detail_result(soup, module):
         test_name = fail_result.find(attrs={'class': 'col-name'}).get_text().split('tests/test_{}/'.format(module.replace('-','_')))[
             1].encode(
             'latin-1').decode('unicode_escape')
-        error_type = fail_result.find(attrs={'class': 'error'}).get_text().split('E       ')[1]
+        try:
+            error_type = fail_result.find(attrs={'class': 'error'}).get_text().split('E       ')[1]
+        except IndexError:
+            error_type = None
         captured_log = fail_result.find(attrs={'class': 'log'}).get_text()
         try:
             detail_log = \
