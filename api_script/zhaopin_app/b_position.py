@@ -144,18 +144,18 @@ def update_position(positionId, workAddressId):
     return json_put(url=url, headers=headers, data=data, remark=remark)
 
 
-def get_online_positions(ip_port=None,userToken=None, H9=False, userId=100014641):
+def get_online_positions(ip_port=None, userToken=None, H9=False, userId=100014641):
     '''
     获取在线职位列表
     :return:
     '''
-    if H9 == True:
-        header = app_header_999(userToken, DA=False)
+    if H9 == True and userId != 100014641:
+        header = app_header_999(userToken, DA=False, userId=userId)
     else:
         header = get_app_header(userId)
     url = host + "/positions/online/pages?pageNo=1&pageSize=80"
     remark = "获取在线职位列表"
-    return get_requests(url=url, headers=header, remark=remark,ip_port=ip_port).json()
+    return get_requests(url=url, headers=header, remark=remark, ip_port=ip_port).json()
 
 
 def get_offline_positions(userToken):

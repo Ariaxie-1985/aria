@@ -24,6 +24,6 @@ def test_home_page(login_app, ip_port):
     r = home_page(userToken=login_app[0],userId=login_app[1],ip_port=ip_port)
     assert_equal(True, bool(r['content']), '获取app首页用例通过')
 
-def test_searchBySalary(login_app):
-    r = searchBySalary(userToken=login_app[0],userId=login_app[1],)
+def test_searchBySalary(login_app,ip_port):
+    r = searchBySalary(userToken=login_app[0],userId=login_app[1],ip_port=ip_port)
     assert_equal(True, bool(r['content']), '薪资最高用例通过')

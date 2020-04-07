@@ -13,9 +13,9 @@ fake = Faker('zh_CN')
 sex = ['女', '男']
 
 
-def resumes_list(userToken, ip_port=None):
+def resumes_list(userToken, ip_port=None, userId=None):
     url = host + '/resumes/list'
-    header = app_header_999(userToken, DA=False)
+    header = app_header_999(userToken, DA=False, userId=userId)
     remark = '消息--对话--发送简历--显示简历列表，包含附件和在线简历'
     return form_post(url=url, headers=header, remark=remark, ip_port=ip_port)
 
