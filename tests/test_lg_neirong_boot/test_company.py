@@ -87,4 +87,4 @@ def test_company_hasBenefit(login_app, ip_port):
 
 def test_company_question(login_app, ip_port):
     r = company_question(userToken=login_app, companyId=bj_companyId, ip_port=ip_port)
-    assert_equal(True, bool(r['content']), '查询公司是否有福利用例成功')
+    assert_equal(True, bool(r['content']), '公司问答列表用例成功')
