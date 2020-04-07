@@ -24,7 +24,7 @@ class run_Pytest(Resource):
         'lg-entry-boot': 'pytest {}/tests/test_lg_entry_boot/ --html=backend/templates/{}_report.html --self-contained-html {}',
         'lg-neirong-boot': 'pytest {}/tests/test_lg_neirong_boot/ --html=backend/templates/{}_report.html --self-contained-html {}',
         'mds-web-tomcat': 'pytest {}/tests/test_mds_web_tomcat/ --html=backend/templates/{}_report.html --self-contained-html {}',
-        'kw-course-java': 'pytest {}/tests/test_kw_course_java/ --html=backend/templates/{}_report.html --self-contained-html',
+        # 'kw-course-java': 'pytest {}/tests/test_kw_course_java/ --html=backend/templates/{}_report.html --self-contained-html',
 
     }
 

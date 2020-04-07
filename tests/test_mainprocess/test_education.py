@@ -19,7 +19,7 @@ def test_get_homepage_cards(c_login_education, expect_card_type, expect_title):
     #     assert_equal(expect_card_type, card['cardType'], "拉勾教育-获取首页卡片信息列表用例通过")
     #     assert_equal(expect_title, card['title'], "拉勾教育-获取首页卡片信息列表用例通过")
     assert_equal(1, r['state'], "拉勾教育-获取首页卡片信息列表用例通过")
-    global first_small_course_id, first_small_course_brief,first_small_course_title
+    global first_small_course_id, first_small_course_brief, first_small_course_title
     first_small_course_id = r['content']['pageCardList'][2]['smallCourseList'][0]['id']
     first_small_course_brief = r['content']['pageCardList'][2]['smallCourseList'][0]['brief']
     first_small_course_title = r['content']['pageCardList'][2]['smallCourseList'][0]['title']
@@ -42,7 +42,9 @@ def test_get_course_description(c_login_education):
 
 def test_get_distribution_info(c_login_education):
     r = get_distribution_info(userToken=c_login_education[0], courseId=first_small_course_id)
-    assert_equal(first_small_course_brief, r['content']['distributionBaseInfoVo']['brief'], "选课查询课程分销信息用例通过")
+    assert_equal(1, r.get('state'), '言职/开悟/获取分销信息用例通过')
+    if r['content']['showDistributionButton'] is True:
+        assert_equal(first_small_course_brief, r['content']['distributionBaseInfoVo']['brief'], "该课程有分销信息用例通过")
 
 
 def test_get_course_commentList(c_login_education):
