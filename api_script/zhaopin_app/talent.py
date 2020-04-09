@@ -2,8 +2,6 @@
 # @Time  : 2020/3/5 11:55
 # @Author: Xiawang
 # Description:
-import pysnooper
-
 from api_script.entry.account.passport import password_login
 from utils.util import app_header_999, get_requests, json_post
 
@@ -53,7 +51,6 @@ def talent_app_search(userToken, city, positionName, pageNo=1):
     return json_post(url=url, headers=header, data=data, remark=remark)
 
 
-@pysnooper.snoop()
 def talent_info_get(userToken, userId):
     url = "https://gate.lagou.com/v1/zhaopin/talent/info/get?userId={}&comeFrom=7".format(userId)
     header = app_header_999(userToken=userToken, DA=False)

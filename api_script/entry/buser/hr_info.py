@@ -5,29 +5,28 @@ from api_script.entry.account.passport import password_login
 from utils.util import get_requests, app_header_999
 
 
-def get_hr_info(userToken, publisherId):
+def get_hr_info(userToken, publisherId=None, ip_port=None):
     url = 'https://gate.lagou.com/v1/entry/buser/hrInfo/{}'.format(publisherId)
-    header = app_header_999(userToken)
-    return get_requests(url=url, headers=header, remark="获取HR信息").json()
+    header = app_header_999(userToken, userId=publisherId)
+    return get_requests(url=url, headers=header, remark="获取HR信息", ip_port=ip_port).json()
 
 
-def get_hr_card(userToken, publisherId):
+def get_hr_card(userToken, publisherId=None, ip_port=None):
     url = 'https://gate.lagou.com/v1/entry/buser/hr/getHRCard?id={}'.format(publisherId)
-    header = app_header_999(userToken)
-    return get_requests(url=url, headers=header, remark="获取HR卡片信息").json()
+    header = app_header_999(userToken, userId=publisherId)
+    return get_requests(url=url, headers=header, remark="获取HR卡片信息", ip_port=ip_port).json()
 
 
-def get_info(userToken, publisherId):
+def get_info(userToken, publisherId=None, ip_port=None):
     url = 'https://gate.lagou.com/v1/entry/buser/get'
     header = app_header_999(userToken, DA=False, userId=publisherId)
-    return get_requests(url=url, headers=header, remark="获取HR信息").json()
+    return get_requests(url=url, headers=header, remark="获取HR信息", ip_port=ip_port).json()
 
 
-def get_baseStatus(userToken, publisherId):
+def get_baseStatus(userToken, publisherId=None, ip_port=None):
     url = 'https://gate.lagou.com/v1/entry/buser/baseStatus/get'
     header = app_header_999(userToken, DA=False, userId=publisherId)
-    print(header)
-    return get_requests(url=url, headers=header, remark="获取HR的基本状态").json()
+    return get_requests(url=url, headers=header, remark="获取HR的基本状态", ip_port=ip_port).json()
 
 
 if __name__ == '__main__':

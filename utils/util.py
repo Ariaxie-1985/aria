@@ -782,8 +782,6 @@ def login_password(username, password):
                   'password': password}
     referer_login_html = 'https://passport.lagou.com/login/login.html'
     login_header = get_code_token(referer_login_html)
-    print(login_header)
-
     remark = str(username) + "在登录拉勾"
     r = form_post(url=login_url, data=login_data, headers=login_header, remark=remark)
     if r['message'] == "操作成功":

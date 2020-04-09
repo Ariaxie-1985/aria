@@ -5,13 +5,13 @@ from api_script.entry.account.passport import password_login
 from utils.util import app_header_999, json_post, get_requests
 
 
-def search_positions(userToken, **kw):
+def search_positions(userToken, userId=None, ip_port=None, **kw):
     city = kw.get('city', '北京')
     keyword = kw.get('keyword', '测试')
     showId = kw.get('showId', "")
     salaryLower = kw.get('salaryLower', 20000)
     salaryUpper = kw.get('salaryUpper', 35000)
-    header = app_header_999(userToken, DA=False)
+    header = app_header_999(userToken, DA=False, userId=userId)
     url = 'https://gate.lagou.com/v1/entry/positionsearch/searchPosition'
     data = {
         "keyword": keyword,
@@ -34,35 +34,35 @@ def search_positions(userToken, **kw):
         "longitudeAndLatitude": "-1.000000,-1.000000",
         "pageSize": 15
     }
-    return json_post(url=url, data=data, headers=header, remark='搜索职位')
+    return json_post(url=url, data=data, headers=header, remark='搜索职位', ip_port=ip_port)
 
 
-def hotEmployee_activeHr(userToken):
+def hotEmployee_activeHr(userToken, userId=None, ip_port=None):
     url = 'https://gate.lagou.com/v1/entry/positionsearch/hotEmployee/activeHr?pageNo=1&pageSize=5'
-    header = app_header_999(userToken, DA=False)
+    header = app_header_999(userToken, DA=False, userId=userId)
     remark = "专属热招-聊出好机会"
-    return get_requests(url=url, headers=header, remark=remark).json()
+    return get_requests(url=url, headers=header, remark=remark, ip_port=ip_port).json()
 
 
-def hotEmployee_nearby(userToken):
+def hotEmployee_nearby(userToken, userId=None, ip_port=None):
     url = 'https://gate.lagou.com/v1/entry/positionsearch/hotEmployee/nearby?pageNo=1&pageSize=5&longitude=0&latitude=0'
-    header = app_header_999(userToken, DA=False)
+    header = app_header_999(userToken, DA=False, userId=userId)
     remark = "专属热招-附近热招"
-    return get_requests(url=url, headers=header, remark=remark).json()
+    return get_requests(url=url, headers=header, remark=remark, ip_port=ip_port).json()
 
 
-def hotEmployee_selected(userToken):
+def hotEmployee_selected(userToken, userId=None, ip_port=None):
     url = 'https://gate.lagou.com/v1/entry/positionsearch/hotEmployee/selected?pageNo=1&pageSize=5'
-    header = app_header_999(userToken, DA=False)
+    header = app_header_999(userToken, DA=False, userId=userId)
     remark = "专属热招-小勾精选"
-    return get_requests(url=url, headers=header, remark=remark).json()
+    return get_requests(url=url, headers=header, remark=remark, ip_port=ip_port).json()
 
 
-def hotEmployee_topCompany(userToken):
+def hotEmployee_topCompany(userToken, userId=None, ip_port=None):
     url = 'https://gate.lagou.com/v1/entry/positionsearch/hotEmployee/topCompany?pageNo=1&pageSize=5'
-    header = app_header_999(userToken, DA=False)
+    header = app_header_999(userToken, DA=False, userId=userId)
     remark = "专属热招-大厂专区"
-    return get_requests(url=url, headers=header, remark=remark).json()
+    return get_requests(url=url, headers=header, remark=remark, ip_port=ip_port).json()
 
 
 if __name__ == '__main__':

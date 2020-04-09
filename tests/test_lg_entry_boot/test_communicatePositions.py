@@ -9,8 +9,8 @@ from api_script.entry.position.communicatePositions import get_position_detail, 
 from utils.util import assert_equal
 
 
-def test_get_position_detail(login_app, query_position):
-    r = get_position_detail(userToken=login_app, positionId=query_position)
+def test_get_position_detail(login_app, query_position, ip_port):
+    r = get_position_detail(userToken=login_app[0], userId=login_app[1], ip_port=ip_port, positionId=query_position)
     assert_equal(query_position, r['content']['positionId'], '根据职位id查询职位详情用例通过')
 
 

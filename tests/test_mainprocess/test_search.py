@@ -25,9 +25,7 @@ def test_switch_city(c_login_app, city):
 def test_search_positions(c_login_app, keyword, city, salaryLower, salaryUpper):
     r = search_positions(userToken=c_login_app[0], keyword=keyword, city=city, salaryLower=salaryLower,
                          salaryUpper=salaryUpper)
-    logging.error(msg=r)
     positionName_list = [position_info['positionName'] for position_info in r['content']['positionCardVos']]
-    logging.error(msg=positionName_list)
     for positionName in positionName_list:
         if keyword == "测试":
             check_result = "测试" in positionName.upper() or "QA" in positionName.upper()

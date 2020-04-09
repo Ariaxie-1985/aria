@@ -5,28 +5,28 @@ from api_script.entry.account.passport import password_login
 from utils.util import get_requests, app_header_999
 
 
-def query_company_index(userToken, companyId):
+def query_company_index(userToken, companyId, userId=None, ip_port=None):
     url = 'https://gate.lagou.com/v1/entry/bigCompany/query?companyId={}'.format(companyId)
-    header = app_header_999(userToken, DA=False)
-    return get_requests(url=url, headers=header, remark="查询公司主页").json()
+    header = app_header_999(userToken, DA=False, userId=userId)
+    return get_requests(url=url, headers=header, remark="查询公司主页", ip_port=ip_port).json()
 
 
-def query_all_company(userToken):
+def query_all_company(userToken, userId=None, ip_port=None):
     url = 'https://gate.lagou.com/v1/entry/bigCompany/queryAll'
-    header = app_header_999(userToken, DA=False)
-    return get_requests(url=url, headers=header, remark="查询所有大公司ID列表").json()
+    header = app_header_999(userToken, DA=False, userId=userId)
+    return get_requests(url=url, headers=header, remark="查询所有大公司ID列表", ip_port=ip_port).json()
 
 
-def query_urgent_positions(userToken, companyId):
+def query_urgent_positions(userToken, companyId, userId=None, ip_port=None):
     url = 'https://gate.lagou.com/v1/entry/bigCompany/queryUrgentPositions?companyId={}'.format(companyId)
-    header = app_header_999(userToken, DA=False)
-    return get_requests(url=url, headers=header, remark="查询公司急招职位").json()
+    header = app_header_999(userToken, DA=False, userId=userId)
+    return get_requests(url=url, headers=header, remark="查询公司急招职位", ip_port=ip_port).json()
 
 
-def is_big_company(userToken, companyId):
+def is_big_company(userToken, companyId, userId=None, ip_port=None):
     url = 'https://gate.lagou.com/v1/entry/bigCompany/verify?companyId={}'.format(companyId)
-    header = app_header_999(userToken, DA=False)
-    return get_requests(url=url, headers=header, remark="是否大公司").json()
+    header = app_header_999(userToken, DA=False, userId=userId)
+    return get_requests(url=url, headers=header, remark="是否大公司", ip_port=ip_port).json()
 
 
 if __name__ == '__main__':

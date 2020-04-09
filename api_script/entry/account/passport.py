@@ -5,7 +5,7 @@
 from utils.util import json_post, get_requests, app_header_999
 
 
-def password_login(accountName, password):
+def password_login(accountName, password, ip_port=None):
     url = 'https://gate.lagou.com/v1/entry/account/passport/login'
     header = app_header_999()
     data = {
@@ -15,7 +15,7 @@ def password_login(accountName, password):
         "loginType": 0,
         "accountName": accountName
     }
-    r = json_post(url=url, headers=header, data=data, remark="密码登录")
+    r = json_post(url=url, headers=header, data=data, remark="密码登录", ip_port=ip_port)
     return r
 
 
