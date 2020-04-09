@@ -11,11 +11,11 @@ def chat_c_info(userToken, cUserId):
     return get_requests(url=url, headers=header, remark=remark).json()
 
 
-def chat_c_lastResume(userToken, cUserId):
+def chat_c_lastResume(userToken, cUserId, userId=None, ip_port=None):
     url = 'https://gate.lagou.com/v1/zhaopin/chat/lastResume/{}'.format(cUserId)
-    header = app_header_999(userToken=userToken, DA=False)
+    header = app_header_999(userToken=userToken, DA=False, userId=userId)
     remark = "获取候选人最近一次投递状态"
-    return get_requests(url=url, headers=header, remark=remark).json()
+    return get_requests(url=url, headers=header, remark=remark, ip_port=ip_port).json()
 
 
 def chat_inspect_list(userToken):

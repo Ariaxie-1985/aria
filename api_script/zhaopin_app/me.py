@@ -6,13 +6,12 @@ from api_script.entry.account.passport import password_login
 from utils.util import app_header_999, get_requests
 
 
-def get_me_info(userToken):
+def get_me_info(userToken, userId=None, ip_port=None):
     url = "https://gate.lagou.com/v1/zhaopin/me/info"
-    header = app_header_999(userToken=userToken, DA=False)
+    header = app_header_999(userToken=userToken, DA=False, userId=userId)
     print(header)
     remark = "获取B端用户信息"
-    return get_requests(url=url, headers=header, remark=remark).json()
-
+    return get_requests(url=url, headers=header, remark=remark, ip_port=ip_port).json()
 
 
 if __name__ == '__main__':

@@ -4,11 +4,11 @@
 from utils.util import app_header_999, get_requests, json_post, delete_requests
 
 
-def member_all(userToken):
+def member_all(userToken, ip_port=None, userId=None):
     url = 'https://gate.lagou.com/v1/zhaopin/bUser/member/all?pageNo=1&pageSize=15'
-    header = app_header_999(userToken=userToken, DA=False)
+    header = app_header_999(userToken=userToken, DA=False, userId=userId)
     remark = '查看我公司下的成员'
-    return get_requests(url=url, headers=header, remark=remark).json()
+    return get_requests(url=url, headers=header, remark=remark, ip_port=ip_port).json()
 
 
 def quickReply_all(userToken):
@@ -18,16 +18,16 @@ def quickReply_all(userToken):
     return get_requests(url=url, headers=header, remark=remark).json()
 
 
-def interviewTemplate_all(userToken):
+def interviewTemplate_all(userToken, ip_port=None, userId=None):
     url = 'https://gate.lagou.com/v1/zhaopin/bUser/interviewTemplate/all'
-    header = app_header_999(userToken=userToken, DA=False)
+    header = app_header_999(userToken=userToken, DA=False, userId=userId)
     remark = '查看面试信息'
-    return get_requests(url=url, headers=header, remark=remark).json()
+    return get_requests(url=url, headers=header, remark=remark, ip_port=ip_port).json()
 
 
-def interviewTemplate_create_update(userToken):
+def interviewTemplate_create_update(userToken, ip_port=None, userId=None):
     url = 'https://gate.lagou.com/v1/zhaopin/bUser/interviewTemplate/update'
-    header = app_header_999(userToken=userToken, DA=False)
+    header = app_header_999(userToken=userToken, DA=False, userId=userId)
     data = {
         "id": 0,
         "ownerId": 0,
@@ -37,11 +37,11 @@ def interviewTemplate_create_update(userToken):
         "address": "北京市海淀区海置创投大厦4楼"
     }
     remark = '创建面试信息'
-    return json_post(url=url, headers=header, data=data, remark=remark)
+    return json_post(url=url, headers=header, data=data, remark=remark, ip_port=ip_port)
 
 
-def interviewTemplate_del(userToken, templateId):
+def interviewTemplate_del(userToken, templateId, ip_port=None, userId=None):
     url = 'https://gate.lagou.com/v1/zhaopin/bUser/interviewTemplate/del?templateId={}'.format(templateId)
-    header = app_header_999(userToken=userToken, DA=False)
+    header = app_header_999(userToken=userToken, DA=False, userId=userId)
     remark = '删除面试信息'
-    return delete_requests(url=url, headers=header, remark=remark)
+    return delete_requests(url=url, headers=header, remark=remark, ip_port=ip_port)
