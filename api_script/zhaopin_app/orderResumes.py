@@ -46,8 +46,8 @@ def orderResumes_positions_pages(userToken, ip_port=None, userId=None):
     return get_requests(url=url, headers=header, remark=remark, ip_port=ip_port).json()
 
 
-def orderResumes_sameResume_query(userToken, resumeId, ip_port=None, userId=None):
-    url = host + '/orderResumes/sameResume/query?pageNo=1&pageSize=10&resumeId={}'.format(resumeId)
+def orderResumes_sameResume_query(userToken, resumeId, pageNo=1, ip_port=None, userId=None):
+    url = host + '/orderResumes/sameResume/query?pageNo={}&pageSize=10&resumeId={}'.format(pageNo, resumeId)
     header = app_header_999(userToken=userToken, DA=False, userId=userId)
     remark = '多次投递记录'
     return get_requests(url=url, headers=header, remark=remark, ip_port=ip_port).json()
