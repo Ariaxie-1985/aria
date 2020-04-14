@@ -167,7 +167,7 @@ class run_Pytest(Resource):
                             )
         args = parser.parse_args()
         if self.Business_module.get(args['module'], None) == None:
-            return {'state': 0, "data": "不支持该业务模块"}
+            return {'state': 2, "data": "不支持该业务模块"}
         if args['ip_port']:
             if not (len(args['ip_port'].split('.')) == 4 and len(args['ip_port'].split(':')) == 2):
                 return {'state': 0, "data": "ip:port 不正确"}
