@@ -7,6 +7,7 @@ import datetime
 from json import JSONDecodeError
 from urllib.parse import urlparse
 
+import pysnooper
 import requests
 import re
 from requests import RequestException
@@ -28,6 +29,7 @@ count = 0
 
 
 # 获取页面的token和code
+@pysnooper.snoop()
 def get_code_token(url, referer=False, ip_port=None):
     global count
     try:
@@ -878,5 +880,5 @@ if __name__ == '__main__':
     # get_requests(url=url,headers=header,remark='23')
     # r = verify_code_message('00852', '20180917')
     # r = domain_convert_ip_port('https://gate.lagou.com/v1/entry/demo/demo/sdfas', '127.0.0.1:8080')
-    r = domain_convert_ip_port('https://easy.lagou.com/v1/entry/demo/demo/sdfas', '127.0.0.1:8080')
+    r = domain_convert_ip_port('https://easy.lagou.com/parentPosition/multiChannel/create.json', '10.42.154.224:11170')
     print(r)

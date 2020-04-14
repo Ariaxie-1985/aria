@@ -1,9 +1,11 @@
 # coding:utf-8
 # @Author: Xiawang
+import pysnooper
+
 from utils.util import form_post, get_code_token, login, get_requests, get_header, login_password
 import json
 
-
+@pysnooper.snoop()
 def add_workAddress(header, ip_port=None):
     url = 'https://easy.lagou.com/workAddress/add.json'
     data = {
@@ -31,7 +33,7 @@ def add_workAddress(header, ip_port=None):
         address_id = 0
     return address_id
 
-
+@pysnooper.snoop()
 def createPosition_999(firstType, positionType, positionThirdType, positionName, ip_port=None):
     refer_createPosition_url = "https://easy.lagou.com/position/multiChannel/createPosition.htm"
     Position_header = get_code_token(refer_createPosition_url, ip_port=ip_port)
