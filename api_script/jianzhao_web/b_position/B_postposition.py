@@ -4,7 +4,7 @@ from utils.util import form_post, get_code_token, login, get_requests, get_heade
 import json
 
 
-def add_workAddress(header):
+def add_workAddress(header, ip_port=None):
     url = 'https://easy.lagou.com/workAddress/add.json'
     data = {
         "province": "北京",
@@ -24,7 +24,7 @@ def add_workAddress(header):
         "bizArea": "望京"
     }
     remark = "创建工作地址"
-    r = form_post(url=url, data=data, headers=header, remark=remark)
+    r = form_post(url=url, data=data, headers=header, remark=remark, ip_port=ip_port)
     if r.get('state', 0) == 1:
         address_id = r['content']['data']['address']['id']
     else:
@@ -32,10 +32,10 @@ def add_workAddress(header):
     return address_id
 
 
-def createPosition_999(firstType, positionType, positionThirdType, positionName):
+def createPosition_999(firstType, positionType, positionThirdType, positionName, ip_port=None):
     refer_createPosition_url = "https://easy.lagou.com/position/multiChannel/createPosition.htm"
-    Position_header = get_code_token(refer_createPosition_url)
-    addressId = add_workAddress(Position_header)
+    Position_header = get_code_token(refer_createPosition_url, ip_port=ip_port)
+    addressId = add_workAddress(Position_header, ip_port=ip_port)
     createPosition_url = "https://easy.lagou.com/parentPosition/multiChannel/create.json"
     createPosition_data = {'isSchoolJob': '0', 'channelTypes': 'LAGOU', 'firstType': firstType,
                            'positionType': positionType,
@@ -49,7 +49,8 @@ def createPosition_999(firstType, positionType, positionThirdType, positionName)
                            'channels': '108', 'useEnergyCard': 'false', 'recommend': 'false', 'workYear': '3-5年',
                            'typeId': '', 'newVersion': 'true'}
     remark = "发布职位"
-    return form_post(url=createPosition_url, data=createPosition_data, headers=Position_header, remark=remark)
+    return form_post(url=createPosition_url, data=createPosition_data, headers=Position_header, remark=remark,
+                     ip_port=ip_port)
 
 
 # 发布单个职位-拉勾渠道
@@ -113,45 +114,46 @@ def get_Address():
     return r['content']['rows'][0]['id']
 
 
-def myOnlinePositions(pageNo):
+def myOnlinePositions(pageNo, ip_port=None):
     referer_url = 'https://easy.lagou.com/position/multiChannel/myOnlinePositions.htm?pageNo=1'
     url = 'https://easy.lagou.com/parentPosition/multiChannel/myOnlinePositions.json'
     data = {'pageNo': pageNo}
-    header = get_code_token(url=referer_url)
-    return form_post(url=url, headers=header, data=data, remark='获取在线职位')
+    header = get_code_token(url=referer_url, ip_port=ip_port)
+    return form_post(url=url, headers=header, data=data, remark='获取在线职位', ip_port=ip_port)
 
 
-def get_online_positions(pageNo=1):
+def get_online_positions(pageNo=1, ip_port=None):
     referer_url = 'https://easy.lagou.com/position/multiChannel/myOnlinePositions.htm?pageNo=1'
     url = 'https://easy.lagou.com/parentPosition/multiChannel/myOnlinePositions.json'
     data = {'pageNo': pageNo}
-    header = get_code_token(url=referer_url)
-    return form_post(url=url, headers=header, data=data, remark='获取在线职位')
+    header = get_code_token(url=referer_url, ip_port=ip_port)
+    return form_post(url=url, headers=header, data=data, remark='获取在线职位', ip_port=ip_port)
 
 
-def offline_position(positionId):
+def offline_position(positionId, ip_port=None):
     url = 'https://easy.lagou.com/position/offlinePosition.json'
-    header = get_code_token(url='https://easy.lagou.com/position/my_online_positions.htm?pageNo=1')
+    header = get_code_token(url='https://easy.lagou.com/position/my_online_positions.htm?pageNo=1', ip_port=ip_port)
     data = {'positionId': positionId}
-    return form_post(url=url, headers=header, data=data, remark='下线职位')
+    return form_post(url=url, headers=header, data=data, remark='下线职位', ip_port=ip_port)
 
 
-def www_redirect_easy():
+def www_redirect_easy(ip_port=None):
     url = 'https://easy.lagou.com/dashboard/index.htm?from=c_index'
-    header = get_header(url='https://www.lagou.com/')
-    return get_requests(url=url, headers=header, remark='从主站跳转到企业版页')
+    header = get_header(url='https://www.lagou.com/', ip_port=ip_port)
+    return get_requests(url=url, headers=header, remark='从主站跳转到企业版页', ip_port=ip_port)
 
 
-def get_all_position_category():
+def get_all_position_category(ip_port=None):
     url = 'https://easy.lagou.com/position/multiChannel/getAllPositionCategory.json'
-    header = get_header(url='https://easy.lagou.com/position/multiChannel/myOnlinePositions.htm?pageNo=1')
-    return get_requests(url=url, headers=header, remark="获取职位的全部分类").json()
+    header = get_header(url='https://easy.lagou.com/position/multiChannel/myOnlinePositions.htm?pageNo=1', ip_port=None)
+    return get_requests(url=url, headers=header, remark="获取职位的全部分类", ip_port=ip_port).json()
 
 
-def multiChannel_filter():
+def multiChannel_filter(ip_port=None):
     url = 'https://easy.lagou.com/parentPosition/multiChannel/filter.json'
-    header = get_header(url='https://easy.lagou.com/position/multiChannel/myOnlinePositions.htm?pageNo=1')
-    return form_post(url=url, headers=header, remark="职位类型(特权职位)")
+    header = get_header(url='https://easy.lagou.com/position/multiChannel/myOnlinePositions.htm?pageNo=1',
+                        ip_port=ip_port)
+    return form_post(url=url, headers=header, remark="职位类型(特权职位)", ip_port=ip_port)
 
 
 def my_parent_positions():
@@ -160,19 +162,21 @@ def my_parent_positions():
     return form_post(url=url, headers=header, remark="获取在线职位")
 
 
-def count_by_status():
+def count_by_status(ip_port=None):
     url = 'https://easy.lagou.com/parentPosition/multiChannel/countByStatus.json'
-    header = get_header(url='https://easy.lagou.com/position/multiChannel/myOnlinePositions.htm?pageNo=1')
-    return form_post(url=url, headers=header, remark="统计当前自己和公司的职位数量")
+    header = get_header(url='https://easy.lagou.com/position/multiChannel/myOnlinePositions.htm?pageNo=1',
+                        ip_port=ip_port)
+    return form_post(url=url, headers=header, remark="统计当前自己和公司的职位数量", ip_port=ip_port)
 
 
-def my_offline_positions(pageNo):
+def my_offline_positions(pageNo, ip_port=None):
     url = 'https://easy.lagou.com/parentPosition/multiChannel/myOfflinePositions.json'
-    header = get_header(url='https://easy.lagou.com/position/multiChannel/myOfflinePositions.htm?pageNo=1')
+    header = get_header(url='https://easy.lagou.com/position/multiChannel/myOfflinePositions.htm?pageNo=1',
+                        ip_port=ip_port)
     data = {
         'pageNo': pageNo
     }
-    return form_post(url=url, headers=header, data=data, remark="获取已下线的职位")
+    return form_post(url=url, headers=header, data=data, remark="获取已下线的职位", ip_port=ip_port)
 
 
 def company_other_positions(pageNo):
@@ -184,32 +188,33 @@ def company_other_positions(pageNo):
     return form_post(url=url, headers=header, data=data, remark="获取公司其他人的职位")
 
 
-def redirect_original_page(positionId):
+def redirect_original_page(positionId, ip_port=None):
     url = 'https://easy.lagou.com/position/redirectOriginalPage.htm?positionId={}'.format(positionId)
-    header = get_header(url='https://easy.lagou.com/position/multiChannel/myOnlinePositions.htm?pageNo=1')
+    header = get_header(url='https://easy.lagou.com/position/multiChannel/myOnlinePositions.htm?pageNo=1',
+                        ip_port=ip_port)
     remark = '获取职位详情'
-    return get_requests(url=url, headers=header, remark=remark)
+    return get_requests(url=url, headers=header, remark=remark, ip_port=ip_port)
 
 
-def batch_refresh_info():
+def batch_refresh_info(ip_port=None):
     url = 'https://easy.lagou.com/position/batchRefreshInfo.json'
     refer_url = f'https://easy.lagou.com/position/multiChannel/myOnlinePositions.htm?pageNo=1&citys=&publishUserId=&channelTypes=&typeId=&firstTypes=&keyword='
-    header = get_code_token(url=refer_url)
+    header = get_code_token(url=refer_url, ip_port=ip_port)
     remark = '批量刷新职位'
-    return form_post(url=url, headers=header, remark=remark)
+    return form_post(url=url, headers=header, remark=remark, ip_port=ip_port)
 
 
-def plus_search_selector():
+def plus_search_selector(ip_port=None):
     url = 'https://easy.lagou.com/search/plusSearchSelector.json?from=talentsearch'
     refer_url = 'https://easy.lagou.com/talent/index.htm?'
-    header = get_header(url=refer_url)
+    header = get_header(url=refer_url, ip_port=ip_port)
     remark = '人才搜索筛选器'
-    return get_requests(url=url, headers=header, remark=remark).json()
+    return get_requests(url=url, headers=header, remark=remark, ip_port=ip_port).json()
 
 
-def will_offline_positionCount():
+def will_offline_positionCount(ip_port=None):
     url = 'https://easy.lagou.com/parentPosition/multiChannel/willOfflinePositionCount.json'
     refer_url = 'https://easy.lagou.com/bstatus/auth/index.htm?'
-    header = get_header(url=refer_url)
+    header = get_header(url=refer_url, ip_port=ip_port)
     remark = '统计将要下线的职位'
-    return get_requests(url=url, headers=header, remark=remark).json()
+    return get_requests(url=url, headers=header, remark=remark, ip_port=ip_port).json()

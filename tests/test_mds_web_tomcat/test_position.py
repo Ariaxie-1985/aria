@@ -16,51 +16,50 @@ from api_script.jianzhao_web.talent.B_looking_for_talent import rec_talent, new_
 from utils.util import assert_equal, assert_in
 
 
-def test_get_all_position_category():
-    r = get_all_position_category()
+def test_get_all_position_category(ip_port):
+    r = get_all_position_category(ip_port=ip_port)
     assert_in('开发|测试|运维类', [category['firstType'] for category in r['content']['rows']], "获取职位的全部分类用例通过")
 
 
-def test_multiChannel_filter():
-    r = multiChannel_filter()
+def test_multiChannel_filter(ip_port):
+    r = multiChannel_filter(ip_port=ip_port)
     assert_in('特权职位', [position_type['name'] for position_type in r['content']['data']['positionTypes']],
               "职位类型(特权职位)用例通过")
 
 
-def test_count_by_status():
-    r = count_by_status()
+def test_count_by_status(ip_port):
+    r = count_by_status(ip_port=ip_port)
     assert_equal(True, bool(r['content']['data']['myOfflinePositionsCount']), "统计当前自己和公司的职位数量用例通过")
 
 
 @pytest.mark.parametrize("pageNo", [(1)])
-def test_myOnlinePositions(pageNo):
-    r = myOnlinePositions(pageNo=pageNo)
+def test_myOnlinePositions(pageNo, ip_port):
+    r = myOnlinePositions(pageNo=pageNo, ip_port=ip_port)
     global positionId, outerPositionId
     positionId = r['content']['data']['parentPositionVOs'][0]['positions'][0]['positionId']
     outerPositionId = r['content']['data']['parentPositionVOs'][0]['positions'][0]['outerPositionId']
     assert_equal(1, r['state'], "获取在线职位用例通过")
 
 
-def test_batch_refresh_info():
-    r = batch_refresh_info()
+def test_batch_refresh_info(ip_port):
+    r = batch_refresh_info(ip_port=ip_port)
     assert_equal(1, r['state'], "批量刷新职位用例通过")
 
 
-def test_redirect_original_page():
-    r = redirect_original_page(positionId=positionId)
+def test_redirect_original_page(ip_port):
+    r = redirect_original_page(positionId=positionId,ip_port=ip_port)
     assert_equal(200, r.status_code, '获取职位详情用例通过')
 
 
 @pytest.mark.parametrize('pageNo', [(1), (2)])
-def test_my_offline_positions(pageNo):
-    r = my_offline_positions(pageNo=pageNo)
+def test_my_offline_positions(pageNo,ip_port):
+    r = my_offline_positions(pageNo=pageNo,ip_port=ip_port)
     assert_equal(1, r['state'], '获取已下线的职位用例通过')
 
 
-def test_get_all_members():
-    r = get_all_members()
+def test_get_all_members(ip_port):
+    r = get_all_members(ip_port=ip_port)
     assert_equal(True, bool(r['content']['data']['members']['result']), '获取公司内的所有成员用例通过')
-
 
 
 @pytest.mark.skip(reason="接口有拦截，暂跳过执行")
@@ -104,8 +103,8 @@ def test_talent_inspect():
     assert_equal(1, r['state'], '谁看过我用例通过')
 
 
-def test_plus_search_selector():
-    r = plus_search_selector()
+def test_plus_search_selector(ip_port):
+    r = plus_search_selector(ip_port=ip_port)
     assert_equal(1, r['state'], '人才搜索筛选器用例通过')
 
 
@@ -116,16 +115,16 @@ def test_talent_search_list(positionName):
     assert_equal(1, r.get('state'), "通过职位名称来搜索人才用例通过")
 
 
-def test_talent_collection_list():
-    r = talent_collection_list()
+def test_talent_collection_list(ip_port):
+    r = talent_collection_list(ip_port=ip_port)
     assert_equal(1, r.get('state'), '人才收藏列表用例通过')
 
 
-def test_talent_collection_count():
-    r = talent_collection_count()
+def test_talent_collection_count(ip_port):
+    r = talent_collection_count(ip_port=ip_port)
     assert_equal(1, r.get('state'), '人才收藏统计用例通过')
 
 
-def test_will_offline_positionCount():
-    r = will_offline_positionCount()
+def test_will_offline_positionCount(ip_port):
+    r = will_offline_positionCount(ip_port=ip_port)
     assert_equal(1, r.get('state'), '统计将要下线的职位用例通过')

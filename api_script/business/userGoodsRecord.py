@@ -35,11 +35,11 @@ def pendingApplyRecords():
     return get_requests(url=url, headers=header, remark=remark).json()
 
 
-def count_pending_apply_records():
+def count_pending_apply_records(ip_port=None):
     url = 'https://easy.lagou.com/userGoodsRecord/countPendingApplyRecords.json'
-    header = get_header('https://easy.lagou.com/bstatus/auth/index.htm?')
+    header = get_header('https://easy.lagou.com/bstatus/auth/index.htm?', ip_port=ip_port)
     remark = '管理员 查询待处理权益申请数量接口'
-    return get_requests(url=url, headers=header, remark=remark).json()
+    return get_requests(url=url, headers=header, remark=remark, ip_port=ip_port).json()
 
 
 def addAccountFromApply(applyRecordId):

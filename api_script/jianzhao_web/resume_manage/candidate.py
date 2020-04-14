@@ -19,10 +19,11 @@ def can_new_list(stage):
     return form_post(url=url, data=data, headers=header, remark=remark)
 
 
-def can_new_count(stage):
+def can_new_count(stage, ip_port=None):
     url = 'https://easy.lagou.com/can/new/count.json'
     header = get_header(
-        url='https://easy.lagou.com/can/new/index.htm?can=true&stage=NEW&needQueryAmount=true&newDeliverTime=0')
+        url='https://easy.lagou.com/can/new/index.htm?can=true&stage=NEW&needQueryAmount=true&newDeliverTime=0',
+        ip_port=ip_port)
     data = {
         'can': 'true',
         'stage': stage,
@@ -30,13 +31,13 @@ def can_new_count(stage):
         'newDeliverTime': 0,
         'pageNo': 1
     }
-    return form_post(url=url, headers=header, data=data, remark='统计简历阶段的简历数')
+    return form_post(url=url, headers=header, data=data, remark='统计简历阶段的简历数', ip_port=ip_port)
 
 
-def interview_new_list(range):
+def interview_new_list(range, ip_port=None):
     url = 'https://easy.lagou.com/interview/new/list.json'
     header = get_header(
-        url='https://easy.lagou.com/interview/new/index.htm?')
+        url='https://easy.lagou.com/interview/new/index.htm?', ip_port=ip_port)
     data = {
         'sign': 'false',
         'notInterview': 'false',
@@ -44,7 +45,7 @@ def interview_new_list(range):
         'pageNo': 1,
         'range': range
     }
-    return form_post(url=url, headers=header, data=data, remark='统计面试日程')
+    return form_post(url=url, headers=header, data=data, remark='统计面试日程', ip_port=ip_port)
 
 
 def can_new_additionalInfo(resumeIds, stage):
@@ -77,12 +78,13 @@ def resume_preview_info(resumeId, stage):
     return get_requests(url=url, headers=header, remark=remark).json()
 
 
-def can_new_filter(stage):
+def can_new_filter(stage, ip_port=None):
     url = f'https://easy.lagou.com/can/new/filter.json?pageSize=1000&pageNum=1'
     header = get_code_token(
-        f"https://easy.lagou.com/can/new/index.htm?can=true&stage={stage}&needQueryAmount=true&newDeliverTime=0&pageNo=1")
+        f"https://easy.lagou.com/can/new/index.htm?can=true&stage={stage}&needQueryAmount=true&newDeliverTime=0&pageNo=1",
+        ip_port=ip_port)
     remark = '查看简历的筛选器'
-    return get_requests(url=url, headers=header, remark=remark).json()
+    return get_requests(url=url, headers=header, remark=remark, ip_port=ip_port).json()
 
 
 def can_batch_toStageLink(resumeIds):

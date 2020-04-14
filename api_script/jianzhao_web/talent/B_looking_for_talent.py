@@ -69,21 +69,21 @@ def talent_search_list(positionName):
     return form_post(url=url, data=data, headers=header, remark=remark)
 
 
-def talent_collection_list():
+def talent_collection_list(ip_port=None):
     url = 'https://easy.lagou.com/collection/collection/list.json'
     refer_url = f'https://easy.lagou.com/collection/index.htm?'
-    header = get_code_token(url=refer_url)
+    header = get_code_token(url=refer_url, ip_port=ip_port)
     data = {'pageNo': 1, 'pageSize': 15}
     remark = '人才收藏列表'
-    return form_post(url=url, data=data, headers=header, remark=remark)
+    return form_post(url=url, data=data, headers=header, remark=remark, ip_port=ip_port)
 
 
-def talent_collection_count():
+def talent_collection_count(ip_port=None):
     refer_query_talent_url = f"https://easy.lagou.com/collection/index.htm?"
     query_talent_url = f"https://easy.lagou.com/collection/count.json"
-    query_talent_header = get_code_token(refer_query_talent_url)
+    query_talent_header = get_code_token(refer_query_talent_url, ip_port=ip_port)
     remark = "人才收藏统计"
-    return get_requests(url=query_talent_url, headers=query_talent_header, remark=remark).json()
+    return get_requests(url=query_talent_url, headers=query_talent_header, remark=remark, ip_port=ip_port).json()
 
 
 if __name__ == '__main__':
