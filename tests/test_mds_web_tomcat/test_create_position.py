@@ -2,7 +2,7 @@
 # @Time  : 2019-11-07 14:44
 # @Author: Xiawang
 # Description:
-
+from api_script.jianzhao_web.b_basic.toB_saveHR_1 import get_b_index_Id
 from api_script.jianzhao_web.b_position.B_postposition import createPosition_999, get_online_positions, \
     offline_position, www_redirect_easy
 from utils.util import assert_equal
@@ -13,9 +13,9 @@ def test_login_admin_user(b_login_web,ip_port):
     www_redirect_easy(ip_port=ip_port)
 
 
-def test_get_admin_user_info(get_user_info):
+def test_get_admin_user_info(ip_port):
     global admin_user_id, admin_lg_company_id
-    admin_user_id, admin_company_id, admin_lg_company_id = get_user_info[0], get_user_info[1], get_user_info[2]
+    admin_user_id, admin_company_id, admin_lg_company_id = get_b_index_Id()
     assert_equal(True, bool(admin_user_id), '获取用户ID是否成功')
 
 

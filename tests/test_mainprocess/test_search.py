@@ -8,9 +8,10 @@ import pytest
 from api_script.entry.bigcompany.big_company import query_company_index
 from api_script.entry.interview_experience.query import query_positionTypes, query_interview_experience
 from api_script.entry.position.communicatePositions import query_positions, query_by_company
-from api_script.entry.positionindex.hotCompany import switch_city
+from api_script.entry.positionindex import switch_city, expect_job_list, rec, new
 from api_script.entry.positionsearch.searchCompany import search_company
 from api_script.entry.positionsearch.searchPosition import search_positions
+from api_script.weapp.api import session_share_info_app_c, moments_share_info_app_c
 from utils.util import assert_equal
 
 
@@ -77,3 +78,32 @@ def test_query_positionTypes(c_login_app):
 def test_query_interview_experience(c_login_app):
     r = query_interview_experience(userToken=c_login_app[0], companyId=companyId, positionType=positionType)
     assert_equal(1, r['state'], "校验面试条件查询成功!")
+
+
+def test_expect_job_list(c_login_app):
+    r = expect_job_list(userToken=c_login_app[0], userId=c_login_app[1])
+    assert_equal(1, r.get('state'), '求职意向用例通过')
+    global expectJobId
+    expectJobId = r['content'][0]['id']
+
+
+def test_rec(c_login_app):
+    r = rec(userToken=c_login_app[0], userId=c_login_app[1], expectJobId=expectJobId)
+    assert_equal(True, bool(len(r['content']['positionList'])), '推荐人才')
+    global positionId
+    positionId = r['content']['positionList'][0]['positionId']
+
+
+def test_new(c_login_app):
+    r = new(userToken=c_login_app[0], userId=c_login_app[1], expectJobId=expectJobId)
+    assert_equal(True, bool(len(r['content']['positionList'])), '最新人才')
+
+
+def test_session_share_info_app_c(c_login_app):
+    r = session_share_info_app_c(userToken=c_login_app[0], userId=c_login_app[1], job_id=positionId)
+    assert_equal(1, r.get('state'), 'c端用户分享职位到微信好友用例通过')
+
+
+def test_moments_share_info_app_c(c_login_app):
+    r = moments_share_info_app_c(userToken=c_login_app[0], userId=c_login_app[1], job_id=positionId)
+    assert_equal(1, r.get('state'), 'c端用户分享职位到微信朋友圈用例通过')

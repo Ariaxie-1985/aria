@@ -36,7 +36,7 @@ def add_workAddress(header, ip_port=None):
 @pysnooper.snoop()
 def createPosition_999(firstType, positionType, positionThirdType, positionName, ip_port=None):
     refer_createPosition_url = "https://easy.lagou.com/position/multiChannel/createPosition.htm"
-    Position_header = get_code_token(refer_createPosition_url, ip_port=ip_port)
+    Position_header = get_code_token(refer_createPosition_url)
     addressId = add_workAddress(Position_header, ip_port=ip_port)
     createPosition_url = "https://easy.lagou.com/parentPosition/multiChannel/create.json"
     createPosition_data = {'isSchoolJob': '0', 'channelTypes': 'LAGOU', 'firstType': firstType,
