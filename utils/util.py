@@ -39,6 +39,8 @@ def get_code_token(url, referer=False, ip_port=None):
         else:
             ip_port_url = domain_convert_ip_port(url=url, ip_port=ip_port)
             code = session.get(url=ip_port_url, headers=header, verify=False, timeout=60)
+            with open('/home/test/1.log', 'w') as f:
+                f.write(code.text)
         token_values = re.findall("X_Anti_Forge_Token = '(.*?)'", code.text, re.S)[0]
         code_values = re.findall("X_Anti_Forge_Code = '(.*?)'", code.text, re.S)[0]
         if referer == False:

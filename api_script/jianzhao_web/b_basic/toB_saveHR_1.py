@@ -165,15 +165,15 @@ def get_b_person_userId():
     return userId
 
 
-def get_b_index_Id():
+def get_b_index_Id(ip_port=None):
     url = 'https://easy.lagou.com/bstatus/auth/index.htm?verifyTypeList=enterprise'
     header = get_header(url='https://hr.lagou.com/corpCenter/auth/person/status.html')
-    r = get_requests(url=url, headers=header, remark='获取提交招聘者认证的用户id').text
+    r = get_requests(url=url, headers=header, remark='获取提交招聘者认证的用户id', ip_port=ip_port).text
     soup = BeautifulSoup(r, "html.parser")
     try:
         userId = soup.find(id="UserId")['value']
     except TypeError:
-        r = get_requests(url=url, headers=header, remark='获取提交招聘者认证的用户id').text
+        r = get_requests(url=url, headers=header, remark='获取提交招聘者认证的用户id',ip_port=ip_port).text
         soup = BeautifulSoup(r, "html.parser")
         userId = soup.find(id="UserId")['value']
     UserCompanyId = soup.find(id="UserCompanyId")['value']
