@@ -9,6 +9,7 @@ from api_script.entry.buser.hr_info import get_hr_info
 from api_script.entry.deliver.deliver import deliver_check, get_resume_info, deliver_create, \
     recommend_isExistPositionList, recommend_positionList
 from api_script.entry.position.communicatePositions import get_jd
+from api_script.weapp.api import session_share_info_app_b_corp, session_share_info_app_b_yun
 from api_script.zhaopin_app.bUser import quickReply_all
 from api_script.zhaopin_app.b_chat import chat_c_lastResume, chat_c_info, chat_position, chat_interview_check
 from api_script.zhaopin_app.b_position import get_online_positions, publish_position, positions_offline
@@ -53,9 +54,16 @@ portrait_format = ['jpg', 'png', 'jpeg', 'JPG', 'PNG', 'JPEG']
 def test_talent_recTalent(b_login_app):
     r = talent_recTalent(userToken=b_login_app[0], positionId=positionId)
     assert_equal(True, bool(len(r['content']['result'])), "推荐人才用例通过")
+    global resumeId
+    resumeId = r['content']['result'][0]['resumeId']
     for talent in r['content']['result']:
         if bool(talent.get('portrait', False)):
             assert_in(talent['portrait'].split(".")[-1], portrait_format, "推荐人才的头像信息用例通过")
+
+
+def test_session_share_info_app_b_corp(b_login_app):
+    r = session_share_info_app_b_corp(userToken=b_login_app[0], resumeId=resumeId)
+    assert_equal(1, r.get('state'), 'B端用户分享人才简历到微信好友用例通过')
 
 
 def test_talent_newTalent(b_login_app):
@@ -128,6 +136,11 @@ def test_talent_info_get(b_login_app, c_login_app):
     long_resumeId = r['content']['resumeId']
     assert_equal(True, bool(r['content']['resumeCoreInfo']['resumeCoreInfo']['resumeId']),
                  "获取人才信息用例通过")
+
+
+def test_session_share_info_app_b_yun(b_login_app):
+    r = session_share_info_app_b_yun(userToken=b_login_app[0], orderResumeId=long_resumeId)
+    assert_equal(1, r.get('state'), 'B端用户与C端用户的消息里分享简历到微信好友用例通过')
 
 
 def test_quickReply_all(b_login_app):
