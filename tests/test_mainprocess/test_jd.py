@@ -60,7 +60,7 @@ def test_talent_recTalent(b_login_app):
         if bool(talent.get('portrait', False)):
             assert_in(talent['portrait'].split(".")[-1], portrait_format, "推荐人才的头像信息用例通过")
 
-@pytest.mark.skip(reason="暂时跳过")
+
 def test_session_share_info_app_b_corp(b_login_app):
     r = session_share_info_app_b_corp(userToken=b_login_app[0], resumeId=resumeId)
     assert_equal(1, r.get('state'), 'B端用户分享人才简历到微信好友用例通过')
@@ -137,7 +137,7 @@ def test_talent_info_get(b_login_app, c_login_app):
     assert_equal(True, bool(r['content']['resumeCoreInfo']['resumeCoreInfo']['resumeId']),
                  "获取人才信息用例通过")
 
-@pytest.mark.skip(reason="暂时跳过")
+
 def test_session_share_info_app_b_yun(b_login_app):
     r = session_share_info_app_b_yun(userToken=b_login_app[0], orderResumeId=long_resumeId)
     assert_equal(1, r.get('state'), 'B端用户与C端用户的消息里分享简历到微信好友用例通过')
