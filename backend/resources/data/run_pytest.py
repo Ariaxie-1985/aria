@@ -170,7 +170,7 @@ class run_Pytest(Resource):
             return {'state': 2, "data": "不支持该业务模块"}
         if args['ip_port']:
             if not (len(args['ip_port'].split('.')) == 4 and len(args['ip_port'].split(':')) == 2):
-                return {'state': 0, "data": "ip:port 不正确"}
+                return {'state': 3, "data": "ip:port 不正确"}
         project_path = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
         os.chdir(project_path)
         state = 1

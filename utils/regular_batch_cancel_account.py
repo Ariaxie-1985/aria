@@ -3,10 +3,16 @@
 # @Author: Xiawang
 # Description:
 import logging
+import sys
+import os
+import time
 
+curPath = os.path.abspath(os.path.dirname(__file__))
+rootPath = os.path.split(curPath)[0]
+sys.path.append(rootPath)
 import requests
 
-from utils.read_file import read_cancel_account, batch_cancel_account, rewrite_cancel_account, record_cancel_account
+from utils.read_file import read_cancel_account, batch_cancel_account, rewrite_cancel_account
 
 from threading import Timer
 
@@ -23,6 +29,7 @@ def send_cancel_result(message, result):
 
 # 每隔300秒执行一次任务
 def regular_batch_cancel_account():
+    print(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))
     result = read_cancel_account()
     logging.info(f'注销手机号:{",".join(result)}')
     if len(result) > 0:
