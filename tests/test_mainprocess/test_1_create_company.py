@@ -7,6 +7,7 @@ from api_script.jianzhao_web.b_basic.toB_saveHR_1 import saveHR, saveCompany, \
     submit_new
 from api_script.jianzhao_web.b_basic.b_upload import upload_permit
 from api_script.neirong_app.account import upate_user_password
+from utils.read_file import record_cancel_account
 from utils.util import assert_equal, pc_send_register_verifyCode, verify_code_message, user_register_lagou
 
 register_state = 1
@@ -26,6 +27,7 @@ def test_register_admin_user(get_countryCode_phone_admin_user):
         assert_equal(1, register_state, '校验管理员注册是否成功！', '失败手机号:{}'.format(countryCode + phone))
     else:
         register_state = 0
+        record_cancel_account(countryCode + phone)
         assert_equal(1, register_state, '校验发送验证码是否成功')
 
 

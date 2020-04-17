@@ -23,6 +23,15 @@ def verify_user_is_forbid(userId):
         return False
 
 
+def get_userId(country_code_phone):
+    url = 'http://home.lagou.com/forbid/user/queryUser.json'
+    header = get_header(url='http://home.lagou.com/')
+    data = {'searchContent': '+' + country_code_phone, 'limit': 15, 'currentPage': 0, 'typeSearch': 3}
+    result = form_post(url=url, headers=header, data=data, remark='校验用户是否禁用成功')
+    if result['success'] == True:
+        return result['data']['pageData'][0]['id']
+
+
 def home_query_user_id(telephone):
     url = 'http://home.lagou.com/forbid/user/queryUser.json'
     header = get_header(url='http://home.lagou.com/')

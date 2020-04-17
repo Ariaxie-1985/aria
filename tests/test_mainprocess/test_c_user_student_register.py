@@ -12,7 +12,7 @@ from api_script.entry.account.passport import password_login, send_verify_code, 
 from api_script.entry.cuser.baseStatus import get_info, batchCancel
 from api_script.home import forbid
 from api_script.neirong_app.resumes import guideBasicInfo, educationExperiences, personalCards, abilityLabels, expectJob
-from utils.read_file import record_test_data
+from utils.read_file import record_test_data, record_cancel_account
 from utils.util import assert_equal, verify_code_message, login_password
 
 time.sleep(1)
@@ -42,6 +42,11 @@ def test_verifyCode_login():
     assert_equal(201001, register_state, "校验验证码登录转注册成功", "失败的手机号:{}".format(phone))
 
 
+def test_record_cancel_account1():
+    if register_state != 201001:
+        record_cancel_account(countryCode + phone)
+
+
 @skip_
 def test_register_by_phone():
     r = register_by_phone(countryCode, phone, verify_code)
@@ -51,6 +56,11 @@ def test_register_by_phone():
     global userToken, userId
     userToken = r['content']['userToken']
     userId = r['content']['userInfo']['userId']
+
+
+def test_record_cancel_account2():
+    if register_by_phone_state != 1:
+        record_cancel_account(countryCode + phone)
 
 
 @skip1
