@@ -32,7 +32,7 @@ def regular_batch_cancel_account():
     print(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))
     result = read_cancel_account()
     logging.info(f'注销手机号:{",".join(result)}')
-    if len(result) > 0:
+    if len                               (result) > 0:
         try:
             batch_cancel_account(result)
             send_cancel_result(message='注销手机号成功', result=result)

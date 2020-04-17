@@ -3,7 +3,7 @@
 # @Author: Xiawang
 # Description:
 from api_script.entry.account.passport import password_login
-from api_script.entry.positionindex.suggestion import position_index_suggestion
+from api_script.entry.positionindex import position_index_suggestion
 from api_script.entry.positionrec.positionrec import get_position_delivered, get_position_rec, get_position_user_rec, \
     get_position_view
 from api_script.entry.positionsearch.searchPosition import hotEmployee_activeHr, hotEmployee_nearby, \
