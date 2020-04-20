@@ -96,5 +96,5 @@ if __name__ == '__main__':
     # l = [str(i) for i in range(20190101, 20190131)]
     # for country_code_phone in l:
     #     record_cancel_account(country_code_phone)
-    print(read_cancel_account())
+    print(read_cancel_account(),1)
     # rewrite_cancel_account()

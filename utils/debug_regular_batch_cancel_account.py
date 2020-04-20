@@ -14,7 +14,13 @@ import requests
 
 from utils.read_file import read_cancel_account, batch_cancel_account, rewrite_cancel_account
 
-from threading import Timer
+logger = logging.getLogger(__name__)
+logger.setLevel(level=logging.INFO)
+handler = logging.FileHandler('/home/test/cancel_account_output.log')
+handler.setLevel(logging.INFO)
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+handler.setFormatter(formatter)
+logger.addHandler(handler)
 
 
 def send_cancel_result(message, result):
@@ -29,9 +35,11 @@ def send_cancel_result(message, result):
 
 # 每隔300秒执行一次任务
 def regular_batch_cancel_account():
-    print(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))
     result = read_cancel_account()
-    print(f'开始注销手机号:{",".join(result)}\n')
+    if not bool(result):
+        logger.info(f'无需注销的数据:{",".join(result)}\n')
+        return
+    logger.info(f'开始注销手机号:{",".join(result)}\n')
     if len(result) > 0:
         try:
             batch_cancel_account(result)
