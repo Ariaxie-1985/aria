@@ -37,7 +37,7 @@ def send_cancel_result(message, result):
 def regular_batch_cancel_account():
     result = read_cancel_account()
     if not bool(result):
-        logger.info(f'无需注销的数据:{",".join(result)}\n')
+        logger.info(f'无需注销的数据\n')
         return
     logger.info(f'开始注销手机号:{",".join(result)}\n')
     if len(result) > 0:
