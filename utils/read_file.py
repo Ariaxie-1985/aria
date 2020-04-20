@@ -84,10 +84,9 @@ def batch_cancel_account(country_code_phone_list):
     login_home('betty@lagou.com', '00f453dfec0f2806db5cfabe3ea94a35')
     for country_code_phone in country_code_phone_list:
         userId = get_userId(country_code_phone)
-        if userId is None:
-            return None
-        result = batchCancel(userIds=userId)
-        assert result.get('state') == 1
+        if userId is not None:
+            result = batchCancel(userIds=userId)
+            assert result.get('state') == 1
 
 
 if __name__ == '__main__':
