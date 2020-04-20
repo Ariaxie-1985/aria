@@ -29,7 +29,10 @@ def get_userId(country_code_phone):
     data = {'searchContent': '+' + country_code_phone, 'limit': 15, 'currentPage': 0, 'typeSearch': 3}
     result = form_post(url=url, headers=header, data=data, remark='校验用户是否禁用成功')
     if result['success'] == True:
-        return result['data']['pageData'][0]['id']
+        try:
+            return result['data']['pageData'][0]['id']
+        except IndexError:
+            return None
 
 
 def home_query_user_id(telephone):

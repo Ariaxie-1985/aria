@@ -31,12 +31,15 @@ def send_cancel_result(message, result):
 def regular_batch_cancel_account():
     print(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))
     result = read_cancel_account()
-    logging.info(f'注销手机号:{",".join(result)}')
-    if len                               (result) > 0:
+    print(f'开始注销手机号:{",".join(result)}\n')
+    if len(result) > 0:
         try:
-            batch_cancel_account(result)
-            send_cancel_result(message='注销手机号成功', result=result)
-            rewrite_cancel_account()
+            cancel_result = batch_cancel_account(result)
+            if cancel_result is None:
+                print(f'无需注销手机号:{",".join(result)}\n')
+            else:
+                send_cancel_result(message='注销手机号成功', result=result)
+                rewrite_cancel_account()
         except AssertionError:
             send_cancel_result(message='注销手机号失败', result=result)
     t = Timer(420, regular_batch_cancel_account)

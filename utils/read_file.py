@@ -61,11 +61,13 @@ def read_jsessionid(file_path):
 
 def record_cancel_account(country_code_phone):
     with open('/home/test/data_no_delete/account.txt', 'at') as f:
+        # with open('account.txt', 'at') as f:
         f.write(f'{country_code_phone},')
 
 
 def read_cancel_account():
     with open('/home/test/data_no_delete/account.txt', 'r') as f:
+        # with open('account.txt', 'r') as f:
         result = re.split(',|\n', f.read())
         if result[-1] == '':
             result.remove('')
@@ -81,6 +83,8 @@ def batch_cancel_account(country_code_phone_list):
     login_home('betty@lagou.com', '00f453dfec0f2806db5cfabe3ea94a35')
     for country_code_phone in country_code_phone_list:
         userId = get_userId(country_code_phone)
+        if userId is None:
+            return None
         result = batchCancel(userIds=userId)
         assert result.get('state') == 1
 
