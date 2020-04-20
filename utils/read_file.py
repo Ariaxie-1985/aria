@@ -3,6 +3,7 @@
 # @Author: Xiawang
 import re
 
+import pysnooper
 import yaml
 import os
 
@@ -67,7 +68,7 @@ def record_cancel_account(country_code_phone):
 
 def read_cancel_account():
     with open('/home/test/data_no_delete/account.txt', 'r') as f:
-        # with open('account.txt', 'r') as f:
+    # with open('account.txt', 'r') as f:
         result = re.split(',|\n', f.read())
         if result[-1] == '':
             result.remove('')
@@ -78,7 +79,7 @@ def rewrite_cancel_account():
     with open('/home/test/data_no_delete/account.txt', 'w') as f:
         f.write('')
 
-
+@pysnooper.snoop()
 def batch_cancel_account(country_code_phone_list):
     login_home('betty@lagou.com', '00f453dfec0f2806db5cfabe3ea94a35')
     for country_code_phone in country_code_phone_list:
@@ -93,8 +94,8 @@ if __name__ == '__main__':
     # record_test_data(1, userId=123124, phone='0085220190909')
     # print(read_jsessionid())
     # record_jsessionid('fhkjashdfkasjdhkj')
-    l = [str(i) for i in range(20190101, 20190131)]
-    for country_code_phone in l:
-        record_cancel_account(country_code_phone)
+    # l = [str(i) for i in range(20190101, 20190131)]
+    # for country_code_phone in l:
+    #     record_cancel_account(country_code_phone)
     print(read_cancel_account())
     # rewrite_cancel_account()

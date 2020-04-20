@@ -2,6 +2,8 @@
 # @Time  : 2019-11-21 15:26
 # @Author: Xiawang
 # Description:
+import pysnooper
+
 from utils.util import get_header, form_post, login_home, login_password
 
 
@@ -22,7 +24,7 @@ def verify_user_is_forbid(userId):
     else:
         return False
 
-
+@pysnooper.snoop()
 def get_userId(country_code_phone):
     url = 'http://home.lagou.com/forbid/user/queryUser.json'
     header = get_header(url='http://home.lagou.com/')
