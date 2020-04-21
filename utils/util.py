@@ -813,6 +813,7 @@ def login_verifyCode(countryCode, phone, verifyCode):
 
 
 def pc_send_register_verifyCode(countryCode, phone):
+    session.cookies.clear()
     url = 'https://passport.lagou.com/register/getPhoneVerificationCode.json'
     header = get_header(url='https://passport.lagou.com/register/register.html')
     send_data = {'countryCode': countryCode, 'phone': phone, 'type': 0, 'request_form_verifyCode': '', '_': str(int(
