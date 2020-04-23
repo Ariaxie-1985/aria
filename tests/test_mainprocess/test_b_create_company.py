@@ -22,13 +22,13 @@ from utils.util import assert_equal, pc_send_register_verifyCode, verify_code_me
 
 @pytest.mark.incremental
 class TestCreateCompany(object):
-    def test_send_register_verify_code(self, get_countryCode_phone_admin_user):
-        global admin_countryCode, admin_phone, admin_user_name, verify_code, register_state
+    def test_send_register_admin_verify_code(self, get_countryCode_phone_admin_user):
+        global admin_countryCode, admin_phone, admin_user_name, register_state
         admin_countryCode, admin_phone, admin_user_name = get_countryCode_phone_admin_user
         register_state = pc_send_register_verifyCode(admin_countryCode, admin_phone)
         assert_equal(1, register_state, '获取验证码成功', f'失败手机号:{admin_countryCode + admin_phone}')
 
-    def test_get_verify_code(self):
+    def test_get_admin_verify_code(self):
         global verify_code
         verify_code = verify_code_message(admin_countryCode, admin_phone)
         assert_equal(True, bool(verify_code), '获取验证码成功')
@@ -47,11 +47,11 @@ class TestCreateCompany(object):
         company_msg_save = saveCompany(get_company_name)
         assert_equal(1, company_msg_save.get('state', 0), "校验公司是否新建成功")
 
-    def test_jump_html(self):
+    def test_admin_jump_html(self):
         save_result = jump_html()
         assert_equal(1, save_result.get('state', 0), '校验是否跳过选择优质简历')
 
-    def test_upload_permit(self):
+    def test_admin_upload_permit(self):
         upload_p = upload_permit()
         assert_equal(1, upload_p.get('state', 0), "校验提交身份信息是否成功")
 
@@ -71,7 +71,7 @@ class TestCreateCompany(object):
         global general_countryCode, general_phone, general_user_name, general_user_register_state
         general_countryCode, general_phone, general_user_name = get_countryCode_phone_general_user
         general_user_register_state = pc_send_register_verifyCode(general_countryCode, general_phone)
-        assert_equal(1, register_state, '获取验证码成功', f'失败手机号:{general_countryCode + general_phone}')
+        assert_equal(1, general_user_register_state, '获取验证码成功', f'失败手机号:{general_countryCode + general_phone}')
 
     def test_get_verify_general_user_code(self):
         global general_user_verify_code
@@ -93,7 +93,7 @@ class TestCreateCompany(object):
         join_company = add_saveCompany()
         assert_equal(1, join_company.get('state', 0), "校验加入公司是否成功")
 
-    def test_jump_html(self):
+    def test_general_user_jump_html(self):
         save_result = jump_html()
         assert_equal(1, save_result['state'], '校验是否跳过选择优质简历')
 
@@ -106,11 +106,11 @@ class TestCreateCompany(object):
         assert_equal(1, personal_certificate_submit['state'], "校验提交招聘者身份审核是否成功")
 
     @pytest.mark.parametrize('newPassword', [('990eb670f81e82f546cfaaae1587279a')])
-    def test_update_general_user(self, newPassword):
+    def test_update_general_user_password(self, newPassword):
         r = upate_user_password(newPassword)
         assert_equal(1, r['state'], '普通用户修改密码成功')
 
-    def test_login_admin_user(self, get_password):
+    def test_login_admin_user_01(self, get_password):
         login_result = login_password(admin_countryCode + admin_phone, get_password)
         assert_equal(1, login_result['state'], '校验管理员登录是否成功')
 
@@ -146,7 +146,7 @@ class TestCreateCompany(object):
             positionIds.append(actually_positionId)
         assert_equal(True, free_positionId in positionIds, '校验获取发布的职位是否在线职位是否成功！')
 
-    def test_login_home_01(self):
+    def test_login_home(self):
         # 线上home后台的用户账号和密码, 勿动
         r = login_password('betty@lagou.com', '00f453dfec0f2806db5cfabe3ea94a35')
         assert_equal(1, r.get('state', 0), '校验登录home成功！')
@@ -165,7 +165,7 @@ class TestCreateCompany(object):
                           endTimeStr=str(datetime.date.today() + datetime.timedelta(days=366)))
         assert_equal(True, r3['success'], "开通付费套餐成功！", "公司主站id:{}".format(admin_lg_company_id))
 
-    def test_login_admin_user(self, get_password):
+    def test_login_admin_user_02(self, get_password):
         login_result = login_password(admin_countryCode + admin_phone, get_password)
         assert_equal(1, login_result.get('state', 0), '校验管理员登录是否成功')
         www_redirect_easy()
@@ -215,7 +215,7 @@ class TestCreateCompany(object):
         r = batchCancel(userIds=general_userId)
         assert_equal(1, r['state'], "普通用户注销账号成功")
 
-    def test_login_admin_user(self, get_password):
+    def test_login_admin_user_03(self, get_password):
         login_result = login_password(admin_countryCode + admin_phone, get_password)
         assert_equal(1, login_result['state'], '校验管理员登录是否成功')
 

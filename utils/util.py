@@ -634,7 +634,8 @@ f = 0
 def get_verify_code_list(countryCode, phone):
     if countryCode == '0086':
         countryCode = ''
-    url = 'https://home.lagou.com/msc/message/page'
+    # url = 'https://home.lagou.com/msc/message/page'
+    url = ''
     yesterday = datetime.date.today() - datetime.timedelta(days=1)
     data = {"commId": countryCode + phone, "startTime": str(yesterday) + "T16:00:00.000Z",
             "page": 1, "count": 10}
