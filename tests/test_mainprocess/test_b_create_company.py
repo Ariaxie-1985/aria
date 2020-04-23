@@ -3,10 +3,10 @@ import random
 import time
 import pytest
 
+from api_script.business.new_lagouPlus import open_product
 from api_script.entry.cuser.baseStatus import batchCancel
 from api_script.home import forbid
 from api_script.home.data_import import import_linkManInfo, import_contacts
-from api_script.home.lagou_plus import open_product
 from api_script.jianzhao_web.b_basic.company import jump_html
 from api_script.jianzhao_web.b_basic.toB_comleteInfo_3 import completeInfo, company_auth
 from api_script.jianzhao_web.b_basic.toB_saveHR_1 import saveHR, saveCompany, \

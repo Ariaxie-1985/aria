@@ -634,16 +634,19 @@ f = 0
 def get_verify_code_list(countryCode, phone):
     if countryCode == '0086':
         countryCode = ''
-    # url = 'https://home.lagou.com/msc/message/page'
-    url = ''
+    url = 'https://home.lagou.com/msc/message/page'
     yesterday = datetime.date.today() - datetime.timedelta(days=1)
     data = {"commId": countryCode + phone, "startTime": str(yesterday) + "T16:00:00.000Z",
             "page": 1, "count": 10}
     r = json_post(url=url, data=data, headers={}, remark="获取验证码列表")
-    if r['content']['totalCount'] == 0:
-        return r['content']['totalCount'], None, None
-    else:
-        return r['content']['totalCount'], r['content']['result'][0]['msgId'], r['content']['result'][0]['createTime']
+    try:
+        if r['content']['totalCount'] == 0:
+            return 0, None, None
+        else:
+            return r['content']['totalCount'], r['content']['result'][0]['msgId'], r['content']['result'][0][
+                'createTime']
+    except IndexError:
+        return 0, None, None
 
 
 def verify_code_message(countryCode, phone, flag_num=0):
