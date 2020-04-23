@@ -152,7 +152,7 @@ class TestJd(object):
         interview_state = r.get('state', 9)
         if interview_state == 9:
             pytest.skip("候选人已淘汰, 跳过执行")
-        assert_equal(9, interview_state, '检查候选人已淘汰是否确认邀约面试用例通过')
+        assert_equal(1, interview_state, '检查候选人已淘汰是否确认邀约面试用例通过')
 
     def test_chat_c_lastResume_1(self, b_login_app, c_login_app):
         r = chat_c_lastResume(userToken=b_login_app[0], cUserId=c_login_app[1])
