@@ -16,7 +16,7 @@ from api_script.neirong_app.resumes import guideBasicInfo, educationExperiences,
 from utils.read_file import record_test_data, record_cancel_account
 from utils.util import assert_equal, verify_code_message, login_password
 
-time.sleep(1)
+time.sleep(2)
 
 
 @pytest.mark.incremental
@@ -74,6 +74,7 @@ class TestNotStudentNotWorkRegister(object):
         assert_equal(1, r['state'], '校验提交求职意向')
 
     def test_get_info(self):
+        time.sleep(1)
         r = get_info(userToken)
         assert_equal(1, r['state'], '获取C端用户信息')
 
@@ -90,6 +91,7 @@ class TestNotStudentNotWorkRegister(object):
         assert_equal(1, r['state'], '校验登录home成功！')
 
     def test_forbid_general_user(self):
+        time.sleep(1)
         forbid_result = forbid.forbid_user(userId)
         assert_equal(True, forbid_result, '校验非学生用户无工作经验的C端是否封禁成功')
 

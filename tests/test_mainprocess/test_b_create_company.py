@@ -242,14 +242,17 @@ class TestCreateCompany(object):
         assert_equal(1, r['state'], '校验登录home成功！')
 
     def test_forbid_general_user(self):
+        time.sleep(1)
         forbid_result = forbid.forbid_user(general_userId)
         assert_equal(True, forbid_result, '校验普通用户是否封禁成功1')
 
     def test_forbid_admin_user(self):
+        time.sleep(1)
         forbid_result = forbid.forbid_user(admin_userId)
         assert_equal(True, forbid_result, '校验管理员用户是否封禁成功1')
 
     def test_forbid_company(self):
+        time.sleep(1)
         forbid_result = forbid.forbid_company(lg_CompanyId)
         assert_equal(True, forbid_result, '校验公司是否封禁成功')
 
