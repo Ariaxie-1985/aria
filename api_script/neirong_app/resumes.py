@@ -109,13 +109,13 @@ def abilityLabels(userToken):
 def expectJob(userToken):
     url = 'https://gate.lagou.com/v1/entry/expectJob'
     data = {
-        "positionNameType2": "后端开发",
+        "positionNameType2": "影视|媒体",
         "expectStatus": "积极找工作",
         "expectCity": "北京",
         "positionType": "实习",
-        "positionName": "Python",
+        "positionName": "经纪人|星探",
         "expectArrivalTime": "随时",
-        "positionNameType1": "开发|测试|运维类",
+        "positionNameType1": "文娱|传媒|艺术|体育",
         "expectSalary": "8k-12k"
     }
     header = app_header_999(userToken, DA=False)
@@ -126,7 +126,7 @@ def workExperiences(userToken, **kwargs):
     url = 'https://gate.lagou.com/v1/neirong/workExperiences/'
     startDate = kwargs.get('startDate', '2015.09')
     endDate = kwargs.get('endDate', '至今')
-    companyName = kwargs.get('companyName', '火星情报局')
+    companyName = kwargs.get('companyName', '杰威尔音乐有限公司')
     data = {
         "id": 0,
         "workContent": "<p>跟进迭代测试工作，用户反馈；</p><p>dubbo接口测试，http接口测试</p>",
@@ -135,7 +135,7 @@ def workExperiences(userToken, **kwargs):
         "positionType": "销售顾问",
         "positionType2": "销售",
         "endDate": endDate,
-        "positionName": "请忽略此职位",
+        "positionName": "艺人经纪",
         "companyName": companyName,
         "startDate": startDate,
         "companyIndustry": "分类信息",

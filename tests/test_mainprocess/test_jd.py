@@ -169,21 +169,25 @@ class TestJd(object):
         # assert_equal(4, r['content']['resumeStageCode'], "查询面试安排记录-面试用例通过")
         assert_equal(1, r['state'], '查询面试安排记录-新简历用例通过')
 
-    @pytest.mark.skipif('interview_state == 9', reason="候选人已淘汰,无需执行")
-    def test_orderResumes_resume_obsolete(self, b_login_app):
-        r = orderResumes_resume_obsolete(userToken=b_login_app[0], resumeId=long_resumeId)
-        assert_equal(1, r['state'], '候选人状态调整为不合适用例通过')
 
-    def test_chat_c_lastResume_64(self, b_login_app, c_login_app):
-        r = chat_c_lastResume(userToken=b_login_app[0], cUserId=c_login_app[1])
-        # assert_equal(4, r['content']['resumeStageCode'], "查询面试安排记录-淘汰用例通过")
-        assert_equal(1, r['state'], '查询面试安排记录-新简历用例通过')
+@pytest.mark.skipif('interview_state == 9', reason="候选人已淘汰,无需执行")
+def test_orderResumes_resume_obsolete(b_login_app):
+    r = orderResumes_resume_obsolete(userToken=b_login_app[0], resumeId=long_resumeId)
+    assert_equal(1, r['state'], '候选人状态调整为不合适用例通过')
 
-    def test_orderResumes_detail(self, b_login_app):
-        r = orderResumes_detail(userToken=b_login_app[0], resumeId=long_resumeId)
-        assert_equal(expectvalue=long_resumeId, actualvalue=int(r['content']['orderResumeId']),
-                     success_message="查询简历详情用例通过")
 
-    def test_orderResumes_read(self, b_login_app):
-        r = orderResumes_read(userToken=b_login_app[0], resumeId=long_resumeId)
-        assert_equal(1, r['state'], '设置简历已读用例通过')
+def test_chat_c_lastResume_64(b_login_app, c_login_app):
+    r = chat_c_lastResume(userToken=b_login_app[0], cUserId=c_login_app[1])
+    # assert_equal(4, r['content']['resumeStageCode'], "查询面试安排记录-淘汰用例通过")
+    assert_equal(1, r['state'], '查询面试安排记录-新简历用例通过')
+
+
+def test_orderResumes_detail(b_login_app):
+    r = orderResumes_detail(userToken=b_login_app[0], resumeId=long_resumeId)
+    assert_equal(expectvalue=long_resumeId, actualvalue=int(r['content']['orderResumeId']),
+                 success_message="查询简历详情用例通过")
+
+
+def test_orderResumes_read(b_login_app):
+    r = orderResumes_read(userToken=b_login_app[0], resumeId=long_resumeId)
+    assert_equal(1, r['state'], '设置简历已读用例通过')
