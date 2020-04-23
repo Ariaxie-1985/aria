@@ -3,7 +3,6 @@
 # @Author: Xiawang
 import re
 
-import pysnooper
 import yaml
 import os
 
@@ -79,7 +78,6 @@ def rewrite_cancel_account():
     with open('/home/test/data_no_delete/account.txt', 'w') as f:
         f.write('')
 
-@pysnooper.snoop()
 def batch_cancel_account(country_code_phone_list):
     login_home('betty@lagou.com', '00f453dfec0f2806db5cfabe3ea94a35')
     for country_code_phone in country_code_phone_list:

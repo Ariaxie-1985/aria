@@ -1,7 +1,6 @@
 # coding:utf-8
 # @Time  : 2019-07-04 11:00
 # @Author: Xiawang
-import pysnooper
 
 from api_script.entry.account.passport import password_login
 from utils.util import get_app_header_new, json_post, app_header_999, get_requests

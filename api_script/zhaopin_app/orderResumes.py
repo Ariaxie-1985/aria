@@ -4,8 +4,6 @@
 import datetime
 import time
 
-import pysnooper
-
 from api_script.entry.account.passport import password_login
 from utils.util import get_app_header, json_post, get_requests, app_header_999, put_requests, json_put
 
@@ -183,7 +181,6 @@ def orderResumes_interview_datetime(userToken, resumeId, ip_port=None, userId=No
     return json_put(url=url, headers=header, data=data, remark=remark, ip_port=ip_port)
 
 
-# @pysnooper.snoop()
 def orderResumes_stage(userToken, resumeId, ip_port=None, userId=None):
     url = "https://gate.lagou.com/v1/zhaopin/orderResumes/{}/stage".format(resumeId)
     header = app_header_999(userToken=userToken, DA=False, userId=userId)

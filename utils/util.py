@@ -7,7 +7,6 @@ import datetime
 from json import JSONDecodeError
 from urllib.parse import urlparse
 
-import pysnooper
 import requests
 import re
 from requests import RequestException
@@ -29,7 +28,6 @@ count = 0
 
 
 # 获取页面的token和code
-@pysnooper.snoop()
 def get_code_token(url, referer=False, ip_port=None):
     global count
     try:
