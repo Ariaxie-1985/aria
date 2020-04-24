@@ -7,6 +7,7 @@ import datetime
 from json import JSONDecodeError
 from urllib.parse import urlparse
 
+import pysnooper
 import requests
 import re
 from requests import RequestException
@@ -137,7 +138,7 @@ def form_post(url, remark, data=None, files=None, headers={}, allow_redirects=Tr
         logging.error(msg="该接口URL {} ,备注 {} 报错json解码错误, 请检查接口的响应是否正确的返回并解析\n".format(url, remark))
         return {'content': '响应内容不是期望的json格式', 'url': url, 'remark': remark}
 
-
+# @pysnooper.snoop()
 def json_post(url, remark, data=None, headers={}, app=False, verifystate=True, ip_port=None):
     """
     json传参的post请求
@@ -636,7 +637,7 @@ def get_verify_code_list(countryCode, phone):
     yesterday = datetime.date.today() - datetime.timedelta(days=1)
     data = {"commId": countryCode + phone, "startTime": str(yesterday) + "T16:00:00.000Z",
             "page": 1, "count": 10}
-    r = json_post(url=url, data=data, headers={}, remark="获取验证码列表")
+    r = json_post(url=url, data=data, headers={'X-L-REQ-HEADER':json.dumps({"deviceType":1})}, remark="获取验证码列表")
     try:
         if r['content']['totalCount'] == 0:
             return 0, None, None
@@ -663,14 +664,14 @@ def verify_code_message(countryCode, phone, flag_num=0):
 def get_verify_code(id, createTime):
     url = 'https://home.lagou.com/msc/message/view'
     data = {"createTime": createTime, "msgId": id}
-    r = json_post(url=url, data=data, headers={}, remark="获取验证码")
+    r = json_post(url=url, data=data, headers={'X-L-REQ-HEADER':json.dumps({"deviceType":1})}, remark="获取验证码")
     try:
         int(r['content']['content'][3:9])
     except ValueError:
         return None
     return r['content']['content'][3:9]
 
-
+# @pysnooper.snoop()
 def get_verify_code_message_len(countryCode, phone):
     login_home('betty@lagou.com', '00f453dfec0f2806db5cfabe3ea94a35')
     get_requests(url='https://passport.lagou.com/grantServiceTicket/grant.html')
@@ -680,7 +681,7 @@ def get_verify_code_message_len(countryCode, phone):
     yesterday = datetime.date.today() - datetime.timedelta(days=1)
     data = {"commId": countryCode + phone, "startTime": str(yesterday) + "T16:00:00.000Z",
             "page": 1, "count": 10}
-    r = json_post(url=url, data=data, headers={}, remark="获取验证码列表")
+    r = json_post(url=url, data=data, headers={'X-L-REQ-HEADER':json.dumps({"deviceType":1})}, remark="获取验证码列表")
     return r['content']['totalCount']
     # if r['content']['totalCount'] >= 1:
     #     return 1
@@ -885,5 +886,6 @@ if __name__ == '__main__':
     # get_requests(url=url,headers=header,remark='23')
     # r = verify_code_message('00852', '20180917')
     # r = domain_convert_ip_port('https://gate.lagou.com/v1/entry/demo/demo/sdfas', '127.0.0.1:8080')
-    r = domain_convert_ip_port('https://easy.lagou.com/parentPosition/multiChannel/create.json', '10.42.154.224:11170')
+    # r = domain_convert_ip_port('https://easy.lagou.com/parentPosition/multiChannel/create.json', '10.42.154.224:11170')
+    r = verify_code_message('00852','20180917')
     print(r)
