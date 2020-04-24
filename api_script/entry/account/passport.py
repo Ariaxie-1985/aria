@@ -70,4 +70,5 @@ def get_login_by_token(userToken):
 
 
 if __name__ == '__main__':
-    r = password_login("19910626899", "000000")
+    r = password_login("0085220180917", "0085220180917")
+    print(r)
