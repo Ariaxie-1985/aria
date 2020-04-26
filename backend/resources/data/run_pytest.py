@@ -8,6 +8,7 @@ import subprocess
 from flask import render_template, make_response
 from flask_restful import Resource, reqparse
 from utils.analysis_html_report import analysis_html_report
+from flask import current_app
 
 
 class run_Pytest(Resource):
@@ -169,7 +170,7 @@ class run_Pytest(Resource):
 
         cmd_str = self.get_run_pytest_cmd(args['module'], project_path, args['ip_port'])
         ret = subprocess.run(cmd_str, shell=True, timeout=300, stdout=subprocess.PIPE, encoding='utf-8')
-        logging.info(ret.stdout)
+        current_app.logger.info(ret.stdout)
 
         if (ret.returncode < 0) or (not self.assert_is_test_run(ret.stdout)):
             return {'state': 4, 'data': f'{args["module"]}自动化测试未正常运行，请查看日志'}
