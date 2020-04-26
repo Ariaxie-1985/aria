@@ -636,7 +636,7 @@ def get_verify_code_list(countryCode, phone):
         countryCode = ''
     url = 'https://home.lagou.com/msc/message/page'
     yesterday = datetime.date.today() - datetime.timedelta(days=1)
-    data = {"commId": countryCode + phone, "startTime": str(yesterday) + "T16:00:00.000Z",'templateId':'749',
+    data = {"commId": countryCode + phone, "startTime": str(yesterday) + "T16:00:00.000Z", 'templateId': '749',
             "page": 1, "count": 10}
     r = json_post(url=url, data=data, headers={'X-L-REQ-HEADER': json.dumps({"deviceType": 1})}, remark="获取验证码列表")
     try:
@@ -679,16 +679,16 @@ def get_verify_code_message_len(countryCode, phone):
     get_requests(url='https://passport.lagou.com/grantServiceTicket/grant.html')
     if countryCode == '0086':
         countryCode = ''
+    time.sleep(2)
     url = 'https://home.lagou.com/msc/message/page'
     yesterday = datetime.date.today() - datetime.timedelta(days=1)
     data = {"commId": countryCode + phone, "startTime": str(yesterday) + "T16:00:00.000Z",
-            "page": 1, "count": 10,'templateId':'749'}
-    r = json_post(url=url, data=data, headers={}, remark="获取验证码列表")
+            "page": 1, "count": 10, 'templateId': '749'}
+    r = json_post(url=url, data=data, headers={'X-L-REQ-HEADER': json.dumps({"deviceType": 1})}, remark="获取验证码列表")
     try:
         return r['content']['totalCount']
     except:
-        return 0
-
+        return -1
 
 
 def app_header_999(userToken=None, DA=True, userId=None):
@@ -822,5 +822,9 @@ if __name__ == '__main__':
     # r = domain_convert_ip_port('https://easy.lagou.com/parentPosition/multiChannel/create.json', '10.42.154.224:11170')
     r = get_verify_code_message_len('00852', '20180917')
     print(r)
-    r = verify_code_message('00852', '20180917')
-    print(r)
+    # r = verify_code_message('00852', '20180917')
+    # print(r)
+    # login_home('betty@lagou.com', '00f453dfec0f2806db5cfabe3ea94a35')
+    # get_requests(url='https://passport.lagou.com/grantServiceTicket/grant.html')
+    # r = get_verify_code_list('00852', '20180917')
+    # print(r)
