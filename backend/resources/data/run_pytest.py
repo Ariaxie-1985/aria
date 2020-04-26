@@ -1,7 +1,7 @@
 # coding:utf-8
 # @Time  : 2019-02-15 15:57
 # @Author: Xiawang
-
+import logging
 import os
 import subprocess
 
@@ -12,20 +12,11 @@ from utils.analysis_html_report import analysis_html_report
 
 class run_Pytest(Resource):
     """执行pytest"""
-    Business_module = {
-        # 'business': "/root/.local/bin/pipenv run pytest {}/tests/test_business/ --html=backend/templates/{}_report.html --self-contained-html",
-        # 'jianzhao_web': '/root/.local/bin/pipenv run pytest {}/tests/test_jianzhao_web/ --html=backend/templates/{}_report.html --self-contained-html',
-        # 'zhaopin': '/root/.local/bin/pipenv run pytest {}/tests/test_zhaopin_app/ --html=backend/templates/{}_report.html --self-contained-html',
-        # 'entry_app': '/root/.local/bin/pipenv run pytest {}/tests/test_entry_app/ --html=backend/templates/{}_report.html --self-contained-html',
-        # 'all': '/root/.local/bin/pipenv run pytest {}/ --html=backend/templates/{}_report.html --self-contained-html',
-        # 'neirong_app': '/root/.local/bin/pipenv run pytest {}/tests/test_neirong_app/ --html=backend/templates/{}_report.html --self-contained-html',
+    business_module = {
         'mainprocess': 'pytest {}/tests/test_mainprocess/ --html=backend/templates/{}_report.html --self-contained-html',
         'lg-zhaopin-boot': 'pytest {}/tests/test_lg_zhaopin_boot/ --html=backend/templates/{}_report.html --self-contained-html {}',
         'lg-entry-boot': 'pytest {}/tests/test_lg_entry_boot/ --html=backend/templates/{}_report.html --self-contained-html {}',
-        'lg-neirong-boot': 'pytest {}/tests/test_lg_neirong_boot/ --html=backend/templates/{}_report.html --self-contained-html {}',
-        # 'mds-web-tomcat': 'pytest {}/tests/test_mds_web_tomcat/ --html=backend/templates/{}_report.html --self-contained-html {}',
-        # 'kw-course-java': 'pytest {}/tests/test_kw_course_java/ --html=backend/templates/{}_report.html --self-contained-html',
-
+        'lg-neirong-boot': 'pytest {}/tests/test_lg_neirong_boot/ --html=backend/templates/{}_report.html --self-contained-html {}'
     }
 
     def get(self):
@@ -163,35 +154,55 @@ class run_Pytest(Resource):
                             help="请输入正确模块值",
                             required=True)
         parser.add_argument('ip_port', type=str,
-                            help="ip:port",
+                            help="ip:port", default=None
                             )
         args = parser.parse_args()
-        if self.Business_module.get(args['module'], None) == None:
+        if self.business_module.get(args['module']) is None:
             return {'state': 2, "data": "不支持该业务模块"}
+
         if args['ip_port']:
             if not (len(args['ip_port'].split('.')) == 4 and len(args['ip_port'].split(':')) == 2):
                 return {'state': 3, "data": "ip:port 不正确"}
-        project_path = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
-        os.chdir(project_path)
+
         state = 1
-        info = None
-        if args['ip_port'] is None:
-            subprocess.call(self.Business_module[args['module']].format(project_path, args['module'],''), shell=True,
-                            timeout=300)
-        else:
-            subprocess.call(self.Business_module[args['module']].format(project_path, args['module'], f'--ip_port {args["ip_port"]}'), shell=True,
-                            timeout=300)
+        project_path = self.switch_project_root_directory()
 
-        # if args['ip_port'] is None:
-        #     return self.Business_module[args['module']].format(project_path, args['module'], '')
-        # else:
-        #     return self.Business_module[args['module']].format(project_path, args['module'],
-        #                                                        f'--ip_port {args["ip_port"]}')
+        cmd_str = self.get_run_pytest_cmd(args['module'], project_path, args['ip_port'])
+        ret = subprocess.run(cmd_str, shell=True, timeout=300, stdout=subprocess.PIPE, encoding='utf-8')
+        print(ret.stdout)
 
-        result = analysis_html_report("{}/backend/templates/{}_report.html".format(project_path, args['module']), 3,
-                                      args['module'])
+        if (ret.returncode < 0) or (not self.assert_is_test_run(ret.stdout)):
+            return {'state': 4, 'data': f'{args["module"]}自动化测试未正常运行，请查看日志'}
+
+        html_report_path = f"{project_path}/backend/templates/{args['module']}_report.html"
+        result = analysis_html_report(html_report_path, 3, args['module'])
 
         if bool(result['info']['result']['fail_result']):
             state = 0
         info = {"result": result}
         return {'state': state, "data": info}
+
+    def assert_is_test_run(self, pytest_result):
+        run_result = pytest_result.strip().split('\n')[-1]
+        result = ' '.join(run_result.split(' ')[1:-1])
+        if 'no test' in result:
+            return False
+        return True
+
+    def get_run_pytest_cmd(self, module, project_path, ip_port):
+        if ip_port is None:
+            ip_port = ''
+        else:
+            ip_port = f'--ip_port {ip_port}'
+        business_module = {
+            'mainprocess': f'pytest {project_path}/tests/test_mainprocess/ --html=backend/templates/{module}_report.html --self-contained-html {ip_port}',
+            'lg-zhaopin-boot': f'pytest {project_path}/tests/test_lg_zhaopin_boot/ --html=backend/templates/{module}_report.html --self-contained-html {ip_port}',
+            'lg-entry-boot': f'pytest {project_path}/tests/test_lg_entry_boot/ --html=backend/templates/{module}_report.html --self-contained-html {ip_port}',
+            'lg-neirong-boot': f'pytest {project_path}/tests/test_lg_neirong_boot/ --html=backend/templates/{module}_report.html --self-contained-html {ip_port}'
+        }
+        return business_module.get(module)
+
+    def switch_project_root_directory(self):
+        project_path = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
+        os.chdir(project_path)
+        return project_path

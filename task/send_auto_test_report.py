@@ -23,8 +23,15 @@ def run_pytest():
 
 
 def send_weixin_report(pytest_result):
-    if pytest_result['state'] == 0:
-        fail_result = ''
+    if pytest_result.get('state') == 4:
+        content = "主流程测试结果:\n{}\n\n{}".format(pytest_result.get('data'))
+        return send_weixin_bot(content=content)
+
+    if pytest_result.get('state') == 0:
+        summary_result = ''
+        for k, v in pytest_result['data']['result']['info']['result']['summary_result'].items():
+            summary_result += v + ', '
+
         fail_results = ''
         for key, value in pytest_result['data']['result']['info']['result']['fail_result'].items(
         ):
@@ -32,27 +39,8 @@ def send_weixin_report(pytest_result):
                 key, value['error_type'], value['log'])
             fail_results += fail_result
 
-        summary_result = '{},{},{},{},{},{}'.format(
-            pytest_result['data']['result']['info']['result']['summary_result']['pass'],
-            pytest_result['data']['result']['info']['result']['summary_result']['skip'],
-            pytest_result['data']['result']['info']['result']['summary_result']['fail'],
-            pytest_result['data']['result']['info']['result']['summary_result']['errors'],
-            pytest_result['data']['result']['info']['result']['summary_result']['expect_failures'],
-            pytest_result['data']['result']['info']['result']['summary_result']['unexpect_passes'])
-
-        #  url = 'https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=b18ce9c0-3d98-411a-9f2a-bbce71c0f09e'
-        url = 'https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=712278c2-2646-4bc6-aef2-4f26ace22d3f'
-        data = {
-            "msgtype": "text",
-            "text": {
-                "mentioned_list": ["xiawang"],
-                "content": "主流程测试结果:\n{}\n\n具体失败结果:\n{}".format(
-                    summary_result,
-                    fail_results)}}
-        if len(data['text']['content']) >= 2000:
-            data['text']['content'] = data['text']['content'][:2000]
-
-        return requests.post(url=url, json=data, verify=False).json()
+        content = "主流程测试结果:\n{}\n\n具体失败结果:\n{}".format(summary_result, fail_results)
+        return send_weixin_bot(content=content)
 
 
 def send_mail():
@@ -86,6 +74,20 @@ def send_mail():
     except Exception:
         ret = False
     return ret
+
+
+def send_weixin_bot(content):
+    url = 'https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=712278c2-2646-4bc6-aef2-4f26ace22d3f'
+    data = {
+        "msgtype": "text",
+        "text": {
+            "mentioned_list": ["xiawang"],
+            "content": content}
+    }
+    if len(data['text']['content']) >= 2000:
+        data['text']['content'] = data['text']['content'][:2000]
+
+    return requests.post(url=url, json=data, verify=False).json()
 
 
 def get_number(string: str):

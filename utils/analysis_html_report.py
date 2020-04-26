@@ -62,7 +62,8 @@ def get_testresults_details(soup):
 def get_fail_detail_result(soup, module):
     fail_results = {}
     for fail_result in soup.find_all(attrs={'class': 'failed results-table-row'}):
-        test_name = fail_result.find(attrs={'class': 'col-name'}).get_text().split('tests/test_{}/'.format(module.replace('-','_')))[
+        test_name = fail_result.find(attrs={'class': 'col-name'}).get_text().split(
+            'tests/test_{}/'.format(module.replace('-', '_')))[
             1].encode(
             'latin-1').decode('unicode_escape')
         try:
@@ -84,8 +85,14 @@ def get_fail_detail_result(soup, module):
     for error_result in soup.find_all(attrs={'class': 'error results-table-row'}):
         test_name = error_result.find(attrs={'class': 'col-name'}).get_text().split('tests/test_mainprocess/')[
             1].encode('latin-1').decode('unicode_escape')
-        error_type = error_result.find(attrs={'class': 'error'}).get_text().split('E   ')[1]
-        captured_log = error_result.find(attrs={'class': 'log'}).get_text()
+        # todo 解决AttributeError异常
+        try:
+            error_type = error_result.find(attrs={'class': 'error'}).get_text().split('E   ')[1]
+            captured_log = error_result.find(attrs={'class': 'log'}).get_text()
+        except AttributeError as e:
+            print(e)
+            pass
+
         try:
             detail_log = \
                 re.findall(

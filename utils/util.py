@@ -684,11 +684,11 @@ def get_verify_code_message_len(countryCode, phone):
     data = {"commId": countryCode + phone, "startTime": str(yesterday) + "T16:00:00.000Z",
             "page": 1, "count": 10,'templateId':'749'}
     r = json_post(url=url, data=data, headers={}, remark="获取验证码列表")
-    return r['content']['totalCount']
-    # if r['content']['totalCount'] >= 1:
-    #     return 1
-    # else:
-    #     return 0
+    try:
+        return r['content']['totalCount']
+    except:
+        return 0
+
 
 
 def app_header_999(userToken=None, DA=True, userId=None):
@@ -709,75 +709,6 @@ def app_header_999(userToken=None, DA=True, userId=None):
     return header
 
 
-# def login1(username,password,):
-#     '''
-#     从www.lagou.com登录，验证码登录
-#     :param countryCode: str, 地区编号
-#     :param username: str, 用户名
-#     '''
-#     session.cookies.clear()
-#     header={'Accept':'application/json','Content-Type':'text/plain;charset=UTF-8'}
-#     challenge_r=requests.post(verify=False,url='https://api.geetest.com/gt_judgement?pt=0&gt=66442f2f720bfc86799932d8ad2eb6c7',headers=header,data='xF)VH7p1T2jZ2bXtuNPD(((TeJVNrqFXel9WBuiDPaxt(RBE)CgB1ZHBPWQv8pbCGFX9hhob70gKbhr3elumR6d809rKTi8ALjdY5uuqGeWVCCqLfOACHGZLij30xCPX3UJP4dL8KN)vrYynjXVDlPUXC(Bla9LSKOYosrkLyz3spLupaOsI0hEdnG)xrOEus4ubQ2cCRLMxn0uRiGnvhSymN5LNevafm11tesPdEhkkfTC92nNDcLPI1dlVHESW)KFqYwZ8qMpB2)brEYvyD4MfNhqac8kbi0w64OphGNjHl1lUuxd(RcSkk0OPQkj7G6vOK0p0CtN7tt(yBz7g(UFN2Imz5OrfNLXdR6BfHX8Rocrw8oNjnUXX6SOIQPlGgcu1dYCXtNGlQf84lz67o1RhrWnHdAybr7zhYmEKIbg6aSvLW68NZh2(nBRgNfhbalAc3F2ofUnaXYDo(XC1NGFP2lF7j9d1fwUSId7P84ei3(TpZX3pEfY(pP5DfrCAOvUqAy0ay06)aJwZl8i3ldFRLO0ioghQg)(rJ7O5sE4yRJH8Ew(hYHGoccvfY0md1ado8qnG43EL6JgcT4b4TACqJVQNd0mvbgDHgvg8e3ClsSTHkRGHNjVz(MbTbY6HYZNgNXMIH9p9VbsYJVk(GMaA8G4Jm4kc5arjGVW)zeXsLopYlHEiDGTYOVQEI6dGr)OI0i2U0Uh4E0pvUfqXVDBy4V)BqF6Phqa7mPbvEqxOKfQ6TWELH0tZ5H2BcgEAaVDXY9t0S3ZwXRRKrjVDVIXRlhUELE2VMKkn6tuoLYLevVj7k9OoFwjNk2ipht6Llb16s7Xs(e0ttQYYx))H9ipM6koFn6RSLICgU9PrNWqJ4y6(yGZM2a8d9eE8tC)r4XNb)MJU3GTmMzMQ5B(XmzOVEsypnX)1LDi4bL13AP8C)5cxBUzPrUIWQUoGP39a3NjOVVqLNz8fmGHtCB34l3)GTJXxHwnw(laqqv4pz18L8P2(KAcbScOOk(rS7My)hOtkKNEma6pA9hzx7DpPFiQXK6j7U6d5fGMYpSyBWvhRAmUopsdnEd914MkH1UX6pLJQ03JtWKBaQjtb7sojT5o3B5pRR26EMPTDR90h9wRpqZUPSJb2y262HfEuNHJeuiOa)1QONyEGKLKZkpeIzBVl90dgz2rr9mg9PzVu0VwSecwY0JongnqM5t6NbOkzf8XfYeU3FjBqOZ3pQ4vBNpqrzwx6pOagN2bL(YkrZJfO276YavUlKiEaX4eWNKQFoudWWwPb5dXYwpFHAmNj1J4XkJPhmXGZrLwS)G1f2(JjKTMxmTSilq2xBVaHE(77Oe3B3eUc1pS1uc1WBQEFadZxghrOirPCbh9ppCLnZcg2DqSoBvq0fg93EaaGM0oGBtDGuNsSZP3(ds061inhgm8npGvugtbbv4DleNFSIIwHZPwXAeog)duEAjODt((iAVxPlrdyZBt9eYVUdUU6hlidv8v32lPoqaeLPMVsdT(XxMYYTPXjYlcChi25LiQol99p6pFYVavMkkdkcudThGCvEyQBH5yejJsBS3mTKi5KQYZVBZIpd)ACAIi5I3ufSX9G1EIbttWIOCnumpbzFikiFxUUe051nvl7)Xx6k4obyeCF5JFavR1aqarzhNsnJ5JO9SBqLleICsfwvXbKrldUzLINzhedeHN4u83TumVcTSkgHN6CDRGXc6ZvnCWdFabIJg43tMa9gArP9ysBwK73ODBc6FNGidvyzcpvEFaiPDSM7rDT1NlSXOgs2vcpG)4rVsK1sBAPdzWJhr0rzQsAzueiuIKMSCLQJ1dV)KMtxWE(2JN0XmYEOB8E81OdiFyYtIVfgMBkIlSv1YUfziVutnL6pHvvtBj4ZqYF3IL06UaArsuqYNeA1AgTb7M)ZhYFGVSrlvAE72OOhKy8xVCmsBTDByTG96)eCnaR4W5fzJvsnjXunwlwRSrKd8GMlSXX8whAsmVoAszfAMuMOWfPdRKuPNI0JTVnsxJ5wbON29d06OjsVmS2DGQ5erImWw13dz04dNw(8YgXoxrDu1BSN65n69NWD72EMJQNpGR7SYWfOMgH8Vuv6Tm9laih8P8GFP3OWTMkyiuZhw(jG6nqbLO()npRWdRzIG4M574XhAgwYZR76YZLuP(wo5X(ZnOodTzJMipXJypQ2h06xitPfHXtkQ12suCIihuyXFRQuNFtvD8Kgj3qTZXbq9Lg7LAUf26X3clmtoiZZSc6DVvBPcBcQuCrUfaOKtZ3(OEvgyhFxyve4R(P6xdMAeojqJ24FEioqZqnh5gzOMMBvgax3GGwzr7sQ7Jb1BnCNSzzCjbSnDwbEPPT5w1wQnkSuifinv56QvdocvuyuoiqtzplxtJ0hpS(2mEsPXxXsA)DJ5uKoMeiQzY2SciCEQThs6F(XbU(F9jHAQyFrOQJbm(6bRrhmdLnl(lruIPHF9JnO8R2wSMA9QLVqQ7dWQ1UWL4lZL4QGykeGA47ojei0l5JqrQ0TzOYBF58Aet)0xBOCOFVld43dpnwrh(KRiRhBb54Aaf0sFVmVebTbM7VjMKrQWYrAMgKxQFqKJ457kerPWJvTyHBEAlYvXJr9K179w7FJFHSKX0yJdWhJabsLLCZjAAnFtiwqkI2HU1H9OT42zmHbqQ7IyfC84QtOyZKLwDwsl21AiqAjCwVBpv4d8SgeEliSuSNrTtlu(BBndU.95599294653dbf31a80c3b0ec63cbcf039a4408b77a7fab484b560316d4c4c3f350e3d24cabf2e3badf55f162561a9413ccfe49bf17c564385e7a0cedf47d3d9a957dfaab3ee546eec4f887b7a4c128d88866915fc43c1505ab6070b964ef12bc0daaa7ee1387c0052360808cfd915092de7a16329e6f9c832d64478cd164ce8').json()
-#     if challenge_r['status']=='success':
-#         login_url = 'https://passport.lagou.com/login/login.json'
-#         login_data = {'isValidate': 'true', 'username': username,
-#                       'password': password, 'challenge': challenge_r['challenge']}
-#         referer_login_html = 'https://www.lagou.com/frontLogin.do'
-#         login_header = get_code_token(referer_login_html)
-#         remark = str(username) + "在登录拉勾"
-#         r = form_post(url=login_url, data=login_data, headers=login_header, remark=remark)
-#         if r['message'] == "操作成功":
-#             logging.info("用户名: " + str(username) + " 登录成功")
-#         return r
-#     else:
-#         logging.info("challenge请求失败")
-#         return False
-# def challenge():
-#     header={'Accept':'application/json','Content-Type':'text/plain;charset=UTF-8'}
-#     gt='\&gt=66442f2f720bfc86799932d8ad2eb6c7'
-#     r=requests.post(verify=False,url='https://api.geetest.com/gt_judgement?pt=2',headers=header,data='xF)VH7p1T2jZ2bXtuNPD(((TeJVNrqFXel9WBuiDPaxt(RBE)CgB1ZHBPWQv8pbCGFX9hhob70gKbhr3elumR6d809rKTi8ALjdY5uuqGeWVCCqLfOACHGZLij30xCPX3UJP4dL8KN)vrYynjXVDlPUXC(Bla9LSKOYosrkLyz3spLupaOsI0hEdnG)xrOEus4ubQ2cCRLMxn0uRiGnvhSymN5LNevafm11tesPdEhkkfTC92nNDcLPI1dlVHESW)KFqYwZ8qMpB2)brEYvyD4MfNhqac8kbi0w64OphGNjHl1lUuxd(RcSkk0OPQkj7G6vOK0p0CtN7tt(yBz7g(UFN2Imz5OrfNLXdR6BfHX8Rocrw8oNjnUXX6SOIQPlGgcu1dYCXtNGlQf84lz67o1RhrWnHdAybr7zhYmEKIbg6aSvLW68NZh2(nBRgNfhbalAc3F2ofUnaXYDo(XC1NGFP2lF7j9d1fwUSId7P84ei3(TpZX3pEfY(pP5DfrCAOvUqAy0ay06)aJwZl8i3ldFRLO0ioghQg)(rJ7O5sE4yRJH8Ew(hYHGoccvfY0md1ado8qnG43EL6JgcT4b4TACqJVQNd0mvbgDHgvg8e3ClsSTHkRGHNjVz(MbTbY6HYZNgNXMIH9p9VbsYJVk(GMaA8G4Jm4kc5arjGVW)zeXsLopYlHEiDGTYOVQEI6dGr)OI0i2U0Uh4E0pvUfqXVDBy4V)BqF6Phqa7mPbvEqxOKfQ6TWELH0tZ5H2BcgEAaVDXY9t0S3ZwXRRKrjVDVIXRlhUELE2VMKkn6tuoLYLevVj7k9OoFwjNk2ipht6Llb16s7Xs(e0ttQYYx))H9ipM6koFn6RSLICgU9PrNWqJ4y6(yGZM2a8d9eE8tC)r4XNb)MJU3GTmMzMQ5B(XmzOVEsypnX)1LDi4bL13AP8C)5cxBUzPrUIWQUoGP39a3NjOVVqLNz8fmGHtCB34l3)GTJXxHwnw(laqqv4pz18L8P2(KAcbScOOk(rS7My)hOtkKNEma6pA9hzx7DpPFiQXK6j7U6d5fGMYpSyBWvhRAmUopsdnEd914MkH1UX6pLJQ03JtWKBaQjtb7sojT5o3B5pRR26EMPTDR90h9wRpqZUPSJb2y262HfEuNHJeuiOa)1QONyEGKLKZkpeIzBVl90dgz2rr9mg9PzVu0VwSecwY0JongnqM5t6NbOkzf8XfYeU3FjBqOZ3pQ4vBNpqrzwx6pOagN2bL(YkrZJfO276YavUlKiEaX4eWNKQFoudWWwPb5dXYwpFHAmNj1J4XkJPhmXGZrLwS)G1f2(JjKTMxmTSilq2xBVaHE(77Oe3B3eUc1pS1uc1WBQEFadZxghrOirPCbh9ppCLnZcg2DqSoBvq0fg93EaaGM0oGBtDGuNsSZP3(ds061inhgm8npGvugtbbv4DleNFSIIwHZPwXAeog)duEAjODt((iAVxPlrdyZBt9eYVUdUU6hlidv8v32lPoqaeLPMVsdT(XxMYYTPXjYlcChi25LiQol99p6pFYVavMkkdkcudThGCvEyQBH5yejJsBS3mTKi5KQYZVBZIpd)ACAIi5I3ufSX9G1EIbttWIOCnumpbzFikiFxUUe051nvl7)Xx6k4obyeCF5JFavR1aqarzhNsnJ5JO9SBqLleICsfwvXbKrldUzLINzhedeHN4u83TumVcTSkgHN6CDRGXc6ZvnCWdFabIJg43tMa9gArP9ysBwK73ODBc6FNGidvyzcpvEFaiPDSM7rDT1NlSXOgs2vcpG)4rVsK1sBAPdzWJhr0rzQsAzueiuIKMSCLQJ1dV)KMtxWE(2JN0XmYEOB8E81OdiFyYtIVfgMBkIlSv1YUfziVutnL6pHvvtBj4ZqYF3IL06UaArsuqYNeA1AgTb7M)ZhYFGVSrlvAE72OOhKy8xVCmsBTDByTG96)eCnaR4W5fzJvsnjXunwlwRSrKd8GMlSXX8whAsmVoAszfAMuMOWfPdRKuPNI0JTVnsxJ5wbON29d06OjsVmS2DGQ5erImWw13dz04dNw(8YgXoxrDu1BSN65n69NWD72EMJQNpGR7SYWfOMgH8Vuv6Tm9laih8P8GFP3OWTMkyiuZhw(jG6nqbLO()npRWdRzIG4M574XhAgwYZR76YZLuP(wo5X(ZnOodTzJMipXJypQ2h06xitPfHXtkQ12suCIihuyXFRQuNFtvD8Kgj3qTZXbq9Lg7LAUf26X3clmtoiZZSc6DVvBPcBcQuCrUfaOKtZ3(OEvgyhFxyve4R(P6xdMAeojqJ24FEioqZqnh5gzOMMBvgax3GGwzr7sQ7Jb1BnCNSzzCjbSnDwbEPPT5w1wQnkSuifinv56QvdocvuyuoiqtzplxtJ0hpS(2mEsPXxXsA)DJ5uKoMeiQzY2SciCEQThs6F(XbU(F9jHAQyFrOQJbm(6bRrhmdLnl(lruIPHF9JnO8R2wSMA9QLVqQ7dWQ1UWL4lZL4QGykeGA47ojei0l5JqrQ0TzOYBF58Aet)0xBOCOFVld43dpnwrh(KRiRhBb54Aaf0sFVmVebTbM7VjMKrQWYrAMgKxQFqKJ457kerPWJvTyHBEAlYvXJr9K179w7FJFHSKX0yJdWhJabsLLCZjAAnFtiwqkI2HU1H9OT42zmHbqQ7IyfC84QtOyZKLwDwsl21AiqAjCwVBpv4d8SgeEliSuSNrTtlu(BBndU.95599294653dbf31a80c3b0ec63cbcf039a4408b77a7fab484b560316d4c4c3f350e3d24cabf2e3badf55f162561a9413ccfe49bf17c564385e7a0cedf47d3d9a957dfaab3ee546eec4f887b7a4c128d88866915fc43c1505ab6070b964ef12bc0daaa7ee1387c0052360808cfd915092de7a16329e6f9c832d64478cd164ce8').json()
-#     # r=requests.post(verify=False,url='https://api.geetest.com/gt_judgement?pt=0&gt=66442f2f720bfc86799932d8ad2eb6c7',headers=header)
-#     return r
-# # print(login1('yqzhang@lagou.com','cfe4d90b488c85e34838a604822e10ca'))
-# # print(challenge())
-# def login_app():
-#     url ="https://gate.lagou.com/v1/entry/account/passport/login"
-#     remark = "登录"
-#     headers = {
-#         'content-type': "application/json",
-#         'x-l-req-header': "{\"appVersion\":\"7.18.0\",\"deviceType\":200,\"reqVersion\":71800,\"userType\":-1}",
-#         'X-L-PC-HEADER': 'LYwTbsvR16WEbyc3HzmVu6MVT9G6nb0wxpOKLqy05SQE6gE1Vo4ad8m3yEEr8O4VqQMnJvjYYkiK/LcrQoJcAZP29PqI6bSEFR0FZYhoSes=',
-#         'cache-control': "no-cache",
-#         # 'x-l-da-header':'da5439aadaf04ade94a214d730b990d83ec71d3e9f274002951143c843badffbc543b213dfe84e21a37bb782dd9bbca4be8d947ead7041f79d336cb1217127d15'
-#     }
-#     # headers["X-L-REQ-HEADER"] = json.dumps(headers["X-L-REQ-HEADER"])
-#     # print(type(headers))
-#     data={"accountName":"940238856@qq.com","loginType":0,"password":"123456"}
-#     return json_post(url=url, headers=headers, remark=remark, data=data)
-#
-# login_app()
-# # print(challenge())
-# # from api_script.business.B_energycard import getpositionId
-# # def getpositionId():
-# #     position_url = 'https://easy.lagou.com/parentPosition/multiChannel/myOnlinePositions.json'
-# #     position_header = get_code_token('https://easy.lagou.com/position/multiChannel/myOnlinePositions.htm')
-# #     s = form_post(url=position_url,headers=position_header,data={'pageNo':1},remark='获取职位id')
-# #     return s['content']['data']['parentPositionVOs'][0]['positions'][0]['positionId']
-# # login1('yqzhang@lagou.com')
-# # getpositionId()
-#
-# def searchPositions():
-#     header={"Accept": "application/json", "X-L-REQ-HEADER": {"userToken":"9c7228e5ebcbb621d0ace829bd9d6dbda398935887eec834","reqVersion":71800,"lgId":"99000646684560_1560396841537","appVersion":"7.18.0","userType":0,"deviceType":200}}
-#     header["X-L-REQ-HEADER"] = json.dumps(header["X-L-REQ-HEADER"])
-#     url='https://gate.lagou.com/v1/entry/positionsearch/searchPosition'
-#     data={"keyword":"Java","hiTag":"","shieldDeliveyCompany":False,"refreshHiTagList":True,"showId":"269D6E0E-0F60-41DD-9518-6BAF4AF862D3_577696731.055195","lastShowCompanyId":0,"keywordSource":2,"isAd":"1","tagType":"","salaryLower":0,"city":"北京","salaryUpper":0,"longitudeAndLatitude":"-1.000000,-1.000000","pageNo":1,"sort":"0","pageSize":15}
-#     return json_post(url=url,data=data,headers=header,remark='搜索职位')
-# # def goods_product_version():
-# #     url = "https://gate.lagou.com/v1/zhaopin/rights/getRightsList"
-# #     remark = "获取当前用户商业产品版本号"
-# #     header={"userToken":"42950bed7acc28db48ed54ab14d367caf758f16bd45c3347","reqVersion":71800,"lgId":"99000646684560_1560396841537","appVersion":"7.18.0","userType":0,"deviceType":200}
-# #     return json_post(url=url, headers=header, remark=remark)
-# # print(searchPositions())
 def login_password(username, password):
     '''
     从www.lagou.com登录，验证码登录
