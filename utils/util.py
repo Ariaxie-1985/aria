@@ -306,6 +306,7 @@ def login_home(username, password):
     login_home_header = get_code_token(referer_login_home_url)
     remark = "用户 " + str(username) + " 在登录拉勾home后台"
     r = form_post(url=login_url, data=login_data, headers=login_home_header, remark=remark)
+    get_requests(url='https://passport.lagou.com/grantServiceTicket/grant.html')
     if r['message'] == "操作成功":
         logging.info("用户名: " + str(username) + " 登录成功")
     return r
@@ -651,7 +652,6 @@ def get_verify_code_list(countryCode, phone):
 
 def verify_code_message(countryCode, phone, flag_num=0):
     login_home('betty@lagou.com', '00f453dfec0f2806db5cfabe3ea94a35')
-    get_requests(url='https://passport.lagou.com/grantServiceTicket/grant.html')
     import time
     for i in range(10):
         time.sleep(12)
@@ -676,7 +676,6 @@ def get_verify_code(id, createTime):
 # @pysnooper.snoop()
 def get_verify_code_message_len(countryCode, phone):
     login_home('betty@lagou.com', '00f453dfec0f2806db5cfabe3ea94a35')
-    get_requests(url='https://passport.lagou.com/grantServiceTicket/grant.html')
     if countryCode == '0086':
         countryCode = ''
     time.sleep(2)

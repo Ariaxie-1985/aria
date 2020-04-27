@@ -15,6 +15,7 @@ from api_script.jianzhao_web.b_basic.b_upload import upload_permit
 from api_script.jianzhao_web.b_position.B_postposition import createPosition_999, get_online_positions, \
     www_redirect_easy, offline_position
 from api_script.neirong_app.account import upate_user_password
+from api_script.zhaopin_app.rights import get_rights_info_list
 from utils.read_file import record_cancel_account, record_test_data
 from utils.util import assert_equal, pc_send_register_verifyCode, verify_code_message, user_register_lagou, \
     login_password
@@ -66,6 +67,15 @@ class TestCreateCompany(object):
     def test_update_admin_user(self, newPassword):
         r = upate_user_password(newPassword)
         assert_equal(1, r['state'], '管理员修改密码成功')
+
+    def test_get_rights_info_list(self):
+        r = get_rights_info_list()
+        for base_detail in r['content']['baseDetailResList']:
+            if base_detail['baseGoodsId'] == 623:
+                assert_equal(1, base_detail['totalNum'], '验证普通职位总数1个通过')
+            if base_detail['baseGoodsId'] == 201:
+                assert_equal(15, base_detail['totalNum'], '验证沟通点数总数15个通过')
+        assert_equal(True, bool(r['content']['baseDetailResList']), '验证免费账号的普通权益通过')
 
     def test_send_general_user_register_verify_code(self, get_countryCode_phone_general_user):
         global general_countryCode, general_phone, general_user_name, general_user_register_state
