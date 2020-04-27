@@ -49,4 +49,4 @@ def regular_batch_cancel_account():
 
 
 if __name__ == "__main__":
-    send_cancel_result(message='测试', result=['略过'])
+    regular_batch_cancel_account()
