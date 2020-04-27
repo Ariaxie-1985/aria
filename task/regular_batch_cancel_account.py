@@ -24,12 +24,11 @@ logger.addHandler(handler)
 
 
 def send_cancel_result(message, result):
-    url = 'https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=b18ce9c0-3d98-411a-9f2a-bbce71c0f09e'
+    url = 'https://open.feishu.cn/open-apis/bot/hook/f8130b6d6c904480b78ea6b988a9a84c'
     data = {
-        "msgtype": "text",
-        "text": {
-            "mentioned_list": ["xiawang"],
-            "content": f'{message}: {",".join(result)}'}}
+        "title": "自动注销账号结果:",
+        "text": f'{message}: {",".join(result)}'
+    }
     requests.post(url=url, json=data, verify=False).json()
 
 
@@ -50,4 +49,4 @@ def regular_batch_cancel_account():
 
 
 if __name__ == "__main__":
-    regular_batch_cancel_account()
+    send_cancel_result(message='测试', result=['略过'])
