@@ -63,11 +63,6 @@ class TestCreateCompany(object):
     def test_(self):
         time.sleep(3)
 
-    @pytest.mark.parametrize('newPassword', [('990eb670f81e82f546cfaaae1587279a')])
-    def test_update_admin_user(self, newPassword):
-        r = upate_user_password(newPassword)
-        assert_equal(1, r['state'], '管理员修改密码成功')
-
     def test_get_rights_info_list(self):
         r = get_rights_info_list()
         for base_detail in r['content']['baseDetailResList']:
@@ -76,6 +71,11 @@ class TestCreateCompany(object):
             if base_detail['baseGoodsId'] == 201:
                 assert_equal(15, base_detail['totalNum'], '验证沟通点数总数15个通过')
         assert_equal(True, bool(r['content']['baseDetailResList']), '验证免费账号的普通权益通过')
+
+    @pytest.mark.parametrize('newPassword', [('990eb670f81e82f546cfaaae1587279a')])
+    def test_update_admin_user(self, newPassword):
+        r = upate_user_password(newPassword)
+        assert_equal(1, r['state'], '管理员修改密码成功')
 
     def test_send_general_user_register_verify_code(self, get_countryCode_phone_general_user):
         global general_countryCode, general_phone, general_user_name, general_user_register_state
