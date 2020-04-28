@@ -63,11 +63,19 @@ class TestCreateCompany(object):
     def test_(self):
         time.sleep(1)
 
+    def test_get_admin_user_info(self, get_user_info):
+        global admin_user_id, admin_lg_company_id
+        admin_user_id, admin_company_id, admin_lg_company_id = get_user_info
+        assert_equal(True, bool(admin_user_id), '获取用户ID是否成功')
+
     def test_get_rights_info_list(self):
         r = get_rights_info_list()
         for base_detail in r['content']['baseDetailResList']:
             if base_detail['baseGoodsId'] == 623:
-                assert_equal(1, base_detail['totalNum'], '验证普通职位总数1个通过')
+                if admin_lg_company_id[-1] != '0':
+                    assert_equal(1, base_detail['totalNum'], '验证普通职位总数1个通过')
+                else:
+                    assert_equal(3, base_detail['totalNum'], '验证木桶计划灰度公司主站ID尾号为0的免费用户的普通职位总数3个通过')
             if base_detail['baseGoodsId'] == 201:
                 assert_equal(15, base_detail['totalNum'], '验证沟通点数总数15个通过')
         assert_equal(True, bool(r['content']['baseDetailResList']), '验证免费账号的普通权益通过')
@@ -133,12 +141,7 @@ class TestCreateCompany(object):
         assert_equal(1, complete_info['state'], "校验公司认证是否成功")
 
     def test_1(self):
-        time.sleep(3)
-
-    def test_get_admin_user_info(self, get_user_info):
-        global admin_user_id, admin_lg_company_id
-        admin_user_id, admin_company_id, admin_lg_company_id = get_user_info
-        assert_equal(True, bool(admin_user_id), '获取用户ID是否成功')
+        time.sleep(1)
 
     def test_free_company_create_position_person_and_company_enough_equity(self, get_positionType):
         r = createPosition_999(firstType=get_positionType[0], positionType=get_positionType[1],

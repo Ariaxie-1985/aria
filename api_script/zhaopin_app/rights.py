@@ -4,11 +4,9 @@
 # Description:
 import json
 
-import pysnooper
-
 from utils.util import get_requests, login_password, get_header
 
-@pysnooper.snoop()
+
 def get_rights_info_list():
     url = 'https://gate.lagou.com/v1/zhaopin/rights/getRightsInfoList'
     header = get_header(url='https://easy.lagou.com/userGoodsRecord/queryGoods/index.htm?')
