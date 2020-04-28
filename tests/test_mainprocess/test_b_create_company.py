@@ -61,7 +61,7 @@ class TestCreateCompany(object):
         assert_equal(1, personal_certificate_submit.get('state', 0), "校验提交招聘者身份审核是否成功")
 
     def test_(self):
-        time.sleep(3)
+        time.sleep(1)
 
     def test_get_rights_info_list(self):
         r = get_rights_info_list()
