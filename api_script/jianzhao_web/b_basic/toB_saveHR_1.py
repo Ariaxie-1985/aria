@@ -2,6 +2,8 @@
 # @Author: Xiawang
 import json
 import re
+import time
+
 from bs4 import BeautifulSoup
 from api_script.home.lagou_plus import get_contract_No, close_contract
 from utils.util import get_code_token, form_post, login, get_requests, get_header, login_home, login_home_code, \
@@ -184,6 +186,7 @@ def get_b_index_Id(ip_port=None):
 def remove_member(verity_userId):
     url = 'https://easy.lagou.com/member/recruiterMembers.json?pageNo=1&pageSize=50&keyword='
     header = get_code_token(url='https://easy.lagou.com/settings/channel/my_channels.htm')
+    time.sleep(0.5)
     r = get_requests(url=url, headers=header, remark="核对招聘者信息").json()
     userId_list = []
     if len(r['content']['data']['members']['result']) > 0:
