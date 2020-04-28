@@ -2,6 +2,7 @@
 # @Time  : 2019-09-24 14:41
 # @Author: Xiawang
 # Description:
+import time
 
 import pytest
 import json
@@ -65,6 +66,7 @@ class TestJd(object):
         assert_equal(1, r.get('state'), 'B端用户分享人才简历到微信好友用例通过')
 
     def test_talent_newTalent(self, b_login_app):
+        time.sleep(1)
         r = talent_newTalent(userToken=b_login_app[0], positionId=positionId)
         assert_equal(True, bool(len(r['content']['result'])), "最新人才用例通过")
         for talent in r['content']['result']:
