@@ -87,4 +87,8 @@ if __name__ == '__main__':
     result = password_login("0085220180917", "0085220180917")
     userToken = result['content']['userToken']
     r = get_resume_info(userToken)
-    print(r)
+    resumeId = r['content'][0]['resumeId']
+    resumeType = r['content'][0]['resumeType']
+    # resumeType = 1
+    positionId = 7078118
+    deliver_create(positionId, resumeId, resumeType, userToken=userToken, H9=True)

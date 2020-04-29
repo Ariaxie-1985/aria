@@ -22,10 +22,10 @@ def run_pytest():
     return pytest_result
 
 
-def send_weixin_report(pytest_result):
+def send_feishu_report(pytest_result):
     if pytest_result.get('state') == 4:
-        content = "主流程测试结果:\n{}\n\n{}".format(pytest_result.get('data'))
-        return send_weixin_bot(content=content)
+        content = pytest_result.get('data')
+        return send_feishu_bot(content=content)
 
     if pytest_result.get('state') == 0:
         summary_result = ''
@@ -39,8 +39,8 @@ def send_weixin_report(pytest_result):
                 key, value['error_type'], value['log'])
             fail_results += fail_result
 
-        content = "主流程测试结果:\n{}\n\n具体失败结果:\n{}".format(summary_result, fail_results)
-        return send_weixin_bot(content=content)
+        content = "具体失败结果:\n{}".format(summary_result, fail_results)
+        return send_feishu_bot(content=content)
 
 
 def send_mail():
@@ -76,18 +76,18 @@ def send_mail():
     return ret
 
 
-def send_weixin_bot(content):
-    url = 'https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=712278c2-2646-4bc6-aef2-4f26ace22d3f'
+def send_feishu_bot(content):
+    url = 'https://open.feishu.cn/open-apis/bot/hook/03654ef57c4f4418ba8802cfa1cf06a0'
     data = {
-        "msgtype": "text",
-        "text": {
-            "mentioned_list": ["xiawang"],
-            "content": content}
+        "title": "主流程测试结果:",
+        "text": content
     }
     if len(data['text']['content']) >= 2000:
         data['text']['content'] = data['text']['content'][:2000]
 
-    return requests.post(url=url, json=data, verify=False).json()
+    result = requests.post(url=url, json=data, verify=False).json()
+
+    return result.get('ok')
 
 
 def get_number(string: str):
@@ -155,15 +155,19 @@ def oss_filter_event(module_name, name, description, level, user_ids: str, cause
     requests.post(url, json=params)
 
 
-if __name__ == '__main__':
+def main():
     pytest_result = run_pytest()
-    if pytest_result['state'] == 0:
+    if pytest_result.get('state', 0) != 1:
         time.sleep(10)
         pytest_result = run_pytest()
-        if pytest_result.get('state', 0) == 0:
-            send_weixin_result = send_weixin_report(pytest_result)
+        if pytest_result.get('state', 0) != 1:
+            send_feishu_result = send_feishu_report(pytest_result)
             send_oss_result = send_oss(pytest_result)
-            if send_weixin_result['errcode'] == 0:
+            if send_feishu_result == True:
                 send_mail()
             if not send_oss_result.get('result', False):
                 send_oss(pytest_result)
+
+
+if __name__ == '__main__':
+    main()

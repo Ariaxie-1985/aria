@@ -37,8 +37,3 @@ def receive_gouyin_weekly_task_points():
     return form_post(url=url, headers=header, remark=remark)
 
 
-def get_shop_goods_on_sale_goods():
-    url = 'https://gate.lagou.com/v1/zhaopin/shop/goods/onSaleGoods'
-    header = get_code_token(url='https://easy.lagou.com/task/center/index.htm?')
-    remark = '非接口拉到时交付'
-    return form_post(url=url, headers=header, remark=remark)
