@@ -12,12 +12,6 @@ def get_newer_task():
     return form_post(url=url, headers=header, remark=remark)
 
 
-'''
-
-
-'''
-
-
 def receive_newer_task_reward(recordId, taskLabel, taskGroup):
     url = 'https://easy.lagou.com/task/center/receive/reward.json'
     header = get_code_token(url='https://easy.lagou.com/task/center/index.htm?')
@@ -35,5 +29,3 @@ def receive_gouyin_weekly_task_points():
     header = get_code_token(url='https://easy.lagou.com/task/center/index.htm?')
     remark = '任务中心--获取本周积分数'
     return form_post(url=url, headers=header, remark=remark)
-
-

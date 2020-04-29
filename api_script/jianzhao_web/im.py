@@ -43,3 +43,7 @@ def count_unRead_messages(ip_port=None):
     query_header = get_header(refer_url, ip_port=ip_port)
     remark = "统计未读消息"
     return get_requests(url=query_url, headers=query_header, remark=remark, ip_port=ip_port).json()
+
+
+def greeting_list():
+    url = 'https://easy.lagou.com/im/session/greetingList.json'

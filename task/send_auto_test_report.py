@@ -82,8 +82,8 @@ def send_feishu_bot(content):
         "title": "主流程测试结果:",
         "text": content
     }
-    if len(data['text']['content']) >= 2000:
-        data['text']['content'] = data['text']['content'][:2000]
+    if len(data['text']) >= 2000:
+        data['text'] = data['text'][:2000]
 
     result = requests.post(url=url, json=data, verify=False).json()
 

@@ -29,3 +29,33 @@ def get_shop_goods_sell_goods(on_sale_goods_id):
     header.update({'X-L-REQ-HEADER': json.dumps({'deviceType': 1})})
     remark = '道具商城--招聘道具--购买道具'
     return json_post(url=url, headers=header, remark=remark)
+
+
+def create_shop_goodsOrder(payLagouBpNum, payLagouCoinNum, sellGoodsPriceId):
+    url = f'https://gate.lagou.com/v1/zhaopin/shop/goodsOrder/create'
+    header = get_code_token(url='https://easy.lagou.com/shop/onSaleGoods.htm?')
+    header.update({'X-L-REQ-HEADER': json.dumps({'deviceType': 1})})
+    data = {
+        "payLagouBpNum": payLagouBpNum,
+        "payLagouCoinNum": payLagouCoinNum,
+        "sellGoodsPriceId": sellGoodsPriceId,
+        "expandInfo": "https://easy.lagou.com/shop/onSaleGoods.htm?"
+    }
+    remark = '购买招聘道具'
+    return json_post(url=url, headers=header, data=data, remark=remark)
+
+
+def pay_shop_goodsOrder(orderNo):
+    url = f'https://gate.lagou.com/v1/zhaopin/shop/goodsOrder/pay/{orderNo}'
+    header = get_code_token(url='https://easy.lagou.com/shop/onSaleGoods.htm?')
+    header.update({'X-L-REQ-HEADER': json.dumps({'deviceType': 1})})
+    remark = '道具商城--招聘道具--购买道具--支付订单'
+    return json_post(url=url, headers=header, remark=remark)
+
+
+def check_shop_goodsOrder(orderNo):
+    url = f'https://gate.lagou.com/v1/zhaopin/shop/goodsOrder/check/{orderNo}'
+    header = get_code_token(url='https://easy.lagou.com/shop/onSaleGoods.htm?')
+    header.update({'X-L-REQ-HEADER': json.dumps({'deviceType': 1})})
+    remark = '道具商城--招聘道具--购买道具--检查订单'
+    return json_post(url=url, headers=header, remark=remark)
