@@ -39,7 +39,7 @@ def send_feishu_report(pytest_result):
                 key, value['error_type'], value['log'])
             fail_results += fail_result
 
-        content = "具体失败结果:\n{}".format(summary_result, fail_results)
+        content = "{}\n\n具体失败结果:\n{}".format(summary_result, fail_results)
         return send_feishu_bot(content=content)
 
 
@@ -117,8 +117,8 @@ def send_oss(pytest_result):
             level = 'PROBLEM'
             user_ids = 'mornyue,huifang'
         description = "主流程测试"
-        oss_filter_event(module_name=module_name, name=name, cause=cause,
-                         level=level, user_ids=user_ids, description=description, source=source)
+        return oss_filter_event(module_name=module_name, name=name, cause=cause,
+                                level=level, user_ids=user_ids, description=description, source=source)
 
 
 def oss_filter_event(module_name, name, description, level, user_ids: str, cause, source):
