@@ -71,13 +71,16 @@ class TestCreateCompany(object):
     def test_get_rights_info_list(self):
         r = get_rights_info_list()
         for base_detail in r['content']['baseDetailResList']:
-            if base_detail['baseGoodsId'] == 623:
-                if admin_lg_company_id[-1] != '0':
+            if admin_lg_company_id[-1] != '0':
+                if base_detail['baseGoodsId'] == 623:
                     assert_equal(1, base_detail['totalNum'], '验证普通职位总数1个通过')
-                else:
+                if base_detail['baseGoodsId'] == 201:
+                    assert_equal(15, base_detail['totalNum'], '验证沟通点数总数15个通过')
+            else:
+                if base_detail['baseGoodsId'] == 623:
                     assert_equal(3, base_detail['totalNum'], '验证木桶计划灰度公司主站ID尾号为0的免费用户的普通职位总数3个通过')
-            if base_detail['baseGoodsId'] == 201:
-                assert_equal(15, base_detail['totalNum'], '验证沟通点数总数15个通过')
+                if base_detail['baseGoodsId'] == 201:
+                    assert_equal(50, base_detail['totalNum'], '验证沟通点数总数50个通过')
         assert_equal(True, bool(r['content']['baseDetailResList']), '验证免费账号的普通权益通过')
 
     @pytest.mark.parametrize('newPassword', [('990eb670f81e82f546cfaaae1587279a')])
