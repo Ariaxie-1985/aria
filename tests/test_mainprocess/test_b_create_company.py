@@ -237,6 +237,7 @@ class TestCreateCompany(object):
         r = multiChannel_default_invite(free_positionId)
         assert_equal(1, r['state'], '职位邀请人才用例通过')
 
+    # todo 卡在JSESSIONID的值正确
     def test_session_batchCreate_cUserIds(c_userId_0085220180917):
         r = session_batchCreate_cUserIds(cUserIds=c_userId_0085220180917, positionId=free_positionId)
         print(r)
