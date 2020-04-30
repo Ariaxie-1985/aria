@@ -70,7 +70,7 @@ def multiChannel_default_invite(positionId):
 def session_batchCreate_cUserIds(cUserIds, positionId):
     url = f'https://easy.lagou.com/im/session/batchCreate/{cUserIds}.json'
     refer_url = f'https://easy.lagou.com/talent/search/list.htm?'
-    query_header = get_code_token(refer_url)
+    query_header = get_header(refer_url)
     data = {
         'positionId': positionId,
         'greetingContent': '你好，在考虑新的工作机会吗？希望可以和你进一步沟通~',
