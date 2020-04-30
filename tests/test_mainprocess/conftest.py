@@ -85,6 +85,12 @@ def c_login_app(request):
     result = password_login(request.param[0], request.param[1])
     return result['content']['userToken'], result['content']['userInfo']['userId']
 
+@pytest.fixture(scope='session')
+def c_userId_0085220180917():
+    # 用户账号: 0085220180917 的 userId
+    userId = 15166231
+    return userId
+
 
 @pytest.fixture(scope='session', params=[["0085320200306", "qqqqqq"]])
 def c_login_education(request):

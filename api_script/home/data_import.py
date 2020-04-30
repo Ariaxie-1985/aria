@@ -21,7 +21,7 @@ def import_linkManInfo(companyId, contractNo):
     file_Path = '{}/tests/testdata/import1.xls'.format(project_path)
     update_excel(file_Path, companyId, contractNo)
     files = {'file': open(file_Path, 'rb')}
-    remark = 'home后台-拉勾加-数据导入-导入公司联系人信息, 其header:{}'.format(header)
+    remark = 'home后台-拉勾加-数据导入-导入公司联系人信息, 其header:{}'.format(header['Cookie'])
     return form_post(url=url, files=files, headers=header, remark=remark)
 
 

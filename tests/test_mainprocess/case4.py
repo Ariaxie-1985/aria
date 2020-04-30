@@ -4,6 +4,7 @@
 # Description:
 import pytest
 
+from api_script.jianzhao_web.im import greeting_list, multiChannel_default_invite, im_session_list
 from api_script.jianzhao_web.task_center import get_newer_task, receive_newer_task_reward, \
     receive_gouyin_weekly_task_points
 from api_script.zhaopin_app.shop import get_shop_goods_on_sale_goods, get_shop_goods_sell_goods, create_shop_goodsOrder, \
@@ -28,6 +29,7 @@ def test_receive_newer_task_reward():
         assert_equal(1, r['state'], '任务中心--新手任务--领取积分用例通过')
 
 
+# 前置: 完成发布职位，企业认证，个人认证
 def test_receive_gouyin_weekly_task_points():
     r = receive_gouyin_weekly_task_points()
     assert_equal(True, bool(r['data'] >= 300), '任务中心--获取本周积分超过300分成功')
@@ -68,3 +70,24 @@ def test_pay_shop_goodsOrder():
 def test_check_shop_goodsOrder():
     r = check_shop_goodsOrder(orderNo=orderNo)
     assert_equal(1, r['content']['status'], '道具商城--招聘道具--购买道具--检查订单用例通过')
+
+
+def test_im_session_list_check_20():
+    r = im_session_list(createBy=0)
+    assert_equal(20, r['content']['data']['remainConversationTimes'], '沟通点数计算20用例通过')
+
+
+# 前置: 发布职位，C端用户Id
+def test_greeting_list():
+    r = greeting_list(cUserIds, positionId)
+    assert_equal(1, r['state'], '找人才-打招呼用例通过')
+
+
+def test_multiChannel_default_invite():
+    r = multiChannel_default_invite(positionId)
+    assert_equal(1, r['state'], '职位邀请人才用例通过')
+
+
+def test_im_session_list_check_19():
+    r = im_session_list(createBy=0)
+    assert_equal(19, r['content']['data']['remainConversationTimes'], '沟通点数计算19用例通过')

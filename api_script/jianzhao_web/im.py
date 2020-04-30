@@ -2,7 +2,7 @@
 # @Time  : 2020/3/20 16:16
 # @Author: Xiawang
 # Description:
-from utils.util import get_requests, get_code_token, get_header, json_post
+from utils.util import get_requests, get_code_token, get_header, json_post, form_post
 
 
 def settings_template(ip_port=None):
@@ -45,5 +45,23 @@ def count_unRead_messages(ip_port=None):
     return get_requests(url=query_url, headers=query_header, remark=remark, ip_port=ip_port).json()
 
 
-def greeting_list():
+def greeting_list(cUserIds, positionId):
     url = 'https://easy.lagou.com/im/session/greetingList.json'
+    refer_url = f'https://easy.lagou.com/talent/index.htm?positionId={positionId}'
+    query_header = get_code_token(refer_url)
+    data = {
+        'cUserIds': cUserIds
+    }
+    remark = '找人才-打招呼'
+    return form_post(url=url, data=data, headers=query_header, remark=remark)
+
+
+def multiChannel_default_invite(positionId):
+    url = 'https://easy.lagou.com/position/multiChannel/default-invite.json'
+    refer_url = f'https://easy.lagou.com/talent/index.htm?positionId={positionId}'
+    query_header = get_code_token(refer_url)
+    data = {
+        'positionId': positionId
+    }
+    remark = '职位邀请人才'
+    return form_post(url=url, headers=query_header, data=data, remark=remark)
