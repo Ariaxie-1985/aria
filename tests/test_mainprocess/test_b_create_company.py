@@ -14,7 +14,8 @@ from api_script.jianzhao_web.b_basic.toB_saveHR_1 import saveHR, saveCompany, \
 from api_script.jianzhao_web.b_basic.b_upload import upload_permit
 from api_script.jianzhao_web.b_position.B_postposition import createPosition_999, get_online_positions, \
     www_redirect_easy, offline_position
-from api_script.jianzhao_web.im import im_session_list, greeting_list, multiChannel_default_invite
+from api_script.jianzhao_web.im import im_session_list, greeting_list, multiChannel_default_invite, \
+    session_batchCreate_cUserIds
 from api_script.jianzhao_web.task_center import get_newer_task, receive_newer_task_reward, \
     receive_gouyin_weekly_task_points
 from api_script.neirong_app.account import upate_user_password
@@ -197,7 +198,8 @@ class TestCreateCompany(object):
     def test_get_shop_goods_sell_goods(self):
         r = get_shop_goods_sell_goods(on_sale_goods_id=im_chat_number)
         assert_equal(1, r['content']['status'], '购买沟通点数-前置条件用例通过')
-        global sellGoodsPriceId
+        global sellGoodsPriceId,shopOrderToken
+        shopOrderToken = r['content']['shopOrderToken']
         for sellGoodsPriceRes in r['content']['sellGoodsInfo']['sellGoodsStrategyResList'][0]['sellGoodsPriceResList']:
             if sellGoodsPriceRes['preferentialPolicyCurrencyNum'] == 300:
                 sellGoodsPriceId = sellGoodsPriceRes['sellGoodsPriceId']
@@ -206,7 +208,7 @@ class TestCreateCompany(object):
     @pytest.mark.parametrize("payLagouBpNum,payLagouCoinNum", [(300, 0)])
     def test_create_shop_goodsOrder(self, payLagouBpNum, payLagouCoinNum):
         r = create_shop_goodsOrder(payLagouBpNum=payLagouBpNum, payLagouCoinNum=payLagouCoinNum,
-                                   sellGoodsPriceId=sellGoodsPriceId)
+                                   sellGoodsPriceId=sellGoodsPriceId,shopOrderToken=shopOrderToken)
         assert_equal(1, r['state'], '购买沟通点数用例通过')
         global orderNo
         if r['content']['orderState'] == 'CREATE':
@@ -231,6 +233,12 @@ class TestCreateCompany(object):
     def test_multiChannel_default_invite(self):
         r = multiChannel_default_invite(free_positionId)
         assert_equal(1, r['state'], '职位邀请人才用例通过')
+
+    def test_session_batchCreate_cUserIds(c_userId_0085220180917):
+        r = session_batchCreate_cUserIds(cUserIds=c_userId_0085220180917, positionId=7950283)
+        sessionId_key = list(r['content']['data']['sessionIds'].keys())[0]
+        sessionId_value = list(r['content']['data']['sessionIds'].values())[0]
+        assert_equal(sessionId_key, sessionId_value, '创建会话用例通过')
 
     def test_im_session_list_check_19(self):
         r = im_session_list(createBy=0)

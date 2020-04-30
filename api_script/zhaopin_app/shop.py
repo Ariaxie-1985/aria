@@ -12,7 +12,7 @@ def get_shop_goods_on_sale_goods():
     header = get_code_token(url='https://easy.lagou.com/shop/onSaleGoods.htm?')
     header.update({'X-L-REQ-HEADER': json.dumps({'deviceType': 1})})
     remark = '道具商城--招聘道具--获取在售权益及其价格信息'
-    return get_requests(url=url, headers=header, remark=remark)
+    return get_requests(url=url, headers=header, remark=remark).json()
 
 
 def get_shop_goods_account_info():
@@ -31,10 +31,10 @@ def get_shop_goods_sell_goods(on_sale_goods_id):
     return json_post(url=url, headers=header, remark=remark)
 
 
-def create_shop_goodsOrder(payLagouBpNum, payLagouCoinNum, sellGoodsPriceId):
-    url = f'https://gate.lagou.com/v1/zhaopin/shop/goodsOrder/create'
+def create_shop_goodsOrder(payLagouBpNum, payLagouCoinNum, sellGoodsPriceId, shopOrderToken):
+    url = 'https://gate.lagou.com/v1/zhaopin/shop/goodsOrder/create'
     header = get_code_token(url='https://easy.lagou.com/shop/onSaleGoods.htm?')
-    header.update({'X-L-REQ-HEADER': json.dumps({'deviceType': 1})})
+    header.update({'X-L-REQ-HEADER': json.dumps({'deviceType': 1}), 'shop-order-token': shopOrderToken})
     data = {
         "payLagouBpNum": payLagouBpNum,
         "payLagouCoinNum": payLagouCoinNum,
