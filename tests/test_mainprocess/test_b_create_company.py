@@ -235,7 +235,7 @@ class TestCreateCompany(object):
         assert_equal(1, r['state'], '职位邀请人才用例通过')
 
     def test_session_batchCreate_cUserIds(c_userId_0085220180917):
-        r = session_batchCreate_cUserIds(cUserIds=c_userId_0085220180917, positionId=7950283)
+        r = session_batchCreate_cUserIds(cUserIds=c_userId_0085220180917, positionId=free_positionId)
         sessionId_key = list(r['content']['data']['sessionIds'].keys())[0]
         sessionId_value = list(r['content']['data']['sessionIds'].values())[0]
         assert_equal(sessionId_key, sessionId_value, '创建会话用例通过')
@@ -244,121 +244,122 @@ class TestCreateCompany(object):
         r = im_session_list(createBy=0)
         assert_equal(19, r['content']['data']['remainConversationTimes'], '沟通点数计算19用例通过')
 
-    # def test_login_home(self):
-    #     # 线上home后台的用户账号和密码, 勿动
-    #     r = login_password('betty@lagou.com', '00f453dfec0f2806db5cfabe3ea94a35')
-    #     assert_equal(1, r.get('state', 0), '校验登录home成功！')
-    #
-    # def test_buy_paid_package(self):
-    #     contractNo = 'lagou-autotest-{}-{}'.format(str(datetime.date.today()), str(random.randint(1, 99)))
-    #     r1 = import_linkManInfo(admin_lg_company_id, contractNo)
-    #     if not r1.get('success', False):
-    #         login_password('betty@lagou.com', '00f453dfec0f2806db5cfabe3ea94a35')
-    #         r1 = import_linkManInfo(admin_lg_company_id, contractNo)
-    #         assert_equal(True, r1.get('success', False), "导入公司联系人信息成功！")
-    #     r2 = import_contacts(admin_lg_company_id, contractNo)
-    #     assert_equal(True, r2.get('success', False), "导入合同信息成功！")
-    #     r3 = open_product(templateId=79, companyId=admin_lg_company_id, contractNo=contractNo, userId=admin_user_id,
-    #                       startTimeStr=str(datetime.date.today()),
-    #                       endTimeStr=str(datetime.date.today() + datetime.timedelta(days=366)))
-    #     assert_equal(True, r3['success'], "开通付费套餐成功！", "公司主站id:{}".format(admin_lg_company_id))
-    #
-    # def test_login_admin_user_02(self, get_password):
-    #     login_result = login_password(admin_countryCode + admin_phone, get_password)
-    #     assert_equal(1, login_result.get('state', 0), '校验管理员登录是否成功')
-    #     www_redirect_easy()
-    #
-    # def test_paid_company_create_position_person_and_company_enough_equity(self, get_positionType):
-    #     r = createPosition_999(firstType=get_positionType[0], positionType=get_positionType[1],
-    #                            positionThirdType=get_positionType[2],
-    #                            positionName=get_positionType[3])
-    #     assert_equal(1, r.get('state', 0), '付费公司发布职位成功')
-    #     global paid_positionId
-    #     paid_positionId = r['content']['data']['parentPositionInfo']['positionChannelInfoList'][0]['positionId']
-    #
-    # def test_paid_position_is_in_online_position(self):
-    #     positions_result = get_online_positions()
-    #     positionIds = []
-    #     for positions in positions_result['content']['data']['parentPositionVOs']:
-    #         actually_positionId = positions['positions'][0]['positionId']
-    #         positionIds.append(actually_positionId)
-    #     assert_equal(True, paid_positionId in positionIds, '校验获取发布的职位是否在线职位是否成功！')
-    #
-    # def test_offline_free_position(self):
-    #     offline_result = offline_position(positionId=free_positionId)
-    #     assert_equal(1, offline_result.get('state', 0), '校验下线免费职位是否成功！')
-    #
-    # def test_offline_paid_position(self):
-    #     offline_result = offline_position(positionId=paid_positionId)
-    #     assert_equal(1, offline_result.get('state', 0), '校验下线付费职位是否成功！')
-    #
-    # def test_login_general_user(self, get_password):
-    #     login_result = login_password(general_countryCode + general_phone, get_password)
-    #     assert_equal(1, login_result['state'], '校验普通用户登录是否成功')
-    #
-    # def test_remove_general_user(self, get_user_info, get_password):
-    #     global general_userId, UserCompanyId, lg_CompanyId
-    #     general_userId, UserCompanyId, lg_CompanyId = get_user_info
-    #     remove_result = remove_member(general_userId)
-    #     if not remove_result:
-    #         close_trial_package(lg_CompanyId)
-    #         login_password(general_countryCode + general_phone, get_password)
-    #         remove_result = remove_member(general_userId)
-    #     assert_equal(True, remove_result, '校验移除普通用户成功！')
-    #
-    # def test_record_general_user(self):
-    #     record_test_data(2, userId=general_userId, UserCompanyId=UserCompanyId, lg_CompanyId=lg_CompanyId)
-    #
-    # def test_batchCancel_general_user(self):
-    #     r = batchCancel(userIds=general_userId)
-    #     assert_equal(1, r['state'], "普通用户注销账号成功")
-    #
-    # def test_login_admin_user_03(self, get_password):
-    #     login_result = login_password(admin_countryCode + admin_phone, get_password)
-    #     assert_equal(1, login_result['state'], '校验管理员登录是否成功')
-    #
-    # def test_remove_admin_user(self, get_user_info, get_password):
-    #     global admin_userId
-    #     admin_userId, UserCompanyId, lg_CompanyId = get_user_info[0], get_user_info[1], get_user_info[2]
-    #     remove_result = remove_member(admin_userId)
-    #     if not remove_result:
-    #         close_trial_package(lg_CompanyId)
-    #         login_password(admin_countryCode + admin_phone, get_password)
-    #         remove_result = remove_member(admin_userId)
-    #     assert_equal(True, remove_result, '校验移除管理员用户成功！')
-    #
-    # def test_record_admin_user(self):
-    #     record_test_data(2, userId=admin_userId, UserCompanyId=UserCompanyId, lg_CompanyId=lg_CompanyId)
-    #
-    # def test_batchCancel_admin_user(self):
-    #     r = batchCancel(userIds=admin_userId)
-    #     assert_equal(1, r['state'], "普通用户注销账号成功")
-    #
-    # def test_login_home_02(self):
-    #     # 线上home后台的用户账号和密码, 勿动
-    #     r = login_password('betty@lagou.com', '00f453dfec0f2806db5cfabe3ea94a35')
-    #     assert_equal(1, r['state'], '校验登录home成功！')
-    #
-    # def test_forbid_general_user(self):
-    #     time.sleep(1)
-    #     forbid_result = forbid.forbid_user(general_userId)
-    #     assert_equal(True, forbid_result, '校验普通用户是否封禁成功1')
-    #
-    # def test_forbid_admin_user(self):
-    #     time.sleep(1)
-    #     forbid_result = forbid.forbid_user(admin_userId)
-    #     assert_equal(True, forbid_result, '校验管理员用户是否封禁成功1')
-    #
-    # def test_forbid_company(self):
-    #     time.sleep(1)
-    #     forbid_result = forbid.forbid_company(lg_CompanyId)
-    #     assert_equal(True, forbid_result, '校验公司是否封禁成功')
+    def test_login_home(self):
+        # 线上home后台的用户账号和密码, 勿动
+        r = login_password('betty@lagou.com', '00f453dfec0f2806db5cfabe3ea94a35')
+        assert_equal(1, r.get('state', 0), '校验登录home成功！')
 
-# def test_record_cancel_account():
-#     if register_state != 1:
-#         record_cancel_account(admin_countryCode + admin_phone)
-#
-#
-# def test_general_user_register_state():
-#     if general_user_register_state != 1:
-#         record_cancel_account(general_countryCode + general_phone)
+    def test_buy_paid_package(self):
+        contractNo = 'lagou-autotest-{}-{}'.format(str(datetime.date.today()), str(random.randint(1, 99)))
+        r1 = import_linkManInfo(admin_lg_company_id, contractNo)
+        if not r1.get('success', False):
+            login_password('betty@lagou.com', '00f453dfec0f2806db5cfabe3ea94a35')
+            r1 = import_linkManInfo(admin_lg_company_id, contractNo)
+            assert_equal(True, r1.get('success', False), "导入公司联系人信息成功！")
+        r2 = import_contacts(admin_lg_company_id, contractNo)
+        assert_equal(True, r2.get('success', False), "导入合同信息成功！")
+        r3 = open_product(templateId=79, companyId=admin_lg_company_id, contractNo=contractNo, userId=admin_user_id,
+                          startTimeStr=str(datetime.date.today()),
+                          endTimeStr=str(datetime.date.today() + datetime.timedelta(days=366)))
+        assert_equal(True, r3['success'], "开通付费套餐成功！", "公司主站id:{}".format(admin_lg_company_id))
+
+    def test_login_admin_user_02(self, get_password):
+        login_result = login_password(admin_countryCode + admin_phone, get_password)
+        assert_equal(1, login_result.get('state', 0), '校验管理员登录是否成功')
+        www_redirect_easy()
+
+    def test_paid_company_create_position_person_and_company_enough_equity(self, get_positionType):
+        r = createPosition_999(firstType=get_positionType[0], positionType=get_positionType[1],
+                               positionThirdType=get_positionType[2],
+                               positionName=get_positionType[3])
+        assert_equal(1, r.get('state', 0), '付费公司发布职位成功')
+        global paid_positionId
+        paid_positionId = r['content']['data']['parentPositionInfo']['positionChannelInfoList'][0]['positionId']
+
+    def test_paid_position_is_in_online_position(self):
+        positions_result = get_online_positions()
+        positionIds = []
+        for positions in positions_result['content']['data']['parentPositionVOs']:
+            actually_positionId = positions['positions'][0]['positionId']
+            positionIds.append(actually_positionId)
+        assert_equal(True, paid_positionId in positionIds, '校验获取发布的职位是否在线职位是否成功！')
+
+    def test_offline_free_position(self):
+        offline_result = offline_position(positionId=free_positionId)
+        assert_equal(1, offline_result.get('state', 0), '校验下线免费职位是否成功！')
+
+    def test_offline_paid_position(self):
+        offline_result = offline_position(positionId=paid_positionId)
+        assert_equal(1, offline_result.get('state', 0), '校验下线付费职位是否成功！')
+
+    def test_login_general_user(self, get_password):
+        login_result = login_password(general_countryCode + general_phone, get_password)
+        assert_equal(1, login_result['state'], '校验普通用户登录是否成功')
+
+    def test_remove_general_user(self, get_user_info, get_password):
+        global general_userId, UserCompanyId, lg_CompanyId
+        general_userId, UserCompanyId, lg_CompanyId = get_user_info
+        remove_result = remove_member(general_userId)
+        if not remove_result:
+            close_trial_package(lg_CompanyId)
+            login_password(general_countryCode + general_phone, get_password)
+            remove_result = remove_member(general_userId)
+        assert_equal(True, remove_result, '校验移除普通用户成功！')
+
+    def test_record_general_user(self):
+        record_test_data(2, userId=general_userId, UserCompanyId=UserCompanyId, lg_CompanyId=lg_CompanyId)
+
+    def test_batchCancel_general_user(self):
+        r = batchCancel(userIds=general_userId)
+        assert_equal(1, r['state'], "普通用户注销账号成功")
+
+    def test_login_admin_user_03(self, get_password):
+        login_result = login_password(admin_countryCode + admin_phone, get_password)
+        assert_equal(1, login_result['state'], '校验管理员登录是否成功')
+
+    def test_remove_admin_user(self, get_user_info, get_password):
+        global admin_userId
+        admin_userId, UserCompanyId, lg_CompanyId = get_user_info[0], get_user_info[1], get_user_info[2]
+        remove_result = remove_member(admin_userId)
+        if not remove_result:
+            close_trial_package(lg_CompanyId)
+            login_password(admin_countryCode + admin_phone, get_password)
+            remove_result = remove_member(admin_userId)
+        assert_equal(True, remove_result, '校验移除管理员用户成功！')
+
+    def test_record_admin_user(self):
+        record_test_data(2, userId=admin_userId, UserCompanyId=UserCompanyId, lg_CompanyId=lg_CompanyId)
+
+    def test_batchCancel_admin_user(self):
+        r = batchCancel(userIds=admin_userId)
+        assert_equal(1, r['state'], "普通用户注销账号成功")
+
+    def test_login_home_02(self):
+        # 线上home后台的用户账号和密码, 勿动
+        r = login_password('betty@lagou.com', '00f453dfec0f2806db5cfabe3ea94a35')
+        assert_equal(1, r['state'], '校验登录home成功！')
+
+    def test_forbid_general_user(self):
+        time.sleep(1)
+        forbid_result = forbid.forbid_user(general_userId)
+        assert_equal(True, forbid_result, '校验普通用户是否封禁成功1')
+
+    def test_forbid_admin_user(self):
+        time.sleep(1)
+        forbid_result = forbid.forbid_user(admin_userId)
+        assert_equal(True, forbid_result, '校验管理员用户是否封禁成功1')
+
+    def test_forbid_company(self):
+        time.sleep(1)
+        forbid_result = forbid.forbid_company(lg_CompanyId)
+        assert_equal(True, forbid_result, '校验公司是否封禁成功')
+
+
+def test_record_cancel_account():
+    if register_state != 1:
+        record_cancel_account(admin_countryCode + admin_phone)
+
+
+def test_general_user_register_state():
+    if general_user_register_state != 1:
+        record_cancel_account(general_countryCode + general_phone)
