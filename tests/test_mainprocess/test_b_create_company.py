@@ -239,6 +239,7 @@ class TestCreateCompany(object):
 
     def test_session_batchCreate_cUserIds(c_userId_0085220180917):
         r = session_batchCreate_cUserIds(cUserIds=c_userId_0085220180917, positionId=free_positionId)
+        print(r)
         sessionId_key = list(r['content']['data']['sessionIds'].keys())[0]
         sessionId_value = list(r['content']['data']['sessionIds'].values())[0]
         assert_equal(sessionId_key, sessionId_value, '创建会话用例通过')
