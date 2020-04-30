@@ -176,7 +176,7 @@ class TestCreateCompany(object):
         global task_reward_info
         task_reward_info = []
         for task in r['data']:
-            if task['statusName'] == 'COMPLETE':
+            if task['statusName'] == 'COMPLETED':
                 task_reward_info.append((task['id'], task['taskLabelName'], task['taskGroupName']))
         assert_equal(3, len(task_reward_info), '领取积分通过')
 
@@ -198,7 +198,7 @@ class TestCreateCompany(object):
     def test_get_shop_goods_sell_goods(self):
         r = get_shop_goods_sell_goods(on_sale_goods_id=im_chat_number)
         assert_equal(1, r['content']['status'], '购买沟通点数-前置条件用例通过')
-        global sellGoodsPriceId,shopOrderToken
+        global sellGoodsPriceId, shopOrderToken
         shopOrderToken = r['content']['shopOrderToken']
         for sellGoodsPriceRes in r['content']['sellGoodsInfo']['sellGoodsStrategyResList'][0]['sellGoodsPriceResList']:
             if sellGoodsPriceRes['preferentialPolicyCurrencyNum'] == 300:
@@ -208,7 +208,7 @@ class TestCreateCompany(object):
     @pytest.mark.parametrize("payLagouBpNum,payLagouCoinNum", [(300, 0)])
     def test_create_shop_goodsOrder(self, payLagouBpNum, payLagouCoinNum):
         r = create_shop_goodsOrder(payLagouBpNum=payLagouBpNum, payLagouCoinNum=payLagouCoinNum,
-                                   sellGoodsPriceId=sellGoodsPriceId,shopOrderToken=shopOrderToken)
+                                   sellGoodsPriceId=sellGoodsPriceId, shopOrderToken=shopOrderToken)
         assert_equal(1, r['state'], '购买沟通点数用例通过')
         global orderNo
         if r['content']['orderState'] == 'CREATE':
