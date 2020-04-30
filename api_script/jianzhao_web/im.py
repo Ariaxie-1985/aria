@@ -74,7 +74,7 @@ def session_batchCreate_cUserIds(cUserIds, positionId):
     data = {
         'positionId': positionId,
         'greetingContent': '你好，在考虑新的工作机会吗？希望可以和你进一步沟通~',
-        'inviteDeliver': True
+        'inviteDeliver': 'true'
     }
     remark = '创建会话'
     return form_post(url=url, headers=query_header, data=data, remark=remark)

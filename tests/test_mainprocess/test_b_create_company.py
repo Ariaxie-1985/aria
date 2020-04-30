@@ -224,7 +224,10 @@ class TestCreateCompany(object):
 
     def test_im_session_list_check_20(self):
         r = im_session_list(createBy=0)
-        assert_equal(20, r['content']['data']['remainConversationTimes'], '沟通点数计算20用例通过')
+        if admin_lg_company_id[-1] != '0':
+            assert_equal(20, r['content']['data']['remainConversationTimes'], '沟通点数计算20用例通过')
+        else:
+            assert_equal(55, r['content']['data']['remainConversationTimes'], '处于灰度计划的沟通点数计算55用例通过')
 
     def test_greeting_list(self, c_userId_0085220180917):
         r = greeting_list(cUserIds=c_userId_0085220180917, positionId=free_positionId)
