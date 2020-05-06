@@ -36,47 +36,47 @@ def test_login_admin_user_01(get_password):
 
 
 # 前置: 完成发布职位，企业认证，个人认证
-def test_receive_gouyin_weekly_task_points():
-    r = receive_gouyin_weekly_task_points()
-    assert_equal(True, bool(r['data'] >= 300), '任务中心--获取本周积分超过300分成功')
-
-
-def test_get_shop_goods_on_sale_goods_IM_CHAT_NUMBER():
-    r = get_shop_goods_on_sale_goods()
-    assert_equal(1, r['state'], '道具商城--招聘道具--获取在售权益及其价格信息用例通过')
-    global im_chat_number
-    im_chat_number = r['content']['onSaleGoods']['IM_CHAT_NUMBER']
-
-
-def test_get_shop_goods_sell_goods():
-    r = get_shop_goods_sell_goods(on_sale_goods_id=im_chat_number)
-    assert_equal(1, r['content']['status'], '购买沟通点数-前置条件用例通过')
-    global sellGoodsPriceId, shopOrderToken
-    shopOrderToken = r['content']['shopOrderToken']
-    for sellGoodsPriceRes in r['content']['sellGoodsInfo']['sellGoodsStrategyResList'][0]['sellGoodsPriceResList']:
-        if sellGoodsPriceRes['preferentialPolicyCurrencyNum'] == 300:
-            sellGoodsPriceId = sellGoodsPriceRes['sellGoodsPriceId']
-    assert_equal(True, bool(sellGoodsPriceId), "购买沟通点数的300积分条件通过")
-
-
-@pytest.mark.parametrize("payLagouBpNum,payLagouCoinNum", [(300, 0)])
-def test_create_shop_goodsOrder(payLagouBpNum, payLagouCoinNum):
-    r = create_shop_goodsOrder(payLagouBpNum=payLagouBpNum, payLagouCoinNum=payLagouCoinNum,
-                               sellGoodsPriceId=sellGoodsPriceId, shopOrderToken=shopOrderToken)
-    assert_equal(1, r['content']['status'], '购买沟通点数用例通过')
-    global orderNo
-    if r['content']['orderState'] == 'CREATE':
-        orderNo = r['content']['orderNo']
-
-
-def test_pay_shop_goodsOrder():
-    r = pay_shop_goodsOrder(orderNo=orderNo)
-    assert_equal(1, r['content']['status'], '道具商城--招聘道具--购买道具--支付订单用例通过')
-
-
-def test_check_shop_goodsOrder():
-    r = check_shop_goodsOrder(orderNo=orderNo)
-    assert_equal(1, r['content']['status'], '道具商城--招聘道具--购买道具--检查订单用例通过')
+# def test_receive_gouyin_weekly_task_points():
+#     r = receive_gouyin_weekly_task_points()
+#     assert_equal(True, bool(r['data'] >= 300), '任务中心--获取本周积分超过300分成功')
+#
+#
+# def test_get_shop_goods_on_sale_goods_IM_CHAT_NUMBER():
+#     r = get_shop_goods_on_sale_goods()
+#     assert_equal(1, r['state'], '道具商城--招聘道具--获取在售权益及其价格信息用例通过')
+#     global im_chat_number
+#     im_chat_number = r['content']['onSaleGoods']['IM_CHAT_NUMBER']
+#
+#
+# def test_get_shop_goods_sell_goods():
+#     r = get_shop_goods_sell_goods(on_sale_goods_id=im_chat_number)
+#     assert_equal(1, r['content']['status'], '购买沟通点数-前置条件用例通过')
+#     global sellGoodsPriceId, shopOrderToken
+#     shopOrderToken = r['content']['shopOrderToken']
+#     for sellGoodsPriceRes in r['content']['sellGoodsInfo']['sellGoodsStrategyResList'][0]['sellGoodsPriceResList']:
+#         if sellGoodsPriceRes['preferentialPolicyCurrencyNum'] == 300:
+#             sellGoodsPriceId = sellGoodsPriceRes['sellGoodsPriceId']
+#     assert_equal(True, bool(sellGoodsPriceId), "购买沟通点数的300积分条件通过")
+#
+#
+# @pytest.mark.parametrize("payLagouBpNum,payLagouCoinNum", [(300, 0)])
+# def test_create_shop_goodsOrder(payLagouBpNum, payLagouCoinNum):
+#     r = create_shop_goodsOrder(payLagouBpNum=payLagouBpNum, payLagouCoinNum=payLagouCoinNum,
+#                                sellGoodsPriceId=sellGoodsPriceId, shopOrderToken=shopOrderToken)
+#     assert_equal(1, r['content']['status'], '购买沟通点数用例通过')
+#     global orderNo
+#     if r['content']['orderState'] == 'CREATE':
+#         orderNo = r['content']['orderNo']
+#
+#
+# def test_pay_shop_goodsOrder():
+#     r = pay_shop_goodsOrder(orderNo=orderNo)
+#     assert_equal(1, r['content']['status'], '道具商城--招聘道具--购买道具--支付订单用例通过')
+#
+#
+# def test_check_shop_goodsOrder():
+#     r = check_shop_goodsOrder(orderNo=orderNo)
+#     assert_equal(1, r['content']['status'], '道具商城--招聘道具--购买道具--检查订单用例通过')
 
 
 def test_im_session_list_check_20():
@@ -85,8 +85,9 @@ def test_im_session_list_check_20():
 
 
 # 前置: 发布职位，C端用户Id
-def test_greeting_list(c_userId_0085220180917):
-    r = greeting_list(cUserIds=c_userId_0085220180917, positionId=7950283)
+# c_userId_0085220180917
+def test_greeting_list():
+    r = greeting_list(cUserIds=10359494, positionId=7950283)
     assert_equal(1, r['state'], '找人才-打招呼用例通过')
 
 
