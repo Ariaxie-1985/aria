@@ -186,7 +186,7 @@ class run_Pytest(Resource):
     def assert_is_test_run(self, pytest_result):
         run_result = pytest_result.strip().split('\n')[-1]
         result = ' '.join(run_result.split(' ')[1:-1])
-        if 'no test' in result:
+        if not 'no test' in result:
             return False
         return True
 
