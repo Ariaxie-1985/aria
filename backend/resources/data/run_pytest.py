@@ -14,7 +14,7 @@ from flask import current_app
 class run_Pytest(Resource):
     """执行pytest"""
     business_module = {
-        'mainprocess': 'pytest {}/tests/test_mainprocess/ --html=backend/templates/{}_report.html --self-contained-html',
+        'mainprocess': 'pytest {}/tests/test_mainprocess/ --html=backend/templates/{}_report.html --self-contained-html -s -v',
         'lg-zhaopin-boot': 'pytest {}/tests/test_lg_zhaopin_boot/ --html=backend/templates/{}_report.html --self-contained-html {}',
         'lg-entry-boot': 'pytest {}/tests/test_lg_entry_boot/ --html=backend/templates/{}_report.html --self-contained-html {}',
         'lg-neirong-boot': 'pytest {}/tests/test_lg_neirong_boot/ --html=backend/templates/{}_report.html --self-contained-html {}'

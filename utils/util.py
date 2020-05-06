@@ -605,7 +605,7 @@ def judging_other_abnormal_conditions(status_code, url, remark, pard_id=None):
     if bool(pard_id):
         call_chain = ' 其调用链:http://oss.pard.inter.lagou.com/#/traDetail?traceId={}'.format(pard_id)
     else:
-        call_chain = None
+        call_chain = ''
 
     if status_code == 500:
         logging.error(msg="该接口URL {} , 备注 {} 报错500, 请检查业务服务是否可用,{}\n".format(url, remark, call_chain))

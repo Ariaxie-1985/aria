@@ -255,7 +255,7 @@ class TestCreateCompany(object):
         assert_equal(1, r.get('state', 0), '校验登录home成功！')
 
     def test_buy_paid_package(self):
-        contractNo = 'lagou-autotest-{}-{}'.format(str(datetime.date.today()), str(random.randint(1, 99)))
+        contractNo = f'lagou-autotest-{int(time.time())}-{random.randint(1, 99)}'
         r1 = import_linkManInfo(admin_lg_company_id, contractNo)
         if not r1.get('success', False):
             login_password('betty@lagou.com', '00f453dfec0f2806db5cfabe3ea94a35')
@@ -266,7 +266,8 @@ class TestCreateCompany(object):
         r3 = open_product(templateId=79, companyId=admin_lg_company_id, contractNo=contractNo, userId=admin_user_id,
                           startTimeStr=str(datetime.date.today()),
                           endTimeStr=str(datetime.date.today() + datetime.timedelta(days=366)))
-        assert_equal(True, r3['success'], "开通付费套餐成功！", "公司主站id:{}".format(admin_lg_company_id))
+        assert_equal(True, r3['success'], "开通付费套餐成功！",
+                     "公司主站id:{},用户id:{},合同编号:{}".format(admin_lg_company_id, admin_user_id, contractNo))
 
     def test_login_admin_user_02(self, get_password):
         login_result = login_password(admin_countryCode + admin_phone, get_password)

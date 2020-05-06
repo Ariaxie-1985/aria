@@ -44,7 +44,7 @@ class TestJd(object):
 
     def test_publish_position(self, b_login_app):
         r = publish_position(userToken=b_login_app[0])
-        assert_equal(1, r['state'], "校验发布职位成功")
+        assert_equal(1, r.get('state'), "校验发布职位成功")
         global positionId, mdsPositionId
         try:
             positionId = r['content']['lagouPositionId']
