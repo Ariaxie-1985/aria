@@ -29,6 +29,8 @@ from utils.util import assert_equal, pc_send_register_verifyCode, verify_code_me
 
 @pytest.mark.incremental
 class TestCreateCompany(object):
+    im_chat_number = 15
+    im_chat_number_gray_scale = 50
 
     def test_send_register_admin_verify_code(self, get_countryCode_phone_admin_user):
         global admin_countryCode, admin_phone, admin_user_name, register_state
@@ -83,12 +85,12 @@ class TestCreateCompany(object):
                 if base_detail['baseGoodsId'] == 623:
                     assert_equal(1, base_detail['totalNum'], '验证普通职位总数1个通过')
                 if base_detail['baseGoodsId'] == 201:
-                    assert_equal(15, base_detail['totalNum'], '验证沟通点数总数15个通过')
+                    assert_equal(self.im_chat_number, base_detail['totalNum'], '验证沟通点数总数15个通过')
             else:
                 if base_detail['baseGoodsId'] == 623:
                     assert_equal(3, base_detail['totalNum'], '验证木桶计划灰度公司主站ID尾号为0的免费用户的普通职位总数3个通过')
                 if base_detail['baseGoodsId'] == 201:
-                    assert_equal(50, base_detail['totalNum'], '验证沟通点数总数50个通过')
+                    assert_equal(self.im_chat_number_gray_scale, base_detail['totalNum'], '验证沟通点数总数50个通过')
         assert_equal(True, bool(r['content']['baseDetailResList']), '验证免费账号的普通权益通过')
 
     @pytest.mark.parametrize('newPassword', [('990eb670f81e82f546cfaaae1587279a')])
@@ -192,11 +194,11 @@ class TestCreateCompany(object):
     def test_get_shop_goods_on_sale_goods_IM_CHAT_NUMBER(self):
         r = get_shop_goods_on_sale_goods()
         assert_equal(1, r['state'], '道具商城--招聘道具--获取在售权益及其价格信息用例通过')
-        global im_chat_number
-        im_chat_number = r['content']['onSaleGoods']['IM_CHAT_NUMBER']
+        global im_chat_number_sale
+        im_chat_number_sale = r['content']['onSaleGoods']['IM_CHAT_NUMBER']
 
     def test_get_shop_goods_sell_goods(self):
-        r = get_shop_goods_sell_goods(on_sale_goods_id=im_chat_number)
+        r = get_shop_goods_sell_goods(on_sale_goods_id=im_chat_number_sale)
         assert_equal(1, r['content']['status'], '购买沟通点数-前置条件用例通过')
         global sellGoodsPriceId, shopOrderToken
         shopOrderToken = r['content']['shopOrderToken']
@@ -232,12 +234,15 @@ class TestCreateCompany(object):
 
     def test_im_session_list_check_20(self):
         r = im_session_list(createBy=0)
+        self.im_chat_number = 20
+        self.im_chat_number_gray_scale = 55
         if admin_lg_company_id[-1] != '0':
-            assert_equal(20, r['content']['data']['remainConversationTimes'], '沟通点数计算20用例通过')
+            assert_equal(self.im_chat_number, r['content']['data']['remainConversationTimes'], '沟通点数计算20用例通过')
         else:
-            assert_equal(55, r['content']['data']['remainConversationTimes'], '处于灰度计划的沟通点数计算55用例通过')
+            assert_equal(self.im_chat_number_gray_scale, r['content']['data']['remainConversationTimes'],
+                         '处于灰度计划的沟通点数计算55用例通过')
 
-    def test_session_batchCreate_cUserIds(self,c_userId_0085220180917):
+    def test_session_batchCreate_cUserIds(self, c_userId_0085220180917):
         r = session_batchCreate_cUserIds(cUserIds=c_userId_0085220180917, positionId=free_positionId)
         try:
             sessionId_key = list(r['content']['data']['sessionIds'].keys())[0]
@@ -249,7 +254,13 @@ class TestCreateCompany(object):
 
     def test_im_session_list_check_19(self):
         r = im_session_list(createBy=0)
-        assert_equal(19, r['content']['data']['remainConversationTimes'], '沟通点数计算19用例通过')
+        self.im_chat_number = 19
+        self.im_chat_number_gray_scale = 54
+        if admin_lg_company_id[-1] != '0':
+            assert_equal(self.im_chat_number, r['content']['data']['remainConversationTimes'], '沟通点数计算19用例通过')
+        else:
+            assert_equal(self.im_chat_number_gray_scale, r['content']['data']['remainConversationTimes'],
+                         '处于灰度计划的沟通点数计算54用例通过')
 
     def test_login_home(self):
         # 线上home后台的用户账号和密码, 勿动
