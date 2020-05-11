@@ -172,7 +172,7 @@ class run_Pytest(Resource):
         ret = subprocess.run(cmd_str, shell=True, timeout=300, stdout=subprocess.PIPE, encoding='utf-8')
         current_app.logger.info(ret.stdout)
 
-        if (ret.returncode < 0) or (not self.assert_is_test_run(ret.stdout)):
+        if ret.returncode != 0:
             return {'state': 4, 'data': f'{args["module"]}自动化测试未正常运行，请查看日志'}
 
         html_report_path = f"{project_path}/backend/templates/{args['module']}_report.html"
