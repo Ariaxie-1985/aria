@@ -23,9 +23,8 @@ def resume_report_reasons(ip_port=None):
 
 def im_session_list(createBy, ip_port=None):
     query_url = f"https://easy.lagou.com/im/session/list.json?pageNo=1&pageSize=10&createBy={createBy}&unReadOnly=0"
-    refer_url = "https://easy.lagou.com/im/chat/index.htm"
+    refer_url = "https://easy.lagou.com/talent/search/list.htm?pageNo=1&keyword=%E6%8B%89%E5%8B%BE%E7%BD%91&show_id=5a4289c49b6e4c08b7b1cb8e9f9820e1&city=%E5%93%88%E5%B0%94%E6%BB%A8&education=%E4%B8%8D%E9%99%90&workYear=%E4%B8%8D%E9%99%90&industryField=%E4%B8%8D%E9%99%90&expectSalary=%E4%B8%8D%E9%99%90"
     query_header = get_header(refer_url, ip_port=ip_port)
-    print(query_header.get('Cookies'))
     remark = "获取im列表"
     return get_requests(url=query_url, headers=query_header, remark=remark, ip_port=ip_port).json()
 
@@ -76,7 +75,6 @@ def session_batchCreate_cUserIds(cUserIds, positionId):
     url = f'https://easy.lagou.com/im/session/batchCreate/{cUserIds}.json'
     refer_url = f'https://easy.lagou.com/talent/search/list.htm?'
     query_header = get_header(refer_url)
-    print(query_header.get('Cookies'))
     data = {
         'positionId': positionId,
         'greetingContent': '你好，在考虑新的工作机会吗？希望可以和你进一步沟通~',

@@ -189,6 +189,7 @@ class TestCreateCompany(object):
         r = receive_gouyin_weekly_task_points()
         assert_equal(True, bool(r['data'] >= 300), '任务中心--获取本周积分超过300分成功')
 
+
     def test_get_shop_goods_on_sale_goods_IM_CHAT_NUMBER(self):
         r = get_shop_goods_on_sale_goods()
         assert_equal(1, r['state'], '道具商城--招聘道具--获取在售权益及其价格信息用例通过')
