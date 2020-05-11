@@ -181,7 +181,7 @@ class run_Pytest(Resource):
         if bool(result['info']['result']['fail_result']):
             state = 0
         info = {"result": result}
-        current_app.logger.info(f'本次执行状态: {state}')
+        current_app.logger.info(f'本次pytest执行结果: {state}')
         return {'state': state, "data": info}
 
     def assert_is_test_run(self, pytest_result):
