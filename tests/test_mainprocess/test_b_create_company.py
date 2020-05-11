@@ -189,7 +189,6 @@ class TestCreateCompany(object):
         r = receive_gouyin_weekly_task_points()
         assert_equal(True, bool(r['data'] >= 300), '任务中心--获取本周积分超过300分成功')
 
-
     def test_get_shop_goods_on_sale_goods_IM_CHAT_NUMBER(self):
         r = get_shop_goods_on_sale_goods()
         assert_equal(1, r['state'], '道具商城--招聘道具--获取在售权益及其价格信息用例通过')
@@ -223,13 +222,6 @@ class TestCreateCompany(object):
         r = check_shop_goodsOrder(orderNo=orderNo)
         assert_equal(1, r['content']['status'], '道具商城--招聘道具--购买道具--检查订单用例通过')
 
-    def test_im_session_list_check_20(self):
-        r = im_session_list(createBy=0)
-        if admin_lg_company_id[-1] != '0':
-            assert_equal(20, r['content']['data']['remainConversationTimes'], '沟通点数计算20用例通过')
-        else:
-            assert_equal(55, r['content']['data']['remainConversationTimes'], '处于灰度计划的沟通点数计算55用例通过')
-
     def test_greeting_list(self, c_userId_0085220180917):
         r = greeting_list(cUserIds=c_userId_0085220180917, positionId=free_positionId)
         assert_equal(1, r['state'], '找人才-打招呼用例通过')
@@ -238,12 +230,21 @@ class TestCreateCompany(object):
         r = multiChannel_default_invite(free_positionId)
         assert_equal(1, r['state'], '职位邀请人才用例通过')
 
-    # todo 卡在JSESSIONID的值正确
-    def test_session_batchCreate_cUserIds(c_userId_0085220180917):
+    def test_im_session_list_check_20(self):
+        r = im_session_list(createBy=0)
+        if admin_lg_company_id[-1] != '0':
+            assert_equal(20, r['content']['data']['remainConversationTimes'], '沟通点数计算20用例通过')
+        else:
+            assert_equal(55, r['content']['data']['remainConversationTimes'], '处于灰度计划的沟通点数计算55用例通过')
+
+    def test_session_batchCreate_cUserIds(self,c_userId_0085220180917):
         r = session_batchCreate_cUserIds(cUserIds=c_userId_0085220180917, positionId=free_positionId)
-        print(r)
-        sessionId_key = list(r['content']['data']['sessionIds'].keys())[0]
-        sessionId_value = list(r['content']['data']['sessionIds'].values())[0]
+        try:
+            sessionId_key = list(r['content']['data']['sessionIds'].keys())[0]
+            sessionId_value = list(r['content']['data']['sessionIds'].values())[0]
+        except IndexError:
+            sessionId_key = 1
+            sessionId_value = 0
         assert_equal(sessionId_key, sessionId_value, '创建会话用例通过')
 
     def test_im_session_list_check_19(self):
