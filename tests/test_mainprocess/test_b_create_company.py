@@ -234,13 +234,14 @@ class TestCreateCompany(object):
 
     def test_im_session_list_check_20(self):
         r = im_session_list(createBy=0)
-        self.im_chat_number = 20
-        self.im_chat_number_gray_scale = 55
+        self.im_chat_number += 5
+        self.im_chat_number_gray_scale += 5
         if admin_lg_company_id[-1] != '0':
-            assert_equal(self.im_chat_number, r['content']['data']['remainConversationTimes'], '沟通点数计算20用例通过')
+            assert_equal(self.im_chat_number, r['content']['data']['remainConversationTimes'],
+                         f'沟通点数计算{self.im_chat_number}用例通过')
         else:
             assert_equal(self.im_chat_number_gray_scale, r['content']['data']['remainConversationTimes'],
-                         '处于灰度计划的沟通点数计算55用例通过')
+                         f'处于灰度计划的沟通点数计算{self.im_chat_number_gray_scale}用例通过')
 
     def test_session_batchCreate_cUserIds(self, c_userId_0085220180917):
         r = session_batchCreate_cUserIds(cUserIds=c_userId_0085220180917, positionId=free_positionId)
@@ -254,13 +255,13 @@ class TestCreateCompany(object):
 
     def test_im_session_list_check_19(self):
         r = im_session_list(createBy=0)
-        self.im_chat_number = 19
-        self.im_chat_number_gray_scale = 54
+        self.im_chat_number += 4
+        self.im_chat_number_gray_scale += 4
         if admin_lg_company_id[-1] != '0':
-            assert_equal(self.im_chat_number, r['content']['data']['remainConversationTimes'], '沟通点数计算19用例通过')
+            assert_equal(self.im_chat_number, r['content']['data']['remainConversationTimes'], f'沟通点数计算{self.im_chat_number}用例通过')
         else:
             assert_equal(self.im_chat_number_gray_scale, r['content']['data']['remainConversationTimes'],
-                         '处于灰度计划的沟通点数计算54用例通过')
+                         f'处于灰度计划的沟通点数计算{self.im_chat_number_gray_scale}用例通过')
 
     def test_login_home(self):
         # 线上home后台的用户账号和密码, 勿动
