@@ -173,7 +173,7 @@ class run_Pytest(Resource):
         current_app.logger.info(f'本次pytest的returncode执行结果: {ret.returncode}')
         current_app.logger.info(ret.stdout)
 
-        if ret.returncode != 0:
+        if ret.returncode < 0:
             return {'state': 4, 'data': f'{args["module"]}自动化测试未正常运行，请查看日志'}
 
         html_report_path = f"{project_path}/backend/templates/{args['module']}_report.html"
