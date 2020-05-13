@@ -34,6 +34,11 @@ def get_countryCode_phone_general_user():
     user_name = '拉勾测试自动化' + fake.name()
     return countryCode, phone, user_name
 
+@pytest.fixture(scope='session')
+def get_countryCode_phone_general_user_01():
+    countryCode, phone = "00852", str(20000000 + int(str(time.time()).split('.')[1]))
+    user_name = '拉勾测试自动化' + fake.name()
+    return countryCode, phone, user_name
 
 @pytest.fixture()
 def get_user_id():

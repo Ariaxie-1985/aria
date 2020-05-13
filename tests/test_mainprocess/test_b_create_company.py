@@ -6,6 +6,7 @@ import pytest
 from api_script.business.new_lagouPlus import open_product
 from api_script.entry.cuser.baseStatus import batchCancel
 from api_script.home import forbid
+from api_script.home.audit import query_risk_labels, add_risk_labels_by_company, queryRiskLabelsByCompany
 from api_script.home.data_import import import_linkManInfo, import_contacts
 from api_script.jianzhao_web.b_basic.company import jump_html
 from api_script.jianzhao_web.b_basic.toB_comleteInfo_3 import completeInfo, company_auth
@@ -14,7 +15,6 @@ from api_script.jianzhao_web.b_basic.toB_saveHR_1 import saveHR, saveCompany, \
 from api_script.jianzhao_web.b_basic.b_upload import upload_permit
 from api_script.jianzhao_web.b_position.B_postposition import createPosition_999, get_online_positions, \
     www_redirect_easy, offline_position
-from api_script.jianzhao_web.dashboard import getEasyPlusPrivilegeCount
 from api_script.jianzhao_web.im import im_session_list, greeting_list, multiChannel_default_invite, \
     session_batchCreate_cUserIds
 from api_script.jianzhao_web.index import hr_jump_easy_index_html
@@ -27,7 +27,7 @@ from api_script.zhaopin_app.shop import get_shop_goods_on_sale_goods, get_shop_g
     pay_shop_goodsOrder, check_shop_goodsOrder
 from utils.read_file import record_cancel_account, record_test_data
 from utils.util import assert_equal, pc_send_register_verifyCode, verify_code_message, user_register_lagou, \
-    login_password
+    login_password, assert_in, login_home
 
 
 @pytest.mark.incremental
@@ -147,28 +147,6 @@ class TestCreateCompany(object):
         r = im_session_list(createBy=0)
         assert_equal(self.im_chat_number, r['content']['data']['remainConversationTimes'],
                      f'沟通点数计算{self.im_chat_number}用例通过')
-
-    '''
-    def test_save_general_user_info(self, get_company_name):
-        personal_msg_save = saveHR(get_company_name, general_user_name, 'ariaxie@lagou.com', '技术总监')
-        assert_equal(1, personal_msg_save.get('state', 0), "校验技术总监信息是否保存成功")
-
-    def test_general_user_join_company(self):
-        join_company = add_saveCompany()
-        assert_equal(1, join_company.get('state', 0), "校验加入公司是否成功")
-
-    def test_general_user_jump_html(self):
-        save_result = jump_html()
-        assert_equal(1, save_result['state'], '校验是否跳过选择优质简历')
-
-    def test_general_user_upload_permit(self):
-        upload_p = upload_permit()
-        assert_equal(1, upload_p['state'], "校验提交身份信息是否成功")
-
-    def test_general_personal_certificate(self):
-        personal_certificate_submit = submit_new()
-        assert_equal(1, personal_certificate_submit['state'], "校验提交招聘者身份审核是否成功")
-    '''
 
     @pytest.mark.parametrize('newPassword', [('990eb670f81e82f546cfaaae1587279a')])
     def test_update_general_user_password(self, newPassword):
@@ -347,22 +325,102 @@ class TestCreateCompany(object):
         offline_result = offline_position(positionId=paid_positionId)
         assert_equal(1, offline_result.get('state', 0), '校验下线付费职位是否成功！')
 
+    def test_jump_home(self):
+        time.sleep(1)
+        login_home('betty@lagou.com', '00f453dfec0f2806db5cfabe3ea94a35')
+
+    def test_query_risk_labels(self):
+        r = query_risk_labels()
+        assert_equal(True, r['success'], '查询风险标签用例通过')
+        global risk_label_id
+        for risk_labels in r['data']:
+            if risk_labels['type'] == 'A':
+                risk_label_id = risk_labels['id']
+                break
+
+    def test_add_risk_labels_by_company(self):
+        r = add_risk_labels_by_company(companyId=www_company_id, labelIds=risk_label_id)
+        assert_equal(True, r['success'], '添加风险标签用例通过')
+
+    def test_queryRiskLabelsByCompany(self):
+        r = queryRiskLabelsByCompany(companyId=www_company_id)
+        risk_label = ['外包公司', '保险公司', '招聘公司']
+        for label in r['data']:
+            assert_in(label, risk_label, '公司获取风险标签用例通过')
+
+    def test_send_general_user_register_verify_code_1(self, get_countryCode_phone_general_user_01):
+        global general_countryCode, general_phone1, general_user_name1, general_user_register_state1
+        general_countryCode, general_phone1, general_user_name1 = get_countryCode_phone_general_user_01
+        general_user_register_state1 = pc_send_register_verifyCode(general_countryCode, general_phone1)
+        assert_equal(1, general_user_register_state, '获取验证码成功', f'失败手机号:{general_countryCode + general_phone1}')
+
+    def test_get_verify_general_user_code_1(self):
+        global general_user_verify_code
+        general_user_verify_code = verify_code_message(general_countryCode, general_phone1)
+        assert_equal(True, bool(general_user_verify_code), '获取验证码成功')
+
+    def test_register_general_user_1(self):
+        global general_user_register_state
+        register = user_register_lagou(general_countryCode, general_phone1, general_user_verify_code)
+        general_user_register_state = register.get('state', 0)
+        assert_equal(1, general_user_register_state, '校验普通用户注册是否成功！',
+                     '失败手机号:{}'.format(general_countryCode + general_phone1))
+
+    def test_hr_jump_easy_index_html_1(self):
+        time.sleep(1)
+        hr_jump_easy_index_html()
+
+    def test_save_general_user_1_info(self, get_company_name):
+        personal_msg_save = saveHR(get_company_name, general_user_name1, 'ariaxie@lagou.com', '技术总监')
+        assert_equal(1, personal_msg_save.get('state', 0), "校验技术总监信息是否保存成功")
+
+    def test_general_user_1_join_company(self):
+        join_company = add_saveCompany()
+        assert_equal(1, join_company.get('state', 0), "校验加入公司是否成功")
+
+    def test_general_user_1_jump_html(self):
+        save_result = jump_html()
+        assert_equal(1, save_result['state'], '校验是否跳过选择优质简历')
+
+    def test_general_user_1_upload_permit(self):
+        upload_p = upload_permit()
+        assert_equal(1, upload_p['state'], "校验提交身份信息是否成功")
+
+    def test_general_1_personal_certificate(self):
+        personal_certificate_submit = submit_new()
+        assert_equal(1, personal_certificate_submit['state'], "校验提交招聘者身份审核是否成功")
+
+    def test_get_general_user_1_rights_info_list(self):
+        r = get_rights_info_list()
+        print(r)
+        assert_equal(False, bool(r.get('content', True)), '验证免费账号的普通权益通过')
+
+    def test_general_user_1_im_session_list_check_15(self):
+        r = im_session_list(createBy=0)
+        assert_equal(self.im_chat_number, r['content']['data']['remainConversationTimes'],
+                     f'沟通点数计算{self.im_chat_number}用例通过')
+
+    def test_remove_general_user1(self, get_user_info, get_password):
+        global general_userId1, easy_company_id, www_company_id
+        general_userId1, easy_company_id, www_company_id = get_user_info
+        remove_result = remove_member(general_userId1)
+        if not remove_result:
+            close_trial_package(www_company_id)
+            login_password(general_countryCode + general_phone1, get_password)
+            remove_result = remove_member(general_userId1)
+        assert_equal(True, remove_result, '校验移除普通用户1成功！')
+
+    def test_record_general_user1(self):
+        record_test_data(2, userId=general_userId1, UserCompanyId=easy_company_id, lg_CompanyId=www_company_id)
+
+    def test_batchCancel_general_user1(self):
+        r = batchCancel(userIds=general_userId1)
+        assert_equal(1, r['state'], "普通用户1注销账号成功")
+
     def test_login_general_user(self, get_password):
         time.sleep(1)
         login_result = login_password(general_countryCode + general_phone, get_password)
         assert_equal(1, login_result['state'], '校验普通用户登录是否成功')
-
-    '''
-    def test_remove_general_user(self, get_user_info, get_password):
-        global general_userId, easy_company_id, www_company_id
-        general_userId, easy_company_id, www_company_id = get_user_info
-        remove_result = remove_member(general_userId)
-        if not remove_result:
-            close_trial_package(www_company_id)
-            login_password(general_countryCode + general_phone, get_password)
-            remove_result = remove_member(general_userId)
-        assert_equal(True, remove_result, '校验移除普通用户成功！')
-    '''
 
     def test_record_general_user(self, www_get_userId):
         global general_userId
@@ -399,6 +457,11 @@ class TestCreateCompany(object):
         r = login_password('betty@lagou.com', '00f453dfec0f2806db5cfabe3ea94a35')
         assert_equal(1, r['state'], '校验登录home成功！')
 
+    def test_forbid_general_user1(self):
+        time.sleep(1)
+        forbid_result = forbid.forbid_user(general_userId1)
+        assert_equal(True, forbid_result, '校验普通用户是否封禁成功1')
+
     def test_forbid_general_user(self):
         time.sleep(1)
         forbid_result = forbid.forbid_user(general_userId)
@@ -423,3 +486,7 @@ def test_record_cancel_account():
 def test_general_user_register_state():
     if general_user_register_state != 1:
         record_cancel_account(general_countryCode + general_phone)
+
+def test_general_user_register_state1():
+    if general_user_register_state1 != 1:
+        record_cancel_account(general_countryCode + general_phone1)
