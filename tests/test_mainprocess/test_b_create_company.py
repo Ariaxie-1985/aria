@@ -17,7 +17,7 @@ from api_script.jianzhao_web.b_position.B_postposition import createPosition_999
     www_redirect_easy, offline_position
 from api_script.jianzhao_web.im import im_session_list, greeting_list, multiChannel_default_invite, \
     session_batchCreate_cUserIds
-from api_script.jianzhao_web.index import hr_jump_easy_index_html
+from api_script.jianzhao_web.index import hr_jump_easy_index_html, jump_easy_index_html
 from api_script.jianzhao_web.invitation import group_invite_code, join_with_user, invitation_join_company
 from api_script.jianzhao_web.task_center import get_newer_task, receive_newer_task_reward, \
     receive_gouyin_weekly_task_points
@@ -389,6 +389,9 @@ class TestCreateCompany(object):
     def test_general_1_personal_certificate(self):
         personal_certificate_submit = submit_new()
         assert_equal(1, personal_certificate_submit['state'], "校验提交招聘者身份审核是否成功")
+
+    def test_jump_easy_index_html(self):
+        jump_easy_index_html()
 
     def test_get_general_user_1_rights_info_list(self):
         r = get_rights_info_list()
