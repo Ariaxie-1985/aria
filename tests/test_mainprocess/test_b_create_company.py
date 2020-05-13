@@ -395,8 +395,9 @@ class TestCreateCompany(object):
 
     def test_get_general_user_1_rights_info_list(self):
         r = get_rights_info_list()
-        print(r)
-        assert_equal(False, bool(r.get('content', True)), '验证免费账号的普通权益通过')
+        for base_good in r['content']['baseDetailResList']:
+            if base_good['baseGoodsId'] == 623:
+                assert_equal(0, int(base_good['totalNum']), '验证免费账号的普通职位数为0用例通过')
 
     def test_general_user_1_im_session_list_check_15(self):
         r = im_session_list(createBy=0)
@@ -489,6 +490,7 @@ def test_record_cancel_account():
 def test_general_user_register_state():
     if general_user_register_state != 1:
         record_cancel_account(general_countryCode + general_phone)
+
 
 def test_general_user_register_state1():
     if general_user_register_state1 != 1:
