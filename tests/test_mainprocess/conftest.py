@@ -6,6 +6,7 @@ import time
 import pytest
 
 from api_script.entry.account.passport import password_login
+from api_script.jianzhao_web.index import dashboard_index_get_user_id
 from backend.common.get_data import get_www_company_id
 from utils.util import login
 from faker import Faker
@@ -44,6 +45,12 @@ def get_user_id():
 def get_user_info():
     userId, UserCompanyId, lg_CompanyId = get_b_index_Id()
     return userId, UserCompanyId, lg_CompanyId
+
+
+@pytest.fixture()
+def www_get_userId():
+    userId = dashboard_index_get_user_id()
+    return userId
 
 
 @pytest.fixture(scope='session')
@@ -85,6 +92,7 @@ def c_login_app(request):
     result = password_login(request.param[0], request.param[1])
     return result['content']['userToken'], result['content']['userInfo']['userId']
 
+
 @pytest.fixture(scope='session')
 def c_userId_0085220180917():
     # 用户账号: 0085220180917 的 userId
@@ -112,9 +120,7 @@ def pytest_runtest_setup(item):
             pytest.xfail("previous test failed (%s)" % previousfailed.name)
 
 
-
 def pytest_configure(config):
     config.addinivalue_line(
         "markers", "incremental: mark test to run only on named main_process"
     )
-

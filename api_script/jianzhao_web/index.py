@@ -2,6 +2,8 @@
 # @Time  : 2020/3/18 12:13
 # @Author: Xiawang
 # Description:
+from bs4 import BeautifulSoup
+
 from utils.util import get_header, get_requests, form_post, get_code_token
 
 
@@ -156,3 +158,16 @@ def is_show_position_notice(ip_port=None):
     header = get_header(url='https://easy.lagou.com/settings/new/channel/my_channels.htm?', ip_port=ip_port)
     remark = '是否显示职位通知'
     return form_post(url=url, headers=header, remark=remark, ip_port=ip_port)
+
+
+def dashboard_index_get_user_id():
+    url = 'https://easy.lagou.com/dashboard/index.htm?from=c_index'
+    r = get_requests(url=url).text
+    soup = BeautifulSoup(r, "html.parser")
+    try:
+        userId = soup.find(id="UserId")['value']
+    except TypeError:
+        r = get_requests(url=url, remark='获取easy主页的用户id').text
+        soup = BeautifulSoup(r, "html.parser")
+        userId = soup.find(id="UserId")['value']
+    return userId

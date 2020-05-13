@@ -77,14 +77,14 @@ class TestCreateCompany(object):
         time.sleep(1)
 
     def test_get_admin_user_info(self, get_user_info):
-        global admin_user_id, admin_lg_company_id
-        admin_user_id, admin_company_id, admin_lg_company_id = get_user_info
+        global admin_user_id, www_company_id, easy_company_id
+        admin_user_id, easy_company_id, www_company_id = get_user_info
         assert_equal(True, bool(admin_user_id), '获取用户ID是否成功')
 
     def test_get_admin_rights_info_list(self):
         r = get_rights_info_list()
         for base_detail in r['content']['baseDetailResList']:
-            if admin_lg_company_id[-1] != '0':
+            if www_company_id[-1] != '0':
                 if base_detail['baseGoodsId'] == 623:
                     assert_equal(1, base_detail['totalNum'], '验证普通职位总数1个通过')
                 if base_detail['baseGoodsId'] == 201:
@@ -270,7 +270,7 @@ class TestCreateCompany(object):
         r = im_session_list(createBy=0)
         self.im_chat_number += 5
         self.im_chat_number_gray_scale += 5
-        if admin_lg_company_id[-1] != '0':
+        if www_company_id[-1] != '0':
             assert_equal(self.im_chat_number, r['content']['data']['remainConversationTimes'],
                          f'沟通点数计算{self.im_chat_number}用例通过')
         else:
@@ -291,7 +291,7 @@ class TestCreateCompany(object):
         r = im_session_list(createBy=0)
         self.im_chat_number += 4
         self.im_chat_number_gray_scale += 4
-        if admin_lg_company_id[-1] != '0':
+        if www_company_id[-1] != '0':
             assert_equal(self.im_chat_number, r['content']['data']['remainConversationTimes'],
                          f'沟通点数计算{self.im_chat_number}用例通过')
         else:
@@ -305,18 +305,18 @@ class TestCreateCompany(object):
 
     def test_buy_paid_package(self):
         contractNo = f'lagou-autotest-{int(time.time())}-{random.randint(1, 99)}'
-        r1 = import_linkManInfo(admin_lg_company_id, contractNo)
+        r1 = import_linkManInfo(www_company_id, contractNo)
         if not r1.get('success', False):
             login_password('betty@lagou.com', '00f453dfec0f2806db5cfabe3ea94a35')
-            r1 = import_linkManInfo(admin_lg_company_id, contractNo)
+            r1 = import_linkManInfo(www_company_id, contractNo)
             assert_equal(True, r1.get('success', False), "导入公司联系人信息成功！")
-        r2 = import_contacts(admin_lg_company_id, contractNo)
+        r2 = import_contacts(www_company_id, contractNo)
         assert_equal(True, r2.get('success', False), "导入合同信息成功！")
-        r3 = open_product(templateId=79, companyId=admin_lg_company_id, contractNo=contractNo, userId=admin_user_id,
+        r3 = open_product(templateId=79, companyId=www_company_id, contractNo=contractNo, userId=admin_user_id,
                           startTimeStr=str(datetime.date.today()),
                           endTimeStr=str(datetime.date.today() + datetime.timedelta(days=366)))
         assert_equal(True, r3['success'], "开通付费套餐成功！",
-                     "公司主站id:{},用户id:{},合同编号:{}".format(admin_lg_company_id, admin_user_id, contractNo))
+                     "公司主站id:{},用户id:{},合同编号:{}".format(www_company_id, admin_user_id, contractNo))
 
     def test_login_admin_user_02(self, get_password):
         login_result = login_password(admin_countryCode + admin_phone, get_password)
@@ -352,23 +352,22 @@ class TestCreateCompany(object):
         login_result = login_password(general_countryCode + general_phone, get_password)
         assert_equal(1, login_result['state'], '校验普通用户登录是否成功')
 
-
     '''
     def test_remove_general_user(self, get_user_info, get_password):
-        global general_userId, UserCompanyId, lg_CompanyId
-        general_userId, UserCompanyId, lg_CompanyId = get_user_info
+        global general_userId, easy_company_id, www_company_id
+        general_userId, easy_company_id, www_company_id = get_user_info
         remove_result = remove_member(general_userId)
         if not remove_result:
-            close_trial_package(lg_CompanyId)
+            close_trial_package(www_company_id)
             login_password(general_countryCode + general_phone, get_password)
             remove_result = remove_member(general_userId)
         assert_equal(True, remove_result, '校验移除普通用户成功！')
     '''
 
-    def test_record_general_user(self,get_user_info):
-        global general_userId, UserCompanyId, lg_CompanyId
-        general_userId, UserCompanyId, lg_CompanyId = get_user_info
-        record_test_data(2, userId=general_userId, UserCompanyId=UserCompanyId, lg_CompanyId=lg_CompanyId)
+    def test_record_general_user(self, www_get_userId):
+        global general_userId
+        general_userId = www_get_userId
+        record_test_data(2, userId=general_userId, easy_company_id=easy_company_id, lg_CompanyId=www_company_id)
 
     def test_batchCancel_general_user(self):
         r = batchCancel(userIds=general_userId)
@@ -380,16 +379,16 @@ class TestCreateCompany(object):
 
     def test_remove_admin_user(self, get_user_info, get_password):
         global admin_userId
-        admin_userId, UserCompanyId, lg_CompanyId = get_user_info[0], get_user_info[1], get_user_info[2]
+        admin_userId, easy_company_id, www_company_id = get_user_info
         remove_result = remove_member(admin_userId)
         if not remove_result:
-            close_trial_package(lg_CompanyId)
+            close_trial_package(www_company_id)
             login_password(admin_countryCode + admin_phone, get_password)
             remove_result = remove_member(admin_userId)
         assert_equal(True, remove_result, '校验移除管理员用户成功！')
 
     def test_record_admin_user(self):
-        record_test_data(2, userId=admin_userId, UserCompanyId=UserCompanyId, lg_CompanyId=lg_CompanyId)
+        record_test_data(2, userId=admin_userId, UserCompanyId=easy_company_id, lg_CompanyId=www_company_id)
 
     def test_batchCancel_admin_user(self):
         r = batchCancel(userIds=admin_userId)
@@ -412,7 +411,7 @@ class TestCreateCompany(object):
 
     def test_forbid_company(self):
         time.sleep(1)
-        forbid_result = forbid.forbid_company(lg_CompanyId)
+        forbid_result = forbid.forbid_company(www_company_id)
         assert_equal(True, forbid_result, '校验公司是否封禁成功')
 
 
