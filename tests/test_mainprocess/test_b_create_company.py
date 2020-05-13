@@ -367,7 +367,7 @@ class TestCreateCompany(object):
     def test_record_general_user(self, www_get_userId):
         global general_userId
         general_userId = www_get_userId
-        record_test_data(2, userId=general_userId, easy_company_id=easy_company_id, lg_CompanyId=www_company_id)
+        record_test_data(2, userId=general_userId, UserCompanyId=easy_company_id, lg_CompanyId=www_company_id)
 
     def test_batchCancel_general_user(self):
         r = batchCancel(userIds=general_userId)
