@@ -765,6 +765,7 @@ def pc_send_login_verifyCode(countryCode, phone):
 
 
 def user_register_lagou(countryCode, phone, verify_code):
+    session.cookies.clear()
     b_register_url = 'https://passport.lagou.com/register/register.html?from=b'
     register_url = "https://passport.lagou.com/register/register.json"
     register_data = {"isValidate": "true", "phone": phone, "phoneVerificationCode": verify_code, "challenge": 111,

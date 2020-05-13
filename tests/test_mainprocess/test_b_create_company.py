@@ -14,8 +14,11 @@ from api_script.jianzhao_web.b_basic.toB_saveHR_1 import saveHR, saveCompany, \
 from api_script.jianzhao_web.b_basic.b_upload import upload_permit
 from api_script.jianzhao_web.b_position.B_postposition import createPosition_999, get_online_positions, \
     www_redirect_easy, offline_position
+from api_script.jianzhao_web.dashboard import getEasyPlusPrivilegeCount
 from api_script.jianzhao_web.im import im_session_list, greeting_list, multiChannel_default_invite, \
     session_batchCreate_cUserIds
+from api_script.jianzhao_web.index import hr_jump_easy_index_html
+from api_script.jianzhao_web.invitation import group_invite_code, join_with_user, invitation_join_company
 from api_script.jianzhao_web.task_center import get_newer_task, receive_newer_task_reward, \
     receive_gouyin_weekly_task_points
 from api_script.neirong_app.account import upate_user_password
@@ -50,7 +53,7 @@ class TestCreateCompany(object):
         register_state = register.get('state', 0)
         assert_equal(1, register_state, '校验管理员注册是否成功！', '失败手机号:{}'.format(admin_countryCode + admin_phone))
 
-    def test_save_hr_info(self, get_company_name):
+    def test_save_admin_user_info(self, get_company_name):
         personal_msg_save = saveHR(get_company_name, admin_user_name, 'ariaxie@lagou.com')
         assert_equal(1, personal_msg_save.get('state', 0), "校验HR信息是否保存成功")
 
@@ -78,7 +81,7 @@ class TestCreateCompany(object):
         admin_user_id, admin_company_id, admin_lg_company_id = get_user_info
         assert_equal(True, bool(admin_user_id), '获取用户ID是否成功')
 
-    def test_get_rights_info_list(self):
+    def test_get_admin_rights_info_list(self):
         r = get_rights_info_list()
         for base_detail in r['content']['baseDetailResList']:
             if admin_lg_company_id[-1] != '0':
@@ -92,6 +95,13 @@ class TestCreateCompany(object):
                 if base_detail['baseGoodsId'] == 201:
                     assert_equal(self.im_chat_number_gray_scale, base_detail['totalNum'], '验证沟通点数总数50个通过')
         assert_equal(True, bool(r['content']['baseDetailResList']), '验证免费账号的普通权益通过')
+
+    def test_group_invite_code(self):
+        r = group_invite_code()
+        global user, invite_code
+        for k, v in r['content']['data'].items():
+            user = k
+            invite_code = v
 
     @pytest.mark.parametrize('newPassword', [('990eb670f81e82f546cfaaae1587279a')])
     def test_update_admin_user(self, newPassword):
@@ -116,6 +126,33 @@ class TestCreateCompany(object):
         assert_equal(1, general_user_register_state, '校验普通用户注册是否成功！',
                      '失败手机号:{}'.format(general_countryCode + general_phone))
 
+    def test_hr_jump_easy_index_html(self):
+        time.sleep(1)
+        hr_jump_easy_index_html()
+
+    def test_invitation_join_company(self):
+        global userIdPasscode
+        userIdPasscode = invitation_join_company(user=user, invite_code=invite_code)
+        assert_equal(True, bool(userIdPasscode), '加入公司页面页面加载成功用例通过')
+
+    def test_join_with_user(self):
+        r = join_with_user(userIdPasscode=userIdPasscode, invite_code=invite_code)
+        assert_equal(True, bool(r), '确定加入公司用例通过')
+
+    def test_getEasyPlusPrivilegeCount(self):
+        r = getEasyPlusPrivilegeCount()
+        managerId = r['content']['data']['managerId']
+        assert_equal(managerId, admin_user_id, f'用户{general_phone}加入公司成功')
+
+    def test_get_general_user_rights_info_list(self):
+        r = get_rights_info_list()
+        assert_equal(False, bool(r.get('content', True)), '验证免费账号的普通权益通过')
+
+    def test_general_user_im_session_list_check_15(self):
+        r = im_session_list(createBy=0)
+        assert_equal(self.im_chat_number, r['content']['data']['remainConversationTimes'], f'沟通点数计算{self.im_chat_number}用例通过')
+
+    '''
     def test_save_general_user_info(self, get_company_name):
         personal_msg_save = saveHR(get_company_name, general_user_name, 'ariaxie@lagou.com', '技术总监')
         assert_equal(1, personal_msg_save.get('state', 0), "校验技术总监信息是否保存成功")
@@ -135,6 +172,7 @@ class TestCreateCompany(object):
     def test_general_personal_certificate(self):
         personal_certificate_submit = submit_new()
         assert_equal(1, personal_certificate_submit['state'], "校验提交招聘者身份审核是否成功")
+    '''
 
     @pytest.mark.parametrize('newPassword', [('990eb670f81e82f546cfaaae1587279a')])
     def test_update_general_user_password(self, newPassword):
@@ -258,7 +296,8 @@ class TestCreateCompany(object):
         self.im_chat_number += 4
         self.im_chat_number_gray_scale += 4
         if admin_lg_company_id[-1] != '0':
-            assert_equal(self.im_chat_number, r['content']['data']['remainConversationTimes'], f'沟通点数计算{self.im_chat_number}用例通过')
+            assert_equal(self.im_chat_number, r['content']['data']['remainConversationTimes'],
+                         f'沟通点数计算{self.im_chat_number}用例通过')
         else:
             assert_equal(self.im_chat_number_gray_scale, r['content']['data']['remainConversationTimes'],
                          f'处于灰度计划的沟通点数计算{self.im_chat_number_gray_scale}用例通过')

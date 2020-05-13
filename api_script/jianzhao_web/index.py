@@ -11,6 +11,11 @@ def jump_easy_index_html(ip_port=None):
     remark = '从拉勾主站进入企业版'
     return get_requests(url=url, headers=header, remark=remark, ip_port=ip_port)
 
+def hr_jump_easy_index_html(ip_port=None):
+    url = "https://easy.lagou.com/dashboard/index.htm"
+    header = get_header(url='https://hr.lagou.com/corpCenter/openservice/step1.html', ip_port=ip_port)
+    remark = '从 hr.lagou.com 进入企业版'
+    return get_requests(url=url, headers=header, remark=remark, ip_port=ip_port)
 
 def search_plusSearchSelector(ip_port=None):
     url = 'https://easy.lagou.com/search/plusSearchSelector.json?from=talentsearch'
