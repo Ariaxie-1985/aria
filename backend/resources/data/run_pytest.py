@@ -170,6 +170,7 @@ class run_Pytest(Resource):
 
         cmd_str = self.get_run_pytest_cmd(args['module'], project_path, args['ip_port'])
         ret = subprocess.run(cmd_str, shell=True, timeout=300, stdout=subprocess.PIPE, encoding='utf-8')
+        current_app.logger.info(f'本次pytest的returncode执行结果: {ret.returncode}')
         current_app.logger.info(ret.stdout)
 
         if ret.returncode != 0:
@@ -181,7 +182,7 @@ class run_Pytest(Resource):
         if bool(result['info']['result']['fail_result']):
             state = 0
         info = {"result": result}
-        current_app.logger.info(f'本次pytest执行结果: {state}')
+
         return {'state': state, "data": info}
 
     def assert_is_test_run(self, pytest_result):
