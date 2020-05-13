@@ -45,6 +45,7 @@ def test_group_invite_code():
 def test_send_general_user_register_verify_code(get_countryCode_phone_general_user):
     global general_countryCode, general_phone, general_user_name, general_user_register_state
     general_countryCode, general_phone, general_user_name = get_countryCode_phone_general_user
+    print(general_phone)
     general_user_register_state = pc_send_register_verifyCode(general_countryCode, general_phone)
     assert_equal(1, general_user_register_state, '获取验证码成功', f'失败手机号:{general_countryCode + general_phone}')
 

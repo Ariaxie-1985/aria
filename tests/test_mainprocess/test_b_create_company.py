@@ -139,18 +139,14 @@ class TestCreateCompany(object):
         r = join_with_user(userIdPasscode=userIdPasscode, invite_code=invite_code)
         assert_equal(True, bool(r), '确定加入公司用例通过')
 
-    def test_getEasyPlusPrivilegeCount(self):
-        r = getEasyPlusPrivilegeCount()
-        managerId = r['content']['data']['managerId']
-        assert_equal(managerId, admin_user_id, f'用户{general_phone}加入公司成功')
-
     def test_get_general_user_rights_info_list(self):
         r = get_rights_info_list()
         assert_equal(False, bool(r.get('content', True)), '验证免费账号的普通权益通过')
 
     def test_general_user_im_session_list_check_15(self):
         r = im_session_list(createBy=0)
-        assert_equal(self.im_chat_number, r['content']['data']['remainConversationTimes'], f'沟通点数计算{self.im_chat_number}用例通过')
+        assert_equal(self.im_chat_number, r['content']['data']['remainConversationTimes'],
+                     f'沟通点数计算{self.im_chat_number}用例通过')
 
     '''
     def test_save_general_user_info(self, get_company_name):
@@ -352,9 +348,12 @@ class TestCreateCompany(object):
         assert_equal(1, offline_result.get('state', 0), '校验下线付费职位是否成功！')
 
     def test_login_general_user(self, get_password):
+        time.sleep(1)
         login_result = login_password(general_countryCode + general_phone, get_password)
         assert_equal(1, login_result['state'], '校验普通用户登录是否成功')
 
+
+    '''
     def test_remove_general_user(self, get_user_info, get_password):
         global general_userId, UserCompanyId, lg_CompanyId
         general_userId, UserCompanyId, lg_CompanyId = get_user_info
@@ -364,8 +363,11 @@ class TestCreateCompany(object):
             login_password(general_countryCode + general_phone, get_password)
             remove_result = remove_member(general_userId)
         assert_equal(True, remove_result, '校验移除普通用户成功！')
+    '''
 
-    def test_record_general_user(self):
+    def test_record_general_user(self,get_user_info):
+        global general_userId, UserCompanyId, lg_CompanyId
+        general_userId, UserCompanyId, lg_CompanyId = get_user_info
         record_test_data(2, userId=general_userId, UserCompanyId=UserCompanyId, lg_CompanyId=lg_CompanyId)
 
     def test_batchCancel_general_user(self):
