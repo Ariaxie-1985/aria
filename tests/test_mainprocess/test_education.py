@@ -21,7 +21,7 @@ class TestEducation01(object):
         # for card in r['content']['pageCardList']:
         #     assert_equal(expect_card_type, card['cardType'], "拉勾教育-获取首页卡片信息列表用例通过")
         #     assert_equal(expect_title, card['title'], "拉勾教育-获取首页卡片信息列表用例通过")
-        assert_equal(1, r['state'], "拉勾教育-获取首页卡片信息列表用例通过")
+        assert_equal(1, r.get('state'), "拉勾教育-获取首页卡片信息列表用例通过")
         global first_small_course_id, first_small_course_brief, first_small_course_title
         first_small_course_id = r['content']['pageCardList'][2]['smallCourseList'][0]['id']
         first_small_course_brief = r['content']['pageCardList'][2]['smallCourseList'][0]['brief']
@@ -29,7 +29,7 @@ class TestEducation01(object):
 
     def test_check_course_share_status(self, c_login_education):
         r = check_course_share_status(userToken=c_login_education[0], courseId=first_small_course_id)
-        assert_equal(1, r['state'], "选课查询课程详情用例通过")
+        assert_equal(1, r.get('state'), "选课查询课程详情用例通过")
 
     def test_get_course_lessons(self, c_login_education):
         r = get_course_lessons(userToken=c_login_education[0], courseId=first_small_course_id)
@@ -47,27 +47,27 @@ class TestEducation01(object):
 
     def test_get_course_commentList(self, c_login_education):
         r = get_course_commentList(userToken=c_login_education[0], courseId=first_small_course_id)
-        assert_equal(1, r['state'], "获取课程的评论用例通过")
+        assert_equal(1, r.get('state'), "获取课程的评论用例通过")
 
 
 @pytest.mark.incremental
 class TestEducation02(object):
     def test_get_all_course_purchased_record(self, c_login_education):
         r = get_all_course_purchased_record(userToken=c_login_education[0])
-        assert_equal(1, r['state'], "获取所有已购课程的列表(大课和专栏课程)用例通过")
+        assert_equal(1, r.get('state'), "获取所有已购课程的列表(大课和专栏课程)用例通过")
         global big_course_record_id, small_course_record_id
         big_course_record_id = r['content']['allCoursePurchasedRecord'][0]['bigCourseRecordList'][0]['id']
         small_course_record_id = r['content']['allCoursePurchasedRecord'][1]['courseRecordList'][0]['id']
 
     def test_get_course_info(self, c_login_education):
         r = get_course_info(userToken=c_login_education[0], courseId=big_course_record_id)
-        assert_equal(1, r['state'], "获取大课的课程基本信息用例通过")
+        assert_equal(1, r.get('state'), "获取大课的课程基本信息用例通过")
         global lastWatchWeekId
         lastWatchWeekId = r['content']['lastWatchWeekId']
 
     def test_get_course_outline(self, c_login_education):
         r = get_course_outline(userToken=c_login_education[0], courseId=big_course_record_id)
-        assert_equal(1, r['state'], "获取大课的课程大纲用例通过")
+        assert_equal(1, r.get('state'), "获取大课的课程大纲用例通过")
 
     def test_get_week_lessons(self, c_login_education):
         r = get_week_lessons(userToken=c_login_education[0], courseId=big_course_record_id, weekId=lastWatchWeekId)
@@ -75,4 +75,4 @@ class TestEducation02(object):
 
     def test_get_watch_percent(self, c_login_education):
         r = get_watch_percent(userToken=c_login_education[0], courseId=big_course_record_id, weekId=lastWatchWeekId)
-        assert_equal(1, r['state'], "获取大课一周录播视频观看进度")
+        assert_equal(1, r.get('state'), "获取大课一周录播视频观看进度")

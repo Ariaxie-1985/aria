@@ -88,33 +88,33 @@ class TestJd(object):
 
     def test_get_jd(self, c_login_app):
         r = get_jd(userToken=c_login_app[0], positionId=positionId)
-        assert_equal(1, r['state'], "校验获取职位jd信息成功！")
+        assert_equal(1, r.get('state'), "校验获取职位jd信息成功！")
 
     def test_get_hr_info(self, c_login_app, b_login_app):
         r = get_hr_info(userToken=c_login_app[0], publisherId=b_login_app[1])
-        assert_equal(1, r['state'], "校验与职位的HR立即沟通成功！")
+        assert_equal(1, r.get('state'), "校验与职位的HR立即沟通成功！")
 
     def test_deliver_check(self, c_login_app):
         r = deliver_check(positionId=positionId, H9=True, userToken=c_login_app[0])
-        assert_equal(1, r['state'], "校验投递简历的校验成功")
+        assert_equal(1, r.get('state'), "校验投递简历的校验成功")
 
     def test_get_resume_info(self, c_login_app):
         r = get_resume_info(userToken=c_login_app[0])
         global resumeId, resumeType
         resumeId = r['content'][0]['resumeId']
         resumeType = r['content'][0]['resumeType']
-        assert_equal(1, r['state'], "校验获取简历信息成功")
+        assert_equal(1, r.get('state'), "校验获取简历信息成功")
 
     def test_deliver_create(self, c_login_app):
         r = deliver_create(positionId=positionId, resumeId=resumeId, resumeType=resumeType, H9=True, isTalk=False,
                            userToken=c_login_app[0])
-        assert_equal(1, r['state'], "校验投递简历成功！")
+        assert_equal(1, r.get('state'), "校验投递简历成功！")
         global orderId
         orderId = r['content']['orderId']
 
     def test_recommend_isExistPositionList(self, c_login_app):
         r = recommend_isExistPositionList(userToken=c_login_app[0], positionId=positionId)
-        assert_equal(1, r['state'], '投递后推荐的职位 （投了又投），是否有数据用例通过')
+        assert_equal(1, r.get('state'), '投递后推荐的职位 （投了又投），是否有数据用例通过')
 
     def test_recommend_positionList(self, c_login_app):
         r = recommend_positionList(userToken=c_login_app[0], orderId=orderId, positionId=positionId)
@@ -133,16 +133,16 @@ class TestJd(object):
 
     def test_quickReply_all(self, b_login_app):
         r = quickReply_all(userToken=b_login_app[0])
-        assert_equal(1, r['state'], "获取IM的快捷回复用例通过")
+        assert_equal(1, r.get('state'), "获取IM的快捷回复用例通过")
 
     def test_chat_c_lastResume(self, b_login_app, c_login_app):
         r = chat_c_lastResume(userToken=b_login_app[0], cUserId=c_login_app[1])
         # assert_equal(4, actualvalue=r['content']['resumeStageCode'], success_message="获取候选人最近一次投递状态用例通过")
-        assert_equal(1, r['state'], '查询面试安排记录-新简历用例通过')
+        assert_equal(1, r.get('state'), '查询面试安排记录-新简历用例通过')
 
     def test_chat_c_info(self, b_login_app, c_login_app):
         r = chat_c_info(userToken=b_login_app[0], cUserId=c_login_app[1])
-        assert_equal(1, r['state'], "获取候选人的详情信息用例通过")
+        assert_equal(1, r.get('state'), "获取候选人的详情信息用例通过")
 
     def test_chat_c_position(self, b_login_app, c_login_app):
         r = chat_position(userToken=b_login_app[0], cUserId=c_login_app[1], positionId=positionId)
@@ -160,7 +160,7 @@ class TestJd(object):
 def test_chat_c_lastResume_1(b_login_app, c_login_app):
     r = chat_c_lastResume(userToken=b_login_app[0], cUserId=c_login_app[1])
     # assert_equal(4, r['content']['resumeStageCode'], "查询面试安排记录-新简历用例通过")
-    assert_equal(1, r['state'], '查询面试安排记录-新简历用例通过')
+    assert_equal(1, r.get('state'), '查询面试安排记录-新简历用例通过')
 
 
 def test_orderResumes_resume_interview(b_login_app):
@@ -172,19 +172,19 @@ def test_orderResumes_resume_interview(b_login_app):
 def test_chat_c_lastResume_4(b_login_app, c_login_app):
     r = chat_c_lastResume(userToken=b_login_app[0], cUserId=c_login_app[1])
     # assert_equal(4, r['content']['resumeStageCode'], "查询面试安排记录-面试用例通过")
-    assert_equal(1, r['state'], '查询面试安排记录-新简历用例通过')
+    assert_equal(1, r.get('state'), '查询面试安排记录-新简历用例通过')
 
 
 @pytest.mark.skipif('interview_state == 9', reason="候选人已淘汰,无需执行")
 def test_orderResumes_resume_obsolete(b_login_app):
     r = orderResumes_resume_obsolete(userToken=b_login_app[0], resumeId=long_resumeId)
-    assert_equal(1, r['state'], '候选人状态调整为不合适用例通过')
+    assert_equal(1, r.get('state'), '候选人状态调整为不合适用例通过')
 
 
 def test_chat_c_lastResume_64(b_login_app, c_login_app):
     r = chat_c_lastResume(userToken=b_login_app[0], cUserId=c_login_app[1])
     # assert_equal(4, r['content']['resumeStageCode'], "查询面试安排记录-淘汰用例通过")
-    assert_equal(1, r['state'], '查询面试安排记录-新简历用例通过')
+    assert_equal(1, r.get('state'), '查询面试安排记录-新简历用例通过')
 
 
 def test_orderResumes_detail(b_login_app):
@@ -195,4 +195,4 @@ def test_orderResumes_detail(b_login_app):
 
 def test_orderResumes_read(b_login_app):
     r = orderResumes_read(userToken=b_login_app[0], resumeId=long_resumeId)
-    assert_equal(1, r['state'], '设置简历已读用例通过')
+    assert_equal(1, r.get('state'), '设置简历已读用例通过')

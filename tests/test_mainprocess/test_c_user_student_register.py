@@ -27,7 +27,7 @@ class TestStudentRegister(object):
         r = send_verify_code(countryCode, phone, "PASSPORT_REGISTER")
         global register_state
         register_state = r.get('state')
-        assert_equal(1, r['state'], '校验发送验证码成功', "失败的手机号:{}".format(phone))
+        assert_equal(1, r.get('state'), '校验发送验证码成功', "失败的手机号:{}".format(phone))
 
     def test_get_verify_code(self):
         global verify_code
@@ -52,36 +52,36 @@ class TestStudentRegister(object):
     def test_get_login_by_token(self):
         r = get_login_by_token(userToken)
         logging.info(msg='userToken {} \n'.format(userToken))
-        assert_equal(1, r['state'], '校验token登录成功')
+        assert_equal(1, r.get('state'), '校验token登录成功')
 
     def test_guideBasicInfo(self):
         r = guideBasicInfo(countryCode + phone, 1, userToken)
-        assert_equal(1, r['state'], '校验提交基本信息成功')
+        assert_equal(1, r.get('state'), '校验提交基本信息成功')
 
     def test_educationExperiences(self):
         r = educationExperiences(userToken)
-        assert_equal(1, r['state'], "校验提交教育经历成功")
+        assert_equal(1, r.get('state'), "校验提交教育经历成功")
 
     def test_personalCards(self):
         r = personalCards(userToken)
-        assert_equal(1, r['state'], '校验提交个人名片成功')
+        assert_equal(1, r.get('state'), '校验提交个人名片成功')
 
     def test_abilityLabels(self):
         r = abilityLabels(userToken)
-        assert_equal(1, r['state'], '校验提交综合能力成功')
+        assert_equal(1, r.get('state'), '校验提交综合能力成功')
 
     def test_expectJob(self):
         r = expectJob(userToken)
-        assert_equal(1, r['state'], '校验提交求职意向')
+        assert_equal(1, r.get('state'), '校验提交求职意向')
 
     def test_get_info(self):
         time.sleep(1)
         r = get_info(userToken)
-        assert_equal(1, r['state'], '获取C端用户信息')
+        assert_equal(1, r.get('state'), '获取C端用户信息')
 
     def test_batchCancel(self):
         r = batchCancel(userToken=userToken, userIds=userId)
-        assert_equal(1, r['state'], "用户注册学生的注销账号成功")
+        assert_equal(1, r.get('state'), "用户注册学生的注销账号成功")
 
     def test_record(self):
         record_test_data(type=1, userId=userId)
@@ -89,7 +89,7 @@ class TestStudentRegister(object):
     def test_login_home(self):
         # 线上home后台的用户账号和密码, 勿动
         r = login_password('betty@lagou.com', '00f453dfec0f2806db5cfabe3ea94a35')
-        assert_equal(1, r['state'], '校验登录home成功！')
+        assert_equal(1, r.get('state'), '校验登录home成功！')
 
     def test_forbid_general_user(self):
         time.sleep(1)
