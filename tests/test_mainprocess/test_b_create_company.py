@@ -89,14 +89,14 @@ class TestCreateCompany(object):
     def test_get_admin_rights_info_list(self):
         r = get_rights_info_list()
         for base_detail in r['content']['baseDetailResList']:
-            if www_company_id[-1] != '0':
+            if www_company_id[-1] not in ('0', '1', '2'):
                 if base_detail['baseGoodsId'] == 623:
                     assert_equal(1, base_detail['totalNum'], '验证普通职位总数1个通过')
                 if base_detail['baseGoodsId'] == 201:
                     assert_equal(self.im_chat_number, base_detail['totalNum'], '验证沟通点数总数15个通过')
             else:
                 if base_detail['baseGoodsId'] == 623:
-                    assert_equal(3, base_detail['totalNum'], '验证木桶计划灰度公司主站ID尾号为0的免费用户的普通职位总数3个通过')
+                    assert_equal(3, base_detail['totalNum'], '验证木桶计划灰度公司主站ID尾号为0,1,2的免费用户的普通职位总数3个通过')
                 if base_detail['baseGoodsId'] == 201:
                     assert_equal(self.im_chat_number_gray_scale, base_detail['totalNum'], '验证沟通点数总数50个通过')
         assert_equal(True, bool(r['content']['baseDetailResList']), '验证免费账号的普通权益通过')
@@ -254,7 +254,7 @@ class TestCreateCompany(object):
         r = im_session_list(createBy=0)
         self.im_chat_number += 5
         self.im_chat_number_gray_scale += 5
-        if www_company_id[-1] != '0':
+        if www_company_id[-1] not in ('0', '1', '2'):
             assert_equal(self.im_chat_number, r['content']['data']['remainConversationTimes'],
                          f'沟通点数计算{self.im_chat_number}用例通过')
         else:
@@ -275,7 +275,7 @@ class TestCreateCompany(object):
         r = im_session_list(createBy=0)
         self.im_chat_number += 4
         self.im_chat_number_gray_scale += 4
-        if www_company_id[-1] != '0':
+        if www_company_id[-1] not in ('0', '1', '2'):
             assert_equal(self.im_chat_number, r['content']['data']['remainConversationTimes'],
                          f'沟通点数计算{self.im_chat_number}用例通过')
         else:
@@ -349,6 +349,7 @@ class TestCreateCompany(object):
         assert_equal(True, r['success'], '添加风险标签用例通过')
 
     def test_queryRiskLabelsByCompany(self):
+        time.sleep(1)
         r = queryRiskLabelsByCompany(companyId=www_company_id)
         risk_label = ['外包公司', '保险公司', '招聘公司']
         for label in r['data']:
@@ -408,9 +409,8 @@ class TestCreateCompany(object):
 
     def test_general_user_1_im_session_list_check_15(self):
         r = im_session_list(createBy=0)
-        if www_company_id[-1] != '0':
-            assert_equal(self.im_chat_number, r['content']['data']['remainConversationTimes'],
-                         f'沟通点数计算{self.im_chat_number}用例通过')
+        assert_equal(self.im_chat_number, r['content']['data']['remainConversationTimes'],
+                     f'沟通点数计算{self.im_chat_number}用例通过')
 
     def test_remove_general_user1(self, get_user_info, get_password):
         global general_userId1, easy_company_id, www_company_id
