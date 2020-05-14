@@ -35,10 +35,10 @@ def queryRiskLabelsByCompany(companyId):
 
 if __name__ == '__main__':
     login_home('betty@lagou.com', '00f453dfec0f2806db5cfabe3ea94a35')
-    r = query_risk_labels()
-    for risk_labels in r['data']:
-        if risk_labels['type'] == 'A':
-            risk_label_id = risk_labels['id']
-            break
-    r = add_risk_labels_by_company(companyId=449906, labelIds=risk_label_id)
+    # r = query_risk_labels()
+    # for risk_labels in r['data']:
+    #     if risk_labels['type'] == 'A':
+    #         risk_label_id = risk_labels['id']
+    #         break
+    r = queryRiskLabelsByCompany(companyId=119008510)
     print(r)

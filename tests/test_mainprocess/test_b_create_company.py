@@ -410,7 +410,7 @@ class TestCreateCompany(object):
     def test_general_user_1_im_session_list_check_15(self):
         r = im_session_list(createBy=0)
         assert_equal(self.im_chat_number, r['content']['data']['remainConversationTimes'],
-                     f'沟通点数计算{self.im_chat_number}用例通过')
+                     f'一类特殊行业公司的沟通点数计算{self.im_chat_number}用例通过',)
 
     def test_remove_general_user1(self, get_user_info, get_password):
         global general_userId1, easy_company_id, www_company_id

@@ -340,7 +340,7 @@ def assert_equal(expectvalue, actualvalue, success_message, fail_message=None):
     '''
 
     if expectvalue == actualvalue:
-        loger.success(success_message)
+        # loger.success(success_message)
         state = 1
     else:
         loger.error(fail_message)
@@ -359,7 +359,8 @@ def assert_not_equal(expectvalue, actualvalue, success_message, fail_message=Non
     '''
 
     if expectvalue != actualvalue:
-        loger.success(success_message)
+        # loger.success(success_message)
+        pass
     else:
         loger.error(fail_message)
     assert expectvalue != actualvalue
@@ -374,7 +375,8 @@ def assert_in(expect_value, actual_value, success_message, fail_message=None):
     :param fail_message:str, 断言失败打印的日志
     '''
     if expect_value in actual_value:
-        loger.success(success_message)
+        # loger.success(success_message)
+        pass
     else:
         loger.error(fail_message)
     assert expect_value in actual_value
@@ -389,7 +391,8 @@ def assert_not_in(expect_value, actual_value, success_message, fail_message=None
     :param fail_message:str, 断言失败打印的日志
     '''
     if actual_value not in actual_value:
-        loger.success(success_message)
+        # loger.success(success_message)
+        pass
     else:
         loger.error(fail_message)
     assert expect_value not in actual_value
