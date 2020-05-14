@@ -26,9 +26,12 @@ from api_script.neirong_app.account import upate_user_password
 from api_script.zhaopin_app.rights import get_rights_info_list
 from api_script.zhaopin_app.shop import get_shop_goods_on_sale_goods, get_shop_goods_sell_goods, create_shop_goodsOrder, \
     pay_shop_goodsOrder, check_shop_goodsOrder
+from utils.logger import loger
 from utils.read_file import record_cancel_account, record_test_data
 from utils.util import assert_equal, pc_send_register_verifyCode, verify_code_message, user_register_lagou, \
     login_password, assert_in, login_home
+
+loger = loger()
 
 
 @pytest.mark.incremental
@@ -39,7 +42,7 @@ class TestCreateCompany(object):
     def test_send_register_admin_verify_code(self, get_countryCode_phone_admin_user):
         global admin_countryCode, admin_phone, admin_user_name, register_state
         admin_countryCode, admin_phone, admin_user_name = get_countryCode_phone_admin_user
-        logging.info(admin_countryCode, admin_phone)
+        loger.info(f'B端入驻管理员手机号:{admin_phone}')
         register_state = pc_send_register_verifyCode(admin_countryCode, admin_phone)
         assert_equal(1, register_state, '获取验证码成功', f'失败手机号:{admin_countryCode + admin_phone}')
 
@@ -80,6 +83,7 @@ class TestCreateCompany(object):
     def test_get_admin_user_info(self, get_user_info):
         global admin_user_id, www_company_id, easy_company_id
         admin_user_id, easy_company_id, www_company_id = get_user_info
+        loger.info(f'B端入驻管理员用户id:{admin_user_id}, 简招公司id:{easy_company_id}, 主站公司id:{www_company_id}')
         assert_equal(True, bool(admin_user_id), '获取用户ID是否成功')
 
     def test_get_admin_rights_info_list(self):
@@ -112,6 +116,7 @@ class TestCreateCompany(object):
     def test_send_general_user_register_verify_code(self, get_countryCode_phone_general_user):
         global general_countryCode, general_phone, general_user_name, general_user_register_state
         general_countryCode, general_phone, general_user_name = get_countryCode_phone_general_user
+        loger.info(f'B端入驻普通用户手机号:{general_phone}')
         general_user_register_state = pc_send_register_verifyCode(general_countryCode, general_phone)
         assert_equal(1, general_user_register_state, '获取验证码成功', f'失败手机号:{general_countryCode + general_phone}')
 
@@ -352,6 +357,7 @@ class TestCreateCompany(object):
     def test_send_general_user_register_verify_code_1(self, get_countryCode_phone_general_user_01):
         global general_countryCode, general_phone1, general_user_name1, general_user_register_state1
         general_countryCode, general_phone1, general_user_name1 = get_countryCode_phone_general_user_01
+        loger.info(f'B端入驻普通用户1手机号:{general_phone1}')
         general_user_register_state1 = pc_send_register_verifyCode(general_countryCode, general_phone1)
         assert_equal(1, general_user_register_state, '获取验证码成功', f'失败手机号:{general_countryCode + general_phone1}')
 
@@ -404,10 +410,7 @@ class TestCreateCompany(object):
         r = im_session_list(createBy=0)
         if www_company_id[-1] != '0':
             assert_equal(self.im_chat_number, r['content']['data']['remainConversationTimes'],
-                     f'沟通点数计算{self.im_chat_number}用例通过')
-        else:
-            assert_equal(50, r['content']['data']['remainConversationTimes'],
-                         f'沟通点数计算50用例通过')
+                         f'沟通点数计算{self.im_chat_number}用例通过')
 
     def test_remove_general_user1(self, get_user_info, get_password):
         global general_userId1, easy_company_id, www_company_id

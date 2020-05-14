@@ -14,6 +14,8 @@ from requests import RequestException
 import json
 import logging
 
+from utils.logger import loger
+
 logging.getLogger().setLevel(logging.INFO)
 
 requests.packages.urllib3.disable_warnings()
@@ -26,6 +28,8 @@ app_header = {
 }
 
 count = 0
+
+loger = loger()
 
 
 # 获取页面的token和code
@@ -114,12 +118,11 @@ def form_post(url, remark, data=None, files=None, headers={}, allow_redirects=Tr
         if 200 <= status_code <= 302:
             response_json = response.json()
             if response_json.get('state', 0) == 1 or response_json.get('success', False):
-                logging.info(msg='该接口URL {} ,备注 {} 执行成功\n'.format(url, remark))
+                logging.info(f'该接口URL {url} ,备注 {remark} 执行成功\n')
                 return response_json
             else:
                 if count < 1:
                     count = count + 1
-                    logging.error(msg='该接口URL {} , 备注: {} , 响应内容: {} 断言失败, 在重试\n'.format(url, remark, response_json))
                     return form_post(url=url, headers=headers, remark=remark, data=data)
                 else:
                     logging.error(msg='该接口URL {} , 备注: {},  响应内容: {} 请求成功, 但断言错误\n'.format(url, remark, response_json))
@@ -127,12 +130,11 @@ def form_post(url, remark, data=None, files=None, headers={}, allow_redirects=Tr
         else:
             if count < 1:
                 count = count + 1
-                logging.error(msg='该接口URL {} , 备注: {} , 响应内容: {} 断言失败, 在重试\n'.format(url, remark, response.text))
                 return form_post(url=url, headers=headers, remark=remark, data=data)
             else:
                 return judging_other_abnormal_conditions(status_code, url, remark, pard_id)
     except RequestException:
-        logging.error(msg="该接口URL {} , 备注 {} 请求异常, 请检查接口服务并重试一次\n".format(url, remark))
+        logging.error("该接口URL {} , 备注 {} 请求异常, 请检查接口服务并重试一次\n".format(url, remark))
         return {'content': '请求异常(requests捕获的异常)', 'url': url, 'remark': remark}
     except JSONDecodeError:
         logging.error(msg="该接口URL {} ,备注 {} 报错json解码错误, 请检查接口的响应是否正确的返回并解析\n".format(url, remark))
@@ -171,7 +173,6 @@ def json_post(url, remark, data=None, headers={}, app=False, verifystate=True, i
             else:
                 if count < 1:
                     count = count + 1
-                    logging.error(msg='该接口URL {} , 备注: {} , 响应内容: {} 断言失败, 在重试\n'.format(url, remark, response_json))
                     return json_post(url=url, headers=headers, remark=remark, data=data)
                 else:
                     logging.error(msg='该接口URL {} , 备注 {}, 响应内容: {} 请求成功, 但断言错误\n'.format(url, remark, response_json))
@@ -179,13 +180,11 @@ def json_post(url, remark, data=None, headers={}, app=False, verifystate=True, i
         else:
             if count < 1:
                 count = count + 1
-                logging.error(msg='该接口URL {} , 备注: {} , 响应内容: {} 断言失败, 在重试\n'.format(url, remark, response.text))
                 return json_post(url=url, headers=headers, remark=remark, data=data)
             else:
                 return judging_other_abnormal_conditions(status_code, url, remark, pard_id)
     except RequestException as e:
-        print(e)
-        logging.error(msg="该接口URL {} , 备注 {} 请求异常, 请检查接口服务并重试一次\n".format(url, remark))
+        logging.error(msg="该接口URL {} , 备注 {} 异常: {} 请求异常, 请检查接口服务并重试一次\n".format(url, remark, e))
         return {'content': '请求执行错误', 'url': url, 'remark': remark}
     except JSONDecodeError:
         logging.error(msg="该接口URL {} ,备注 {} 报错json解码错误, 请检查接口的响应是否正确的返回并解析\n".format(url, remark))
@@ -341,10 +340,10 @@ def assert_equal(expectvalue, actualvalue, success_message, fail_message=None):
     '''
     assert expectvalue == actualvalue
     if expectvalue == actualvalue:
-        logging.info(success_message)
+        loger.success(success_message)
         return 1
     else:
-        logging.error(fail_message)
+        loger.error(fail_message)
         return 0
 
 
@@ -358,9 +357,9 @@ def assert_not_equal(expectvalue, actualvalue, success_message, fail_message=Non
     '''
     assert expectvalue != actualvalue
     if expectvalue != actualvalue:
-        logging.info(success_message)
+        loger.success(success_message)
     else:
-        logging.error(fail_message)
+        loger.error(fail_message)
 
 
 def assert_in(expect_value, actual_value, success_message, fail_message=None):
@@ -373,9 +372,9 @@ def assert_in(expect_value, actual_value, success_message, fail_message=None):
     '''
     try:
         assert expect_value in actual_value
-        logging.info(success_message)
+        loger.success(success_message)
     except AssertionError:
-        logging.info(fail_message)
+        loger.error(fail_message)
         raise AssertionError
 
 
@@ -389,9 +388,9 @@ def assert_not_in(expect_value, actual_value, success_message, fail_message=None
     '''
     try:
         assert expect_value not in actual_value
-        logging.info(success_message)
+        loger.success(success_message)
     except AssertionError:
-        logging.info(fail_message)
+        loger.error(fail_message)
         raise AssertionError
 
 
