@@ -39,7 +39,7 @@ def send_feishu_report(pytest_result):
                 key, value['error_type'], value['log'])
             fail_results += fail_result
 
-        content = "{}\n\n具体失败结果:\n{}".format(summary_result, fail_results)
+        content = "{}\n\n具体失败结果:\n{}\n\n请大家对线上问题保持敬畏之心！".format(summary_result, fail_results)
         return send_feishu_bot(content=content)
 
 
