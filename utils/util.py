@@ -14,7 +14,7 @@ from requests import RequestException
 import json
 import logging
 
-logging.getLogger().setLevel(logging.ERROR)
+logging.getLogger().setLevel(logging.INFO)
 
 requests.packages.urllib3.disable_warnings()
 session = requests.session()

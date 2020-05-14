@@ -1,4 +1,5 @@
 import datetime
+import logging
 import random
 import time
 import pytest
@@ -38,7 +39,7 @@ class TestCreateCompany(object):
     def test_send_register_admin_verify_code(self, get_countryCode_phone_admin_user):
         global admin_countryCode, admin_phone, admin_user_name, register_state
         admin_countryCode, admin_phone, admin_user_name = get_countryCode_phone_admin_user
-        print(admin_countryCode, admin_phone)
+        logging.info(admin_countryCode, admin_phone)
         register_state = pc_send_register_verifyCode(admin_countryCode, admin_phone)
         assert_equal(1, register_state, '获取验证码成功', f'失败手机号:{admin_countryCode + admin_phone}')
 
@@ -401,8 +402,12 @@ class TestCreateCompany(object):
 
     def test_general_user_1_im_session_list_check_15(self):
         r = im_session_list(createBy=0)
-        assert_equal(self.im_chat_number, r['content']['data']['remainConversationTimes'],
+        if www_company_id[-1] != '0':
+            assert_equal(self.im_chat_number, r['content']['data']['remainConversationTimes'],
                      f'沟通点数计算{self.im_chat_number}用例通过')
+        else:
+            assert_equal(50, r['content']['data']['remainConversationTimes'],
+                         f'沟通点数计算50用例通过')
 
     def test_remove_general_user1(self, get_user_info, get_password):
         global general_userId1, easy_company_id, www_company_id
@@ -488,10 +493,16 @@ def test_record_cancel_account():
 
 
 def test_general_user_register_state():
-    if general_user_register_state != 1:
+    try:
+        if general_user_register_state != 1:
+            record_cancel_account(general_countryCode + general_phone)
+    except NameError:
         record_cancel_account(general_countryCode + general_phone)
 
 
 def test_general_user_register_state1():
-    if general_user_register_state1 != 1:
-        record_cancel_account(general_countryCode + general_phone1)
+    try:
+        if general_user_register_state1 != 1:
+            record_cancel_account(general_countryCode + general_phone1)
+    except NameError:
+        record_cancel_account(general_countryCode + general_phone)
