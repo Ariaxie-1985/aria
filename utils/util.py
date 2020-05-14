@@ -338,13 +338,15 @@ def assert_equal(expectvalue, actualvalue, success_message, fail_message=None):
     :param success_message: str, 断言成功打印的日志
     :param fail_message:str, 断言失败打印的日志
     '''
-    assert expectvalue == actualvalue
+
     if expectvalue == actualvalue:
         loger.success(success_message)
-        return 1
+        state = 1
     else:
         loger.error(fail_message)
-        return 0
+        state = 0
+    assert expectvalue == actualvalue
+    return state
 
 
 def assert_not_equal(expectvalue, actualvalue, success_message, fail_message=None):
@@ -355,11 +357,12 @@ def assert_not_equal(expectvalue, actualvalue, success_message, fail_message=Non
     :param success_message: str, 断言成功打印的日志
     :param fail_message:str, 断言失败打印的日志
     '''
-    assert expectvalue != actualvalue
+
     if expectvalue != actualvalue:
         loger.success(success_message)
     else:
         loger.error(fail_message)
+    assert expectvalue != actualvalue
 
 
 def assert_in(expect_value, actual_value, success_message, fail_message=None):
@@ -370,12 +373,11 @@ def assert_in(expect_value, actual_value, success_message, fail_message=None):
     :param success_message: str, 断言成功打印的日志
     :param fail_message:str, 断言失败打印的日志
     '''
-    try:
-        assert expect_value in actual_value
+    if expect_value in actual_value:
         loger.success(success_message)
-    except AssertionError:
+    else:
         loger.error(fail_message)
-        raise AssertionError
+    assert expect_value in actual_value
 
 
 def assert_not_in(expect_value, actual_value, success_message, fail_message=None):
@@ -386,12 +388,11 @@ def assert_not_in(expect_value, actual_value, success_message, fail_message=None
     :param success_message: str, 断言成功打印的日志
     :param fail_message:str, 断言失败打印的日志
     '''
-    try:
-        assert expect_value not in actual_value
+    if actual_value not in actual_value:
         loger.success(success_message)
-    except AssertionError:
+    else:
         loger.error(fail_message)
-        raise AssertionError
+    assert expect_value not in actual_value
 
 
 # 获取url的html源码

@@ -2,11 +2,10 @@
 # @Time  : 2019-09-20 17:20
 # @Author: Xiawang
 # Description:
-import time
+
 import pytest
 from api_script.entry.account.passport import password_login, send_verify_code, verifyCode_login
 from utils.util import assert_equal, verify_code_message, get_verify_code_message_len, assert_not_equal
-
 
 def test_password_login():
     global countryCode, phone
