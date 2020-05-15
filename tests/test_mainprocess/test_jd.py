@@ -28,6 +28,7 @@ def test_is_enough_positions(b_login_app):
     global flag, positions_result
     positions_result = get_online_positions(userToken=b_login_app[0], H9=True)
     flag = positions_result['content']['onlinePositionNum']
+    loger.info(f'当前在线职位数:{flag}')
     assert_equal(1, positions_result['state'], '确认在线职位数是否足够发布职位用例通过')
 
 
