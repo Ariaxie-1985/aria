@@ -18,7 +18,10 @@ from api_script.zhaopin_app.orderResumes import orderResumes_resume_interview, \
     orderResumes_resume_obsolete, orderResumes_detail, orderResumes_read
 from api_script.zhaopin_app.talent import talent_recTalent, talent_newTalent, talent_collections, talent_app_search, \
     talent_info_get
+from utils.logger import loger
 from utils.util import assert_equal, assert_in
+
+loger = loger()
 
 
 def test_is_enough_positions(b_login_app):
@@ -49,6 +52,7 @@ class TestJd(object):
         try:
             positionId = r['content']['lagouPositionId']
             mdsPositionId = r['content']['mdsPositionId']
+            loger.info(f'职位id:{positionId}, 职位简招id:{mdsPositionId}')
         except:
             positionId = 0
 

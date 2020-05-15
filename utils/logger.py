@@ -16,6 +16,5 @@ def loger():
 if __name__ == '__main__':
     loger = loger()
     loger.debug('debug 信息')
-    loger.info('info 信息')
     loger.success('success 信息')
     loger.error('error 信息')
