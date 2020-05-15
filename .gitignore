@@ -21,3 +21,4 @@ ApkChannelBuildTool2/common_jiaguapk/
 backend/templates/
 tests/testdata/import1.xls
 tests/testdata/import2.xls
+log/
