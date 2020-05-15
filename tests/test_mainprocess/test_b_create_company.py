@@ -410,7 +410,8 @@ class TestCreateCompany(object):
     def test_general_user_1_im_session_list_check_15(self):
         r = im_session_list(createBy=0)
         im_chat_num = r['content']['data']['remainConversationTimes']
-        loger.info(f'一类特殊行业主站公司id:{www_company_id},其沟通点数:{im_chat_num}')
+        if www_company_id[-1] in ('0','1','2'):
+            loger.info(f'一类特殊行业主站公司id:{www_company_id},其沟通点数:{im_chat_num}')
         assert_equal(self.im_chat_number, im_chat_num,
                      f'一类特殊行业公司的沟通点数计算{self.im_chat_number}用例通过',)
 
