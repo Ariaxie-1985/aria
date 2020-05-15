@@ -32,7 +32,7 @@ def test_is_enough_positions(b_login_app):
     assert_equal(1, positions_result['state'], '确认在线职位数是否足够发布职位用例通过')
 
 
-@pytest.mark.skipif('flag <= 6', reason="发布职位权益足够，无需下线职位")
+@pytest.mark.skipif('flag <= 1', reason="发布职位权益足够，无需下线职位")
 def test_offline_position(b_login_app):
     positionIds = []
     for position_info in positions_result['content']['positions']['result']:
