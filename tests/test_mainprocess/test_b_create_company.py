@@ -346,10 +346,11 @@ class TestCreateCompany(object):
 
     def test_add_risk_labels_by_company(self):
         r = add_risk_labels_by_company(companyId=www_company_id, labelIds=risk_label_id)
+        loger.info(f'{www_company_id}公司打风险标签是否成功:{r["success"]}')
         assert_equal(True, r['success'], '添加风险标签用例通过')
 
     def test_queryRiskLabelsByCompany(self):
-        time.sleep(5)
+        # time.sleep(5)
         r = queryRiskLabelsByCompany(companyId=www_company_id)
         loger.info(f'{www_company_id}公司的风险标签:{r["data"]}')
         risk_label = ['外包公司', '保险公司', '招聘公司']
@@ -411,8 +412,8 @@ class TestCreateCompany(object):
     def test_general_user_1_im_session_list_check_15(self):
         r = im_session_list(createBy=0)
         im_chat_num = r['content']['data']['remainConversationTimes']
-        if www_company_id[-1] in ('0','1','2'):
-            loger.info(f'一类特殊行业主站公司id:{www_company_id},其沟通点数:{im_chat_num}')
+        # if www_company_id[-1] in ('0','1','2'):
+        loger.info(f'主站公司id:{www_company_id},其沟通点数:{im_chat_num}')
         assert_equal(self.im_chat_number, im_chat_num,
                      f'一类特殊行业公司的沟通点数计算{self.im_chat_number}用例通过',)
 
