@@ -40,5 +40,5 @@ if __name__ == '__main__':
     #     if risk_labels['type'] == 'A':
     #         risk_label_id = risk_labels['id']
     #         break
-    r = queryRiskLabelsByCompany(companyId=119008510)
+    r = queryRiskLabelsByCompany(companyId=119021450)
     print(r)

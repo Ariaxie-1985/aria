@@ -349,7 +349,7 @@ class TestCreateCompany(object):
         assert_equal(True, r['success'], '添加风险标签用例通过')
 
     def test_queryRiskLabelsByCompany(self):
-        time.sleep(1)
+        time.sleep(5)
         r = queryRiskLabelsByCompany(companyId=www_company_id)
         risk_label = ['外包公司', '保险公司', '招聘公司']
         for label in r['data']:
