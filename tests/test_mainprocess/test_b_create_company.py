@@ -351,6 +351,7 @@ class TestCreateCompany(object):
     def test_queryRiskLabelsByCompany(self):
         time.sleep(5)
         r = queryRiskLabelsByCompany(companyId=www_company_id)
+        loger.info(f'{www_company_id}公司的风险标签:{r["data"]}')
         risk_label = ['外包公司', '保险公司', '招聘公司']
         for label in r['data']:
             assert_in(label, risk_label, '公司获取风险标签用例通过')
