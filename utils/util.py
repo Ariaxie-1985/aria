@@ -5,13 +5,18 @@ import zipfile
 from datetime import datetime
 import datetime
 from json import JSONDecodeError
+from urllib.parse import urlparse
+
+import pysnooper
 import requests
 import re
 from requests import RequestException
 import json
 import logging
 
-logging.getLogger().setLevel(logging.ERROR)
+from utils.logger import loger
+
+logging.getLogger().setLevel(logging.INFO)
 
 requests.packages.urllib3.disable_warnings()
 session = requests.session()
@@ -24,17 +29,26 @@ app_header = {
 
 count = 0
 
+loger = loger()
+
 
 # 获取页面的token和code
-def get_code_token(url, referer=False):
+def get_code_token(url, referer=False, ip_port=None):
     global count
     try:
         token_values, code_values = 0, None
-        code = session.get(url=url, headers=header, verify=False, timeout=60)
+        if ip_port is None:
+            code = session.get(url=url, headers=header, verify=False, timeout=60)
+        else:
+            ip_port_url = domain_convert_ip_port(url=url, ip_port=ip_port)
+            code = session.get(url=ip_port_url, headers=header, verify=False, timeout=60)
+            with open('/home/test/1.log', 'w') as f:
+                f.write(code.text)
         token_values = re.findall("X_Anti_Forge_Token = '(.*?)'", code.text, re.S)[0]
         code_values = re.findall("X_Anti_Forge_Code = '(.*?)'", code.text, re.S)[0]
         if referer == False:
             headers = {"X-Anit-Forge-Code": code_values, "X-Anit-Forge-Token": token_values,
+                       'Referer': url,
                        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3615.0 Safari/537.36"}
         else:
             headers = {"X-Anit-Forge-Code": code_values, "X-Anit-Forge-Token": token_values,
@@ -74,7 +88,7 @@ def get_code_token_new(url):
         return get_code_token(url=url)
 
 
-def form_post(url, remark, data=None, files=None, headers={}):
+def form_post(url, remark, data=None, files=None, headers={}, allow_redirects=True, ip_port=None):
     """
     form表单传参的post请求
     :param url: 请求url
@@ -85,33 +99,50 @@ def form_post(url, remark, data=None, files=None, headers={}):
     """
     global count
     try:
-        headers = {**header, **headers}
-        response = session.post(url=url, data=data, files=files, headers=headers, verify=False, timeout=60)
-        response_json = response.json()
+        if not data is None:
+            headers = {**header, **headers, **{'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'}}
+        else:
+            headers = {**header, **headers}
+        # cookies = dict(X_HTTP_TOKEN='07488fa454ce922a578040585170f3c4f12e21b679')
+        if ip_port is None:
+            response = session.post(url=url, data=data, files=files, headers=headers, verify=False,
+                                    timeout=60,
+                                    allow_redirects=allow_redirects)
+        else:
+            ip_port_url = domain_convert_ip_port(url=url, ip_port=ip_port)
+            response = session.post(url=ip_port_url, data=data, files=files, headers=headers, verify=False,
+                                    timeout=60,
+                                    allow_redirects=allow_redirects)
+        pard_id = response.headers.get('Pard-Id', 0)
         status_code = response.status_code
-        if 200 <= status_code <= 400:
+        if 200 <= status_code <= 302:
+            response_json = response.json()
             if response_json.get('state', 0) == 1 or response_json.get('success', False):
-                logging.info(msg='该接口URL {} ,备注 {} 执行成功\n'.format(url, remark))
+                logging.info(f'该接口URL {url} ,备注 {remark} 执行成功\n')
                 return response_json
             else:
                 if count < 1:
                     count = count + 1
-                    logging.error(msg='该接口URL {} , 备注: {} , 响应内容: {} 断言失败, 在重试\n'.format(url, remark, response_json))
                     return form_post(url=url, headers=headers, remark=remark, data=data)
                 else:
                     logging.error(msg='该接口URL {} , 备注: {},  响应内容: {} 请求成功, 但断言错误\n'.format(url, remark, response_json))
                     return response_json
         else:
-            return judging_other_abnormal_conditions(status_code, url, remark)
+            if count < 1:
+                count = count + 1
+                return form_post(url=url, headers=headers, remark=remark, data=data)
+            else:
+                return judging_other_abnormal_conditions(status_code, url, remark, pard_id)
     except RequestException:
-        logging.error(msg="该接口URL {} , 备注 {} 请求异常, 请检查接口服务并重试一次\n".format(url, remark))
+        logging.error("该接口URL {} , 备注 {} 请求异常, 请检查接口服务并重试一次\n".format(url, remark))
         return {'content': '请求异常(requests捕获的异常)', 'url': url, 'remark': remark}
     except JSONDecodeError:
         logging.error(msg="该接口URL {} ,备注 {} 报错json解码错误, 请检查接口的响应是否正确的返回并解析\n".format(url, remark))
         return {'content': '响应内容不是期望的json格式', 'url': url, 'remark': remark}
 
 
-def json_post(url, remark, data=None, headers={}, app=False, verifystate=True):
+# @pysnooper.snoop()
+def json_post(url, remark, data=None, headers={}, app=False, verifystate=True, ip_port=None):
     """
     json传参的post请求
     :param url: 请求url
@@ -124,35 +155,43 @@ def json_post(url, remark, data=None, headers={}, app=False, verifystate=True):
     if verifystate == False:
         count = 3
     if app == False:
-        headers = {**header, **headers}
+        headers = {**header, **headers, **{'Content-Type': 'application/json;charset=UTF-8'}}
     try:
-        response = session.post(url=url, json=data, headers=headers, verify=False, timeout=60)
-        response_json = response.json()
+        if ip_port is None:
+            response = session.post(url=url, json=data, headers=headers, verify=False, timeout=60)
+        else:
+            ip_port_url = domain_convert_ip_port(url=url, ip_port=ip_port)
+            response = session.post(url=ip_port_url, json=data, headers=headers, verify=False,
+                                    timeout=60)
+        pard_id = response.headers.get('Pard-Id', 0)
         status_code = response.status_code
-        if 200 <= status_code <= 400:
+        if 200 <= status_code <= 302:
+            response_json = response.json()
             if response_json.get('state', 0) == 1 or response_json.get('success', False):
                 logging.info(msg='该接口URL {} ,备注 {} 执行成功\n'.format(url, remark))
                 return response_json
             else:
                 if count < 1:
                     count = count + 1
-                    logging.error(msg='该接口URL {} , 备注: {} , 响应内容: {} 断言失败, 在重试\n'.format(url, remark, response_json))
                     return json_post(url=url, headers=headers, remark=remark, data=data)
                 else:
                     logging.error(msg='该接口URL {} , 备注 {}, 响应内容: {} 请求成功, 但断言错误\n'.format(url, remark, response_json))
                     return response_json
         else:
-            return judging_other_abnormal_conditions(status_code, url, remark)
+            if count < 1:
+                count = count + 1
+                return json_post(url=url, headers=headers, remark=remark, data=data)
+            else:
+                return judging_other_abnormal_conditions(status_code, url, remark, pard_id)
     except RequestException as e:
-        print(e)
-        logging.error(msg="该接口URL {} , 备注 {} 请求异常, 请检查接口服务并重试一次\n".format(url, remark))
+        logging.error(msg="该接口URL {} , 备注 {} 异常: {} 请求异常, 请检查接口服务并重试一次\n".format(url, remark, e))
         return {'content': '请求执行错误', 'url': url, 'remark': remark}
     except JSONDecodeError:
         logging.error(msg="该接口URL {} ,备注 {} 报错json解码错误, 请检查接口的响应是否正确的返回并解析\n".format(url, remark))
         return {'content': '响应内容不是期望的json格式', 'url': url, 'remark': remark}
 
 
-def get_requests(url, data=None, headers={}, remark=None):
+def get_requests(url, data=None, headers={}, remark=None, ip_port=None):
     """
     get请求
     :param url: str, 接口地址
@@ -160,32 +199,43 @@ def get_requests(url, data=None, headers={}, remark=None):
     :param headers: dict, requests header
     :return: object, 响应对象
     """
-    headers = {**header, **headers}
+    headers = {**header, **headers, **{'Content-Type': 'charset=UTF-8'}}
     global count
     try:
-        response = session.get(url=url, params=data, headers=headers, verify=False, timeout=60)
+
+        if ip_port is None:
+            response = session.get(url=url, params=data, headers=headers, verify=False, timeout=60)
+        else:
+            ip_port_url = domain_convert_ip_port(url=url, ip_port=ip_port)
+            response = session.get(url=ip_port_url, params=data, headers=headers, verify=False, timeout=60)
         status_code = response.status_code
-        if 200 <= status_code <= 400:
-            if "application/json" in response.headers['content-type']:
+        pard_id = response.headers.get('Pard-Id', 0)
+        if 200 <= status_code <= 302:
+            try:
                 response_json = response.json()
-                if 200 <= status_code <= 400:
-                    if response_json.get('state', 0) == 1 or response_json.get('success', False):
-                        logging.info(msg='该接口URL {} ,备注 {} 执行成功\n'.format(url, remark))
-                        return response
+                if response_json.get('state', 0) == 1 or response_json.get('success', False):
+                    logging.info(msg='该接口URL {} ,备注 {} 执行成功\n'.format(url, remark))
+                    return response
+                else:
+                    if count < 1:
+                        count = count + 1
+                        logging.error(
+                            msg='该接口URL {} , 备注: {} , 响应内容: {} 断言失败, 在重试\n'.format(url, remark, response_json))
+                        return get_requests(url=url, data=data, headers=headers, remark=remark)
                     else:
-                        if count < 1:
-                            count += 1
-                            logging.error(
-                                msg='该接口URL {} , 备注: {} , 响应内容: {} 断言失败, 在重试\n'.format(url, remark, response_json))
-                            return get_requests(url, data=data, headers=headers, remark=remark)
-                        else:
-                            logging.error(
-                                msg='该接口URL {} , 备注 {}, 响应内容: {} 请求成功, 但断言错误\n'.format(url, remark, response_json))
-                            return response
-            else:
+                        logging.error(
+                            msg='该接口URL {} , 备注 {}, 响应内容: {} 请求成功, 但断言错误\n'.format(url, remark, response_json))
+                        return response
+            except JSONDecodeError:
                 return response
         else:
-            return judging_other_abnormal_conditions(status_code, url, remark)
+            if count < 1:
+                count += 1
+                logging.error(
+                    msg='该接口URL {} , 备注: {} , 响应内容: {} 断言失败, 在重试\n'.format(url, remark, response.text))
+                return get_requests(url, data=data, headers=headers, remark=remark)
+            else:
+                return judging_other_abnormal_conditions(status_code, url, remark, pard_id)
     except RequestException:
         logging.error(msg="该接口URL {} , 备注 {} 请求异常, 请检查接口服务并重试一次\n".format(url, remark))
         return {'content': '请求执行错误', 'url': url, 'remark': remark}
@@ -195,9 +245,15 @@ def get_requests(url, data=None, headers={}, remark=None):
 
 
 # get请求---获取header
-def get_header(url):
+def get_header(url, headers={}, allow_redirects=True, ip_port=None):
+    headers = {**header, **headers}
     try:
-        response = session.get(url=url, headers=header, verify=False, timeout=60)
+        if ip_port is None:
+            response = session.get(url=url, headers=headers, verify=False, timeout=60, allow_redirects=allow_redirects)
+        else:
+            ip_port_url = domain_convert_ip_port(url=url, ip_port=ip_port)
+            response = session.get(url=ip_port_url, headers=headers, verify=False, timeout=60,
+                                   allow_redirects=allow_redirects)
         if response.status_code == 200:
             return response.request.headers
     except RequestException as e:
@@ -249,6 +305,7 @@ def login_home(username, password):
     login_home_header = get_code_token(referer_login_home_url)
     remark = "用户 " + str(username) + " 在登录拉勾home后台"
     r = form_post(url=login_url, data=login_data, headers=login_home_header, remark=remark)
+    get_requests(url='https://passport.lagou.com/grantServiceTicket/grant.html')
     if r['message'] == "操作成功":
         logging.info("用户名: " + str(username) + " 登录成功")
     return r
@@ -281,13 +338,15 @@ def assert_equal(expectvalue, actualvalue, success_message, fail_message=None):
     :param success_message: str, 断言成功打印的日志
     :param fail_message:str, 断言失败打印的日志
     '''
-    assert expectvalue == actualvalue
+
     if expectvalue == actualvalue:
-        logging.info(success_message)
-        return 1
+        # loger.success(success_message)
+        state = 1
     else:
-        logging.error(fail_message)
-        return 0
+        loger.error(fail_message)
+        state = 0
+    assert expectvalue == actualvalue
+    return state
 
 
 def assert_not_equal(expectvalue, actualvalue, success_message, fail_message=None):
@@ -298,11 +357,45 @@ def assert_not_equal(expectvalue, actualvalue, success_message, fail_message=Non
     :param success_message: str, 断言成功打印的日志
     :param fail_message:str, 断言失败打印的日志
     '''
-    assert expectvalue != actualvalue
+
     if expectvalue != actualvalue:
-        logging.info(success_message)
+        # loger.success(success_message)
+        pass
     else:
-        logging.error(fail_message)
+        loger.error(fail_message)
+    assert expectvalue != actualvalue
+
+
+def assert_in(expect_value, actual_value, success_message, fail_message=None):
+    '''
+    断言两个值是否相等, 并对结果打印日志
+    :param expectvalue: 期望结果
+    :param actualvalue: 实际结果
+    :param success_message: str, 断言成功打印的日志
+    :param fail_message:str, 断言失败打印的日志
+    '''
+    if expect_value in actual_value:
+        # loger.success(success_message)
+        pass
+    else:
+        loger.error(fail_message)
+    assert expect_value in actual_value
+
+
+def assert_not_in(expect_value, actual_value, success_message, fail_message=None):
+    '''
+    断言两个值是否相等, 并对结果打印日志
+    :param expectvalue: 期望结果
+    :param actualvalue: 实际结果
+    :param success_message: str, 断言成功打印的日志
+    :param fail_message:str, 断言失败打印的日志
+    '''
+    if actual_value not in actual_value:
+        # loger.success(success_message)
+        pass
+    else:
+        loger.error(fail_message)
+    assert expect_value not in actual_value
 
 
 # 获取url的html源码
@@ -351,7 +444,7 @@ def get_app_header_new(userId, X_L_REQ_HEADER={}):
     return header
 
 
-def json_put(url, remark, data=None, headers={}):
+def json_put(url, remark, data=None, headers={}, ip_port=None):
     """
     json传参的put请求
     :param url: 请求url
@@ -362,11 +455,17 @@ def json_put(url, remark, data=None, headers={}):
     """
     global count
     try:
-        headers = {**headers, **header}
-        response = session.put(url=url, json=data, headers=headers, verify=False, timeout=3)
-        response_json = response.json()
+        headers = {**headers, **header, **{'Content-Type': 'application/json;charset=UTF-8'}}
+        if ip_port is None:
+            response = session.put(url=url, json=data, headers=headers, verify=False, timeout=60)
+        else:
+            ip_port_url = domain_convert_ip_port(url=url, ip_port=ip_port)
+            response = session.put(url=ip_port_url, json=data, headers=headers, verify=False, timeout=60)
+
+        pard_id = response.headers.get('Pard-Id', 0)
         status_code = response.status_code
         if 200 <= status_code <= 400:
+            response_json = response.json()
             if response_json.get('state', 0) == 1 or response_json.get('success', False):
                 logging.info(msg='该接口URL {} ,备注 {} 执行成功\n'.format(url, remark))
                 return response_json
@@ -379,16 +478,21 @@ def json_put(url, remark, data=None, headers={}):
                     logging.error(msg='该接口URL {} , 备注 {}, 响应内容: {} 请求成功, 但断言错误\n'.format(url, remark, response_json))
                     return response_json
         else:
-            return judging_other_abnormal_conditions(status_code, url, remark)
-    except RequestException:
-        logging.error(msg="该接口URL {} , 备注 {} 请求异常, 请检查接口服务并重试一次\n".format(url, remark))
+            if count < 1:
+                count = count + 1
+                logging.error(msg='该接口URL {} , 备注: {} , 响应内容: {} 断言失败, 在重试\n'.format(url, remark, response.text))
+                return json_put(url=url, headers=headers, remark=remark, data=data)
+            else:
+                return judging_other_abnormal_conditions(status_code, url, remark, pard_id)
+    except RequestException as e:
+        logging.error(msg="该接口URL {} , 备注 {} 请求异常, 请检查接口服务并重试一次\n该异常为{}".format(url, remark, e))
         return {'content': '请求执行错误', 'url': url, 'remark': remark}
     except JSONDecodeError:
         logging.error(msg="该接口URL {} ,备注 {} 报错json解码错误, 请检查接口的响应是否正确的返回并解析\n".format(url, remark))
         return {'content': '响应内容不是期望的json格式', 'url': url, 'remark': remark}
 
 
-def put_requests(url, headers={}, remark=None):
+def put_requests(url, headers={}, remark=None, ip_port=None):
     """
     put请求
     :param url: str, 接口地址
@@ -398,10 +502,15 @@ def put_requests(url, headers={}, remark=None):
     """
     global count
     try:
-        response = session.put(url=url, headers=headers, verify=False, timeout=3).json()
-        response_json = response.json()
+        if ip_port is None:
+            response = session.put(url=url, headers=headers, verify=False, timeout=60)
+        else:
+            ip_port_url = domain_convert_ip_port(url=url, ip_port=ip_port)
+            response = session.put(url=ip_port_url, headers=headers, verify=False, timeout=60)
+        pard_id = response.headers.get('Pard-Id', 0)
         status_code = response.status_code
         if 200 <= status_code <= 400:
+            response_json = response.json()
             if response_json.get('state', 0) == 1 or response_json.get('success', False):
                 logging.info(msg='该接口URL {} ,备注 {} 执行成功\n'.format(url, remark))
                 return response_json
@@ -414,7 +523,12 @@ def put_requests(url, headers={}, remark=None):
                     logging.error(msg='该接口URL {} , 备注 {}, 响应内容: {} 请求成功, 但断言错误\n'.format(url, remark, response_json))
                     return response_json
         else:
-            return judging_other_abnormal_conditions(status_code, url, remark)
+            if count < 1:
+                count = count + 1
+                logging.error(msg='该接口URL {} , 备注: {} , 响应内容: {} 断言失败, 在重试\n'.format(url, remark, response.text))
+                return put_requests(url=url, headers=headers, remark=remark)
+            else:
+                return judging_other_abnormal_conditions(status_code, url, remark, pard_id)
     except RequestException:
         logging.error(msg="该接口URL {} , 备注 {} 请求异常, 请检查接口服务并重试一次\n".format(url, remark))
         return {'content': '请求执行错误', 'url': url, 'remark': remark}
@@ -423,7 +537,7 @@ def put_requests(url, headers={}, remark=None):
         return {'content': '响应内容不是期望的json格式', 'url': url, 'remark': remark}
 
 
-def delete_requests(url, headers={}, remark=None):
+def delete_requests(url, headers={}, remark=None, ip_port=None):
     """
     put请求
     :param url: str, 接口地址
@@ -433,10 +547,15 @@ def delete_requests(url, headers={}, remark=None):
     """
     global count
     try:
-        response = session.delete(url=url, headers=headers, verify=False, timeout=3)
-        response_json = response.json()
+        if ip_port is None:
+            response = session.delete(url=url, headers=headers, verify=False, timeout=60)
+        else:
+            ip_port_url = domain_convert_ip_port(url=url, ip_port=ip_port)
+            response = session.delete(url=ip_port_url, headers=headers, verify=False, timeout=60)
+        pard_id = response.headers.get('Pard-Id', 0)
         status_code = response.status_code
-        if 200 <= status_code <= 400:
+        if 200 <= status_code <= 302:
+            response_json = response.json()
             if response_json.get('state', 0) == 1 or response_json.get('success', False):
                 logging.info(msg='该接口URL {} ,备注 {} 执行成功\n'.format(url, remark))
                 return response_json
@@ -449,7 +568,12 @@ def delete_requests(url, headers={}, remark=None):
                     logging.error(msg='该接口URL {} , 备注 {}, 响应内容: {} 请求成功, 但断言错误\n'.format(url, remark, response_json))
                     return response_json
         else:
-            return judging_other_abnormal_conditions(status_code, url, remark)
+            if count < 1:
+                count = count + 1
+                logging.error(msg='该接口URL {} , 备注: {} , 响应内容: {} 断言失败, 在重试\n'.format(url, remark, response.text))
+                return delete_requests(url=url, headers=headers, remark=remark)
+            else:
+                return judging_other_abnormal_conditions(status_code, url, remark, pard_id)
     except RequestException:
         logging.error(msg="该接口URL {} , 备注 {} 请求异常, 请检查接口服务并重试一次\n".format(url, remark))
         return {'content': '请求执行错误', 'url': url, 'remark': remark}
@@ -480,171 +604,113 @@ def zip_path(input_path, output_path, output_name):
     return zip_file_Path
 
 
-def judging_other_abnormal_conditions(status_code, url, remark):
+def judging_other_abnormal_conditions(status_code, url, remark, pard_id=None):
+    if bool(pard_id):
+        call_chain = ' 其调用链:http://oss.pard.inter.lagou.com/#/traDetail?traceId={}'.format(pard_id)
+    else:
+        call_chain = ''
+
     if status_code == 500:
-        logging.error(msg="该接口URL {} , 备注 {} 报错500, 请检查业务服务是否可用\n".format(url, remark))
-        return {'content': '报错500, 服务端错误', 'url': url, 'remark': remark}
+        logging.error(msg="该接口URL {} , 备注 {} 报错500, 请检查业务服务是否可用,{}\n".format(url, remark, call_chain))
+        return {'content': '报错500, 服务端错误', 'url': url, 'remark': remark + call_chain}
     elif status_code == 415:
         logging.error(msg="该接口URL {} 备注 {} 报错415, 请检查接口的请求方法是否正确\n".format(url, remark))
         return {'content': '报错415, 接口请求方法不可用', 'url': url, 'remark': remark}
     elif status_code == 404:
-        logging.error(msg="该接口URL {} , 备注 {} 报错404, 请检查接口地址是否正确及业务服务是否可用\n".format(url, remark))
-        return {'content': '报错404, 接口地址不可用', 'url': url, 'remark': remark}
+        logging.error(msg="该接口URL {} , 备注 {} 报错404, 请检查接口地址是否正确及业务服务是否可用,{}\n".format(url, remark, call_chain))
+        return {'content': '报错404, 接口地址不可用', 'url': url, 'remark': remark + call_chain}
     elif status_code == 401:
         logging.error(msg="该接口URL {} , 备注 {} 报错401 请检查接口的用户认证是否有效\n".format(url, remark))
         return {'content': '报错401, 接口的用户认证失效', 'url': url, 'remark': remark}
+    elif status_code == 400:
+        logging.error(msg="该接口URL {} , 备注 {} 报错400 请检查接口的传参是否有效\n".format(url, remark))
+        return {'content': '报错400, 接口的传参有误', 'url': url, 'remark': remark}
     elif status_code == 502:
-        logging.error(msg="该接口URL {} , 备注 {} 报错502, 请检查业务服务是否可用\n".format(url, remark))
-        return {'content': '报错502, 业务服务不可用', 'url': url, 'remark': remark}
+        logging.error(msg="该接口URL {} , 备注 {} 报错502, 请检查业务服务是否可用,{}\n".format(url, remark, call_chain))
+        return {'content': '报错502, 业务服务不可用', 'url': url, 'remark': remark + call_chain}
     else:
-        return {'content': '报错{}, 请检查业务服务是否正常'.format(status_code), 'url': url, 'remark': remark}
+        return {'content': '报错{}, 请检查业务服务是否正常, {}'.format(status_code, call_chain), 'url': url, 'remark': remark}
 
 
 f = 0
 
 
-def verify_code_message(countryCode, phone, flag_num=0):
+def get_verify_code_list(countryCode, phone):
     if countryCode == '0086':
         countryCode = ''
-    url = 'http://msg.lagou.com/msc/message/page'
+    url = 'https://home.lagou.com/msc/message/page'
     yesterday = datetime.date.today() - datetime.timedelta(days=1)
-    data = {"commId": countryCode + phone, "startTime": str(yesterday) + "T16:00:00.000Z",
+    data = {"commId": countryCode + phone, "startTime": str(yesterday) + "T16:00:00.000Z", 'templateId': '749',
             "page": 1, "count": 10}
-    header = {"X-L-REQ-HEADER": '{deviceType:1}',
-              "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36"}
-    r = requests.post(url=url, json=data, headers=header, verify=False).json()
-    if len(r['content']['result']) > flag_num:
-        id, createTime = r['content']['result'][0]['msgId'], r['content']['result'][0]['createTime']
-        verify_code = get_verify_code(id, createTime)
-    else:
-        import time
-        for i in range(10):
-            time.sleep(12)
-            r = requests.post(url=url, json=data, headers=header, verify=False).json()
-            if len(r['content']['result']) == 0:
-                if i == 9:
-                    logging.error(msg="未获取到验证码，手机号为{}".format(countryCode + phone))
-                    return None
-                continue
-            else:
-                id, createTime = r['content']['result'][0]['msgId'], r['content']['result'][0]['createTime']
-                verify_code = get_verify_code(id, createTime)
-                break
-    return verify_code
+    r = json_post(url=url, data=data, headers={'X-L-REQ-HEADER': json.dumps({"deviceType": 1})}, remark="获取验证码列表")
+    try:
+        if r['content']['totalCount'] == 0:
+            return 0, None, None
+        else:
+            return r['content']['totalCount'], r['content']['result'][0]['msgId'], r['content']['result'][0][
+                'createTime']
+    except IndexError:
+        return 0, None, None
+
+
+def verify_code_message(countryCode, phone, flag_num=0):
+    login_home('betty@lagou.com', '00f453dfec0f2806db5cfabe3ea94a35')
+    import time
+    for i in range(10):
+        time.sleep(12)
+        total_count, id, createTime = get_verify_code_list(countryCode, phone)
+        if total_count > flag_num:
+            verify_code = get_verify_code(id, createTime)
+            if verify_code:
+                return verify_code
 
 
 def get_verify_code(id, createTime):
-    url = 'http://msg.lagou.com/msc/message/view'
+    url = 'https://home.lagou.com/msc/message/view'
     data = {"createTime": createTime, "msgId": id}
-    header = {"X-L-REQ-HEADER": '{deviceType:1}',
-              "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36"}
-    r = requests.post(url=url, json=data, headers=header, verify=False).json()
-    verify_code = r['content']['content'][3:9]
-    return verify_code
+    r = json_post(url=url, data=data, headers={'X-L-REQ-HEADER': json.dumps({"deviceType": 1})}, remark="获取验证码")
+    try:
+        int(r['content']['content'][3:9])
+    except ValueError:
+        return None
+    return r['content']['content'][3:9]
 
 
+# @pysnooper.snoop()
 def get_verify_code_message_len(countryCode, phone):
+    login_home('betty@lagou.com', '00f453dfec0f2806db5cfabe3ea94a35')
     if countryCode == '0086':
         countryCode = ''
-    url = 'http://msg.lagou.com/msc/message/page'
+    time.sleep(2)
+    url = 'https://home.lagou.com/msc/message/page'
     yesterday = datetime.date.today() - datetime.timedelta(days=1)
     data = {"commId": countryCode + phone, "startTime": str(yesterday) + "T16:00:00.000Z",
-            "page": 1, "count": 10}
-    header = {"X-L-REQ-HEADER": '{deviceType:1}',
-              "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36"}
-    r = requests.post(url=url, json=data, headers=header, verify=False).json()
-    return r['content']['totalCount']
-    # if r['content']['totalCount'] >= 1:
-    #     return 1
-    # else:
-    #     return 0
+            "page": 1, "count": 10, 'templateId': '749'}
+    r = json_post(url=url, data=data, headers={'X-L-REQ-HEADER': json.dumps({"deviceType": 1})}, remark="获取验证码列表")
+    try:
+        return r['content']['totalCount']
+    except:
+        return -1
 
 
-def app_header_999(userToken=None, DA=True):
+def app_header_999(userToken=None, DA=True, userId=None):
+    header = {"deviceType": '150', "userType": '0', "lgId": "898BCC3F-E662-4761-87E8-845788525443_1532945379",
+              "reqVersion": '73100', "appVersion": "7.31.0"}
     if not userToken is None:
-        header = {"deviceType": '150', "userType": '0', "lgId": "898BCC3F-E662-4761-87E8-845788525443_1532945379",
-                  "reqVersion": '72200', "appVersion": "7.21.0", "userToken": userToken}
-    else:
-        header = {"deviceType": '150', "userType": '0', "lgId": "898BCC3F-E662-4761-87E8-845788525443_1532945379",
-                  "reqVersion": '72200', "appVersion": "7.21.0"}
+        header['userToken'] = userToken
 
     header = {'X-L-REQ-HEADER': json.dumps(header)}
+
+    header = {**app_header, **header}
+    if userId:
+        header['X-L-USER-ID'] = str(userId)
     if DA == False:
-        return {**app_header, **header}
-    header = {**app_header, **header,
-              "X-L-DA-HEADER": "da5439aadaf04ade94a214d730b990d83ec71d3e9f274002951143c843badffbc543b213dfe84e21a37bb782dd9bbca4be8d947ead7041f79d336cb1217127d15"}
+        return header
+    header[
+        'X-L-DA-HEADER'] = "da5439aadaf04ade94a214d730b990d83ec71d3e9f274002951143c843badffbc543b213dfe84e21a37bb782dd9bbca4be8d947ead7041f79d336cb1217127d15"
     return header
 
 
-# def login1(username,password,):
-#     '''
-#     从www.lagou.com登录，验证码登录
-#     :param countryCode: str, 地区编号
-#     :param username: str, 用户名
-#     '''
-#     session.cookies.clear()
-#     header={'Accept':'application/json','Content-Type':'text/plain;charset=UTF-8'}
-#     challenge_r=requests.post(verify=False,url='https://api.geetest.com/gt_judgement?pt=0&gt=66442f2f720bfc86799932d8ad2eb6c7',headers=header,data='xF)VH7p1T2jZ2bXtuNPD(((TeJVNrqFXel9WBuiDPaxt(RBE)CgB1ZHBPWQv8pbCGFX9hhob70gKbhr3elumR6d809rKTi8ALjdY5uuqGeWVCCqLfOACHGZLij30xCPX3UJP4dL8KN)vrYynjXVDlPUXC(Bla9LSKOYosrkLyz3spLupaOsI0hEdnG)xrOEus4ubQ2cCRLMxn0uRiGnvhSymN5LNevafm11tesPdEhkkfTC92nNDcLPI1dlVHESW)KFqYwZ8qMpB2)brEYvyD4MfNhqac8kbi0w64OphGNjHl1lUuxd(RcSkk0OPQkj7G6vOK0p0CtN7tt(yBz7g(UFN2Imz5OrfNLXdR6BfHX8Rocrw8oNjnUXX6SOIQPlGgcu1dYCXtNGlQf84lz67o1RhrWnHdAybr7zhYmEKIbg6aSvLW68NZh2(nBRgNfhbalAc3F2ofUnaXYDo(XC1NGFP2lF7j9d1fwUSId7P84ei3(TpZX3pEfY(pP5DfrCAOvUqAy0ay06)aJwZl8i3ldFRLO0ioghQg)(rJ7O5sE4yRJH8Ew(hYHGoccvfY0md1ado8qnG43EL6JgcT4b4TACqJVQNd0mvbgDHgvg8e3ClsSTHkRGHNjVz(MbTbY6HYZNgNXMIH9p9VbsYJVk(GMaA8G4Jm4kc5arjGVW)zeXsLopYlHEiDGTYOVQEI6dGr)OI0i2U0Uh4E0pvUfqXVDBy4V)BqF6Phqa7mPbvEqxOKfQ6TWELH0tZ5H2BcgEAaVDXY9t0S3ZwXRRKrjVDVIXRlhUELE2VMKkn6tuoLYLevVj7k9OoFwjNk2ipht6Llb16s7Xs(e0ttQYYx))H9ipM6koFn6RSLICgU9PrNWqJ4y6(yGZM2a8d9eE8tC)r4XNb)MJU3GTmMzMQ5B(XmzOVEsypnX)1LDi4bL13AP8C)5cxBUzPrUIWQUoGP39a3NjOVVqLNz8fmGHtCB34l3)GTJXxHwnw(laqqv4pz18L8P2(KAcbScOOk(rS7My)hOtkKNEma6pA9hzx7DpPFiQXK6j7U6d5fGMYpSyBWvhRAmUopsdnEd914MkH1UX6pLJQ03JtWKBaQjtb7sojT5o3B5pRR26EMPTDR90h9wRpqZUPSJb2y262HfEuNHJeuiOa)1QONyEGKLKZkpeIzBVl90dgz2rr9mg9PzVu0VwSecwY0JongnqM5t6NbOkzf8XfYeU3FjBqOZ3pQ4vBNpqrzwx6pOagN2bL(YkrZJfO276YavUlKiEaX4eWNKQFoudWWwPb5dXYwpFHAmNj1J4XkJPhmXGZrLwS)G1f2(JjKTMxmTSilq2xBVaHE(77Oe3B3eUc1pS1uc1WBQEFadZxghrOirPCbh9ppCLnZcg2DqSoBvq0fg93EaaGM0oGBtDGuNsSZP3(ds061inhgm8npGvugtbbv4DleNFSIIwHZPwXAeog)duEAjODt((iAVxPlrdyZBt9eYVUdUU6hlidv8v32lPoqaeLPMVsdT(XxMYYTPXjYlcChi25LiQol99p6pFYVavMkkdkcudThGCvEyQBH5yejJsBS3mTKi5KQYZVBZIpd)ACAIi5I3ufSX9G1EIbttWIOCnumpbzFikiFxUUe051nvl7)Xx6k4obyeCF5JFavR1aqarzhNsnJ5JO9SBqLleICsfwvXbKrldUzLINzhedeHN4u83TumVcTSkgHN6CDRGXc6ZvnCWdFabIJg43tMa9gArP9ysBwK73ODBc6FNGidvyzcpvEFaiPDSM7rDT1NlSXOgs2vcpG)4rVsK1sBAPdzWJhr0rzQsAzueiuIKMSCLQJ1dV)KMtxWE(2JN0XmYEOB8E81OdiFyYtIVfgMBkIlSv1YUfziVutnL6pHvvtBj4ZqYF3IL06UaArsuqYNeA1AgTb7M)ZhYFGVSrlvAE72OOhKy8xVCmsBTDByTG96)eCnaR4W5fzJvsnjXunwlwRSrKd8GMlSXX8whAsmVoAszfAMuMOWfPdRKuPNI0JTVnsxJ5wbON29d06OjsVmS2DGQ5erImWw13dz04dNw(8YgXoxrDu1BSN65n69NWD72EMJQNpGR7SYWfOMgH8Vuv6Tm9laih8P8GFP3OWTMkyiuZhw(jG6nqbLO()npRWdRzIG4M574XhAgwYZR76YZLuP(wo5X(ZnOodTzJMipXJypQ2h06xitPfHXtkQ12suCIihuyXFRQuNFtvD8Kgj3qTZXbq9Lg7LAUf26X3clmtoiZZSc6DVvBPcBcQuCrUfaOKtZ3(OEvgyhFxyve4R(P6xdMAeojqJ24FEioqZqnh5gzOMMBvgax3GGwzr7sQ7Jb1BnCNSzzCjbSnDwbEPPT5w1wQnkSuifinv56QvdocvuyuoiqtzplxtJ0hpS(2mEsPXxXsA)DJ5uKoMeiQzY2SciCEQThs6F(XbU(F9jHAQyFrOQJbm(6bRrhmdLnl(lruIPHF9JnO8R2wSMA9QLVqQ7dWQ1UWL4lZL4QGykeGA47ojei0l5JqrQ0TzOYBF58Aet)0xBOCOFVld43dpnwrh(KRiRhBb54Aaf0sFVmVebTbM7VjMKrQWYrAMgKxQFqKJ457kerPWJvTyHBEAlYvXJr9K179w7FJFHSKX0yJdWhJabsLLCZjAAnFtiwqkI2HU1H9OT42zmHbqQ7IyfC84QtOyZKLwDwsl21AiqAjCwVBpv4d8SgeEliSuSNrTtlu(BBndU.95599294653dbf31a80c3b0ec63cbcf039a4408b77a7fab484b560316d4c4c3f350e3d24cabf2e3badf55f162561a9413ccfe49bf17c564385e7a0cedf47d3d9a957dfaab3ee546eec4f887b7a4c128d88866915fc43c1505ab6070b964ef12bc0daaa7ee1387c0052360808cfd915092de7a16329e6f9c832d64478cd164ce8').json()
-#     if challenge_r['status']=='success':
-#         login_url = 'https://passport.lagou.com/login/login.json'
-#         login_data = {'isValidate': 'true', 'username': username,
-#                       'password': password, 'challenge': challenge_r['challenge']}
-#         referer_login_html = 'https://www.lagou.com/frontLogin.do'
-#         login_header = get_code_token(referer_login_html)
-#         remark = str(username) + "在登录拉勾"
-#         r = form_post(url=login_url, data=login_data, headers=login_header, remark=remark)
-#         if r['message'] == "操作成功":
-#             logging.info("用户名: " + str(username) + " 登录成功")
-#         return r
-#     else:
-#         logging.info("challenge请求失败")
-#         return False
-# def challenge():
-#     header={'Accept':'application/json','Content-Type':'text/plain;charset=UTF-8'}
-#     gt='\&gt=66442f2f720bfc86799932d8ad2eb6c7'
-#     r=requests.post(verify=False,url='https://api.geetest.com/gt_judgement?pt=2',headers=header,data='xF)VH7p1T2jZ2bXtuNPD(((TeJVNrqFXel9WBuiDPaxt(RBE)CgB1ZHBPWQv8pbCGFX9hhob70gKbhr3elumR6d809rKTi8ALjdY5uuqGeWVCCqLfOACHGZLij30xCPX3UJP4dL8KN)vrYynjXVDlPUXC(Bla9LSKOYosrkLyz3spLupaOsI0hEdnG)xrOEus4ubQ2cCRLMxn0uRiGnvhSymN5LNevafm11tesPdEhkkfTC92nNDcLPI1dlVHESW)KFqYwZ8qMpB2)brEYvyD4MfNhqac8kbi0w64OphGNjHl1lUuxd(RcSkk0OPQkj7G6vOK0p0CtN7tt(yBz7g(UFN2Imz5OrfNLXdR6BfHX8Rocrw8oNjnUXX6SOIQPlGgcu1dYCXtNGlQf84lz67o1RhrWnHdAybr7zhYmEKIbg6aSvLW68NZh2(nBRgNfhbalAc3F2ofUnaXYDo(XC1NGFP2lF7j9d1fwUSId7P84ei3(TpZX3pEfY(pP5DfrCAOvUqAy0ay06)aJwZl8i3ldFRLO0ioghQg)(rJ7O5sE4yRJH8Ew(hYHGoccvfY0md1ado8qnG43EL6JgcT4b4TACqJVQNd0mvbgDHgvg8e3ClsSTHkRGHNjVz(MbTbY6HYZNgNXMIH9p9VbsYJVk(GMaA8G4Jm4kc5arjGVW)zeXsLopYlHEiDGTYOVQEI6dGr)OI0i2U0Uh4E0pvUfqXVDBy4V)BqF6Phqa7mPbvEqxOKfQ6TWELH0tZ5H2BcgEAaVDXY9t0S3ZwXRRKrjVDVIXRlhUELE2VMKkn6tuoLYLevVj7k9OoFwjNk2ipht6Llb16s7Xs(e0ttQYYx))H9ipM6koFn6RSLICgU9PrNWqJ4y6(yGZM2a8d9eE8tC)r4XNb)MJU3GTmMzMQ5B(XmzOVEsypnX)1LDi4bL13AP8C)5cxBUzPrUIWQUoGP39a3NjOVVqLNz8fmGHtCB34l3)GTJXxHwnw(laqqv4pz18L8P2(KAcbScOOk(rS7My)hOtkKNEma6pA9hzx7DpPFiQXK6j7U6d5fGMYpSyBWvhRAmUopsdnEd914MkH1UX6pLJQ03JtWKBaQjtb7sojT5o3B5pRR26EMPTDR90h9wRpqZUPSJb2y262HfEuNHJeuiOa)1QONyEGKLKZkpeIzBVl90dgz2rr9mg9PzVu0VwSecwY0JongnqM5t6NbOkzf8XfYeU3FjBqOZ3pQ4vBNpqrzwx6pOagN2bL(YkrZJfO276YavUlKiEaX4eWNKQFoudWWwPb5dXYwpFHAmNj1J4XkJPhmXGZrLwS)G1f2(JjKTMxmTSilq2xBVaHE(77Oe3B3eUc1pS1uc1WBQEFadZxghrOirPCbh9ppCLnZcg2DqSoBvq0fg93EaaGM0oGBtDGuNsSZP3(ds061inhgm8npGvugtbbv4DleNFSIIwHZPwXAeog)duEAjODt((iAVxPlrdyZBt9eYVUdUU6hlidv8v32lPoqaeLPMVsdT(XxMYYTPXjYlcChi25LiQol99p6pFYVavMkkdkcudThGCvEyQBH5yejJsBS3mTKi5KQYZVBZIpd)ACAIi5I3ufSX9G1EIbttWIOCnumpbzFikiFxUUe051nvl7)Xx6k4obyeCF5JFavR1aqarzhNsnJ5JO9SBqLleICsfwvXbKrldUzLINzhedeHN4u83TumVcTSkgHN6CDRGXc6ZvnCWdFabIJg43tMa9gArP9ysBwK73ODBc6FNGidvyzcpvEFaiPDSM7rDT1NlSXOgs2vcpG)4rVsK1sBAPdzWJhr0rzQsAzueiuIKMSCLQJ1dV)KMtxWE(2JN0XmYEOB8E81OdiFyYtIVfgMBkIlSv1YUfziVutnL6pHvvtBj4ZqYF3IL06UaArsuqYNeA1AgTb7M)ZhYFGVSrlvAE72OOhKy8xVCmsBTDByTG96)eCnaR4W5fzJvsnjXunwlwRSrKd8GMlSXX8whAsmVoAszfAMuMOWfPdRKuPNI0JTVnsxJ5wbON29d06OjsVmS2DGQ5erImWw13dz04dNw(8YgXoxrDu1BSN65n69NWD72EMJQNpGR7SYWfOMgH8Vuv6Tm9laih8P8GFP3OWTMkyiuZhw(jG6nqbLO()npRWdRzIG4M574XhAgwYZR76YZLuP(wo5X(ZnOodTzJMipXJypQ2h06xitPfHXtkQ12suCIihuyXFRQuNFtvD8Kgj3qTZXbq9Lg7LAUf26X3clmtoiZZSc6DVvBPcBcQuCrUfaOKtZ3(OEvgyhFxyve4R(P6xdMAeojqJ24FEioqZqnh5gzOMMBvgax3GGwzr7sQ7Jb1BnCNSzzCjbSnDwbEPPT5w1wQnkSuifinv56QvdocvuyuoiqtzplxtJ0hpS(2mEsPXxXsA)DJ5uKoMeiQzY2SciCEQThs6F(XbU(F9jHAQyFrOQJbm(6bRrhmdLnl(lruIPHF9JnO8R2wSMA9QLVqQ7dWQ1UWL4lZL4QGykeGA47ojei0l5JqrQ0TzOYBF58Aet)0xBOCOFVld43dpnwrh(KRiRhBb54Aaf0sFVmVebTbM7VjMKrQWYrAMgKxQFqKJ457kerPWJvTyHBEAlYvXJr9K179w7FJFHSKX0yJdWhJabsLLCZjAAnFtiwqkI2HU1H9OT42zmHbqQ7IyfC84QtOyZKLwDwsl21AiqAjCwVBpv4d8SgeEliSuSNrTtlu(BBndU.95599294653dbf31a80c3b0ec63cbcf039a4408b77a7fab484b560316d4c4c3f350e3d24cabf2e3badf55f162561a9413ccfe49bf17c564385e7a0cedf47d3d9a957dfaab3ee546eec4f887b7a4c128d88866915fc43c1505ab6070b964ef12bc0daaa7ee1387c0052360808cfd915092de7a16329e6f9c832d64478cd164ce8').json()
-#     # r=requests.post(verify=False,url='https://api.geetest.com/gt_judgement?pt=0&gt=66442f2f720bfc86799932d8ad2eb6c7',headers=header)
-#     return r
-# # print(login1('yqzhang@lagou.com','cfe4d90b488c85e34838a604822e10ca'))
-# # print(challenge())
-# def login_app():
-#     url ="https://gate.lagou.com/v1/entry/account/passport/login"
-#     remark = "登录"
-#     headers = {
-#         'content-type': "application/json",
-#         'x-l-req-header': "{\"appVersion\":\"7.18.0\",\"deviceType\":200,\"reqVersion\":71800,\"userType\":-1}",
-#         'X-L-PC-HEADER': 'LYwTbsvR16WEbyc3HzmVu6MVT9G6nb0wxpOKLqy05SQE6gE1Vo4ad8m3yEEr8O4VqQMnJvjYYkiK/LcrQoJcAZP29PqI6bSEFR0FZYhoSes=',
-#         'cache-control': "no-cache",
-#         # 'x-l-da-header':'da5439aadaf04ade94a214d730b990d83ec71d3e9f274002951143c843badffbc543b213dfe84e21a37bb782dd9bbca4be8d947ead7041f79d336cb1217127d15'
-#     }
-#     # headers["X-L-REQ-HEADER"] = json.dumps(headers["X-L-REQ-HEADER"])
-#     # print(type(headers))
-#     data={"accountName":"940238856@qq.com","loginType":0,"password":"123456"}
-#     return json_post(url=url, headers=headers, remark=remark, data=data)
-#
-# login_app()
-# # print(challenge())
-# # from api_script.business.B_energycard import getpositionId
-# # def getpositionId():
-# #     position_url = 'https://easy.lagou.com/parentPosition/multiChannel/myOnlinePositions.json'
-# #     position_header = get_code_token('https://easy.lagou.com/position/multiChannel/myOnlinePositions.htm')
-# #     s = form_post(url=position_url,headers=position_header,data={'pageNo':1},remark='获取职位id')
-# #     return s['content']['data']['parentPositionVOs'][0]['positions'][0]['positionId']
-# # login1('yqzhang@lagou.com')
-# # getpositionId()
-#
-# def searchPositions():
-#     header={"Accept": "application/json", "X-L-REQ-HEADER": {"userToken":"9c7228e5ebcbb621d0ace829bd9d6dbda398935887eec834","reqVersion":71800,"lgId":"99000646684560_1560396841537","appVersion":"7.18.0","userType":0,"deviceType":200}}
-#     header["X-L-REQ-HEADER"] = json.dumps(header["X-L-REQ-HEADER"])
-#     url='https://gate.lagou.com/v1/entry/positionsearch/searchPosition'
-#     data={"keyword":"Java","hiTag":"","shieldDeliveyCompany":False,"refreshHiTagList":True,"showId":"269D6E0E-0F60-41DD-9518-6BAF4AF862D3_577696731.055195","lastShowCompanyId":0,"keywordSource":2,"isAd":"1","tagType":"","salaryLower":0,"city":"北京","salaryUpper":0,"longitudeAndLatitude":"-1.000000,-1.000000","pageNo":1,"sort":"0","pageSize":15}
-#     return json_post(url=url,data=data,headers=header,remark='搜索职位')
-# # def goods_product_version():
-# #     url = "https://gate.lagou.com/v1/zhaopin/rights/getRightsList"
-# #     remark = "获取当前用户商业产品版本号"
-# #     header={"userToken":"42950bed7acc28db48ed54ab14d367caf758f16bd45c3347","reqVersion":71800,"lgId":"99000646684560_1560396841537","appVersion":"7.18.0","userType":0,"deviceType":200}
-# #     return json_post(url=url, headers=header, remark=remark)
-# # print(searchPositions())
 def login_password(username, password):
     '''
     从www.lagou.com登录，验证码登录
@@ -685,6 +751,7 @@ def login_verifyCode(countryCode, phone, verifyCode):
 
 
 def pc_send_register_verifyCode(countryCode, phone):
+    session.cookies.clear()
     url = 'https://passport.lagou.com/register/getPhoneVerificationCode.json'
     header = get_header(url='https://passport.lagou.com/register/register.html')
     send_data = {'countryCode': countryCode, 'phone': phone, 'type': 0, 'request_form_verifyCode': '', '_': str(int(
@@ -701,6 +768,7 @@ def pc_send_login_verifyCode(countryCode, phone):
 
 
 def user_register_lagou(countryCode, phone, verify_code):
+    session.cookies.clear()
     b_register_url = 'https://passport.lagou.com/register/register.html?from=b'
     register_url = "https://passport.lagou.com/register/register.json"
     register_data = {"isValidate": "true", "phone": phone, "phoneVerificationCode": verify_code, "challenge": 111,
@@ -710,13 +778,69 @@ def user_register_lagou(countryCode, phone, verify_code):
     return form_post(url=register_url, data=register_data, headers=register_header, remark=remark)
 
 
+def request_retry(count, request_func, judging_func=None, response_text=None):
+    if count < 1:
+        count += 1
+        return request_func
+    elif not response_text is None:
+        return response_text
+    else:
+        judging_func
+
+
+def domain_convert_ip_port(url, ip_port):
+    parsed = urlparse(url)
+    if 'gate.lagou.com' == parsed.hostname:
+        gate_lagou_com_rule = {'entry': 'gate.lagou.com/v1/entry', 'neirong': 'gate.lagou.com/v1/neirong',
+                               'zhaopin': 'gate.lagou.com/v1/zhaopin'}
+        domain, verison, module = re.findall(r"https://(.+?)/(.+?)/(.+?)/", url)[0]
+        return url.replace('https', 'http').replace(gate_lagou_com_rule.get(module), ip_port)
+    return url.replace('https', 'http').replace(parsed.hostname, ip_port)
+
+
 if __name__ == '__main__':
     # r = get_verify_code_message_len('00852', '20180917')
+    # pc_send_register_verifyCode("00853", "26026626")
+    # verify_code = verify_code_message("00853", "26026626")
+    # print(verify_code)
     # r = verify_code_message('00852', '20180917')
+<<<<<<< HEAD
     # r1 = get_verify_code_message_len('00852', '20180917')
     # print(r1)
+||||||| merged common ancestors
+    r1 = get_verify_code_message_len('00852', '20180917')
+    print(r1)
+=======
+    # get_verify_code('r23wr23','423423')
+    # r1 = get_verify_code_message_len('00852', '20180917')
+    # print(r1)
+>>>>>>> test_mainprocess
     # print(r1l)
     # login_password('betty@lagou.com', '00f453dfec0f2806db5cfabe3ea94a35')
     # state_code = pc_send_register_verifyCode('00852', 20030105)
     # print(verify_code_message('00852', '20030105', flag_num=1))
+<<<<<<< HEAD
     login('00852', '20191220')
+||||||| merged common ancestors
+=======
+    # login_home('betty@lagou.com', '00f453dfec0f2806db5cfabe3ea94a35')
+    # get_requests(url='https://passport.lagou.com/grantServiceTicket/grant.html')
+    # url = 'https://home.lagou.com/msc/message/page'
+    # data = {"commId": "0085220180917", "startTime": "2020-03-30T12:19:52.709Z", "page": 1, "count": 10}
+    # r = requests.post(url=url, json=data, verify=False).text
+
+    # url = 'https://home.lagou.com/msg/message-service/index.html'
+    # header = get_header(url='http://home.lagou.com/index.html')
+    # get_requests(url=url,headers=header,remark='23')
+    # r = verify_code_message('00852', '20180917')
+    # r = domain_convert_ip_port('https://gate.lagou.com/v1/entry/demo/demo/sdfas', '127.0.0.1:8080')
+    # r = domain_convert_ip_port('https://easy.lagou.com/parentPosition/multiChannel/create.json', '10.42.154.224:11170')
+    r = get_verify_code_message_len('00852', '20180917')
+    print(r)
+    # r = verify_code_message('00852', '20180917')
+    # print(r)
+    # login_home('betty@lagou.com', '00f453dfec0f2806db5cfabe3ea94a35')
+    # get_requests(url='https://passport.lagou.com/grantServiceTicket/grant.html')
+    # r = get_verify_code_list('00852', '20180917')
+    # print(r)
+>>>>>>> test_mainprocess

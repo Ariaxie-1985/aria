@@ -4,6 +4,9 @@
 # Description:
 import time
 import pytest
+
+from api_script.entry.account.passport import password_login
+from api_script.jianzhao_web.index import dashboard_index_get_user_id
 from backend.common.get_data import get_www_company_id
 from utils.util import login
 from faker import Faker
@@ -31,6 +34,11 @@ def get_countryCode_phone_general_user():
     user_name = '拉勾测试自动化' + fake.name()
     return countryCode, phone, user_name
 
+@pytest.fixture(scope='session')
+def get_countryCode_phone_general_user_01():
+    countryCode, phone = "00852", str(20000000 + int(str(time.time()).split('.')[1]))
+    user_name = '拉勾测试自动化' + fake.name()
+    return countryCode, phone, user_name
 
 @pytest.fixture()
 def get_user_id():
@@ -44,6 +52,12 @@ def get_user_info():
     return userId, UserCompanyId, lg_CompanyId
 
 
+@pytest.fixture()
+def www_get_userId():
+    userId = dashboard_index_get_user_id()
+    return userId
+
+
 @pytest.fixture(scope='session')
 def get_password():
     return '990eb670f81e82f546cfaaae1587279a'
@@ -53,7 +67,6 @@ def get_password():
 def get_positionType():
     firstType, positionType, positionThirdType, positionName = "开发|测试|运维类", "后端开发", "Java", "java工程师"
     return firstType, positionType, positionThirdType, positionName
-
 
 
 @pytest.fixture(params=[["00852", "20181205"]])
@@ -70,3 +83,49 @@ def get_company_id():
 def get_countryCode_phone():
     countryCode, phone = "00852", str(20000000 + int(str(time.time()).split('.')[1]))
     return countryCode, phone
+
+
+# @pytest.fixture(scope='session', params=[["13033647506", "000000"]])
+@pytest.fixture(scope='session', params=[["19910626899", "000000"]])
+def b_login_app(request):
+    result = password_login(request.param[0], request.param[1])
+    return result['content']['userToken'], result['content']['userInfo']['userId']
+
+
+@pytest.fixture(scope='session', params=[["0085220180917", "0085220180917"]])
+def c_login_app(request):
+    result = password_login(request.param[0], request.param[1])
+    return result['content']['userToken'], result['content']['userInfo']['userId']
+
+
+@pytest.fixture(scope='session')
+def c_userId_0085220180917():
+    # 用户账号: 0085220180917 的 userId
+    userId = 15166231
+    return userId
+
+
+@pytest.fixture(scope='session', params=[["0085320200306", "qqqqqq"]])
+def c_login_education(request):
+    result = password_login(request.param[0], request.param[1])
+    return result['content']['userToken'], result['content']['userInfo']['userId']
+
+
+def pytest_runtest_makereport(item, call):
+    if "incremental" in item.keywords:
+        if call.excinfo is not None:
+            parent = item.parent
+            parent._previousfailed = item
+
+
+def pytest_runtest_setup(item):
+    if "incremental" in item.keywords:
+        previousfailed = getattr(item.parent, "_previousfailed", None)
+        if previousfailed is not None:
+            pytest.xfail("previous test failed (%s)" % previousfailed.name)
+
+
+def pytest_configure(config):
+    config.addinivalue_line(
+        "markers", "incremental: mark test to run only on named main_process"
+    )

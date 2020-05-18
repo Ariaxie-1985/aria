@@ -1,7 +1,9 @@
 # coding:utf-8
 # @Time  : 2019-07-04 11:00
 # @Author: Xiawang
-from utils.util import get_app_header_new, json_post, app_header_999
+
+from api_script.entry.account.passport import password_login
+from utils.util import get_app_header_new, json_post, app_header_999, get_requests
 
 
 def deliver_check(positionId, H9=False, userToken=None):
@@ -61,5 +63,32 @@ def get_resume_info(userToken):
     return json_post(url=url, headers=header, remark="获取简历类型")
 
 
+def recommend_isExistPositionList(userToken, positionId):
+    url = 'https://gate.lagou.com/v1/entry/deliver/recommend/isExistPositionList?positionId={}'.format(positionId)
+    header = app_header_999(userToken, DA=False)
+    remark = "投递后推荐的职位 （投了又投），是否有数据"
+    return get_requests(url=url, headers=header, remark=remark).json()
+
+
+def recommend_positionList(userToken, orderId, positionId):
+    url = 'https://gate.lagou.com/v1/entry/deliver/recommend/positionList'
+    header = app_header_999(userToken, DA=False)
+    data = {
+        "orderId": orderId,
+        "pageNo": 1,
+        "pageSize": 10,
+        "positionId": positionId
+    }
+    remark = "投递后推荐的职位 （投了又投)"
+    return json_post(url=url, headers=header, data=data, remark=remark)
+
+
 if __name__ == '__main__':
-    deliver_check()
+    result = password_login("0085220180917", "0085220180917")
+    userToken = result['content']['userToken']
+    r = get_resume_info(userToken)
+    resumeId = r['content'][0]['resumeId']
+    resumeType = r['content'][0]['resumeType']
+    # resumeType = 1
+    positionId = 7078118
+    deliver_create(positionId, resumeId, resumeType, userToken=userToken, H9=True)

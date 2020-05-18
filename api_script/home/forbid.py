@@ -2,6 +2,7 @@
 # @Time  : 2019-11-21 15:26
 # @Author: Xiawang
 # Description:
+
 from utils.util import get_header, form_post, login_home, login_password
 
 
@@ -19,6 +20,28 @@ def verify_user_is_forbid(userId):
     result = form_post(url=url, headers=header, data=data, remark='校验用户是否禁用成功')
     if result['success'] == True and result['data']['pageData'][0]['id'] == userId:
         return result['data']['pageData'][0]['isForbid']
+    else:
+        return False
+
+def get_userId(country_code_phone):
+    url = 'http://home.lagou.com/forbid/user/queryUser.json'
+    header = get_header(url='http://home.lagou.com/')
+    data = {'searchContent': '+' + country_code_phone, 'limit': 15, 'currentPage': 0, 'typeSearch': 3}
+    result = form_post(url=url, headers=header, data=data, remark='校验用户是否禁用成功')
+    if result['success'] == True:
+        try:
+            return result['data']['pageData'][0]['id']
+        except IndexError:
+            return None
+
+
+def home_query_user_id(telephone):
+    url = 'http://home.lagou.com/forbid/user/queryUser.json'
+    header = get_header(url='http://home.lagou.com/')
+    data = {'searchContent': "+{}".format(telephone), 'limit': 15, 'currentPage': 0, 'typeSearch': 1}
+    result = form_post(url=url, headers=header, data=data, remark='查询成功')
+    if result['success'] == True and result['data']['pageData'][0]['isForbid'] == True:
+        return result['data']['pageData'][0]['id']
     else:
         return False
 
@@ -57,4 +80,3 @@ if __name__ == '__main__':
     print(type(verify_user_is_forbid(15754261)))
     print('用户封禁结果是{}'.format(verify_user_is_forbid(15754261)))
     print('公司封禁结果是{}'.format(verify_company_is_forbid(117437231)))
-

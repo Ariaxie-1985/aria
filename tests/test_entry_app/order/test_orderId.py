@@ -7,7 +7,6 @@ from api_script.entry.order.orderId import delete_orderId
 from utils.util import assert_equal
 
 
-# todo 需要找orderId
 @pytest.importorskip('test_orderId.py', reason="需要等上线后才可在default环境用")
 def setup_module(module):
     pass

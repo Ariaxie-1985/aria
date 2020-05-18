@@ -1,9 +1,14 @@
 # coding:utf-8
 # @Time  : 2018-12-29 13:02
 # @Author: Xiawang
+import re
 
 import yaml
 import os
+
+from api_script.entry.cuser.baseStatus import batchCancel
+from api_script.home.forbid import verify_user_is_forbid, get_userId
+from utils.util import login_home
 
 
 def get_yaml_test_data(yamlfile):
@@ -43,5 +48,51 @@ def record_test_data(type, **kw):
             f.write('({},{},{}),'.format(kw['userId'], kw['UserCompanyId'], kw['lg_CompanyId']))
 
 
+def record_jsessionid(file_path, jsessionid):
+    with open('{}/tests/testdata/JSESSIONID.txt'.format(file_path), 'w') as f:
+        f.write('{}'.format(jsessionid))
+
+
+def read_jsessionid(file_path):
+    with open('{}/tests/testdata/JSESSIONID.txt'.format(file_path), 'r') as f:
+        jsessionid = f.read()
+    return jsessionid
+
+
+def record_cancel_account(country_code_phone):
+    with open('/home/test/data_no_delete/account.txt', 'at') as f:
+        # with open('account.txt', 'at') as f:
+        f.write(f'{country_code_phone},')
+
+
+def read_cancel_account():
+    with open('/home/test/data_no_delete/account.txt', 'r') as f:
+    # with open('account.txt', 'r') as f:
+        result = re.split(',|\n', f.read())
+        if result[-1] == '':
+            result.remove('')
+    return result
+
+
+def rewrite_cancel_account():
+    with open('/home/test/data_no_delete/account.txt', 'w') as f:
+        f.write('')
+
+def batch_cancel_account(country_code_phone_list):
+    login_home('betty@lagou.com', '00f453dfec0f2806db5cfabe3ea94a35')
+    for country_code_phone in country_code_phone_list:
+        userId = get_userId(country_code_phone)
+        if userId is not None:
+            result = batchCancel(userIds=userId)
+            assert result.get('state') == 1
+
+
 if __name__ == '__main__':
-    record_test_data(1, userId=123124, phone='0085220190909')
+    # record_test_data(1, userId=123124, phone='0085220190909')
+    # print(read_jsessionid())
+    # record_jsessionid('fhkjashdfkasjdhkj')
+    # l = [str(i) for i in range(20190101, 20190131)]
+    # for country_code_phone in l:
+    #     record_cancel_account(country_code_phone)
+    print(read_cancel_account(),1)
+    # rewrite_cancel_account()

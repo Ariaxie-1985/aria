@@ -1,10 +1,13 @@
 # coding:utf-8
 # @Time  : 2019-05-14 12:02
 # @Author: Xiawang
+import time
+
 from utils.util import get_header, form_post, login_home_code
 
 
 def get_contract_No(companyId):
+    time.sleep(0.5)
     header = get_header("http://home.lagou.com/")
     Request_url = "https://home.lagou.com/crm/contractController/list.json"
     data = {"companyId": companyId}
@@ -19,6 +22,7 @@ def get_contract_No(companyId):
 def close_contract(contractNo):
     '''终止合同
     '''
+    time.sleep(0.5)
     header = get_header("https://home.lagou.com/")
     Request_url = "https://home.lagou.com/crm/valueadded/product/close.json"
     data = {"contractNo": contractNo}

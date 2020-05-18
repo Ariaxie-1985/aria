@@ -3,7 +3,7 @@ __author__ = 'arayang'
 
 from utils.util import assert_equal
 import pytest
-from api_script.entry.buser.hrinfo import *
+from api_script.entry.buser.hr_info import *
 from api_script.entry.bigcompany.urgentpositions import *
 @pytest.importorskip('test_urgentposition.py', reason="等上线后再执行")
 

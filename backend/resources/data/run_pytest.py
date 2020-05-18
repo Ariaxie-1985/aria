@@ -1,26 +1,23 @@
 # coding:utf-8
 # @Time  : 2019-02-15 15:57
 # @Author: Xiawang
-
+import logging
 import os
 import subprocess
 
 from flask import render_template, make_response
 from flask_restful import Resource, reqparse
 from utils.analysis_html_report import analysis_html_report
+from flask import current_app
 
 
 class run_Pytest(Resource):
     """执行pytest"""
-    Business_module = {
-        'business': "/root/.local/bin/pipenv run pytest {}/tests/test_business/ --html=backend/templates/{}_report.html --self-contained-html",
-        'jianzhao_web': '/root/.local/bin/pipenv run pytest {}/tests/test_jianzhao_web/ --html=backend/templates/{}_report.html --self-contained-html',
-        'zhaopin': '/root/.local/bin/pipenv run pytest {}/tests/test_zhaopin_app/ --html=backend/templates/{}_report.html --self-contained-html',
-        'entry_app': '/root/.local/bin/pipenv run pytest {}/tests/test_entry_app/ --html=backend/templates/{}_report.html --self-contained-html',
-        'all': '/root/.local/bin/pipenv run pytest {}/ --html=backend/templates/{}_report.html --self-contained-html',
-        'neirong_app': '/root/.local/bin/pipenv run pytest {}/tests/test_neirong_app/ --html=backend/templates/{}_report.html --self-contained-html',
-        'mainprocess': 'pytest {}/tests/test_mainprocess/ --html=backend/templates/{}_report.html --self-contained-html',
-
+    business_module = {
+        'mainprocess': 'pytest {}/tests/test_mainprocess/ --html=backend/templates/{}_report.html --self-contained-html -s -v',
+        'lg-zhaopin-boot': 'pytest {}/tests/test_lg_zhaopin_boot/ --html=backend/templates/{}_report.html --self-contained-html {}',
+        'lg-entry-boot': 'pytest {}/tests/test_lg_entry_boot/ --html=backend/templates/{}_report.html --self-contained-html {}',
+        'lg-neirong-boot': 'pytest {}/tests/test_lg_neirong_boot/ --html=backend/templates/{}_report.html --self-contained-html {}'
     }
 
     def get(self):
@@ -65,8 +62,10 @@ class run_Pytest(Resource):
         '''
         parser = reqparse.RequestParser()
         parser.add_argument('module', type=str,
-                            choices=('business', 'jianzhao_web', 'zhaopin', 'all', 'entry_app', 'mainprocess'),
-                            help="请输入正确模块值: 'business' or 'jianzhao_web' or 'zhaopin' or 'all'", required=True)
+                            choices=(
+                                'lg-entry-boot', 'lg-zhaopin-boot', 'lg-neirong-boot', 'mds-web-tomcat', 'mainprocess'),
+                            help="请输入正确模块值: 'lg-entry-boot' or 'lg-zhaopin-boot' or 'lg-neirong-boot' or 'mds-web-tomcat' or 'mainprocess'",
+                            required=True)
         args = parser.parse_args()
         headers = {'Content-Type': 'text/html'}
         html = '{}_report.html'.format(args['module'])
@@ -90,7 +89,7 @@ class run_Pytest(Resource):
 
         | 字段 | 必填 | 类型 | 描述|
         | ---- | ---- | ---- | ---- |
-        | module | True | string | 选项值, business, jianzhao_web, zhaopin, all |
+        | module | True | string | 选项值, lg-zhaopin-boot, jianzhao_web, zhaopin, all |
         |  |  | string | jianzhao_web，简招web |
         |  |  | string | zhaopin， 招聘业务 |
         |  |  | string | business, 商业业务 |
@@ -153,17 +152,60 @@ class run_Pytest(Resource):
         '''
         parser = reqparse.RequestParser()
         parser.add_argument('module', type=str,
-                            choices=('business', 'jianzhao_web', 'zhaopin', 'all', 'entry_app', 'mainprocess'),
-                            help="请输入正确模块值: 'business' or 'jianzhao_web' or 'zhaopin' or 'all'", required=True)
+                            help="请输入正确模块值",
+                            required=True)
+        parser.add_argument('ip_port', type=str,
+                            help="ip:port", default=None
+                            )
         args = parser.parse_args()
-        project_path = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
-        os.chdir(project_path)
+        if self.business_module.get(args['module']) is None:
+            return {'state': 2, "data": "不支持该业务模块"}
+
+        if args['ip_port']:
+            if not (len(args['ip_port'].split('.')) == 4 and len(args['ip_port'].split(':')) == 2):
+                return {'state': 3, "data": "ip:port 不正确"}
+
         state = 1
-        info = None
-        subprocess.call(self.Business_module[args['module']].format(project_path, args['module']), shell=True,
-                        timeout=300)
-        result = analysis_html_report("{}/backend/templates/{}_report.html".format(project_path, args['module']), 3)
+        project_path = self.switch_project_root_directory()
+
+        cmd_str = self.get_run_pytest_cmd(args['module'], project_path, args['ip_port'])
+        ret = subprocess.run(cmd_str, shell=True, timeout=300, stdout=subprocess.PIPE, encoding='utf-8')
+        current_app.logger.info(f'本次pytest的returncode执行结果: {ret.returncode}')
+        current_app.logger.info(ret.stdout)
+
+        if ret.returncode < 0:
+            return {'state': 4, 'data': f'{args["module"]}自动化测试未正常运行，请查看日志'}
+
+        html_report_path = f"{project_path}/backend/templates/{args['module']}_report.html"
+        result = analysis_html_report(html_report_path, 3, args['module'])
+
         if bool(result['info']['result']['fail_result']):
             state = 0
         info = {"result": result}
+
         return {'state': state, "data": info}
+
+    def assert_is_test_run(self, pytest_result):
+        run_result = pytest_result.strip().split('\n')[-1]
+        result = ' '.join(run_result.split(' ')[1:-1])
+        if not 'no test' in result:
+            return False
+        return True
+
+    def get_run_pytest_cmd(self, module, project_path, ip_port):
+        if ip_port is None:
+            ip_port = ''
+        else:
+            ip_port = f'--ip_port {ip_port}'
+        business_module = {
+            'mainprocess': f'pytest {project_path}/tests/test_mainprocess/ --html=backend/templates/{module}_report.html --self-contained-html {ip_port}',
+            'lg-zhaopin-boot': f'pytest {project_path}/tests/test_lg_zhaopin_boot/ --html=backend/templates/{module}_report.html --self-contained-html {ip_port}',
+            'lg-entry-boot': f'pytest {project_path}/tests/test_lg_entry_boot/ --html=backend/templates/{module}_report.html --self-contained-html {ip_port}',
+            'lg-neirong-boot': f'pytest {project_path}/tests/test_lg_neirong_boot/ --html=backend/templates/{module}_report.html --self-contained-html {ip_port}'
+        }
+        return business_module.get(module)
+
+    def switch_project_root_directory(self):
+        project_path = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
+        os.chdir(project_path)
+        return project_path

@@ -4,13 +4,18 @@
 import random
 
 from api_script.entry.account.passport import password_login
-from utils.util import get_app_header, get_requests, json_post, json_put, get_app_header1, app_header_999
+from utils.util import get_app_header, get_requests, json_post, json_put, app_header_999, get_app_header1
 
 host = "https://gate.lagou.com/v1/zhaopin"
 headers = get_app_header(100014641)
 
 
-# headers = get_app_header(100013384)
+def positions_category(userToken, userId=None, ip_port=None):
+    url = 'https://gate.lagou.com/v1/zhaopin/positions/category'
+    header = app_header_999(userToken=userToken, userId=userId)
+    remark = '获取职业静态信息'
+    return get_requests(url=url, headers=header, remark=remark, ip_port=ip_port).json()
+
 
 def positions_static_info():
     url = host + "/positions/static_info"
@@ -18,15 +23,16 @@ def positions_static_info():
     return get_requests(url=url, headers=headers, remark=remark).json()
 
 
-def category_mapping(positionName):
+def category_mapping(userToken, positionName, userId=None, ip_port=None):
     '''
     职位名称映射职位分类
     :param positionName: str, 职位名称
     :return:
     '''
     url = host + "/positions/category_mapping?positionName={}".format(positionName)
+    header = app_header_999(userToken=userToken, DA=False, userId=userId)
     remark = "职位名称映射职位分类"
-    return get_requests(url=url, headers=headers, remark=remark).json()
+    return get_requests(url=url, headers=header, remark=remark, ip_port=ip_port).json()
 
 
 def positions_tag_report(firstCateGory, secCategory, tagName):
@@ -50,7 +56,6 @@ def publish_position_check():
     return get_requests(url=url, headers=headers, remark=remark).json()
 
 
-# yazhang新增typeid字段，1：普通职位，2：特权，3：无曝光
 def post_positions(firstType='开发|测试|运维类', workyear='应届毕业生', positionType='后端开发', positionThirdType='Java',
                    positionName='java开发工程师', typeid=None, userid=100014641, workAddressId=191880):
     '''
@@ -97,18 +102,19 @@ def post_positions(firstType='开发|测试|运维类', workyear='应届毕业�
     return json_post(url=url, headers=headers, data=data, remark=remark)
 
 
-def positions_details(positionId):
+def positions_details(userToken, positionId, userId=None, ip_port=None):
     '''
     查看职位详情
     :param positionId: int
     :return:
     '''
-    url = host + "/positions/" + positionId + "/details"
+    url = host + "/positions/{}/details".format(positionId)
+    header = app_header_999(userToken, DA=False, userId=userId)
     remark = "查看职位详情"
-    return get_requests(url=url, headers=headers, remark=remark).json()
+    return get_requests(url=url, headers=header, remark=remark, ip_port=ip_port).json()
 
 
-def update_position(positionId):
+def update_position(positionId, workAddressId):
     '''
     编辑职位
     :param positionId:
@@ -118,7 +124,7 @@ def update_position(positionId):
     data = {
         "education": "本科",
         "positionId": positionId,
-        "workAddressId": 191880,
+        "workAddressId": workAddressId,
         "jobNature": "全职",
         "positionDesc": "22222222222222222222",
         "workYear": "应届毕业生",
@@ -134,34 +140,37 @@ def update_position(positionId):
         }],
         "salaryMax": 30
     }
-    remark = "发布职位"
+    remark = "编辑职位"
     return json_put(url=url, headers=headers, data=data, remark=remark)
 
 
-def get_online_positions(userToken=None, H9=False, userId=100014641):
+def get_online_positions(ip_port=None, userToken=None, H9=False, userId=None):
     '''
     获取在线职位列表
     :return:
     '''
     if H9 == True:
-        header = app_header_999(userToken, DA=False)
+        header = app_header_999(userToken, DA=False, userId=userId)
     else:
+        userId = 100014641
         header = get_app_header(userId)
     url = host + "/positions/online/pages?pageNo=1&pageSize=80"
     remark = "获取在线职位列表"
-    return get_requests(url=url, headers=header, remark=remark).json()
+    return get_requests(url=url, headers=header, remark=remark, ip_port=ip_port).json()
 
 
-def get_offline_positions():
+def get_offline_positions(userToken, userId=None, ip_port=None):
     url = host + "/positions/offline/pages"
+    header = app_header_999(userToken=userToken, DA=False, userId=userId)
     remark = "获取已下线列表"
-    return get_requests(url=url, headers=headers, remark=remark).json()
+    return get_requests(url=url, headers=header, remark=remark, ip_port=ip_port).json()
 
 
-def get_other_positions():
+def get_other_positions(userToken, userId=None, ip_port=None):
     url = host + "/positions/company/other/pages"
+    header = app_header_999(userToken=userToken, DA=False, userId=userId)
     remark = "获取其他职位列表"
-    return get_requests(url=url, headers=headers, remark=remark).json()
+    return get_requests(url=url, headers=header, remark=remark, ip_port=ip_port).json()
 
 
 def refresh_position(positionId, reqVersion=None, userId=100014641):
@@ -202,13 +211,14 @@ def apply_privilege_position(userId):
     return get_requests(url=url, headers=headers, remark=remark).json()
 
 
-def positions_is_hot(positionName):
+def positions_is_hot(userToken, positionName, userId=None, ip_port=None):
     url = host + "/positions/is_hot?positionName=" + positionName
+    headers = app_header_999(userToken, DA=False, userId=userId)
     remark = "是否热门职位"
-    return json_post(url=url, headers=headers, remark=remark)
+    return json_post(url=url, headers=headers, remark=remark, ip_port=ip_port)
 
 
-def positions_invite(positionId, userId):
+def positions_invite(userToken, positionId, userId=None, ip_port=None):
     '''
     批量邀约候选人
     :param positionId: int, 职位id
@@ -220,8 +230,9 @@ def positions_invite(positionId, userId):
         "positionId": positionId,
         "userIds": [userId]
     }
+    headers = app_header_999(userToken, DA=False, userId=userId)
     remark = "批量邀约候选人"
-    return json_post(url=url, data=data, headers=headers, remark=remark)
+    return json_post(url=url, data=data, headers=headers, remark=remark, ip_port=ip_port)
 
 
 def positions_recommend(positionId):
@@ -235,13 +246,13 @@ def positions_recommend(positionId):
     return json_post(url=url, headers=headers, remark=remark)
 
 
-def positions_red_point_hint():
+def positions_red_point_hint(userToken,ip_port=None, userId=None):
     url = host + "/positions/red_point_hint"
+    header = app_header_999(userToken, DA=False,userId=userId)
     remark = "首页导航职位红点"
-    return get_requests(url=url, remark=remark, headers=headers).json()
+    return get_requests(url=url, remark=remark, headers=header,ip_port=ip_port).json()
 
 
-# yqzhang新增
 def positions_details_app(positionId):
     url = host + '/positions/{}/details/app'.format(positionId)
     remark = '获取职位详情新'
@@ -266,57 +277,15 @@ def positions_republish(positionId, userId):
     return json_put(url=url, data=data, headers=headers, remark=remark)
 
 
-def positions_offline(id, reqVersion=None, userToken=None, H9=False, userId=100014641):
+def positions_offline(id, reqVersion=None, userToken=None, H9=False, userId=None, ip_port=None):
     url = host + '/positions/{}/offline'.format(id)
     remark = '下线职位'
     if H9 == True:
-        headers = app_header_999(userToken, DA=False)
+        headers = app_header_999(userToken, DA=False, userId=userId)
     else:
+        userId = 100014641
         headers = get_app_header(userId, reqVersion)
-    return json_put(url=url, data={}, remark=remark, headers=headers)
-
-
-def post_myOnlinePositions(firstType='开发|测试|运维类', workyear='3-5年', positionType='后端开发', positionThirdType='Java',
-                           positionName='java开发工程师', typeid=None, userid=100014641, workAddressId=191880):
-    '''
-    发布职位
-    :return:
-    '''
-    url = host + "/positions/publish"
-    data = {
-        "isConfirm": True,
-        "recommend": True,
-        "labels": [{
-            "name": "旅游",
-            "id": 9,
-            "isExpanded": False,
-            "isSelected": False,
-            "isSubTag": False
-        }, {
-            "name": "本地生活",
-            "id": 5,
-            "isExpanded": False,
-            "isSelected": False,
-            "isSubTag": False
-        }],
-        "positionType": positionType,
-        "positionDesc": "<p>11111111111111111111111111111</p>",
-        "workYear": workyear,
-        "salaryMin": 20,
-        "firstType": firstType,
-        "positionName": positionName,
-        "positionBrightPoint": "20薪",
-        "positionThirdType": positionThirdType,
-        "jobNature": "全职",
-        "education": "本科",
-        "workAddressId": workAddressId,
-        "department": "技术部",
-        "salaryMax": 30,
-        "typeId": typeid
-    }
-    remark = "发布职位"
-    headers = get_app_header1(userid)
-    return json_post(url=url, headers=headers, data=data, remark=remark)
+    return json_put(url=url, data={}, remark=remark, headers=headers, ip_port=ip_port)
 
 
 def publish_guide(userId):
@@ -326,7 +295,7 @@ def publish_guide(userId):
     return get_requests(url=url, headers=header, remark=remark).json()
 
 
-def publish_position(userToken):
+def publish_position(userToken, userId=None, ip_port=None):
     '''
     发布职位
     :return:
@@ -353,12 +322,13 @@ def publish_position(userToken):
         "education": "本科",
         "jobNature": "全职",
         "department": "",
+        # "workAddressId" : 1629630,
         "workAddressId": 1560096,
         "salaryMax": 25
     }
     remark = "发布职位"
-    headers = app_header_999(userToken, DA=False)
-    return json_post(url=url, headers=headers, data=data, remark=remark)
+    headers = app_header_999(userToken, DA=False, userId=userId)
+    return json_post(url=url, headers=headers, data=data, remark=remark, ip_port=ip_port)
 
 
 if __name__ == '__main__':

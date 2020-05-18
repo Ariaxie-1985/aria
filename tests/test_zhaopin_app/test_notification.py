@@ -7,7 +7,6 @@ from api_script.zhaopin_app.notification import notification_read, notification_
 from utils.util import assert_equal
 
 
-# todo 等合并到default环境针对数据来做具体的断言
 
 @pytest.importorskip('test_notification.py', reason="等上线后才可在default环境根据数据来写具体断言，预计15号上线")
 def test_notification_query():

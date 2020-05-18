@@ -8,23 +8,23 @@ from utils.util import get_app_header, json_post, form_post, app_header_999, get
 from faker import Faker
 
 host = 'https://gate.lagou.com/v1/neirong'
-header = get_app_header(100014641)
 
 fake = Faker('zh_CN')
 sex = ['女', '男']
 
 
-def resumes_list():
+def resumes_list(userToken, ip_port=None, userId=None):
     url = host + '/resumes/list'
+    header = app_header_999(userToken, DA=False, userId=userId)
     remark = '消息--对话--发送简历--显示简历列表，包含附件和在线简历'
-    return form_post(url=url, headers=header, remark=remark)
+    return form_post(url=url, headers=header, remark=remark, ip_port=ip_port)
 
 
 def guideBasicInfo(phone, userIdentity, userToken, joinWorkTime="2013.07"):
     '''
 
     :param phone:
-    :param userIdentity:1 学生, 2非学生
+    :param userIdentity:1 学生, 2 非学生
     :param userToken:
     :return:
     '''
@@ -41,7 +41,7 @@ def guideBasicInfo(phone, userIdentity, userToken, joinWorkTime="2013.07"):
             "email": fake.email(),
             "birthday": "1990.05",
             "sex": sex[random.randint(0, 1)],
-            "name": '拉勾测试自动化'+fake.name()
+            "name": '拉勾测试自动化' + fake.name()
         }
         return json_post(url=url, data=data, headers=header, app=True, remark="提交类型为学生的基本信息")
     if joinWorkTime == '暂无工作经历':
@@ -53,7 +53,7 @@ def guideBasicInfo(phone, userIdentity, userToken, joinWorkTime="2013.07"):
             "email": fake.email(),
             "birthday": "1990.05",
             "sex": sex[random.randint(0, 1)],
-            "name": '拉勾测试自动化'+fake.name(),
+            "name": '拉勾测试自动化' + fake.name(),
             "joinWorkTime": "暂无工作经历"
         }
         return json_post(url=url, data=data, headers=header, app=True, remark="提交类型为非学生但无工作经历的基本信息")
@@ -75,20 +75,16 @@ def educationExperiences(userToken, **kwargs):
     url = 'https://gate.lagou.com/v1/neirong/educationExperiences/'
     schoolName = kwargs.get('schoolName', '陕西文理学院')
     education = kwargs.get('education', '本科')
-    startDate = kwargs.get('startDate', '2009')
-    endDate = kwargs.get('endDate', 2013)
+    startDate = kwargs.get('startDate', '2009.09')
+    endDate = kwargs.get('endDate', '2013.07')
     data = {
-        "cardType": 0,
-        "resumeId": 0,
-        "major": "计算机科学与技术",
-        "professional": "计算机科学与技术",
-        "schoolBadge": "",
-        "schoolName": schoolName,
-        "id": 0,
         "education": education,
-        "startDate": startDate,
         "endDate": endDate,
-        "logo": ""
+        "id": 0,
+        "isUnifiedEntrance": 1,
+        "professional": "计算机科学与技术",
+        "schoolName": schoolName,
+        "startDate": startDate
     }
     header = app_header_999(userToken, DA=False)
     return json_post(url=url, data=data, headers=header, remark="提交教育经历")
@@ -113,13 +109,13 @@ def abilityLabels(userToken):
 def expectJob(userToken):
     url = 'https://gate.lagou.com/v1/entry/expectJob'
     data = {
-        "positionNameType2": "后端开发",
+        "positionNameType2": "影视|媒体",
         "expectStatus": "积极找工作",
         "expectCity": "北京",
         "positionType": "实习",
-        "positionName": "Python",
+        "positionName": "经纪人|星探",
         "expectArrivalTime": "随时",
-        "positionNameType1": "开发|测试|运维类",
+        "positionNameType1": "文娱|传媒|艺术|体育",
         "expectSalary": "8k-12k"
     }
     header = app_header_999(userToken, DA=False)
@@ -130,7 +126,7 @@ def workExperiences(userToken, **kwargs):
     url = 'https://gate.lagou.com/v1/neirong/workExperiences/'
     startDate = kwargs.get('startDate', '2015.09')
     endDate = kwargs.get('endDate', '至今')
-    companyName = kwargs.get('companyName', '火星情报局')
+    companyName = kwargs.get('companyName', '杰威尔音乐有限公司')
     data = {
         "id": 0,
         "workContent": "<p>跟进迭代测试工作，用户反馈；</p><p>dubbo接口测试，http接口测试</p>",
@@ -139,7 +135,7 @@ def workExperiences(userToken, **kwargs):
         "positionType": "销售顾问",
         "positionType2": "销售",
         "endDate": endDate,
-        "positionName": "拉勾测试销售顾问",
+        "positionName": "艺人经纪",
         "companyName": companyName,
         "startDate": startDate,
         "companyIndustry": "分类信息",

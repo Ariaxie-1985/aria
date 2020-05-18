@@ -2,12 +2,10 @@
 # @Time  : 2019-09-19 11:24
 # @Author: Xiawang
 # Description:
-import json
-
 from utils.util import json_post, get_requests, app_header_999
 
 
-def password_login(accountName, password):
+def password_login(accountName, password, ip_port=None):
     url = 'https://gate.lagou.com/v1/entry/account/passport/login'
     header = app_header_999()
     data = {
@@ -17,7 +15,7 @@ def password_login(accountName, password):
         "loginType": 0,
         "accountName": accountName
     }
-    r = json_post(url=url, headers=header, data=data, remark="密码登录")
+    r = json_post(url=url, headers=header, data=data, remark="密码登录", ip_port=ip_port)
     return r
 
 
@@ -36,7 +34,7 @@ def verifyCode_login(countryCode, phone, verify_code):
     return r
 
 
-def send_verify_code(countryCode, phone,businessType):
+def send_verify_code(countryCode, phone, businessType):
     url = 'https://gate.lagou.com/v1/entry/account/verifyCode/phone'
     data = {
         "countryCode": countryCode,
@@ -67,5 +65,10 @@ def register_by_phone(countryCode, phone, verify_code):
 def get_login_by_token(userToken):
     url = 'https://gate.lagou.com/v1/entry/account/passport/loginByToken'
     header = app_header_999(userToken)
-    r = get_requests(url=url, headers=header, remark="通过token登录").json()
+    r = get_requests(url=url, headers=header, remark="通过token登录,其header:{}".format(header)).json()
     return r
+
+
+if __name__ == '__main__':
+    r = password_login("0085220180917", "0085220180917")
+    print(r)

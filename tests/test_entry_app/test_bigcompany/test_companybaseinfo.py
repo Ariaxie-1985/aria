@@ -3,8 +3,8 @@ __author__ = 'arayang'
 
 from utils.util import assert_equal
 import pytest
-from api_script.entry.buser.hrinfo import *
-from api_script.entry.bigcompany.companybaseinfo import *
+from api_script.entry.buser.hr_info import *
+from api_script.entry.bigcompany.big_company import *
 @pytest.importorskip('test_companybaseinfo.py', reason="等上线后再执行")
 
 def setup_module(module):

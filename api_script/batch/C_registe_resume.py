@@ -149,15 +149,24 @@ def create_resume(phone, countryCode, userIdentity, kwargs={}):
         liveCity = kwargs.get('liveCity', '北京')
         joinWorkTime = kwargs.get('joinWorkTime', '2018.07')
         education = kwargs.get('education', '本科')
+<<<<<<< HEAD
         isUnifiedEntrance = kwargs.get('isUnifiedEntrance', 1)  # 1表示统招，0表示非统招
         startDate = kwargs.get('startDate', '2009')
         endDate = kwargs.get('endDate', '2013')
+||||||| merged common ancestors
+        startDate = kwargs.get('startDate', '2009')
+        endDate = kwargs.get('endDate', '2013')
+=======
+        startDate = kwargs.get('startDate', '2009.09')
+        endDate = kwargs.get('endDate', '2013.07')
+>>>>>>> test_mainprocess
         city = kwargs.get('city', '北京')
         positionType = kwargs.get('positionType', '全职')
         positionName = kwargs.get('positionName', '机器学习')
         positionNameType1 = kwargs.get('positionNameType1', '开发|测试|运维类')
         positionNameType2 = kwargs.get('positionNameType2', '人工智能')
         salarys = kwargs.get('salarys', '10k-20k')
+        isUnifiedEntrance = kwargs.get('isUnifiedEntrance', 1)
 
     r1 = login(countryCode, phone)
 
