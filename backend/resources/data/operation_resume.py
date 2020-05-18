@@ -5,9 +5,9 @@ import time
 
 from flask_restful import Resource, reqparse
 
-from backend.OperationMysql import OperationMysql
+# from backend.OperationMysql import OperationMysql
 
-op_mysql = OperationMysql()
+# op_mysql = OperationMysql()
 
 
 class getResume(Resource):
@@ -99,76 +99,76 @@ class getResume(Resource):
         parser.add_argument('phone', type=str, help="请输入正确手机号")
         parser.add_argument('userid', type=str, help="请输入正确userid")
         args = parser.parse_args()
-        if args['phone']:
-            try:
-                resume_id = op_mysql.search_one("SELECT id FROM r_resume WHERE phone = '%s'" % args['phone'])
-                state = 1
-                info = resume_id
-                global resumeid
-                resumeid = resume_id['id']
-            except BaseException:
-                state = 400
-                info = "找不到简历id, 请确认下手机号填写是否正确"
-        elif args['userid']:
-            try:
-                resume_id = op_mysql.search_one(
-                    "SELECT id FROM r_resume WHERE userId = %d" % int(
-                        args['userid']))
-                state = 1
-                info = resume_id
-                resumeid = resume_id['id']
-            except BaseException:
-                state = 400
-                info = "找不到简历id, 请确认下userid填写是否正确"
-        else:
-            return {'state':400, 'content':'找不到简历id, 请确认下手机号、userid填写是否正确'}
+        # if args['phone']:
+        #     try:
+        #         resume_id = op_mysql.search_one("SELECT id FROM r_resume WHERE phone = '%s'" % args['phone'])
+        #         state = 1
+        #         info = resume_id
+        #         global resumeid
+        #         resumeid = resume_id['id']
+        #     except BaseException:
+        #         state = 400
+        #         info = "找不到简历id, 请确认下手机号填写是否正确"
+        # elif args['userid']:
+        #     try:
+        #         resume_id = op_mysql.search_one(
+        #             "SELECT id FROM r_resume WHERE userId = %d" % int(
+        #                 args['userid']))
+        #         state = 1
+        #         info = resume_id
+        #         resumeid = resume_id['id']
+        #     except BaseException:
+        #         state = 400
+        #         info = "找不到简历id, 请确认下userid填写是否正确"
+        # else:
+        #     return {'state':400, 'content':'找不到简历id, 请确认下手机号、userid填写是否正确'}
+        #
+        # try:
+        #     basicMain = op_mysql.search_one("SELECT * FROM r_resume WHERE id = '%s'" % resumeid)
+        #     basicMain['createTime'] = str(basicMain['createTime'])
+        #     basicMain['updateTime'] = str(
+        #         basicMain.get('updateTime', time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())))
+        #     workExperience = op_mysql.search_one(
+        #         "SELECT * FROM r_work_experience WHERE resumeId = '%s' AND isDel = 0 ORDER BY createTime desc" % resumeid)
+        #     if not (workExperience == None):
+        #         workExperience['createTime'] = str(workExperience['createTime'])
+        #
+        #     educationExperience = op_mysql.search_one(
+        #         "SELECT * FROM r_education_experience WHERE resumeId = '%s' AND isDel = 0 ORDER BY createDate desc" %
+        #         resumeid)
+        #     if not (educationExperience == None):
+        #         educationExperience['createDate'] = str(educationExperience['createDate'])
+        #
+        #     ability_label = op_mysql.search_all(
+        #         "SELECT * FROM r_ability_label WHERE resume_id = '%s' AND is_del = 0" %
+        #         resumeid)
+        #     if not (ability_label == None):
+        #         for ab_label in ability_label:
+        #             ab_label['create_time'] = str(ab_label['create_time'])
+        #             ab_label['update_time'] = str(
+        #                 ab_label.get('update_time', time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())))
+        #
+        #     r_expect_jobs = op_mysql.search_one(
+        #         "SELECT * FROM r_expect_jobs where resumeId = '%s'" %
+        #         resumeid)
+        #     r_expect_jobs['createTime'] = str(basicMain['createTime'])
+        #     r_expect_jobs['updateTime'] = str(
+        #         basicMain.get('updateTime', time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())))
+        #     info = "操作成功！"
 
-        try:
-            basicMain = op_mysql.search_one("SELECT * FROM r_resume WHERE id = '%s'" % resumeid)
-            basicMain['createTime'] = str(basicMain['createTime'])
-            basicMain['updateTime'] = str(
-                basicMain.get('updateTime', time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())))
-            workExperience = op_mysql.search_one(
-                "SELECT * FROM r_work_experience WHERE resumeId = '%s' AND isDel = 0 ORDER BY createTime desc" % resumeid)
-            if not (workExperience == None):
-                workExperience['createTime'] = str(workExperience['createTime'])
-
-            educationExperience = op_mysql.search_one(
-                "SELECT * FROM r_education_experience WHERE resumeId = '%s' AND isDel = 0 ORDER BY createDate desc" %
-                resumeid)
-            if not (educationExperience == None):
-                educationExperience['createDate'] = str(educationExperience['createDate'])
-
-            ability_label = op_mysql.search_all(
-                "SELECT * FROM r_ability_label WHERE resume_id = '%s' AND is_del = 0" %
-                resumeid)
-            if not (ability_label == None):
-                for ab_label in ability_label:
-                    ab_label['create_time'] = str(ab_label['create_time'])
-                    ab_label['update_time'] = str(
-                        ab_label.get('update_time', time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())))
-
-            r_expect_jobs = op_mysql.search_one(
-                "SELECT * FROM r_expect_jobs where resumeId = '%s'" %
-                resumeid)
-            r_expect_jobs['createTime'] = str(basicMain['createTime'])
-            r_expect_jobs['updateTime'] = str(
-                basicMain.get('updateTime', time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())))
-            info = "操作成功！"
-
-        except:
-            return {'state': 400, 'content': "找不到简历id, 请确认下手机号或userid填写是否正确"}
-
-        return {
-            'state': state,
-            'content': info,
-            'result': {
-                'basicMain': basicMain,
-                'workExperience': workExperience,
-                'educationExperience': educationExperience,
-                'ability_label': ability_label,
-                'expect_jobs': r_expect_jobs
-            }}
+        # except:
+        #     return {'state': 400, 'content': "找不到简历id, 请确认下手机号或userid填写是否正确"}
+        #
+        # return {
+        #     'state': state,
+        #     'content': info,
+        #     'result': {
+        #         'basicMain': basicMain,
+        #         'workExperience': workExperience,
+        #         'educationExperience': educationExperience,
+        #         'ability_label': ability_label,
+        #         'expect_jobs': r_expect_jobs
+        #     }}
 
     def post(self):
         """修改简历信息
