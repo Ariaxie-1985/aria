@@ -145,12 +145,6 @@ class TestCreateCompany(object):
         r = join_with_user(userIdPasscode=userIdPasscode, invite_code=invite_code)
         assert_equal(True, bool(r), '确定加入公司用例通过')
 
-    def test_get_general_user_info(self, get_user_info):
-        global general_user_id, www_company_id, easy_company_id
-        general_user_id, easy_company_id, www_company_id = get_user_info
-        loger.info(f'B端入驻普通用户1用户id:{general_user_id}, 简招公司id:{easy_company_id}, 主站公司id:{www_company_id}')
-        assert_equal(True, bool(general_user_id), '获取用户ID是否成功')
-
     def test_free_position_is_in_online_position(self):
         positions_result = get_online_positions()
         assert_equal(1, positions_result.get('state'), '在线职位接口调用用例通过')
@@ -450,9 +444,10 @@ class TestCreateCompany(object):
         login_result = login_password(general_countryCode + general_phone, get_password)
         assert_equal(1, login_result['state'], '校验普通用户登录是否成功')
 
-    def test_record_general_user(self):
-        # global general_userId
-        # general_userId = www_get_userId
+    def test_record_general_user(self, www_get_userId):
+        global general_user_id
+        general_user_id = www_get_userId
+        loger.info(f'B端入驻普通用户1用户id:{general_user_id}, 简招公司id:{easy_company_id}, 主站公司id:{www_company_id}')
         record_test_data(2, userId=general_user_id, UserCompanyId=easy_company_id, lg_CompanyId=www_company_id)
 
     def test_batchCancel_general_user(self):
