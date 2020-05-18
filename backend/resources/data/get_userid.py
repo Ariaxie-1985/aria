@@ -1,9 +1,9 @@
 # coding:utf-8
 # @Time  : 2019-04-02 11:29
 # @Author: Xiawang
-from backend.OperationMysql import OperationMysql
+# from backend.OperationMysql import OperationMysql
 
-op_mysql = OperationMysql()
+# op_mysql = OperationMysql()
 from flask_restful import Resource, reqparse
 
 
