@@ -35,7 +35,7 @@ loger = loger()
 
 
 @pytest.mark.incremental
-class TestCreateCompany(object):
+class TestCompanyBusiness(object):
     im_chat_number = 15
     im_chat_number_gray_scale = 50
 
