@@ -276,51 +276,51 @@ class getResume(Resource):
         args = parser.parse_args()
 
         info1, info2, info3, info4, info5 = '', '', '', '', ''
-        effect_row = op_mysql.update_all(
-            "UPDATE r_resume SET name = '%s',sex = '%s', birthday = '%s', email= '%s' , liveCity= '%s', work_year= '%s', joinWorkTime = '%s', myRemark = '%s' WHERE id = %d" % (
-                args['name'], args['sex'], args['birthday'], args['email'], args['liveCity'], args['work_year'],
-                args['joinWorkTime'], args['myRemark'], int(args['id'])))
+        # effect_row = op_mysql.update_all(
+        #     "UPDATE r_resume SET name = '%s',sex = '%s', birthday = '%s', email= '%s' , liveCity= '%s', work_year= '%s', joinWorkTime = '%s', myRemark = '%s' WHERE id = %d" % (
+        #         args['name'], args['sex'], args['birthday'], args['email'], args['liveCity'], args['work_year'],
+        #         args['joinWorkTime'], args['myRemark'], int(args['id'])))
 
-        if effect_row > 0:
-            info1 = '基本信息修改成功！'
-
-        r_work_experience_effect_row = op_mysql.update_all(
-            "UPDATE r_work_experience SET companyName = '%s',department = '%s',positionType1 = '%s',positionType2 = '%s',positionType='%s',positionName='%s',startDate='%s',endDate='%s',companyIndustry='%s',skillLabel='%s',workContent='%s' WHERE resumeId = %d" % (
-                args['companyName'],
-                args['department'],
-                args['positionNameType1'],
-                args['positionNameType2'],
-                args['positionType'],
-                args['positionName'],
-                args['startDate'],
-                args['endDate'],
-                args['companyIndustry'],
-                args['skillLabel'],
-                args['workContent'],
-                int(args['id'])))
-        if r_work_experience_effect_row > 0:
-            info2 = '工作经历修改成功! '
-
-        r_education_experience_effect_row = op_mysql.update_all(
-            "UPDATE r_education_experience SET schoolName = '%s',professional = '%s',startDate='%s',endDate='%s',education='%s' WHERE resumeId = %d" % (
-                args['schoolName'], args['professional'], args['ed_startDate'], args['ed_endDate'], args['education'],
-                int(args['id'])))
-        if r_education_experience_effect_row > 0:
-            info3 = '教育经历修改成功!'
-
-        if args['label_name'] == '':
-            r_ability_label_effect_row = op_mysql.update_all(
-                "UPDATE r_ability_label SET is_del = '%s' WHERE resumeId = %d" % (1, int(args['id'])))
-            if r_ability_label_effect_row > 0:
-                info4 = '综合能力标签修改成功!'
-
-
-        r_expect_jobs_effect_row = op_mysql.update_all(
-            "UPDATE r_expect_jobs SET positionName = '%s',positionNameType1 = '%s',positionNameType2='%s',positionType='%s',salarys='%s',city='%s',status='%s',arrivalTime='%s' WHERE resumeId = %d" % (
-                args['ex_positionName'], args['positionNameType1'],args['positionNameType2'], args['ex_positionType'], args['salarys'], args['city'],
-                args['status'], args['arrivalTime'], args['id']))
-        if r_expect_jobs_effect_row > 0:
-            info5 = '求职意向修改成功'
+        # if effect_row > 0:
+        #     info1 = '基本信息修改成功！'
+        #
+        # r_work_experience_effect_row = op_mysql.update_all(
+        #     "UPDATE r_work_experience SET companyName = '%s',department = '%s',positionType1 = '%s',positionType2 = '%s',positionType='%s',positionName='%s',startDate='%s',endDate='%s',companyIndustry='%s',skillLabel='%s',workContent='%s' WHERE resumeId = %d" % (
+        #         args['companyName'],
+        #         args['department'],
+        #         args['positionNameType1'],
+        #         args['positionNameType2'],
+        #         args['positionType'],
+        #         args['positionName'],
+        #         args['startDate'],
+        #         args['endDate'],
+        #         args['companyIndustry'],
+        #         args['skillLabel'],
+        #         args['workContent'],
+        #         int(args['id'])))
+        # if r_work_experience_effect_row > 0:
+        #     info2 = '工作经历修改成功! '
+        #
+        # r_education_experience_effect_row = op_mysql.update_all(
+        #     "UPDATE r_education_experience SET schoolName = '%s',professional = '%s',startDate='%s',endDate='%s',education='%s' WHERE resumeId = %d" % (
+        #         args['schoolName'], args['professional'], args['ed_startDate'], args['ed_endDate'], args['education'],
+        #         int(args['id'])))
+        # if r_education_experience_effect_row > 0:
+        #     info3 = '教育经历修改成功!'
+        #
+        # if args['label_name'] == '':
+        #     r_ability_label_effect_row = op_mysql.update_all(
+        #         "UPDATE r_ability_label SET is_del = '%s' WHERE resumeId = %d" % (1, int(args['id'])))
+        #     if r_ability_label_effect_row > 0:
+        #         info4 = '综合能力标签修改成功!'
+        #
+        #
+        # r_expect_jobs_effect_row = op_mysql.update_all(
+        #     "UPDATE r_expect_jobs SET positionName = '%s',positionNameType1 = '%s',positionNameType2='%s',positionType='%s',salarys='%s',city='%s',status='%s',arrivalTime='%s' WHERE resumeId = %d" % (
+        #         args['ex_positionName'], args['positionNameType1'],args['positionNameType2'], args['ex_positionType'], args['salarys'], args['city'],
+        #         args['status'], args['arrivalTime'], args['id']))
+        # if r_expect_jobs_effect_row > 0:
+        #     info5 = '求职意向修改成功'
 
         content = info1 + info2 + info3 + info4 + info5 + '请再次查询简历信息确认是否成功'
         if content == '':

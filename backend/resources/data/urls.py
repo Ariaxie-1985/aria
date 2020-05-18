@@ -28,7 +28,7 @@ from backend.resources.data.registe import registe
 from backend.resources.data.run_pytest import run_Pytest
 from backend.resources.data.submit_resume_to_position import submit_Resume_To_Position
 from backend.resources.data.upload import upload
-from backend.resources.data.work_address import work_address
+# from backend.resources.data.work_address import work_address
 
 api = Api(data)
 
