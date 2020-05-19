@@ -59,6 +59,7 @@ class TestJd(object):
 
     def test_talent_recTalent(self, b_login_app):
         r = talent_recTalent(userToken=b_login_app[0], positionId=positionId)
+        loger.info(f'推荐的职位id:{positionId}')
         assert_equal(True, bool(len(r['content']['result'])), "推荐人才用例通过")
         global resumeId
         resumeId = r['content']['result'][0]['resumeId']
