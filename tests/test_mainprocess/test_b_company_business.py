@@ -103,7 +103,7 @@ class TestCompanyBusiness(object):
 
     def test_group_invite_code(self):
         r = group_invite_code()
-        loger.info(f'获取邀请码:{r}')
+        loger.info(f'获取邀请码:{r.get("content")}')
         global user, invite_code
         for k, v in r['content']['data'].items():
             user = k
