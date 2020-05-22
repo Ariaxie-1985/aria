@@ -809,4 +809,6 @@ if __name__ == '__main__':
     # url = 'https://gate.lagou.com/v1/zhaopin/talent/app/search'
     # url = 'https://home.lagou.com/audit/companyApprove/addRiskLabelsByCompany.json'
     r = return_api_developer(url=url)
-    print(r)
+    r1 = os.path.dirname(os.path.dirname(__file__))
+    print(r1)
+    print(r1)
