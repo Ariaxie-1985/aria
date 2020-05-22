@@ -44,7 +44,7 @@ def test_offline_position(b_login_app):
 
 @pytest.mark.incremental
 class TestJd(object):
-    portrait_format = ['jpg', 'png', 'jpeg', 'JPG', 'PNG', 'JPEG']
+    portrait_format = ['jpg', 'png', 'jpeg', 'JPG', 'PNG', 'JPEG','gif','GIF']
 
     def test_publish_position(self, b_login_app):
         r = publish_position(userToken=b_login_app[0])
