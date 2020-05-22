@@ -181,6 +181,7 @@ class run_Pytest(Resource):
 
         if bool(result['info']['result']['fail_result']):
             state = 0
+
         info = {"result": result}
 
         return {'state': state, "data": info}

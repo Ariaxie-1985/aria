@@ -15,6 +15,7 @@ import json
 import logging
 
 from utils.logger import loger
+from utils.mainprocess_api_developer import return_api_developer
 
 logging.getLogger().setLevel(logging.INFO)
 
@@ -611,7 +612,11 @@ def judging_other_abnormal_conditions(status_code, url, remark, pard_id=None):
         call_chain = ''
 
     if status_code == 500:
-        logging.error(msg="该接口URL {} , 备注 {} 报错500, 请检查业务服务是否可用,{}\n".format(url, remark, call_chain))
+        developer_name = return_api_developer(url)
+        if developer_name is not None:
+            logging.error(msg="该接口URL:{} , 备注:{} 报错500, {}, 负责人:{} \n".format(url, remark, call_chain, developer_name))
+        else:
+            logging.error(msg="该接口URL:{} , 备注:{} 报错500, {} \n".format(url, remark, call_chain))
         return {'content': '报错500, 服务端错误', 'url': url, 'remark': remark + call_chain}
     elif status_code == 415:
         logging.error(msg="该接口URL {} 备注 {} 报错415, 请检查接口的请求方法是否正确\n".format(url, remark))
@@ -797,3 +802,11 @@ def domain_convert_ip_port(url, ip_port):
         return url.replace('https', 'http').replace(gate_lagou_com_rule.get(module), ip_port)
     return url.replace('https', 'http').replace(parsed.hostname, ip_port)
 
+
+if __name__ == '__main__':
+    url = 'https://gate.lagou.com/v1/zhaopin/shop/goodsOrder/check/312312312321'
+    # url = 'https://easy.lagou.com/session/batchCreate/2132134.json'
+    # url = 'https://gate.lagou.com/v1/zhaopin/talent/app/search'
+    # url = 'https://home.lagou.com/audit/companyApprove/addRiskLabelsByCompany.json'
+    r = return_api_developer(url=url)
+    print(r)

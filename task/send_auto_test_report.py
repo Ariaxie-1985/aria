@@ -2,6 +2,7 @@
 # @Time  : 2020/4/21 19:18
 # @Author: Xiawang
 # Description:
+import datetime
 
 import requests
 import smtplib
@@ -13,6 +14,17 @@ import time
 '''
 用于主流程监控定期执行并发送报警信息
 '''
+
+
+def get_fix_time():
+    now_time = datetime.datetime.now()
+    if 0 <= now_time.hour <= 8:
+        fix_time = now_time.date().strftime("%Y-%m-%d 12:00")
+    elif 21 <= now_time.hour <= 24:
+        fix_time = (now_time + datetime.timedelta(days=1)).date().strftime("%Y-%m-%d 12:00")
+    else:
+        fix_time = (now_time + datetime.timedelta(hours=3)).strftime("%Y-%m-%d %H:%M")
+    return fix_time
 
 
 def run_pytest():
@@ -33,20 +45,31 @@ def send_feishu_report(pytest_result):
             summary_result += v + ', '
 
         fail_results = ''
+
+        names = ''
         for key, value in pytest_result['data']['result']['info']['result']['fail_result'].items(
         ):
-            fail_result = '用例{}报错:{},原因是{}\n\n'.format(
-                key, value['error_type'], value['log'])
+            if key == 'name':
+                names += value['name'] + ','
+                fail_result = '用例{}报错:{},原因:{},负责人:{}\n\n'.format(
+                    key, value['error_type'], value['log'], value['name'])
+            else:
+                fail_result = '用例{}报错:{},原因是{}\n\n'.format(
+                    key, value['error_type'], value['log'])
             fail_results += fail_result
-
-        content = "{}\n\n具体失败结果:\n{}\n\n请大家对线上问题保持敬畏之心！".format(summary_result, fail_results)
+        if bool(names):
+            fix_time = get_fix_time()
+            name_template = f'请开发同学{names}在{fix_time}之前，尽快处理并给出反馈'
+        else:
+            name_template = ''
+        content = "{}\n\n具体失败结果:\n{}\n请大家对线上问题保持敬畏之心！\n{}".format(summary_result, fail_results, name_template)
         return send_feishu_bot(content=content)
 
 
 def send_mail():
     sender = 'autotest@lagoujobs.com'
     sender_password = 'Lqq123456'
-    receivers = ['xiawang@lagou.com', 'betty@lagou.com', 'yqzhang@lagou.com']
+    receivers = ['xiawang@lagou.com', 'betty@lagou.com']
     ret = True
 
     try:
