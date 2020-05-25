@@ -1,5 +1,6 @@
 # coding:utf-8
 import os
+import sys
 import time
 import zipfile
 from datetime import datetime
@@ -14,9 +15,10 @@ from requests import RequestException
 import json
 import logging
 
-from utils.logger import loger
+from utils.loggers import loger
 from utils.mainprocess_api_developer import return_api_developer
 
+sys.path.append(os.path.dirname(__file__))
 logging.getLogger().setLevel(logging.INFO)
 
 requests.packages.urllib3.disable_warnings()
@@ -805,10 +807,12 @@ def domain_convert_ip_port(url, ip_port):
 
 if __name__ == '__main__':
     url = 'https://gate.lagou.com/v1/zhaopin/shop/goodsOrder/check/312312312321'
-    # url = 'https://easy.lagou.com/session/batchCreate/2132134.json'
-    # url = 'https://gate.lagou.com/v1/zhaopin/talent/app/search'
-    # url = 'https://home.lagou.com/audit/companyApprove/addRiskLabelsByCompany.json'
-    r = return_api_developer(url=url)
-    r1 = os.path.dirname(os.path.dirname(__file__))
-    print(r1)
-    print(r1)
+    url1 = 'https://easy.lagou.com/session/batchCreate/2132134.json'
+    url2 = 'https://gate.lagou.com/v1/zhaopin/talent/app/search'
+    url3 = 'https://home.lagou.com/audit/companyApprove/addRiskLabelsByCompany.json'
+    url4 = 'https://gate.lagou.com/v1/entry/positionindex/new'
+    url5 = 'https://gate.lagou.com/v1/entry/deliver/create'
+
+    for u in [url, url1, url2, url3, url4, url5]:
+        r = return_api_developer(url=u)
+        print(r)

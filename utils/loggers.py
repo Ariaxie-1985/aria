@@ -3,8 +3,10 @@
 # @Author: Xiawang
 # Description:
 import os
+import sys
 
 from loguru import logger
+sys.path.append(os.path.dirname(__file__))
 
 
 def switch_project_root_directory():
@@ -21,8 +23,8 @@ def loger():
 
 
 if __name__ == '__main__':
-    loger = loger()
-    loger.debug('debug 信息')
-    loger.success('success 信息')
-    loger.error('error 信息')
-
+    # loger = loger()
+    # loger.debug('debug 信息')
+    # loger.success('success 信息')
+    # loger.error('error 信息')
+    print(os.path.dirname(__file__))

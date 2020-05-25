@@ -26,7 +26,7 @@ from api_script.neirong_app.account import upate_user_password
 from api_script.zhaopin_app.rights import get_rights_info_list
 from api_script.zhaopin_app.shop import get_shop_goods_on_sale_goods, get_shop_goods_sell_goods, create_shop_goodsOrder, \
     pay_shop_goodsOrder, check_shop_goodsOrder
-from utils.logger import loger
+from utils.loggers import loger
 from utils.read_file import record_cancel_account, record_test_data
 from utils.util import assert_equal, pc_send_register_verifyCode, verify_code_message, user_register_lagou, \
     login_password, assert_in, login_home

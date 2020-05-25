@@ -2,8 +2,14 @@
 # @Time  : 2020/5/21 15:27
 # @Author: Xiawang
 # Description:
+import os
 import re
 from urllib.parse import urlparse
+
+
+def switch_project_root_directory():
+    parent_path = os.path.dirname(__file__)
+    return parent_path
 
 
 def new_list(l: list) -> list:
@@ -15,7 +21,10 @@ def new_list(l: list) -> list:
 
 def parse_api_developer():
     api_developer = {}
-    with open('api_develop.csv', 'r') as f:
+    parent_path = switch_project_root_directory()
+
+    file_path = os.path.join(parent_path,'api_develop.csv')
+    with open(file_path, 'r') as f:
         for line in f.readlines():
             line_list = line.split(',')[:3]
             result_parse = new_list(line_list)
@@ -52,11 +61,12 @@ def return_api_developer(url):
 
 
 if __name__ == '__main__':
-    # url = 'https://gate.lagou.com/v1/zhaopin/shop/goodsOrder/check/312312312321'
-    # url = 'https://easy.lagou.com/session/batchCreate/2132134.json'
-    # url = 'https://gate.lagou.com/v1/zhaopin/talent/app/search'
-    # url = 'https://home.lagou.com/audit/companyApprove/addRiskLabelsByCompany.json'
-    # url = 'https://hr.lagou.com/corpCenter/openservice/saveCompany.json'
-    url = 'https://gate.lagou.com/v1/neirong/course/comment/getCourseCommentList'
-    name = return_api_developer(url=url)
-    print(url, name)
+    url = 'https://gate.lagou.com/v1/zhaopin/shop/goodsOrder/check/312312312321'
+    url1 = 'https://easy.lagou.com/session/batchCreate/2132134.json'
+    url2 = 'https://gate.lagou.com/v1/zhaopin/talent/app/search'
+    url3 = 'https://home.lagou.com/audit/companyApprove/addRiskLabelsByCompany.json'
+    url4 = 'https://gate.lagou.com/v1/entry/positionindex/new'
+
+    for u in [url, url1, url2, url3, url4]:
+        r = return_api_developer(url=u)
+        print(r)
