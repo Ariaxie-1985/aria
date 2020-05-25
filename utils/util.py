@@ -19,6 +19,8 @@ from utils.loggers import loger
 from utils.mainprocess_api_developer import return_api_developer
 
 sys.path.append(os.path.dirname(__file__))
+
+
 logging.getLogger().setLevel(logging.INFO)
 
 requests.packages.urllib3.disable_warnings()
@@ -616,6 +618,7 @@ def judging_other_abnormal_conditions(status_code, url, remark, pard_id=None):
     if status_code == 500:
         developer_name = return_api_developer(url)
         if developer_name is not None:
+            loger.info(f'url:{url}, 负责人:{developer_name}')
             logging.error(msg="该接口URL:{} , 备注:{} 报错500, {}, 负责人:{} \n".format(url, remark, call_chain, developer_name))
         else:
             logging.error(msg="该接口URL:{} , 备注:{} 报错500, {} \n".format(url, remark, call_chain))
@@ -806,6 +809,7 @@ def domain_convert_ip_port(url, ip_port):
 
 
 if __name__ == '__main__':
+    sys.path.append(os.path.dirname(__file__))
     url = 'https://gate.lagou.com/v1/zhaopin/shop/goodsOrder/check/312312312321'
     url1 = 'https://easy.lagou.com/session/batchCreate/2132134.json'
     url2 = 'https://gate.lagou.com/v1/zhaopin/talent/app/search'
@@ -813,6 +817,11 @@ if __name__ == '__main__':
     url4 = 'https://gate.lagou.com/v1/entry/positionindex/new'
     url5 = 'https://gate.lagou.com/v1/entry/deliver/create'
 
-    for u in [url, url1, url2, url3, url4, url5]:
-        r = return_api_developer(url=u)
-        print(r)
+    # for u in [url, url1, url2, url3, url4, url5]:
+    #     r = return_api_developer(url=u)
+    #     print(r)
+    # curPath = os.path.abspath(os.path.dirname(__file__))
+    # rootPath = os.path.split(curPath)[0]
+    # print(os.path.dirname(__file__))
+    r = judging_other_abnormal_conditions(500,url5,'测试')
+    print(r)
