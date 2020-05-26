@@ -22,7 +22,9 @@ class TestCleanData(object):
     def test_batch_forbid_user(self, telephone):
         for t in telephone:
             time.sleep(1)
-            user_id = query_user_id(t)
+            r = query_user_id(t)
+            assert_equal(True, len(r['data']['pageData']), '查询用户id成功')
+            user_id = r['data']['pageData'][0]['id']
             if bool(user_id):
                 forbid_result = forbid.forbid_user(user_id)
                 assert_equal(True, forbid_result, f'校验用户{user_id}是否封禁成功')

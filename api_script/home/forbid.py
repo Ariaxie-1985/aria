@@ -69,11 +69,7 @@ def query_user_id(telephone):
     url = 'http://home.lagou.com/forbid/user/queryUser.json'
     header = get_header(url='http://home.lagou.com/')
     data = {'searchContent': f"+{telephone}", 'limit': 15, 'currentPage': 0, 'typeSearch': 1}
-    result = form_post(url=url, headers=header, data=data, remark='查询用户id')
-    if result['success'] == True and (len(result['data']['pageData']) > 0):
-        return result['data']['pageData'][0]['id']
-    else:
-        return False
+    return form_post(url=url, headers=header, data=data, remark='查询用户id')
 
 
 def query_company_id(name):
