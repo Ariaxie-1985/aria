@@ -39,9 +39,9 @@ class TestCompanyBusiness(object):
     im_chat_number = 15
     im_chat_number_gray_scale = 50
 
-    def test_send_register_admin_verify_code(self, get_countryCode_phone_admin_user):
+    def test_send_register_admin_verify_code(self, get_country_code_phone_user):
         global admin_countryCode, admin_phone, admin_user_name, register_state
-        admin_countryCode, admin_phone, admin_user_name = get_countryCode_phone_admin_user
+        admin_countryCode, admin_phone, admin_user_name = get_country_code_phone_user
         loger.info(f'B端入驻管理员手机号:{admin_phone}')
         register_state = pc_send_register_verifyCode(admin_countryCode, admin_phone)
         assert_equal(1, register_state, '获取验证码成功', f'失败手机号:{admin_countryCode + admin_phone}')
@@ -114,24 +114,24 @@ class TestCompanyBusiness(object):
         r = upate_user_password(newPassword)
         assert_equal(1, r['state'], '管理员修改密码成功')
 
-    def test_send_general_user_register_verify_code(self, get_countryCode_phone_general_user):
-        global general_countryCode, general_phone, general_user_name, general_user_register_state
-        general_countryCode, general_phone, general_user_name = get_countryCode_phone_general_user
-        loger.info(f'B端入驻普通用户手机号:{general_phone}')
-        general_user_register_state = pc_send_register_verifyCode(general_countryCode, general_phone)
-        assert_equal(1, general_user_register_state, '获取验证码成功', f'失败手机号:{general_countryCode + general_phone}')
+    def test_send_general_user_register_verify_code(self, get_country_code_phone_user):
+        global general_country_code_01, general_phone_01, general_user_name_01, general_user_register_state
+        general_country_code_01, general_phone_01, general_user_name_01 = get_country_code_phone_user
+        loger.info(f'B端入驻普通用户手机号:{general_phone_01}')
+        general_user_register_state = pc_send_register_verifyCode(general_country_code_01, general_phone_01)
+        assert_equal(1, general_user_register_state, '获取验证码成功', f'失败手机号:{general_country_code_01 + general_phone_01}')
 
     def test_get_verify_general_user_code(self):
-        global general_user_verify_code
-        general_user_verify_code = verify_code_message(general_countryCode, general_phone)
-        assert_equal(True, bool(general_user_verify_code), '获取验证码成功')
+        global general_user_verify_code_01
+        general_user_verify_code_01 = verify_code_message(general_country_code_01, general_phone_01)
+        assert_equal(True, bool(general_user_verify_code_01), '获取验证码成功')
 
     def test_register_general_user(self):
         global general_user_register_state
-        register = user_register_lagou(general_countryCode, general_phone, general_user_verify_code)
+        register = user_register_lagou(general_country_code_01, general_phone_01, general_user_verify_code_01)
         general_user_register_state = register.get('state', 0)
         assert_equal(1, general_user_register_state, '校验普通用户注册是否成功！',
-                     '失败手机号:{}'.format(general_countryCode + general_phone))
+                     '失败手机号:{}'.format(general_country_code_01 + general_phone_01))
 
     def test_hr_jump_easy_index_html(self):
         time.sleep(1)
@@ -362,31 +362,31 @@ class TestCompanyBusiness(object):
         for label in r['data']:
             assert_in(label, risk_label, '公司获取风险标签用例通过')
 
-    def test_send_general_user_register_verify_code_1(self, get_countryCode_phone_general_user_01):
-        global general_countryCode, general_phone1, general_user_name1, general_user_register_state1
-        general_countryCode, general_phone1, general_user_name1 = get_countryCode_phone_general_user_01
-        loger.info(f'B端入驻普通用户1手机号:{general_phone1}')
-        general_user_register_state1 = pc_send_register_verifyCode(general_countryCode, general_phone1)
-        assert_equal(1, general_user_register_state, '获取验证码成功', f'失败手机号:{general_countryCode + general_phone1}')
+    def test_send_general_user_register_verify_code_1(self, get_country_code_phone_user):
+        global general_country_code_02, general_phone_02, general_user_name_02, general_user_register_state1
+        general_country_code_02, general_phone_02, general_user_name_02 = get_country_code_phone_user
+        loger.info(f'B端入驻普通用户1手机号:{general_phone_02}')
+        general_user_register_state1 = pc_send_register_verifyCode(general_country_code_02, general_phone_02)
+        assert_equal(1, general_user_register_state, '获取验证码成功', f'失败手机号:{general_country_code_02 + general_phone_02}')
 
     def test_get_verify_general_user_code_1(self):
-        global general_user_verify_code
-        general_user_verify_code = verify_code_message(general_countryCode, general_phone1)
-        assert_equal(True, bool(general_user_verify_code), '获取验证码成功')
+        global general_user_verify_code_02
+        general_user_verify_code_02 = verify_code_message(general_country_code_02, general_phone_02)
+        assert_equal(True, bool(general_user_verify_code_01), '获取验证码成功')
 
     def test_register_general_user_1(self):
         global general_user_register_state
-        register = user_register_lagou(general_countryCode, general_phone1, general_user_verify_code)
+        register = user_register_lagou(general_country_code_02, general_phone_02, general_user_verify_code_02)
         general_user_register_state = register.get('state', 0)
         assert_equal(1, general_user_register_state, '校验普通用户注册是否成功！',
-                     '失败手机号:{}'.format(general_countryCode + general_phone1))
+                     '失败手机号:{}'.format(general_country_code_02 + general_phone_02))
 
     def test_hr_jump_easy_index_html_1(self):
         time.sleep(1)
         hr_jump_easy_index_html()
 
     def test_save_general_user_1_info(self, get_company_name):
-        personal_msg_save = saveHR(get_company_name, general_user_name1, 'ariaxie@lagou.com', '技术总监')
+        personal_msg_save = saveHR(get_company_name, general_user_name_02, 'ariaxie@lagou.com', '技术总监')
         assert_equal(1, personal_msg_save.get('state', 0), "校验技术总监信息是否保存成功")
 
     def test_general_user_1_join_company(self):
@@ -429,31 +429,9 @@ class TestCompanyBusiness(object):
         remove_result = remove_member(general_userId1)
         if not remove_result:
             close_trial_package(www_company_id)
-            login_password(general_countryCode + general_phone1, get_password)
+            login_password(general_country_code_02 + general_phone_02, get_password)
             remove_result = remove_member(general_userId1)
         assert_equal(True, remove_result, '校验移除普通用户1成功！')
-
-    def test_record_general_user1(self):
-        record_test_data(2, userId=general_userId1, UserCompanyId=easy_company_id, lg_CompanyId=www_company_id)
-
-    def test_batchCancel_general_user1(self):
-        r = batchCancel(userIds=general_userId1)
-        assert_equal(1, r['state'], "普通用户1注销账号成功")
-
-    def test_login_general_user(self, get_password):
-        time.sleep(1)
-        login_result = login_password(general_countryCode + general_phone, get_password)
-        assert_equal(1, login_result['state'], '校验普通用户登录是否成功')
-
-    def test_record_general_user(self, www_get_userId):
-        global general_user_id
-        general_user_id = www_get_userId
-        loger.info(f'B端入驻普通用户1用户id:{general_user_id}, 简招公司id:{easy_company_id}, 主站公司id:{www_company_id}')
-        record_test_data(2, userId=general_user_id, UserCompanyId=easy_company_id, lg_CompanyId=www_company_id)
-
-    def test_batchCancel_general_user(self):
-        r = batchCancel(userIds=general_user_id)
-        assert_equal(1, r['state'], "普通用户注销账号成功")
 
     def test_login_admin_user_03(self, get_password):
         login_result = login_password(admin_countryCode + admin_phone, get_password)
@@ -468,56 +446,3 @@ class TestCompanyBusiness(object):
             login_password(admin_countryCode + admin_phone, get_password)
             remove_result = remove_member(admin_userId)
         assert_equal(True, remove_result, '校验移除管理员用户成功！')
-
-    def test_record_admin_user(self):
-        record_test_data(2, userId=admin_userId, UserCompanyId=easy_company_id, lg_CompanyId=www_company_id)
-
-    def test_batchCancel_admin_user(self):
-        r = batchCancel(userIds=admin_userId)
-        assert_equal(1, r['state'], "普通用户注销账号成功")
-
-    def test_login_home_02(self):
-        # 线上home后台的用户账号和密码, 勿动
-        r = login_password('betty@lagou.com', '00f453dfec0f2806db5cfabe3ea94a35')
-        assert_equal(1, r['state'], '校验登录home成功！')
-
-    def test_forbid_general_user1(self):
-        time.sleep(1)
-        forbid_result = forbid.forbid_user(general_userId1)
-        assert_equal(True, forbid_result, '校验普通用户是否封禁成功1')
-
-    def test_forbid_general_user(self):
-        time.sleep(1)
-        forbid_result = forbid.forbid_user(general_user_id)
-        assert_equal(True, forbid_result, '校验普通用户是否封禁成功1')
-
-    def test_forbid_admin_user(self):
-        time.sleep(1)
-        forbid_result = forbid.forbid_user(admin_userId)
-        assert_equal(True, forbid_result, '校验管理员用户是否封禁成功1')
-
-    def test_forbid_company(self):
-        time.sleep(1)
-        forbid_result = forbid.forbid_company(www_company_id)
-        assert_equal(True, forbid_result, '校验公司是否封禁成功')
-
-
-def test_record_cancel_account():
-    if register_state != 1:
-        record_cancel_account(admin_countryCode + admin_phone)
-
-
-def test_general_user_register_state():
-    try:
-        if general_user_register_state != 1:
-            record_cancel_account(general_countryCode + general_phone)
-    except NameError:
-        record_cancel_account(general_countryCode + general_phone)
-
-
-def test_general_user_register_state1():
-    try:
-        if general_user_register_state1 != 1:
-            record_cancel_account(general_countryCode + general_phone1)
-    except NameError:
-        record_cancel_account(general_countryCode + general_phone)

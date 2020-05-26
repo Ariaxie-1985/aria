@@ -23,6 +23,7 @@ def verify_user_is_forbid(userId):
     else:
         return False
 
+
 def get_userId(country_code_phone):
     url = 'http://home.lagou.com/forbid/user/queryUser.json'
     header = get_header(url='http://home.lagou.com/')
@@ -38,8 +39,8 @@ def get_userId(country_code_phone):
 def home_query_user_id(telephone):
     url = 'http://home.lagou.com/forbid/user/queryUser.json'
     header = get_header(url='http://home.lagou.com/')
-    data = {'searchContent': "+{}".format(telephone), 'limit': 15, 'currentPage': 0, 'typeSearch': 1}
-    result = form_post(url=url, headers=header, data=data, remark='查询成功')
+    data = {'searchContent': f"+{telephone}", 'limit': 15, 'currentPage': 0, 'typeSearch': 1}
+    result = form_post(url=url, headers=header, data=data, remark='查询用户id')
     if result['success'] == True and result['data']['pageData'][0]['isForbid'] == True:
         return result['data']['pageData'][0]['id']
     else:
@@ -61,6 +62,29 @@ def verify_company_is_forbid(companyId):
     if result['success'] == True and result['data']['pageData'][0]['id'] == companyId:
         return result['data']['pageData'][0]['status']
     else:
+        return False
+
+
+def query_user_id(telephone):
+    url = 'http://home.lagou.com/forbid/user/queryUser.json'
+    header = get_header(url='http://home.lagou.com/')
+    data = {'searchContent': f"+{telephone}", 'limit': 15, 'currentPage': 0, 'typeSearch': 1}
+    result = form_post(url=url, headers=header, data=data, remark='查询用户id')
+    if result['success'] == True and (len(result['data']['pageData']) > 0):
+        return result['data']['pageData'][0]['id']
+    else:
+        return False
+
+
+def query_company_id(name):
+    url = 'http://home.lagou.com/forbid/user/queryUser.json'
+    header = get_header(url='http://home.lagou.com/')
+    data = {'searchContent': f"{name}", 'limit': 30, 'currentPage': 0, 'type': 2, 'limitEnd': 30}
+    result = form_post(url=url, headers=header, data=data, remark='查询用户id')
+    try:
+        if result['success'] == True and (len(result['data']['pageData']) > 0):
+            return result['data']['pageData'][0]['id']
+    except:
         return False
 
 
