@@ -77,7 +77,7 @@ def query_user_id(telephone):
 
 
 def query_company_id(name):
-    url = 'http://home.lagou.com/forbid/user/queryUser.json'
+    url = 'http://home.lagou.com/forbid/companyController/queryCompanys.json'
     header = get_header(url='http://home.lagou.com/')
     data = {'searchContent': f"{name}", 'limit': 30, 'currentPage': 0, 'type': 2, 'limitEnd': 30}
     result = form_post(url=url, headers=header, data=data, remark='查询用户id')

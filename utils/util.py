@@ -15,7 +15,7 @@ from requests import RequestException
 import json
 import logging
 
-from utils.loggers import loger
+from utils.loggers import logers
 from utils.mainprocess_api_developer import return_api_developer
 
 sys.path.append(os.path.dirname(__file__))
@@ -34,7 +34,7 @@ app_header = {
 
 count = 0
 
-loger = loger()
+loger = logers()
 
 
 # 获取页面的token和code
