@@ -20,7 +20,7 @@ def resumes_list(userToken, ip_port=None, userId=None):
     return form_post(url=url, headers=header, remark=remark, ip_port=ip_port)
 
 
-def guideBasicInfo(phone, userIdentity, userToken, joinWorkTime="2013.07"):
+def guideBasicInfo(phone, userIdentity, userToken, joinWorkTime="2013.07", name=None):
     '''
 
     :param phone:
@@ -30,33 +30,10 @@ def guideBasicInfo(phone, userIdentity, userToken, joinWorkTime="2013.07"):
     '''
     if phone[0:4] != '0086':
         phone = '+' + phone
+    if name is None:
+        name = '拉勾测试自动化' + fake.name()
     url = 'https://gate.lagou.com/v1/neirong/resumes/guideBasicInfo'
     header = app_header_999(userToken, DA=False)
-    if userIdentity == 1:
-        data = {
-            "phone": phone,
-            "userIdentity": userIdentity,
-            "headPic": "https://www.lgstatic.com/common/image/pc/default_boy_headpic2.png",
-            "liveCity": "北京",
-            "email": fake.email(),
-            "birthday": "1990.05",
-            "sex": sex[random.randint(0, 1)],
-            "name": '拉勾测试自动化' + fake.name()
-        }
-        return json_post(url=url, data=data, headers=header, app=True, remark="提交类型为学生的基本信息")
-    if joinWorkTime == '暂无工作经历':
-        data = {
-            "phone": phone,
-            "userIdentity": userIdentity,
-            "headPic": "https://www.lgstatic.com/common/image/pc/default_boy_headpic2.png",
-            "liveCity": "北京",
-            "email": fake.email(),
-            "birthday": "1990.05",
-            "sex": sex[random.randint(0, 1)],
-            "name": '拉勾测试自动化' + fake.name(),
-            "joinWorkTime": "暂无工作经历"
-        }
-        return json_post(url=url, data=data, headers=header, app=True, remark="提交类型为非学生但无工作经历的基本信息")
     data = {
         "phone": phone,
         "userIdentity": userIdentity,
@@ -65,9 +42,14 @@ def guideBasicInfo(phone, userIdentity, userToken, joinWorkTime="2013.07"):
         "email": fake.email(),
         "birthday": "1990.05",
         "sex": sex[random.randint(0, 1)],
-        "name": fake.name(),
-        "joinWorkTime": joinWorkTime
+        "name": name
     }
+    if userIdentity == 1:
+        return json_post(url=url, data=data, headers=header, app=True, remark="提交类型为学生的基本信息")
+    if joinWorkTime == '暂无工作经历':
+        data["joinWorkTime"] = "暂无工作经历"
+        return json_post(url=url, data=data, headers=header, app=True, remark="提交类型为非学生但无工作经历的基本信息")
+    data["joinWorkTime"] = joinWorkTime
     return json_post(url=url, data=data, headers=header, app=True, remark="提交类型为非学生但有工作经历的基本信息")
 
 

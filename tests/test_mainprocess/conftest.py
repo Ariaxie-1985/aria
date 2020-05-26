@@ -8,7 +8,6 @@ import pytest
 from api_script.entry.account.passport import password_login
 from api_script.jianzhao_web.index import dashboard_index_get_user_id
 from backend.common.get_data import get_www_company_id
-from utils.util import login
 from faker import Faker
 from api_script.jianzhao_web.b_basic.toB_saveHR_1 import get_b_person_userId, get_b_index_Id
 
@@ -31,30 +30,23 @@ fake = Faker("zh_CN")
     
 '''
 
+# 主流程测试产生的测试账号
+test_telephone = []
+test_company_name = []
+
+
 @pytest.fixture(scope='session')
 
 def get_company_name():
     company_name = '拉勾测试自动化' + fake.company() + str(time.time()).split('.')[0]
+    test_company_name.append(company_name)
     return company_name
 
 
-@pytest.fixture(scope='session')
-def get_countryCode_phone_admin_user():
+@pytest.fixture()
+def get_country_code_phone_user():
     countryCode, phone = "00852", str(20000000 + int(str(time.time()).split('.')[1]))
-    user_name = '拉勾测试自动化' + fake.name()
-    return countryCode, phone, user_name
-
-
-@pytest.fixture(scope='session')
-def get_countryCode_phone_general_user():
-    countryCode, phone = "00852", str(20000000 + int(str(time.time()).split('.')[1]))
-    user_name = '拉勾测试自动化' + fake.name()
-    return countryCode, phone, user_name
-
-
-@pytest.fixture(scope='session')
-def get_countryCode_phone_general_user_01():
-    countryCode, phone = "00852", str(20000000 + int(str(time.time()).split('.')[1]))
+    test_telephone.append(countryCode + phone)
     user_name = '拉勾测试自动化' + fake.name()
     return countryCode, phone, user_name
 
@@ -79,6 +71,9 @@ def www_get_userId():
 
 @pytest.fixture(scope='session')
 def get_password():
+    '''
+    :return: 123456的固定加密值
+    '''
     return '990eb670f81e82f546cfaaae1587279a'
 
 
@@ -88,20 +83,14 @@ def get_positionType():
     return firstType, positionType, positionThirdType, positionName
 
 
-@pytest.fixture(params=[["00852", "20181205"]])
-def login_web_k8s_default(request):
-    login(request.param[0], request.param[1])
-
-
 @pytest.fixture()
 def get_company_id():
     return get_www_company_id()
 
 
-@pytest.fixture()
-def get_countryCode_phone():
-    countryCode, phone = "00852", str(20000000 + int(str(time.time()).split('.')[1]))
-    return countryCode, phone
+@pytest.fixture(scope="module")
+def telephone():
+    return test_telephone
 
 
 # @pytest.fixture(scope='session', params=[["13033647506", "000000"]])
