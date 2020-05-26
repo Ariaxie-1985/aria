@@ -3,14 +3,13 @@
 # @Author: Xiawang
 # Description:
 import time
-
-import pytest
-
 from api_script.entry.cuser.baseStatus import batchCancel
 from api_script.home import forbid
-from api_script.home.forbid import home_query_user_id, query_user_id, query_company_id
+from api_script.home.forbid import query_user_id, query_company_id
 from utils.loggers import loger
 from utils.util import login_password, assert_equal
+
+loger = loger()
 
 
 class TestCleanData(object):
