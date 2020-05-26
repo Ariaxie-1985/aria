@@ -26,10 +26,11 @@ class TestCleanData(object):
             assert_equal(True, len(r['data']['pageData']), '查询用户id成功')
             user_id = r['data']['pageData'][0]['id']
             if bool(user_id):
-                forbid_result = forbid.forbid_user(user_id)
-                assert_equal(True, forbid_result, f'校验用户{user_id}是否封禁成功')
                 r = batchCancel(userIds=user_id)
                 assert_equal(1, r['state'], f"用户{user_id}注销账号成功")
+                forbid_result = forbid.forbid_user(user_id)
+                assert_equal(True, forbid_result, f'校验用户{user_id}是否封禁成功')
+
                 loger.info(f'注销用户:手机号:{telephone}, Id:{user_id}成功')
 
     def test_forbid_company(self, get_company_name):
