@@ -85,7 +85,7 @@ def get_company_id():
     return get_www_company_id()
 
 
-@pytest.fixture()
+@pytest.fixture(scope="module")
 def telephone():
     return test_telephone
 
