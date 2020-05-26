@@ -68,7 +68,7 @@ def verify_company_is_forbid(companyId):
 def query_user_id(telephone):
     url = 'http://home.lagou.com/forbid/user/queryUser.json'
     header = get_header(url='http://home.lagou.com/')
-    data = {'searchContent': f"+{telephone}", 'limit': 15, 'currentPage': 0, 'typeSearch': 1}
+    data = {'searchContent': f"+{telephone}", 'limit': 15, 'currentPage': 0, 'typeSearch': 3}
     return form_post(url=url, headers=header, data=data, remark='查询用户id')
 
 
