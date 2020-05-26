@@ -79,7 +79,11 @@ def get_fail_detail_result(soup, module):
             detail_log = '该接口URL' + re.findall('该接口URL(.*)', detail_log, re.S)[0]
         except IndexError:
             detail_log = '具体详情,请查看测试报告'
-        test_case = {test_name: {'error_type': error_type, 'log': detail_log}}
+        name_index = detail_log.find('负责人')
+        name = ''
+        if name_index > 0:
+            name = detail_log[name_index + 4:]
+        test_case = {test_name: {'error_type': error_type, 'log': detail_log, 'name': name or name_index}}
         fail_results = {**fail_results, **test_case}
 
     for error_result in soup.find_all(attrs={'class': 'error results-table-row'}):

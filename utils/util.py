@@ -1,5 +1,6 @@
 # coding:utf-8
 import os
+import sys
 import time
 import zipfile
 from datetime import datetime
@@ -14,7 +15,11 @@ from requests import RequestException
 import json
 import logging
 
-from utils.logger import loger
+from utils.loggers import loger
+from utils.mainprocess_api_developer import return_api_developer
+
+sys.path.append(os.path.dirname(__file__))
+
 
 logging.getLogger().setLevel(logging.INFO)
 
@@ -611,7 +616,12 @@ def judging_other_abnormal_conditions(status_code, url, remark, pard_id=None):
         call_chain = ''
 
     if status_code == 500:
-        logging.error(msg="该接口URL {} , 备注 {} 报错500, 请检查业务服务是否可用,{}\n".format(url, remark, call_chain))
+        developer_name = return_api_developer(url)
+        if developer_name is not None:
+            loger.info(f'url:{url}, 负责人:{developer_name}')
+            logging.error(msg="该接口URL:{} , 备注:{} 报错500, {}, 负责人:{} \n".format(url, remark, call_chain, developer_name))
+        else:
+            logging.error(msg="该接口URL:{} , 备注:{} 报错500, {} \n".format(url, remark, call_chain))
         return {'content': '报错500, 服务端错误', 'url': url, 'remark': remark + call_chain}
     elif status_code == 415:
         logging.error(msg="该接口URL {} 备注 {} 报错415, 请检查接口的请求方法是否正确\n".format(url, remark))
@@ -797,3 +807,21 @@ def domain_convert_ip_port(url, ip_port):
         return url.replace('https', 'http').replace(gate_lagou_com_rule.get(module), ip_port)
     return url.replace('https', 'http').replace(parsed.hostname, ip_port)
 
+
+if __name__ == '__main__':
+    sys.path.append(os.path.dirname(__file__))
+    url = 'https://gate.lagou.com/v1/zhaopin/shop/goodsOrder/check/312312312321'
+    url1 = 'https://easy.lagou.com/session/batchCreate/2132134.json'
+    url2 = 'https://gate.lagou.com/v1/zhaopin/talent/app/search'
+    url3 = 'https://home.lagou.com/audit/companyApprove/addRiskLabelsByCompany.json'
+    url4 = 'https://gate.lagou.com/v1/entry/positionindex/new'
+    url5 = 'https://gate.lagou.com/v1/entry/deliver/create'
+
+    # for u in [url, url1, url2, url3, url4, url5]:
+    #     r = return_api_developer(url=u)
+    #     print(r)
+    # curPath = os.path.abspath(os.path.dirname(__file__))
+    # rootPath = os.path.split(curPath)[0]
+    # print(os.path.dirname(__file__))
+    r = judging_other_abnormal_conditions(500,url5,'测试')
+    print(r)
