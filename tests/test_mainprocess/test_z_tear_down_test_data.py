@@ -9,7 +9,7 @@ from api_script.home.forbid import query_user_id, query_company_id
 from utils.loggers import loger
 from utils.util import login_password, assert_equal
 
-loger = loger()
+logers = loger()
 
 
 class TestCleanData(object):
@@ -28,11 +28,11 @@ class TestCleanData(object):
                 assert_equal(True, forbid_result, f'校验用户{user_id}是否封禁成功')
                 r = batchCancel(userIds=user_id)
                 assert_equal(1, r['state'], f"用户{user_id}注销账号成功")
-                loger.info(f'注销用户:手机号:{telephone}, Id:{user_id}成功')
+                logers.info(f'注销用户:手机号:{telephone}, Id:{user_id}成功')
 
     def test_forbid_company(self, get_company_name):
         company_id = query_company_id(get_company_name)
         if bool(company_id):
             forbid_result = forbid.forbid_company(company_id)
             assert_equal(True, forbid_result, f'校验公司{company_id}是否封禁成功')
-            loger.info(f'注销公司{company_id}成功')
+            logers.info(f'注销公司{company_id}成功')
