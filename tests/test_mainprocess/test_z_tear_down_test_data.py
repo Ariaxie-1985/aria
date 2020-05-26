@@ -7,6 +7,7 @@ from api_script.entry.cuser.baseStatus import batchCancel
 from api_script.home import forbid
 from api_script.home.forbid import query_user_id, query_company_id
 from utils.loggers import logers
+from utils.read_file import record_cancel_account
 from utils.util import login_password, assert_equal
 
 loger = logers()
@@ -23,8 +24,11 @@ class TestCleanData(object):
         for t in telephone:
             time.sleep(1)
             r = query_user_id(t)
-            assert_equal(True, len(r['data']['pageData']), '查询用户id成功')
-            user_id = r['data']['pageData'][0]['id']
+            if len(r['data']['pageData']) > 0:
+                user_id = r['data']['pageData'][0]['id']
+            else:
+                record_cancel_account(t)
+                continue
             if bool(user_id):
                 r = batchCancel(userIds=user_id)
                 assert_equal(1, r['state'], f"用户{user_id}注销账号成功")
