@@ -42,7 +42,7 @@ def get_company_name():
 
 @pytest.fixture()
 def get_country_code_phone_user():
-    countryCode, phone = "00852", str(20000000 + int(str(time.time()).split('.')[1]))
+    countryCode, phone = "00852", str(30000000 + int(str(time.time()).split('.')[1]))
     test_telephone.append(countryCode + phone)
     user_name = '拉勾测试自动化' + fake.name()
     return countryCode, phone, user_name
