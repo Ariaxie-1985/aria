@@ -47,15 +47,15 @@ def send_feishu_report(pytest_result):
         fail_results = ''
 
         names = ''
-        for key, value in pytest_result['data']['result']['info']['result']['fail_result'].items(
+        for case_name, case_fail_result in pytest_result['data']['result']['info']['result']['fail_result'].items(
         ):
-            if key == 'name':
-                names += value['name'] + ','
+            if 'name' in case_fail_result:
+                names += case_fail_result['name'] + ','
                 fail_result = '用例{}报错:{},原因:{},负责人:{}\n\n'.format(
-                    key, value['error_type'], value['log'], value['name'])
+                    case_name, case_fail_result['error_type'], case_fail_result['log'], case_fail_result['name'])
             else:
                 fail_result = '用例{}报错:{},原因是{}\n\n'.format(
-                    key, value['error_type'], value['log'])
+                    case_name, case_fail_result['error_type'], case_fail_result['log'])
             fail_results += fail_result
         if bool(names):
             fix_time = get_fix_time()
