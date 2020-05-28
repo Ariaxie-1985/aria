@@ -12,7 +12,7 @@ def teardown_module(module):
     pass
 @pytest.mark.skip(reason="有问题, 暂不执行")
 def test_reward():
-    s=tasks().json()
+    s=tasks()
     list=s['content']['data']['taskPage']['dayTasks']['taskList']
     for i in list:
         if i['status']=='COMPLETED':

@@ -75,7 +75,7 @@ def resume_preview_info(resumeId, stage):
     header = get_code_token(
         f"https://easy.lagou.com/can/new/index.htm?can=true&stage={stage}&needQueryAmount=true&newDeliverTime=0&pageNo=1")
     remark = '查看简历的预览信息'
-    return get_requests(url=url, headers=header, remark=remark).json()
+    return get_requests(url=url, headers=header, remark=remark)
 
 
 def can_new_filter(stage, ip_port=None):
@@ -84,7 +84,7 @@ def can_new_filter(stage, ip_port=None):
         f"https://easy.lagou.com/can/new/index.htm?can=true&stage={stage}&needQueryAmount=true&newDeliverTime=0&pageNo=1",
         ip_port=ip_port)
     remark = '查看简历的筛选器'
-    return get_requests(url=url, headers=header, remark=remark, ip_port=ip_port).json()
+    return get_requests(url=url, headers=header, remark=remark, ip_port=ip_port)
 
 
 def can_batch_toStageLink(resumeIds):

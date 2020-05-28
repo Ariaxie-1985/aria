@@ -22,7 +22,7 @@ def move_to_interview(positionId, resumeOwnerId):
     url = 'https://easy.lagou.com/settings/template/in_temp.json?positionId=' + str(positionId)
     refer_listofcandidates_url = "https://easy.lagou.com/can/index.htm"
     listofcandidates_header = get_code_token(refer_listofcandidates_url)
-    r = get_requests(url=url, headers=listofcandidates_header).json()
+    r = get_requests(url=url, headers=listofcandidates_header)
     templateId = r['content']['rows'][0]['id']
 
     arr_inerview_url = 'https://easy.lagou.com/can/arr_inerview.json'

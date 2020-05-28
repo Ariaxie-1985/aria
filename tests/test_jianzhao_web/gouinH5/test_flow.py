@@ -11,5 +11,5 @@ def teardown_module(module):
     pass
 @pytest.mark.skip(reason="有问题, 暂不执行")
 def test_fiow():
-    r=flow().json()
+    r=flow()
     assert_equal(1, r['state'], "查询勾印流水成功")

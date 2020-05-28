@@ -12,7 +12,7 @@ def teardown_module(module):
     pass
 @pytest.mark.skip(reason="有问题, 暂不执行")
 def test_tasks():
-    r=tasks().json()
+    r=tasks()
 
     assert_equal(1, r['state'], "任务中心首页请求成功")
 

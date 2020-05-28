@@ -21,7 +21,7 @@ def get_submit_token_code():
               'Referer': 'https://account.lagou.com/v2/account/modifyPwd.html',
               'Sec-Fetch-Mode': 'cors'}
     r = get_requests(url=url, headers=header, remark="获取token、code")
-    return r.json()['submitCode'], r.json()['submitToken']
+    return r['submitCode'], r['submitToken']
 
 
 if __name__ == '__main__':

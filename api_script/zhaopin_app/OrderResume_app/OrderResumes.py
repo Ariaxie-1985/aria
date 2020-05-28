@@ -15,9 +15,9 @@ def orderResumes(userid):
     url = "https://gate.lagou.com/v1/zhaopin/orderResumes/pages?positionId=0&resumeStage=2&onlyUnread=false&catchTag=0&pageSize=20"
     data = "{'positionId':0,'resumeStage':2,'onlyUnread':false,'catchTag':0,'pageSize':20}"
     id = get_requests(url=url, headers=header, remark="分页查询简历")
-    message = id.json()['message']
-    orderId = id.json()['content']['result'][0]['orderId']
-    orderResumeId = id.json()['content']['result'][0]['orderResumeId']
+    message = id['message']
+    orderId = id['content']['result'][0]['orderId']
+    orderResumeId = id['content']['result'][0]['orderResumeId']
     print(orderId)
     assert_equal("操作成功", message, "分页查询简历正确", "分页查询接口报错")
     return orderId, orderResumeId
@@ -31,12 +31,12 @@ def checkOrderResumes(userid):
     login('00852', '20181205')
     wait(2000)
     id = get_requests("https://easy.lagou.com/can/new/list.json", headers=None, remark="获得简历id")
-    orderid = id.json()['content']['rows'][0]['id']
+    orderid = id['content']['rows'][0]['id']
     print(orderid)
     header = get_app_header(userid)
     url = "https://gate.lagou.com/v1/zhaopin/orderResumes/" + orderid + "/public/url?generatesANew=false"
     jsonobject = get_requests(url=url, headers=header, remark="生成或获取简历公开查看链接")
-    meassage = jsonobject.json()['message']
+    meassage = jsonobject['message']
     assert_equal("操作成功", meassage, "生成或获取简历公开查看链接", "生成公开链接错误")
 
 
@@ -54,7 +54,7 @@ def viewOrderResume(userid):
     url = "https://gate.lagou.com/v1/zhaopin/orderResumes/getByLGOrderId?lgOrderId=" + str(orderId) + "&needImg=false"
     print(url)
     jsonobject = get_requests(url=url, headers=header, remark="简历详情查询")
-    meassage = jsonobject.json()['message']
+    meassage = jsonobject['message']
     assert_equal("操作成功", meassage, "查看简历成功", "查看简历失败")
 
 
@@ -72,7 +72,7 @@ def viewOrderResumeid(userid):
         orderId) + "&needImg=false"
     print(url)
     jsonobject = get_requests(url=url, headers=header, remark="简历详情查询")
-    meassage = jsonobject.json()['message']
+    meassage = jsonobject['message']
     assert_equal("操作成功", meassage, "查看简历成功", "查看简历失败")
 
 

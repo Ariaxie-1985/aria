@@ -145,7 +145,7 @@ def www_redirect_easy(ip_port=None):
 def get_all_position_category(ip_port=None):
     url = 'https://easy.lagou.com/position/multiChannel/getAllPositionCategory.json'
     header = get_header(url='https://easy.lagou.com/position/multiChannel/myOnlinePositions.htm?pageNo=1', ip_port=None)
-    return get_requests(url=url, headers=header, remark="获取职位的全部分类", ip_port=ip_port).json()
+    return get_requests(url=url, headers=header, remark="获取职位的全部分类", ip_port=ip_port)
 
 
 def multiChannel_filter(ip_port=None):
@@ -208,7 +208,7 @@ def plus_search_selector(ip_port=None):
     refer_url = 'https://easy.lagou.com/talent/index.htm?'
     header = get_header(url=refer_url, ip_port=ip_port)
     remark = '人才搜索筛选器'
-    return get_requests(url=url, headers=header, remark=remark, ip_port=ip_port).json()
+    return get_requests(url=url, headers=header, remark=remark, ip_port=ip_port)
 
 
 def will_offline_positionCount(ip_port=None):
@@ -216,4 +216,4 @@ def will_offline_positionCount(ip_port=None):
     refer_url = 'https://easy.lagou.com/bstatus/auth/index.htm?'
     header = get_header(url=refer_url, ip_port=ip_port)
     remark = '统计将要下线的职位'
-    return get_requests(url=url, headers=header, remark=remark, ip_port=ip_port).json()
+    return get_requests(url=url, headers=header, remark=remark, ip_port=ip_port)

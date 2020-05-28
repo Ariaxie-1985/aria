@@ -17,7 +17,7 @@ def batch_allocation(userId_list):
     headerurl="https://easy.lagou.com/subAccount/queryAcount/index.htm"
     header = get_code_token(headerurl)
     jsonobject = get_requests(url="https://easy.lagou.com/subAccount/queryAcount.json?pageNo=1&pageSize=7&keyword=",remark="获取当前有几个子账号")
-    childaccount = jsonobject.json()['content']['data']['subAcccountPage']['totalCount']
+    childaccount = jsonobject['content']['data']['subAcccountPage']['totalCount']
     # childaccount=jsonobject.get("content").get("data").get("subAcccountPage").get("totalCount")
     print('当前有' + str(childaccount) + '个子账号')
     if childaccount < 2:
@@ -29,7 +29,7 @@ def batch_allocation(userId_list):
                 add1=form_post(url="https://easy.lagou.com/subAccount/addAcount.json",data={'userId':userId_list[0]},remark="添加子账号",headers=header)
                 add1=form_post(url="https://easy.lagou.com/subAccount/addAcount.json",data={'userId':userId_list[1]},remark="添加子账号",headers=header)
                 jsonobject = get_requests(url="https://easy.lagou.com/subAccount/queryAcount.json?pageNo=1&pageSize=7&keyword=",remark="获取当前有几个子账号")
-                childaccount = jsonobject.json()['content']['data']['subAcccountPage']['totalCount']
+                childaccount = jsonobject['content']['data']['subAcccountPage']['totalCount']
                 print('添加后' + str(childaccount) + '个子账号')
                 b=gethtml("https://easy.lagou.com/subAccount/queryAcount/index.htm")
                 a=exist_class_name(b,"batch-handle-btn ")

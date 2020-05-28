@@ -20,7 +20,6 @@ from utils.mainprocess_api_developer import return_api_developer
 
 sys.path.append(os.path.dirname(__file__))
 
-
 logging.getLogger().setLevel(logging.INFO)
 
 requests.packages.urllib3.disable_warnings()
@@ -213,14 +212,15 @@ def get_requests(url, data=None, headers={}, remark=None, ip_port=None):
         else:
             ip_port_url = domain_convert_ip_port(url=url, ip_port=ip_port)
             response = session.get(url=ip_port_url, params=data, headers=headers, verify=False, timeout=60)
+
         status_code = response.status_code
         pard_id = response.headers.get('Pard-Id', 0)
         if 200 <= status_code <= 302:
-            try:
-                response_json = response.json()
+            if is_json_response(response):
+                response_json = convert_response(response)
                 if response_json.get('state', 0) == 1 or response_json.get('success', False):
                     logging.info(msg='该接口URL {} ,备注 {} 执行成功\n'.format(url, remark))
-                    return response
+                    return response_json
                 else:
                     if count < 1:
                         count = count + 1
@@ -230,9 +230,9 @@ def get_requests(url, data=None, headers={}, remark=None, ip_port=None):
                     else:
                         logging.error(
                             msg='该接口URL {} , 备注 {}, 响应内容: {} 请求成功, 但断言错误\n'.format(url, remark, response_json))
-                        return response
-            except JSONDecodeError:
-                return response
+                        return convert_response(response)
+            else:
+                return convert_response(response)
         else:
             if count < 1:
                 count += 1
@@ -247,6 +247,19 @@ def get_requests(url, data=None, headers={}, remark=None, ip_port=None):
     except JSONDecodeError:
         logging.error(msg="该接口URL {} ,备注 {} 报错json解码错误, 请检查接口的响应是否正确的返回并解析\n".format(url, remark))
         return {'content': '响应内容不是期望的json格式', 'url': url, 'remark': remark}
+
+
+def convert_response(response):
+    if 'application/json' in response.headers.get('Content-Type', ''):
+        return response.json()
+    else:
+        return response.text
+
+
+def is_json_response(response):
+    if 'application/json' in response.headers.get('Content-Type', ''):
+        return True
+    return False
 
 
 # get请求---获取header
@@ -485,7 +498,7 @@ def json_put(url, remark, data=None, headers={}, ip_port=None):
         else:
             if count < 1:
                 count = count + 1
-                logging.error(msg='该接口URL {} , 备注: {} , 响应内容: {} 断言失败, 在重试\n'.format(url, remark, response.text))
+                logging.error(msg='该接口URL {} , 备注: {} , 响应内容: {} 断言失败, 在重试\n'.format(url, remark, response))
                 return json_put(url=url, headers=headers, remark=remark, data=data)
             else:
                 return judging_other_abnormal_conditions(status_code, url, remark, pard_id)
@@ -530,7 +543,7 @@ def put_requests(url, headers={}, remark=None, ip_port=None):
         else:
             if count < 1:
                 count = count + 1
-                logging.error(msg='该接口URL {} , 备注: {} , 响应内容: {} 断言失败, 在重试\n'.format(url, remark, response.text))
+                logging.error(msg='该接口URL {} , 备注: {} , 响应内容: {} 断言失败, 在重试\n'.format(url, remark, response))
                 return put_requests(url=url, headers=headers, remark=remark)
             else:
                 return judging_other_abnormal_conditions(status_code, url, remark, pard_id)
@@ -575,7 +588,7 @@ def delete_requests(url, headers={}, remark=None, ip_port=None):
         else:
             if count < 1:
                 count = count + 1
-                logging.error(msg='该接口URL {} , 备注: {} , 响应内容: {} 断言失败, 在重试\n'.format(url, remark, response.text))
+                logging.error(msg='该接口URL {} , 备注: {} , 响应内容: {} 断言失败, 在重试\n'.format(url, remark, response))
                 return delete_requests(url=url, headers=headers, remark=remark)
             else:
                 return judging_other_abnormal_conditions(status_code, url, remark, pard_id)
@@ -823,5 +836,5 @@ if __name__ == '__main__':
     # curPath = os.path.abspath(os.path.dirname(__file__))
     # rootPath = os.path.split(curPath)[0]
     # print(os.path.dirname(__file__))
-    r = judging_other_abnormal_conditions(500,url5,'测试')
+    r = judging_other_abnormal_conditions(500, url5, '测试')
     print(r)

@@ -14,5 +14,5 @@ def teardown_module(module):
 
 
 def test_hrinfo():
-    r=communicatePositions().json()
+    r=communicatePositions()
     assert_equal(1, r['state'], "查询在招职位成功")

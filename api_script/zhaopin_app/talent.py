@@ -11,7 +11,7 @@ def talent_recTalent(userToken, positionId):
         positionId)
     header = app_header_999(userToken=userToken, DA=False)
     remark = "推荐人才"
-    return get_requests(url=url, headers=header, remark=remark).json()
+    return get_requests(url=url, headers=header, remark=remark)
 
 
 def talent_newTalent(userToken, positionId):
@@ -19,14 +19,14 @@ def talent_newTalent(userToken, positionId):
         positionId)
     header = app_header_999(userToken=userToken, DA=False)
     remark = "最新人才"
-    return get_requests(url=url, headers=header, remark=remark).json()
+    return get_requests(url=url, headers=header, remark=remark)
 
 
 def talent_collections(userToken):
     url = "https://gate.lagou.com/v1/zhaopin/talent/collections?lastCUserId=0&pageSize=10"
     header = app_header_999(userToken=userToken, DA=False)
     remark = "人才收藏"
-    return get_requests(url=url, headers=header, remark=remark).json()
+    return get_requests(url=url, headers=header, remark=remark)
 
 
 def talent_app_search(userToken, city, positionName, pageNo=1):
@@ -55,13 +55,11 @@ def talent_info_get(userToken, userId):
     url = "https://gate.lagou.com/v1/zhaopin/talent/info/get?userId={}&comeFrom=7".format(userId)
     header = app_header_999(userToken=userToken, DA=False)
     remark = "获取人才详细信息"
-    return get_requests(url=url, headers=header, remark=remark).json()
+    return get_requests(url=url, headers=header, remark=remark)
 
 
 if __name__ == '__main__':
-    result = password_login("19910626899", "000000")
-    userToken = result['content']['userToken']
-    r = talent_recTalent(userToken, positionId=6868116)
-    for talent in r['content']['result']:
-        if bool(talent['portrait']):
-            print(talent['portrait'].split(".")[-1])
+    # result = password_login("19910626899", "000000")
+    userToken = 'd7faa97de526da2730ea69603b21102f28901d7ab1635ba02f1441fd7e9e0b1d'
+    r = talent_collections(userToken)
+    print(r)

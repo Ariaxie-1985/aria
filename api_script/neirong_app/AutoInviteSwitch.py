@@ -14,7 +14,7 @@ def autoInviteSwitch_status(userToken, ip_port=None, userId=None):
     url = host + "/autoInviteSwitch/status"
     headers = app_header_999(userToken, userId=userId, DA=False)
     remark = "开关状态"
-    return get_requests(url=url, headers=headers, remark=remark, ip_port=ip_port).json()
+    return get_requests(url=url, headers=headers, remark=remark, ip_port=ip_port)
 
 
 def autoInviteSwitch_open(autoInviteType, status, userToken):

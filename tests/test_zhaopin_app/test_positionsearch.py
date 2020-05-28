@@ -12,13 +12,13 @@ from utils.util import assert_equal
 # @pytest.mark.skip(reason="暂不执行")
 @pytest.mark.parametrize('keyword, city,lastShowCompanyId', [('销售', '天津', None)])
 def test_getPromotionPositions(keyword, city, lastShowCompanyId):
-    r = getPromotionPositions(keyword, city, lastShowCompanyId).json()
+    r = getPromotionPositions(keyword, city, lastShowCompanyId)
     assert_equal(1, r['state'], "获取全民升职季成功")
 
 
 @pytest.mark.parametrize('id, tagType', [('100014641', ''), ('100014641', '0'), ('100014641', '1'), ('100014641', '2')])
 def test_hr_getHRCard(id, tagType):
-    r = hr_getHRCard(id, tagType).json()
+    r = hr_getHRCard(id, tagType)
     assert_equal(1, r['state'], "HR信息获取成功")
 
 
@@ -30,7 +30,7 @@ def test_searchPosition(keyword, sort):
 
 @pytest.mark.parametrize('type', [(None), (1), (2), (3)])
 def test_positionCategories(type):
-    r = positionCategories(type).json()
+    r = positionCategories(type)
 
     if type == None:
         assert_equal(1, r['state'], "查询职位分类配置信息获取成功")
@@ -46,6 +46,6 @@ def test_positionCategories(type):
 
 
 def test_baseStatus_get():
-    r = baseStatus_get().json()
+    r = baseStatus_get()
     assert_equal(1, r['state'], "获取C端用户信息成功")
     assert_equal(6198138, r['content']['resumeId'], "获取C端用户的简历id成功")

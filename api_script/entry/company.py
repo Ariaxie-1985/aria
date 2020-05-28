@@ -10,14 +10,14 @@ def get_hot_company(userToken, city, userId=None, ip_port=None):
     url = 'https://gate.lagou.com/v1/entry/hotCompany/getHotCompany?city={}'.format(city)
     header = app_header_999(userToken=userToken, DA=False, userId=userId)
     remark = '获取热门公司'
-    return get_requests(url=url, headers=header, remark=remark, ip_port=ip_port).json()
+    return get_requests(url=url, headers=header, remark=remark, ip_port=ip_port)
 
 
 def get_company_questions(userToken, companyId, userId=None, ip_port=None):
     url = 'https://gate.lagou.com/v1/entry/company/queryQuestions?companyId={}&pageNo=1&pageSize=10'.format(companyId)
     header = app_header_999(userToken=userToken, DA=False, userId=userId)
     remark = '获取公司的问答'
-    return get_requests(url=url, headers=header, remark=remark, ip_port=ip_port).json()
+    return get_requests(url=url, headers=header, remark=remark, ip_port=ip_port)
 
 
 def company_attention_add(userToken, companyId, userId=None, ip_port=None):

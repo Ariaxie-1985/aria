@@ -7,7 +7,7 @@ def tasks():
     url='https://jf.lagou.com/task/center/task.json'
     return get_requests(url=url,remark='任务中心首页')
 # tasks()
-# s=tasks().json()
+# s=tasks()
 # list=s['content']['data']['taskPage']['dayTasks']['taskList']
 # for i in list:
 #     if i['status']=='COMPLETED':

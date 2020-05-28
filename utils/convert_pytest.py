@@ -80,7 +80,7 @@ def run_case(
         remark):
     if method == 'GET':
         jsonData = get_requests(
-            url=url, headers=header, remark=remark).json()
+            url=url, headers=header, remark=remark)
     elif method == 'POST' or method == 'PUT' or method == 'DELETE':
         if content_type == 'application/x-www-form-urlencoded':
             requets_data = dict()
