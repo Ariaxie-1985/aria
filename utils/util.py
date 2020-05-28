@@ -228,12 +228,17 @@ def get_requests(url, data=None, headers={}, remark=None, ip_port=None):
 def convert_response(response):
     if 'application/json' in (response.headers.get('Content-Type', '') or response.headers.get('content-type', '')):
         return response.json()
-    else:
+    elif 'text/html' in (response.headers.get('Content-Type', '') or response.headers.get('content-type', '')):
+        return response.text
+
+    try:
+        return response.json()
+    except AttributeError:
         return response.text
 
 
 def is_json_response(response):
-    if 'application/json' in response.headers.get('Content-Type', ''):
+    if 'application/json' in (response.headers.get('Content-Type', '') or response.headers.get('content-type', '')):
         return True
     return False
 
