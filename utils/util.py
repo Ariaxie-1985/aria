@@ -5,7 +5,6 @@ import time
 import zipfile
 from datetime import datetime
 import datetime
-from json import JSONDecodeError
 from urllib.parse import urlparse
 
 import pysnooper
@@ -17,6 +16,7 @@ import logging
 
 from utils.loggers import logers
 from utils.mainprocess_api_developer import return_api_developer
+from utils.user_exception import Http500Error
 
 sys.path.append(os.path.dirname(__file__))
 
@@ -329,47 +329,47 @@ def login_home_code(countryCode, username):
     return r
 
 
-def assert_equal(expectvalue, actualvalue, success_message, fail_message=None):
+def assert_equal(expect_value, actual_value, success_message, fail_message=None):
     '''
     断言两个值是否相等, 并对结果打印日志
-    :param expectvalue: 期望结果
-    :param actualvalue: 实际结果
+    :param expect_value: 期望结果
+    :param actual_value: 实际结果
     :param success_message: str, 断言成功打印的日志
     :param fail_message:str, 断言失败打印的日志
     '''
 
-    if expectvalue == actualvalue:
+    if expect_value == actual_value:
         # loger.success(success_message)
         state = 1
     else:
         loger.error(fail_message)
         state = 0
-    assert expectvalue == actualvalue
+    assert expect_value == actual_value
     return state
 
 
-def assert_not_equal(expectvalue, actualvalue, success_message, fail_message=None):
+def assert_not_equal(expect_value, actual_value, success_message, fail_message=None):
     '''
     断言两个值是否相等, 并对结果打印日志
-    :param expectvalue: 期望结果
-    :param actualvalue: 实际结果
+    :param expect_value: 期望结果
+    :param actual_value: 实际结果
     :param success_message: str, 断言成功打印的日志
     :param fail_message:str, 断言失败打印的日志
     '''
 
-    if expectvalue != actualvalue:
+    if expect_value != actual_value:
         # loger.success(success_message)
         pass
     else:
         loger.error(fail_message)
-    assert expectvalue != actualvalue
+    assert expect_value != actual_value
 
 
 def assert_in(expect_value, actual_value, success_message, fail_message=None):
     '''
     断言两个值是否相等, 并对结果打印日志
-    :param expectvalue: 期望结果
-    :param actualvalue: 实际结果
+    :param expect_value: 期望结果
+    :param actual_value: 实际结果
     :param success_message: str, 断言成功打印的日志
     :param fail_message:str, 断言失败打印的日志
     '''
@@ -384,8 +384,8 @@ def assert_in(expect_value, actual_value, success_message, fail_message=None):
 def assert_not_in(expect_value, actual_value, success_message, fail_message=None):
     '''
     断言两个值是否相等, 并对结果打印日志
-    :param expectvalue: 期望结果
-    :param actualvalue: 实际结果
+    :param expect_value: 期望结果
+    :param actual_value: 实际结果
     :param success_message: str, 断言成功打印的日志
     :param fail_message:str, 断言失败打印的日志
     '''
@@ -616,12 +616,9 @@ def judging_other_abnormal_conditions(status_code, url, remark, pard_id=None):
         call_chain = ''
 
     if status_code == 500:
-        developer_name = return_api_developer(url)
-        if developer_name is not None:
-            loger.info(f'url:{url}, 负责人:{developer_name}')
-            logging.error(msg="该接口URL:{} , 备注:{} 报错500, {}, 负责人:{} \n".format(url, remark, call_chain, developer_name))
-        else:
-            logging.error(msg="该接口URL:{} , 备注:{} 报错500, {} \n".format(url, remark, call_chain))
+        developer_name = return_api_developer(url) or ''
+        logging.error(msg="该接口URL:{} , 备注:{} 报错500, {}, 负责人:{} \n".format(url, remark, call_chain, developer_name))
+        raise Http500Error
         return {'state': 500, 'content': '报错500, 服务端错误', 'url': url, 'remark': remark + call_chain}
     elif status_code == 415:
         logging.error(msg="该接口URL {} 备注 {} 报错415, 请检查接口的请求方法是否正确\n".format(url, remark))

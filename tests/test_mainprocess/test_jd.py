@@ -143,7 +143,7 @@ class TestJd(object):
 
     def test_chat_c_lastResume(self, b_login_app, c_login_app):
         r = chat_c_lastResume(userToken=b_login_app[0], cUserId=c_login_app[1])
-        # assert_equal(4, actualvalue=r['content']['resumeStageCode'], success_message="获取候选人最近一次投递状态用例通过")
+        # assert_equal(4, actual_value=r['content']['resumeStageCode'], success_message="获取候选人最近一次投递状态用例通过")
         assert_equal(1, r.get('state'), '查询面试安排记录-新简历用例通过')
 
     def test_chat_c_info(self, b_login_app, c_login_app):
@@ -189,7 +189,7 @@ class TestJd(object):
 
     def test_orderResumes_detail(self, b_login_app):
         r = orderResumes_detail(userToken=b_login_app[0], resumeId=long_resumeId)
-        assert_equal(expectvalue=long_resumeId, actualvalue=int(r['content']['orderResumeId']),
+        assert_equal(expect_value=long_resumeId, actual_value=int(r['content']['orderResumeId']),
                      success_message="查询简历详情用例通过")
 
     def test_orderResumes_read(self, b_login_app):
