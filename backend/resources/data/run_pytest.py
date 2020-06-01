@@ -180,6 +180,7 @@ class run_Pytest(Resource):
         result = analysis_html_report(html_report_path, 3, args['module'])
 
         if bool(result['info']['result']['fail_result']):
+            current_app.logger.info(result)
             state = 0
 
         info = {"result": result}

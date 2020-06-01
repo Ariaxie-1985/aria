@@ -24,7 +24,7 @@ def product_info():
     url = 'https://home.lagou.com/crm/valueadded/product/query.json?pageNo=1&pageSize=30&name=&baseName=&status=&t={}'.format(
         random.randint(111111, 999999))
     header = get_header('https://home.lagou.com/')
-    res = get_requests(url=url, headers=header, remark='获取产品信息').json()
+    res = get_requests(url=url, headers=header, remark='获取产品信息')
     iterms = res['data']['result']
     return {'message': 'success', 'items': iterms}
 

@@ -149,7 +149,7 @@ def set_basicInfo(userToken, phone):
 def get_detail(userToken):
     url = 'https://gate.lagou.com/v1/neirong/resumes/detail'
     header = app_header_999(userToken, DA=False)
-    return get_requests(url=url, headers=header, remark="获取简历详情").json()
+    return get_requests(url=url, headers=header, remark="获取简历详情")
 
 
 def delete_education_experiences(userToken, id):

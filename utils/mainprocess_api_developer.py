@@ -70,3 +70,5 @@ if __name__ == '__main__':
     for u in [url, url1, url2, url3, url4]:
         r = return_api_developer(url=u)
         print(r)
+    # r = return_api_developer(url=url2)
+    # print(r)

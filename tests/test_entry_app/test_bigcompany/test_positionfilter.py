@@ -17,6 +17,6 @@ def teardown_module(module):
 
 # @pytest.mark.parametrize("companyid",[()])
 def test_positionfilter():
-    companyscore = positionfilter().json()
+    companyscore = positionfilter()
 
     assert_equal(1, companyscore['state'], "公司主页职位筛选结果")

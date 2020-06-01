@@ -8,21 +8,21 @@ def member_all(userToken, ip_port=None, userId=None):
     url = 'https://gate.lagou.com/v1/zhaopin/bUser/member/all?pageNo=1&pageSize=15'
     header = app_header_999(userToken=userToken, DA=False, userId=userId)
     remark = '查看我公司下的成员'
-    return get_requests(url=url, headers=header, remark=remark, ip_port=ip_port).json()
+    return get_requests(url=url, headers=header, remark=remark, ip_port=ip_port)
 
 
 def quickReply_all(userToken):
     url = 'https://gate.lagou.com/v1/zhaopin/bUser/quickReply/all'
     header = app_header_999(userToken=userToken, DA=False)
     remark = '获取IM的快捷回复'
-    return get_requests(url=url, headers=header, remark=remark).json()
+    return get_requests(url=url, headers=header, remark=remark)
 
 
 def interviewTemplate_all(userToken, ip_port=None, userId=None):
     url = 'https://gate.lagou.com/v1/zhaopin/bUser/interviewTemplate/all'
     header = app_header_999(userToken=userToken, DA=False, userId=userId)
     remark = '查看面试信息'
-    return get_requests(url=url, headers=header, remark=remark, ip_port=ip_port).json()
+    return get_requests(url=url, headers=header, remark=remark, ip_port=ip_port)
 
 
 def interviewTemplate_create_update(userToken, ip_port=None, userId=None):

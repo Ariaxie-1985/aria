@@ -11,7 +11,7 @@ def MySchedule(userid):
     header=get_app_header(userid)
     url="https://gate.lagou.com/v1/zhaopin/topCard/mySchedule?pageNo=1&pageSize=10"
     object=get_requests(url=url,headers=header,remark="查询我的排期，包括共享职位")
-    message=object.json()['message']
+    message=object['message']
     assert_equal("操作成功",message,"查询我的排期，包括共享职位接口正确","查询我的排期，包括共享职位接口错误")
 
 def SendBusiness(userid):
@@ -23,7 +23,7 @@ def SendBusiness(userid):
     header=get_app_header(userid)
     url="https://gate.lagou.com/v1/zhaopin/topCard/sendBusiness"
     object=get_requests(url=url,headers=header,remark="发送商机线索")
-    message=object.json()['message']
+    message=object['message']
     assert_equal("操作成功",message,"发送商机线索接口正确","发送商机线索接口错误")
 
 def ScheduleList(userid):
@@ -41,7 +41,7 @@ def ScheduleList(userid):
     header=get_app_header(userid)
     url="https://gate.lagou.com/v1/zhaopin/topCard/"+str(positionId)+"/scheduleList"
     object=get_requests(url=url,headers=header,remark="查询未来28天排期")
-    message=object.json()['message']
+    message=object['message']
     assert_equal("操作成功",message,"查询未来28天排期接口正确","查询未来28天排期接口错误")
 
 

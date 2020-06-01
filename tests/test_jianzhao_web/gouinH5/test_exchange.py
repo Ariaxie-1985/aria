@@ -12,7 +12,7 @@ def teardown_module(module):
     pass
 @pytest.mark.skip(reason="勾印不足, 先跳过")
 def test_exchange():
-    s=list().json()
+    s=list()
     goodsid=s['content']['data']['allGoods']['data']['goodsList'][0]['goodsId']
     r=exchange(goodsid)
     assert_equal(1, r['state'], "兑换积分成功成功")

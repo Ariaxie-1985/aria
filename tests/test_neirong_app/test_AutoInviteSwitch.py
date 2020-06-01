@@ -18,7 +18,7 @@ def tearDown():
     pass
 
 def test_autoInviteSwitch_status():
-    r = autoInviteSwitch_status().json()
+    r = autoInviteSwitch_status()
     global display, noExposureSwitchDisplay, noExposureSwitchStatus, status
     try:
         display = r['content']['display']

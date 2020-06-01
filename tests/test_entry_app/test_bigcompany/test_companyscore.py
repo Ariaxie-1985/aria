@@ -17,6 +17,6 @@ def teardown_module(module):
 
 # @pytest.mark.parametrize("companyid",[()])
 def test_companyscore():
-    companyscore = companyscores().json()
+    companyscore = companyscores()
 
     assert_equal(1, companyscore['state'], "公司面试评分查询成功")

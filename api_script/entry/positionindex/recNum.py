@@ -7,4 +7,4 @@ def recNum():
     url='https://gate.lagou.com/v1/entry/positionindex/recNum?pageNo=1&pageSize=1000'
     return get_requests(url=url,headers=header,remark='首页推荐数量')
 
-# print(recNum().text)
+# print(recNum())

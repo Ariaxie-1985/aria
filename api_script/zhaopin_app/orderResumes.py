@@ -34,21 +34,21 @@ def orderResumes_filter(userToken, ip_port=None, userId=None):
     url = host + '/orderResumes/filter'
     header = app_header_999(userToken=userToken, DA=False, userId=userId)
     remark = '简历搜索筛选条目'
-    return get_requests(url=url, headers=header, remark=remark, ip_port=ip_port).json()
+    return get_requests(url=url, headers=header, remark=remark, ip_port=ip_port)
 
 
 def orderResumes_positions_pages(userToken, ip_port=None, userId=None):
     url = host + '/orderResumes/positions/pages?pageNo=1&pageSize=20'
     header = app_header_999(userToken=userToken, DA=False, userId=userId)
     remark = '分页查询用于简历查询的职位'
-    return get_requests(url=url, headers=header, remark=remark, ip_port=ip_port).json()
+    return get_requests(url=url, headers=header, remark=remark, ip_port=ip_port)
 
 
 def orderResumes_sameResume_query(userToken, resumeId, pageNo=1, ip_port=None, userId=None):
     url = host + '/orderResumes/sameResume/query?pageNo={}&pageSize=10&resumeId={}'.format(pageNo, resumeId)
     header = app_header_999(userToken=userToken, DA=False, userId=userId)
     remark = '多次投递记录'
-    return get_requests(url=url, headers=header, remark=remark, ip_port=ip_port).json()
+    return get_requests(url=url, headers=header, remark=remark, ip_port=ip_port)
 
 
 def orderResumes_process_save(userToken, content, resumeId):
@@ -66,7 +66,7 @@ def orderResumes_process_query(userToken, resumeId, ip_port=None, userId=None):
     url = host + '/orderResumes/process/query?resumeId={}'.format(resumeId)
     header = app_header_999(userToken=userToken, DA=False, userId=userId)
     remark = '查询简历参与者的评价记录'
-    return get_requests(url=url, headers=header, remark=remark, ip_port=ip_port).json()
+    return get_requests(url=url, headers=header, remark=remark, ip_port=ip_port)
 
 
 def orderResumes_process_forward(atIds, resumeId):
@@ -84,20 +84,20 @@ def orderResumes_process_forward(atIds, resumeId):
 def get_strict_pages_positions():
     url = host + "/orderResumes/positions/strict/pages?pageNo=1&pageSize=20"
     remark = "分页查询用于简历查询的职位（排除没有拉勾职位id的职位）"
-    return get_requests(url=url, headers=header, remark=remark).json()
+    return get_requests(url=url, headers=header, remark=remark)
 
 
 def get_strict_pages_orderResumes():
     url = host + "/orderResumes/positions/pages?pageNo=1&pageSize=20"
     remark = "分页查询用于简历查询的职位"
-    return get_requests(url=url, headers=header, remark=remark).json()
+    return get_requests(url=url, headers=header, remark=remark)
 
 
 def orderResumes_interview(userToken, resumeId):
     url = "https://gate.lagou.com/v1/zhaopin/orderResumes/interview?resumeId={}".format(resumeId)
     header = app_header_999(userToken=userToken, DA=False)
     remark = "查询面试安排记录"
-    return get_requests(url=url, headers=header, remark=remark).json()
+    return get_requests(url=url, headers=header, remark=remark)
 
 
 def orderResumes_resume_interview(userToken, resumeId, positionId, ip_port=None, userId=None):
@@ -130,14 +130,14 @@ def orderResumes_detail(userToken, resumeId, ip_port=None, userId=None):
     url = "https://gate.lagou.com/v1/zhaopin/orderResumes/{}?needImg=false&ignoreNearbyFail=true".format(resumeId)
     header = app_header_999(userToken=userToken, DA=False, userId=userId)
     remark = "查询简历详情"
-    return get_requests(url=url, headers=header, remark=remark, ip_port=ip_port).json()
+    return get_requests(url=url, headers=header, remark=remark, ip_port=ip_port)
 
 
 def orderResumes_read(userToken, resumeId, ip_port=None, userId=None):
     url = "https://gate.lagou.com/v1/zhaopin/orderResumes/read?orderResumeId={}".format(resumeId)
     header = app_header_999(userToken=userToken, DA=False, userId=userId)
     remark = "设置简历已读"
-    return get_requests(url=url, headers=header, remark=remark, ip_port=ip_port).json()
+    return get_requests(url=url, headers=header, remark=remark, ip_port=ip_port)
 
 
 def orderResumes_resume_link(userToken, resumeId, ip_port=None, userId=None):
@@ -185,7 +185,7 @@ def orderResumes_stage(userToken, resumeId, ip_port=None, userId=None):
     url = "https://gate.lagou.com/v1/zhaopin/orderResumes/{}/stage".format(resumeId)
     header = app_header_999(userToken=userToken, DA=False, userId=userId)
     remark = "查询简历阶段"
-    return get_requests(url=url, headers=header, remark=remark, ip_port=ip_port).json()
+    return get_requests(url=url, headers=header, remark=remark, ip_port=ip_port)
 
 
 if __name__ == '__main__':

@@ -12,8 +12,8 @@ def teardown_module(module):
     pass
 @pytest.mark.skip(reason="有问题, 暂不执行")
 def test_detail():
-    s=list().json()
+    s=list()
     goodsid=s['content']['data']['allGoods']['data']['goodsList'][0]['goodsId']
-    r=detail(goodsid).json()
+    r=detail(goodsid)
     assert_equal(1, r['state'], "查询商品详情成功")
 

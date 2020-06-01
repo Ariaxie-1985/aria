@@ -67,7 +67,7 @@ def recommend_isExistPositionList(userToken, positionId):
     url = 'https://gate.lagou.com/v1/entry/deliver/recommend/isExistPositionList?positionId={}'.format(positionId)
     header = app_header_999(userToken, DA=False)
     remark = "投递后推荐的职位 （投了又投），是否有数据"
-    return get_requests(url=url, headers=header, remark=remark).json()
+    return get_requests(url=url, headers=header, remark=remark)
 
 
 def recommend_positionList(userToken, orderId, positionId):

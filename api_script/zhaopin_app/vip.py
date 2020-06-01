@@ -9,7 +9,7 @@ def get_vip_detail(userToken,userId=None, ip_port=None):
     url = "https://gate.lagou.com/v1/zhaopin/vip/vipDetail"
     header = app_header_999(userToken=userToken, DA=False,userId=userId)
     remark = "获取拉勾VIP模板详情"
-    return get_requests(url=url, headers=header, remark=remark,ip_port=ip_port).json()
+    return get_requests(url=url, headers=header, remark=remark,ip_port=ip_port)
 
 
 

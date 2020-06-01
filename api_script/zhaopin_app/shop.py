@@ -12,7 +12,7 @@ def get_shop_goods_on_sale_goods():
     header = get_code_token(url='https://easy.lagou.com/shop/onSaleGoods.htm?')
     header.update({'X-L-REQ-HEADER': json.dumps({'deviceType': 1})})
     remark = '道具商城--招聘道具--获取在售权益及其价格信息'
-    return get_requests(url=url, headers=header, remark=remark).json()
+    return get_requests(url=url, headers=header, remark=remark)
 
 
 def get_shop_goods_account_info():

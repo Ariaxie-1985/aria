@@ -148,7 +148,7 @@ class TestCompanyBusiness(object):
         r = join_with_user(userIdPasscode=userIdPasscode, invite_code=invite_code)
         assert_equal(True, bool(r), '确定加入公司用例通过')
 
-    def test_free_position_is_in_online_position(self):
+    def test_get_online_position(self):
         positions_result = get_online_positions()
         assert_equal(1, positions_result.get('state'), '在线职位接口调用用例通过')
 

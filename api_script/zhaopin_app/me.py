@@ -11,7 +11,7 @@ def get_me_info(userToken, userId=None, ip_port=None):
     header = app_header_999(userToken=userToken, DA=False, userId=userId)
     print(header)
     remark = "获取B端用户信息"
-    return get_requests(url=url, headers=header, remark=remark, ip_port=ip_port).json()
+    return get_requests(url=url, headers=header, remark=remark, ip_port=ip_port)
 
 
 if __name__ == '__main__':

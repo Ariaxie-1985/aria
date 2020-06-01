@@ -21,7 +21,7 @@ def get_talent_hunting():
 	:return:
 	'''
 	url = "https://easy.lagou.com/talent/hunting.json?keyword=JAVA&city=北京&education=本科及以上&pageNo=1"
-	return get_requests(url=url).json()
+	return get_requests(url=url)
 
 
 def get_talent_inspect_pageNo():
@@ -30,7 +30,7 @@ def get_talent_inspect_pageNo():
 	:return:
 	'''
 	url = "https://easy.lagou.com/talent/inspect/pageNo.json?pageNo=1"
-	return get_requests(url=url).text
+	return get_requests(url=url)
 
 
 def get_talent_newest_pageNo():
@@ -39,7 +39,7 @@ def get_talent_newest_pageNo():
 	:return:
 	'''
 	url = "https://easy.lagou.com/talent/newest/{}.json".format("1")
-	return get_requests(url=url).json()
+	return get_requests(url=url)
 
 
 def get_talent_positions():
@@ -48,7 +48,7 @@ def get_talent_positions():
 	:return:
 	'''
 	url = "https://easy.lagou.com/talent/positions.json"
-	return get_requests(url=url).json()
+	return get_requests(url=url)
 
 
 def get_talent_rec():
@@ -57,7 +57,7 @@ def get_talent_rec():
 	:return:
 	'''
 	url = "https://easy.lagou.com/talent/rec/{}.json?pageNo=1&positionld=13845256".format("1")
-	return get_requests(url=url).json()
+	return get_requests(url=url)
 
 
 def get_talent_checkNewData():
@@ -66,7 +66,7 @@ def get_talent_checkNewData():
 	:return:
 	'''
 	url = "https://easy.lagou.com/talent/checkNewData.json"
-	return get_requests(url=url).json()
+	return get_requests(url=url)
 
 
 def get_talent_search_list_html():
@@ -87,7 +87,7 @@ def get_talent_search_list():
 	'''
 	url = "https://easy.lagou.com/talent/search/list.json?pageNo=1&orderWay=0&createTime={}&positionName=python&visible=true&searchVersion=1".format(
 		int(round(time.time() * 1000)))
-	r = get_requests(url=url).json()
+	r = get_requests(url=url)
 	return r
 
 
@@ -97,7 +97,7 @@ def search_resume_fetchResume(resumeFetchKey):
 	:return:
 	'''
 	url = "https://easy.lagou.com/search/resume/fetchResume.json?resumeFetchKey={}".format(resumeFetchKey)
-	return get_requests(url=url).json()
+	return get_requests(url=url)
 
 
 def get_talent_search_index():

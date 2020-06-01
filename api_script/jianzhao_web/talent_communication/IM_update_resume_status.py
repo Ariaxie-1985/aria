@@ -15,7 +15,7 @@ faker = Faker('zh_CN')
 def data_provider():
     url = 'https://easy.lagou.com/im/session/list.json?pageNo=1&pageSize=50&createBy=0&unReadOnly=0'
     header = get_code_token(url='https://easy.lagou.com/im/chat/index.htm')
-    session_results = get_requests(url=url, headers=header, remark='获取新简历').json()
+    session_results = get_requests(url=url, headers=header, remark='获取新简历')
     for session in session_results['content']['rows']:
         attachment = json.loads(session['attachment'])
         if attachment['resumeStage'] == 'NEW':
@@ -24,7 +24,7 @@ def data_provider():
             cUserId = attachment['cUserId']
             print(cUserId)
             session_url = 'https://easy.lagou.com/im/chat/getMDSUserInfo/{}.json'.format(sessionId)
-            resume = get_requests(url=session_url, headers=header, remark='获取resumeId').json()
+            resume = get_requests(url=session_url, headers=header, remark='获取resumeId')
             try:
                 resumeId = resume['content']['data']['resumeId']
             except KeyError:
@@ -36,14 +36,14 @@ def data_provider():
 def chat_getMDSUserInfo(cUserId):
     url = 'https://easy.lagou.com/im/chat/getMDSUserInfo/{}.json?'.format(cUserId)
     header = get_header(url='https://easy.lagou.com/im/chat/index.htm')
-    return get_requests(url=url, headers=header, remark='会话详情信息').json()
+    return get_requests(url=url, headers=header, remark='会话详情信息')
 
 
 def position_selector(resumeId, sessionId):
     url = 'https://easy.lagou.com/im/session/position/selector.json?resumeId={}&sessionId={}'.format(resumeId,
                                                                                                      sessionId)
     header = get_header(url='https://easy.lagou.com/im/chat/index.htm')
-    return get_requests(url=url, headers=header, remark='im切换职位列表').json()
+    return get_requests(url=url, headers=header, remark='im切换职位列表')
 
 
 def resume_interview(resumeId, positionId):

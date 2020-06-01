@@ -52,7 +52,7 @@ def test_orderResumes_process_query():
 
 
 def test_member_all():
-    res = member_all().json()
+    res = member_all()
     global atIds
     atIds = res['content']['result'][0]['userId']
     assert_equal(1, res['state'], '查询公司成员成功')
