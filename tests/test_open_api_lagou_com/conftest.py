@@ -23,3 +23,42 @@ def get_access_token():
 def get_openid():
     res = openid_query(access_token=access_token_list[0], credential=13033647506)
     return res.get('openid')
+
+
+# 2.当某用例失败后,接下来的依赖用例直接标记失败,不执行
+# 用 pytest_configure(), pytest_runtest_setup(), pytest_runtest_makereport()三个函数共同合作的
+def pytest_runtest_makereport(item, call):
+    '''
+    在第一个没有报失败的用例停止执行
+    :param item: 测试用例
+    :param call:调用步骤,pytest_runtest_setup(item), pytest_runtest_call(item), pytest_runtest_teardown(item)
+    :return:一个测试报告对象
+    '''
+    if "incremental" in item.keywords:
+        if call.excinfo is not None:
+            parent = item.parent
+            parent._previousfailed = item
+
+
+def pytest_runtest_setup(item):
+    '''
+    called before ``pytest_runtest_call(item)
+    每个测试用例的初始化,如果上一个用例是failed,接下来的用例有失败的, 就标记 xfail
+    :param item: 测试用例
+    :return:
+    '''
+    if "incremental" in item.keywords:
+        previousfailed = getattr(item.parent, "_previousfailed", None)
+        if previousfailed is not None:
+            pytest.xfail("previous test failed (%s)" % previousfailed.name)
+
+
+def pytest_configure(config):
+    '''
+    编写新的hook函数
+    :param config: pytest命令配置
+    :return: 增加name:markers, 命令:incremental，备注:mark test to run only on named main_process的配置
+    '''
+    config.addinivalue_line(
+        "markers", "incremental: mark test to run only on named main_process"
+    )

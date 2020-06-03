@@ -119,7 +119,7 @@ def refresh_position(access_token, position_id):
     url = f'https://open.lagou.com/v1/position/refresh?access_token={access_token}'
     data = {'position_id': position_id}
     remark = '刷新职位'
-    return form_post(url=url, data=data, remark=remark)
+    return form_post(url=url, data=data, remark=remark, verifystate=False)
 
 
 def get_position_list(access_token, status='ONLINE'):
