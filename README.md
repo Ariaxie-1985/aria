@@ -1,4 +1,4 @@
-## 安装环境(python version >= 3..6)
+## 安装环境(python version >= 3.6)
 ```shell
 
 # 切换项目目录
