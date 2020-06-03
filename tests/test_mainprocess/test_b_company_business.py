@@ -414,7 +414,7 @@ class TestCompanyBusiness(object):
         r = get_rights_info_list()
         for base_good in r['content']['baseDetailResList']:
             if base_good['baseGoodsId'] == 623:
-                assert_equal(0, int(base_good['totalNum']), '验证免费账号的普通职位数为0用例通过')
+                assert_equal(0, int(base_good['totalNum']), '验证特殊行业（一类）公司免费账号的普通职位数为0用例通过')
 
     def test_general_user_1_im_session_list_check_15(self):
         r = im_session_list(createBy=0)
