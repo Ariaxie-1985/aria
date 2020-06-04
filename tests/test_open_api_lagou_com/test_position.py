@@ -12,6 +12,7 @@ from api_script.open_lagou_com.position import category_get, company_address_dis
     offline_position, refresh_position, publish_position, delete_position_address
 from utils.util import assert_equal
 
+
 @pytest.mark.incremental
 class TestPosition:
     def test_category_get(self, get_access_token):
@@ -44,8 +45,9 @@ class TestPosition:
     def test_position_create(self, get_access_token, get_openid):
         res = position_create(access_token=get_access_token, openid=get_openid, address_id=address_id)
         assert_equal(0, res.get('code'), '创建职位请求成功', '创建职位请求失败')
-        global position_id
+        global position_id, jd_id
         position_id = res['data']['id']
+        jd_id = res['data']['jd_url'].split('/')[-1]
         assert_equal(True, bool(position_id), '创建职位用例通过', '创建职位用例失败')
 
     def test_get_create_position_info(self, get_access_token):
@@ -61,7 +63,7 @@ class TestPosition:
         assert_equal(1, r.get('state'), "校验获取简历信息成功")
 
     def test_deliver_create(self, c_login_app):
-        r = deliver_create(positionId=position_id, resumeId=resumeId, resumeType=resumeType, H9=True, isTalk=False,
+        r = deliver_create(positionId=jd_id, resumeId=resumeId, resumeType=resumeType, H9=True, isTalk=False,
                            userToken=c_login_app[0])
         assert_equal(1, r.get('state'), "校验投递简历成功！")
 
