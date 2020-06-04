@@ -27,17 +27,20 @@ def get_fix_time():
     return fix_time
 
 
-def run_pytest():
+def run_pytest(module):
+    '''
+    :param module: mainprocess, open_api_lagou
+    '''
     url = 'http://127.0.0.1:18980/data/pytest'
-    data = {"module": "mainprocess"}
+    data = {"module": module}
     pytest_result = requests.post(url=url, json=data, verify=False).json()
     return pytest_result
 
 
-def send_feishu_report(pytest_result):
+def send_feishu_report(module, pytest_result):
     if pytest_result.get('state') == 4:
         content = pytest_result.get('data')
-        return send_feishu_bot(content=content)
+        return send_feishu_bot(module=module, content=content)
 
     if pytest_result.get('state') == 0:
         summary_result = ''
@@ -66,7 +69,7 @@ def send_feishu_report(pytest_result):
         return send_feishu_bot(content=content)
 
 
-def send_mail():
+def send_mail(module):
     sender = 'autotest@lagoujobs.com'
     sender_password = 'Lqq123456'
     receivers = ['xiawang@lagou.com', 'betty@lagou.com']
@@ -74,20 +77,20 @@ def send_mail():
 
     try:
         message = MIMEMultipart()
-        message['From'] = Header("主流程测试报告", 'utf-8')
+        message['From'] = Header(f"自动化测试报告", 'utf-8')
         message['To'] = Header("测试工程师", 'utf-8')
-        subject = '主流程测试报告'
+        subject = f'{module}测试报告'
         message['Subject'] = Header(subject, 'utf-8')
 
         message.attach(
-            MIMEText('主流程测试报告详见附件', 'plain', 'utf-8')
+            MIMEText('自动化测试报告详见附件', 'plain', 'utf-8')
         )
-        report_file_path = '/home/test/lg-apiscript-python/backend/templates/mainprocess_report.html'
+        report_file_path = f'/home/test/lg-apiscript-python/backend/templates/{module}_report.html'
         # report_file_path = '/Users/wang/Desktop/lg-project/lg_api_script/backend/templates/mainprocess_report.html'
         att1 = MIMEText(open(report_file_path, 'rb').read(),
                         'base64', 'utf-8')
         att1["Content-Type"] = 'application/octet-stream'
-        att1["Content-Disposition"] = 'attachment; filename="mainprocess_report.html"'
+        att1["Content-Disposition"] = f'attachment; filename={module}_report.html'
         message.attach(att1)
 
         server = smtplib.SMTP_SSL("smtp.exmail.qq.com", 465)
@@ -99,10 +102,14 @@ def send_mail():
     return ret
 
 
-def send_feishu_bot(content):
-    url = 'https://open.feishu.cn/open-apis/bot/hook/03654ef57c4f4418ba8802cfa1cf06a0'
+def send_feishu_bot(module, content):
+    module_bot = {
+        'mainprocess': 'https://open.feishu.cn/open-apis/bot/hook/03654ef57c4f4418ba8802cfa1cf06a0',
+        'open_api_lagou': 'https://open.feishu.cn/open-apis/bot/hook/ad282603210042cdb3e414f36e1acbb8'
+    }
+    url = module_bot.get(module)
     data = {
-        "title": "主流程测试结果:",
+        "title": "自动化测试结果:",
         "text": content
     }
     if len(data['text']) >= 2000:
@@ -178,19 +185,25 @@ def oss_filter_event(module_name, name, description, level, user_ids: str, cause
     requests.post(url, json=params)
 
 
-def main():
-    pytest_result = run_pytest()
+def main(module):
+    pytest_result = run_pytest(module)
     if pytest_result.get('state', 0) != 1:
         time.sleep(10)
-        pytest_result = run_pytest()
+        pytest_result = run_pytest(module)
         if pytest_result.get('state', 0) != 1:
-            send_feishu_result = send_feishu_report(pytest_result)
+            send_feishu_result = send_feishu_report(module, pytest_result)
             send_oss_result = send_oss(pytest_result)
             if send_feishu_result == True:
-                send_mail()
+                send_mail(module)
             if not send_oss_result.get('result', False):
                 send_oss(pytest_result)
 
 
 if __name__ == '__main__':
-    main()
+    import argparse
+
+    parser = argparse.ArgumentParser(description='获取执行的模块')
+    parser.add_argument('--module', help='获取执行模块')
+    args = parser.parse_args()
+    if args.module is not None:
+        main(module=args.module)
