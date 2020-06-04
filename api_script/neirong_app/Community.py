@@ -19,5 +19,5 @@ def communityMessage_userBasicInfo(start, size, userid):
           '/communityMessage/userBasicInfo?start={start}&size={size}'.format(start=start, size=size)
     headers = get_app_header(userid)
     remark = '获取言职社区通知页列表数据'
-    return get_requests(url=url, headers=headers, remark=remark).json()
+    return get_requests(url=url, headers=headers, remark=remark)
 

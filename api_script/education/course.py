@@ -10,7 +10,7 @@ def get_distribution_info(userToken, courseId):
         courseId)
     header = app_header_999(userToken=userToken, DA=False)
     remark = "言职/开悟/获取分销信息"
-    return get_requests(url=url, headers=header, remark=remark).json()
+    return get_requests(url=url, headers=header, remark=remark)
 
 
 def get_course_commentList(userToken, courseId):

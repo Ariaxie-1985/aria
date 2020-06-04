@@ -12,7 +12,7 @@ def queryParentUser():
     url = 'https://easy.lagou.com/userGoodsRecord/queryParentUser.json'
     header = get_header('https://easy.lagou.com/dashboard/index.htm?')
     remark = '普通账号/子账号申请权益弹框信息接口'
-    return get_requests(url=url, headers=header, remark=remark).json()
+    return get_requests(url=url, headers=header, remark=remark)
 
 
 def sendApplyAssignGoodsWithNum(parentId, applyForSubAccount, applybaseGoods):
@@ -32,14 +32,14 @@ def pendingApplyRecords():
     url = 'https://easy.lagou.com/userGoodsRecord/pendingApplyRecords.json'
     header = get_header('https://easy.lagou.com/dashboard/index.htm?')
     remark = '管理员 待处理申请查询接口'
-    return get_requests(url=url, headers=header, remark=remark).json()
+    return get_requests(url=url, headers=header, remark=remark)
 
 
 def count_pending_apply_records(ip_port=None):
     url = 'https://easy.lagou.com/userGoodsRecord/countPendingApplyRecords.json'
     header = get_header('https://easy.lagou.com/bstatus/auth/index.htm?', ip_port=ip_port)
     remark = '管理员 查询待处理权益申请数量接口'
-    return get_requests(url=url, headers=header, remark=remark, ip_port=ip_port).json()
+    return get_requests(url=url, headers=header, remark=remark, ip_port=ip_port)
 
 
 def addAccountFromApply(applyRecordId):

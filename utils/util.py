@@ -1,10 +1,10 @@
 # coding:utf-8
 import os
+import sys
 import time
 import zipfile
 from datetime import datetime
 import datetime
-from json import JSONDecodeError
 from urllib.parse import urlparse
 
 import pysnooper
@@ -14,7 +14,11 @@ from requests import RequestException
 import json
 import logging
 
-from utils.logger import loger
+from utils.loggers import logers
+from utils.mainprocess_api_developer import return_api_developer
+from utils.user_exception import Http500Error
+
+sys.path.append(os.path.dirname(__file__))
 
 logging.getLogger().setLevel(logging.INFO)
 
@@ -29,7 +33,7 @@ app_header = {
 
 count = 0
 
-loger = loger()
+loger = logers()
 
 
 # 获取页面的token和code
@@ -66,29 +70,7 @@ def get_code_token(url, referer=False, ip_port=None):
         return get_code_token(url=url)
 
 
-def get_code_token_new(url):
-    global count
-    try:
-        token_values, code_values = 0, None
-        code = session.get(url=url, headers=header, verify=False, timeout=60)
-        token_values = re.findall("X_Anti_Forge_Token = '(.*?)'", code.text, re.S)[0]
-        code_values = re.findall("X_Anti_Forge_Code = '(.*?)'", code.text, re.S)[0]
-        headers = {"Content-Type": "application/json", "X-Anit-Forge-Code": code_values,
-                   "X-Anit-Forge-Token": token_values,
-                   "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3615.0 Safari/537.36"}
-        if token_values != '' and code_values != '':
-            return headers
-        else:
-            if count < 1:
-                count = count + 1
-                return get_code_token(url=url)
-            else:
-                return headers
-    except (RequestException, IndexError):
-        return get_code_token(url=url)
-
-
-def form_post(url, remark, data=None, files=None, headers={}, allow_redirects=True, ip_port=None):
+def form_post(url, remark, data=None, files=None, headers={}, verifystate=True, allow_redirects=True, ip_port=None):
     """
     form表单传参的post请求
     :param url: 请求url
@@ -98,12 +80,13 @@ def form_post(url, remark, data=None, files=None, headers={}, allow_redirects=Tr
     :return: json格式化的响应结果
     """
     global count
+    if verifystate == False:
+        count = 3
     try:
         if not data is None:
             headers = {**header, **headers, **{'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'}}
         else:
             headers = {**header, **headers}
-        # cookies = dict(X_HTTP_TOKEN='07488fa454ce922a578040585170f3c4f12e21b679')
         if ip_port is None:
             response = session.post(url=url, data=data, files=files, headers=headers, verify=False,
                                     timeout=60,
@@ -116,17 +99,22 @@ def form_post(url, remark, data=None, files=None, headers={}, allow_redirects=Tr
         pard_id = response.headers.get('Pard-Id', 0)
         status_code = response.status_code
         if 200 <= status_code <= 302:
-            response_json = response.json()
-            if response_json.get('state', 0) == 1 or response_json.get('success', False):
-                logging.info(f'该接口URL {url} ,备注 {remark} 执行成功\n')
-                return response_json
-            else:
-                if count < 1:
-                    count = count + 1
-                    return form_post(url=url, headers=headers, remark=remark, data=data)
-                else:
-                    logging.error(msg='该接口URL {} , 备注: {},  响应内容: {} 请求成功, 但断言错误\n'.format(url, remark, response_json))
+            if is_json_response(response):
+                response_json = convert_response(response)
+                if response_json.get('state', 0) == 1 or response_json.get('success', False) or (not response_json.get(
+                        'code', 1)):
+                    logging.info(f'该接口URL {url} ,备注 {remark} 执行成功\n')
                     return response_json
+                else:
+                    if count < 1:
+                        count = count + 1
+                        return form_post(url=url, headers=headers, remark=remark, data=data)
+                    else:
+                        logging.error(
+                            msg='该接口URL {} , 备注: {},  响应内容: {} 请求成功, 但断言错误\n'.format(url, remark, response_json))
+                        return response_json
+            else:
+                return convert_response(response)
         else:
             if count < 1:
                 count = count + 1
@@ -136,9 +124,6 @@ def form_post(url, remark, data=None, files=None, headers={}, allow_redirects=Tr
     except RequestException:
         logging.error("该接口URL {} , 备注 {} 请求异常, 请检查接口服务并重试一次\n".format(url, remark))
         return {'content': '请求异常(requests捕获的异常)', 'url': url, 'remark': remark}
-    except JSONDecodeError:
-        logging.error(msg="该接口URL {} ,备注 {} 报错json解码错误, 请检查接口的响应是否正确的返回并解析\n".format(url, remark))
-        return {'content': '响应内容不是期望的json格式', 'url': url, 'remark': remark}
 
 
 # @pysnooper.snoop()
@@ -166,17 +151,21 @@ def json_post(url, remark, data=None, headers={}, app=False, verifystate=True, i
         pard_id = response.headers.get('Pard-Id', 0)
         status_code = response.status_code
         if 200 <= status_code <= 302:
-            response_json = response.json()
-            if response_json.get('state', 0) == 1 or response_json.get('success', False):
-                logging.info(msg='该接口URL {} ,备注 {} 执行成功\n'.format(url, remark))
-                return response_json
-            else:
-                if count < 1:
-                    count = count + 1
-                    return json_post(url=url, headers=headers, remark=remark, data=data)
-                else:
-                    logging.error(msg='该接口URL {} , 备注 {}, 响应内容: {} 请求成功, 但断言错误\n'.format(url, remark, response_json))
+            if is_json_response(response):
+                response_json = convert_response(response)
+                if response_json.get('state', 0) == 1 or response_json.get('success', False):
+                    logging.info(msg='该接口URL {} ,备注 {} 执行成功\n'.format(url, remark))
                     return response_json
+                else:
+                    if count < 1:
+                        count = count + 1
+                        return json_post(url=url, headers=headers, remark=remark, data=data)
+                    else:
+                        logging.error(
+                            msg='该接口URL {} , 备注 {}, 响应内容: {} 请求成功, 但断言错误\n'.format(url, remark, response_json))
+                        return response_json
+            else:
+                return convert_response(response)
         else:
             if count < 1:
                 count = count + 1
@@ -186,9 +175,6 @@ def json_post(url, remark, data=None, headers={}, app=False, verifystate=True, i
     except RequestException as e:
         logging.error(msg="该接口URL {} , 备注 {} 异常: {} 请求异常, 请检查接口服务并重试一次\n".format(url, remark, e))
         return {'content': '请求执行错误', 'url': url, 'remark': remark}
-    except JSONDecodeError:
-        logging.error(msg="该接口URL {} ,备注 {} 报错json解码错误, 请检查接口的响应是否正确的返回并解析\n".format(url, remark))
-        return {'content': '响应内容不是期望的json格式', 'url': url, 'remark': remark}
 
 
 def get_requests(url, data=None, headers={}, remark=None, ip_port=None):
@@ -208,26 +194,28 @@ def get_requests(url, data=None, headers={}, remark=None, ip_port=None):
         else:
             ip_port_url = domain_convert_ip_port(url=url, ip_port=ip_port)
             response = session.get(url=ip_port_url, params=data, headers=headers, verify=False, timeout=60)
+
         status_code = response.status_code
         pard_id = response.headers.get('Pard-Id', 0)
         if 200 <= status_code <= 302:
-            try:
-                response_json = response.json()
-                if response_json.get('state', 0) == 1 or response_json.get('success', False):
+            if is_json_response(response):
+                response_json = convert_response(response)
+                if response_json.get('state', 0) == 1 or response_json.get('success', False) or (not response_json.get(
+                        'code', 1)):
                     logging.info(msg='该接口URL {} ,备注 {} 执行成功\n'.format(url, remark))
-                    return response
+                    return response_json
                 else:
                     if count < 1:
                         count = count + 1
                         logging.error(
                             msg='该接口URL {} , 备注: {} , 响应内容: {} 断言失败, 在重试\n'.format(url, remark, response_json))
-                        return get_requests(url=url, data=data, headers=headers, remark=remark)
+                        return convert_response(response)
                     else:
                         logging.error(
                             msg='该接口URL {} , 备注 {}, 响应内容: {} 请求成功, 但断言错误\n'.format(url, remark, response_json))
-                        return response
-            except JSONDecodeError:
-                return response
+                        return convert_response(response)
+            else:
+                return convert_response(response)
         else:
             if count < 1:
                 count += 1
@@ -239,9 +227,26 @@ def get_requests(url, data=None, headers={}, remark=None, ip_port=None):
     except RequestException:
         logging.error(msg="该接口URL {} , 备注 {} 请求异常, 请检查接口服务并重试一次\n".format(url, remark))
         return {'content': '请求执行错误', 'url': url, 'remark': remark}
-    except JSONDecodeError:
-        logging.error(msg="该接口URL {} ,备注 {} 报错json解码错误, 请检查接口的响应是否正确的返回并解析\n".format(url, remark))
-        return {'content': '响应内容不是期望的json格式', 'url': url, 'remark': remark}
+
+
+def convert_response(response):
+    headers = response.headers.get('Content-Type') or response.headers.get('content-type')
+    if 'application/json' in headers:
+        return response.json()
+    elif 'text/html' in headers:
+        return response.text
+    elif 'application/octet-stream' in headers:
+        return response
+    try:
+        return response.json()
+    except AttributeError:
+        return response.text
+
+
+def is_json_response(response):
+    if 'application/json' in (response.headers.get('Content-Type', '') or response.headers.get('content-type', '')):
+        return True
+    return False
 
 
 # get请求---获取header
@@ -330,47 +335,47 @@ def login_home_code(countryCode, username):
     return r
 
 
-def assert_equal(expectvalue, actualvalue, success_message, fail_message=None):
+def assert_equal(expect_value, actual_value, success_message, fail_message=None):
     '''
     断言两个值是否相等, 并对结果打印日志
-    :param expectvalue: 期望结果
-    :param actualvalue: 实际结果
+    :param expect_value: 期望结果
+    :param actual_value: 实际结果
     :param success_message: str, 断言成功打印的日志
     :param fail_message:str, 断言失败打印的日志
     '''
 
-    if expectvalue == actualvalue:
+    if expect_value == actual_value:
         # loger.success(success_message)
         state = 1
     else:
         loger.error(fail_message)
         state = 0
-    assert expectvalue == actualvalue
+    assert expect_value == actual_value
     return state
 
 
-def assert_not_equal(expectvalue, actualvalue, success_message, fail_message=None):
+def assert_not_equal(expect_value, actual_value, success_message, fail_message=None):
     '''
     断言两个值是否相等, 并对结果打印日志
-    :param expectvalue: 期望结果
-    :param actualvalue: 实际结果
+    :param expect_value: 期望结果
+    :param actual_value: 实际结果
     :param success_message: str, 断言成功打印的日志
     :param fail_message:str, 断言失败打印的日志
     '''
 
-    if expectvalue != actualvalue:
+    if expect_value != actual_value:
         # loger.success(success_message)
         pass
     else:
         loger.error(fail_message)
-    assert expectvalue != actualvalue
+    assert expect_value != actual_value
 
 
 def assert_in(expect_value, actual_value, success_message, fail_message=None):
     '''
     断言两个值是否相等, 并对结果打印日志
-    :param expectvalue: 期望结果
-    :param actualvalue: 实际结果
+    :param expect_value: 期望结果
+    :param actual_value: 实际结果
     :param success_message: str, 断言成功打印的日志
     :param fail_message:str, 断言失败打印的日志
     '''
@@ -385,8 +390,8 @@ def assert_in(expect_value, actual_value, success_message, fail_message=None):
 def assert_not_in(expect_value, actual_value, success_message, fail_message=None):
     '''
     断言两个值是否相等, 并对结果打印日志
-    :param expectvalue: 期望结果
-    :param actualvalue: 实际结果
+    :param expect_value: 期望结果
+    :param actual_value: 实际结果
     :param success_message: str, 断言成功打印的日志
     :param fail_message:str, 断言失败打印的日志
     '''
@@ -465,31 +470,33 @@ def json_put(url, remark, data=None, headers={}, ip_port=None):
         pard_id = response.headers.get('Pard-Id', 0)
         status_code = response.status_code
         if 200 <= status_code <= 400:
-            response_json = response.json()
-            if response_json.get('state', 0) == 1 or response_json.get('success', False):
-                logging.info(msg='该接口URL {} ,备注 {} 执行成功\n'.format(url, remark))
-                return response_json
-            else:
-                if count < 1:
-                    count = count + 1
-                    logging.error(msg='该接口URL {} , 备注: {} , 响应内容: {} 断言失败, 在重试\n'.format(url, remark, response_json))
-                    return json_put(url=url, headers=headers, remark=remark, data=data)
-                else:
-                    logging.error(msg='该接口URL {} , 备注 {}, 响应内容: {} 请求成功, 但断言错误\n'.format(url, remark, response_json))
+            if is_json_response(response):
+                response_json = convert_response(response)
+                if response_json.get('state', 0) == 1 or response_json.get('success', False):
+                    logging.info(msg='该接口URL {} ,备注 {} 执行成功\n'.format(url, remark))
                     return response_json
+                else:
+                    if count < 1:
+                        count = count + 1
+                        logging.error(
+                            msg='该接口URL {} , 备注: {} , 响应内容: {} 断言失败, 在重试\n'.format(url, remark, response_json))
+                        return json_put(url=url, headers=headers, remark=remark, data=data)
+                    else:
+                        logging.error(
+                            msg='该接口URL {} , 备注 {}, 响应内容: {} 请求成功, 但断言错误\n'.format(url, remark, response_json))
+                        return response_json
+            else:
+                return convert_response(response)
         else:
             if count < 1:
                 count = count + 1
-                logging.error(msg='该接口URL {} , 备注: {} , 响应内容: {} 断言失败, 在重试\n'.format(url, remark, response.text))
+                logging.error(msg='该接口URL {} , 备注: {} , 响应内容: {} 断言失败, 在重试\n'.format(url, remark, response))
                 return json_put(url=url, headers=headers, remark=remark, data=data)
             else:
                 return judging_other_abnormal_conditions(status_code, url, remark, pard_id)
     except RequestException as e:
         logging.error(msg="该接口URL {} , 备注 {} 请求异常, 请检查接口服务并重试一次\n该异常为{}".format(url, remark, e))
         return {'content': '请求执行错误', 'url': url, 'remark': remark}
-    except JSONDecodeError:
-        logging.error(msg="该接口URL {} ,备注 {} 报错json解码错误, 请检查接口的响应是否正确的返回并解析\n".format(url, remark))
-        return {'content': '响应内容不是期望的json格式', 'url': url, 'remark': remark}
 
 
 def put_requests(url, headers={}, remark=None, ip_port=None):
@@ -510,31 +517,33 @@ def put_requests(url, headers={}, remark=None, ip_port=None):
         pard_id = response.headers.get('Pard-Id', 0)
         status_code = response.status_code
         if 200 <= status_code <= 400:
-            response_json = response.json()
-            if response_json.get('state', 0) == 1 or response_json.get('success', False):
-                logging.info(msg='该接口URL {} ,备注 {} 执行成功\n'.format(url, remark))
-                return response_json
-            else:
-                if count < 1:
-                    count = count + 1
-                    logging.error(msg='该接口URL {} , 备注: {} , 响应内容: {} 断言失败, 在重试\n'.format(url, remark, response_json))
-                    return put_requests(url=url, headers=headers, remark=remark)
-                else:
-                    logging.error(msg='该接口URL {} , 备注 {}, 响应内容: {} 请求成功, 但断言错误\n'.format(url, remark, response_json))
+            if is_json_response(response):
+                response_json = convert_response(response)
+                if response_json.get('state', 0) == 1 or response_json.get('success', False):
+                    logging.info(msg='该接口URL {} ,备注 {} 执行成功\n'.format(url, remark))
                     return response_json
+                else:
+                    if count < 1:
+                        count = count + 1
+                        logging.error(
+                            msg='该接口URL {} , 备注: {} , 响应内容: {} 断言失败, 在重试\n'.format(url, remark, response_json))
+                        return put_requests(url=url, headers=headers, remark=remark)
+                    else:
+                        logging.error(
+                            msg='该接口URL {} , 备注 {}, 响应内容: {} 请求成功, 但断言错误\n'.format(url, remark, response_json))
+                        return response_json
+            else:
+                return convert_response(response)
         else:
             if count < 1:
                 count = count + 1
-                logging.error(msg='该接口URL {} , 备注: {} , 响应内容: {} 断言失败, 在重试\n'.format(url, remark, response.text))
+                logging.error(msg='该接口URL {} , 备注: {} , 响应内容: {} 断言失败, 在重试\n'.format(url, remark, response))
                 return put_requests(url=url, headers=headers, remark=remark)
             else:
                 return judging_other_abnormal_conditions(status_code, url, remark, pard_id)
     except RequestException:
         logging.error(msg="该接口URL {} , 备注 {} 请求异常, 请检查接口服务并重试一次\n".format(url, remark))
         return {'content': '请求执行错误', 'url': url, 'remark': remark}
-    except JSONDecodeError:
-        logging.error(msg="该接口URL {} ,备注 {} 报错json解码错误, 请检查接口的响应是否正确的返回并解析\n".format(url, remark))
-        return {'content': '响应内容不是期望的json格式', 'url': url, 'remark': remark}
 
 
 def delete_requests(url, headers={}, remark=None, ip_port=None):
@@ -555,31 +564,33 @@ def delete_requests(url, headers={}, remark=None, ip_port=None):
         pard_id = response.headers.get('Pard-Id', 0)
         status_code = response.status_code
         if 200 <= status_code <= 302:
-            response_json = response.json()
-            if response_json.get('state', 0) == 1 or response_json.get('success', False):
-                logging.info(msg='该接口URL {} ,备注 {} 执行成功\n'.format(url, remark))
-                return response_json
-            else:
-                if count < 1:
-                    count = count + 1
-                    logging.error(msg='该接口URL {} , 备注: {} , 响应内容: {} 断言失败, 在重试\n'.format(url, remark, response_json))
-                    return delete_requests(url=url, headers=headers, remark=remark)
-                else:
-                    logging.error(msg='该接口URL {} , 备注 {}, 响应内容: {} 请求成功, 但断言错误\n'.format(url, remark, response_json))
+            if is_json_response(response):
+                response_json = convert_response(response)
+                if response_json.get('state', 0) == 1 or response_json.get('success', False):
+                    logging.info(msg='该接口URL {} ,备注 {} 执行成功\n'.format(url, remark))
                     return response_json
+                else:
+                    if count < 1:
+                        count = count + 1
+                        logging.error(
+                            msg='该接口URL {} , 备注: {} , 响应内容: {} 断言失败, 在重试\n'.format(url, remark, response_json))
+                        return delete_requests(url=url, headers=headers, remark=remark)
+                    else:
+                        logging.error(
+                            msg='该接口URL {} , 备注 {}, 响应内容: {} 请求成功, 但断言错误\n'.format(url, remark, response_json))
+                        return response_json
+            else:
+                return convert_response(response)
         else:
             if count < 1:
                 count = count + 1
-                logging.error(msg='该接口URL {} , 备注: {} , 响应内容: {} 断言失败, 在重试\n'.format(url, remark, response.text))
+                logging.error(msg='该接口URL {} , 备注: {} , 响应内容: {} 断言失败, 在重试\n'.format(url, remark, response))
                 return delete_requests(url=url, headers=headers, remark=remark)
             else:
                 return judging_other_abnormal_conditions(status_code, url, remark, pard_id)
     except RequestException:
         logging.error(msg="该接口URL {} , 备注 {} 请求异常, 请检查接口服务并重试一次\n".format(url, remark))
         return {'content': '请求执行错误', 'url': url, 'remark': remark}
-    except JSONDecodeError:
-        logging.error(msg="该接口URL {} ,备注 {} 报错json解码错误, 请检查接口的响应是否正确的返回并解析\n".format(url, remark))
-        return {'content': '响应内容不是期望的json格式', 'url': url, 'remark': remark}
 
 
 def dfs_get_zip_file(input_path, result):
@@ -611,25 +622,28 @@ def judging_other_abnormal_conditions(status_code, url, remark, pard_id=None):
         call_chain = ''
 
     if status_code == 500:
-        logging.error(msg="该接口URL {} , 备注 {} 报错500, 请检查业务服务是否可用,{}\n".format(url, remark, call_chain))
-        return {'content': '报错500, 服务端错误', 'url': url, 'remark': remark + call_chain}
+        developer_name = return_api_developer(url) or ''
+        logging.error(msg="该接口URL:{} , 备注:{} 报错500, {}, 负责人:{} \n".format(url, remark, call_chain, developer_name))
+        raise Http500Error
+        return {'state': 500, 'content': '报错500, 服务端错误', 'url': url, 'remark': remark + call_chain}
     elif status_code == 415:
         logging.error(msg="该接口URL {} 备注 {} 报错415, 请检查接口的请求方法是否正确\n".format(url, remark))
-        return {'content': '报错415, 接口请求方法不可用', 'url': url, 'remark': remark}
+        return {'state': 415, 'content': '报错415, 接口请求方法不可用', 'url': url, 'remark': remark}
     elif status_code == 404:
         logging.error(msg="该接口URL {} , 备注 {} 报错404, 请检查接口地址是否正确及业务服务是否可用,{}\n".format(url, remark, call_chain))
-        return {'content': '报错404, 接口地址不可用', 'url': url, 'remark': remark + call_chain}
+        return {'state': 404, 'content': '报错404, 接口地址不可用', 'url': url, 'remark': remark + call_chain}
     elif status_code == 401:
         logging.error(msg="该接口URL {} , 备注 {} 报错401 请检查接口的用户认证是否有效\n".format(url, remark))
-        return {'content': '报错401, 接口的用户认证失效', 'url': url, 'remark': remark}
+        return {'state': 401, 'content': '报错401, 接口的用户认证失效', 'url': url, 'remark': remark}
     elif status_code == 400:
         logging.error(msg="该接口URL {} , 备注 {} 报错400 请检查接口的传参是否有效\n".format(url, remark))
-        return {'content': '报错400, 接口的传参有误', 'url': url, 'remark': remark}
+        return {'state': 400, 'content': '报错400, 接口的传参有误', 'url': url, 'remark': remark}
     elif status_code == 502:
         logging.error(msg="该接口URL {} , 备注 {} 报错502, 请检查业务服务是否可用,{}\n".format(url, remark, call_chain))
-        return {'content': '报错502, 业务服务不可用', 'url': url, 'remark': remark + call_chain}
+        return {'state': 502, 'content': '报错502, 业务服务不可用', 'url': url, 'remark': remark + call_chain}
     else:
-        return {'content': '报错{}, 请检查业务服务是否正常, {}'.format(status_code, call_chain), 'url': url, 'remark': remark}
+        return {'state': 0, 'content': '报错{}, 请检查业务服务是否正常, {}'.format(status_code, call_chain), 'url': url,
+                'remark': remark}
 
 
 f = 0
@@ -800,3 +814,21 @@ def domain_convert_ip_port(url, ip_port):
         return url.replace('https', 'http').replace(gate_lagou_com_rule.get(module), ip_port)
     return url.replace('https', 'http').replace(parsed.hostname, ip_port)
 
+
+if __name__ == '__main__':
+    sys.path.append(os.path.dirname(__file__))
+    url = 'https://gate.lagou.com/v1/zhaopin/shop/goodsOrder/check/312312312321'
+    url1 = 'https://easy.lagou.com/session/batchCreate/2132134.json'
+    url2 = 'https://gate.lagou.com/v1/zhaopin/talent/app/search'
+    url3 = 'https://home.lagou.com/audit/companyApprove/addRiskLabelsByCompany.json'
+    url4 = 'https://gate.lagou.com/v1/entry/positionindex/new'
+    url5 = 'https://gate.lagou.com/v1/entry/deliver/create'
+
+    # for u in [url, url1, url2, url3, url4, url5]:
+    #     r = return_api_developer(url=u)
+    #     print(r)
+    # curPath = os.path.abspath(os.path.dirname(__file__))
+    # rootPath = os.path.split(curPath)[0]
+    # print(os.path.dirname(__file__))
+    r = judging_other_abnormal_conditions(500, url5, '测试')
+    print(r)

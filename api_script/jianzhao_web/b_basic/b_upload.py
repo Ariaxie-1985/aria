@@ -1,6 +1,8 @@
-from utils.util import get_code_token_new, form_post, get_requests, login, get_header, json_post
+from utils.util import form_post, get_requests, login, get_header, json_post, get_code_token
 import requests
 import json
+
+
 def upload_permit():
     '''
     招聘者提交认证之上传营业执照
@@ -11,7 +13,7 @@ def upload_permit():
     get_requests("https://hr.lagou.com/corpCenter/staff/index.html")
     verify_url = "https://hr.lagou.com/corpCenter/staff/next/enterprise.json"
     verify_data = {"fileUrl": "i/image2/M01/AF/EF/CgoB5l3mDqWAPbXyAACQ9vLCc5I534.png", "force": True}
-    verify_header = get_code_token_new("https://hr.lagou.com/corpCenter/staff/index.html")
+    verify_header = get_code_token("https://hr.lagou.com/corpCenter/staff/index.html")
     remark = "上传营业执照"
     return json_post(url=verify_url, data=verify_data, headers=verify_header, remark=remark)
 

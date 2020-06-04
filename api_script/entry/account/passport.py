@@ -65,7 +65,7 @@ def register_by_phone(countryCode, phone, verify_code):
 def get_login_by_token(userToken):
     url = 'https://gate.lagou.com/v1/entry/account/passport/loginByToken'
     header = app_header_999(userToken)
-    r = get_requests(url=url, headers=header, remark="通过token登录,其header:{}".format(header)).json()
+    r = get_requests(url=url, headers=header, remark="通过token登录,其header:{}".format(header))
     return r
 
 

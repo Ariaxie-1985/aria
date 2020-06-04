@@ -12,4 +12,4 @@ def searchConditionData():
 
 
 if __name__ == '__main__':
-    print(searchConditionData().json())
+    print(searchConditionData())

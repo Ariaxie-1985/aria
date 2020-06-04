@@ -18,6 +18,6 @@ def teardown_module(module):
 
 # @pytest.mark.parametrize("companyid",[()])
 def test_urgentposition():
-    urgentposition = urgentpositions().json()
+    urgentposition = urgentpositions()
 
     assert_equal(1, urgentposition['state'], "急招职位查询成功")

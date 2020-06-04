@@ -8,7 +8,7 @@ from bs4 import BeautifulSoup
 
 def get_userId_resumeId():
     url = 'https://www.lagou.com/resume/myresume.html'
-    page = get_requests(url=url, remark="我的简历页面--获取简历id").text
+    page = get_requests(url=url, remark="我的简历页面--获取简历id")
     try:
         resumeId = re.findall("resumeId: '(.*?)',", page, re.S)[0]
     except IndexError:
@@ -24,7 +24,7 @@ def get_userId_resumeId():
 
 def get_userId():
     url = 'https://www.lagou.com/'
-    page = get_requests(url=url, remark="拉勾网页面--获取userId").text
+    page = get_requests(url=url, remark="拉勾网页面--获取userId")
     try:
         soup = BeautifulSoup(page, "html.parser")
         userId = soup.find(id="userid")['value']

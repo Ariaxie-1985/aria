@@ -14,13 +14,13 @@ def positions_category(userToken, userId=None, ip_port=None):
     url = 'https://gate.lagou.com/v1/zhaopin/positions/category'
     header = app_header_999(userToken=userToken, userId=userId)
     remark = '获取职业静态信息'
-    return get_requests(url=url, headers=header, remark=remark, ip_port=ip_port).json()
+    return get_requests(url=url, headers=header, remark=remark, ip_port=ip_port)
 
 
 def positions_static_info():
     url = host + "/positions/static_info"
     remark = "查看职位详情"
-    return get_requests(url=url, headers=headers, remark=remark).json()
+    return get_requests(url=url, headers=headers, remark=remark)
 
 
 def category_mapping(userToken, positionName, userId=None, ip_port=None):
@@ -32,7 +32,7 @@ def category_mapping(userToken, positionName, userId=None, ip_port=None):
     url = host + "/positions/category_mapping?positionName={}".format(positionName)
     header = app_header_999(userToken=userToken, DA=False, userId=userId)
     remark = "职位名称映射职位分类"
-    return get_requests(url=url, headers=header, remark=remark, ip_port=ip_port).json()
+    return get_requests(url=url, headers=header, remark=remark, ip_port=ip_port)
 
 
 def positions_tag_report(firstCateGory, secCategory, tagName):
@@ -53,7 +53,7 @@ def publish_position_check():
     '''
     url = host + "/positions/publish_position_check"
     remark = "发布职位前校验"
-    return get_requests(url=url, headers=headers, remark=remark).json()
+    return get_requests(url=url, headers=headers, remark=remark)
 
 
 def post_positions(firstType='开发|测试|运维类', workyear='应届毕业生', positionType='后端开发', positionThirdType='Java',
@@ -111,7 +111,7 @@ def positions_details(userToken, positionId, userId=None, ip_port=None):
     url = host + "/positions/{}/details".format(positionId)
     header = app_header_999(userToken, DA=False, userId=userId)
     remark = "查看职位详情"
-    return get_requests(url=url, headers=header, remark=remark, ip_port=ip_port).json()
+    return get_requests(url=url, headers=header, remark=remark, ip_port=ip_port)
 
 
 def update_position(positionId, workAddressId):
@@ -156,21 +156,21 @@ def get_online_positions(ip_port=None, userToken=None, H9=False, userId=None):
         header = get_app_header(userId)
     url = host + "/positions/online/pages?pageNo=1&pageSize=80"
     remark = "获取在线职位列表"
-    return get_requests(url=url, headers=header, remark=remark, ip_port=ip_port).json()
+    return get_requests(url=url, headers=header, remark=remark, ip_port=ip_port)
 
 
 def get_offline_positions(userToken, userId=None, ip_port=None):
     url = host + "/positions/offline/pages"
     header = app_header_999(userToken=userToken, DA=False, userId=userId)
     remark = "获取已下线列表"
-    return get_requests(url=url, headers=header, remark=remark, ip_port=ip_port).json()
+    return get_requests(url=url, headers=header, remark=remark, ip_port=ip_port)
 
 
 def get_other_positions(userToken, userId=None, ip_port=None):
     url = host + "/positions/company/other/pages"
     header = app_header_999(userToken=userToken, DA=False, userId=userId)
     remark = "获取其他职位列表"
-    return get_requests(url=url, headers=header, remark=remark, ip_port=ip_port).json()
+    return get_requests(url=url, headers=header, remark=remark, ip_port=ip_port)
 
 
 def refresh_position(positionId, reqVersion=None, userId=100014641):
@@ -196,7 +196,7 @@ def up_position_ranking(positionId, reqVersion=None, userId=100014641):
 def positions_top_check(positionId):
     url = host + "/positions/top/{}/check".format(positionId)
     remark = "职位置顶卡校验信息"
-    return get_requests(url=url, headers=headers, remark=remark).json()
+    return get_requests(url=url, headers=headers, remark=remark)
 
 
 def apply_privilege_position(userId):
@@ -208,7 +208,7 @@ def apply_privilege_position(userId):
     url = host + "/positions/apply_privilege_position"
     headers = get_app_header(userId)
     remark = "申请特权职位权益"
-    return get_requests(url=url, headers=headers, remark=remark).json()
+    return get_requests(url=url, headers=headers, remark=remark)
 
 
 def positions_is_hot(userToken, positionName, userId=None, ip_port=None):
@@ -250,7 +250,7 @@ def positions_red_point_hint(userToken,ip_port=None, userId=None):
     url = host + "/positions/red_point_hint"
     header = app_header_999(userToken, DA=False,userId=userId)
     remark = "首页导航职位红点"
-    return get_requests(url=url, remark=remark, headers=header,ip_port=ip_port).json()
+    return get_requests(url=url, remark=remark, headers=header,ip_port=ip_port)
 
 
 def positions_details_app(positionId):
@@ -292,7 +292,7 @@ def publish_guide(userId):
     url = host + '/positions/publish_guide'
     header = get_app_header(userId=userId)
     remark = '发布职位页引导'
-    return get_requests(url=url, headers=header, remark=remark).json()
+    return get_requests(url=url, headers=header, remark=remark)
 
 
 def publish_position(userToken, userId=None, ip_port=None):

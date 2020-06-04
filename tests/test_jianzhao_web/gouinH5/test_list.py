@@ -11,5 +11,5 @@ def teardown_module(module):
     pass
 @pytest.mark.skip(reason="有问题, 暂不执行")
 def test_list():
-    r=list().json()
+    r=list()
     assert_equal(1, r['state'], "查询商品列表成功")

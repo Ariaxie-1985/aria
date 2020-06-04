@@ -1,14 +1,11 @@
-## 安装环境
+## 安装环境(python version >= 3.6)
 ```shell
 
 # 切换项目目录
 cd lg_api_script
-# 未安装pipenv, 先用python3(版本最好是3.6)安装pipenv, 已安装的跳过这一步即可
-pip3 install pipenv
-# 安装依赖环境
-pipenv install Pipfile
-# 激活虚拟环境, pycharm选择好虚拟环境的解释器后自动激活
-pipenv shell
+
+# 安装环境依赖库
+pip install -r requirements.txt
 
 ```
 ## 执行脚本
@@ -20,12 +17,3 @@ pytest api_script/tests/test_b_basic.py api_script/tests/test_*.py
 
 ```
 
-## 安装依赖
-```shell
-# 激活虚拟环境的前提下, 安装依赖如下, 若无法安装, 就 ```pip3 install xxx```
-pipenv install xxxx
-
-# 生成 requirements.txt
-pip freeze > requirements.txt
-
-```

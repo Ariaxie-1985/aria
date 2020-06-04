@@ -17,7 +17,8 @@ class run_Pytest(Resource):
         'mainprocess': 'pytest {}/tests/test_mainprocess/ --html=backend/templates/{}_report.html --self-contained-html -s -v',
         'lg-zhaopin-boot': 'pytest {}/tests/test_lg_zhaopin_boot/ --html=backend/templates/{}_report.html --self-contained-html {}',
         'lg-entry-boot': 'pytest {}/tests/test_lg_entry_boot/ --html=backend/templates/{}_report.html --self-contained-html {}',
-        'lg-neirong-boot': 'pytest {}/tests/test_lg_neirong_boot/ --html=backend/templates/{}_report.html --self-contained-html {}'
+        'lg-neirong-boot': 'pytest {}/tests/test_lg_neirong_boot/ --html=backend/templates/{}_report.html --self-contained-html {}',
+        'open_api_lagou': 'pytest {}/tests/test_open_api_lagou_com/ --html=backend/templates/{}_report.html --self-contained-html'
     }
 
     def get(self):
@@ -62,9 +63,6 @@ class run_Pytest(Resource):
         '''
         parser = reqparse.RequestParser()
         parser.add_argument('module', type=str,
-                            choices=(
-                                'lg-entry-boot', 'lg-zhaopin-boot', 'lg-neirong-boot', 'mds-web-tomcat', 'mainprocess'),
-                            help="请输入正确模块值: 'lg-entry-boot' or 'lg-zhaopin-boot' or 'lg-neirong-boot' or 'mds-web-tomcat' or 'mainprocess'",
                             required=True)
         args = parser.parse_args()
         headers = {'Content-Type': 'text/html'}
@@ -180,7 +178,9 @@ class run_Pytest(Resource):
         result = analysis_html_report(html_report_path, 3, args['module'])
 
         if bool(result['info']['result']['fail_result']):
+            current_app.logger.info(result)
             state = 0
+
         info = {"result": result}
 
         return {'state': state, "data": info}
@@ -201,7 +201,9 @@ class run_Pytest(Resource):
             'mainprocess': f'pytest {project_path}/tests/test_mainprocess/ --html=backend/templates/{module}_report.html --self-contained-html {ip_port}',
             'lg-zhaopin-boot': f'pytest {project_path}/tests/test_lg_zhaopin_boot/ --html=backend/templates/{module}_report.html --self-contained-html {ip_port}',
             'lg-entry-boot': f'pytest {project_path}/tests/test_lg_entry_boot/ --html=backend/templates/{module}_report.html --self-contained-html {ip_port}',
-            'lg-neirong-boot': f'pytest {project_path}/tests/test_lg_neirong_boot/ --html=backend/templates/{module}_report.html --self-contained-html {ip_port}'
+            'lg-neirong-boot': f'pytest {project_path}/tests/test_lg_neirong_boot/ --html=backend/templates/{module}_report.html --self-contained-html {ip_port}',
+            'open_api_lagou': f'pytest {project_path}/tests/test_open_api_lagou_com/ --html=backend/templates/{module}_report.html --self-contained-html {ip_port}'
+
         }
         return business_module.get(module)
 

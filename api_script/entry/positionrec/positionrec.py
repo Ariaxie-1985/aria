@@ -9,25 +9,25 @@ from utils.util import app_header_999, get_requests
 def get_position_delivered(userToken, positionId, userId=None, ip_port=None):
     url = 'https://gate.lagou.com/v1/entry/positionrec/delivered/{}?pageno=1&pagesize=5'.format(positionId)
     header = app_header_999(userToken, DA=False, userId=userId)
-    return get_requests(url=url, headers=header, remark="投了又投", ip_port=ip_port).json()
+    return get_requests(url=url, headers=header, remark="投了又投", ip_port=ip_port)
 
 
 def get_position_rec(userToken, positionId, userId=None, ip_port=None):
     url = 'https://gate.lagou.com/v1/entry/positionrec/posrec/{}?pageno=1&pagesize=5'.format(positionId)
     header = app_header_999(userToken, DA=False, userId=userId)
-    return get_requests(url=url, headers=header, remark="相似职位", ip_port=ip_port).json()
+    return get_requests(url=url, headers=header, remark="相似职位", ip_port=ip_port)
 
 
 def get_position_user_rec(userToken, positionId,userId=None,ip_port=None):
     url = 'https://gate.lagou.com/v1/entry/positionrec/userrec/{}?pageno=1&pagesize=5'.format(positionId)
     header = app_header_999(userToken, DA=False,userId=userId)
-    return get_requests(url=url, headers=header, remark="猜你喜欢",ip_port=ip_port).json()
+    return get_requests(url=url, headers=header, remark="猜你喜欢",ip_port=ip_port)
 
 
 def get_position_view(userToken, positionId,userId=None,ip_port=None):
     url = 'https://gate.lagou.com/v1/entry/positionrec/view/{}?pageno=1&pagesize=5'.format(positionId)
     header = app_header_999(userToken, DA=False,userId=userId)
-    return get_requests(url=url, headers=header, remark="看了又看",ip_port=ip_port).json()
+    return get_requests(url=url, headers=header, remark="看了又看",ip_port=ip_port)
 
 
 if __name__ == '__main__':

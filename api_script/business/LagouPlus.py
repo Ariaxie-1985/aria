@@ -45,15 +45,15 @@ def lagouPlus():
     object=form_post(url=contractnumurl,remark="新增免费合同",data=data,headers=header)
     print(object)
     treatycontents=get_requests(url="https://home.lagou.com/crm/olddata/queryByCsv.json?userId=84&pageIndex=0&pageSize=100&sortField=&sortOrder=&_=1546593382369",headers=header,remark="获取合同内容")
-    print(treatycontents.json())
+    print(treatycontents)
     #在线职位数
-    TotalNum=treatycontents.json()['data'][0]['num']
+    TotalNum=treatycontents['data'][0]['num']
     #PLUS权限
-    Pluspower=treatycontents.json()['data'][1]['num']
+    Pluspower=treatycontents['data'][1]['num']
     #发布职位数
-    PostsnNumber=treatycontents.json()['data'][2]['num']
+    PostsnNumber=treatycontents['data'][2]['num']
     #子账号数
-    users=treatycontents.json()['data'][3]['num']
+    users=treatycontents['data'][3]['num']
     print('?????')
     print(str(str(TotalNum)+str(Pluspower)+str(PostsnNumber)+str(users)))
     print ('????')
@@ -92,11 +92,11 @@ def lagouPlusqiu():
     object=form_post(url=contractnumurl,remark="新增18特权",data=data,headers=header)
     print(object)
     treatycontents=get_requests(url="https://home.lagou.com/crm/olddata/queryByCsv.json?userId=84&pageIndex=0&pageSize=100&sortField=&sortOrder=&_=1546593382369",headers=header,remark="获取合同内容")
-    print(treatycontents.json())
+    print(treatycontents)
     #在线职位数
-    TotalNum=treatycontents.json()['data'][0]['num']
+    TotalNum=treatycontents['data'][0]['num']
     #子账号
-    users=treatycontents.json()['data'][1]['num']
+    users=treatycontents['data'][1]['num']
     print('?????')
     print(str(TotalNum)+str(users))
     assert_equal("222.01.0",str(TotalNum)+str(users),"对比套餐内容，所得内容正确18版","对比套餐内容，所得内容不匹配")

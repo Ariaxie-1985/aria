@@ -11,5 +11,5 @@ def teardown_module(module):
     pass
 @pytest.mark.skip(reason="有问题, 暂不执行")
 def test_goods():
-    r=goods().json()
+    r=goods()
     assert_equal(1, r['state'], "查询我兑换的商品成功")

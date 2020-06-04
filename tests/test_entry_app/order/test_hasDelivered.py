@@ -14,5 +14,5 @@ def teardown_module(module):
 
 
 def test_hasDelivered():
-    r=hasDelivered().json()
+    r=hasDelivered()
     assert_equal(1, r['content']['5378018'], "职位已投递")

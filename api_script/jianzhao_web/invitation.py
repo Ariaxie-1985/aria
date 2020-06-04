@@ -19,7 +19,7 @@ def invitation_join_company(user, invite_code):
     remark = '通过邀请链接加入公司'
     r = get_requests(url=url, headers={}, remark=remark)
     try:
-        userIdPasscode = re.findall('"userIdPasscode":"(.*?)"', r.text, re.S)[0]
+        userIdPasscode = re.findall('"userIdPasscode":"(.*?)"', r, re.S)[0]
     except IndexError:
         return ''
     return userIdPasscode

@@ -38,7 +38,7 @@ def address_id(code):
     url = 'https://easy.lagou.com/lbs/getChildLbsInfoByCode.json?code={}'.format(code)
     header = get_code_token(url='https://easy.lagou.com/position/multiChannel/createPosition.htm')
     remark = '获取地址id'
-    content = get_requests(url=url, headers=header, remark=remark).json()
+    content = get_requests(url=url, headers=header, remark=remark)
     return content['content']['data']['lbsList']
 
 

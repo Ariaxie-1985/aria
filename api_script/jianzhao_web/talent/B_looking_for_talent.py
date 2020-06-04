@@ -13,7 +13,7 @@ def rec_talent(positionId):
     query_talent_url = f"https://easy.lagou.com/talent/rec/1.json?positionId={positionId}&notSeen=false&strongly=false"
     query_talent_header = get_code_token(refer_query_talent_url)
     remark = f"为职位{positionId}推荐人才"
-    return get_requests(url=query_talent_url, headers=query_talent_header, remark=remark).json()
+    return get_requests(url=query_talent_url, headers=query_talent_header, remark=remark)
 
 
 def new_talent(positionId):
@@ -22,7 +22,7 @@ def new_talent(positionId):
     query_talent_url = f"https://easy.lagou.com/talent/newest/1.json?positionId={positionId}&showId="
     query_talent_header = get_code_token(refer_query_talent_url)
     remark = "最新人才"
-    return get_requests(url=query_talent_url, headers=query_talent_header, remark=remark).json()
+    return get_requests(url=query_talent_url, headers=query_talent_header, remark=remark)
 
 
 def talent_get_experiences(positionId, show_id, cUserIds):
@@ -49,7 +49,7 @@ def talent_hunting(positionId):
     refer_query_talent_url = f"https://easy.lagou.com/talent/index.htm?positionId={positionId}&showId=&tab=inspect&pageNo=1"
     query_talent_header = get_code_token(refer_query_talent_url)
     remark = "人才猎手"
-    return get_requests(url=query_talent_url, headers=query_talent_header, remark=remark).json()
+    return get_requests(url=query_talent_url, headers=query_talent_header, remark=remark)
 
 
 def talent_inspect(positionId):
@@ -57,7 +57,7 @@ def talent_inspect(positionId):
     refer_query_talent_url = f"https://easy.lagou.com/talent/index.htm?positionId={positionId}&showId=&tab=inspect&pageNo=1"
     query_talent_header = get_code_token(refer_query_talent_url)
     remark = "谁看过我"
-    return get_requests(url=query_talent_url, headers=query_talent_header, remark=remark).json()
+    return get_requests(url=query_talent_url, headers=query_talent_header, remark=remark)
 
 
 def talent_search_list(positionName):
@@ -83,7 +83,7 @@ def talent_collection_count(ip_port=None):
     query_talent_url = f"https://easy.lagou.com/collection/count.json"
     query_talent_header = get_code_token(refer_query_talent_url, ip_port=ip_port)
     remark = "人才收藏统计"
-    return get_requests(url=query_talent_url, headers=query_talent_header, remark=remark, ip_port=ip_port).json()
+    return get_requests(url=query_talent_url, headers=query_talent_header, remark=remark, ip_port=ip_port)
 
 
 if __name__ == '__main__':

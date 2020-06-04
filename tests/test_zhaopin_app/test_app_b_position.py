@@ -111,7 +111,7 @@ def test_positions_is_hot(positionName):
 # yqzhang新增
 
 def test_positions_query_position_type():
-    res = positions_query_position_type().json()
+    res = positions_query_position_type()
     assert_equal(1, res['state'], '获取成功', '获取失败')
 
 
@@ -154,7 +154,7 @@ mdsPositionId = 0
 @pytest.mark.skip(reason="等大厂引入TL上线后再执行")
 @pytest.mark.monthly_position
 def test_query_monthly_position_type():
-    res = positions_query_position_type(userId=100019158, reqVersion=71600).json()
+    res = positions_query_position_type(userId=100019158, reqVersion=71600)
     name_list = [i['name'] for i in res['content']['positionTypes']]
     assert_equal(True, '月度职位' in name_list, '获取成功', '获取失败')
 
