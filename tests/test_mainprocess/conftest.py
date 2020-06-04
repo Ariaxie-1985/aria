@@ -14,7 +14,14 @@ from api_script.jianzhao_web.b_basic.toB_saveHR_1 import get_b_person_userId, ge
 
 fake = Faker("zh_CN")
 
-
+"""
+fixture作用范围
+fixture里面有个scope参数可以控制fixture的作用范围:session > module > class > function
+- function 每一个函数或方法都会调用
+- class  每一个类调用一次，一个类可以有多个方法
+- module，每一个.py文件调用一次，该文件内又有多个function和class
+- session 是多个文件调用一次，可以跨.py文件调用，每个.py文件就是module
+"""
 @pytest.fixture(scope='session')
 def get_company_name():
     company_name = '拉勾测试自动化' + fake.company() + str(time.time()).split('.')[0]

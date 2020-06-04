@@ -6,9 +6,11 @@ import pytest
 
 from api_script.education.app import get_homepage_cards, get_all_course_purchased_record
 from api_script.education.bigcourse import get_course_info, get_course_outline, get_week_lessons, get_watch_percent
-from api_script.education.course import get_course_commentList
+from api_script.education.course import get_course_commentList,getDistributionPosterData
 from api_script.education.kaiwu import get_course_description, get_distribution_info, check_course_share_status, \
     get_course_lessons
+from api_script.education.account import getToken
+
 from utils.util import assert_equal
 
 
@@ -22,10 +24,13 @@ class TestEducation01(object):
         #     assert_equal(expect_card_type, card['cardType'], "拉勾教育-获取首页卡片信息列表用例通过")
         #     assert_equal(expect_title, card['title'], "拉勾教育-获取首页卡片信息列表用例通过")
         assert_equal(1, r.get('state'), "拉勾教育-获取首页卡片信息列表用例通过")
-        global first_small_course_id, first_small_course_brief, first_small_course_title
+        global first_small_course_id, first_small_course_brief, first_small_course_title,decorate_id
         first_small_course_id = r['content']['pageCardList'][2]['smallCourseList'][0]['id']
         first_small_course_brief = r['content']['pageCardList'][2]['smallCourseList'][0]['brief']
         first_small_course_title = r['content']['pageCardList'][2]['smallCourseList'][0]['title']
+        decorate_id = r['content']['pageCardList'][2]['smallCourseList'][0]['decorateId']
+
+
 
     def test_check_course_share_status(self, c_login_education):
         r = check_course_share_status(userToken=c_login_education[0], courseId=first_small_course_id)
@@ -48,6 +53,13 @@ class TestEducation01(object):
     def test_get_course_commentList(self, c_login_education):
         r = get_course_commentList(userToken=c_login_education[0], courseId=first_small_course_id)
         assert_equal(1, r.get('state'), "获取课程的评论用例通过")
+
+    def test_get_distribution_poster_data(self, c_login_education,decorate_id):
+        gateLoginToken=getToken(userToken=c_login_education[0])
+        r = getDistributionPosterData(courseId=first_small_course_id,decorateId=decorate_id,gateLoginToken=gateLoginToken)
+        assert_equal(first_small_course_title, r.get('courseName'), "获取分销海报数据用例通过")
+
+
 
 
 @pytest.mark.incremental

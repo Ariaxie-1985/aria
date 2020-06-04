@@ -693,11 +693,14 @@ def get_verify_code_message_len(countryCode, phone):
         return -1
 
 
-def app_header_999(userToken=None, DA=True, userId=None):
+def app_header_999(userToken=None, DA=True, userId=None,appType=None):
     header = {"deviceType": '150', "userType": '0', "lgId": "898BCC3F-E662-4761-87E8-845788525443_1532945379",
-              "reqVersion": '73100', "appVersion": "7.31.0"}
+              "reqVersion": "73100", "appVersion":"7.31.0","appType":appType}
     if not userToken is None:
         header['userToken'] = userToken
+    if not appType is None:
+        header['appType'] = appType
+
 
     header = {'X-L-REQ-HEADER': json.dumps(header)}
 
