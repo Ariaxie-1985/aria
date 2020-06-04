@@ -19,3 +19,10 @@ def get_course_commentList(userToken, courseId):
     header = app_header_999(userToken=userToken, DA=False)
     remark = "开悟课程/获取评论"
     return get_requests(url=url, headers=header, remark=remark)
+
+
+def get_credit_center_info(userToken):
+    url = 'https://gate.lagou.com/v1/neirong/course/user_growth/getCreditCenterInfo'
+    header = app_header_999(userToken=userToken,DA=False)
+    remark="学分中心"
+    return bool(len(get_requests(url=url,headers=header,remark=remark)['content']['userGrowthCreditTaskVos']))

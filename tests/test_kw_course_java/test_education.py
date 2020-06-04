@@ -6,7 +6,7 @@ import pytest
 
 from api_script.education.app import get_homepage_cards, get_all_course_purchased_record
 from api_script.education.bigcourse import get_course_info, get_course_outline, get_week_lessons, get_watch_percent
-from api_script.education.course import get_course_commentList
+from api_script.education.course import get_course_commentList,get_credit_center_info
 from api_script.education.kaiwu import get_course_description, get_distribution_info, check_course_share_status, \
     get_course_lessons
 from utils.util import assert_equal
@@ -78,3 +78,8 @@ def test_get_week_lessons(c_login_education):
 def test_get_watch_percent(c_login_education):
     r = get_watch_percent(userToken=c_login_education[0], courseId=big_course_record_id, weekId=lastWatchWeekId)
     assert_equal(1, r['state'], "获取大课一周录播视频观看进度")
+
+
+def test_get_credit_center_info(c_login_education):
+    r = get_credit_center_info(userToken=c_login_education[0])
+    assert_equal((1,r),"学分中心任务列表")
