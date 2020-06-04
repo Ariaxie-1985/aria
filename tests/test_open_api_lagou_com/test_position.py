@@ -60,6 +60,7 @@ class TestPosition:
         r = get_resume_info(userToken=c_login_app[0])
         global resumeId, resumeType
         resumeId = r['content'][0]['resumeId']
+        resumeType = r['content'][0]['resumeType']
         assert_equal(1, r.get('state'), "校验获取简历信息成功")
 
     def test_deliver_create(self, c_login_app):
