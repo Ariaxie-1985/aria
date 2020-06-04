@@ -4,6 +4,7 @@
 # Description:
 import pytest
 
+from api_script.entry.account.passport import password_login
 from api_script.open_lagou_com.account import openid_query
 from api_script.open_lagou_com.authority import open_authority_token
 
@@ -23,6 +24,12 @@ def get_access_token():
 def get_openid():
     res = openid_query(access_token=access_token_list[0], credential=13033647506)
     return res.get('openid')
+
+
+@pytest.fixture(scope='session', params=[["0085220180917", "0085220180917"]])
+def c_login_app(request):
+    result = password_login(request.param[0], request.param[1])
+    return result['content']['userToken'], result['content']['userInfo']['userId']
 
 
 # 2.当某用例失败后,接下来的依赖用例直接标记失败,不执行

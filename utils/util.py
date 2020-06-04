@@ -209,7 +209,7 @@ def get_requests(url, data=None, headers={}, remark=None, ip_port=None):
                         count = count + 1
                         logging.error(
                             msg='该接口URL {} , 备注: {} , 响应内容: {} 断言失败, 在重试\n'.format(url, remark, response_json))
-                        return get_requests(url=url, data=data, headers=headers, remark=remark)
+                        return convert_response(response)
                     else:
                         logging.error(
                             msg='该接口URL {} , 备注 {}, 响应内容: {} 请求成功, 但断言错误\n'.format(url, remark, response_json))
@@ -230,11 +230,13 @@ def get_requests(url, data=None, headers={}, remark=None, ip_port=None):
 
 
 def convert_response(response):
-    if 'application/json' in (response.headers.get('Content-Type', '') or response.headers.get('content-type', '')):
+    headers = response.headers.get('Content-Type') or response.headers.get('content-type')
+    if 'application/json' in headers:
         return response.json()
-    elif 'text/html' in (response.headers.get('Content-Type', '') or response.headers.get('content-type', '')):
+    elif 'text/html' in headers:
         return response.text
-
+    elif 'application/octet-stream' in headers:
+        return response
     try:
         return response.json()
     except AttributeError:

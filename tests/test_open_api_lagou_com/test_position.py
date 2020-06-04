@@ -6,6 +6,7 @@ import time
 
 import pytest
 
+from api_script.entry.deliver.deliver import get_resume_info, deliver_create
 from api_script.open_lagou_com.position import category_get, company_address_district, company_address_create, \
     address_query, company_address_list, position_create, get_position_info, update_position_info, get_position_list, \
     offline_position, refresh_position, publish_position, delete_position_address
@@ -52,6 +53,17 @@ class TestPosition:
         assert_equal(0, res.get('code'), '获取创建的职位信息请求成功', '获取创建的职位信息请求失败')
         assert_equal(position_id, res['data']['position']['position_id'], '查询创建的职位信息用例通过',
                      f'查询创建的职位{position_id}信息用例失败')
+
+    def test_get_resume_info(self, c_login_app):
+        r = get_resume_info(userToken=c_login_app[0])
+        global resumeId, resumeType
+        resumeId = r['content'][0]['resumeId']
+        assert_equal(1, r.get('state'), "校验获取简历信息成功")
+
+    def test_deliver_create(self, c_login_app):
+        r = deliver_create(positionId=position_id, resumeId=resumeId, resumeType=resumeType, H9=True, isTalk=False,
+                           userToken=c_login_app[0])
+        assert_equal(1, r.get('state'), "校验投递简历成功！")
 
     def test_update_position_info(self, get_access_token):
         res = update_position_info(access_token=get_access_token, position_id=position_id, address_id=address_id)
