@@ -323,12 +323,12 @@ class TestCompanyBusiness(object):
         r = addColleague(add_phone, add_managerId)
         add_state = r['state']
         add_result = r['content']['data']['info']
-        print(add_result)
+        '''print(add_result)'''
         if add_state == 1:
             assert_not_in('errorCode', add_result, '添加同事为普通账号通过')
             remove_userid = r['content']['data']['info']['userId']
             remove_state = remove_member_company(remove_userid)['state']
-            print(remove_state)
+            '''print(remove_state)'''
             assert_equal(1, remove_state, '移除添加的普通账号通过')
 
     def test_paid_company_create_position_person_and_company_enough_equity(self, get_positionType):
