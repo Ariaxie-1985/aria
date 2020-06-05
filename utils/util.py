@@ -71,7 +71,7 @@ def get_code_token(url, referer=False, ip_port=None):
         return get_code_token(url=url)
 
 
-def form_post(url, remark, data=None, files=None, headers={}, allow_redirects=True, ip_port=None):
+def form_post(url, remark, data=None, files=None, headers={}, verifystate=True, allow_redirects=True, ip_port=None):
     """
     form表单传参的post请求
     :param url: 请求url
@@ -81,6 +81,8 @@ def form_post(url, remark, data=None, files=None, headers={}, allow_redirects=Tr
     :return: json格式化的响应结果
     """
     global count
+    if verifystate == False:
+        count = 3
     try:
         if not data is None:
             headers = {**header, **headers, **{'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'}}
@@ -100,7 +102,8 @@ def form_post(url, remark, data=None, files=None, headers={}, allow_redirects=Tr
         if 200 <= status_code <= 302:
             if is_json_response(response):
                 response_json = convert_response(response)
-                if response_json.get('state', 0) == 1 or response_json.get('success', False):
+                if response_json.get('state', 0) == 1 or response_json.get('success', False) or (not response_json.get(
+                        'code', 1)):
                     logging.info(f'该接口URL {url} ,备注 {remark} 执行成功\n')
                     return response_json
                 else:
@@ -198,7 +201,8 @@ def get_requests(url, data=None, headers={}, remark=None, ip_port=None):
         if 200 <= status_code <= 302:
             if is_json_response(response):
                 response_json = convert_response(response)
-                if response_json.get('state', 0) == 1 or response_json.get('success', False):
+                if response_json.get('state', 0) == 1 or response_json.get('success', False) or (not response_json.get(
+                        'code', 1)):
                     logging.info(msg='该接口URL {} ,备注 {} 执行成功\n'.format(url, remark))
                     return response_json
                 else:
@@ -206,7 +210,7 @@ def get_requests(url, data=None, headers={}, remark=None, ip_port=None):
                         count = count + 1
                         logging.error(
                             msg='该接口URL {} , 备注: {} , 响应内容: {} 断言失败, 在重试\n'.format(url, remark, response_json))
-                        return get_requests(url=url, data=data, headers=headers, remark=remark)
+                        return convert_response(response)
                     else:
                         logging.error(
                             msg='该接口URL {} , 备注 {}, 响应内容: {} 请求成功, 但断言错误\n'.format(url, remark, response_json))
@@ -227,11 +231,13 @@ def get_requests(url, data=None, headers={}, remark=None, ip_port=None):
 
 
 def convert_response(response):
-    if 'application/json' in (response.headers.get('Content-Type', '') or response.headers.get('content-type', '')):
+    headers = response.headers.get('Content-Type') or response.headers.get('content-type')
+    if 'application/json' in headers:
         return response.json()
-    elif 'text/html' in (response.headers.get('Content-Type', '') or response.headers.get('content-type', '')):
+    elif 'text/html' in headers:
         return response.text
-
+    elif 'application/octet-stream' in headers:
+        return response
     try:
         return response.json()
     except AttributeError:
