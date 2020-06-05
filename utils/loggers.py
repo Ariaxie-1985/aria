@@ -23,7 +23,7 @@ def logers():
 
 
 if __name__ == '__main__':
-    # loger = loger()
+    # loger = logers()
     # loger.debug('debug 信息')
     # loger.success('success 信息')
     # loger.error('error 信息')
