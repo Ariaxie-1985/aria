@@ -14,7 +14,7 @@ from api_script.home.data_import import import_linkManInfo, import_contacts
 from api_script.jianzhao_web.b_basic.company import jump_html
 from api_script.jianzhao_web.b_basic.toB_comleteInfo_3 import completeInfo, company_auth
 from api_script.jianzhao_web.b_basic.toB_saveHR_1 import saveHR, saveCompany, \
-    submit_new, add_saveCompany, remove_member, close_trial_package
+    submit_new, add_saveCompany, remove_member, close_trial_package, remove_member_company
 from api_script.jianzhao_web.b_basic.b_upload import upload_permit
 from api_script.jianzhao_web.b_position.B_postposition import createPosition_999, get_online_positions, \
     www_redirect_easy, offline_position
@@ -316,14 +316,22 @@ class TestCompanyBusiness(object):
 
     #添加同事为普通账号
     def test_add_free_colleague(self, get_add_colleague_user):
-        add_managerId = admin_user_id
-        '''add_managerId = '100025876'''
+        login('0086','17619121025')
+        '''add_managerId = admin_user_id'''
+        add_managerId = '100025876'
         add_phone = get_add_colleague_user
         r = addColleague(add_phone,add_managerId)
         add_state = r['state']
         add_result = r['content']['data']['info']
+        print(add_result)
         if add_state == 1:
             assert_not_in('errorCode', add_result, '添加同事为普通账号通过')
+            remove_userid =r['content']['data']['info']['userId']
+            remove_state = remove_member_company(remove_userid)['state']
+            print(remove_state)
+            assert_equal(1,remove_state, '移除添加的普通账号通过')
+
+
 
     def test_paid_company_create_position_person_and_company_enough_equity(self, get_positionType):
         r = createPosition_999(firstType=get_positionType[0], positionType=get_positionType[1],
