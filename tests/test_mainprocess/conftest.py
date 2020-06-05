@@ -28,6 +28,7 @@ fake = Faker("zh_CN")
 1.4.session:当前目录下多个.py文件共享同一个fixture
     
 '''
+
 # 主流程测试产生的测试账号
 test_telephone = []
 test_company_name = []
