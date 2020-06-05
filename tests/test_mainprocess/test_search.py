@@ -85,13 +85,13 @@ class TestShare(object):
 
     def test_rec(self, c_login_app):
         r = rec(userToken=c_login_app[0], userId=c_login_app[1], expectJobId=expectJobId)
-        assert_equal(True, bool(len(r['content']['positionList'])), '推荐人才')
+        assert_equal(True, bool(len(r['content']['positionList'])), '推荐职位')
         global positionId
         positionId = r['content']['positionList'][0]['positionId']
 
     def test_new(self, c_login_app):
         r = new(userToken=c_login_app[0], userId=c_login_app[1], expectJobId=expectJobId)
-        assert_equal(True, bool(len(r['content']['positionList'])), '最新人才')
+        assert_equal(True, bool(len(r['content']['positionList'])), '最新职位')
 
     def test_session_share_info_app_c(self, c_login_app):
         r = session_share_info_app_c(userToken=c_login_app[0], userId=c_login_app[1], job_id=positionId)
