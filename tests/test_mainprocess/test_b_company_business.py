@@ -1,12 +1,9 @@
 import datetime
-import logging
 import random
 import time
 import pytest
 
 from api_script.business.new_lagouPlus import open_product
-from api_script.entry.cuser.baseStatus import batchCancel
-from api_script.home import forbid
 from api_script.home.audit import query_risk_labels, add_risk_labels_by_company, queryRiskLabelsByCompany
 from api_script.home.data_import import import_linkManInfo, import_contacts
 from api_script.jianzhao_web.b_basic.company import jump_html
@@ -26,10 +23,7 @@ from api_script.neirong_app.account import upate_user_password
 from api_script.zhaopin_app.rights import get_rights_info_list
 from api_script.zhaopin_app.shop import get_shop_goods_on_sale_goods, get_shop_goods_sell_goods, create_shop_goodsOrder, \
     pay_shop_goodsOrder, check_shop_goodsOrder
-
 from utils.loggers import logers
-
-from utils.read_file import record_cancel_account, record_test_data
 from utils.util import assert_equal, pc_send_register_verifyCode, verify_code_message, user_register_lagou, \
     login_password, assert_in, login_home
 
