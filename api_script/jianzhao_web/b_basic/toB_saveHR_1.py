@@ -189,6 +189,15 @@ def get_b_index_Id(ip_port=None):
     return userId, UserCompanyId, lg_CompanyId
 
 
+#公司成員頁面移出公司操作
+def remove_member_company(removeUserId):
+    url = 'https://easy.lagou.com/member/removeMember.json'
+    header = get_code_token(url='https://easy.lagou.com/member/all_members.htm')
+    data = { 'removedUserId': removeUserId}
+    r = form_post(url=url,headers=header,data=data,remark='公司成員移出公司')
+    return r
+
+
 def remove_member(verity_userId):
     url = 'https://easy.lagou.com/member/recruiterMembers.json?pageNo=1&pageSize=50&keyword='
     header = get_code_token(url='https://easy.lagou.com/settings/channel/my_channels.htm')
