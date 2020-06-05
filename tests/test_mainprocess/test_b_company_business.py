@@ -315,11 +315,10 @@ class TestCompanyBusiness(object):
         assert_equal(1, login_result.get('state', 0), '校验管理员登录是否成功')
         www_redirect_easy()
 
-    # 添加同事为普通账号
+    # 添加同事为普通账号,并且添加成功后进行移除
     def test_add_free_colleague(self, get_add_colleague_user):
-        login('0086', '17619121025')
-        '''add_managerId = admin_user_id'''
-        add_managerId = '100025876'
+        add_managerId = admin_user_id
+        '''add_managerId = '100025876'''
         add_phone = get_add_colleague_user
         r = addColleague(add_phone, add_managerId)
         add_state = r['state']

@@ -112,8 +112,8 @@ def c_userId_0085220180917():
 
 @pytest.fixture()
 def get_add_colleague_user():
-    '''phone = 13683326352'''
-    phone = '17620060403'
+    phone = 13683326352
+    '''phone = '17620060403'''
     return phone
 
 
