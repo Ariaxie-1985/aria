@@ -54,7 +54,7 @@ class TestEducation01(object):
         r = get_course_commentList(userToken=c_login_education[0], courseId=first_small_course_id)
         assert_equal(1, r.get('state'), "获取课程的评论用例通过")
 
-    def test_get_distribution_poster_data(self, c_login_education,decorate_id,getToken):
+    def test_get_distribution_poster_data(self, first_small_course_id,c_login_education,decorate_id):
         gateLoginToken=getToken(userToken=c_login_education[0])
         r = getDistributionPosterData(courseId=first_small_course_id,decorateId=decorate_id,gateLoginToken=gateLoginToken)
         assert_equal(first_small_course_title, r.get('courseName'), "获取分销海报数据用例通过")
