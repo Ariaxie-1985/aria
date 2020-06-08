@@ -19,7 +19,7 @@ def get_course_commentList(userToken, courseId):
     header = app_header_999(userToken=userToken, DA=False)
     remark = "开悟课程/获取评论"
 
-    return get_requests(url=url, headers=header, remark=remark).json()
+    return get_requests(url=url, headers=header, remark=remark)
 
 
 def getDistributionPosterData( courseId,decorateId,gateLoginToken):
