@@ -110,7 +110,7 @@ def c_userId_0085220180917():
     return userId
 
 
-@pytest.fixture(scope='session', params=[["0085320200306", "qqqqqq"]])
+@pytest.fixture(scope='session', params=[["18810769854", "aaaaaa"]])
 def c_login_education(request):
     result = password_login(request.param[0], request.param[1])
     return result['content']['userToken'], result['content']['userInfo']['userId']
