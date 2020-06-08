@@ -7,6 +7,8 @@ from utils.util import assert_equal,assert_not_equal
 login_password ('bingoonchen@lagou.com', '990eb670f81e82f546cfaaae1587279a')
 positionid = '7245705'
 
+
+
 #推荐人才页面验证
 def test_talentSearch():
 
