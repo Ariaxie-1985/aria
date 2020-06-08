@@ -126,8 +126,8 @@ def c_login_education(request):
 
 @pytest.fixture(scope='session')
 def get_h5_token():
-    gate_login_token = getToken(userToken=test_usertoken[0])
-    return gate_login_token
+    result = getToken(userToken=test_usertoken[0])
+    return result['content']['gateLoginToken']
 
 
 # 2.当某用例失败后,接下来的依赖用例直接标记失败,不执行

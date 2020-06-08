@@ -12,8 +12,8 @@ def getToken(userToken):
     # header = get_header(url="https://kaiwu.lagou.com/distribution/appCenter.html")
     header = app_header_999(userToken=userToken,DA=False,appType=1)
     remark = "获取gate_login_token"
-    r = get_requests(url=url, headers=header, remark=remark)
-    gate_login_token = r['content']['gateLoginToken']
-    return gate_login_token
+    # r = get_requests(url=url, headers=header, remark=remark)
+    # gate_login_token = r['content']['gateLoginToken']
+    return get_requests(url=url, headers=header, remark=remark)
 
 
