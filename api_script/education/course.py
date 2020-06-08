@@ -25,4 +25,4 @@ def get_credit_center_info(userToken):
     url = 'https://gate.lagou.com/v1/neirong/course/user_growth/getCreditCenterInfo'
     header = app_header_999(userToken=userToken,DA=False)
     remark="学分中心"
-    return bool(len(get_requests(url=url,headers=header,remark=remark)['content']['userGrowthCreditTaskVos']))
+    return get_requests(url=url,headers=header,remark=remark)
