@@ -11,9 +11,12 @@ def getToken(userToken):
     url = 'https://gate.lagou.com/v1/entry/account/h5/getToken'
     # header = get_header(url="https://kaiwu.lagou.com/distribution/appCenter.html")
     header = app_header_999(userToken=userToken,DA=False,appType=1)
+    header["appVersion"]="1.2.7.680"
+    header["reqVersion"] = "10207"
+    header["lgId"] = "862502040661300_1591588692323"
     remark = "获取gate_login_token"
-    # r = get_requests(url=url, headers=header, remark=remark)
-    # gate_login_token = r['content']['gateLoginToken']
     return get_requests(url=url, headers=header, remark=remark)
+
+
 
 
