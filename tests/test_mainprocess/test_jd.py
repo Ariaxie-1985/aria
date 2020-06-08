@@ -18,6 +18,7 @@ from api_script.zhaopin_app.orderResumes import orderResumes_resume_interview, \
     orderResumes_resume_obsolete, orderResumes_detail, orderResumes_read
 from api_script.zhaopin_app.talent import talent_recTalent, talent_newTalent, talent_collections, talent_app_search, \
     talent_info_get
+
 from utils.loggers import logers
 from utils.util import assert_equal, assert_in
 

@@ -14,6 +14,7 @@ from requests import RequestException
 import json
 import logging
 
+
 from utils.loggers import logers
 from utils.mainprocess_api_developer import return_api_developer
 from utils.user_exception import Http500Error
@@ -395,7 +396,7 @@ def assert_not_in(expect_value, actual_value, success_message, fail_message=None
     :param success_message: str, 断言成功打印的日志
     :param fail_message:str, 断言失败打印的日志
     '''
-    if actual_value not in actual_value:
+    if expect_value not in actual_value:
         # loger.success(success_message)
         pass
     else:
