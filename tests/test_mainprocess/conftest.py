@@ -126,7 +126,7 @@ def c_login_education(request):
 
 @pytest.fixture(scope='session')
 def get_h5_token():
-    gate_login_token = getToken(userToke=test_usertoken[0])
+    gate_login_token = getToken(userToken=test_usertoken[0])
     return gate_login_token
 
 
