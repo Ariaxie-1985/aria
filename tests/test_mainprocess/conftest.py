@@ -5,6 +5,7 @@
 import time
 import pytest
 
+from api_script.education.account import getToken
 from api_script.entry.account.passport import password_login
 from api_script.jianzhao_web.index import dashboard_index_get_user_id
 from backend.common.get_data import get_www_company_id
@@ -32,7 +33,7 @@ fake = Faker("zh_CN")
 # 主流程测试产生的测试账号
 test_telephone = []
 test_company_name = []
-
+test_usertoken = []
 
 @pytest.fixture(scope='session')
 def get_company_name():
@@ -120,7 +121,13 @@ def get_add_colleague_user():
 @pytest.fixture(scope='session', params=[["18810769854", "aaaaaa"]])
 def c_login_education(request):
     result = password_login(request.param[0], request.param[1])
+    test_usertoken.append(result['content']['userToken'])
     return result['content']['userToken'], result['content']['userInfo']['userId']
+
+@pytest.fixture(scope='session')
+def get_h5_token():
+    gate_login_token = getToken(userToke=test_usertoken[0])
+    return gate_login_token
 
 
 # 2.当某用例失败后,接下来的依赖用例直接标记失败,不执行

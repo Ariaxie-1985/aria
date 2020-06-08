@@ -7,7 +7,7 @@ from datetime import datetime
 import datetime
 from urllib.parse import urlparse
 
-#import pysnooper
+import pysnooper
 import requests
 import re
 from requests import RequestException

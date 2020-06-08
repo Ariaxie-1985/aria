@@ -2,8 +2,11 @@
 # @Time  : 2020/6/3 19:26
 # @Author: Sunnyzhang
 # Description:
+from api_script.entry.account.passport import password_login
 from utils.util import  get_requests,app_header_999
-import re
+
+
+
 def getToken(userToken):
     url = 'https://gate.lagou.com/v1/entry/account/h5/getToken'
     # header = get_header(url="https://kaiwu.lagou.com/distribution/appCenter.html")
@@ -12,3 +15,5 @@ def getToken(userToken):
     r = get_requests(url=url, headers=header, remark=remark)
     gate_login_token = r['content']['gateLoginToken']
     return gate_login_token
+
+
