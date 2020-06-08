@@ -77,6 +77,6 @@ class TestEducation02(object):
         r = get_watch_percent(userToken=c_login_education[0], courseId=big_course_record_id, weekId=lastWatchWeekId)
         assert_equal(1, r.get('state'), "获取大课一周录播视频观看进度")
 
-def test_get_credit_center_info(self,c_login_education):
+def test_get_credit_center_info(c_login_education):
     r = get_credit_center_info(userToken=c_login_education[0])
     assert_equal(1,bool(len(r.get('content').get('userGrowthCreditTaskVos'))),"学分中心任务列表")
