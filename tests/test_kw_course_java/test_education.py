@@ -82,4 +82,4 @@ def test_get_watch_percent(c_login_education):
 
 def test_get_credit_center_info(c_login_education):
     r = get_credit_center_info(userToken=c_login_education[0])
-    assert_equal((1,r),"学分中心任务列表")
+    assert_equal(1,r,"学分中心任务列表")
