@@ -15,6 +15,7 @@ def switch_project_root_directory():
 
 
 def logers():
+
     project_path = switch_project_root_directory()
     logger.add(f"{project_path}/log/py_auto_test_result.log", encoding='utf-8', colorize=True,
                format="<yellow>{time:YYYY-MM-DD HH:mm:ss}</yellow> <level>{level}</level> <level>{message}</level>")
@@ -22,7 +23,7 @@ def logers():
 
 
 if __name__ == '__main__':
-    # loger = loger()
+    # loger = logers()
     # loger.debug('debug 信息')
     # loger.success('success 信息')
     # loger.error('error 信息')

@@ -18,6 +18,7 @@ def get_course_commentList(userToken, courseId):
         courseId)
     header = app_header_999(userToken=userToken, DA=False)
     remark = "开悟课程/获取评论"
+
     return get_requests(url=url, headers=header, remark=remark).json()
 
 
@@ -27,4 +28,13 @@ def getDistributionPosterData( courseId,decorateId,gateLoginToken):
     # header = get_header(url="https://kaiwu.lagou.com/distribution/appCenter.html")
     header = {"Cookie":f"gate_login_token ={gateLoginToken};","X-L-REQ-HEADER": "{deviceType:1}"}
     remark = "获取分销海报数据"
-    return get_requests(url=url, headers=header, remark=remark).json()
+    return get_requests(url=url, headers=header, remark=remark)
+
+
+
+def get_credit_center_info(userToken):
+    url = 'https://gate.lagou.com/v1/neirong/course/user_growth/getCreditCenterInfo'
+    header = app_header_999(userToken=userToken,DA=False)
+    remark="学分中心"
+    return get_requests(url=url,headers=header,remark=remark)
+
