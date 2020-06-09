@@ -713,7 +713,7 @@ def app_header_999(userToken=None, DA=True, userId=None):
               "reqVersion": '73100', "appVersion": "7.31.0"}
     if not userToken is None:
         header['userToken'] = userToken
-
+    header['X-L-PC-HEADER'] = 'iHYcIxmNf1a/H6tR/hao1vahOgvJmZIEwaWWSXc7bO+Nx3TnQlgHcteuBXnK5zrLHHwxbd10XVRCPVoT3M/T6VkqkEftfJqSfcEZhNJLuRQ='
     header = {'X-L-REQ-HEADER': json.dumps(header)}
 
     header = {**app_header, **header}
