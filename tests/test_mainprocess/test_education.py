@@ -6,9 +6,10 @@ import pytest
 
 from api_script.education.app import get_homepage_cards, get_all_course_purchased_record
 from api_script.education.bigcourse import get_course_info, get_course_outline, get_week_lessons, get_watch_percent
-from api_script.education.course import get_course_commentList,get_credit_center_info
+from api_script.education.course import get_course_commentList, getDistributionPosterData, get_credit_center_info
 from api_script.education.kaiwu import get_course_description, get_distribution_info, check_course_share_status, \
     get_course_lessons
+from api_script.education.account import getToken
 from utils.util import assert_equal
 
 
@@ -22,10 +23,11 @@ class TestEducation01(object):
         #     assert_equal(expect_card_type, card['cardType'], "拉勾教育-获取首页卡片信息列表用例通过")
         #     assert_equal(expect_title, card['title'], "拉勾教育-获取首页卡片信息列表用例通过")
         assert_equal(1, r.get('state'), "拉勾教育-获取首页卡片信息列表用例通过")
-        global first_small_course_id, first_small_course_brief, first_small_course_title
+        global first_small_course_id, first_small_course_brief, first_small_course_title, decorate_id
         first_small_course_id = r['content']['pageCardList'][2]['smallCourseList'][0]['id']
         first_small_course_brief = r['content']['pageCardList'][2]['smallCourseList'][0]['brief']
         first_small_course_title = r['content']['pageCardList'][2]['smallCourseList'][0]['title']
+        decorate_id = r['content']['pageCardList'][2]['smallCourseList'][0]['decorateId']
 
     def test_check_course_share_status(self, c_login_education):
         r = check_course_share_status(userToken=c_login_education[0], courseId=first_small_course_id)
@@ -48,6 +50,10 @@ class TestEducation01(object):
     def test_get_course_commentList(self, c_login_education):
         r = get_course_commentList(userToken=c_login_education[0], courseId=first_small_course_id)
         assert_equal(1, r.get('state'), "获取课程的评论用例通过")
+
+    def test_get_distribution_poster_data(self, get_h5_token):
+        r = getDistributionPosterData(courseId=first_small_course_id,decorateId=decorate_id,gateLoginToken=get_h5_token)
+        assert_equal(1, r.get('state'), "获取分销海报数据用例通过")
 
 
 @pytest.mark.incremental
@@ -77,6 +83,7 @@ class TestEducation02(object):
         r = get_watch_percent(userToken=c_login_education[0], courseId=big_course_record_id, weekId=lastWatchWeekId)
         assert_equal(1, r.get('state'), "获取大课一周录播视频观看进度")
 
+
 def test_get_credit_center_info(c_login_education):
     r = get_credit_center_info(userToken=c_login_education[0])
-    assert_equal(1,bool(len(r.get('content').get('userGrowthCreditTaskVos'))),"学分中心任务列表")
+    assert_equal(1, bool(len(r.get('content').get('userGrowthCreditTaskVos'))), "学分中心任务列表")
