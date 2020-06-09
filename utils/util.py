@@ -684,10 +684,10 @@ def get_verify_code(id, createTime):
     data = {"createTime": createTime, "msgId": id}
     r = json_post(url=url, data=data, headers={'X-L-REQ-HEADER': json.dumps({"deviceType": 1})}, remark="获取验证码")
     try:
-        int(r['content']['content'][3:9])
-    except ValueError:
+        verify_code = re.findall(r'[1-9]\d+', r.get('content').get('content'))[0]
+    except IndexError:
         return None
-    return r['content']['content'][3:9]
+    return verify_code
 
 
 # @pysnooper.snoop()
