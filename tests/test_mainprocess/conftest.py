@@ -110,6 +110,7 @@ def c_userId_0085220180917():
     userId = 15166231
     return userId
 
+
 @pytest.fixture()
 def get_add_colleague_user():
     phone = 13683326352
@@ -119,7 +120,7 @@ def get_add_colleague_user():
 
 @pytest.fixture(scope='session', params=[["0085320200306", "qqqqqq"]])
 def c_login_education(request):
-    result = password_login(request.param[0], request.param[1])
+    result = password_login(request.param[0], request.param[1], app_type='LGEdu')
     return result['content']['userToken'], result['content']['userInfo']['userId']
 
 

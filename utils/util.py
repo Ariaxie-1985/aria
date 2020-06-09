@@ -14,7 +14,6 @@ from requests import RequestException
 import json
 import logging
 
-
 from utils.loggers import logers
 from utils.mainprocess_api_developer import return_api_developer
 from utils.user_exception import Http500Error
@@ -708,12 +707,18 @@ def get_verify_code_message_len(countryCode, phone):
         return -1
 
 
-def app_header_999(userToken=None, DA=True, userId=None):
-    header = {"deviceType": '150', "userType": '0', "lgId": "898BCC3F-E662-4761-87E8-845788525443_1532945379",
-              "reqVersion": '73100', "appVersion": "7.31.0"}
+def app_header_999(userToken=None, DA=True, userId=None, app_type='zhaopin'):
+    if app_type == 'zhaopin':
+        header = {"deviceType": '150', "userType": '0', "lgId": "898BCC3F-E662-4761-87E8-845788525443_1532945379",
+                  "reqVersion": '73100', "appVersion": "7.31.0"}
+    elif app_type == 'LGEdu':
+        header = {"lgId": "898BCC3F-E662-4761-87E8-845788525443_1582611503", "appType": 1, "reqVersion": 10300,
+                  "appVersion": "1.2.4", "deviceType": 170}
     if not userToken is None:
         header['userToken'] = userToken
 
+    header[
+        'X-L-PC-HEADER'] = 'iHYcIxmNf1a/H6tR/hao1vahOgvJmZIEwaWWSXc7bO+Nx3TnQlgHcteuBXnK5zrLHHwxbd10XVRCPVoT3M/T6VkqkEftfJqSfcEZhNJLuRQ='
     header = {'X-L-REQ-HEADER': json.dumps(header)}
 
     header = {**app_header, **header}
