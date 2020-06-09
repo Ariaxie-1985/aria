@@ -34,7 +34,7 @@ def verifyCode_login(countryCode, phone, verify_code):
     return r
 
 
-def send_verify_code(countryCode, phone, businessType):
+def send_verify_code(countryCode, phone, businessType, verifyCodeStyle=None):
     url = 'https://gate.lagou.com/v1/entry/account/verifyCode/phone'
     data = {
         "countryCode": countryCode,
@@ -43,6 +43,8 @@ def send_verify_code(countryCode, phone, businessType):
         "businessType": businessType
     }
     header = app_header_999()
+    if verifyCodeStyle is not None:
+        data["verifyCodeStyle"] = verifyCodeStyle
     remark = "验证码登录，发送验证码"
     r = json_post(url=url, data=data, headers=header, remark=remark)
     return r
