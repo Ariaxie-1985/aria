@@ -8,8 +8,9 @@ from api_script.education.app import get_homepage_cards, get_all_course_purchase
 from api_script.education.bigcourse import get_course_info, get_course_outline, get_week_lessons, get_watch_percent
 from api_script.education.course import get_course_commentList
 from api_script.education.kaiwu import get_course_description, get_distribution_info, check_course_share_status, \
-    get_course_lessons
+    get_course_lessons, ice_breaking_location
 from utils.util import assert_equal
+
 
 
 @pytest.mark.parametrize("expect_card_type, expect_title", [(1, "广告banner"), (2, "训练营"), (3, "专栏")])
@@ -78,3 +79,7 @@ def test_get_week_lessons(c_login_education):
 def test_get_watch_percent(c_login_education):
     r = get_watch_percent(userToken=c_login_education[0], courseId=big_course_record_id, weekId=lastWatchWeekId)
     assert_equal(1, r['state'], "获取大课一周录播视频观看进度")
+
+def test_ice_breaking_location():
+    r = ice_breaking_location()
+    assert_equal("限时1元抢>",r['content']['text'],"显示1元购入口")

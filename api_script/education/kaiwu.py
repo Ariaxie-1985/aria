@@ -30,3 +30,13 @@ def get_course_lessons(userToken, courseId):
     header = app_header_999(userToken=userToken, DA=False)
     remark = "获取课程信息"
     return get_requests(url=url, headers=header, remark=remark)
+
+def ice_breaking_location():
+    url = 'https://gate.lagou.com/v1/neirong/kaiwu/iceBreakingLocation/info'
+    header = {'x-l-req-header':'{deviceType:1}'}
+    remark = "一元购入口"
+    return get_requests(url=url,headers=header,remark=remark)
+
+if __name__ == '__main__':
+    a = ice_breaking_location()
+    print(a)
