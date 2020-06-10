@@ -685,7 +685,7 @@ def get_verify_code(id, createTime):
     data = {"createTime": createTime, "msgId": id}
     r = json_post(url=url, data=data, headers={'X-L-REQ-HEADER': json.dumps({"deviceType": 1})}, remark="获取验证码")
     try:
-        verify_code = re.findall(r'[1-9]\d+', r.get('content').get('content'))[0]
+        verify_code = re.findall(r'[0-9]\d+', r.get('content').get('content'))[0]
     except IndexError:
         return None
     return verify_code
