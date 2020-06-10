@@ -5,6 +5,8 @@
 import pytest
 
 from utils.util import login, login_home, login_home_code
+from utils.util import login_password
+
 
 
 # 非灰度公司帐号
@@ -58,3 +60,11 @@ def login_web_k8s_143235_TL1(request):
 @pytest.fixture(params=[["0086", "18850430032"]])
 def login_web_k8s_143236_TL1(request):
     login(request.param[0], request.param[1])
+
+
+#有一个在线职位的账号
+@pytest.fixture(scope='session', params=[["bingoonchen@lagou.com", "990eb670f81e82f546cfaaae1587279a"]])
+def c_login_password(request):
+        login_password(request.param[0], request.param[1])
+
+
