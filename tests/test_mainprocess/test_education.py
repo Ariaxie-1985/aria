@@ -52,7 +52,8 @@ class TestEducation01(object):
         assert_equal(1, r.get('state'), "获取课程的评论用例通过")
 
     def test_get_distribution_poster_data(self, get_h5_token):
-        r = getDistributionPosterData(courseId=first_small_course_id,decorateId=decorate_id,gateLoginToken=get_h5_token)
+        r = getDistributionPosterData(courseId=first_small_course_id, decorateId=decorate_id,
+                                      gateLoginToken=get_h5_token)
         assert_equal(1, r.get('state'), "获取分销海报数据用例通过")
 
 
@@ -86,4 +87,16 @@ class TestEducation02(object):
 
 def test_get_credit_center_info(c_login_education):
     r = get_credit_center_info(userToken=c_login_education[0])
-    assert_equal(1, bool(len(r.get('content').get('userGrowthCreditTaskVos'))), "学分中心任务列表")
+
+<< << << < HEAD
+assert_equal(1, bool(len(r.get('content').get('userGrowthCreditTaskVos'))), "学分中心任务列表")
+== == == =
+assert_equal(1, bool(len(r.get('content').get('userGrowthCreditTaskVos'))), "学分中心任务列表")
+
+
+def test_ice_breaking_location():
+    r = ice_breaking_location()
+    assert_equal("限时1元抢>", r['content']['text'], "显示1元购入口")
+
+>> >> >> > 1174
+bdae1a41cceb63a529ec2f1a07cf730da5d8
