@@ -2,7 +2,7 @@
 # @Time  : 2020/3/6 16:16
 # @Author: Xiawang
 # Description:
-from utils.util import get_edu_app_header, get_requests
+from utils.util import get_edu_app_header, get_requests, app_header_999
 
 
 def check_course_share_status(userToken, courseId):
