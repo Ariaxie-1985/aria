@@ -717,10 +717,10 @@ def app_header_999(userToken=None, DA=True, userId=None, app_type='zhaopin'):
     if not userToken is None:
         header['userToken'] = userToken
 
-    header[
-        'X-L-PC-HEADER'] = 'iHYcIxmNf1a/H6tR/hao1vahOgvJmZIEwaWWSXc7bO+Nx3TnQlgHcteuBXnK5zrLHHwxbd10XVRCPVoT3M/T6VkqkEftfJqSfcEZhNJLuRQ='
     header = {'X-L-REQ-HEADER': json.dumps(header)}
-
+    if app_type == 'LGEdu':
+        header[
+            'X-L-PC-HEADER'] = 'iHYcIxmNf1a/H6tR/hao1vahOgvJmZIEwaWWSXc7bO+Nx3TnQlgHcteuBXnK5zrLHHwxbd10XVRCPVoT3M/T6VkqkEftfJqSfcEZhNJLuRQ='
     header = {**app_header, **header}
     if userId:
         header['X-L-USER-ID'] = str(userId)
