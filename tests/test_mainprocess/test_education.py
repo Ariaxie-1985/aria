@@ -83,5 +83,4 @@ def test_get_credit_center_info(c_login_education):
 
 def test_ice_breaking_location():
     r = ice_breaking_location()
-    assert_equal("限时1元"
-                 "抢>", r['content']['text'], "显示1元购入口")
+    assert_equal("限时1元抢>", r['content']['text'], "显示1元购入口")
