@@ -8,8 +8,9 @@ from api_script.education.app import get_homepage_cards, get_all_course_purchase
 from api_script.education.bigcourse import get_course_info, get_course_outline, get_week_lessons, get_watch_percent
 from api_script.education.course import get_course_commentList,get_credit_center_info
 from api_script.education.kaiwu import get_course_description, get_distribution_info, check_course_share_status, \
-    get_course_lessons
+    get_course_lessons, ice_breaking_location
 from utils.util import assert_equal
+
 
 
 @pytest.mark.parametrize("expect_card_type, expect_title", [(1, "广告banner"), (2, "训练营"), (3, "专栏")])
@@ -80,7 +81,9 @@ def test_get_watch_percent(c_login_education):
     assert_equal(1, r['state'], "获取大课一周录播视频观看进度")
 
 
+
 def test_get_credit_center_info(c_login_education):
     #r = bool(len(get_credit_center_info(userToken=c_login_education[0])['content']['userGrowthCreditTaskVos']))
     r = get_credit_center_info(userToken=c_login_education[0])
     assert_equal(1,bool(len(r.get('content').get('userGrowthCreditTaskVos'))),"学分中心任务列表")
+
