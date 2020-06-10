@@ -70,7 +70,7 @@ def get_code_token(url, referer=False, ip_port=None):
         return get_code_token(url=url)
 
 
-def form_post(url, remark, data=None, files=None, headers={}, allow_redirects=True, ip_port=None):
+def form_post(url, remark, data=None, files=None, headers={}, verifystate=True, allow_redirects=True, ip_port=None):
     """
     form表单传参的post请求
     :param url: 请求url
@@ -80,6 +80,8 @@ def form_post(url, remark, data=None, files=None, headers={}, allow_redirects=Tr
     :return: json格式化的响应结果
     """
     global count
+    if verifystate == False:
+        count = 3
     try:
         if not data is None:
             headers = {**header, **headers, **{'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'}}
@@ -99,7 +101,8 @@ def form_post(url, remark, data=None, files=None, headers={}, allow_redirects=Tr
         if 200 <= status_code <= 302:
             if is_json_response(response):
                 response_json = convert_response(response)
-                if response_json.get('state', 0) == 1 or response_json.get('success', False):
+                if response_json.get('state', 0) == 1 or response_json.get('success', False) or (not response_json.get(
+                        'code', 1)):
                     logging.info(f'该接口URL {url} ,备注 {remark} 执行成功\n')
                     return response_json
                 else:
@@ -197,7 +200,8 @@ def get_requests(url, data=None, headers={}, remark=None, ip_port=None):
         if 200 <= status_code <= 302:
             if is_json_response(response):
                 response_json = convert_response(response)
-                if response_json.get('state', 0) == 1 or response_json.get('success', False):
+                if response_json.get('state', 0) == 1 or response_json.get('success', False) or (not response_json.get(
+                        'code', 1)):
                     logging.info(msg='该接口URL {} ,备注 {} 执行成功\n'.format(url, remark))
                     return response_json
                 else:
@@ -205,7 +209,7 @@ def get_requests(url, data=None, headers={}, remark=None, ip_port=None):
                         count = count + 1
                         logging.error(
                             msg='该接口URL {} , 备注: {} , 响应内容: {} 断言失败, 在重试\n'.format(url, remark, response_json))
-                        return get_requests(url=url, data=data, headers=headers, remark=remark)
+                        return convert_response(response)
                     else:
                         logging.error(
                             msg='该接口URL {} , 备注 {}, 响应内容: {} 请求成功, 但断言错误\n'.format(url, remark, response_json))
@@ -226,11 +230,13 @@ def get_requests(url, data=None, headers={}, remark=None, ip_port=None):
 
 
 def convert_response(response):
-    if 'application/json' in (response.headers.get('Content-Type', '') or response.headers.get('content-type', '')):
+    headers = response.headers.get('Content-Type') or response.headers.get('content-type')
+    if 'application/json' in headers:
         return response.json()
-    elif 'text/html' in (response.headers.get('Content-Type', '') or response.headers.get('content-type', '')):
+    elif 'text/html' in headers:
         return response.text
-
+    elif 'application/octet-stream' in headers:
+        return response
     try:
         return response.json()
     except AttributeError:
@@ -389,7 +395,7 @@ def assert_not_in(expect_value, actual_value, success_message, fail_message=None
     :param success_message: str, 断言成功打印的日志
     :param fail_message:str, 断言失败打印的日志
     '''
-    if actual_value not in actual_value:
+    if expect_value not in actual_value:
         # loger.success(success_message)
         pass
     else:
@@ -701,12 +707,18 @@ def get_verify_code_message_len(countryCode, phone):
         return -1
 
 
-def app_header_999(userToken=None, DA=True, userId=None):
-    header = {"deviceType": '150', "userType": '0', "lgId": "898BCC3F-E662-4761-87E8-845788525443_1532945379",
-              "reqVersion": '73100', "appVersion": "7.31.0"}
+def app_header_999(userToken=None, DA=True, userId=None, app_type='zhaopin'):
+    if app_type == 'zhaopin':
+        header = {"deviceType": '150', "userType": '0', "lgId": "898BCC3F-E662-4761-87E8-845788525443_1532945379",
+                  "reqVersion": '73100', "appVersion": "7.31.0"}
+    elif app_type == 'LGEdu':
+        header = {"lgId": "898BCC3F-E662-4761-87E8-845788525443_1582611503", "appType": 1, "reqVersion": 10300,
+                  "appVersion": "1.2.4", "deviceType": 170}
     if not userToken is None:
         header['userToken'] = userToken
 
+    header[
+        'X-L-PC-HEADER'] = 'iHYcIxmNf1a/H6tR/hao1vahOgvJmZIEwaWWSXc7bO+Nx3TnQlgHcteuBXnK5zrLHHwxbd10XVRCPVoT3M/T6VkqkEftfJqSfcEZhNJLuRQ='
     header = {'X-L-REQ-HEADER': json.dumps(header)}
 
     header = {**app_header, **header}

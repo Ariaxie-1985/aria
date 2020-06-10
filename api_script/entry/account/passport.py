@@ -5,9 +5,9 @@
 from utils.util import json_post, get_requests, app_header_999
 
 
-def password_login(accountName, password, ip_port=None):
+def password_login(accountName, password, ip_port=None, app_type='zhaopin'):
     url = 'https://gate.lagou.com/v1/entry/account/passport/login'
-    header = app_header_999()
+    header = app_header_999(app_type=app_type)
     data = {
         "password": password,
         "UrlType": 1,

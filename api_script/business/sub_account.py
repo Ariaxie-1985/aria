@@ -2,7 +2,7 @@
 # @Author: Xiawang
 import json
 import logging
-from utils.util import form_post, get_header, get_requests, login
+from utils.util import form_post, get_header, get_requests, login, json_post, get_code_token
 import time
 
 time = int(round(time.time() * 1000))
@@ -184,6 +184,14 @@ def reAssign_subaccount_Goods(subaccunt_goodslist):
         remark = "验证调整子账号为分账号且及其权益功能是否ok"
         r = form_post(url=recoverAcount_url, data=recoverAcount_data, headers=recoverAcount_header, remark=remark)
     return r
+
+#添加同事为普通账号
+def addColleague(phone,managerId):
+    colleague_url = 'https://easy.lagou.com/colleague/add.json'
+    colleague_header = get_code_token('https://easy.lagou.com/priveligeManage/queryPriveligeAcount/index.htm')
+    data = {'accountType': 'NORMAL','userName':'安安测试','phone':phone,'receiveResumeEmail':'anan@lagou.com','positionName':'安安哈哈哈','managerId':managerId}
+    s=json_post(url=colleague_url,headers=colleague_header,data=data,remark='添加同事')
+    return s
 
 # username = 20181205
 # login("00852", username)

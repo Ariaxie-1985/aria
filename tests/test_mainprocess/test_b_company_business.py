@@ -1,18 +1,22 @@
 import datetime
+
+import json
 import logging
+
 import random
 import time
 import pytest
 
 from api_script.business.new_lagouPlus import open_product
-from api_script.entry.cuser.baseStatus import batchCancel
-from api_script.home import forbid
+
+from api_script.business.sub_account import addColleague
+
 from api_script.home.audit import query_risk_labels, add_risk_labels_by_company, queryRiskLabelsByCompany
 from api_script.home.data_import import import_linkManInfo, import_contacts
 from api_script.jianzhao_web.b_basic.company import jump_html
 from api_script.jianzhao_web.b_basic.toB_comleteInfo_3 import completeInfo, company_auth
 from api_script.jianzhao_web.b_basic.toB_saveHR_1 import saveHR, saveCompany, \
-    submit_new, add_saveCompany, remove_member, close_trial_package
+    submit_new, add_saveCompany, remove_member, close_trial_package, remove_member_company
 from api_script.jianzhao_web.b_basic.b_upload import upload_permit
 from api_script.jianzhao_web.b_position.B_postposition import createPosition_999, get_online_positions, \
     www_redirect_easy, offline_position
@@ -27,9 +31,8 @@ from api_script.zhaopin_app.rights import get_rights_info_list
 from api_script.zhaopin_app.shop import get_shop_goods_on_sale_goods, get_shop_goods_sell_goods, create_shop_goodsOrder, \
     pay_shop_goodsOrder, check_shop_goodsOrder
 from utils.loggers import logers
-from utils.read_file import record_cancel_account, record_test_data
 from utils.util import assert_equal, pc_send_register_verifyCode, verify_code_message, user_register_lagou, \
-    login_password, assert_in, login_home
+    login_password, assert_in, login_home, assert_not_in, login
 
 loger = logers()
 
@@ -312,6 +315,22 @@ class TestCompanyBusiness(object):
         assert_equal(1, login_result.get('state', 0), '校验管理员登录是否成功')
         www_redirect_easy()
 
+    # 添加同事为普通账号,并且添加成功后进行移除
+    def test_add_free_colleague(self, get_add_colleague_user):
+        add_managerId = admin_user_id
+        '''add_managerId = '100025876'''
+        add_phone = get_add_colleague_user
+        r = addColleague(add_phone, add_managerId)
+        add_state = r['state']
+        add_result = r['content']['data']['info']
+        '''print(add_result)'''
+        if add_state == 1:
+            assert_not_in('errorCode', add_result, '添加同事为普通账号通过')
+            remove_userid = r['content']['data']['info']['userId']
+            remove_state = remove_member_company(remove_userid)['state']
+            '''print(remove_state)'''
+            assert_equal(1, remove_state, '移除添加的普通账号通过')
+
     def test_paid_company_create_position_person_and_company_enough_equity(self, get_positionType):
         r = createPosition_999(firstType=get_positionType[0], positionType=get_positionType[1],
                                positionThirdType=get_positionType[2],
@@ -412,7 +431,7 @@ class TestCompanyBusiness(object):
         r = get_rights_info_list()
         for base_good in r['content']['baseDetailResList']:
             if base_good['baseGoodsId'] == 623:
-                assert_equal(0, int(base_good['totalNum']), '验证免费账号的普通职位数为0用例通过')
+                assert_equal(0, int(base_good['totalNum']), '验证特殊行业（一类）公司免费账号的普通职位数为0用例通过')
 
     def test_general_user_1_im_session_list_check_15(self):
         r = im_session_list(createBy=0)
