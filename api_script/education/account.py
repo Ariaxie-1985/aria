@@ -10,7 +10,7 @@ from utils.util import  get_requests,get_edu_app_header
 def getToken(userToken):
     url = 'https://gate.lagou.com/v1/entry/account/h5/getToken'
     # header = get_header(url="https://kaiwu.lagou.com/distribution/appCenter.html")
-    header = get_edu_app_header(userToken=userToken,DA=False,appType=1)
+    header = get_edu_app_header(userToken=userToken,DA=False)
     header["appVersion"]="1.2.7.680"
     header["reqVersion"] = "10207"
     header["lgId"] = "862502040661300_1591588692323"
