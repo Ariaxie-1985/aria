@@ -731,6 +731,11 @@ def app_header_999(userToken=None, DA=True, userId=None, app_type='zhaopin'):
     return header
 
 
+from functools import partial
+
+get_edu_app_header = partial(app_header_999, app_type='LGEdu')
+
+
 def login_password(username, password):
     '''
     从www.lagou.com登录，验证码登录
