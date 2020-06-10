@@ -100,6 +100,7 @@ class TestPosition:
         assert_equal(0, res.get('code'), '发布已下线职位请求成功', f'发布已下线职位{position_id}请求失败')
 
     def test_refresh_position(self, get_access_token):
+        time.sleep(1)
         res = refresh_position(access_token=get_access_token, position_id=position_id)
         assert_equal(30040, res.get('code'), '一小时之内不可重复刷新职位请求成功', f'一小时之内不可重复刷新职位{position_id}请求失败')
 

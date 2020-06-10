@@ -11,6 +11,7 @@ from api_script.jianzhao_web.index import dashboard_index_get_user_id
 from backend.common.get_data import get_www_company_id
 from faker import Faker
 from api_script.jianzhao_web.b_basic.toB_saveHR_1 import get_b_person_userId, get_b_index_Id
+from utils.util import login_password
 
 fake = Faker("zh_CN")
 
@@ -98,7 +99,6 @@ def telephone():
 def b_login_app(request):
     result = password_login(request.param[0], request.param[1])
     return result['content']['userToken'], result['content']['userInfo']['userId']
-
 
 @pytest.fixture(scope='session', params=[["0085220180917", "0085220180917"]])
 def c_login_app(request):
