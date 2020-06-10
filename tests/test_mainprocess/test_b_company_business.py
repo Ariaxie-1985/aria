@@ -391,6 +391,7 @@ class TestCompanyBusiness(object):
     def test_get_verify_general_user_code_1(self):
         global general_user_verify_code_02
         general_user_verify_code_02 = verify_code_message(general_country_code_02, general_phone_02)
+        loger.info(f'普通用户2的验证码:{general_user_verify_code_02}')
         assert_equal(True, bool(general_user_verify_code_01), '获取验证码成功')
 
     def test_register_general_user_1(self):
