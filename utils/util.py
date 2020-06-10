@@ -676,6 +676,7 @@ def verify_code_message(countryCode, phone, flag_num=0):
         if total_count > flag_num:
             verify_code = get_verify_code(id, createTime)
             if verify_code:
+                loger.info(f'用户{phone}的验证码:{verify_code}')
                 return verify_code
 
 
