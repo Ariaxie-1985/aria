@@ -13,6 +13,7 @@ from faker import Faker
 from api_script.jianzhao_web.b_basic.toB_saveHR_1 import get_b_person_userId, get_b_index_Id
 from utils.util import login_password
 
+
 fake = Faker("zh_CN")
 
 '''
@@ -123,6 +124,7 @@ def get_add_colleague_user():
 @pytest.fixture(scope='session', params=[["18810769854", "aaaaaa"]])
 def c_login_education(request):
     result = password_login(request.param[0], request.param[1], app_type='LGEdu')
+    test_usertoken.append(result['content']['userToken'])
     return result['content']['userToken'], result['content']['userInfo']['userId']
 
 
