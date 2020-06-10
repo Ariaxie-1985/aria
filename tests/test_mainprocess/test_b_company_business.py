@@ -19,7 +19,7 @@ from api_script.jianzhao_web.b_basic.toB_saveHR_1 import saveHR, saveCompany, \
     submit_new, add_saveCompany, remove_member, close_trial_package, remove_member_company
 from api_script.jianzhao_web.b_basic.b_upload import upload_permit
 from api_script.jianzhao_web.b_position.B_postposition import createPosition_999, get_online_positions, \
-    www_redirect_easy, offline_position
+    www_redirect_easy, offline_position, update_Position_pc
 from api_script.jianzhao_web.im import im_session_list, greeting_list, multiChannel_default_invite, \
     session_batchCreate_cUserIds
 from api_script.jianzhao_web.index import hr_jump_easy_index_html, jump_easy_index_html
@@ -337,7 +337,9 @@ class TestCompanyBusiness(object):
                                positionName=get_positionType[3])
         assert_equal(1, r.get('state', 0), '付费公司发布职位成功')
         global paid_positionId
+        global parentPositionId
         paid_positionId = r['content']['data']['parentPositionInfo']['positionChannelInfoList'][0]['positionId']
+        parentPositionId = r['content']['data']['parentPositionInfo']['parentPositionId']
 
     def test_paid_position_is_in_online_position(self):
         positions_result = get_online_positions()
@@ -346,6 +348,17 @@ class TestCompanyBusiness(object):
             actually_positionId = positions['positions'][0]['positionId']
             positionIds.append(actually_positionId)
         assert_equal(True, paid_positionId in positionIds, '校验获取发布的职位是否在线职位是否成功！')
+
+    def test_update_position(self,get_positionType):
+        r = update_Position_pc(firstType=get_positionType[0], positionType=get_positionType[1],
+                               positionThirdType=get_positionType[2],
+                               positionName=get_positionType[3],parentPositionId=parentPositionId)
+        assert_equal(1, r.get('state', 0), '编辑职位成功')
+
+    def test_update_positon_details(self):
+        r = get_online_positions()
+        salary = r['content']['data']['parentPositionVOs'][0]['parentPositionInfo']['salary']
+        assert_equal('30k-50k',salary,'验证职位薪资更新成功')
 
     def test_offline_free_position(self):
         offline_result = offline_position(positionId=free_positionId)
