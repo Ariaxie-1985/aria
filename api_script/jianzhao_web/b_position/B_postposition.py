@@ -92,6 +92,15 @@ def republish_position():
     }
     return form_post(url=url, headers=header, data=data, remark='重新发布')
 
+def republish_position_pc(parentPositionId,attanchParam=None):
+    url = 'https://easy.lagou.com/parentPosition/multiChannel/republishOfflinePosition.json'
+    header = get_code_token('https://easy.lagou.com/position/multiChannel/myOfflinePositions.htm')
+    data = {
+        'parentPositionId': parentPositionId,
+        'attachParam': attanchParam
+    }
+    return form_post(url=url,headers=header,data=data,remark='再发布成功')
+
 
 def update_position():
     url = 'https://easy.lagou.com//parentPosition/multiChannel/upgradePosition.json'
@@ -136,6 +145,28 @@ def get_online_positions(pageNo=1, ip_port=None):
     data = {'pageNo': pageNo}
     header = get_code_token(url=referer_url, ip_port=ip_port)
     return form_post(url=url, headers=header, data=data, remark='获取在线职位', ip_port=ip_port)
+
+def update_Position_pc(firstType, positionType, positionThirdType, positionName, parentPositionId,ip_port=None):
+    refer_updatePosition_url = f"https://easy.lagou.com/position/multiChannel/updatePosition.htm?parentPositionId={parentPositionId}"
+    Position_header = get_code_token(refer_updatePosition_url)
+    addressId = add_workAddress(Position_header, ip_port=ip_port)
+    updatePosition_url = "https://easy.lagou.com/parentPosition/multiChannel/update.json"
+    updatePosition_data = {'isSchoolJob': '0', 'firstType': firstType,
+                           'positionType': positionType,
+                           'positionThirdType': positionThirdType, 'positionName': '拉勾测试' + positionName,
+                           'department': '更改部门',
+                           'jobNature': '全职', 'salaryMin': '30', 'salaryMax': '50', 'education': '本科',
+                           'positionBrightPoint': '福利待遇好',
+                           'positionDesc': '<p>编辑职位有责任感、认真负责、能承受较大压力、对工作有自己的想法</p>',
+                           'workAddressId': addressId,
+                           'labels': '[{"id":"1","name":"电商"}]', 'extraInfor': '[{"labels":[{"id":"1","name":"电商"}]}]',
+                           'channels': '108', 'workYear': '1-3年',
+                           'parentPositionId':parentPositionId,
+                           'channelList': 'LAGOU',
+                           'parentExtraInfo':{}}
+    remark = "编辑职位"
+    return form_post(url=updatePosition_url, data=updatePosition_data, headers=Position_header, remark=remark,
+                     ip_port=ip_port)
 
 
 def offline_position(positionId, ip_port=None):

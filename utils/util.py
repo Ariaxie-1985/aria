@@ -14,7 +14,6 @@ from requests import RequestException
 import json
 import logging
 
-
 from utils.loggers import logers
 from utils.mainprocess_api_developer import return_api_developer
 from utils.user_exception import Http500Error
@@ -677,6 +676,7 @@ def verify_code_message(countryCode, phone, flag_num=0):
         if total_count > flag_num:
             verify_code = get_verify_code(id, createTime)
             if verify_code:
+                loger.info(f'用户{phone}的验证码:{verify_code}')
                 return verify_code
 
 
@@ -685,10 +685,10 @@ def get_verify_code(id, createTime):
     data = {"createTime": createTime, "msgId": id}
     r = json_post(url=url, data=data, headers={'X-L-REQ-HEADER': json.dumps({"deviceType": 1})}, remark="获取验证码")
     try:
-        int(r['content']['content'][3:9])
-    except ValueError:
+        verify_code = re.findall(r'[0-9]\d+', r.get('content').get('content'))[0]
+    except IndexError:
         return None
-    return r['content']['content'][3:9]
+    return verify_code
 
 
 # @pysnooper.snoop()
@@ -708,14 +708,20 @@ def get_verify_code_message_len(countryCode, phone):
         return -1
 
 
-def app_header_999(userToken=None, DA=True, userId=None):
-    header = {"deviceType": '150', "userType": '0', "lgId": "898BCC3F-E662-4761-87E8-845788525443_1532945379",
-              "reqVersion": '73100', "appVersion": "7.31.0"}
+def app_header_999(userToken=None, DA=True, userId=None, app_type='zhaopin'):
+    if app_type == 'zhaopin':
+        header = {"deviceType": '150', "userType": '0', "lgId": "898BCC3F-E662-4761-87E8-845788525443_1532945379",
+                  "reqVersion": '73100', "appVersion": "7.31.0"}
+    elif app_type == 'LGEdu':
+        header = {"lgId": "898BCC3F-E662-4761-87E8-845788525443_1582611503", "appType": 1, "reqVersion": 10300,
+                  "appVersion": "1.2.4", "deviceType": 170}
     if not userToken is None:
         header['userToken'] = userToken
 
     header = {'X-L-REQ-HEADER': json.dumps(header)}
-
+    if app_type == 'LGEdu':
+        header[
+            'X-L-PC-HEADER'] = 'iHYcIxmNf1a/H6tR/hao1vahOgvJmZIEwaWWSXc7bO+Nx3TnQlgHcteuBXnK5zrLHHwxbd10XVRCPVoT3M/T6VkqkEftfJqSfcEZhNJLuRQ='
     header = {**app_header, **header}
     if userId:
         header['X-L-USER-ID'] = str(userId)
@@ -724,6 +730,11 @@ def app_header_999(userToken=None, DA=True, userId=None):
     header[
         'X-L-DA-HEADER'] = "da5439aadaf04ade94a214d730b990d83ec71d3e9f274002951143c843badffbc543b213dfe84e21a37bb782dd9bbca4be8d947ead7041f79d336cb1217127d15"
     return header
+
+
+from functools import partial
+
+get_edu_app_header = partial(app_header_999, app_type='LGEdu')
 
 
 def login_password(username, password):

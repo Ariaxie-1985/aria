@@ -5,11 +5,14 @@
 import time
 import pytest
 
+from api_script.education.account import getToken
 from api_script.entry.account.passport import password_login
 from api_script.jianzhao_web.index import dashboard_index_get_user_id
 from backend.common.get_data import get_www_company_id
 from faker import Faker
 from api_script.jianzhao_web.b_basic.toB_saveHR_1 import get_b_person_userId, get_b_index_Id
+from utils.util import login_password
+
 
 fake = Faker("zh_CN")
 
@@ -32,6 +35,7 @@ fake = Faker("zh_CN")
 # 主流程测试产生的测试账号
 test_telephone = []
 test_company_name = []
+test_usertoken = []
 
 
 @pytest.fixture(scope='session')
@@ -97,7 +101,6 @@ def b_login_app(request):
     result = password_login(request.param[0], request.param[1])
     return result['content']['userToken'], result['content']['userInfo']['userId']
 
-
 @pytest.fixture(scope='session', params=[["0085220180917", "0085220180917"]])
 def c_login_app(request):
     result = password_login(request.param[0], request.param[1])
@@ -110,6 +113,7 @@ def c_userId_0085220180917():
     userId = 15166231
     return userId
 
+
 @pytest.fixture()
 def get_add_colleague_user():
     phone = 13683326352
@@ -117,10 +121,17 @@ def get_add_colleague_user():
     return phone
 
 
-@pytest.fixture(scope='session', params=[["0085320200306", "qqqqqq"]])
+@pytest.fixture(scope='session', params=[["18810769854", "aaaaaa"]])
 def c_login_education(request):
-    result = password_login(request.param[0], request.param[1])
+    result = password_login(request.param[0], request.param[1], app_type='LGEdu')
+    test_usertoken.append(result['content']['userToken'])
     return result['content']['userToken'], result['content']['userInfo']['userId']
+
+
+@pytest.fixture(scope='session')
+def get_h5_token():
+    result = getToken(userToken=test_usertoken[0])
+    return result['content']['gateLoginToken']
 
 
 # 2.当某用例失败后,接下来的依赖用例直接标记失败,不执行
