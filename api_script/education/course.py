@@ -22,7 +22,7 @@ def get_course_commentList(userToken, courseId):
     return get_requests(url=url, headers=header, remark=remark)
 
 
-def getDistributionPosterData( courseId,decorateId,gateLoginToken):
+def get_distribution_poster_data( courseId,decorateId,gateLoginToken):
     url = 'https://gate.lagou.com/v1/neirong/course/distribution/getDistributionPosterData?courseId={}&decorateId={}'.format(
         courseId,decorateId)
     # header = get_header(url="https://kaiwu.lagou.com/distribution/appCenter.html")
@@ -38,3 +38,21 @@ def get_credit_center_info(userToken):
     remark="学分中心"
     return get_requests(url=url,headers=header,remark=remark)
 
+def get_distribution_course_list( gateLoginToken):
+    url = 'https://gate.lagou.com/v1/neirong/course/distribution/getDistributionCourseList'
+    header = {"Cookie":f"gate_login_token ={gateLoginToken};","X-L-REQ-HEADER": "{deviceType:1}"}
+    remark = "获取推广课程列表"
+    return get_requests(url=url, headers=header, remark=remark)
+
+def get_my_earing( gateLoginToken):
+    url = 'https://gate.lagou.com/v1/neirong/course/distribution/getMyEarning'
+    header = {"Cookie":f"gate_login_token ={gateLoginToken};","X-L-REQ-HEADER": "{deviceType:1}"}
+    remark = "获取我的收益"
+    return get_requests(url=url, headers=header, remark=remark)
+
+
+def get_user_earnings_detail( gateLoginToken):
+    url = 'https://gate.lagou.com/v1/neirong/course/distribution/getUserEarningsDetail?nextStartId=0&amountType=0'
+    header = {"Cookie":f"gate_login_token ={gateLoginToken};","X-L-REQ-HEADER": "{deviceType:1}"}
+    remark = "获取收益详情"
+    return get_requests(url=url, headers=header, remark=remark)
