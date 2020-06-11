@@ -298,12 +298,7 @@ class TestCompanyBusiness(object):
     def test_republish_free_position(self):
         r1 = republish_position_pc(free_parentPositionId)
         state = r1.get('state',0)
-        if state == 800:
-            attachParam = r1['content']['data']['popUpTipsInfoV0']['buttons'][0]['attachParam']
-            r2 = republish_position_pc(free_parentPositionId,attachParam)
-            assert_equal(1,r2.get('state',0),'非普通职位再发布成功')
-        else:
-            assert_equal(1,state,'验证普通职位再发布成功')
+        assert_equal(1,state,'验证普通职位再发布成功')
 
     def test_offline_free_position02(self):
         offline_result = offline_position(positionId=free_positionId)
