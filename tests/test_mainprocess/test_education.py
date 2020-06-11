@@ -84,7 +84,7 @@ def test_get_credit_center_info(c_login_education):
 
 def test_get_course_credit_info(c_login_education):
     x = TestEducation02()
-    x.test_get_all_course_purchased_record()
+    x.test_get_all_course_purchased_record(c_login_education)
     r = get_course_credit_info(userToken=c_login_education[0],courseId=small_course_record_id)
     assert_equal(1,bool(len(r.get('content').get('userGrowthCreditTaskVos'))),"个人成就的任务列表")
 
