@@ -53,7 +53,7 @@ class TestEducation01(object):
     def test_get_distribution_poster_data(self, get_h5_token):
         r = get_distribution_poster_data(courseId=first_small_course_id, decorateId=decorate_id,
                                       gateLoginToken=get_h5_token)
-        assert_equal(first_small_course_title, r.get('state').get('courseName'), "获取分销海报数据用例通过")
+        assert_equal(first_small_course_title, r['content']['courseName'], "获取分销海报数据用例通过")
 
 
 @pytest.mark.incremental
