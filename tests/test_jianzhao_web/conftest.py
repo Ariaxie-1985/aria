@@ -64,7 +64,7 @@ def login_web_k8s_143236_TL1(request):
 
 #有一个在线职位的账号
 @pytest.fixture(scope='session', params=[["bingoonchen@lagou.com", "990eb670f81e82f546cfaaae1587279a"]])
-def c_login_password(request):
+def my_login_password(request):
         login_password(request.param[0], request.param[1])
 
 

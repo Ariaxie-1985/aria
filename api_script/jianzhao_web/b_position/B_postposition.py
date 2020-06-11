@@ -82,6 +82,15 @@ def republish_position():
         'attachParam': ''
     }
     return form_post(url=url, headers=header, data=data, remark='重新发布')
+#账号：bingoonchen@lagou.com
+def republish_position():
+    url = 'https://easy.lagou.com/parentPosition/multiChannel/republishOfflinePosition.json'
+    header = get_code_token('https://easy.lagou.com/position/multiChannel/myOfflinePositions.htm')
+    data = {
+        'parentPositionId': '7611505',
+        'attachParam': ''
+    }
+    return form_post(url=url, headers=header, data=data, remark='重新发布')
 
 
 def update_position():
