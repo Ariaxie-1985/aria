@@ -83,6 +83,7 @@ def republish_position():
     }
     return form_post(url=url, headers=header, data=data, remark='重新发布')
 
+
 def republish_position_pc(parentPositionId,attanchParam=None):
     url = 'https://easy.lagou.com/parentPosition/multiChannel/republishOfflinePosition.json'
     header = get_code_token('https://easy.lagou.com/position/multiChannel/myOfflinePositions.htm')
