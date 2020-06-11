@@ -706,7 +706,13 @@ def get_verify_code_message_len(countryCode, phone):
         return r['content']['totalCount']
     except:
         return -1
-
+#7.40.0之后获取木桶策略值,分AB策略
+def get_strategies_999():
+   url='https://gate.lagou.com/v1/neirong/janus/app/strategies?strategyKeys=MUTONG_PLAN_ONE'
+   header=app_header_999()
+   r =get_requests(url,headers=header,remark="获取木桶策略值")
+   strategy=r.get('content')[0]['value']
+   return strategy
 
 def app_header_999(userToken=None, DA=True, userId=None, app_type='zhaopin'):
     if app_type == 'zhaopin':
