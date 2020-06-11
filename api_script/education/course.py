@@ -26,3 +26,11 @@ def get_credit_center_info(userToken):
     header = app_header_999(userToken=userToken,DA=False)
     remark="学分中心"
     return get_requests(url=url,headers=header,remark=remark)
+
+
+def get_course_credit_info(userToken,courseId):
+    url = 'https://gate.lagou.com/v1/neirong/course/user_growth/getCourseCreditInfo?courseId={}'.format(courseId)
+    header = app_header_999(userToken=userToken,DA=False)
+    remark = "个人成就中心"
+    return get_requests(url=url,headers=header,remark=remark)
+
