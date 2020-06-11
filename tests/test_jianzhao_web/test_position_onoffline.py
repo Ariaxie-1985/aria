@@ -14,7 +14,7 @@ def test_offline_position(my_login_password):
     status = offline_position(positionid)
     assert_equal (1, status['state'], "职位下线成功",f"职位下线失败:{status.get('message')}" )
 
-def test_republic_position(my_login_password):
+def test_republic_position():
     #获取下线职位的parentPositionId
     res = my_offline_positions(1)
     parentPositionId = res.get('content').get('data').get('parentPositionVOs')[0].get('positions')[0].get('parentPositionId')
