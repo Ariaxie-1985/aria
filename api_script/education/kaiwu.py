@@ -2,7 +2,7 @@
 # @Time  : 2020/3/6 16:16
 # @Author: Xiawang
 # Description:
-from utils.util import get_edu_app_header, get_requests
+from utils.util import get_edu_app_header, get_requests, app_header_999
 
 
 def check_course_share_status(userToken, courseId):
@@ -30,3 +30,9 @@ def get_course_lessons(userToken, courseId):
     header = get_edu_app_header(userToken=userToken, DA=False)
     remark = "获取课程信息"
     return get_requests(url=url, headers=header, remark=remark)
+
+def ice_breaking_location():
+    url = 'https://gate.lagou.com/v1/neirong/kaiwu/iceBreakingLocation/info'
+    header = get_edu_app_header()
+    remark = "一元购入口"
+    return get_requests(url=url,headers=header,remark=remark)
