@@ -128,17 +128,17 @@ def c_login_education(request):
     return result['content']['userToken'], result['content']['userInfo']['userId']
 
 
-<<<<<<< HEAD
+
 @pytest.fixture(scope='function', params=[["0085219820080", "qqqqqq"]])
 def ice_breaking_edu(request):
     result = password_login(request.param[0], request.param[1], app_type='LGEdu')
     return result['content']['userToken'], result['content']['userInfo']['userId']
-=======
+
 @pytest.fixture(scope='session')
 def get_h5_token():
     result = getToken(userToken=test_usertoken[0])
     return result['content']['gateLoginToken']
->>>>>>> master
+
 
 
 # 2.当某用例失败后,接下来的依赖用例直接标记失败,不执行
