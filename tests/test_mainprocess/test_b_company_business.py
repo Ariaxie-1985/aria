@@ -187,7 +187,7 @@ class TestCompanyBusiness(object):
                                positionThirdType=get_positionType[2],
                                positionName=get_positionType[3])
         assert_equal(1, r.get('state', 0), '免费公司发布一个职位成功')
-        global free_positionId,free_parentPositionId
+        global free_positionId, free_parentPositionId
         free_positionId = r['content']['data']['parentPositionInfo']['positionChannelInfoList'][0]['positionId']
         free_parentPositionId = r['content']['data']['parentPositionInfo']['parentPositionId']
 
@@ -297,8 +297,8 @@ class TestCompanyBusiness(object):
 
     def test_republish_free_position(self):
         r1 = republish_position_pc(free_parentPositionId)
-        state = r1.get('state',0)
-        assert_equal(1,state,'验证普通职位再发布成功')
+        state = r1.get('state', 0)
+        assert_equal(1, state, '验证普通职位再发布成功')
 
     def test_offline_free_position02(self):
         offline_result = offline_position(positionId=free_positionId)
@@ -341,7 +341,7 @@ class TestCompanyBusiness(object):
         '''print(add_result)'''
         if add_state == 1:
             assert_not_in('errorCode', add_result, '添加同事为普通账号通过')
-    '''@pytest.mark.skip()'''
+
     def test_add_free_colleague_remove(self):
         remove_userid = add_result['userId']
         remove_state = remove_member_company(remove_userid)['state']
@@ -366,17 +366,16 @@ class TestCompanyBusiness(object):
             positionIds.append(actually_positionId)
         assert_equal(True, paid_positionId in positionIds, '校验获取发布的职位是否在线职位是否成功！')
 
-    def test_update_position(self,get_positionType):
+    def test_update_position(self, get_positionType):
         r = update_Position_pc(firstType=get_positionType[0], positionType=get_positionType[1],
                                positionThirdType=get_positionType[2],
-                               positionName=get_positionType[3],parentPositionId=paid_parentPositionId)
+                               positionName=get_positionType[3], parentPositionId=paid_parentPositionId)
         assert_equal(1, r.get('state', 0), '编辑职位成功')
 
     def test_update_positon_details(self):
         r = get_online_positions()
         salary = r['content']['data']['parentPositionVOs'][0]['parentPositionInfo']['salary']
-        assert_equal('30k-50k',salary,'验证职位薪资更新成功')
-
+        assert_equal('30k-50k', salary, '验证职位薪资更新成功')
 
     def test_offline_paid_position(self):
         offline_result = offline_position(positionId=paid_positionId)
@@ -384,13 +383,13 @@ class TestCompanyBusiness(object):
 
     def test_republish_paid_position(self):
         r1 = republish_position_pc(paid_parentPositionId)
-        state = r1.get('state',0)
+        state = r1.get('state', 0)
         if state == 800:
             attachParam = r1['content']['data']['popUpTipsInfoVO']['buttons'][0]['attachParam']
-            r2 = republish_position_pc(free_parentPositionId,attachParam)
-            assert_equal(1,r2.get('state',0),'非普通职位再发布成功')
+            r2 = republish_position_pc(free_parentPositionId, attachParam)
+            assert_equal(1, r2.get('state', 0), '非普通职位再发布成功')
         else:
-            assert_equal(1,state,'验证普通职位再发布成功')
+            assert_equal(1, state, '验证普通职位再发布成功')
 
     def test_offline_paid_position02(self):
         offline_result = offline_position(positionId=paid_positionId)
