@@ -129,7 +129,7 @@ def c_login_education(request):
     return result['content']['userToken'], result['content']['userInfo']['userId']
 
 
-@pytest.fixture(scope='function', params=[["0085219820080", "qqqqqq"]])
+@pytest.fixture(scope='session', params=[["0085219820080", "qqqqqq"]])
 def ice_breaking_edu(request):
     result = password_login(request.param[0], request.param[1], app_type='LGEdu')
     test_usertoken1.append(result['content']['userToken'])
