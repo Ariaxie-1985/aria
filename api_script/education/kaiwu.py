@@ -36,3 +36,10 @@ def ice_breaking_location():
     header = get_edu_app_header()
     remark = "一元购入口"
     return get_requests(url=url,headers=header,remark=remark)
+
+def ice_breaking_html(userToken):
+    url = 'https://gate.lagou.com/v1/neirong/kaiwu//icebreaking/main.htm?lagoufrom=android&appVersion=1.2.5\
+    &appType=LGEdu&checkCode=52c6db50-ea4b-415f-91ac-301b5adf35d7&verify=d4a265b32c7897f257ed4e66892da52a'
+    header = get_edu_app_header(userToken=userToken)
+    remark = '获取1元购页面'
+    return get_requests(url=url, headers=header, remark=remark)

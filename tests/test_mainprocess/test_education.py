@@ -8,8 +8,9 @@ from api_script.education.app import get_homepage_cards, get_all_course_purchase
 from api_script.education.bigcourse import get_course_info, get_course_outline, get_week_lessons, get_watch_percent
 from api_script.education.course import get_course_commentList,get_credit_center_info
 from api_script.education.kaiwu import get_course_description, get_distribution_info, check_course_share_status, \
-    get_course_lessons, ice_breaking_location
-from utils.util import assert_equal
+    get_course_lessons, ice_breaking_location, ice_breaking_html
+from tests.test_mainprocess.conftest import ice_breaking_edu
+from utils.util import assert_equal, assert_in
 
 
 @pytest.mark.incremental
@@ -84,3 +85,7 @@ def test_get_credit_center_info(c_login_education):
 def test_ice_breaking_location():
     r = ice_breaking_location()
     assert_equal("限时1元抢>", r['content']['text'], "显示1元购入口")
+
+def test_ice_breaking_html(ice_breaking_edu):
+    r = ice_breaking_html(userToken=ice_breaking_edu[0])
+    assert_in("拉勾教育·1元抢好课" , r, "进入到1元购的界面")

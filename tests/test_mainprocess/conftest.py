@@ -124,6 +124,12 @@ def c_login_education(request):
     return result['content']['userToken'], result['content']['userInfo']['userId']
 
 
+@pytest.fixture(scope='function', params=[["0085219820080", "qqqqqq"]])
+def ice_breaking_edu(request):
+    result = password_login(request.param[0], request.param[1], app_type='LGEdu')
+    return result['content']['userToken'], result['content']['userInfo']['userId']
+
+
 # 2.当某用例失败后,接下来的依赖用例直接标记失败,不执行
 # 用 pytest_configure(), pytest_runtest_setup(), pytest_runtest_makereport()三个函数共同合作的
 def pytest_runtest_makereport(item, call):
