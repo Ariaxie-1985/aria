@@ -6,15 +6,17 @@ import pytest
 
 from api_script.education.app import get_homepage_cards, get_all_course_purchased_record
 from api_script.education.bigcourse import get_course_info, get_course_outline, get_week_lessons, get_watch_percent
-from api_script.education.course import get_course_commentList, get_distribution_poster_data, get_credit_center_info,get_distribution_course_list,get_my_earing,get_user_earnings_detail
-from api_script.education.course import get_course_commentList,get_credit_center_info,get_course_credit_info
-from api_script.education.course import get_course_commentList, get_distribution_poster_data, get_credit_center_info,get_distribution_course_list,get_my_earing,get_user_earnings_detail,get_wei_xin_user
-from api_script.education.kaiwu import get_course_description, get_distribution_info, check_course_share_status, get_course_lessons, ice_breaking_location, ice_breaking_html
+from api_script.education.course import get_course_commentList, get_distribution_poster_data, get_credit_center_info, \
+    get_distribution_course_list, get_my_earing, get_user_earnings_detail
+from api_script.education.course import get_course_commentList, get_credit_center_info, get_course_credit_info
+from api_script.education.course import get_course_commentList, get_distribution_poster_data, get_credit_center_info, \
+    get_distribution_course_list, get_my_earing, get_user_earnings_detail, get_wei_xin_user
+from api_script.education.kaiwu import get_course_description, get_distribution_info, check_course_share_status, \
+    get_course_lessons, ice_breaking_location, ice_breaking_html, get_kaiwu_index
 from tests.test_mainprocess.conftest import ice_breaking_edu
 from utils.util import assert_equal, assert_in
 
-from utils.util import assert_equal,assert_in
-
+from utils.util import assert_equal, assert_in
 
 
 @pytest.mark.incremental
@@ -57,7 +59,7 @@ class TestEducation01(object):
 
     def test_get_distribution_poster_data(self, get_h5_token):
         r = get_distribution_poster_data(courseId=first_small_course_id, decorateId=decorate_id,
-                                      gateLoginToken=get_h5_token)
+                                         gateLoginToken=get_h5_token)
         assert_equal(first_small_course_title, r['content']['courseName'], "获取分销海报数据用例通过")
 
 
@@ -91,14 +93,14 @@ class TestEducation02(object):
 
 def test_get_credit_center_info(c_login_education):
     r = get_credit_center_info(userToken=c_login_education[0])
-    assert_equal(1,bool(len(r.get('content').get('userGrowthCreditTaskVos'))),"学分中心任务列表")
+    assert_equal(1, bool(len(r.get('content').get('userGrowthCreditTaskVos'))), "学分中心任务列表")
 
 
 def test_get_course_credit_info(c_login_education):
     x = TestEducation02()
     x.test_get_all_course_purchased_record(c_login_education)
-    r = get_course_credit_info(userToken=c_login_education[0],courseId=small_course_record_id)
-    assert_equal(1,bool(len(r.get('content').get('userGrowthCreditTaskVos'))),"个人成就的任务列表")
+    r = get_course_credit_info(userToken=c_login_education[0], courseId=small_course_record_id)
+    assert_equal(1, bool(len(r.get('content').get('userGrowthCreditTaskVos'))), "个人成就的任务列表")
 
 
 def test_ice_breaking_location():
@@ -106,23 +108,26 @@ def test_ice_breaking_location():
     assert_equal("限时1元抢>", r['content']['text'], "显示1元购入口")
 
 
-def test_ice_breaking_html(ice_breaking_edu,get_h5_token1):
+def test_ice_breaking_html(ice_breaking_edu, get_h5_token1):
     r = ice_breaking_html(gateLoginToken=get_h5_token1)
-    assert_in("拉勾教育·1元抢好课" , r, "进入到1元购的界面")
+    assert_in("拉勾教育·1元抢好课", r, "进入到1元购的界面")
+
 
 def test_get_distribution_course_list(get_h5_token):
     r = get_distribution_course_list(gateLoginToken=get_h5_token)
     assert_equal(1, bool(r.get('content').get('distributionCourseList')), "获取分销列表用例通过")
 
+
 def test_get_my_earing(get_h5_token):
     r = get_my_earing(gateLoginToken=get_h5_token)
     assert_equal(1, bool(r['content']['availableEarning']), "获取我的收益用例通过")
+
 
 def test_get_user_earnings_detail(get_h5_token):
     r = get_user_earnings_detail(gateLoginToken=get_h5_token)
     assert_equal(1, bool(r['content']['unavailableEarning']), "获取收益详情用例通过")
 
+
 def test_get_wei_xin_user(get_h5_token):
     r = get_wei_xin_user(gateLoginToken=get_h5_token)
     assert_equal(1, bool(r['content']['hasBind']), "获取微信用户信息用例通过")
-
