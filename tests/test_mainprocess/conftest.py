@@ -11,11 +11,7 @@ from api_script.jianzhao_web.index import dashboard_index_get_user_id
 from backend.common.get_data import get_www_company_id
 from faker import Faker
 from api_script.jianzhao_web.b_basic.toB_saveHR_1 import get_b_person_userId, get_b_index_Id
-<<<<<<< HEAD
 from utils.util import login_password, get_requests
-=======
-from utils.util import login_password
->>>>>>> master
 
 fake = Faker("zh_CN")
 
