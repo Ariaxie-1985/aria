@@ -5,12 +5,18 @@
 import time
 import pytest
 
+from api_script.education.account import getToken
 from api_script.entry.account.passport import password_login
 from api_script.jianzhao_web.index import dashboard_index_get_user_id
 from backend.common.get_data import get_www_company_id
 from faker import Faker
 from api_script.jianzhao_web.b_basic.toB_saveHR_1 import get_b_person_userId, get_b_index_Id
+<<<<<<< HEAD
 from utils.util import login_password, get_requests
+=======
+from utils.util import login_password
+
+>>>>>>> master
 
 fake = Faker("zh_CN")
 
@@ -29,9 +35,11 @@ fake = Faker("zh_CN")
 1.4.session:当前目录下多个.py文件共享同一个fixture
     
 '''
+
 # 主流程测试产生的测试账号
 test_telephone = []
 test_company_name = []
+<<<<<<< HEAD
 @pytest.fixture(scope="session")
 def enterprise_login():
     login_password('13252477137', '990eb670f81e82f546cfaaae1587279a')
@@ -39,6 +47,10 @@ def enterprise_login():
     get_requests(url, headers={'referer': 'https://kaiwu.lagou.com/enterprise/index.html'})
     search_referer_url = 'https://kaiwu.lagou.com/enterprise/index.html'
     get_requests(search_referer_url)
+=======
+test_usertoken = []
+
+>>>>>>> master
 
 @pytest.fixture(scope='session')
 def get_company_name():
@@ -103,7 +115,6 @@ def b_login_app(request):
     result = password_login(request.param[0], request.param[1])
     return result['content']['userToken'], result['content']['userInfo']['userId']
 
-
 @pytest.fixture(scope='session', params=[["0085220180917", "0085220180917"]])
 def c_login_app(request):
     result = password_login(request.param[0], request.param[1])
@@ -117,10 +128,24 @@ def c_userId_0085220180917():
     return userId
 
 
-@pytest.fixture(scope='session', params=[["0085320200306", "qqqqqq"]])
+@pytest.fixture()
+def get_add_colleague_user():
+    phone = 13683326352
+    '''phone = '17620060403'''
+    return phone
+
+
+@pytest.fixture(scope='session', params=[["18810769854", "aaaaaa"]])
 def c_login_education(request):
-    result = password_login(request.param[0], request.param[1])
+    result = password_login(request.param[0], request.param[1], app_type='LGEdu')
+    test_usertoken.append(result['content']['userToken'])
     return result['content']['userToken'], result['content']['userInfo']['userId']
+
+
+@pytest.fixture(scope='session')
+def get_h5_token():
+    result = getToken(userToken=test_usertoken[0])
+    return result['content']['gateLoginToken']
 
 
 # 2.当某用例失败后,接下来的依赖用例直接标记失败,不执行

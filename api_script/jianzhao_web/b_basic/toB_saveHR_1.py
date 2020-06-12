@@ -27,7 +27,7 @@ def b_register(phone, countryCode):
 def saveHR(companyFullName, userName, resumeReceiveEmail, userPosition='HR'):
     step1_url = 'https://hr.lagou.com/corpCenter/openservice/step1.html'
     saveHR_url = "https://hr.lagou.com/corpCenter/openservice/saveHR.json"
-    saveHR_data = {"userAvatar": "i/audio1/M00/01/C5/CgHIk1wQwXuAAz2hAAB1mvl2DME233.JPG", "userName": userName,
+    saveHR_data = {"userAvatar": "i/image/M00/1D/9B/CgqCHl7iFKuAdRWmAADtZK4uNm0834.jpg", "userName": userName,
                    "userPosition": userPosition, "companyFullName": companyFullName,
                    "resumeReceiveEmail": resumeReceiveEmail}
     saveHR_header = get_code_token(step1_url)
@@ -187,6 +187,15 @@ def get_b_index_Id(ip_port=None):
     UserCompanyId = soup.find(id="UserCompanyId")['value']
     lg_CompanyId = re.findall('lgId: "(.*?)"', r, re.S)[0]
     return userId, UserCompanyId, lg_CompanyId
+
+
+#公司成員頁面移出公司操作
+def remove_member_company(removeUserId):
+    url = 'https://easy.lagou.com/member/removeMember.json'
+    header = get_code_token(url='https://easy.lagou.com/member/all_members.htm')
+    data = { 'removedUserId': removeUserId}
+    r = form_post(url=url,headers=header,data=data,remark='公司成員移出公司')
+    return r
 
 
 def remove_member(verity_userId):

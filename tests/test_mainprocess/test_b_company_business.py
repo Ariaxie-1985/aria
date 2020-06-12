@@ -1,21 +1,25 @@
 import datetime
+
+import json
 import logging
+
 import random
 import time
 import pytest
 
 from api_script.business.new_lagouPlus import open_product
-from api_script.entry.cuser.baseStatus import batchCancel
-from api_script.home import forbid
+
+from api_script.business.sub_account import addColleague
+
 from api_script.home.audit import query_risk_labels, add_risk_labels_by_company, queryRiskLabelsByCompany
 from api_script.home.data_import import import_linkManInfo, import_contacts
 from api_script.jianzhao_web.b_basic.company import jump_html
 from api_script.jianzhao_web.b_basic.toB_comleteInfo_3 import completeInfo, company_auth
 from api_script.jianzhao_web.b_basic.toB_saveHR_1 import saveHR, saveCompany, \
-    submit_new, add_saveCompany, remove_member, close_trial_package
+    submit_new, add_saveCompany, remove_member, close_trial_package, remove_member_company
 from api_script.jianzhao_web.b_basic.b_upload import upload_permit
 from api_script.jianzhao_web.b_position.B_postposition import createPosition_999, get_online_positions, \
-    www_redirect_easy, offline_position
+    www_redirect_easy, offline_position, update_Position_pc, republish_position_pc
 from api_script.jianzhao_web.im import im_session_list, greeting_list, multiChannel_default_invite, \
     session_batchCreate_cUserIds
 from api_script.jianzhao_web.index import hr_jump_easy_index_html, jump_easy_index_html
@@ -27,9 +31,8 @@ from api_script.zhaopin_app.rights import get_rights_info_list
 from api_script.zhaopin_app.shop import get_shop_goods_on_sale_goods, get_shop_goods_sell_goods, create_shop_goodsOrder, \
     pay_shop_goodsOrder, check_shop_goodsOrder
 from utils.loggers import logers
-from utils.read_file import record_cancel_account, record_test_data
 from utils.util import assert_equal, pc_send_register_verifyCode, verify_code_message, user_register_lagou, \
-    login_password, assert_in, login_home
+    login_password, assert_in, login_home, assert_not_in, login
 
 loger = logers()
 
@@ -184,8 +187,9 @@ class TestCompanyBusiness(object):
                                positionThirdType=get_positionType[2],
                                positionName=get_positionType[3])
         assert_equal(1, r.get('state', 0), '免费公司发布一个职位成功')
-        global free_positionId
+        global free_positionId,free_parentPositionId
         free_positionId = r['content']['data']['parentPositionInfo']['positionChannelInfoList'][0]['positionId']
+        free_parentPositionId = r['content']['data']['parentPositionInfo']['parentPositionId']
 
     def test_free_position_is_in_online_position(self):
         positions_result = get_online_positions()
@@ -287,6 +291,19 @@ class TestCompanyBusiness(object):
             assert_equal(self.im_chat_number_gray_scale, r['content']['data']['remainConversationTimes'],
                          f'处于灰度计划的沟通点数计算{self.im_chat_number_gray_scale}用例通过')
 
+    def test_offline_free_position(self):
+        offline_result = offline_position(positionId=free_positionId)
+        assert_equal(1, offline_result.get('state', 0), '校验下线免费职位是否成功！')
+
+    def test_republish_free_position(self):
+        r1 = republish_position_pc(free_parentPositionId)
+        state = r1.get('state',0)
+        assert_equal(1,state,'验证普通职位再发布成功')
+
+    def test_offline_free_position02(self):
+        offline_result = offline_position(positionId=free_positionId)
+        assert_equal(1, offline_result.get('state', 0), '验证再发布成功的职位再次下线成功')
+
     def test_login_home(self):
         # 线上home后台的用户账号和密码, 勿动
         r = login_password('betty@lagou.com', '00f453dfec0f2806db5cfabe3ea94a35')
@@ -312,13 +329,31 @@ class TestCompanyBusiness(object):
         assert_equal(1, login_result.get('state', 0), '校验管理员登录是否成功')
         www_redirect_easy()
 
+    # 添加同事为普通账号,并且添加成功后进行移除
+    def test_add_free_colleague(self, get_add_colleague_user):
+        add_managerId = admin_user_id
+        '''add_managerId = '100025876'''
+        add_phone = get_add_colleague_user
+        r = addColleague(add_phone, add_managerId)
+        add_state = r['state']
+        add_result = r['content']['data']['info']
+        '''print(add_result)'''
+        if add_state == 1:
+            assert_not_in('errorCode', add_result, '添加同事为普通账号通过')
+            remove_userid = r['content']['data']['info']['userId']
+            remove_state = remove_member_company(remove_userid)['state']
+            '''print(remove_state)'''
+            assert_equal(1, remove_state, '移除添加的普通账号通过')
+
     def test_paid_company_create_position_person_and_company_enough_equity(self, get_positionType):
         r = createPosition_999(firstType=get_positionType[0], positionType=get_positionType[1],
                                positionThirdType=get_positionType[2],
                                positionName=get_positionType[3])
         assert_equal(1, r.get('state', 0), '付费公司发布职位成功')
         global paid_positionId
+        global paid_parentPositionId
         paid_positionId = r['content']['data']['parentPositionInfo']['positionChannelInfoList'][0]['positionId']
+        paid_parentPositionId = r['content']['data']['parentPositionInfo']['parentPositionId']
 
     def test_paid_position_is_in_online_position(self):
         positions_result = get_online_positions()
@@ -328,13 +363,35 @@ class TestCompanyBusiness(object):
             positionIds.append(actually_positionId)
         assert_equal(True, paid_positionId in positionIds, '校验获取发布的职位是否在线职位是否成功！')
 
-    def test_offline_free_position(self):
-        offline_result = offline_position(positionId=free_positionId)
-        assert_equal(1, offline_result.get('state', 0), '校验下线免费职位是否成功！')
+    def test_update_position(self,get_positionType):
+        r = update_Position_pc(firstType=get_positionType[0], positionType=get_positionType[1],
+                               positionThirdType=get_positionType[2],
+                               positionName=get_positionType[3],parentPositionId=paid_parentPositionId)
+        assert_equal(1, r.get('state', 0), '编辑职位成功')
+
+    def test_update_positon_details(self):
+        r = get_online_positions()
+        salary = r['content']['data']['parentPositionVOs'][0]['parentPositionInfo']['salary']
+        assert_equal('30k-50k',salary,'验证职位薪资更新成功')
+
 
     def test_offline_paid_position(self):
         offline_result = offline_position(positionId=paid_positionId)
         assert_equal(1, offline_result.get('state', 0), '校验下线付费职位是否成功！')
+
+    def test_republish_paid_position(self):
+        r1 = republish_position_pc(paid_parentPositionId)
+        state = r1.get('state',0)
+        if state == 800:
+            attachParam = r1['content']['data']['popUpTipsInfoVO']['buttons'][0]['attachParam']
+            r2 = republish_position_pc(free_parentPositionId,attachParam)
+            assert_equal(1,r2.get('state',0),'非普通职位再发布成功')
+        else:
+            assert_equal(1,state,'验证普通职位再发布成功')
+
+    def test_offline_paid_position02(self):
+        offline_result = offline_position(positionId=paid_positionId)
+        assert_equal(1, offline_result.get('state', 0), '验证再发布成功的职位再次下线成功！')
 
     def test_jump_home(self):
         time.sleep(1)
@@ -412,7 +469,7 @@ class TestCompanyBusiness(object):
         r = get_rights_info_list()
         for base_good in r['content']['baseDetailResList']:
             if base_good['baseGoodsId'] == 623:
-                assert_equal(0, int(base_good['totalNum']), '验证免费账号的普通职位数为0用例通过')
+                assert_equal(0, int(base_good['totalNum']), '验证特殊行业（一类）公司免费账号的普通职位数为0用例通过')
 
     def test_general_user_1_im_session_list_check_15(self):
         r = im_session_list(createBy=0)
