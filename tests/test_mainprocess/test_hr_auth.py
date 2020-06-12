@@ -38,8 +38,9 @@ class TestHRAuth(object):
         register_state = register.get('state', 0)
         assert_equal(1, register_state, '校验hr1注册成功', '失败手机号:{}'.format(hr1_countryCode + hr1_phone))
 
-    def test_save_general_hr1_info(self):
-        personal_info_save = saveHR('拉勾测试自动化公司00911111111111', hr1_user_name, 'foxtang01@lagou.com', '测试工程师')
+    @pytest.mark.parametrize('companyFullName,resumeReceiveEmail,userPosition',[('拉勾测试自动化公司00911111111111','foxtang01@lagou.com','测试工程师')])
+    def test_save_general_hr1_info(self,companyFullName,resumeReceiveEmail,userPosition):
+        personal_info_save = saveHR(companyFullName, hr1_user_name, resumeReceiveEmail, userPosition)
         assert_equal(1, personal_info_save.get('state', 0), '校验hr基本信息是否保存成功')
 
     def test_general_user_1_join_company(self):
