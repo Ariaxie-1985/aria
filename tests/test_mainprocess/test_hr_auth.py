@@ -10,7 +10,8 @@ import json
 
 from api_script.jianzhao_web.b_basic.b_upload import upload_incumbency_certification
 from api_script.jianzhao_web.b_basic.toB_saveHR_1 import saveHR, add_saveCompany, submit_new
-from api_script.jianzhao_web.b_position.B_postposition import createPosition_999, get_online_positions
+from api_script.jianzhao_web.b_position.B_postposition import createPosition_999, get_online_positions, offline_position
+from api_script.jianzhao_web.talent.unauth_positon_talent_rec import talent_rec_unAuth
 
 from utils.loggers import logers
 from utils.util import assert_equal, assert_in, pc_send_register_verifyCode, verify_code_message, user_register_lagou
@@ -47,13 +48,20 @@ class TestHRAuth(object):
         join_company = add_saveCompany()
         assert_equal(1, join_company.get('state', 0), '验证加入公司是否成功')
 
-    def test_unAuthhr_create_position(self, get_positionType):
+    def createPosition_999(self, get_positionType):
         r = createPosition_999(firstType=get_positionType[0], positionType=get_positionType[1],
                                positionThirdType=get_positionType[2],
                                positionName=get_positionType[3])
         assert_equal(1, r.get('state', 0), '验证未过审hr1发布职位成功')
         global unAuth_positionId
         unAuth_positionId = r['content']['data']['parentPositionInfo']['positionChannelInfoList'][0]['positionId']
+
+    def test_unAuth_position_rec(self):
+        r = talent_rec_unAuth(unAuth_positionId)
+        # 发布非“拉勾测试”开头的职位虽然会有人才推出，但人才推荐次数有限制
+        # 为避免将好人才推荐次数耗尽，此处不发布真实有推荐的职位，只发布拉勾测试职位校验接口请求成功
+        # assert_equal(True,bool(len(r['content']['result'])),'验证未认证发布职位后有简历推荐')
+        assert_equal(1,r.get('state',0),'验证未过审职位请求')
 
     def test_hr1_upload_incumbency_certification(self):
         r = upload_incumbency_certification()
@@ -70,6 +78,10 @@ class TestHRAuth(object):
             actually_positionId = positions['positions'][0]['positionId']
             positionIds.append(actually_positionId)
         assert_equal(True, unAuth_positionId in positionIds, '验证过审前发的职位过审后在线')
+
+    def test_offline_hr1_position(self):
+        offline_result = offline_position(positionId=unAuth_positionId)
+        assert_equal(1, offline_result.get('state', 0), '验证再发布成功的职位再次下线成功！')
 
 
 
