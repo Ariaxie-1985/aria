@@ -10,6 +10,7 @@ from api_script.jianzhao_web.index import dashboard_index_get_user_id
 from backend.common.get_data import get_www_company_id
 from faker import Faker
 from api_script.jianzhao_web.b_basic.toB_saveHR_1 import get_b_person_userId, get_b_index_Id
+from utils.util import login_password, get_requests
 
 fake = Faker("zh_CN")
 
@@ -31,7 +32,13 @@ fake = Faker("zh_CN")
 # 主流程测试产生的测试账号
 test_telephone = []
 test_company_name = []
-
+@pytest.fixture(scope="session")
+def enterprise_login():
+    login_password('13252477137', '990eb670f81e82f546cfaaae1587279a')
+    url = 'https://passport.lagou.com/ajaxLogin/frameGrant.html?fl=2&service=https%3A%2F%2Fkaiwu.lagou.com%2Fenterprise%2Findex.html%23%2Findex&osc=PASSPORT._pscb(1)&ofc=PASSPORT._pfcb(1)&pfurl=https%3A%2F%2Fkaiwu.lagou.com%2Fenterprise%2Findex.html%23%2Findex'
+    get_requests(url, headers={'referer': 'https://kaiwu.lagou.com/enterprise/index.html'})
+    search_referer_url = 'https://kaiwu.lagou.com/enterprise/index.html'
+    get_requests(search_referer_url)
 
 @pytest.fixture(scope='session')
 def get_company_name():

@@ -261,7 +261,6 @@ def is_json_response(response):
         return True
     return False
 
-
 # get请求---获取header
 def get_header(url, headers={}, allow_redirects=True, ip_port=None):
     headers = {**header, **headers}
