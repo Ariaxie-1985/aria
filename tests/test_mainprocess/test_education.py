@@ -6,6 +6,8 @@ import pytest
 
 from api_script.education.app import get_homepage_cards, get_all_course_purchased_record
 from api_script.education.bigcourse import get_course_info, get_course_outline, get_week_lessons, get_watch_percent
+from api_script.education.course import get_course_commentList, get_distribution_poster_data, get_credit_center_info,get_distribution_course_list,get_my_earing,get_user_earnings_detail
+from api_script.education.course import get_course_commentList,get_credit_center_info,get_course_credit_info
 from api_script.education.course import get_course_commentList, get_distribution_poster_data, get_credit_center_info,get_distribution_course_list,get_my_earing,get_user_earnings_detail,get_wei_xin_user
 from api_script.education.kaiwu import get_course_description, get_distribution_info, check_course_share_status, \
     get_course_lessons, ice_breaking_location
@@ -86,7 +88,14 @@ class TestEducation02(object):
 
 def test_get_credit_center_info(c_login_education):
     r = get_credit_center_info(userToken=c_login_education[0])
-    assert_equal(1, bool(len(r.get('content').get('userGrowthCreditTaskVos'))), "学分中心任务列表")
+    assert_equal(1,bool(len(r.get('content').get('userGrowthCreditTaskVos'))),"学分中心任务列表")
+
+
+def test_get_course_credit_info(c_login_education):
+    x = TestEducation02()
+    x.test_get_all_course_purchased_record(c_login_education)
+    r = get_course_credit_info(userToken=c_login_education[0],courseId=small_course_record_id)
+    assert_equal(1,bool(len(r.get('content').get('userGrowthCreditTaskVos'))),"个人成就的任务列表")
 
 
 def test_ice_breaking_location():
