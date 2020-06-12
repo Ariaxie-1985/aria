@@ -41,7 +41,6 @@ loger = logers()
 class TestCompanyBusiness(object):
     im_chat_number = 15
     im_chat_number_gray_scale = 50
-
     def test_send_register_admin_verify_code(self, get_country_code_phone_user):
         global admin_countryCode, admin_phone, admin_user_name, register_state
         admin_countryCode, admin_phone, admin_user_name = get_country_code_phone_user
