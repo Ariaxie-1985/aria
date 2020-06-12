@@ -27,7 +27,7 @@ def b_register(phone, countryCode):
 def saveHR(companyFullName, userName, resumeReceiveEmail, userPosition='HR'):
     step1_url = 'https://hr.lagou.com/corpCenter/openservice/step1.html'
     saveHR_url = "https://hr.lagou.com/corpCenter/openservice/saveHR.json"
-    saveHR_data = {"userAvatar": "i/audio1/M00/01/C5/CgHIk1wQwXuAAz2hAAB1mvl2DME233.JPG", "userName": userName,
+    saveHR_data = {"userAvatar": "i/image/M00/1D/9B/CgqCHl7iFKuAdRWmAADtZK4uNm0834.jpg", "userName": userName,
                    "userPosition": userPosition, "companyFullName": companyFullName,
                    "resumeReceiveEmail": resumeReceiveEmail}
     saveHR_header = get_code_token(step1_url)
