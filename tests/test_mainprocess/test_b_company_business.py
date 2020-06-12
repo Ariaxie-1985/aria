@@ -331,8 +331,9 @@ class TestCompanyBusiness(object):
 
     # 添加同事为普通账号,并且添加成功后进行移除
     def test_add_free_colleague(self, get_add_colleague_user):
+        global add_result
         add_managerId = admin_user_id
-        '''add_managerId = '100025876'''
+        '''add_managerId = '100025044'''
         add_phone = get_add_colleague_user
         r = addColleague(add_phone, add_managerId)
         add_state = r['state']
@@ -340,10 +341,12 @@ class TestCompanyBusiness(object):
         '''print(add_result)'''
         if add_state == 1:
             assert_not_in('errorCode', add_result, '添加同事为普通账号通过')
-            remove_userid = r['content']['data']['info']['userId']
-            remove_state = remove_member_company(remove_userid)['state']
-            '''print(remove_state)'''
-            assert_equal(1, remove_state, '移除添加的普通账号通过')
+    '''@pytest.mark.skip()'''
+    def test_add_free_colleague_remove(self):
+        remove_userid = add_result['userId']
+        remove_state = remove_member_company(remove_userid)['state']
+        '''print(remove_state)'''
+        assert_equal(1, remove_state, '移除添加的普通账号通过')
 
     def test_paid_company_create_position_person_and_company_enough_equity(self, get_positionType):
         r = createPosition_999(firstType=get_positionType[0], positionType=get_positionType[1],
