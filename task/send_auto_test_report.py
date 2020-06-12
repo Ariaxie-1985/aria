@@ -66,7 +66,7 @@ def send_feishu_report(module, pytest_result):
         else:
             name_template = ''
         content = "{}\n\n具体失败结果:\n{}\n请大家对线上问题保持敬畏之心！\n{}".format(summary_result, fail_results, name_template)
-        return send_feishu_bot(content=content)
+        return send_feishu_bot(module=module, content=content)
 
 
 def send_mail(module):
