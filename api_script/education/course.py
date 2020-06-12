@@ -65,3 +65,10 @@ def get_user_earnings_detail( gateLoginToken):
     header = {"Cookie":f"gate_login_token ={gateLoginToken};","X-L-REQ-HEADER": "{deviceType:1}"}
     remark = "获取收益详情"
     return get_requests(url=url, headers=header, remark=remark)
+
+
+def get_wei_xin_user( gateLoginToken):
+    url = 'https://gate.lagou.com/v1/neirong/course/distribution/getWeiXinUser'
+    header = {"Cookie":f"gate_login_token ={gateLoginToken};","X-L-REQ-HEADER": "{deviceType:1}"}
+    remark = "获取微信用户信息"
+    return get_requests(url=url, headers=header, remark=remark)
