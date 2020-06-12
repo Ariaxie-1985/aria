@@ -6,7 +6,7 @@ import pytest
 
 from api_script.education.app import get_homepage_cards, get_all_course_purchased_record
 from api_script.education.bigcourse import get_course_info, get_course_outline, get_week_lessons, get_watch_percent
-from api_script.education.course import get_course_commentList, get_distribution_poster_data, get_credit_center_info,get_distribution_course_list,get_my_earing,get_user_earnings_detail
+from api_script.education.course import get_course_commentList, get_distribution_poster_data, get_credit_center_info,get_distribution_course_list,get_my_earing,get_user_earnings_detail,get_wei_xin_user
 from api_script.education.kaiwu import get_course_description, get_distribution_info, check_course_share_status, \
     get_course_lessons, ice_breaking_location
 from utils.util import assert_equal,assert_in
@@ -53,7 +53,7 @@ class TestEducation01(object):
     def test_get_distribution_poster_data(self, get_h5_token):
         r = get_distribution_poster_data(courseId=first_small_course_id, decorateId=decorate_id,
                                       gateLoginToken=get_h5_token)
-        assert_equal(1, r.get('state'), "获取分销海报数据用例通过")
+        assert_equal(first_small_course_title, r['content']['courseName'], "获取分销海报数据用例通过")
 
 
 @pytest.mark.incremental
@@ -103,4 +103,8 @@ def test_get_my_earing(get_h5_token):
 
 def test_get_user_earnings_detail(get_h5_token):
     r = get_user_earnings_detail(gateLoginToken=get_h5_token)
-    assert_equal(1, bool(r['content']['unavailableEarning']), "获取收益详情")
+    assert_equal(1, bool(r['content']['unavailableEarning']), "获取收益详情用例通过")
+
+def test_get_wei_xin_user(get_h5_token):
+    r = get_wei_xin_user(gateLoginToken=get_h5_token)
+    assert_equal(1, bool(r['content']['hasBind']), "获取微信用户信息用例通过")
