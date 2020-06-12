@@ -54,7 +54,7 @@ class TestNotStudentHaveWorkRegister(object):
 
     def test_guideBasicInfo(self):
         global s
-        s=get_strategies_999(userToken='9bb6fe5ac8664d17bd38af909124c43ee9b92e213c6f105417c5811045c144fa')
+        s=get_strategies_999(userToken)
         r = guideBasicInfo(countryCode + phone, 2, userToken)
         if s=='A' or s=='B':
             r = guideBasicInfo(countryCode + phone, 2, userToken,s)

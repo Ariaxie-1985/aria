@@ -711,7 +711,7 @@ def get_verify_code_message_len(countryCode, phone):
 # 7.40.0之后获取木桶策略值,分AB策略
 def get_strategies_999(userToken):
     url = 'https://gate.lagou.com/v1/neirong/janus/app/strategies?strategyKeys=MUTONG_PLAN_ONE'
-    header = app_header_999(userToken=userToken)
+    header = app_header_999(DA=False,userToken=userToken)
     r = get_requests(url, headers=header, remark="获取木桶策略值")
     strategy = r.get('content')[0]['value']
     return strategy
