@@ -14,19 +14,21 @@ from api_script.home import forbid
 from api_script.neirong_app.resumes import guideBasicInfo, educationExperiences, personalCards, abilityLabels, \
     expectJob, workExperiences, set_basicInfo, delete_education_experiences, get_detail, delete_workExperiences
 from utils.read_file import record_test_data, record_cancel_account
-from utils.util import assert_equal, get_strategies_999,verify_code_message, login_password
+from utils.util import assert_equal, get_strategies_999, verify_code_message, login_password
 
 time.sleep(2)
-loger=logers()
+loger = logers()
+
 
 @pytest.mark.incremental
 class TestNotStudentHaveWorkRegister(object):
     def test_send_verify_code(self, get_country_code_phone_user):
         global countryCode, phone, register_state
         countryCode, phone, name = get_country_code_phone_user
-        r = send_verify_code(countryCode, phone, "PASSPORT_REGISTER",1)
+        r = send_verify_code(countryCode, phone, "PASSPORT_REGISTER", 1)
         register_state = r.get('state')
         assert_equal(1, register_state, '校验发送验证码成功', "失败的手机号:{}".format(phone))
+
     def test_get_verify_code(self):
         global verify_code
         verify_code = verify_code_message(countryCode, phone)
@@ -54,12 +56,12 @@ class TestNotStudentHaveWorkRegister(object):
 
     def test_guideBasicInfo(self):
         global s
-        s=get_strategies_999(userToken)
+        s = get_strategies_999(userToken)
         r = guideBasicInfo(countryCode + phone, 2, userToken)
-        if s=='A' or s=='B':
-            r = guideBasicInfo(countryCode + phone, 2, userToken,s)
-        assert_equal(1, r.get('state'), '校验提交基本信息成功，策略'+s)
-        loger.info('提交基本信息成功，策略'+s)
+        if s == 'A' or s == 'B':
+            r = guideBasicInfo(countryCode + phone, 2, userToken, s)
+        assert_equal(1, r.get('state'), '校验提交基本信息成功，策略' + s)
+        loger.info('提交基本信息成功，策略' + s)
 
     def test_educationExperiences(self):
         r = educationExperiences(userToken)
@@ -67,15 +69,15 @@ class TestNotStudentHaveWorkRegister(object):
 
     def test_workExperiences(self):
         r = workExperiences(userToken)
-        if s=='A':
-            r=workExperiences(userToken,s)
+        if s == 'A':
+            r = workExperiences(userToken, s)
         assert_equal(1, r.get('state'), '校验提交工作经历')
         loger.info('提交工作经历成功，策略' + s)
 
     def test_personalCards(self):
         r = personalCards(userToken)
-        if s=='A':
-            r=personalCards(userToken,s)
+        if s == 'A':
+            r = personalCards(userToken, s)
             assert_equal(1, r.get('state'), '校验跳过个人名片成功')
             loger.info('跳过个人名片成功，策略' + s)
         else:
@@ -85,5 +87,3 @@ class TestNotStudentHaveWorkRegister(object):
     def test_expectJob(self):
         r = expectJob(userToken)
         assert_equal(1, r.get('state'), '校验提交求职意向')
-
-
