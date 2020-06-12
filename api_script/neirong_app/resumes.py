@@ -20,7 +20,7 @@ def resumes_list(userToken, ip_port=None, userId=None):
     return form_post(url=url, headers=header, remark=remark, ip_port=ip_port)
 
 
-def guideBasicInfo(phone, userIdentity, userToken, joinWorkTime="2013.07", name=None):
+def guideBasicInfo(phone, userIdentity, userToken, joinWorkTime="2013.07", name=None,mutongStrategy=None):
     '''
 
     :param phone:
@@ -44,6 +44,11 @@ def guideBasicInfo(phone, userIdentity, userToken, joinWorkTime="2013.07", name=
         "sex": sex[random.randint(0, 1)],
         "name": name
     }
+    if mutongStrategy =='A':
+        data['headPic']= ""
+        data['birthday']='1990.05.05'
+    if mutongStrategy =='B':
+        data['headPic']= ""
     if userIdentity == 1:
         return json_post(url=url, data=data, headers=header, app=True, remark="提交类型为学生的基本信息")
     if joinWorkTime == '暂无工作经历':
@@ -72,11 +77,14 @@ def educationExperiences(userToken, **kwargs):
     return json_post(url=url, data=data, headers=header, remark="提交教育经历")
 
 
-def personalCards(userToken):
+def personalCards(userToken,mutongStrategy=None):
     url = 'https://gate.lagou.com/v1/neirong/personalCards/'
     data = {
         "selfDescription": "<p>虽然我是学生，但我很有冲劲，选我吧！</p>"
     }
+    if mutongStrategy=='A':
+        data["selfDescription"]=''
+        data['headPic']=''
     header = app_header_999(userToken, DA=False)
     return json_post(url=url, data=data, headers=header, remark="提交个人名片")
 
@@ -104,7 +112,7 @@ def expectJob(userToken):
     return json_post(url=url, data=data, headers=header, remark="提交求职意向")
 
 
-def workExperiences(userToken, **kwargs):
+def workExperiences(userToken,mutongStrategy=None, **kwargs):
     url = 'https://gate.lagou.com/v1/neirong/workExperiences/'
     startDate = kwargs.get('startDate', '2015.09')
     endDate = kwargs.get('endDate', '至今')
@@ -124,6 +132,12 @@ def workExperiences(userToken, **kwargs):
         "department": "用户价值部",
         "skillLabels": ["测试"]
     }
+    if mutongStrategy=='A':
+        del data['skillLabels']
+        data['isGuide']='1'
+        #data['workContent']=''
+        #调用附件上传接口并成功
+
     header = app_header_999(userToken, DA=False)
     return json_post(url=url, data=data, headers=header, remark="提交工作经历")
 
