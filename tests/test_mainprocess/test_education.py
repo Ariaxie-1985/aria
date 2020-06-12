@@ -12,7 +12,7 @@ from api_script.education.course import get_course_commentList, get_credit_cente
 from api_script.education.course import get_course_commentList, get_distribution_poster_data, get_credit_center_info, \
     get_distribution_course_list, get_my_earing, get_user_earnings_detail, get_wei_xin_user
 from api_script.education.kaiwu import get_course_description, get_distribution_info, check_course_share_status, \
-    get_course_lessons, ice_breaking_location, ice_breaking_html, get_kaiwu_index
+    get_course_lessons, ice_breaking_location, ice_breaking_html
 from tests.test_mainprocess.conftest import ice_breaking_edu
 from utils.util import assert_equal, assert_in
 
