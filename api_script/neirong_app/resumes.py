@@ -133,7 +133,8 @@ def workExperiences(userToken,mutongStrategy=None, **kwargs):
         "skillLabels": ["测试"]
     }
     if mutongStrategy=='A':
-        data['skillLabels']=[]
+        del data['skillLabels']
+        data['isGuide']='1'
         #data['workContent']=''
         #调用附件上传接口并成功
 
