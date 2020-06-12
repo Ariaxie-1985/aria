@@ -36,7 +36,7 @@ fake = Faker("zh_CN")
 test_telephone = []
 test_company_name = []
 test_usertoken = []
-
+test_usertoken1 = []
 
 @pytest.fixture(scope='session')
 def get_company_name():
@@ -132,6 +132,7 @@ def c_login_education(request):
 @pytest.fixture(scope='function', params=[["0085219820080", "qqqqqq"]])
 def ice_breaking_edu(request):
     result = password_login(request.param[0], request.param[1], app_type='LGEdu')
+    test_usertoken1.append(result['content']['userToken'])
     return result['content']['userToken'], result['content']['userInfo']['userId']
 
 @pytest.fixture(scope='session')
