@@ -121,7 +121,7 @@ def get_add_colleague_user():
     return phone
 
 
-@pytest.fixture(scope='session', params=[["18810769854", "aaaaaa"]])
+@pytest.fixture(scope='session', params=[["00552020022601", "aaaaaa"]])
 def c_login_education(request):
     result = password_login(request.param[0], request.param[1], app_type='LGEdu')
     test_usertoken.append(result['content']['userToken'])
