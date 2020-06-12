@@ -38,6 +38,15 @@ def get_credit_center_info(userToken):
     remark="学分中心"
     return get_requests(url=url,headers=header,remark=remark)
 
+
+def get_course_credit_info(userToken,courseId):
+    url = 'https://gate.lagou.com/v1/neirong/course/user_growth/getCourseCreditInfo?courseId={}'.format(courseId)
+    header = get_edu_app_header(userToken=userToken,DA=False)
+    remark = "个人成就中心"
+    return get_requests(url=url,headers=header,remark=remark)
+
+
+
 def get_distribution_course_list( gateLoginToken):
     url = 'https://gate.lagou.com/v1/neirong/course/distribution/getDistributionCourseList'
     header = {"Cookie":f"gate_login_token ={gateLoginToken};","X-L-REQ-HEADER": "{deviceType:1}"}
