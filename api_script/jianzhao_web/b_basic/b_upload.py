@@ -17,6 +17,20 @@ def upload_permit():
     remark = "上传营业执照"
     return json_post(url=verify_url, data=verify_data, headers=verify_header, remark=remark)
 
+def upload_incumbency_certification():
+    '''
+    招聘者提交认证-上传在职证明
+    提交审核记录到Home平台
+    :return:
+    '''
+    get_requests("https://hr.lagou.com/corpCenter/staff/index.html")
+    verify_url = "https://hr.lagou.com/corpCenter/staff/next/enterprise.json"
+    verify_data = {"fileUrl": "i/image2/M01/AF/EF/CgoB5l3mDqWAPbXyAACQ9vLCc5I534.png", "force": True,
+                   "authType":24}
+    verify_header = get_code_token("https://hr.lagou.com/corpCenter/staff/index.html")
+    remark = "上传在职证明"
+    return json_post(url=verify_url, data=verify_data, headers=verify_header, remark=remark)
+
 
 def upload_identity_card():
     pass
