@@ -11,12 +11,7 @@ from api_script.jianzhao_web.index import dashboard_index_get_user_id
 from backend.common.get_data import get_www_company_id
 from faker import Faker
 from api_script.jianzhao_web.b_basic.toB_saveHR_1 import get_b_person_userId, get_b_index_Id
-<<<<<<< HEAD
 from utils.util import login_password, get_requests
-=======
-from utils.util import login_password
-
->>>>>>> master
 
 fake = Faker("zh_CN")
 
@@ -39,7 +34,9 @@ fake = Faker("zh_CN")
 # 主流程测试产生的测试账号
 test_telephone = []
 test_company_name = []
-<<<<<<< HEAD
+test_usertoken = []
+
+
 @pytest.fixture(scope="session")
 def enterprise_login():
     login_password('13252477137', '990eb670f81e82f546cfaaae1587279a')
@@ -47,10 +44,7 @@ def enterprise_login():
     get_requests(url, headers={'referer': 'https://kaiwu.lagou.com/enterprise/index.html'})
     search_referer_url = 'https://kaiwu.lagou.com/enterprise/index.html'
     get_requests(search_referer_url)
-=======
-test_usertoken = []
 
->>>>>>> master
 
 @pytest.fixture(scope='session')
 def get_company_name():
@@ -114,6 +108,7 @@ def telephone():
 def b_login_app(request):
     result = password_login(request.param[0], request.param[1])
     return result['content']['userToken'], result['content']['userInfo']['userId']
+
 
 @pytest.fixture(scope='session', params=[["0085220180917", "0085220180917"]])
 def c_login_app(request):
