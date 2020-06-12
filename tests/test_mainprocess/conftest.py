@@ -13,7 +13,6 @@ from faker import Faker
 from api_script.jianzhao_web.b_basic.toB_saveHR_1 import get_b_person_userId, get_b_index_Id
 from utils.util import login_password
 
-
 fake = Faker("zh_CN")
 
 '''
@@ -36,6 +35,7 @@ fake = Faker("zh_CN")
 test_telephone = []
 test_company_name = []
 test_usertoken = []
+test_usertoken1 = []
 
 
 @pytest.fixture(scope='session')
@@ -101,6 +101,7 @@ def b_login_app(request):
     result = password_login(request.param[0], request.param[1])
     return result['content']['userToken'], result['content']['userInfo']['userId']
 
+
 @pytest.fixture(scope='session', params=[["0085220180917", "0085220180917"]])
 def c_login_app(request):
     result = password_login(request.param[0], request.param[1])
@@ -126,6 +127,19 @@ def c_login_education(request):
     result = password_login(request.param[0], request.param[1], app_type='LGEdu')
     test_usertoken.append(result['content']['userToken'])
     return result['content']['userToken'], result['content']['userInfo']['userId']
+
+
+@pytest.fixture(scope='session', params=[["0085219820080", "qqqqqq"]])
+def ice_breaking_edu(request):
+    result = password_login(request.param[0], request.param[1], app_type='LGEdu')
+    test_usertoken1.append(result['content']['userToken'])
+    return result['content']['userToken'], result['content']['userInfo']['userId']
+
+
+@pytest.fixture(scope='session')
+def get_h5_token1():
+    result = getToken(userToken=test_usertoken1[0])
+    return result['content']['gateLoginToken']
 
 
 @pytest.fixture(scope='session')
