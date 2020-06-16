@@ -108,8 +108,8 @@ def test_ice_breaking_location():
     assert_equal("限时1元抢>", r['content']['text'], "显示1元购入口")
 
 
-def test_ice_breaking_html(ice_breaking_edu, get_h5_token1):
-    r = ice_breaking_html(gateLoginToken=get_h5_token1)
+def test_ice_breaking_html():
+    r = ice_breaking_html()
     assert_in("拉勾教育 6·18", r, "进入到1元购的界面")
 
 
