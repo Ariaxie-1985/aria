@@ -110,7 +110,7 @@ def test_ice_breaking_location():
 
 def test_ice_breaking_html(ice_breaking_edu, get_h5_token1):
     r = ice_breaking_html(gateLoginToken=get_h5_token1)
-    assert_in("拉勾教育·1元抢好课", r, "进入到1元购的界面")
+    assert_in("拉勾教育 6·18", r, "进入到1元购的界面")
 
 
 def test_get_distribution_course_list(get_h5_token):
