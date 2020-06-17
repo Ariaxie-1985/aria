@@ -22,4 +22,5 @@ backend/templates/
 *.log
 *.txt
 *.xls
+*.json
 .DS_Store
