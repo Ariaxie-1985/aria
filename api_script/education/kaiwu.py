@@ -40,10 +40,11 @@ def ice_breaking_location():
     return get_requests(url=url, headers=header, remark=remark)
 
 
-def ice_breaking_html(gateLoginToken):
+def ice_breaking_html():
     url = 'https://kwn2.lagou.com/icebreaking/main.htm?lagoufrom=android&appVersion=1.2.5&appType=LGEdu'
-    header = {'gate_login_token':f'{gateLoginToken}'}
-    remark = '获取1元购页面'
+    header = {}
+    remark = '获取1元购618活动页面'
     return get_requests(url=url, headers=header, remark=remark)
+
 
 
