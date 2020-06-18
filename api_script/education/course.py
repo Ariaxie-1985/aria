@@ -83,4 +83,11 @@ def receive_credit(userToken):
     return json_post(url=url, headers=header, remark=remarke, data=data)
 
 
-def exchange_present()
+def exchange_present(userToken):
+    data={
+        "presentId":2
+    }
+    url = 'https://gate.lagou.com/v1/neirong/course/user_growth/exchangePresent'
+    header = get_edu_app_header(userToken=userToken,DA=False)
+    remarke = '礼物兑换成功'
+    return json_post(url=url,headers=header,remark=remarke,data=data)

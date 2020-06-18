@@ -7,11 +7,13 @@ import pytest
 from api_script.education.app import get_homepage_cards, get_all_course_purchased_record
 from api_script.education.bigcourse import get_course_info, get_course_outline, get_week_lessons, get_watch_percent
 from api_script.education.course import get_course_commentList, get_distribution_poster_data, get_credit_center_info,get_distribution_course_list,get_my_earing,get_user_earnings_detail
-from api_script.education.course import get_course_commentList,get_credit_center_info,get_course_credit_info,receive_credit
+from api_script.education.course import get_course_commentList,get_credit_center_info,get_course_credit_info,receive_credit,exchange_present
 from api_script.education.course import get_course_commentList, get_distribution_poster_data, get_credit_center_info,get_distribution_course_list,get_my_earing,get_user_earnings_detail,get_wei_xin_user
 from api_script.education.kaiwu import get_course_description, get_distribution_info, check_course_share_status, \
     get_course_lessons, ice_breaking_location
 from utils.util import assert_equal,assert_in
+from api_script.neirong_app.app import get_user_base_info
+
 
 
 @pytest.mark.incremental
@@ -118,6 +120,19 @@ def test_get_wei_xin_user(get_h5_token):
     r = get_wei_xin_user(gateLoginToken=get_h5_token)
     assert_equal(1, bool(r['content']['hasBind']), "获取微信用户信息用例通过")
 
-def test_receive_credit(c_login_education):
+def test_exchange_present(c_login_education):
     r=receive_credit(userToken=c_login_education[0])
-    assert_equal(1,r['content'],"lingqu")
+    receive_success=r['content']
+    if receive_success==1:
+        change1=exchange_present(userToken=c_login_education[0])
+        assert_equal(1,change1.get('state'),"领取登录学分后，兑换成功")
+    elif receive_success=="null":
+        r=get_user_base_info(userToken=c_login_education[0])
+        courseCredit=r.get('content').get('courseCredit')
+        if courseCredit!=0:
+            change=exchange_present(userToken=c_login_education[0])
+            assert_equal(1,change.get('state'),"利用现有学分余额兑换成功")
+
+
+
+    #assert_equal(1,r['content'],"lingqu")
