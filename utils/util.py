@@ -125,7 +125,6 @@ def form_post(url, remark, data=None, files=None, headers={}, verifystate=True, 
         logging.error("该接口URL {} , 备注 {} 请求异常, 请检查接口服务并重试一次\n".format(url, remark))
         return {'content': '请求异常(requests捕获的异常)', 'url': url, 'remark': remark}
 
-
 # @pysnooper.snoop()
 def json_post(url, remark, data=None, headers={}, app=False, verifystate=True, ip_port=None):
     """
