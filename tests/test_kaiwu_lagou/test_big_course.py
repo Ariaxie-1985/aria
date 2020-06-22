@@ -53,8 +53,8 @@ def test_send_fei_shu_report():
     with open(report_path, 'a') as f:
         f.write(content)
 
-    # url = 'https://open.feishu.cn/open-apis/bot/hook/d96534525a0744ec9d228571730884b2'
-    url = 'https://open.feishu.cn/open-apis/bot/hook/882babeafa3e4f0b839d6ff41efa2b84'
+    url = 'https://open.feishu.cn/open-apis/bot/hook/d96534525a0744ec9d228571730884b2'
+    # url = 'https://open.feishu.cn/open-apis/bot/hook/882babeafa3e4f0b839d6ff41efa2b84'
     data = {
         "title": "页面性能报告",
         "text": content
