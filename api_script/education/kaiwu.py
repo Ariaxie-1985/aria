@@ -47,4 +47,3 @@ def ice_breaking_html():
     return get_requests(url=url, headers=header, remark=remark)
 
 
-

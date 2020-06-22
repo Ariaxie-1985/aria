@@ -5,7 +5,8 @@
 import pytest
 
 from api_script.education.app import get_homepage_cards, get_all_course_purchased_record
-from api_script.education.bigcourse import get_course_info, get_course_outline, get_week_lessons, get_watch_percent
+from api_script.education.bigcourse import get_course_info, get_course_outline, get_week_lessons, get_watch_percent, \
+    no_class_dacourse
 from api_script.education.course import get_course_commentList, get_distribution_poster_data, get_credit_center_info, \
     get_distribution_course_list, get_my_earing, get_user_earnings_detail
 from api_script.education.course import get_course_commentList, get_credit_center_info, get_course_credit_info
@@ -131,3 +132,7 @@ def test_get_user_earnings_detail(get_h5_token):
 def test_get_wei_xin_user(get_h5_token):
     r = get_wei_xin_user(gateLoginToken=get_h5_token)
     assert_equal(1, bool(r['content']['hasBind']), "获取微信用户信息用例通过")
+
+def test_dake_no_class(dake_no_class):
+    r = no_class_dacourse()
+    assert_equal("联系课程顾问加入班级",r['content']['allCoursePurchasedRecord'][0]['bigCourseRecordList'][0]['prepayTip'],"暂未进班")
