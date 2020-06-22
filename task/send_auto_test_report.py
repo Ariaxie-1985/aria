@@ -52,7 +52,7 @@ def send_feishu_report(module, pytest_result):
         names = ''
         for case_name, case_fail_result in pytest_result['data']['result']['info']['result']['fail_result'].items(
         ):
-            if 'name' in case_fail_result:
+            if case_fail_result['name'] != -1 and 'name' in case_fail_result:
                 names += case_fail_result['name'] + ','
                 fail_result = '用例{}报错:{},原因:{},负责人:{}\n\n'.format(
                     case_name, case_fail_result['error_type'], case_fail_result['log'], case_fail_result['name'])
