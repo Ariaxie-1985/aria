@@ -11,6 +11,7 @@ import requests
 report_info = {}
 
 
+@pytest.mark.flaky(reruns=2, reruns_delay=10)
 @pytest.mark.parametrize('url',
                          [('https://kaiwu.lagou.com/java_basic.html'),
                           ('https://kaiwu.lagou.com/java_architect.html'),
@@ -19,16 +20,17 @@ report_info = {}
                           ('https://kaiwu.lagou.com/test_engineer.html')
                           ])
 def test_big_course(url):
+    global report_info, report_path
     report_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'testdata/report.json')
     # cmd_str = f'lighthouse {url} --chrome-flags="--incognito --headless" --only-categories=performance --locale=zh --emulated-form-factor=desktop --throttling-method=provided --output=json --output-path={report_path} --save-assets --quiet'
-    lighthouse_path = 'node software/node-v12.18.0-linux-x64/lib/node_modules/lighthouse/lighthouse-cli'
-    cmd_str = f'{lighthouse_path} {url} --chrome-flags="--incognito --headless" --only-categories=performance --locale=zh --emulated-form-factor=desktop --throttling-method=provided --output=json --output-path={report_path} --save-assets --disable-storage-reset --quiet'
+    lighthouse_path = 'node /home/test/software/node-v12.18.0-linux-x64/lib/node_modules/lighthouse/lighthouse-cli'
+    lighthouse_cmd_str = f'--chrome-flags="--incognito --headless" --only-categories=performance --locale=zh --emulated-form-factor=desktop --throttling-method=provided --output=json --output-path={report_path} --save-assets --disable-storage-reset --quiet'
+    cmd_str = f'{lighthouse_path} {url} {lighthouse_cmd_str}'
 
     ret = subprocess.run(cmd_str, shell=True, timeout=300, stdout=subprocess.PIPE, encoding='utf-8')
     assert ret.returncode == 0
     assert os.path.isfile(report_path) == True
 
-    global report_info
     with open(report_path, 'r') as fp:
         load_json = json.load(fp)
         audits = load_json['audits']
@@ -46,6 +48,10 @@ def test_send_fei_shu_report():
     content = ''
     for k, v in report_info.items():
         content += f'{k}:\n{v}\n'
+
+    # log_path = '/Users/wang/Desktop/lg-project/lg_api_script/log/ui.log'
+    with open(report_path, 'a') as f:
+        f.write(content)
 
     # url = 'https://open.feishu.cn/open-apis/bot/hook/d96534525a0744ec9d228571730884b2'
     url = 'https://open.feishu.cn/open-apis/bot/hook/882babeafa3e4f0b839d6ff41efa2b84'

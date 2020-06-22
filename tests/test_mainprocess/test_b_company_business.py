@@ -489,7 +489,7 @@ class TestCompanyBusiness(object):
             close_trial_package(www_company_id)
             login_password(general_country_code_02 + general_phone_02, get_password)
             remove_result = remove_member(general_userId1)
-        assert_equal(True, remove_result, '校验移除普通用户1成功！')
+        assert_equal(True, remove_result, '校验移除普通用户1的招聘者服务成功！')
 
     def test_login_admin_user_03(self, get_password):
         login_result = login_password(admin_countryCode + admin_phone, get_password)
@@ -503,4 +503,4 @@ class TestCompanyBusiness(object):
             close_trial_package(www_company_id)
             login_password(admin_countryCode + admin_phone, get_password)
             remove_result = remove_member(admin_userId)
-        assert_equal(True, remove_result, '校验移除管理员用户成功！')
+        assert_equal(True, remove_result, '校验移除管理员用户的招聘者服务成功！')
