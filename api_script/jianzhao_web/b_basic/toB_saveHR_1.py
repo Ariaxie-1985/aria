@@ -225,7 +225,6 @@ def remove_member(verity_userId):
     #         return True
     # return False
 
-
 def close_trial_package(lg_CompanyId):
     login_password('betty@lagou.com', '00f453dfec0f2806db5cfabe3ea94a35')
     contractNo = get_contract_No(lg_CompanyId)

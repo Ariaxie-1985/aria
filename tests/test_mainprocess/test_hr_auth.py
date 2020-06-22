@@ -81,7 +81,12 @@ class TestHRAuth(object):
 
     def test_offline_hr1_position(self):
         offline_result = offline_position(positionId=unAuth_positionId)
-        assert_equal(1, offline_result.get('state', 0), '验证再发布成功的职位再次下线成功！')
+        assert_equal(1, offline_result.get('state', 0), '验证过审前发的职位过审后可以下线成功！')
+
+    def test_removeMember_hr1(self):
+        pass
+
+
 
 
 
