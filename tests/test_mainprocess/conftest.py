@@ -146,6 +146,14 @@ def ice_breaking_edu(request):
 
 
 @pytest.fixture(scope='session')
+def dake_no_class():
+    login_password(username='0085319873334', password="abdcc717dce429ccb997b91ce067f9b6")
+    #重定向跳转到kaiwu.lagou.com的处理
+    get_requests(
+        url='https://kaiwu.lagou.com/?action=grantST&ticket=ST-6c0d87f702634bf7bf2fa14b82b72b02&fl=2&osc=PASSPORT._pscb%282%29&ofc=PASSPORT._pfcb%282%29&pfurl=https%3A%2F%2Fkaiwu.lagou.com%2F')
+
+
+@pytest.fixture(scope='session')
 def get_h5_token1():
     result = getToken(userToken=test_usertoken1[0])
     return result['content']['gateLoginToken']
