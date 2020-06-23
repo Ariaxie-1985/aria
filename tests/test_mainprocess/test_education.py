@@ -131,7 +131,7 @@ def test_get_user_earnings_detail(get_h5_token):
 
 def test_get_wei_xin_user(get_h5_token):
     r = get_wei_xin_user(gateLoginToken=get_h5_token)
-    assert_equal(1, bool(r['content']['hasBind']), "获取微信用户信息用例通过")
+    assert_equal(True, r['content']['hasBind'], "获取微信用户信息用例通过")
 
 def test_dake_no_class(dake_no_class):
     r = no_class_dacourse()
