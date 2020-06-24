@@ -2,7 +2,6 @@
 # @Time  : 2020/6/24 12:16
 # @Author: Xiawang
 # Description:
-import json
 import os
 import re
 
@@ -29,7 +28,8 @@ def get_pagespeed_api_key():
                                             ('https://kaiwu.lagou.com/java_architect.html'),
                                             ('https://kaiwu.lagou.com/fe_enhancement.html'),
                                             ('https://kaiwu.lagou.com/data_enhancement.html'),
-                                            ('https://kaiwu.lagou.com/test_engineer.html')
+                                            ('https://kaiwu.lagou.com/test_engineer.html'),
+                                            ('https://kaiwu.lagou.com/data_analysis.html')
                                             ])
 def test_big_course(big_course_url):
     url = 'https://www.googleapis.com/pagespeedonline/v5/runPagespeed'
@@ -54,28 +54,8 @@ def test_big_course(big_course_url):
     with open(log_path, 'a') as f:
         f.write(content)
 
-    # global report_info, report_path
-    # report_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'testdata/report.json')
-    # with open(report_path, 'r') as fp:
-    #     load_json = json.load(fp)
-    #     audits = load_json['audits']
-    #     info = ''
-    #     info += f'''{audits['first-contentful-paint']['title']}:{round(audits['first-contentful-paint']['numericValue'] / 1000, 2)}秒\n'''
-    #     info += f'''{audits['interactive']['title']}:{round(audits['interactive']['numericValue'] / 1000, 2)}秒\n'''
-    #     info += f'''{audits['speed-index']['title']}:{round(audits['speed-index']['numericValue'] / 1000, 2)}秒\n'''
-    #     info += f'''{audits['total-blocking-time']['title']}:{round(audits['total-blocking-time']['numericValue'], 3)}毫秒\n'''
-    #     info += f'''{audits['largest-contentful-paint']['title']}:{round(audits['largest-contentful-paint']['numericValue'] / 1000, 2)}秒\n'''
-    #     info += f'''{audits['cumulative-layout-shift']['title']}:{round(audits['cumulative-layout-shift']['numericValue'], 3)}\n'''
-    #     report_info.setdefault(url, info)
-
 
 def test_send_fei_shu_report():
-    # content = ''
-    # for k, v in report_info.items():
-    #     content += f'{k}:\n{v}\n'
-
-    # log_path = '/Users/wang/Desktop/lg-project/lg_api_script/log/ui.log'
-
     url = 'https://open.feishu.cn/open-apis/bot/hook/d96534525a0744ec9d228571730884b2'
     # url = 'https://open.feishu.cn/open-apis/bot/hook/882babeafa3e4f0b839d6ff41efa2b84'
     data = {
