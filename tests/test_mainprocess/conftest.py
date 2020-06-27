@@ -6,12 +6,12 @@ import time
 import pytest
 
 from api_script.education.account import getToken
-from api_script.entry.account.passport import password_login
+from api_script.entry.account.passport import password_login,verifyCode_login
 from api_script.jianzhao_web.index import dashboard_index_get_user_id
 from backend.common.get_data import get_www_company_id
 from faker import Faker
 from api_script.jianzhao_web.b_basic.toB_saveHR_1 import get_b_person_userId, get_b_index_Id
-from utils.util import login_password,r
+from utils.util import login_password,login_verifyCode,verify_code_message
 
 
 fake = Faker("zh_CN")
@@ -126,10 +126,14 @@ def c_login_education(request):
     result = password_login(request.param[0], request.param[1], app_type='LGEdu')
     test_usertoken.append(result['content']['userToken'])
     return result['content']['userToken'], result['content']['userInfo']['userId']
-
-@pytest.fixture(scope='session',params=[["13220062304"]])
-def c_login_education_ve(request):
-    result=
+#yangyang
+@pytest.fixture(scope='session',params=[["0044", "2020062700"]])
+def c_login_education_verifycode(request):
+    verifycode=verify_code_message(request.param[0],request.param[1])
+    #verifycode="049281"
+    result=verifyCode_login(request.param[0],request.param[1],verifycode)
+    test_usertoken.append(result['content']['userToken'])
+    return result['content']['userToken'],result['content']['userInfo']['userId'],result['content']['userInfo']['phone']
 
 @pytest.fixture(scope='session')
 def get_h5_token():
