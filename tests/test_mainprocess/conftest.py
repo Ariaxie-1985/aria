@@ -75,9 +75,9 @@ def get_user_info():
 
 
 @pytest.fixture()
-def www_get_userId():
-    userId = dashboard_index_get_user_id()
-    return userId
+def get_easy_user_info():
+    userId, UserCompanyId, lagou_company_id = dashboard_index_get_user_id()
+    return userId, UserCompanyId, lagou_company_id
 
 
 @pytest.fixture(scope='session')

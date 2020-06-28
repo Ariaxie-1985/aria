@@ -149,9 +149,9 @@ class TestCompanyBusiness(object):
         r = join_with_user(userIdPasscode=userIdPasscode, invite_code=invite_code)
         assert_equal(True, bool(r), '确定加入公司用例通过')
 
-    def test_get_general_user(self, get_user_info):
-        userId, UserCompanyId, lg_CompanyId = get_user_info
-        loger.info(f'普通用户1的用户id:{userId}, 简招公司id:{UserCompanyId}, 拉勾公司id:{lg_CompanyId}')
+    def test_get_general_user(self, get_easy_user_info):
+        userId, UserCompanyId, lagou_company_id = get_easy_user_info
+        loger.info(f'普通用户1的用户id:{userId}, 简招公司id:{UserCompanyId}, 拉勾公司id:{lagou_company_id}')
 
     def test_get_online_position(self):
         positions_result = get_online_positions()
