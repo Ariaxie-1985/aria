@@ -41,8 +41,9 @@ loger = logers()
 class TestCompanyBusiness(object):
     im_chat_number = 15
     im_chat_number_gray_scale = 50
+
     def test_send_register_admin_verify_code(self, get_country_code_phone_user):
-        global admin_countryCode, admin_phone, admin_user_name, register_state
+        global admin_countryCode, admin_phone, admin_user_name
         admin_countryCode, admin_phone, admin_user_name = get_country_code_phone_user
         loger.info(f'B端入驻管理员手机号:{admin_phone}')
         register_state = pc_send_register_verifyCode(admin_countryCode, admin_phone)
@@ -147,6 +148,10 @@ class TestCompanyBusiness(object):
     def test_join_with_user(self):
         r = join_with_user(userIdPasscode=userIdPasscode, invite_code=invite_code)
         assert_equal(True, bool(r), '确定加入公司用例通过')
+
+    def test_get_general_user(self, get_user_info):
+        userId, UserCompanyId, lg_CompanyId = get_user_info
+        loger.info(f'普通用户1的用户id:{userId}, 简招公司id:{UserCompanyId}, 拉勾公司id:{lg_CompanyId}')
 
     def test_get_online_position(self):
         positions_result = get_online_positions()
@@ -309,7 +314,7 @@ class TestCompanyBusiness(object):
         assert_equal(1, r.get('state', 0), '校验登录home成功！')
 
     def test_buy_paid_package(self):
-        contractNo = f'lagou-autotest-{int(time.time())}-{random.randint(1, 99)}'
+        contractNo = f'lagou-autotest-{int(time.time())}-{random.randint(1, 99999)}'
         r1 = import_linkManInfo(www_company_id, contractNo)
         if not r1.get('success', False):
             login_password('betty@lagou.com', '00f453dfec0f2806db5cfabe3ea94a35')
@@ -343,6 +348,7 @@ class TestCompanyBusiness(object):
 
     def test_add_free_colleague_remove(self):
         remove_userid = add_result['userId']
+        loger.info(f'添加同事的普通用户的用户id:{remove_userid}')
         remove_state = remove_member_company(remove_userid)['state']
         '''print(remove_state)'''
         assert_equal(1, remove_state, '移除添加的普通账号通过')
@@ -421,10 +427,10 @@ class TestCompanyBusiness(object):
             assert_in(label, risk_label, '公司获取风险标签用例通过')
 
     def test_send_general_user_register_verify_code_1(self, get_country_code_phone_user):
-        global general_country_code_02, general_phone_02, general_user_name_02, general_user_register_state1
+        global general_country_code_02, general_phone_02, general_user_name_02
         general_country_code_02, general_phone_02, general_user_name_02 = get_country_code_phone_user
         loger.info(f'B端入驻普通用户1手机号:{general_phone_02}')
-        general_user_register_state1 = pc_send_register_verifyCode(general_country_code_02, general_phone_02)
+        general_user_register_state = pc_send_register_verifyCode(general_country_code_02, general_phone_02)
         assert_equal(1, general_user_register_state, '获取验证码成功', f'失败手机号:{general_country_code_02 + general_phone_02}')
 
     def test_get_verify_general_user_code_1(self):
@@ -433,7 +439,6 @@ class TestCompanyBusiness(object):
         assert_equal(True, bool(general_user_verify_code_01), '获取验证码成功')
 
     def test_register_general_user_1(self):
-        global general_user_register_state
         register = user_register_lagou(general_country_code_02, general_phone_02, general_user_verify_code_02)
         general_user_register_state = register.get('state', 0)
         assert_equal(1, general_user_register_state, '校验普通用户注册是否成功！',
@@ -483,7 +488,7 @@ class TestCompanyBusiness(object):
     def test_remove_general_user1(self, get_user_info, get_password):
         global general_userId1, easy_company_id, www_company_id
         general_userId1, easy_company_id, www_company_id = get_user_info
-        loger.info(f'B端入驻普通用户2用户的id:{general_userId1}, 主站公司id:{www_company_id}')
+        loger.info(f'解除招聘者认证--普通用户2的用户id:{general_userId1}, 主站公司id:{www_company_id}')
         remove_result = remove_member(general_userId1)
         if not remove_result:
             close_trial_package(www_company_id)
@@ -498,6 +503,7 @@ class TestCompanyBusiness(object):
     def test_remove_admin_user(self, get_user_info, get_password):
         global admin_userId
         admin_userId, easy_company_id, www_company_id = get_user_info
+        loger.info(f'解除招聘者认证--管理员的用户id:{general_userId1}, 主站公司id:{www_company_id}')
         remove_result = remove_member(admin_userId)
         if not remove_result:
             close_trial_package(www_company_id)
