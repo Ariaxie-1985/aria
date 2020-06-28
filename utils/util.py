@@ -111,7 +111,7 @@ def form_post(url, remark, data=None, files=None, headers={}, verifystate=True, 
                         return form_post(url=url, headers=headers, remark=remark, data=data)
                     else:
                         logging.error(
-                            msg='该接口URL {} , 备注: {},  响应内容: {} 请求成功, 但断言错误\n'.format(url, remark, response_json))
+                            msg='该接口URL {} , 备注: {},  响应内容: {} , 但断言错误\n'.format(url, remark, response_json))
                         return response_json
             else:
                 return convert_response(response)
@@ -161,7 +161,7 @@ def json_post(url, remark, data=None, headers={}, app=False, verifystate=True, i
                         return json_post(url=url, headers=headers, remark=remark, data=data)
                     else:
                         logging.error(
-                            msg='该接口URL {} , 备注 {}, 响应内容: {} 请求成功, 但断言错误\n'.format(url, remark, response_json))
+                            msg='该接口URL {} , 备注 {}, 响应内容: {}, 但断言错误\n'.format(url, remark, response_json))
                         return response_json
             else:
                 return convert_response(response)
@@ -206,20 +206,16 @@ def get_requests(url, data=None, headers={}, remark=None, ip_port=None):
                 else:
                     if count < 1:
                         count = count + 1
-                        logging.error(
-                            msg='该接口URL {} , 备注: {} , 响应内容: {} 断言失败, 在重试\n'.format(url, remark, response_json))
                         return convert_response(response)
                     else:
                         logging.error(
-                            msg='该接口URL {} , 备注 {}, 响应内容: {} 请求成功, 但断言错误\n'.format(url, remark, response_json))
+                            msg='该接口URL {} , 备注 {}, 响应内容: {} , 断言错误\n'.format(url, remark, response_json))
                         return convert_response(response)
             else:
                 return convert_response(response)
         else:
             if count < 1:
                 count += 1
-                logging.error(
-                    msg='该接口URL {} , 备注: {} , 响应内容: {} 断言失败, 在重试\n'.format(url, remark, response.text))
                 return get_requests(url, data=data, headers=headers, remark=remark)
             else:
                 return judging_other_abnormal_conditions(status_code, url, remark, pard_id)
@@ -523,19 +519,16 @@ def put_requests(url, headers={}, remark=None, ip_port=None):
                 else:
                     if count < 1:
                         count = count + 1
-                        logging.error(
-                            msg='该接口URL {} , 备注: {} , 响应内容: {} 断言失败, 在重试\n'.format(url, remark, response_json))
                         return put_requests(url=url, headers=headers, remark=remark)
                     else:
                         logging.error(
-                            msg='该接口URL {} , 备注 {}, 响应内容: {} 请求成功, 但断言错误\n'.format(url, remark, response_json))
+                            msg='该接口URL {} , 备注 {}, 响应内容: {} , 断言错误\n'.format(url, remark, response_json))
                         return response_json
             else:
                 return convert_response(response)
         else:
             if count < 1:
                 count = count + 1
-                logging.error(msg='该接口URL {} , 备注: {} , 响应内容: {} 断言失败, 在重试\n'.format(url, remark, response))
                 return put_requests(url=url, headers=headers, remark=remark)
             else:
                 return judging_other_abnormal_conditions(status_code, url, remark, pard_id)
@@ -570,8 +563,6 @@ def delete_requests(url, headers={}, remark=None, ip_port=None):
                 else:
                     if count < 1:
                         count = count + 1
-                        logging.error(
-                            msg='该接口URL {} , 备注: {} , 响应内容: {} 断言失败, 在重试\n'.format(url, remark, response_json))
                         return delete_requests(url=url, headers=headers, remark=remark)
                     else:
                         logging.error(
@@ -582,7 +573,6 @@ def delete_requests(url, headers={}, remark=None, ip_port=None):
         else:
             if count < 1:
                 count = count + 1
-                logging.error(msg='该接口URL {} , 备注: {} , 响应内容: {} 断言失败, 在重试\n'.format(url, remark, response))
                 return delete_requests(url=url, headers=headers, remark=remark)
             else:
                 return judging_other_abnormal_conditions(status_code, url, remark, pard_id)

@@ -471,6 +471,10 @@ class TestCompanyBusiness(object):
     def test_jump_easy_index_html(self):
         jump_easy_index_html()
 
+    def test_get_general_user_02(self, get_easy_user_info):
+        userId, UserCompanyId, lagou_company_id = get_easy_user_info
+        loger.info(f'普通用户2的用户id:{userId}, 简招公司id:{UserCompanyId}, 拉勾公司id:{lagou_company_id}')
+
     def test_get_general_user_1_rights_info_list(self):
         r = get_rights_info_list()
         for base_good in r['content']['baseDetailResList']:
