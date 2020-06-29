@@ -139,20 +139,20 @@ def test_get_wei_xin_user(get_h5_token):
 class TestEducationhistory(TestEducation01):
     def test_get_course_list(self, c_login_education):
         r = get_course_list(userToken=c_login_education[0])
-        assert_in(15, r, "从选课页获取已购买课程成功")
+        assert_in(31, r, "从选课页获取已购买课程成功",te='张红彦')
         global hasbuy_small_course_id
         hasbuy_small_course_id = r[-1]
 
     def test_get_course_baseinfo(self, c_login_education):
         r = get_course_baseinfo(hasbuy_small_course_id, userToken=c_login_education[0])
-        assert_equal(15, r['content']['courseId'], "获取课程学习基本信息用例通过")
+        assert_equal(hasbuy_small_course_id, r['content']['courseId'], "获取课程学习基本信息用例通过",te='张红彦')
         global sectionId, lessonId
         sectionId = r['content']['lastLearnSectionId']
         lessonId = r['content']['lastLearnLessonId']
 
     def test_get_lesson_play_history(self, get_h5_token):
         r = get_lesson_play_history(lessonId, gateLoginToken=get_h5_token)
-        assert_equal(hasbuy_small_course_id, bool(r['content']['courseId']), "获取课时播放历史记录")
+        assert_equal(hasbuy_small_course_id, bool(r['content']['courseId']), "获取课时播放历史记录",te='张红彦')
         global historyHighestNode
         historyHighestNode = r['content']['historyHighestNode']
 
@@ -161,7 +161,7 @@ class TestEducationhistory(TestEducation01):
         historyNode = random.randint(1, historyHighestNode)
         r = save_course_history(hasbuy_small_course_id, sectionId, lessonId, mediaType, historyNode,
                                 gateLoginToken=get_h5_token)
-        assert_equal(1, r['state'], "保存课程下课时的历史节点")
+        assert_equal(1, r['state'], "保存课程下课时的历史节点",te='张红彦')
 
 
 def test_dake_no_class(dake_no_class):
