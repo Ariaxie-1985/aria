@@ -36,3 +36,26 @@ def ice_breaking_location():
     header = get_edu_app_header()
     remark = "一元购入口"
     return get_requests(url=url,headers=header,remark=remark)
+
+def save_course_history(courseId,sectionId,lessonId,mediaType,historyNode,gateLoginToken):
+    url = 'https://gate.lagou.com/v1/neirong/kaiwu/saveCourseHistory?courseId={}&sectionId={}&lessonId={}&mediaType={}&historyNode={}'.format(courseId,sectionId,lessonId,mediaType,historyNode)
+    header = {"Cookie": f"gate_login_token ={gateLoginToken};", "X-L-REQ-HEADER": "{deviceType:1}"}
+    remark = "保存课程下课时的历史节点"
+    return get_requests(url=url,headers=header,remark=remark)
+
+
+def get_lesson_play_history(lessonId,gateLoginToken):
+    url = 'https://gate.lagou.com/v1/neirong/kaiwu/getLessonPlayHistory?lessonId={}'.format(lessonId)
+    header = {"Cookie": f"gate_login_token ={gateLoginToken};", "X-L-REQ-HEADER": "{deviceType:1}"}
+    remark = "获取课时播放历史记录"
+    return get_requests(url=url,headers=header,remark=remark)
+
+
+
+
+
+
+
+
+
+

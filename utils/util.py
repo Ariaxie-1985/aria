@@ -196,6 +196,7 @@ def get_requests(url, data=None, headers={}, remark=None, ip_port=None):
             response = session.get(url=ip_port_url, params=data, headers=headers, verify=False, timeout=60)
 
         status_code = response.status_code
+        print(status_code)
         pard_id = response.headers.get('Pard-Id', 0)
         if 200 <= status_code <= 302:
             if is_json_response(response):

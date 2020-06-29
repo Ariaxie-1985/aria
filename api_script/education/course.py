@@ -72,3 +72,5 @@ def get_wei_xin_user( gateLoginToken):
     header = {"Cookie":f"gate_login_token ={gateLoginToken};","X-L-REQ-HEADER": "{deviceType:1}"}
     remark = "获取微信用户信息"
     return get_requests(url=url, headers=header, remark=remark)
+
+
