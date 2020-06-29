@@ -93,6 +93,3 @@ def exchange_present(gateLoginToken):
     #header = get_edu_app_header(userToken=userToken,DA=False)
     remarke = '礼物兑换成功'
     return json_post(url=url,headers=header,remark=remarke,data=data)
-
-if __name__ == '__main__':
-    receive_credit('99ae6ddeb307ecf496243d4b1abe30ee62a460e61c6e69aedf1d45d8f9a8585f')
