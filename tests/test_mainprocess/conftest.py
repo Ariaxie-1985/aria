@@ -12,7 +12,7 @@ from backend.common.get_data import get_www_company_id
 from faker import Faker
 from api_script.jianzhao_web.b_basic.toB_saveHR_1 import get_b_person_userId, get_b_index_Id
 from utils.util import login_password,login_verifyCode,verify_code_message
-
+from api_script.entry.account.passport import send_verify_code
 
 fake = Faker("zh_CN")
 
@@ -129,6 +129,7 @@ def c_login_education(request):
 #yangyang
 @pytest.fixture(scope='session',params=[["0044", "2020062700"]])
 def c_login_education_verifycode(request):
+    sendverifycode=send_verify_code(request.param[0],request.param[1],'PASSPORT_REGISTER')
     verifycode=verify_code_message(request.param[0],request.param[1])
     #verifycode="049281"
     result=verifyCode_login(request.param[0],request.param[1],verifycode)

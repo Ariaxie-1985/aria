@@ -14,7 +14,7 @@ from api_script.education.kaiwu import get_course_description, get_distribution_
 from utils.util import assert_equal,assert_in,verify_code_message
 from api_script.neirong_app.app import get_user_base_info
 from api_script.entry.cuser.baseStatus import batchCancel
-from api_script.entry.account.passport import register_by_phone
+from api_script.entry.account.passport import register_by_phone,send_verify_code
 import json
 
 
