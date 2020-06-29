@@ -31,3 +31,11 @@ def get_watch_percent(userToken, courseId, weekId):
     header = get_edu_app_header(userToken=userToken, DA=False)
     remark = "获取大课一周录播视频观看进度"
     return get_requests(url=url, headers=header, remark=remark)
+
+
+def no_class_dacourse():
+    url = 'https://gate.lagou.com/v1/neirong/kaiwu/getAllCoursePurchasedRecordForPC'
+    header = {'x-l-req-header':'{deviceType:1}'}
+    remark = '全款购买大课，但是未进班'
+    return get_requests(url=url, headers=header, remark=remark)
+

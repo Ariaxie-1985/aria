@@ -19,11 +19,13 @@ def get_course_description(userToken, courseId):
     return get_requests(url=url, headers=header, remark=remark)
 
 
-def get_distribution_info(userToken, courseId):
-    url = 'https://gate.lagou.com/v1/neirong/kaiwu/getDistributionInfo?courseId={}'.format(courseId)
+def get_distribution_info(userToken, courseId, decorateId):
+    url = 'https://gate.lagou.com/v1/neirong/kaiwu/getDistributionInfo?courseId={}&decorateId={}'.format(courseId,
+                                                                                                         decorateId)
     header = get_edu_app_header(userToken=userToken, DA=False)
     remark = "言职/开悟/获取分销信息"
     return get_requests(url=url, headers=header, remark=remark)
+
 
 def get_course_lessons(userToken, courseId):
     url = 'https://gate.lagou.com/v1/neirong/kaiwu/getCourseLessons?courseId={}'.format(courseId)
@@ -31,31 +33,31 @@ def get_course_lessons(userToken, courseId):
     remark = "获取课程信息"
     return get_requests(url=url, headers=header, remark=remark)
 
+
 def ice_breaking_location():
     url = 'https://gate.lagou.com/v1/neirong/kaiwu/iceBreakingLocation/info'
     header = get_edu_app_header()
     remark = "一元购入口"
-    return get_requests(url=url,headers=header,remark=remark)
+    return get_requests(url=url, headers=header, remark=remark)
 
-def save_course_history(courseId,sectionId,lessonId,mediaType,historyNode,gateLoginToken):
-    url = 'https://gate.lagou.com/v1/neirong/kaiwu/saveCourseHistory?courseId={}&sectionId={}&lessonId={}&mediaType={}&historyNode={}'.format(courseId,sectionId,lessonId,mediaType,historyNode)
+
+def save_course_history(courseId, sectionId, lessonId, mediaType, historyNode, gateLoginToken):
+    url = 'https://gate.lagou.com/v1/neirong/kaiwu/saveCourseHistory?courseId={}&sectionId={}&lessonId={}&mediaType={}&historyNode={}'.format(
+        courseId, sectionId, lessonId, mediaType, historyNode)
     header = {"Cookie": f"gate_login_token ={gateLoginToken};", "X-L-REQ-HEADER": "{deviceType:1}"}
     remark = "保存课程下课时的历史节点"
-    return get_requests(url=url,headers=header,remark=remark)
+    return get_requests(url=url, headers=header, remark=remark)
 
 
-def get_lesson_play_history(lessonId,gateLoginToken):
+def get_lesson_play_history(lessonId, gateLoginToken):
     url = 'https://gate.lagou.com/v1/neirong/kaiwu/getLessonPlayHistory?lessonId={}'.format(lessonId)
     header = {"Cookie": f"gate_login_token ={gateLoginToken};", "X-L-REQ-HEADER": "{deviceType:1}"}
     remark = "获取课时播放历史记录"
-    return get_requests(url=url,headers=header,remark=remark)
+    return get_requests(url=url, headers=header, remark=remark)
 
 
-
-
-
-
-
-
-
-
+def ice_breaking_html():
+    url = 'https://kwn2.lagou.com/icebreaking/main.htm?lagoufrom=android&appVersion=1.2.5&appType=LGEdu'
+    header = {}
+    remark = '获取1元购618活动页面'
+    return get_requests(url=url, headers=header, remark=remark)
