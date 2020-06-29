@@ -123,26 +123,29 @@ def test_get_wei_xin_user(get_h5_token):
     r = get_wei_xin_user(gateLoginToken=get_h5_token)
     assert_equal(1, bool(r['content']['hasBind']), "获取微信用户信息用例通过")
 
-def test_exchange_present(get_h5_token):
+def test_exchange_present(get_h5_token,c_login_education_verifycode):
     r=receive_credit(gateLoginToken=get_h5_token)
     #json.loads(r)
     receive_success=r['content']
     if receive_success==1:
         change1=exchange_present(gateLoginToken=get_h5_token)
         assert_equal(1,change1.get('state'),"领取登录学分后，兑换成功")
-    elif receive_success=="null":
-        r=get_user_base_info(userToken=get_h5_token)
+    elif receive_success==None:
+        r=get_user_base_info(userToken=c_login_education_verifycode[0])
         courseCredit=r.get('content').get('courseCredit')
         if courseCredit!=0:
             change2=exchange_present(gateLoginToken=get_h5_token)
             assert_equal(1,change2.get('state'),"利用现有学分余额兑换成功")
-    #userid=c_login_education_verifycode[1]
-    userid='17933434'
+        else:
+            pass
+    userid=c_login_education_verifycode[1]
+    #userid='17933434'
     batchCancel(userIds=userid)
     countrycode="0044"
-    #phone=c_login_education_verifycode[2]
-    phone="2020062700"
+    phone=c_login_education_verifycode[2]
+    #phone="2020062700"
     verify_code = verify_code_message(countryCode=countrycode, phone=phone)
     #verify_code="049281"
     register_by_phone(countryCode=countrycode, phone=phone, verify_code=verify_code)
+
 
