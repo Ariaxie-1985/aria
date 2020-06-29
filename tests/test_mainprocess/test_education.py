@@ -139,7 +139,7 @@ def test_get_wei_xin_user(get_h5_token):
 class TestEducationhistory(TestEducation01):
     def test_get_course_list(self, c_login_education):
         r = get_course_list(userToken=c_login_education[0])
-        assert_in(31, r, "从选课页获取已购买课程成功",te='张红彦')
+        assert_in(True, bool(r), "从选课页获取已购买课程成功",te='张红彦')
         global hasbuy_small_course_id
         hasbuy_small_course_id = r[-1]
 
