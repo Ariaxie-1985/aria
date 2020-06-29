@@ -36,6 +36,7 @@ fake = Faker("zh_CN")
 test_telephone = []
 test_company_name = []
 test_usertoken = []
+test_edu_usertoken=[]
 
 
 @pytest.fixture(scope='session')
@@ -133,12 +134,19 @@ def c_login_education_verifycode(request):
     verifycode=verify_code_message(request.param[0],request.param[1])
     #verifycode="049281"
     result=verifyCode_login(request.param[0],request.param[1],verifycode)
-    #test_usertoken.append(result['content']['userToken'])
+
+    test_edu_usertoken.append(result['content']['userToken'])
+
     return result['content']['userToken'],result['content']['userInfo']['userId'],result['content']['userInfo']['phone']
 
 @pytest.fixture(scope='session')
 def get_h5_token():
     result = getToken(userToken=test_usertoken[0])
+    return result['content']['gateLoginToken']
+
+@pytest.fixture(scope='session')
+def get_h5_token():
+    result = getToken(userToken=test_edu_usertoken[0])
     return result['content']['gateLoginToken']
 
 
