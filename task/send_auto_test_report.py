@@ -52,7 +52,7 @@ def send_feishu_report(module, pytest_result):
         names = ''
         for case_name, case_fail_result in pytest_result['data']['result']['info']['result']['fail_result'].items(
         ):
-            if 'name' in case_fail_result:
+            if case_fail_result['name'] != -1 and 'name' in case_fail_result:
                 names += case_fail_result['name'] + ','
                 fail_result = '用例{}报错:{},原因:{},负责人:{}\n\n'.format(
                     case_name, case_fail_result['error_type'], case_fail_result['log'], case_fail_result['name'])
@@ -72,7 +72,9 @@ def send_feishu_report(module, pytest_result):
 def send_mail(module):
     sender = 'autotest@lagoujobs.com'
     sender_password = 'Lqq123456'
-    receivers = ['xiawang@lagou.com', 'betty@lagou.com']
+    receivers = ['xiawang@lagou.com', 'betty@lagou.com', 'sunnyzhang@lagou.com', 'arayang@lagou.com',
+                 'sunnysun@lagou.com', 'yangwang@lagou.com', 'bingoonchen@lagou.com', 'ariaxie@lagou.com',
+                 'anan@lagou.com', 'foxtang01@lagou.com']
     ret = True
 
     try:
