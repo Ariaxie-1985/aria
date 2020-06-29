@@ -152,7 +152,7 @@ class TestEducationhistory(TestEducation01):
 
     def test_get_lesson_play_history(self, get_h5_token):
         r = get_lesson_play_history(lessonId, gateLoginToken=get_h5_token)
-        assert_equal(hasbuy_small_course_id, bool(r['content']['courseId']), "获取课时播放历史记录",te='张红彦')
+        assert_equal(hasbuy_small_course_id, r['content']['courseId'], "获取课时播放历史记录",te='张红彦')
         global historyHighestNode
         historyHighestNode = r['content']['historyHighestNode']
 
