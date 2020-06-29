@@ -75,9 +75,9 @@ def get_user_info():
 
 
 @pytest.fixture()
-def www_get_userId():
-    userId = dashboard_index_get_user_id()
-    return userId
+def get_easy_user_info():
+    userId, UserCompanyId, lagou_company_id = dashboard_index_get_user_id()
+    return userId, UserCompanyId, lagou_company_id
 
 
 @pytest.fixture(scope='session')
@@ -143,6 +143,14 @@ def ice_breaking_edu(request):
     result = password_login(request.param[0], request.param[1], app_type='LGEdu')
     test_usertoken1.append(result['content']['userToken'])
     return result['content']['userToken'], result['content']['userInfo']['userId']
+
+
+@pytest.fixture(scope='session')
+def dake_no_class():
+    login_password(username='0085319873334', password="abdcc717dce429ccb997b91ce067f9b6")
+    #重定向跳转到kaiwu.lagou.com的处理
+    get_requests(
+        url='https://kaiwu.lagou.com/?action=grantST&ticket=ST-6c0d87f702634bf7bf2fa14b82b72b02&fl=2&osc=PASSPORT._pscb%282%29&ofc=PASSPORT._pfcb%282%29&pfurl=https%3A%2F%2Fkaiwu.lagou.com%2F')
 
 
 @pytest.fixture(scope='session')
