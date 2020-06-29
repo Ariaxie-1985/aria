@@ -73,21 +73,26 @@ def get_wei_xin_user(gateLoginToken):
     return get_requests(url=url, headers=header, remark=remark)
 
 
-def receive_credit(userToken):
+def receive_credit(gateLoginToken):
     data = {
         "taskAbbreviation": "CREDIT_CENTER_DAILY_LOGIN"
     }
     url = 'https://gate.lagou.com/v1/neirong/course/user_growth/receiveCredit'
-    header = get_edu_app_header(userToken=userToken, DA=False)
+    #header = get_edu_app_header(userToken=userToken, DA=False)
+    header = {"Cookie": f"gate_login_token ={gateLoginToken};", "X-L-REQ-HEADER": "{deviceType:1}"}
     remarke = '学分领取成功'
     return json_post(url=url, headers=header, remark=remarke, data=data)
 
 
-def exchange_present(userToken):
+def exchange_present(gateLoginToken):
     data={
         "presentId":2
     }
     url = 'https://gate.lagou.com/v1/neirong/course/user_growth/exchangePresent'
-    header = get_edu_app_header(userToken=userToken,DA=False)
+    header = {"Cookie": f"gate_login_token ={gateLoginToken};", "X-L-REQ-HEADER": "{deviceType:1}"}
+    #header = get_edu_app_header(userToken=userToken,DA=False)
     remarke = '礼物兑换成功'
     return json_post(url=url,headers=header,remark=remarke,data=data)
+
+if __name__ == '__main__':
+    receive_credit('99ae6ddeb307ecf496243d4b1abe30ee62a460e61c6e69aedf1d45d8f9a8585f')
