@@ -78,6 +78,33 @@ def talent_collection_list(ip_port=None):
     return form_post(url=url, data=data, headers=header, remark=remark, ip_port=ip_port)
 
 
+def talent_collection(positionId,cueserid,resumeFetchKey):
+    #收藏人才
+    refer_url = f"https://easy.lagou.com/talent/index.htm?positionId={positionId}&showId=&tab=newest&pageNo=1"
+    url = f"https://easy.lagou.com/collection/collection.json?"
+    header = get_code_token(refer_url)
+    data = {'cuserId':cueserid,'resumeFetchKey':resumeFetchKey}
+    remark = "收藏人才"
+    return form_post(url=url, data=data, headers=header, remark=remark)
+
+def talent_uncollection(collectionIds,ip_port=None):
+    #取消收藏人才
+    refer_url = f"https://easy.lagou.com/collection/index.htm?"
+    url = f"https://easy.lagou.com/collection/unCollection.json?"
+    header = get_code_token(refer_url,ip_port=ip_port)
+    data = {'collectionIds':collectionIds}
+    remark = "取消收藏人才"
+    return form_post(url=url, data=data, headers=header, remark=remark, ip_port=ip_port)
+
+def talent_pages(positionId):
+    #人才页面上下翻页
+    refer_url = f"https://easy.lagou.com/talent/index.htm?positionId={positionId}&showId=&notSeen=false&strongly=false&tab=rec&pageNo=1"
+    url = f"https://easy.lagou.com/talent/rec/2.json?positionId={positionId}&showId=&notSeen=false&strongly=false"
+    query_talent_header = get_code_token(refer_url)
+    remark = "上下翻页"
+    return get_requests(url=url, headers=query_talent_header, remark=remark)
+
+
 def talent_collection_count(ip_port=None):
     refer_query_talent_url = f"https://easy.lagou.com/collection/index.htm?"
     query_talent_url = f"https://easy.lagou.com/collection/count.json"
