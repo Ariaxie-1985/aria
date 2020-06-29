@@ -123,7 +123,7 @@ def test_get_wei_xin_user(get_h5_token):
     r = get_wei_xin_user(gateLoginToken=get_h5_token)
     assert_equal(1, bool(r['content']['hasBind']), "获取微信用户信息用例通过")
 
-def test_exchange_present(get_h5_token,c_login_education_verifycode):
+def test_exchange_present(c_login_education_verifycode,get_h5_token):
     r=receive_credit(gateLoginToken=get_h5_token)
     #json.loads(r)
     receive_success=r['content']
@@ -147,5 +147,3 @@ def test_exchange_present(get_h5_token,c_login_education_verifycode):
     verify_code = verify_code_message(countryCode=countrycode, phone=phone)
     #verify_code="049281"
     register_by_phone(countryCode=countrycode, phone=phone, verify_code=verify_code)
-
-

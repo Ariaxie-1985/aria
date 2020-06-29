@@ -132,7 +132,7 @@ def c_login_education_verifycode(request):
     verifycode=verify_code_message(request.param[0],request.param[1])
     #verifycode="049281"
     result=verifyCode_login(request.param[0],request.param[1],verifycode)
-    test_usertoken.append(result['content']['userToken'])
+    #test_usertoken.append(result['content']['userToken'])
     return result['content']['userToken'],result['content']['userInfo']['userId'],result['content']['userInfo']['phone']
 
 @pytest.fixture(scope='session')
