@@ -15,7 +15,6 @@ import json
 import logging
 
 from utils.loggers import logers
-from utils.mainprocess_api_developer import return_api_developer
 from utils.user_exception import Http500Error
 
 sys.path.append(os.path.dirname(__file__))
@@ -42,14 +41,14 @@ def get_code_token(url, referer=False, ip_port=None):
     try:
         token_values, code_values = 0, None
         if ip_port is None:
-            code = session.get(url=url, headers=header, verify=False, timeout=60)
+            result = get_requests(url=url, headers=header)
         else:
             ip_port_url = domain_convert_ip_port(url=url, ip_port=ip_port)
-            code = session.get(url=ip_port_url, headers=header, verify=False, timeout=60)
+            result = get_requests(url=ip_port_url, headers=header)
             with open('/home/test/1.log', 'w') as f:
-                f.write(code.text)
-        token_values = re.findall("X_Anti_Forge_Token = '(.*?)'", code.text, re.S)[0]
-        code_values = re.findall("X_Anti_Forge_Code = '(.*?)'", code.text, re.S)[0]
+                f.write(result)
+        token_values = re.findall("X_Anti_Forge_Token = '(.*?)'", result, re.S)[0]
+        code_values = re.findall("X_Anti_Forge_Code = '(.*?)'", result, re.S)[0]
         if referer == False:
             headers = {"X-Anit-Forge-Code": code_values, "X-Anit-Forge-Token": token_values,
                        'Referer': url,
@@ -70,7 +69,8 @@ def get_code_token(url, referer=False, ip_port=None):
         return get_code_token(url=url)
 
 
-def form_post(url, remark, data=None, files=None, headers={}, verifystate=True, allow_redirects=True, ip_port=None):
+def form_post(url, remark, rd=None, data=None, files=None, headers={}, verifystate=True, allow_redirects=True,
+              ip_port=None):
     """
     form表单传参的post请求
     :param url: 请求url
@@ -79,6 +79,7 @@ def form_post(url, remark, data=None, files=None, headers={}, verifystate=True, 
     :param headers: dict, 请求header
     :return: json格式化的响应结果
     """
+    logging.info(f'开发{rd}')
     global count
     if verifystate == False:
         count = 3
@@ -108,7 +109,7 @@ def form_post(url, remark, data=None, files=None, headers={}, verifystate=True, 
                 else:
                     if count < 1:
                         count = count + 1
-                        return form_post(url=url, headers=headers, remark=remark, data=data)
+                        return form_post(url=url, headers=headers, remark=remark, data=data, rd=rd)
                     else:
                         logging.error(
                             msg='该接口URL {} , 备注: {},  响应内容: {} , 但断言错误\n'.format(url, remark, response_json))
@@ -118,15 +119,16 @@ def form_post(url, remark, data=None, files=None, headers={}, verifystate=True, 
         else:
             if count < 1:
                 count = count + 1
-                return form_post(url=url, headers=headers, remark=remark, data=data)
+                return form_post(url=url, headers=headers, remark=remark, data=data, rd=rd)
             else:
                 return judging_other_abnormal_conditions(status_code, url, remark, pard_id)
     except RequestException:
         logging.error("该接口URL {} , 备注 {} 请求异常, 请检查接口服务并重试一次\n".format(url, remark))
         return {'content': '请求异常(requests捕获的异常)', 'url': url, 'remark': remark}
 
+
 # @pysnooper.snoop()
-def json_post(url, remark, data=None, headers={}, app=False, verifystate=True, ip_port=None):
+def json_post(url, remark, rd=None, data=None, headers={}, app=False, verifystate=True, ip_port=None):
     """
     json传参的post请求
     :param url: 请求url
@@ -135,6 +137,7 @@ def json_post(url, remark, data=None, headers={}, app=False, verifystate=True, i
     :param headers: dict, 请求header
     :return: json格式化的响应结果
     """
+    logging.info(f'开发{rd}')
     global count
     if verifystate == False:
         count = 3
@@ -158,7 +161,7 @@ def json_post(url, remark, data=None, headers={}, app=False, verifystate=True, i
                 else:
                     if count < 1:
                         count = count + 1
-                        return json_post(url=url, headers=headers, remark=remark, data=data)
+                        return json_post(url=url, headers=headers, remark=remark, data=data, rd=rd)
                     else:
                         logging.error(
                             msg='该接口URL {} , 备注 {}, 响应内容: {}, 但断言错误\n'.format(url, remark, response_json))
@@ -168,7 +171,7 @@ def json_post(url, remark, data=None, headers={}, app=False, verifystate=True, i
         else:
             if count < 1:
                 count = count + 1
-                return json_post(url=url, headers=headers, remark=remark, data=data)
+                return json_post(url=url, headers=headers, remark=remark, data=data, rd=rd)
             else:
                 return judging_other_abnormal_conditions(status_code, url, remark, pard_id)
     except RequestException as e:
@@ -176,7 +179,7 @@ def json_post(url, remark, data=None, headers={}, app=False, verifystate=True, i
         return {'content': '请求执行错误', 'url': url, 'remark': remark}
 
 
-def get_requests(url, data=None, headers={}, remark=None, ip_port=None):
+def get_requests(url, rd=None, data=None, headers={}, remark=None, ip_port=None):
     """
     get请求
     :param url: str, 接口地址
@@ -184,6 +187,7 @@ def get_requests(url, data=None, headers={}, remark=None, ip_port=None):
     :param headers: dict, requests header
     :return: object, 响应对象
     """
+    logging.info(f'开发{rd}')
     headers = {**header, **headers, **{'Content-Type': 'charset=UTF-8'}}
     global count
     try:
@@ -216,7 +220,7 @@ def get_requests(url, data=None, headers={}, remark=None, ip_port=None):
         else:
             if count < 1:
                 count += 1
-                return get_requests(url, data=data, headers=headers, remark=remark)
+                return get_requests(url, data=data, headers=headers, remark=remark, rd=rd)
             else:
                 return judging_other_abnormal_conditions(status_code, url, remark, pard_id)
     except RequestException:
@@ -242,6 +246,7 @@ def is_json_response(response):
     if 'application/json' in (response.headers.get('Content-Type', '') or response.headers.get('content-type', '')):
         return True
     return False
+
 
 # get请求---获取header
 def get_header(url, headers={}, allow_redirects=True, ip_port=None):
@@ -329,15 +334,15 @@ def login_home_code(countryCode, username):
     return r
 
 
-def assert_equal(expect_value, actual_value, success_message, fail_message=None):
+def assert_equal(expect_value, actual_value, success_message, te, fail_message=None):
     '''
     断言两个值是否相等, 并对结果打印日志
     :param expect_value: 期望结果
     :param actual_value: 实际结果
-    :param success_message: str, 断言成功打印的日志
     :param fail_message:str, 断言失败打印的日志
+    :param te: 测试工程师
     '''
-
+    logging.info(f'测试{te}')
     if expect_value == actual_value:
         # loger.success(success_message)
         state = 1
@@ -348,15 +353,15 @@ def assert_equal(expect_value, actual_value, success_message, fail_message=None)
     return state
 
 
-def assert_not_equal(expect_value, actual_value, success_message, fail_message=None):
+def assert_not_equal(expect_value, actual_value, success_message, te, fail_message=None):
     '''
     断言两个值是否相等, 并对结果打印日志
     :param expect_value: 期望结果
     :param actual_value: 实际结果
-    :param success_message: str, 断言成功打印的日志
     :param fail_message:str, 断言失败打印的日志
+    :param te: 测试工程师
     '''
-
+    logging.info(f'测试{te}')
     if expect_value != actual_value:
         # loger.success(success_message)
         pass
@@ -365,14 +370,15 @@ def assert_not_equal(expect_value, actual_value, success_message, fail_message=N
     assert expect_value != actual_value
 
 
-def assert_in(expect_value, actual_value, success_message, fail_message=None):
+def assert_in(expect_value, actual_value, success_message, te, fail_message=None):
     '''
     断言两个值是否相等, 并对结果打印日志
     :param expect_value: 期望结果
     :param actual_value: 实际结果
-    :param success_message: str, 断言成功打印的日志
     :param fail_message:str, 断言失败打印的日志
+    :param te: 测试工程师
     '''
+    logging.info(f'测试{te}')
     if expect_value in actual_value:
         # loger.success(success_message)
         pass
@@ -381,14 +387,15 @@ def assert_in(expect_value, actual_value, success_message, fail_message=None):
     assert expect_value in actual_value
 
 
-def assert_not_in(expect_value, actual_value, success_message, fail_message=None):
+def assert_not_in(expect_value, actual_value, success_message, te, fail_message=None):
     '''
     断言两个值是否相等, 并对结果打印日志
     :param expect_value: 期望结果
     :param actual_value: 实际结果
-    :param success_message: str, 断言成功打印的日志
     :param fail_message:str, 断言失败打印的日志
+    :param te: 测试工程师
     '''
+    logging.info(f'测试{te}')
     if expect_value not in actual_value:
         # loger.success(success_message)
         pass
@@ -443,7 +450,7 @@ def get_app_header_new(userId, X_L_REQ_HEADER={}):
     return header
 
 
-def json_put(url, remark, data=None, headers={}, ip_port=None):
+def json_put(url, remark, rd=None, data=None, headers={}, ip_port=None):
     """
     json传参的put请求
     :param url: 请求url
@@ -452,6 +459,7 @@ def json_put(url, remark, data=None, headers={}, ip_port=None):
     :param headers: dict, 请求header
     :return: json格式化的响应结果
     """
+    logging.info(f'开发{rd}')
     global count
     try:
         headers = {**headers, **header, **{'Content-Type': 'application/json;charset=UTF-8'}}
@@ -474,7 +482,7 @@ def json_put(url, remark, data=None, headers={}, ip_port=None):
                         count = count + 1
                         logging.error(
                             msg='该接口URL {} , 备注: {} , 响应内容: {} 断言失败, 在重试\n'.format(url, remark, response_json))
-                        return json_put(url=url, headers=headers, remark=remark, data=data)
+                        return json_put(url=url, headers=headers, remark=remark, data=data, rd=rd)
                     else:
                         logging.error(
                             msg='该接口URL {} , 备注 {}, 响应内容: {} 请求成功, 但断言错误\n'.format(url, remark, response_json))
@@ -485,7 +493,7 @@ def json_put(url, remark, data=None, headers={}, ip_port=None):
             if count < 1:
                 count = count + 1
                 logging.error(msg='该接口URL {} , 备注: {} , 响应内容: {} 断言失败, 在重试\n'.format(url, remark, response))
-                return json_put(url=url, headers=headers, remark=remark, data=data)
+                return json_put(url=url, headers=headers, remark=remark, data=data, rd=rd)
             else:
                 return judging_other_abnormal_conditions(status_code, url, remark, pard_id)
     except RequestException as e:
@@ -493,7 +501,7 @@ def json_put(url, remark, data=None, headers={}, ip_port=None):
         return {'content': '请求执行错误', 'url': url, 'remark': remark}
 
 
-def put_requests(url, headers={}, remark=None, ip_port=None):
+def put_requests(url, rd=None, headers={}, remark=None, ip_port=None):
     """
     put请求
     :param url: str, 接口地址
@@ -501,6 +509,7 @@ def put_requests(url, headers={}, remark=None, ip_port=None):
     :param headers: dict, requests header
     :return: object, 响应对象
     """
+    logging.info(f'开发{rd}')
     global count
     try:
         if ip_port is None:
@@ -519,7 +528,7 @@ def put_requests(url, headers={}, remark=None, ip_port=None):
                 else:
                     if count < 1:
                         count = count + 1
-                        return put_requests(url=url, headers=headers, remark=remark)
+                        return put_requests(url=url, headers=headers, remark=remark, rd=rd)
                     else:
                         logging.error(
                             msg='该接口URL {} , 备注 {}, 响应内容: {} , 断言错误\n'.format(url, remark, response_json))
@@ -529,7 +538,7 @@ def put_requests(url, headers={}, remark=None, ip_port=None):
         else:
             if count < 1:
                 count = count + 1
-                return put_requests(url=url, headers=headers, remark=remark)
+                return put_requests(url=url, headers=headers, remark=remark, rd=rd)
             else:
                 return judging_other_abnormal_conditions(status_code, url, remark, pard_id)
     except RequestException:
@@ -537,7 +546,7 @@ def put_requests(url, headers={}, remark=None, ip_port=None):
         return {'content': '请求执行错误', 'url': url, 'remark': remark}
 
 
-def delete_requests(url, headers={}, remark=None, ip_port=None):
+def delete_requests(url, rd=None, headers={}, remark=None, ip_port=None):
     """
     put请求
     :param url: str, 接口地址
@@ -545,6 +554,7 @@ def delete_requests(url, headers={}, remark=None, ip_port=None):
     :param headers: dict, requests header
     :return: object, 响应对象
     """
+    logging.info(f'开发{rd}')
     global count
     try:
         if ip_port is None:
@@ -563,7 +573,7 @@ def delete_requests(url, headers={}, remark=None, ip_port=None):
                 else:
                     if count < 1:
                         count = count + 1
-                        return delete_requests(url=url, headers=headers, remark=remark)
+                        return delete_requests(url=url, headers=headers, remark=remark, rd=rd)
                     else:
                         logging.error(
                             msg='该接口URL {} , 备注 {}, 响应内容: {} 请求成功, 但断言错误\n'.format(url, remark, response_json))
@@ -573,7 +583,7 @@ def delete_requests(url, headers={}, remark=None, ip_port=None):
         else:
             if count < 1:
                 count = count + 1
-                return delete_requests(url=url, headers=headers, remark=remark)
+                return delete_requests(url=url, headers=headers, remark=remark, rd=rd)
             else:
                 return judging_other_abnormal_conditions(status_code, url, remark, pard_id)
     except RequestException:
@@ -610,8 +620,8 @@ def judging_other_abnormal_conditions(status_code, url, remark, pard_id=None):
         call_chain = ''
 
     if status_code == 500:
-        developer_name = return_api_developer(url) or ''
-        logging.error(msg="该接口URL:{} , 备注:{} 报错500, {}, 负责人:{} \n".format(url, remark, call_chain, developer_name))
+        # developer_name = return_api_developer(url) or ''
+        logging.error(msg="该接口URL:{} , 备注:{} 报错500, {} \n".format(url, remark, call_chain))
         raise Http500Error
         return {'state': 500, 'content': '报错500, 服务端错误', 'url': url, 'remark': remark + call_chain}
     elif status_code == 415:
@@ -748,7 +758,7 @@ def login_password(username, password):
     referer_login_html = 'https://passport.lagou.com/login/login.html'
     login_header = get_code_token(referer_login_html)
     remark = str(username) + "在登录拉勾"
-    r = form_post(url=login_url, data=login_data, headers=login_header, remark=remark)
+    r = form_post(url=login_url, data=login_data, headers=login_header, remark=remark, rd='王旭峰')
     if r['message'] == "操作成功":
         logging.info("用户名: " + str(username) + " 登录成功")
     return r
@@ -779,7 +789,7 @@ def pc_send_register_verifyCode(countryCode, phone):
     header = get_header(url='https://passport.lagou.com/register/register.html')
     send_data = {'countryCode': countryCode, 'phone': phone, 'type': 0, 'request_form_verifyCode': '', '_': str(int(
         time.time())) + '000'}
-    return form_post(url=url, headers=header, data=send_data, remark='发送验证码')['state']
+    return form_post(url=url, headers=header, data=send_data, remark='发送验证码', rd='王旭峰').get('state', 0)
 
 
 def pc_send_login_verifyCode(countryCode, phone):
@@ -787,7 +797,7 @@ def pc_send_login_verifyCode(countryCode, phone):
     header = get_header(url='https://passport.lagou.com/login/login.html')
     send_data = {'countryCode': countryCode, 'phone': phone, 'type': 0, 'request_form_verifyCode': '', '_': str(int(
         time.time())) + '000'}
-    return form_post(url=url, headers=header, data=send_data, remark='发送验证码')['state']
+    return form_post(url=url, headers=header, data=send_data, remark='发送验证码', rd='王旭峰')['state']
 
 
 def user_register_lagou(countryCode, phone, verify_code):
@@ -798,7 +808,7 @@ def user_register_lagou(countryCode, phone, verify_code):
                      "type": 1, "countryCode": countryCode}
     register_header = get_code_token(b_register_url)
     remark = "验证B端注册"
-    return form_post(url=register_url, data=register_data, headers=register_header, remark=remark)
+    return form_post(url=register_url, data=register_data, headers=register_header, remark=remark, rd='王旭峰')
 
 
 def request_retry(count, request_func, judging_func=None, response_text=None):
