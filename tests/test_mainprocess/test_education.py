@@ -147,3 +147,4 @@ def test_exchange_present(c_login_education_verifycode,get_h5_token):
     verify_code = verify_code_message(countryCode=countrycode, phone=phone)
     #verify_code="049281"
     register_by_phone(countryCode=countrycode, phone=phone, verify_code=verify_code)
+
