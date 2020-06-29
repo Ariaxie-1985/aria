@@ -48,7 +48,8 @@ class TestCompanyBusiness(object):
         admin_countryCode, admin_phone, admin_user_name = get_country_code_phone_user
         loger.info(f'B端入驻管理员手机号:{admin_phone}')
         register_state = pc_send_register_verifyCode(admin_countryCode, admin_phone)
-        assert_equal(1, register_state, '获取验证码成功', f'失败手机号:{admin_countryCode + admin_phone}', te='王霞')
+        assert_equal(expect_value=1, actual_value=register_state, success_message='获取验证码成功',
+                     fail_message=f'失败手机号:{admin_countryCode + admin_phone}', te='王霞')
 
     def test_get_admin_verify_code(self):
         global verify_code
@@ -59,7 +60,8 @@ class TestCompanyBusiness(object):
         global register_state
         register = user_register_lagou(admin_countryCode, admin_phone, verify_code)
         register_state = register.get('state', 0)
-        assert_equal(1, register_state, '校验管理员注册是否成功！', '失败手机号:{}'.format(admin_countryCode + admin_phone), te='王霞')
+        assert_equal(1, register_state, '校验管理员注册是否成功！', te='王霞',
+                     fail_message='失败手机号:{}'.format(admin_countryCode + admin_phone))
 
     def test_save_admin_user_info(self, get_company_name):
         personal_msg_save = saveHR(get_company_name, admin_user_name, 'ariaxie@lagou.com')
@@ -124,7 +126,8 @@ class TestCompanyBusiness(object):
         general_country_code_01, general_phone_01, general_user_name_01 = get_country_code_phone_user
         loger.info(f'B端入驻普通用户手机号:{general_phone_01}')
         general_user_register_state = pc_send_register_verifyCode(general_country_code_01, general_phone_01)
-        assert_equal(1, general_user_register_state, '获取验证码成功', f'失败手机号:{general_country_code_01 + general_phone_01}',
+        assert_equal(expect_value=1, actual_value=general_user_register_state, success_message='获取验证码成功',
+                     fail_message=f'失败手机号:{general_country_code_01 + general_phone_01}',
                      te='王霞')
 
     def test_get_verify_general_user_code_01(self):
@@ -136,8 +139,8 @@ class TestCompanyBusiness(object):
         global general_user_register_state
         register = user_register_lagou(general_country_code_01, general_phone_01, general_user_verify_code_01)
         general_user_register_state = register.get('state', 0)
-        assert_equal(1, general_user_register_state, '校验普通用户注册是否成功！',
-                     '失败手机号:{}'.format(general_country_code_01 + general_phone_01), te='王霞')
+        assert_equal(expect_value=1, actual_value=general_user_register_state, success_message='校验普通用户注册是否成功！',
+                     fail_message='失败手机号:{}'.format(general_country_code_01 + general_phone_01), te='王霞')
 
     def test_hr_jump_easy_index_html(self):
         time.sleep(1)
@@ -318,18 +321,21 @@ class TestCompanyBusiness(object):
 
     def test_import_linkManInfo(self):
         r = import_linkManInfo(www_company_id, self.contractNo)
-        assert_equal(True, r.get('success', False), '导入公司联系人信息成功！', f'导入公司联系人信息失败,合同编号:{self.contractNo}', te='王霞')
+        assert_equal(expect_value=True, actual_value=r.get('success', False), success_message='导入公司联系人信息成功！',
+                     fail_message=f'导入公司联系人信息失败,合同编号:{self.contractNo}', te='王霞')
 
     def test_import_contacts(self):
         r = import_contacts(www_company_id, self.contractNo)
-        assert_equal(True, r.get('success', False), "导入合同信息成功！", f'导入公司合同信息失败,合同编号:{self.contractNo}', te='王霞')
+        assert_equal(expect_value=True, actual_value=r.get('success', False), success_message="导入合同信息成功！",
+                     fail_message=f'导入公司合同信息失败,合同编号:{self.contractNo}', te='王霞')
 
     def test_buy_paid_package(self):
         r = open_product(templateId=79, companyId=www_company_id, contractNo=self.contractNo, userId=admin_user_id,
                          startTimeStr=str(datetime.date.today()),
                          endTimeStr=str(datetime.date.today() + datetime.timedelta(days=366)))
-        assert_equal(True, r.get('success', False), "开通付费套餐成功！",
-                     "公司主站id:{},用户id:{},合同编号:{}".format(www_company_id, admin_user_id, self.contractNo), te='王霞')
+        assert_equal(expect_value=True, actual_value=r.get('success', False), success_message="开通付费套餐成功！",
+                     fail_message="公司主站id:{},用户id:{},合同编号:{}".format(www_company_id, admin_user_id, self.contractNo),
+                     te='王霞')
 
     def test_login_admin_user_02(self, get_password):
         login_result = login_password(admin_countryCode + admin_phone, get_password)
@@ -434,13 +440,14 @@ class TestCompanyBusiness(object):
         general_country_code_02, general_phone_02, general_user_name_02 = get_country_code_phone_user
         loger.info(f'B端入驻普通用户2手机号:{general_phone_02}')
         general_user_register_state = pc_send_register_verifyCode(general_country_code_02, general_phone_02)
-        assert_equal(1, general_user_register_state, '获取验证码成功', f'失败手机号:{general_country_code_02 + general_phone_02}',
+        assert_equal(expect_value=1, actual_value=general_user_register_state, success_message='获取验证码成功',
+                     fail_message=f'失败手机号:{general_country_code_02 + general_phone_02}',
                      te='王霞')
 
     def test_get_verify_general_user_code_02(self):
         global general_user_verify_code_02
-        general_user_verify_code_02 = verify_code_message(general_country_code_02, general_phone_02, te='王霞')
-        assert_equal(True, bool(general_user_verify_code_01), '获取验证码成功')
+        general_user_verify_code_02 = verify_code_message(general_country_code_02, general_phone_02, )
+        assert_equal(True, bool(general_user_verify_code_01), '获取验证码成功', te='王霞')
 
     def test_register_general_user_02(self):
         register = user_register_lagou(general_country_code_02, general_phone_02, general_user_verify_code_02)

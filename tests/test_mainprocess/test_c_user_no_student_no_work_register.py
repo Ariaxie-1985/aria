@@ -25,8 +25,8 @@ class TestNotStudentNotWorkRegister(object):
         global countryCode, phone, register_state
         countryCode, phone, name = get_country_code_phone_user
         r = send_verify_code(countryCode, phone, "PASSPORT_REGISTER")
-        register_state = r.get('state')
-        assert_equal(1, register_state, '校验发送验证码成功', "失败的手机号:{}".format(phone), te='王霞')
+        assert_equal(expect_value=1, actual_value=r.get('state'), success_message='校验发送验证码成功',
+                     fail_message=f"失败的手机号:{phone}", te='王霞')
 
     def test_get_verify_code(self):
         global verify_code
@@ -37,13 +37,15 @@ class TestNotStudentNotWorkRegister(object):
         r = verifyCode_login(countryCode, phone, verify_code)
         global register_state
         register_state = r.get('state', 0)
-        assert_equal(201001, register_state, "校验验证码登录转注册成功", "失败的手机号:{}".format(phone), te='王霞')
+        assert_equal(expect_value=201001, actual_value=register_state, success_message="校验验证码登录转注册成功",
+                     fail_message="失败的手机号:{}".format(phone), te='王霞')
 
     def test_register_by_phone(self):
         r = register_by_phone(countryCode, phone, verify_code)
         global register_state
         register_state = r.get('state', 0)
-        assert_equal(1, register_state, "校验注册成功", "失败的手机号:{}".format(phone), te='王霞')
+        assert_equal(expect_value=1, actual_value=register_state, success_message="校验注册成功",
+                     fail_message="失败的手机号:{}".format(phone), te='王霞')
         global userToken, userId
         userToken = r['content']['userToken']
         userId = r['content']['userInfo']['userId']

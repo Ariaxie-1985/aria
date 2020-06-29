@@ -78,7 +78,8 @@ class TestJd(object):
         assert_equal(True, bool(len(r['content']['result'])), "最新人才用例通过")
         for talent in r['content']['result']:
             if bool(talent.get('portrait', False)):
-                assert_in(talent['portrait'].split(".")[-1], self.portrait_format, "最新人才的头像信息用例通过", te='王霞')
+                assert_in(actual_value=talent['portrait'].split(".")[-1], expect_value=self.portrait_format,
+                          success_message="最新人才的头像信息用例通过", te='王霞')
 
     def test_talent_collections(self, b_login_app):
         r = talent_collections(userToken=b_login_app[0])

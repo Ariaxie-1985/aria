@@ -11,7 +11,7 @@ def test_password_login():
     global countryCode, phone
     countryCode, phone = "00852", "20180917"
     r = password_login(countryCode + phone, countryCode + phone)
-    assert_equal(1, r['state'], '校验密码登录成功', '校验密码登录失败', te='王霞')
+    assert_equal(expect_value=1, actual_value=r['state'], success_message='校验密码登录成功', fail_message='校验密码登录失败', te='王霞')
 
 
 def test_is_verify_code_reach_upper_limit():
@@ -23,7 +23,7 @@ def test_is_verify_code_reach_upper_limit():
 @pytest.mark.skipif('send_verify_code_times >= 50', reason="验证码发送超过上限，跳过此用例")
 def test_send_verify_code():
     r = send_verify_code(countryCode, phone, "PASSPORT_REGISTER")
-    assert_equal(1, r.get('state'), '校验发送验证码成功', "校验发送验证码失败", te='王霞')
+    assert_equal(expect_value=1, actual_value=r.get('state'), success_message='校验发送验证码成功', fail_message="校验发送验证码失败", te='王霞')
 
 
 @pytest.mark.skipif('send_verify_code_times >= 50', reason="验证码发送超过上限，跳过此用例")

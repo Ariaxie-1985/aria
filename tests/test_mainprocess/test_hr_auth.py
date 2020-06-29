@@ -26,7 +26,8 @@ class TestHRAuth(object):
         hr1_countryCode, hr1_phone, hr1_user_name = get_country_code_phone_user
         loger.info(f'B端入驻hr1手机号:{hr1_phone}')
         register_state = pc_send_register_verifyCode(hr1_countryCode, hr1_phone)
-        assert_equal(1, register_state, '获取验证码成功', f'失败手机号:{hr1_countryCode + hr1_phone}', te='唐欣洁')
+        assert_equal(expect_value=1, actual_value=register_state, success_message='获取验证码成功',
+                     fail_message=f'失败手机号:{hr1_countryCode + hr1_phone}', te='唐欣洁')
 
     def test_get_hr1_verify_code(self):
         global verify_code
@@ -37,7 +38,7 @@ class TestHRAuth(object):
         global register_state
         register = user_register_lagou(hr1_countryCode, hr1_phone, verify_code)
         register_state = register.get('state', 0)
-        assert_equal(1, register_state, '校验hr1注册成功', '失败手机号:{}'.format(hr1_countryCode + hr1_phone), te='唐欣洁')
+        assert_equal(expect_value=1, actual_value=register_state, success_message='校验hr1注册成功', fail_message='失败手机号:{}'.format(hr1_countryCode + hr1_phone), te='唐欣洁')
 
     def test_save_general_hr1_info(self):
         personal_info_save = saveHR('拉勾测试自动化公司00911111111111', hr1_user_name, 'foxtang01@lagou.com', '测试工程师')
