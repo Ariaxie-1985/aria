@@ -666,7 +666,7 @@ def get_verify_code_list(countryCode, phone):
     except IndexError:
         return 0, None, None
 
-
+@pysnooper.snoop()
 def verify_code_message(countryCode, phone, flag_num=0):
     login_home('betty@lagou.com', '00f453dfec0f2806db5cfabe3ea94a35')
     import time
@@ -839,5 +839,8 @@ if __name__ == '__main__':
     # curPath = os.path.abspath(os.path.dirname(__file__))
     # rootPath = os.path.split(curPath)[0]
     # print(os.path.dirname(__file__))
-    r = judging_other_abnormal_conditions(500, url5, '测试')
-    print(r)
+    #r = judging_other_abnormal_conditions(500, url5, '测试')
+    #print(r)
+    a=verify_code_message(countryCode="0044",phone="2020062700")
+    print(a)
+
