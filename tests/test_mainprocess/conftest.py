@@ -140,7 +140,7 @@ def c_login_education_verifycode(request):
     result = verifyCode_login(request.param[0], request.param[1], verifycode)
     print(result['content']['userToken'])
     test_edu_usertoken.append(result['content']['userToken'])
-
+    print(test_edu_usertoken)
     return result['content']['userToken'], result['content']['userInfo']['userId'], result['content']['userInfo'][
         'phone']
 
