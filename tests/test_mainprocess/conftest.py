@@ -138,7 +138,7 @@ def c_login_education_verifycode(request):
     verifycode = verify_code_message(request.param[0], request.param[1])
     #verifycode="049281"
     result = verifyCode_login(request.param[0], request.param[1], verifycode, app_type='LGEdu')
-    print(result['content']['userToken'])
+    print(result)
     test_edu_usertoken.append(result['content']['userToken'])
     print(test_edu_usertoken)
     return result['content']['userToken'], result['content']['userInfo']['userId'], result['content']['userInfo'][
