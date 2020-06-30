@@ -15,7 +15,7 @@ from utils.util import assert_equal,assert_in,verify_code_message
 from api_script.neirong_app.app import get_user_base_info
 from api_script.entry.cuser.baseStatus import batchCancel
 from api_script.entry.account.passport import register_by_phone,send_verify_code,verifyCode_login
-import json
+import time
 
 
 
@@ -147,6 +147,7 @@ def test_exchange_present(c_login_education_verifycode,get_edu_h5_token):
     print(phone)
     #phone="2020062700"
     sendverigycode=send_verify_code(countrycode,phone,'PASSPORT_REGISTER',app_type='LGEdu')
+    time.sleep(12)
     verify_code = verify_code_message(countryCode=countrycode, phone=phone)
     print(verify_code)
     #verify_code="049281"
