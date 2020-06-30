@@ -34,7 +34,7 @@ def verifyCode_login(countryCode, phone, verify_code, app_type='zhaopin'):
     return r
 
 
-def send_verify_code(countryCode, phone, businessType, verifyCodeStyle=None):
+def send_verify_code(countryCode, phone, businessType, verifyCodeStyle=None, app_type='zhaopin'):
     url = 'https://gate.lagou.com/v1/entry/account/verifyCode/phone'
     data = {
         "countryCode": countryCode,
@@ -42,7 +42,7 @@ def send_verify_code(countryCode, phone, businessType, verifyCodeStyle=None):
         "verifyCodeType": 0,
         "businessType": businessType
     }
-    header = app_header_999()
+    header = app_header_999(app_type=app_type)
     if verifyCodeStyle is not None:
         data["verifyCodeStyle"] = verifyCodeStyle
     remark = "验证码登录，发送验证码"

@@ -144,9 +144,9 @@ def test_exchange_present(c_login_education_verifycode,get_edu_h5_token):
     countrycode="0044"
     phone=c_login_education_verifycode[2]
     #phone="2020062700"
-    sendverigycode=send_verify_code(countrycode,phone,'PASSPORT_REGISTER')
+    sendverigycode=send_verify_code(countrycode,phone,'PASSPORT_REGISTER',app_type='LGEdu')
     verify_code = verify_code_message(countryCode=countrycode, phone=phone)
     #verify_code="049281"
     verifyCode_login(countryCode=countrycode,phone=phone,verify_code=verify_code,app_type='LGEdu')
-    register_by_phone(countryCode=countrycode, phone=phone, verify_code=verify_code)
+    register_by_phone(countryCode=countrycode, phone=phone, verify_code=verify_code,app_type='LGEdu')
 
