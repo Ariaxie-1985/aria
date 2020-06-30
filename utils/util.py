@@ -137,7 +137,7 @@ def json_post(url, remark, rd=None, data=None, headers={}, app=False, verifystat
     :param headers: dict, 请求header
     :return: json格式化的响应结果
     """
-    logging.info(f'开发{rd}')
+    logging.info(f'开发{rd}同学')
     global count
     if verifystate == False:
         count = 3
@@ -187,7 +187,7 @@ def get_requests(url, rd=None, data=None, headers={}, remark=None, ip_port=None)
     :param headers: dict, requests header
     :return: object, 响应对象
     """
-    logging.info(f'开发{rd}')
+    logging.info(f'开发{rd}同学')
     headers = {**header, **headers, **{'Content-Type': 'charset=UTF-8'}}
     global count
     try:
@@ -342,7 +342,7 @@ def assert_equal(expect_value, actual_value, success_message, te, fail_message=N
     :param fail_message:str, 断言失败打印的日志
     :param te: 测试工程师
     '''
-    logging.info(f'测试{te}')
+    logging.info(f'测试{te}同学')
     if expect_value == actual_value:
         # loger.success(success_message)
         state = 1
@@ -361,7 +361,7 @@ def assert_not_equal(expect_value, actual_value, success_message, te, fail_messa
     :param fail_message:str, 断言失败打印的日志
     :param te: 测试工程师
     '''
-    logging.info(f'测试{te}')
+    logging.info(f'测试{te}同学')
     if expect_value != actual_value:
         # loger.success(success_message)
         pass
@@ -378,7 +378,7 @@ def assert_in(expect_value, actual_value, success_message, te, fail_message=None
     :param fail_message:str, 断言失败打印的日志
     :param te: 测试工程师
     '''
-    logging.info(f'测试{te}')
+    logging.info(f'测试{te}同学')
     if expect_value in actual_value:
         # loger.success(success_message)
         pass
@@ -395,7 +395,7 @@ def assert_not_in(expect_value, actual_value, success_message, te, fail_message=
     :param fail_message:str, 断言失败打印的日志
     :param te: 测试工程师
     '''
-    logging.info(f'测试{te}')
+    logging.info(f'测试{te}同学')
     if expect_value not in actual_value:
         # loger.success(success_message)
         pass
@@ -459,7 +459,7 @@ def json_put(url, remark, rd=None, data=None, headers={}, ip_port=None):
     :param headers: dict, 请求header
     :return: json格式化的响应结果
     """
-    logging.info(f'开发{rd}')
+    logging.info(f'开发{rd}同学')
     global count
     try:
         headers = {**headers, **header, **{'Content-Type': 'application/json;charset=UTF-8'}}
@@ -509,7 +509,7 @@ def put_requests(url, rd=None, headers={}, remark=None, ip_port=None):
     :param headers: dict, requests header
     :return: object, 响应对象
     """
-    logging.info(f'开发{rd}')
+    logging.info(f'开发{rd}同学')
     global count
     try:
         if ip_port is None:
@@ -554,7 +554,7 @@ def delete_requests(url, rd=None, headers={}, remark=None, ip_port=None):
     :param headers: dict, requests header
     :return: object, 响应对象
     """
-    logging.info(f'开发{rd}')
+    logging.info(f'开发{rd}同学')
     global count
     try:
         if ip_port is None:
