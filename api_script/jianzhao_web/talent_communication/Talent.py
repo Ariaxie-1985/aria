@@ -19,7 +19,7 @@ def session_list():
     url = "https://easy.lagou.com/im/session/list.json?pageNo=1&pageSize=15&createBy=0&unReadOnly=0"
     object = get_requests(url=url, remark="获取会话列表", headers=header)
     meassage = object['message']
-    assert_equal("操作成功", meassage, "获取会话列表成功", "获取会话列表失败")
+    assert_equal("操作成功", meassage, "获取会话列表成功", "获取会话列表失败", rd='mandy')
 
 
 def allRead():

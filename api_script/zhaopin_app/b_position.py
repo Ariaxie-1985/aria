@@ -99,7 +99,7 @@ def post_positions(firstType='开发|测试|运维类', workyear='应届毕业�
     }
     remark = "发布职位"
     headers = get_app_header1(userid)
-    return json_post(url=url, headers=headers, data=data, remark=remark)
+    return json_post(url=url, headers=headers, data=data, remark=remark, rd='royliu')
 
 
 def positions_details(userToken, positionId, userId=None, ip_port=None):
@@ -156,7 +156,7 @@ def get_online_positions(ip_port=None, userToken=None, H9=False, userId=None):
         header = get_app_header(userId)
     url = host + "/positions/online/pages?pageNo=1&pageSize=80"
     remark = "获取在线职位列表"
-    return get_requests(url=url, headers=header, remark=remark, ip_port=ip_port)
+    return get_requests(url=url, headers=header, remark=remark, ip_port=ip_port, rd='royliu')
 
 
 def get_offline_positions(userToken, userId=None, ip_port=None):
@@ -246,11 +246,11 @@ def positions_recommend(positionId):
     return json_post(url=url, headers=headers, remark=remark)
 
 
-def positions_red_point_hint(userToken,ip_port=None, userId=None):
+def positions_red_point_hint(userToken, ip_port=None, userId=None):
     url = host + "/positions/red_point_hint"
-    header = app_header_999(userToken, DA=False,userId=userId)
+    header = app_header_999(userToken, DA=False, userId=userId)
     remark = "首页导航职位红点"
-    return get_requests(url=url, remark=remark, headers=header,ip_port=ip_port)
+    return get_requests(url=url, remark=remark, headers=header, ip_port=ip_port)
 
 
 def positions_details_app(positionId):
@@ -285,7 +285,7 @@ def positions_offline(id, reqVersion=None, userToken=None, H9=False, userId=None
     else:
         userId = 100014641
         headers = get_app_header(userId, reqVersion)
-    return json_put(url=url, data={}, remark=remark, headers=headers, ip_port=ip_port)
+    return json_put(url=url, data={}, remark=remark, headers=headers, ip_port=ip_port, rd='royliu')
 
 
 def publish_guide(userId):
@@ -328,7 +328,7 @@ def publish_position(userToken, userId=None, ip_port=None):
     }
     remark = "发布职位"
     headers = app_header_999(userToken, DA=False, userId=userId)
-    return json_post(url=url, headers=headers, data=data, remark=remark, ip_port=ip_port)
+    return json_post(url=url, headers=headers, data=data, remark=remark, ip_port=ip_port, rd='royliu')
 
 
 if __name__ == '__main__':

@@ -34,7 +34,7 @@ def search_positions(userToken, userId=None, ip_port=None, **kw):
         "longitudeAndLatitude": "-1.000000,-1.000000",
         "pageSize": 15
     }
-    return json_post(url=url, data=data, headers=header, remark='搜索职位', ip_port=ip_port)
+    return json_post(url=url, data=data, headers=header, remark='搜索职位', ip_port=ip_port, rd='royliu')
 
 
 def hotEmployee_activeHr(userToken, userId=None, ip_port=None):

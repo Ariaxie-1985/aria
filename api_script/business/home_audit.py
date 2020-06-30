@@ -10,14 +10,14 @@ def query_risk_labels_by_company(companyId):
     header = get_header(url='http://home.lagou.com/index.html')
     data = {'companyId': companyId}
     remark = '查询公司的风险标签'
-    return form_post(url=url, headers=header, data=data, remark=remark)
+    return form_post(url=url, headers=header, data=data, remark=remark, rd='王豪')
 
 
 def query_risk_labels():
     url = 'http://home.lagou.com/audit/companyApprove/queryRiskLabels.json'
     header = get_header(url='http://home.lagou.com/index.html')
     remark = '查询风险标签'
-    return form_post(url=url, headers=header, remark=remark)
+    return form_post(url=url, headers=header, remark=remark, rd='王豪')
 
 
 def add_risk_labels_by_company(companyId, labelIds):
@@ -25,4 +25,4 @@ def add_risk_labels_by_company(companyId, labelIds):
     header = get_header(url='http://home.lagou.com/index.html')
     data = {'companyId': companyId, 'labelIds': labelIds}
     remark = '给公司打风险标签'
-    return form_post(url=url, headers=header, data=data, remark=remark)
+    return form_post(url=url, headers=header, data=data, remark=remark, rd='王豪')
