@@ -154,6 +154,7 @@ def get_h5_token():
 @pytest.fixture(scope='session')
 def get_edu_h5_token():
     result = getToken(userToken=test_edu_usertoken[0])
+    print(result)
     return result['content']['gateLoginToken']
 
 
