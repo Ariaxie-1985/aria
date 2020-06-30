@@ -244,7 +244,6 @@ def remove_member_has_offline_position(verity_userId=None):
 # return False
 
 def close_trial_package(lg_CompanyId):
-    login_password('betty@lagou.com', '00f453dfec0f2806db5cfabe3ea94a35')
     contractNo = get_contract_No(lg_CompanyId)
     close_result = close_contract(contractNo=contractNo)
     return close_result

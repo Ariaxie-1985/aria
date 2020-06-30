@@ -10,9 +10,10 @@ from api_script.entry.deliver.deliver import get_resume_info, deliver_create
 from api_script.open_lagou_com.position import category_get, company_address_district, company_address_create, \
     address_query, company_address_list, position_create, get_position_info, update_position_info, get_position_list, \
     offline_position, refresh_position, publish_position, delete_position_address
+from utils.loggers import logers
 from utils.util import assert_equal
 
-
+loger = logers()
 @pytest.mark.incremental
 class TestPosition:
     def test_category_get(self, get_access_token):
@@ -43,7 +44,9 @@ class TestPosition:
         assert_equal(address_id, res['data']['addresses'][0]['address_id'], '查询创建的地址用例通过', '查询创建的地址用例失败')
 
     def test_position_create(self, get_access_token, get_openid):
+        time.sleep(2)
         res = position_create(access_token=get_access_token, openid=get_openid, address_id=address_id)
+        loger.info(f'发布职位, openid:{get_openid}')
         assert_equal(0, res.get('code'), '创建职位请求成功', '创建职位请求失败')
         global position_id, jd_id
         position_id = res['data']['id']

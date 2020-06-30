@@ -49,22 +49,19 @@ def send_feishu_report(module, pytest_result):
 
         fail_results = ''
 
-        names = ''
+        names = []
         for case_name, case_fail_result in pytest_result['data']['result']['info']['result']['fail_result'].items(
         ):
-            if case_fail_result['name'] != -1 and 'name' in case_fail_result:
-                names += case_fail_result['name'] + ','
-                fail_result = '用例{}报错:{},原因:{},负责人:{}\n\n'.format(
-                    case_name, case_fail_result['error_type'], case_fail_result['log'], case_fail_result['name'])
-            else:
-                fail_result = '用例{}报错:{},原因是{}\n\n'.format(
-                    case_name, case_fail_result['error_type'], case_fail_result['log'])
+            fail_result = f'''用例{case_name}报错:{case_fail_result['error_type']},原因:{case_fail_result['log']},测试:{case_fail_result.get('te_name')},开发:{case_fail_result.get('rd_name')}\n\n'''
             fail_results += fail_result
-        if bool(names):
-            fix_time = get_fix_time()
-            name_template = f'请开发同学{names}在{fix_time}之前，尽快处理并给出反馈'
-        else:
-            name_template = ''
+            names.extend([case_fail_result.get('te_name'), case_fail_result.get('rd_name')])
+
+        if '' in names:
+            names.remove('')
+        elif None in names:
+            names.remove(None)
+        fix_time = get_fix_time()
+        name_template = f'''请{','.join(list(set(names)))}在{fix_time}之前，尽快处理并给出反馈'''
         content = "{}\n\n具体失败结果:\n{}\n请大家对线上问题保持敬畏之心！\n{}".format(summary_result, fail_results, name_template)
         return send_feishu_bot(module=module, content=content)
 
@@ -72,7 +69,9 @@ def send_feishu_report(module, pytest_result):
 def send_mail(module):
     sender = 'autotest@lagoujobs.com'
     sender_password = 'Lqq123456'
-    receivers = ['xiawang@lagou.com', 'betty@lagou.com']
+    receivers = ['xiawang@lagou.com', 'betty@lagou.com', 'sunnyzhang@lagou.com', 'arayang@lagou.com',
+                 'sunnysun@lagou.com', 'yangwang@lagou.com', 'bingoonchen@lagou.com', 'ariaxie@lagou.com',
+                 'anan@lagou.com', 'foxtang01@lagou.com']
     ret = True
 
     try:
@@ -104,6 +103,7 @@ def send_mail(module):
 
 def send_feishu_bot(module, content):
     module_bot = {
+        'test': 'https://open.feishu.cn/open-apis/bot/hook/882babeafa3e4f0b839d6ff41efa2b84',
         'mainprocess': 'https://open.feishu.cn/open-apis/bot/hook/03654ef57c4f4418ba8802cfa1cf06a0',
         'open_api_lagou': 'https://open.feishu.cn/open-apis/bot/hook/ad282603210042cdb3e414f36e1acbb8'
     }

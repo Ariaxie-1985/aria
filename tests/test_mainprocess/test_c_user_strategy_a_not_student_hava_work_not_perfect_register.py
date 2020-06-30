@@ -27,24 +27,27 @@ class TestNotStudentHaveWorkRegister(object):
         countryCode, phone, name = get_country_code_phone_user
         r = send_verify_code(countryCode, phone, "PASSPORT_REGISTER", 1)
         register_state = r.get('state')
-        assert_equal(1, register_state, '校验发送验证码成功', "失败的手机号:{}".format(phone))
+        assert_equal(expect_value=1, actual_value=register_state, success_message='校验发送验证码成功',
+                     fail_message="失败的手机号:{}".format(phone), te='sunnysun')
 
     def test_get_verify_code(self):
         global verify_code
         verify_code = verify_code_message(countryCode, phone)
-        assert_equal(True, bool(verify_code), "校验获取验证码成功")
+        assert_equal(True, bool(verify_code), "校验获取验证码成功", te='sunnysun')
 
     def test_verifyCode_login(self):
         r = verifyCode_login(countryCode, phone, verify_code)
         global register_state
         register_state = r.get('state', 0)
-        assert_equal(201001, register_state, "校验验证码登录转注册成功", "失败的手机号:{}".format(phone))
+        assert_equal(expect_value=201001, actual_value=register_state, success_message="校验验证码登录转注册成功",
+                     fail_message="失败的手机号:{}".format(phone), te='sunnysun')
 
     def test_register_by_phone(self):
         r = register_by_phone(countryCode, phone, verify_code)
         global register_state
         register_state = r.get('state', 0)
-        assert_equal(1, register_state, "校验注册成功", "失败的手机号:{}".format(phone))
+        assert_equal(expect_value=1, actual_value=register_state, success_message="校验注册成功",
+                     fail_message="失败的手机号:{}".format(phone), te='sunnysun')
         global userToken, userId
         userToken = r['content']['userToken']
         userId = r['content']['userInfo']['userId']
@@ -52,7 +55,7 @@ class TestNotStudentHaveWorkRegister(object):
     def test_get_login_by_token(self):
         r = get_login_by_token(userToken)
         logging.info(msg='userToken {} \n'.format(userToken))
-        assert_equal(1, r.get('state'), '校验token登录成功')
+        assert_equal(1, r.get('state'), '校验token登录成功', te='sunnysun')
 
     def test_guideBasicInfo(self):
         global s
@@ -60,30 +63,30 @@ class TestNotStudentHaveWorkRegister(object):
         r = guideBasicInfo(countryCode + phone, 2, userToken)
         if s == 'A' or s == 'B':
             r = guideBasicInfo(countryCode + phone, 2, userToken, s)
-        assert_equal(1, r.get('state'), '校验提交基本信息成功，策略' + s)
+        assert_equal(1, r.get('state'), '校验提交基本信息成功，策略' + s, te='sunnysun')
         loger.info('提交基本信息成功，策略' + s)
 
     def test_educationExperiences(self):
         r = educationExperiences(userToken)
-        assert_equal(1, r.get('state'), "校验提交教育经历成功")
+        assert_equal(1, r.get('state'), "校验提交教育经历成功", te='sunnysun')
 
     def test_workExperiences(self):
         r = workExperiences(userToken)
         if s == 'A':
             r = workExperiences(userToken, s)
-        assert_equal(1, r.get('state'), '校验提交工作经历')
+        assert_equal(1, r.get('state'), '校验提交工作经历', te='sunnysun')
         loger.info('提交工作经历成功，策略' + s)
 
     def test_personalCards(self):
         r = personalCards(userToken)
         if s == 'A':
             r = personalCards(userToken, s)
-            assert_equal(1, r.get('state'), '校验跳过个人名片成功')
+            assert_equal(1, r.get('state'), '校验跳过个人名片成功', te='sunnysun')
             loger.info('跳过个人名片成功，策略' + s)
         else:
-            assert_equal(1, r.get('state'), '校验提交个人名片成功')
+            assert_equal(1, r.get('state'), '校验提交个人名片成功', te='sunnysun')
             loger.info('提交个人名片成功，策略' + s)
 
     def test_expectJob(self):
         r = expectJob(userToken)
-        assert_equal(1, r.get('state'), '校验提交求职意向')
+        assert_equal(1, r.get('state'), '校验提交求职意向', te='sunnysun')
