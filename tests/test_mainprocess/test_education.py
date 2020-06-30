@@ -148,6 +148,7 @@ def test_exchange_present(c_login_education_verifycode,get_edu_h5_token):
     #phone="2020062700"
     sendverigycode=send_verify_code(countrycode,phone,'PASSPORT_REGISTER',app_type='LGEdu')
     verify_code = verify_code_message(countryCode=countrycode, phone=phone)
+    print(verify_code)
     #verify_code="049281"
     print(verifyCode_login(countryCode=countrycode, phone=phone, verify_code=verify_code,app_type='LGEdu'))
     print(register_by_phone(countryCode=countrycode, phone=phone, verify_code=verify_code,app_type='LGEdu'))
