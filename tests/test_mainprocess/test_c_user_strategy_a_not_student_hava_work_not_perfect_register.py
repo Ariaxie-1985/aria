@@ -54,8 +54,8 @@ class TestNotStudentHaveWorkRegister(object):
 
     def test_get_login_by_token(self):
         r = get_login_by_token(userToken)
-        logging.info(msg='userToken {} \n'.format(userToken), te='sunnysun')
-        assert_equal(1, r.get('state'), '校验token登录成功')
+        logging.info(msg='userToken {} \n'.format(userToken))
+        assert_equal(1, r.get('state'), '校验token登录成功', te='sunnysun')
 
     def test_guideBasicInfo(self):
         global s

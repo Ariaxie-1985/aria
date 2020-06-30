@@ -97,12 +97,12 @@ class TestCompanyBusiness(object):
         for base_detail in r['content']['baseDetailResList']:
             if www_company_id[-1] not in ('0', '1', '2'):
                 if base_detail['baseGoodsId'] == 623:
-                    assert_equal(1, base_detail['totalNum'], '验证普通职位总数1个通过')
+                    assert_equal(1, base_detail['totalNum'], '验证普通职位总数1个通过', te='王霞')
                 if base_detail['baseGoodsId'] == 201:
-                    assert_equal(self.im_chat_number, base_detail['totalNum'], '验证沟通点数总数15个通过')
+                    assert_equal(self.im_chat_number, base_detail['totalNum'], '验证沟通点数总数15个通过', te='王霞')
             else:
                 if base_detail['baseGoodsId'] == 623:
-                    assert_equal(3, base_detail['totalNum'], '验证木桶计划灰度公司主站ID尾号为0,1,2的免费用户的普通职位总数3个通过')
+                    assert_equal(3, base_detail['totalNum'], '验证木桶计划灰度公司主站ID尾号为0,1,2的免费用户的普通职位总数3个通过', te='王霞')
                 if base_detail['baseGoodsId'] == 201:
                     assert_equal(self.im_chat_number_gray_scale, base_detail['totalNum'], '验证沟通点数总数50个通过')
         assert_equal(True, bool(r['content']['baseDetailResList']), '验证免费账号的普通权益通过', te='王霞')
