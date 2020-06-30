@@ -15,7 +15,8 @@ def company_auth():
     auth_file_data = {"fileUrl": "i/audio1/M00/01/C5/CgHIk1wQzSaAcR09AAqex8SeJls235.JPG"}
     auth_file_header = get_code_token(com_step1_url)
     remark = "上传营业执照"
-    return form_post(url=auth_file_url, data=auth_file_data, headers=auth_file_header, remark=remark)
+    return form_post(url=auth_file_url, data=auth_file_data, headers=auth_file_header, remark=remark, rd='王豪')
+
 
 def completeInfo(**kwargs):
     if kwargs.get('detailAddress', None) == None:
@@ -39,7 +40,7 @@ def completeInfo(**kwargs):
                          "companyLat": companyLat}
     completeInfo_header = get_code_token(com_step2_url)
     remark = "验证B端申请认证公司是否成功"
-    return form_post(url=completeInfo_url, data=completeInfo_data, headers=completeInfo_header, remark=remark)
+    return form_post(url=completeInfo_url, data=completeInfo_data, headers=completeInfo_header, remark=remark, rd='王豪')
 
 
 def completeInfo_process(detailAddress=None, provinceId=None, cityId=None, districtId=None, businessArea=None,

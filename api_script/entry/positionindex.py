@@ -22,13 +22,13 @@ def rec(userToken, expectJobId, filterCity='北京', city='北京', ip_port=None
         "pageNo": 1,
         "pageSize": 10
     }
-    return json_post(url=url, data=data, headers=header, remark='推荐职位', ip_port=ip_port)
+    return json_post(url=url, data=data, headers=header, remark='推荐职位', ip_port=ip_port, rd='royliu')
 
 
 def expect_job_list(userToken, ip_port=None, userId=None):
     url = 'https://gate.lagou.com/v1/entry/expectJob/list'
     header = app_header_999(userToken=userToken, userId=userId)
-    return get_requests(url=url, headers=header, remark='求职意向', ip_port=ip_port)
+    return get_requests(url=url, headers=header, remark='求职意向', ip_port=ip_port, rd='征桂')
 
 
 def new(userToken, expectJobId, filterCity='北京', ip_port=None, userId=None):
@@ -44,13 +44,13 @@ def new(userToken, expectJobId, filterCity='北京', ip_port=None, userId=None):
         "filterCity": filterCity,
         "expectJobId": expectJobId
     }
-    return json_post(url=url, data=data, headers=header, remark='推荐职位', ip_port=ip_port)
+    return json_post(url=url, data=data, headers=header, remark='推荐职位', ip_port=ip_port, rd='royliu')
 
 
 def switch_city(userToken, city):
     url = 'https://gate.lagou.com/v1/entry/positionindex/hotCompany?city={}'.format(city)
     header = app_header_999(userToken)
-    return get_requests(url=url, headers=header, remark="切换搜索的职位")
+    return get_requests(url=url, headers=header, remark="切换搜索的职位", rd='royliu')
 
 
 def position_index_suggestion(userToken, userId=None, ip_port=None):

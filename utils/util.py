@@ -79,7 +79,7 @@ def form_post(url, remark, rd=None, data=None, files=None, headers={}, verifysta
     :param headers: dict, 请求header
     :return: json格式化的响应结果
     """
-    logging.info(f'开发{rd}')
+    logging.info(f'开发{rd}同学')
     global count
     if verifystate == False:
         count = 3
@@ -137,7 +137,7 @@ def json_post(url, remark, rd=None, data=None, headers={}, app=False, verifystat
     :param headers: dict, 请求header
     :return: json格式化的响应结果
     """
-    logging.info(f'开发{rd}')
+    logging.info(f'开发{rd}同学')
     global count
     if verifystate == False:
         count = 3
@@ -187,7 +187,7 @@ def get_requests(url, rd=None, data=None, headers={}, remark=None, ip_port=None)
     :param headers: dict, requests header
     :return: object, 响应对象
     """
-    logging.info(f'开发{rd}')
+    logging.info(f'开发{rd}同学')
     headers = {**header, **headers, **{'Content-Type': 'charset=UTF-8'}}
     global count
     try:
@@ -290,7 +290,7 @@ def login(countryCode, username):
     referer_login_html = 'https://passport.lagou.com/login/login.html'
     login_header = get_code_token(referer_login_html)
     remark = str(username) + "在登录拉勾"
-    r = form_post(url=login_url, data=login_data, headers=login_header, remark=remark)
+    r = form_post(url=login_url, data=login_data, headers=login_header, remark=remark, rd='旭峰')
     if r['message'] == "操作成功":
         logging.info("用户名: " + str(username) + " 登录成功")
     return r
@@ -309,7 +309,7 @@ def login_home(username, password):
     login_data = {'isValidate': 'true', 'username': username, 'password': password}
     login_home_header = get_code_token(referer_login_home_url)
     remark = "用户 " + str(username) + " 在登录拉勾home后台"
-    r = form_post(url=login_url, data=login_data, headers=login_home_header, remark=remark)
+    r = form_post(url=login_url, data=login_data, headers=login_home_header, remark=remark, rd='旭峰')
     get_requests(url='https://passport.lagou.com/grantServiceTicket/grant.html')
     if r['message'] == "操作成功":
         logging.info("用户名: " + str(username) + " 登录成功")
@@ -329,13 +329,13 @@ def login_home_code(countryCode, username):
                   'countryCode': countryCode, 'challenge': 111}
     login_header = get_code_token(referer_login_home_url)
     remark = str(username) + "在登录拉勾"
-    r = form_post(url=login_url, data=login_data, headers=login_header, remark=remark)
+    r = form_post(url=login_url, data=login_data, headers=login_header, remark=remark, rd='旭峰')
     if r['message'] == "操作成功":
         logging.info("用户名: " + str(username) + " 登录成功")
     return r
 
 
-def assert_equal(expect_value, actual_value, success_message, te, fail_message=None):
+def assert_equal(expect_value, actual_value, success_message, te=None, fail_message=None):
     '''
     断言两个值是否相等, 并对结果打印日志
     :param expect_value: 期望结果
@@ -343,7 +343,7 @@ def assert_equal(expect_value, actual_value, success_message, te, fail_message=N
     :param fail_message:str, 断言失败打印的日志
     :param te: 测试工程师
     '''
-    logging.info(f'测试{te}')
+    logging.info(f'测试{te}同学')
     if expect_value == actual_value:
         # loger.success(success_message)
         state = 1
@@ -354,7 +354,7 @@ def assert_equal(expect_value, actual_value, success_message, te, fail_message=N
     return state
 
 
-def assert_not_equal(expect_value, actual_value, success_message, te, fail_message=None):
+def assert_not_equal(expect_value, actual_value, success_message, te=None, fail_message=None):
     '''
     断言两个值是否相等, 并对结果打印日志
     :param expect_value: 期望结果
@@ -362,7 +362,7 @@ def assert_not_equal(expect_value, actual_value, success_message, te, fail_messa
     :param fail_message:str, 断言失败打印的日志
     :param te: 测试工程师
     '''
-    logging.info(f'测试{te}')
+    logging.info(f'测试{te}同学')
     if expect_value != actual_value:
         # loger.success(success_message)
         pass
@@ -371,7 +371,7 @@ def assert_not_equal(expect_value, actual_value, success_message, te, fail_messa
     assert expect_value != actual_value
 
 
-def assert_in(expect_value, actual_value, success_message, te, fail_message=None):
+def assert_in(expect_value, actual_value, success_message, te=None, fail_message=None):
     '''
     断言两个值是否相等, 并对结果打印日志
     :param expect_value: 期望结果
@@ -379,7 +379,7 @@ def assert_in(expect_value, actual_value, success_message, te, fail_message=None
     :param fail_message:str, 断言失败打印的日志
     :param te: 测试工程师
     '''
-    logging.info(f'测试{te}')
+    logging.info(f'测试{te}同学')
     if expect_value in actual_value:
         # loger.success(success_message)
         pass
@@ -388,7 +388,7 @@ def assert_in(expect_value, actual_value, success_message, te, fail_message=None
     assert expect_value in actual_value
 
 
-def assert_not_in(expect_value, actual_value, success_message, te, fail_message=None):
+def assert_not_in(expect_value, actual_value, success_message, te=None, fail_message=None):
     '''
     断言两个值是否相等, 并对结果打印日志
     :param expect_value: 期望结果
@@ -396,7 +396,7 @@ def assert_not_in(expect_value, actual_value, success_message, te, fail_message=
     :param fail_message:str, 断言失败打印的日志
     :param te: 测试工程师
     '''
-    logging.info(f'测试{te}')
+    logging.info(f'测试{te}同学')
     if expect_value not in actual_value:
         # loger.success(success_message)
         pass
@@ -460,7 +460,7 @@ def json_put(url, remark, rd=None, data=None, headers={}, ip_port=None):
     :param headers: dict, 请求header
     :return: json格式化的响应结果
     """
-    logging.info(f'开发{rd}')
+    logging.info(f'开发{rd}同学')
     global count
     try:
         headers = {**headers, **header, **{'Content-Type': 'application/json;charset=UTF-8'}}
@@ -510,7 +510,7 @@ def put_requests(url, rd=None, headers={}, remark=None, ip_port=None):
     :param headers: dict, requests header
     :return: object, 响应对象
     """
-    logging.info(f'开发{rd}')
+    logging.info(f'开发{rd}同学')
     global count
     try:
         if ip_port is None:
@@ -555,7 +555,7 @@ def delete_requests(url, rd=None, headers={}, remark=None, ip_port=None):
     :param headers: dict, requests header
     :return: object, 响应对象
     """
-    logging.info(f'开发{rd}')
+    logging.info(f'开发{rd}同学')
     global count
     try:
         if ip_port is None:
@@ -655,7 +655,8 @@ def get_verify_code_list(countryCode, phone):
     yesterday = datetime.date.today() - datetime.timedelta(days=1)
     data = {"commId": countryCode + phone, "startTime": str(yesterday) + "T16:00:00.000Z", 'templateId': '749',
             "page": 1, "count": 10}
-    r = json_post(url=url, data=data, headers={'X-L-REQ-HEADER': json.dumps({"deviceType": 1})}, remark="获取验证码列表")
+    r = json_post(url=url, data=data, headers={'X-L-REQ-HEADER': json.dumps({"deviceType": 1})}, remark="获取验证码列表",
+                  rd='王哲')
     try:
         if r['content']['totalCount'] == 0:
             return 0, None, None
@@ -682,7 +683,8 @@ def verify_code_message(countryCode, phone, flag_num=0):
 def get_verify_code(id, createTime):
     url = 'https://home.lagou.com/msc/message/view'
     data = {"createTime": createTime, "msgId": id}
-    r = json_post(url=url, data=data, headers={'X-L-REQ-HEADER': json.dumps({"deviceType": 1})}, remark="获取验证码")
+    r = json_post(url=url, data=data, headers={'X-L-REQ-HEADER': json.dumps({"deviceType": 1})}, remark="获取验证码",
+                  rd='王哲')
     try:
         verify_code = re.findall(r'[0-9]\d+', r.get('content').get('content'))[0]
     except IndexError:
@@ -700,7 +702,8 @@ def get_verify_code_message_len(countryCode, phone):
     yesterday = datetime.date.today() - datetime.timedelta(days=1)
     data = {"commId": countryCode + phone, "startTime": str(yesterday) + "T16:00:00.000Z",
             "page": 1, "count": 10, 'templateId': '749'}
-    r = json_post(url=url, data=data, headers={'X-L-REQ-HEADER': json.dumps({"deviceType": 1})}, remark="获取验证码列表")
+    r = json_post(url=url, data=data, headers={'X-L-REQ-HEADER': json.dumps({"deviceType": 1})}, remark="获取验证码列表",
+                  rd='王哲')
     try:
         return r['content']['totalCount']
     except:
@@ -778,7 +781,7 @@ def login_verifyCode(countryCode, phone, verifyCode):
     referer_login_html = 'https://passport.lagou.com/login/login.html'
     login_header = get_code_token(referer_login_html)
     remark = str(phone) + "在登录拉勾"
-    r = form_post(url=login_url, data=login_data, headers=login_header, remark=remark)
+    r = form_post(url=login_url, data=login_data, headers=login_header, remark=remark, rd='旭峰')
     if r['message'] == "操作成功":
         logging.info("用户名: " + str(phone) + " 登录成功")
     return r
@@ -798,7 +801,7 @@ def pc_send_login_verifyCode(countryCode, phone):
     header = get_header(url='https://passport.lagou.com/login/login.html')
     send_data = {'countryCode': countryCode, 'phone': phone, 'type': 0, 'request_form_verifyCode': '', '_': str(int(
         time.time())) + '000'}
-    return form_post(url=url, headers=header, data=send_data, remark='发送验证码', rd='王旭峰')['state']
+    return form_post(url=url, headers=header, data=send_data, remark='发送验证码', rd='王旭峰').get('state', 0)
 
 
 def user_register_lagou(countryCode, phone, verify_code):

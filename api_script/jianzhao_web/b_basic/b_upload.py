@@ -15,7 +15,8 @@ def upload_permit():
     verify_data = {"fileUrl": "i/image2/M01/AF/EF/CgoB5l3mDqWAPbXyAACQ9vLCc5I534.png", "force": True}
     verify_header = get_code_token("https://hr.lagou.com/corpCenter/staff/index.html")
     remark = "上传营业执照"
-    return json_post(url=verify_url, data=verify_data, headers=verify_header, remark=remark)
+    return json_post(url=verify_url, data=verify_data, headers=verify_header, remark=remark, rd='王豪')
+
 
 def upload_incumbency_certification():
     '''
@@ -26,10 +27,10 @@ def upload_incumbency_certification():
     get_requests("https://hr.lagou.com/corpCenter/staff/index.html")
     verify_url = "https://hr.lagou.com/corpCenter/staff/next/enterprise.json"
     verify_data = {"fileUrl": "i/image2/M01/AF/EF/CgoB5l3mDqWAPbXyAACQ9vLCc5I534.png", "force": True,
-                   "authType":24}
+                   "authType": 24}
     verify_header = get_code_token("https://hr.lagou.com/corpCenter/staff/index.html")
     remark = "上传在职证明"
-    return json_post(url=verify_url, data=verify_data, headers=verify_header, remark=remark)
+    return json_post(url=verify_url, data=verify_data, headers=verify_header, remark=remark, rd='王豪')
 
 
 def upload_identity_card():
