@@ -75,7 +75,7 @@ class TestJd(object):
     def test_talent_newTalent(self, b_login_app):
         time.sleep(1)
         r = talent_newTalent(userToken=b_login_app[0], positionId=positionId)
-        assert_equal(True, bool(len(r['content']['result'])), "最新人才用例通过")
+        assert_equal(True, bool(len(r['content']['result'])), "最新人才用例通过", te='王霞')
         for talent in r['content']['result']:
             if bool(talent.get('portrait', False)):
                 assert_in(actual_value=talent['portrait'].split(".")[-1], expect_value=self.portrait_format,
