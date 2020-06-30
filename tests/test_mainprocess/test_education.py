@@ -144,7 +144,7 @@ def test_exchange_present(c_login_education_verifycode,get_edu_h5_token):
     batchCancel(userIds=userid)
     countrycode="0044"
     phone=c_login_education_verifycode[2]
-    phone.replace("+","")
+    phone=phone.replace("+","")
     print(phone)
     #phone="2020062700"
     sendverigycode=send_verify_code(countryCode=countrycode,phone=phone,businessType='PASSPORT_REGISTER',app_type='LGEdu')
