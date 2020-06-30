@@ -135,7 +135,7 @@ def c_login_education(request):
 def c_login_education_verifycode(request):
     sendverifycode = send_verify_code(request.param[0], request.param[1], 'PASSPORT_REGISTER')
     verifycode = verify_code_message(request.param[0], request.param[1])
-    verifycode="049281"
+    #verifycode="049281"
     result = verifyCode_login(request.param[0], request.param[1], verifycode, app_type='LGEdu')
     print(result['content']['userToken'])
     test_edu_usertoken.append(result['content']['userToken'])
