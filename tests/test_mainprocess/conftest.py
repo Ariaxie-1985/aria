@@ -6,13 +6,14 @@ import time
 import pytest
 
 from api_script.education.account import getToken
-from api_script.entry.account.passport import password_login,verifyCode_login
+from api_script.entry.account.passport import password_login, verifyCode_login
 from api_script.jianzhao_web.index import dashboard_index_get_user_id
 from backend.common.get_data import get_www_company_id
 from faker import Faker
 from api_script.jianzhao_web.b_basic.toB_saveHR_1 import get_b_person_userId, get_b_index_Id
-from utils.util import login_password,login_verifyCode,verify_code_message
+from utils.util import login_password, login_verifyCode, verify_code_message
 from api_script.entry.account.passport import send_verify_code
+
 
 fake = Faker("zh_CN")
 
@@ -36,7 +37,7 @@ fake = Faker("zh_CN")
 test_telephone = []
 test_company_name = []
 test_usertoken = []
-test_edu_usertoken=[]
+test_edu_usertoken = []
 
 
 @pytest.fixture(scope='session')
@@ -102,6 +103,7 @@ def b_login_app(request):
     result = password_login(request.param[0], request.param[1])
     return result['content']['userToken'], result['content']['userInfo']['userId']
 
+
 @pytest.fixture(scope='session', params=[["0085220180917", "0085220180917"]])
 def c_login_app(request):
     result = password_login(request.param[0], request.param[1])
@@ -127,22 +129,27 @@ def c_login_education(request):
     result = password_login(request.param[0], request.param[1], app_type='LGEdu')
     test_usertoken.append(result['content']['userToken'])
     return result['content']['userToken'], result['content']['userInfo']['userId']
-#yangyang
-@pytest.fixture(scope='session',params=[["0044", "2020062700"]])
-def c_login_education_verifycode(request):
-    sendverifycode=send_verify_code(request.param[0],request.param[1],'PASSPORT_REGISTER')
-    verifycode=verify_code_message(request.param[0],request.param[1])
-    #verifycode="049281"
-    result=verifyCode_login(request.param[0],request.param[1],verifycode)
 
+
+# yangyang
+@pytest.fixture(scope='session', params=[["0044", "2020062700"]])
+def c_login_education_verifycode(request):
+    sendverifycode = send_verify_code(request.param[0], request.param[1], 'PASSPORT_REGISTER')
+    verifycode = verify_code_message(request.param[0], request.param[1])
+    # verifycode="049281"
+    result = verifyCode_login(request.param[0], request.param[1], verifycode)
+    print(result['content']['userToken'])
     test_edu_usertoken.append(result['content']['userToken'])
 
-    return result['content']['userToken'],result['content']['userInfo']['userId'],result['content']['userInfo']['phone']
+    return result['content']['userToken'], result['content']['userInfo']['userId'], result['content']['userInfo'][
+        'phone']
+
 
 @pytest.fixture(scope='session')
 def get_h5_token():
     result = getToken(userToken=test_usertoken[0])
     return result['content']['gateLoginToken']
+
 
 @pytest.fixture(scope='session')
 def get_edu_h5_token():
@@ -187,4 +194,3 @@ def pytest_configure(config):
     config.addinivalue_line(
         "markers", "incremental: mark test to run only on named main_process"
     )
-
