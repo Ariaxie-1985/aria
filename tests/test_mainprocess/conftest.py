@@ -134,6 +134,7 @@ def c_login_education(request):
 @pytest.fixture(scope='session', params=[["0044", "2020062700"]])
 def c_login_education_verifycode(request):
     sendverifycode = send_verify_code(request.param[0], request.param[1], 'PASSPORT_REGISTER')
+    time.sleep(12)
     verifycode = verify_code_message(request.param[0], request.param[1])
     #verifycode="049281"
     result = verifyCode_login(request.param[0], request.param[1], verifycode, app_type='LGEdu')
