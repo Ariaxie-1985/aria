@@ -11,7 +11,7 @@ def group_invite_code():
     url = 'https://easy.lagou.com/invitation/groupInviteCode.json'
     header = get_header(url='https://easy.lagou.com/member/all_members.htm?')
     remark = '生成邀请加入公司链接'
-    return json_post(url=url, headers=header, remark=remark)
+    return json_post(url=url, headers=header, remark=remark, rd='royliu')
 
 
 def invitation_join_company(user, invite_code):
@@ -32,7 +32,7 @@ def join_with_user(userIdPasscode, invite_code):
         'c': invite_code
     }
     remark = '确定加入公司'
-    r = form_post(url=url, data=data, remark=remark)
+    r = form_post(url=url, data=data, remark=remark, rd='royliu')
     if r.get('state') == 1:
         redirectUrl = r['content']['data']['redirectUrl']
     get_requests(url=redirectUrl)

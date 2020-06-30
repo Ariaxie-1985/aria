@@ -46,7 +46,7 @@ def position(a):
                            'workAddressId': '191880',
                            'labels': '[{"id":"1","name":"电商"}]', 'extraInfor': '[{"labels":[{"id":"1","name":"电商"}]}]',
                            'channels': '108', 'useEnergyCard': 'false', 'recommend': 'false', "useEnergyCard": "false",'workYear':'不限'}
-    s = form_post(url=createPosition_url, data=createPosition_data, headers=Position_header,remark='发布职位')
+    s = form_post(url=createPosition_url, data=createPosition_data, headers=Position_header,remark='发布职位', rd='royliu')
     return s
 
 def position_limit():
@@ -66,6 +66,6 @@ def offineposition(id):
     offine_url = 'https://easy.lagou.com/position/offlinePosition.json'
     offine_header = get_code_token('https://easy.lagou.com/position/multiChannel/myOnlinePositions.htm')
     offine_data = {'positionId':id}
-    s = form_post(url=offine_url,headers=offine_header,data=offine_data,remark='下线职位')
+    s = form_post(url=offine_url,headers=offine_header,data=offine_data,remark='下线职位', rd='royliu')
     return s
 # print(getonlinepositionlimit())

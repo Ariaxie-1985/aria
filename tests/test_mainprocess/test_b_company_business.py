@@ -104,7 +104,7 @@ class TestCompanyBusiness(object):
                 if base_detail['baseGoodsId'] == 623:
                     assert_equal(3, base_detail['totalNum'], '验证木桶计划灰度公司主站ID尾号为0,1,2的免费用户的普通职位总数3个通过', te='王霞')
                 if base_detail['baseGoodsId'] == 201:
-                    assert_equal(self.im_chat_number_gray_scale, base_detail['totalNum'], '验证沟通点数总数50个通过')
+                    assert_equal(self.im_chat_number_gray_scale, base_detail['totalNum'], '验证沟通点数总数50个通过', te='王霞')
         assert_equal(True, bool(r['content']['baseDetailResList']), '验证免费账号的普通权益通过', te='王霞')
 
     def test_group_invite_code(self):
@@ -411,7 +411,7 @@ class TestCompanyBusiness(object):
 
     def test_jump_home(self):
         time.sleep(1)
-        login_home('betty@lagou.com', '00f453dfec0f2806db5cfabe3ea94a35', te='王霞')
+        login_home('betty@lagou.com', '00f453dfec0f2806db5cfabe3ea94a35')
 
     def test_query_risk_labels(self):
         r = query_risk_labels()
@@ -429,7 +429,7 @@ class TestCompanyBusiness(object):
 
     def test_queryRiskLabelsByCompany(self):
         time.sleep(5)
-        r = queryRiskLabelsByCompany(companyId=www_company_id, te='王霞')
+        r = queryRiskLabelsByCompany(companyId=www_company_id)
         loger.info(f'{www_company_id}公司的风险标签:{r["data"]}')
         risk_label = ['外包公司', '保险公司', '招聘公司']
         for label in r['data']:
@@ -451,8 +451,8 @@ class TestCompanyBusiness(object):
 
     def test_register_general_user_02(self):
         register = user_register_lagou(general_country_code_02, general_phone_02, general_user_verify_code_02)
-        assert_equal(1, register.get('state', 0), '校验普通用户注册是否成功！',
-                     f'失败手机号:{general_country_code_02 + general_phone_02}', te='王霞')
+        assert_equal(expect_value=1, actual_value=register.get('state', 0), success_message='校验普通用户注册是否成功！',
+                     fail_message=f'失败手机号:{general_country_code_02 + general_phone_02}', te='王霞')
 
     def test_hr_jump_easy_index_html_02(self):
         time.sleep(1)
@@ -513,7 +513,7 @@ class TestCompanyBusiness(object):
         time.sleep(1)
         login_home('betty@lagou.com', '00f453dfec0f2806db5cfabe3ea94a35')
         close_result = close_trial_package(www_company_id)
-        assert_equal(True, close_result, '终止所有合同成功', '终止所有合同失败', te='王霞')
+        assert_equal(expect_value=True, actual_value=close_result, success_message='终止所有合同成功', fail_message='终止所有合同失败', te='王霞')
 
     def test_login_admin_user_03(self, get_password):
         login_result = login_password(admin_countryCode + admin_phone, get_password)

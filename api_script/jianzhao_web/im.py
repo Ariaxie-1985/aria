@@ -26,7 +26,7 @@ def im_session_list(createBy, ip_port=None):
     refer_url = "https://easy.lagou.com/talent/search/list.htm?pageNo=1&keyword=%E6%8B%89%E5%8B%BE%E7%BD%91&show_id=5a4289c49b6e4c08b7b1cb8e9f9820e1&city=%E5%93%88%E5%B0%94%E6%BB%A8&education=%E4%B8%8D%E9%99%90&workYear=%E4%B8%8D%E9%99%90&industryField=%E4%B8%8D%E9%99%90&expectSalary=%E4%B8%8D%E9%99%90"
     query_header = get_header(refer_url, ip_port=ip_port)
     remark = "获取im列表"
-    return get_requests(url=query_url, headers=query_header, remark=remark, ip_port=ip_port)
+    return get_requests(url=query_url, headers=query_header, remark=remark, ip_port=ip_port, rd='mandy')
 
 
 def im_session_get(session_id, ip_port=None):
@@ -48,7 +48,7 @@ def count_unRead_messages(ip_port=None):
 def greeting_list(cUserIds, positionId=0):
     url = 'https://easy.lagou.com/im/session/greetingList.json'
     # refer_url = f'https://easy.lagou.com/talent/index.htm?positionId={positionId}'
-    refer_url ='https://easy.lagou.com/talent/search/list.htm?pageNo=1&keyword=%E6%8B%89%E5%8B%BE%E7%BD%91&show_id=5a4289c49b6e4c08b7b1cb8e9f9820e1&city=%E5%93%88%E5%B0%94%E6%BB%A8&education=%E4%B8%8D%E9%99%90&workYear=%E4%B8%8D%E9%99%90&industryField=%E4%B8%8D%E9%99%90&expectSalary=%E4%B8%8D%E9%99%90'
+    refer_url = 'https://easy.lagou.com/talent/search/list.htm?pageNo=1&keyword=%E6%8B%89%E5%8B%BE%E7%BD%91&show_id=5a4289c49b6e4c08b7b1cb8e9f9820e1&city=%E5%93%88%E5%B0%94%E6%BB%A8&education=%E4%B8%8D%E9%99%90&workYear=%E4%B8%8D%E9%99%90&industryField=%E4%B8%8D%E9%99%90&expectSalary=%E4%B8%8D%E9%99%90'
 
     query_header = get_code_token(refer_url)
     print(query_header.get('Cookies'))
@@ -56,7 +56,7 @@ def greeting_list(cUserIds, positionId=0):
         'cUserIds': cUserIds
     }
     remark = '找人才-打招呼'
-    return form_post(url=url, data=data, headers=query_header, remark=remark)
+    return form_post(url=url, data=data, headers=query_header, remark=remark, rd='mandy')
 
 
 def multiChannel_default_invite(positionId):
@@ -68,7 +68,7 @@ def multiChannel_default_invite(positionId):
         'positionId': positionId
     }
     remark = '职位邀请人才'
-    return form_post(url=url, headers=query_header, data=data, remark=remark)
+    return form_post(url=url, headers=query_header, data=data, remark=remark, rd='mandy')
 
 
 def session_batchCreate_cUserIds(cUserIds, positionId):
@@ -81,4 +81,4 @@ def session_batchCreate_cUserIds(cUserIds, positionId):
         'inviteDeliver': 'true'
     }
     remark = '创建会话'
-    return form_post(url=url, headers=query_header, data=data, remark=remark)
+    return form_post(url=url, headers=query_header, data=data, remark=remark, rd='mandy')

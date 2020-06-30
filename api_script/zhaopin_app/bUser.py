@@ -15,7 +15,7 @@ def quickReply_all(userToken):
     url = 'https://gate.lagou.com/v1/zhaopin/bUser/quickReply/all'
     header = app_header_999(userToken=userToken, DA=False)
     remark = '获取IM的快捷回复'
-    return get_requests(url=url, headers=header, remark=remark)
+    return get_requests(url=url, headers=header, remark=remark, rd='mandy')
 
 
 def interviewTemplate_all(userToken, ip_port=None, userId=None):

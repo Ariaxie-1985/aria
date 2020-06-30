@@ -22,7 +22,7 @@ def import_linkManInfo(companyId, contractNo):
     update_excel(file_Path, companyId, contractNo)
     files = {'file': open(file_Path, 'rb')}
     remark = 'home后台-拉勾加-数据导入-导入公司联系人信息, 其header:{}'.format(header['Cookie'])
-    return form_post(url=url, files=files, headers=header, remark=remark)
+    return form_post(url=url, files=files, headers=header, remark=remark, rd='李久超')
 
 
 def import_contacts(companyId, contractNo):
@@ -38,12 +38,12 @@ def import_contacts(companyId, contractNo):
     files = {'file': open(file_Path, 'rb')}
 
     remark = 'home后台-拉勾加-数据导入-导入合同信息'
-    return form_post(url=url, files=files, headers=header, remark=remark)
+    return form_post(url=url, files=files, headers=header, remark=remark, rd='李久超')
 
 
 if __name__ == '__main__':
     login_password('betty@lagou.com', '00f453dfec0f2806db5cfabe3ea94a35')
-    r =import_linkManInfo(117448258, 'lg-auto-test-20191219-12')
+    r = import_linkManInfo(117448258, 'lg-auto-test-20191219-12')
     # import_contacts(117448258, 'lg-auto-test-20191219-11')
     print(type(r))
     print(r)

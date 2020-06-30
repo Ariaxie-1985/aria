@@ -11,7 +11,7 @@ def get_contract_No(companyId):
     header = get_header("http://home.lagou.com/")
     Request_url = "https://home.lagou.com/crm/contractController/list.json"
     data = {"companyId": companyId}
-    object = form_post(url=Request_url, remark="查询当前公司下的合同", data=data, headers=header)
+    object = form_post(url=Request_url, remark="查询当前公司下的合同", data=data, headers=header, rd='李久超')
     try:
         contractNo = object['data']['pageData'][0]['number']
     except KeyError:
@@ -26,7 +26,7 @@ def close_contract(contractNo):
     header = get_header("https://home.lagou.com/")
     Request_url = "https://home.lagou.com/crm/valueadded/product/close.json"
     data = {"contractNo": contractNo}
-    return form_post(url=Request_url, remark="终止所有合同", data=data, headers=header)['success']
+    return form_post(url=Request_url, remark="终止所有合同", data=data, headers=header, rd='杨振宇')['success']
 
 
 def open_product(companyId, userId, contractNo):
@@ -43,7 +43,7 @@ def open_product(companyId, userId, contractNo):
         'upgrade': False
     }
     remark = "开启合同"
-    return form_post(url=url, data=data, headers=headers, remark=remark)['success']
+    return form_post(url=url, data=data, headers=headers, remark=remark, rd='杨振宇')['success']
 
 
 if __name__ == '__main__':

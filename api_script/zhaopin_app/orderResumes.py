@@ -59,14 +59,14 @@ def orderResumes_process_save(userToken, content, resumeId):
     }
     header = app_header_999(userToken=userToken, DA=False)
     remark = '提交简历评价'
-    return json_post(url=url, data=data, headers=header, remark=remark)
+    return json_post(url=url, data=data, headers=header, remark=remark, rd='mandy')
 
 
 def orderResumes_process_query(userToken, resumeId, ip_port=None, userId=None):
     url = host + '/orderResumes/process/query?resumeId={}'.format(resumeId)
     header = app_header_999(userToken=userToken, DA=False, userId=userId)
     remark = '查询简历参与者的评价记录'
-    return get_requests(url=url, headers=header, remark=remark, ip_port=ip_port)
+    return get_requests(url=url, headers=header, remark=remark, ip_port=ip_port, rd='mandy')
 
 
 def orderResumes_process_forward(atIds, resumeId):
@@ -97,7 +97,7 @@ def orderResumes_interview(userToken, resumeId):
     url = "https://gate.lagou.com/v1/zhaopin/orderResumes/interview?resumeId={}".format(resumeId)
     header = app_header_999(userToken=userToken, DA=False)
     remark = "查询面试安排记录"
-    return get_requests(url=url, headers=header, remark=remark)
+    return get_requests(url=url, headers=header, remark=remark, rd='mandy')
 
 
 def orderResumes_resume_interview(userToken, resumeId, positionId, ip_port=None, userId=None):
@@ -116,49 +116,49 @@ def orderResumes_resume_interview(userToken, resumeId, positionId, ip_port=None,
         "addInfo": "请提前10分钟到，谢谢"
     }
     remark = "邀约面试"
-    return json_post(url=url, headers=header, data=data, remark=remark, ip_port=ip_port)
+    return json_post(url=url, headers=header, data=data, remark=remark, ip_port=ip_port, rd='mandy')
 
 
 def orderResumes_resume_obsolete(userToken, resumeId, ip_port=None, userId=None):
     url = "https://gate.lagou.com/v1/zhaopin/orderResumes/{}/obsolete?fromIm=true&contactC=false".format(resumeId)
     header = app_header_999(userToken=userToken, DA=False, userId=userId)
     remark = "候选人状态调整为不合适"
-    return put_requests(url=url, headers=header, remark=remark, ip_port=ip_port)
+    return put_requests(url=url, headers=header, remark=remark, ip_port=ip_port, rd='mandy')
 
 
 def orderResumes_detail(userToken, resumeId, ip_port=None, userId=None):
     url = "https://gate.lagou.com/v1/zhaopin/orderResumes/{}?needImg=false&ignoreNearbyFail=true".format(resumeId)
     header = app_header_999(userToken=userToken, DA=False, userId=userId)
     remark = "查询简历详情"
-    return get_requests(url=url, headers=header, remark=remark, ip_port=ip_port)
+    return get_requests(url=url, headers=header, remark=remark, ip_port=ip_port, rd='mandy')
 
 
 def orderResumes_read(userToken, resumeId, ip_port=None, userId=None):
     url = "https://gate.lagou.com/v1/zhaopin/orderResumes/read?orderResumeId={}".format(resumeId)
     header = app_header_999(userToken=userToken, DA=False, userId=userId)
     remark = "设置简历已读"
-    return get_requests(url=url, headers=header, remark=remark, ip_port=ip_port)
+    return get_requests(url=url, headers=header, remark=remark, ip_port=ip_port, rd='mandy')
 
 
 def orderResumes_resume_link(userToken, resumeId, ip_port=None, userId=None):
     url = "https://gate.lagou.com/v1/zhaopin/orderResumes/{}/link".format(resumeId)
     header = app_header_999(userToken=userToken, DA=False, userId=userId)
     remark = "标记初筛"
-    return put_requests(url=url, headers=header, remark=remark, ip_port=ip_port)
+    return put_requests(url=url, headers=header, remark=remark, ip_port=ip_port, rd='mandy')
 
 
 def orderResumes_resume_luyong(userToken, resumeId, ip_port=None, userId=None):
     url = "https://gate.lagou.com/v1/zhaopin/orderResumes/{}/luyong".format(resumeId)
     header = app_header_999(userToken=userToken, DA=False, userId=userId)
     remark = "录用候选人"
-    return put_requests(url=url, headers=header, remark=remark, ip_port=ip_port)
+    return put_requests(url=url, headers=header, remark=remark, ip_port=ip_port, rd='mandy')
 
 
 def orderResumes_resume_employed(userToken, resumeId, ip_port=None, userId=None):
     url = "https://gate.lagou.com/v1/zhaopin/orderResumes/{}/employed".format(resumeId)
     header = app_header_999(userToken=userToken, DA=False, userId=userId)
     remark = "候选人已入职"
-    return put_requests(url=url, headers=header, remark=remark, ip_port=ip_port)
+    return put_requests(url=url, headers=header, remark=remark, ip_port=ip_port, rd='mandy')
 
 
 def orderResumes_resume_new(userToken, resumeId, ip_port=None, userId=None):

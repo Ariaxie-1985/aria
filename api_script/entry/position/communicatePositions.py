@@ -8,20 +8,20 @@ from utils.util import get_requests, app_header_999
 def query_positions(userToken, companyId):
     url = 'https://gate.lagou.com/v1/entry/position/queryPositions?companyId={}&pageNo=0&pageSize=0'.format(companyId)
     header = app_header_999(userToken, DA=False)
-    return get_requests(url=url, headers=header, remark="查询公司的在招职位")
+    return get_requests(url=url, headers=header, remark="查询公司的在招职位", rd='royliu')
 
 
 def query_by_company(userToken, companyId, positionType):
     url = 'https://gate.lagou.com/v1/entry/position/queryByCompany?companyId={}&positionType={}&pageNo=1&pageSize=10'.format(
         companyId, positionType)
     header = app_header_999(userToken, DA=False)
-    return get_requests(url=url, headers=header, remark='根据筛选条件查询公司的在招职位')
+    return get_requests(url=url, headers=header, remark='根据筛选条件查询公司的在招职位', rd='royliu')
 
 
 def get_jd(userToken, positionId):
     url = 'https://gate.lagou.com/v1/entry/position/jd?positionId={}&isCInspectB=1'.format(positionId)
     header = app_header_999(userToken, DA=False)
-    return get_requests(url=url, headers=header, remark="获取职位jd页")
+    return get_requests(url=url, headers=header, remark="获取职位jd页", rd='royliu')
 
 
 # new
