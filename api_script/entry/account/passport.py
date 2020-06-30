@@ -50,7 +50,7 @@ def send_verify_code(countryCode, phone, businessType, verifyCodeStyle=None):
     return r
 
 
-def register_by_phone(countryCode, phone, verify_code):
+def register_by_phone(countryCode, phone, verify_code,app_type='zhaopin'):
     # 可返回userToken
     url = 'https://gate.lagou.com/v1/entry/account/passport/registerByPhone'
     data = {
@@ -58,7 +58,7 @@ def register_by_phone(countryCode, phone, verify_code):
         "countryCode": countryCode,
         "verifyCode": verify_code
     }
-    header = app_header_999()
+    header = app_header_999(app_type=app_type)
     remark = '手机号注册账号'
     r = json_post(url=url, data=data, headers=header, remark=remark)
     return r
