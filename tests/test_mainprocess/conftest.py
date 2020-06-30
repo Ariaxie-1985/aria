@@ -14,7 +14,6 @@ from api_script.jianzhao_web.b_basic.toB_saveHR_1 import get_b_person_userId, ge
 from utils.util import login_password, login_verifyCode, verify_code_message
 from api_script.entry.account.passport import send_verify_code
 
-
 fake = Faker("zh_CN")
 
 '''
@@ -137,7 +136,7 @@ def c_login_education_verifycode(request):
     sendverifycode = send_verify_code(request.param[0], request.param[1], 'PASSPORT_REGISTER')
     verifycode = verify_code_message(request.param[0], request.param[1])
     # verifycode="049281"
-    result = verifyCode_login(request.param[0], request.param[1], verifycode)
+    result = verifyCode_login(request.param[0], request.param[1], verifycode, app_type='LGEdu')
     print(result['content']['userToken'])
     test_edu_usertoken.append(result['content']['userToken'])
     print(test_edu_usertoken)

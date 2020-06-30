@@ -19,7 +19,7 @@ def password_login(accountName, password, ip_port=None, app_type='zhaopin'):
     return r
 
 
-def verifyCode_login(countryCode, phone, verify_code):
+def verifyCode_login(countryCode, phone, verify_code, app_type='zhaopin'):
     url = 'https://gate.lagou.com/v1/entry/account/passport/login'
     data = {
         "countryCode": countryCode,
@@ -29,7 +29,7 @@ def verifyCode_login(countryCode, phone, verify_code):
         "loginType": 1,
         "verifyCode": verify_code
     }
-    header = app_header_999()
+    header = app_header_999(app_type=app_type)
     r = json_post(url=url, headers=header, data=data, remark="验证码登录", verifystate=False)
     return r
 
