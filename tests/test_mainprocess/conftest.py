@@ -131,7 +131,7 @@ def c_login_education(request):
 
 
 # yangyang
-@pytest.fixture(scope='session', params=[["0044", "2020062700"]])
+@pytest.fixture(scope='session', params=[["0044", "2020062701"]])
 def c_login_education_verifycode(request):
     sendverifycode = send_verify_code(request.param[0], request.param[1], 'PASSPORT_REGISTER')
     time.sleep(12)
