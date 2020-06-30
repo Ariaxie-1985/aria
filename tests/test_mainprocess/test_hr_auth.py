@@ -47,15 +47,11 @@ class TestHRAuth(object):
         register_state = register.get('state', 0)
         assert_equal(expect_value=1, actual_value=register_state, success_message='校验hr1注册成功', fail_message='失败手机号:{}'.format(hr1_countryCode + hr1_phone), te='唐欣洁')
 
-    @pytest.mark.parametrize('newPassword', [('990eb670f81e82f546cfaaae1587279a')])
-    def test_update_hr1_password(self, newPassword):
-        r = upate_user_password(newPassword)
-        assert_equal(1, r['state'], 'hr1修改密码成功',te='唐欣洁')
-
     @pytest.mark.parametrize('companyFullName,resumeReceiveEmail,userPosition',[('拉勾测试自动化公司00911111111111','foxtang01@lagou.com','测试工程师')])
     def test_save_hr1_info(self,companyFullName,resumeReceiveEmail,userPosition):
-        personal_info_save = saveHR(companyFullName, hr1_user_name, resumeReceiveEmail,userPosition)
-        assert_equal(1, personal_info_save.get('state', 0), '校验hr基本信息是否保存成功',te='唐欣洁')
+        r= saveHR(companyFullName, hr1_user_name, resumeReceiveEmail,userPosition)
+        print(r)
+        assert_equal(1, r['state'], '校验hr基本信息是否保存成功',te='唐欣洁')
 
     def test_hr1_join_company(self):
         join_company = add_saveCompany()
@@ -94,6 +90,12 @@ class TestHRAuth(object):
         r = offline_position(positionId=unAuth_positionId)
         assert_equal(1, r.get('state', 0), '验证过审前发的职位，过审后可以下线成功', te='唐欣洁')
         time.sleep(1)
+
+    @pytest.mark.parametrize('newPassword', [('990eb670f81e82f546cfaaae1587279a')])
+    def test_update_hr1_password(self, newPassword):
+        r = upate_user_password(newPassword)
+        assert_equal(1, r['state'], 'hr1修改密码成功',te='唐欣洁')
+        login_password(hr1_countryCode + hr1_phone, newPassword)
     
     def test_remove_hr1(self, get_user_info, get_password):
         global hr1Id, easy_company_id, www_company_id
@@ -105,6 +107,7 @@ class TestHRAuth(object):
             login_password(hr1_countryCode + hr1_phone, get_password)
             remove_result = remove_member_has_offline_position(hr1Id)
         assert_equal(True, remove_result, '验证hr1解除招聘服务成功', te='唐欣洁')
+
 
     @pytest.mark.parametrize('companyFullName,resumeReceiveEmail,userPosition',[('拉勾测试自动化公司00911111111112','foxtang01@lagou.com','测试工程师')])
     def test_save_hr1_info02(self,companyFullName,resumeReceiveEmail,userPosition):
