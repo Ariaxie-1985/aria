@@ -14,7 +14,7 @@ from api_script.education.kaiwu import get_course_description, get_distribution_
 from utils.util import assert_equal,assert_in,verify_code_message
 from api_script.neirong_app.app import get_user_base_info
 from api_script.entry.cuser.baseStatus import batchCancel
-from api_script.entry.account.passport import register_by_phone,send_verify_code
+from api_script.entry.account.passport import register_by_phone,send_verify_code,verifyCode_login
 import json
 
 
@@ -147,6 +147,6 @@ def test_exchange_present(c_login_education_verifycode,get_edu_h5_token):
     sendverigycode=send_verify_code(countrycode,phone,'PASSPORT_REGISTER')
     verify_code = verify_code_message(countryCode=countrycode, phone=phone)
     #verify_code="049281"
-    c_login_education_verifycode()
+    verifyCode_login(countrycode=countrycode,phone=phone,verify_code=verify_code,app_type='LGEdu')
     register_by_phone(countryCode=countrycode, phone=phone, verify_code=verify_code)
 
