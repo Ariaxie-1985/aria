@@ -211,7 +211,7 @@ class TestCompanyBusiness(object):
 
     def test_get_newer_task(self):
         r = get_newer_task()
-        assert_equal(1, r.get('state'), '任务中心获取新手任务用例通过')
+        assert_equal(1, r.get('state'), '任务中心获取新手任务用例通过', te='王霞')
         global task_reward_info
         task_reward_info = []
         for task in r['data']:
