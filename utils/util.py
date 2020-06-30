@@ -714,7 +714,7 @@ def app_header_999(userToken=None, DA=True, userId=None, app_type='zhaopin'):
                   "reqVersion": '73100', "appVersion": "7.31.0"}
     elif app_type == 'LGEdu':
         header = {"lgId": "898BCC3F-E662-4761-87E8-845788525443_1582611503", "appType": 1, "reqVersion": 10300,
-                  "appVersion": "1.2.4", "deviceType": 170}
+                  "appVersion": "1.3.0", "deviceType": 170}
     if not userToken is None:
         header['userToken'] = userToken
 
