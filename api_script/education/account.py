@@ -24,7 +24,7 @@ def getToken(userToken):
     url = 'https://gate.lagou.com/v1/entry/account/h5/getToken'
     # header = get_header(url="https://kaiwu.lagou.com/distribution/appCenter.html")
     header = get_edu_app_header(userToken=userToken,DA=False)
-    print("这是header  "+header)
+    print(header)
     header["appVersion"]="1.3.0"
     header["reqVersion"] = "10300"
     header["lgId"] = "269D6E0E-0F60-41DD-9518-6BAF4AF862D3_1593075931"
