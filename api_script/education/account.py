@@ -8,6 +8,7 @@ from utils.util import  get_requests,get_edu_app_header
 
 
 def getToken(userToken):
+    print("gettoken中的usertoken"+userToken)
     url = 'https://gate.lagou.com/v1/entry/account/h5/getToken'
     # header = get_header(url="https://kaiwu.lagou.com/distribution/appCenter.html")
     header = get_edu_app_header(userToken=userToken,DA=False)
