@@ -86,7 +86,7 @@ def receive_credit(gateLoginToken):
 
 def exchange_present(gateLoginToken):
     data={
-        "presentId":2
+        "presentId":5
     }
     url = 'https://gate.lagou.com/v1/neirong/course/user_growth/exchangePresent'
     header = {"Cookie": f"gate_login_token ={gateLoginToken};", "X-L-REQ-HEADER": "{deviceType:1}"}
