@@ -219,7 +219,7 @@ def remove_member_has_offline_position(verity_userId=None):
     url = 'https://easy.lagou.com/member/recruiterMembers.json?pageNo=1&pageSize=50&keyword='
     header = get_code_token(url='https://easy.lagou.com/settings/channel/my_channels.htm')
     time.sleep(0.5)
-    r = get_requests(url=url, headers=header, remark="核对招聘者信息")
+    r = get_requests(url=url, headers=header, remark="核对招聘者信息", rd='旭峰')
     # userId_list = []
     # if len(r['content']['data']['members']['result']) > 0:
     #     for user in r['content']['data']['members']['result']:
@@ -227,7 +227,7 @@ def remove_member_has_offline_position(verity_userId=None):
     #     if int(verity_userId) in userId_list:
     if r.get('state') == 1:
         url = 'https://easy.lagou.com/member/removeMember.json?hasRecruitmentService=true&ignoreOfflinePosition=true'
-        r = get_requests(url=url, headers=header, remark="解除招聘者信息")
+        r = get_requests(url=url, headers=header, remark="解除招聘者信息", rd='旭峰')
         if r.get('state') == 1:
             return True
     return False
