@@ -71,6 +71,17 @@ def get_fail_detail_result(soup, module):
         except IndexError:
             error_type = None
         captured_log = fail_result.find(attrs={'class': 'log'}).get_text()
+        # print(captured_log)
+        captured_demo_log = captured_log[captured_log.rfind('Captured log call'):]
+        # print(captured_demo_log)
+        try:
+            rd_name = re.findall(r'开发([\u4E00-\u9FA5]{2,})同学', captured_demo_log)[0]
+        except IndexError:
+            rd_name = ''
+        try:
+            te_name = re.findall(r'测试([\u4E00-\u9FA5]{2,})同学', captured_demo_log)[0]
+        except IndexError:
+            te_name = ''
         try:
             detail_log = \
                 re.findall(
@@ -79,11 +90,8 @@ def get_fail_detail_result(soup, module):
             detail_log = '该接口URL' + re.findall('该接口URL(.*)', detail_log, re.S)[0]
         except IndexError:
             detail_log = '具体详情,请查看测试报告'
-        name_index = detail_log.find('负责人')
-        name = ''
-        if name_index > 0:
-            name = detail_log[name_index + 4:]
-        test_case = {test_name: {'error_type': error_type, 'log': detail_log, 'name': name or name_index}}
+
+        test_case = {test_name: {'error_type': error_type, 'log': detail_log, 'rd_name': rd_name, 'te_name': te_name}}
         fail_results = {**fail_results, **test_case}
 
     for error_result in soup.find_all(attrs={'class': 'error results-table-row'}):
@@ -133,7 +141,8 @@ def analysis_html_report(report_path, type, module):
 
 
 if __name__ == '__main__':
-    r = analysis_html_report(
-        '/Users/wang/Desktop/lg-project/lg_api_script/backend/templates/mainprocess_report33.html',
-        3)
+    # r = analysis_html_report(
+    #     '/Users/wang/Desktop/lg-project/lg_api_script/backend/templates/mainprocess_report33.html',
+    #     3)
+    r = analysis_html_report('/Users/wang/Downloads/kaiwu_lagou/report2.html', 3, 'mainprocess')
     print(r)

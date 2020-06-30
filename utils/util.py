@@ -79,7 +79,7 @@ def form_post(url, remark, rd=None, data=None, files=None, headers={}, verifysta
     :param headers: dict, 请求header
     :return: json格式化的响应结果
     """
-    logging.info(f'开发{rd}')
+    logging.info(f'开发{rd}同学')
     global count
     if verifystate == False:
         count = 3
