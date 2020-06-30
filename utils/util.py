@@ -334,7 +334,7 @@ def login_home_code(countryCode, username):
     return r
 
 
-def assert_equal(expect_value, actual_value, success_message, te, fail_message=None):
+def assert_equal(expect_value, actual_value, success_message, te=None, fail_message=None):
     '''
     断言两个值是否相等, 并对结果打印日志
     :param expect_value: 期望结果
@@ -353,7 +353,7 @@ def assert_equal(expect_value, actual_value, success_message, te, fail_message=N
     return state
 
 
-def assert_not_equal(expect_value, actual_value, success_message, te, fail_message=None):
+def assert_not_equal(expect_value, actual_value, success_message, te=None, fail_message=None):
     '''
     断言两个值是否相等, 并对结果打印日志
     :param expect_value: 期望结果
@@ -370,7 +370,7 @@ def assert_not_equal(expect_value, actual_value, success_message, te, fail_messa
     assert expect_value != actual_value
 
 
-def assert_in(expect_value, actual_value, success_message, te, fail_message=None):
+def assert_in(expect_value, actual_value, success_message, te=None, fail_message=None):
     '''
     断言两个值是否相等, 并对结果打印日志
     :param expect_value: 期望结果
@@ -387,7 +387,7 @@ def assert_in(expect_value, actual_value, success_message, te, fail_message=None
     assert expect_value in actual_value
 
 
-def assert_not_in(expect_value, actual_value, success_message, te, fail_message=None):
+def assert_not_in(expect_value, actual_value, success_message, te=None, fail_message=None):
     '''
     断言两个值是否相等, 并对结果打印日志
     :param expect_value: 期望结果
