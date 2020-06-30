@@ -18,9 +18,7 @@ def get_course_list(userToken):
     return course_id
 
 
-if __name__ == '__main__':
-    a=get_course_list("e9042e2267491d2de5b6a5864ef33693b8791020ecc26b98da19bb03f4d9ff52")
-    print(a[-1])
+
 
 
 
