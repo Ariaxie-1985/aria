@@ -140,26 +140,23 @@ def c_login_education(request):
     test_usertoken.append(result['content']['userToken'])
     return result['content']['userToken'], result['content']['userInfo']['userId']
 
+
 @pytest.fixture(scope='session', params=[["00442020062700", "qqqqqq"]])
 def c_login_education_0044(request):
     result = password_login(request.param[0], request.param[1], app_type='LGEdu')
     print(result)
     test_edu_usertoken.append(result['content']['userToken'])
-    return result['content']['userToken'], result['content']['userInfo']['userId'],result['content']['userInfo'][
+    return result['content']['userToken'], result['content']['userInfo']['userId'], result['content']['userInfo'][
         'phone']
 
 
-# yangyang
-@pytest.fixture(scope='session', params=[["0044", "2020062701"]])
+@pytest.fixture(scope='session')
 def c_login_education_verifycode(request):
     sendverifycode = send_verify_code(request.param[0], request.param[1], 'PASSPORT_REGISTER')
     time.sleep(12)
     verifycode = verify_code_message(request.param[0], request.param[1])
-    #verifycode="049281"
     result = verifyCode_login(request.param[0], request.param[1], verifycode, app_type='LGEdu')
-    print(result)
     test_edu_usertoken.append(result['content']['userToken'])
-    print(test_edu_usertoken)
     return result['content']['userToken'], result['content']['userInfo']['userId'], result['content']['userInfo'][
         'phone']
 
@@ -174,7 +171,7 @@ def ice_breaking_edu(request):
 @pytest.fixture(scope='session')
 def dake_no_class():
     login_password(username='0085319873334', password="abdcc717dce429ccb997b91ce067f9b6")
-    #重定向跳转到kaiwu.lagou.com的处理
+    # 重定向跳转到kaiwu.lagou.com的处理
     get_requests(
         url='https://kaiwu.lagou.com/?action=grantST&ticket=ST-6c0d87f702634bf7bf2fa14b82b72b02&fl=2&osc=PASSPORT._pscb%282%29&ofc=PASSPORT._pfcb%282%29&pfurl=https%3A%2F%2Fkaiwu.lagou.com%2F')
 

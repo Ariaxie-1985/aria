@@ -153,7 +153,6 @@ class TestUserGrowth(object):
         global courseCredit
         r = get_credit_center_info(userToken=c_login_education_0044[0])
         courseCredit = r.get('content').get('usableCredit')
-        print(courseCredit)
         assert_equal(1, r.get('state'), "获取可用学分执行成功", te='杨彦')
 
     @pytest.mark.skipif('courseCredit==0', reason="学分为零，不能兑换礼物，跳过此用例")
@@ -171,8 +170,6 @@ class TestUserGrowth(object):
         phone = countrycode_phone[5:]
         sendverigycode = send_verify_code(countryCode=countrycode, phone=phone, businessType='PASSPORT_REGISTER',
                                           app_type='LGEdu')
-        print("*************")
-        print(sendverigycode)
         assert_equal(1,sendverigycode.get('state'),"验证码发送成功", te='杨彦')
         time.sleep(12)
 
@@ -186,35 +183,6 @@ class TestUserGrowth(object):
         retoken = register_by_phone(countryCode=countrycode, phone=phone, verify_code=verify_code, app_type='LGEdu')
         m = modify_password(userToken=retoken.get('content').get('userToken'))
         assert_equal(1, m['state'], "设置密码成功", te='杨彦')
-
-
-"""def test_exchange_present(c_login_education_0044, get_edu_h5_token):
-    r = receive_credit(gateLoginToken=get_edu_h5_token)
-    # json.loads(r)
-    receive_success = r['content']
-    if receive_success == 1:
-        change1 = exchange_present(gateLoginToken=get_edu_h5_token)
-        assert_equal(1, change1.get('state'), "领取登录学分后，兑换成功", te='杨彦')
-    elif receive_success == None:
-        r = get_user_base_info(userToken=c_login_education_0044[0])
-        courseCredit = r.get('content').get('courseCredit')
-        if courseCredit != 0:
-            change2 = exchange_present(gateLoginToken=get_edu_h5_token)
-            assert_equal(1, change2.get('state'), "利用现有学分余额兑换成功", te='杨彦')
-        else:
-            pass
-    userid = c_login_education_0044[1]
-    batchCancel(userIds=userid)
-    countrycode_phone = c_login_education_0044[2]
-    countrycode = countrycode_phone[1:5]
-    phone = countrycode_phone[5:]
-    sendverigycode = send_verify_code(countryCode=countrycode, phone=phone, businessType='PASSPORT_REGISTER',
-                                      app_type='LGEdu')
-    time.sleep(12)
-    verify_code = verify_code_message(countryCode=countrycode, phone=phone)
-    verifyCode_login(countryCode=countrycode, phone=phone, verify_code=verify_code, app_type='LGEdu')
-    retoken = register_by_phone(countryCode=countrycode, phone=phone, verify_code=verify_code, app_type='LGEdu')
-    modify_password(userToken=retoken.get('content').get('userToken'))"""
 
 
 def test_dake_no_class(dake_no_class):
