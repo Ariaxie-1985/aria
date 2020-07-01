@@ -153,9 +153,12 @@ class TestUserGrowth(object):
         assert_equal(1,r.get('state'),"获取可用学分执行成功",te='杨彦')
 
     @pytest.mark.skipif('receive_success!=1', reason="领取失败，跳过此用例")
-    def test_exchange_present1(self, get_edu_h5_token):
+    def test_exchange_present1(self, get_edu_h5_token,c_login_education_0044):
         change1 = exchange_present(gateLoginToken=get_edu_h5_token)
+        r=get_course_credit_info(userToken=c_login_education_0044[0])
+        courseCredit = r.get('content').get('usableCredit')
         assert_equal(1, change1.get('state'), "领取登录学分后，兑换成功", te='杨彦')
+
 
     @pytest.mark.skipif('courseCredit==0', reason="学分为零，不能兑换礼物，跳过此用例")
     def test_exchange_present2(self, get_edu_h5_token):
