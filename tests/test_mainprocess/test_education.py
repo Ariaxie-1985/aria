@@ -145,7 +145,7 @@ class TestUserGrowth(object):
         assert_equal(True, bool(receive_success), "登录学分领取成功", te='杨彦')
     def test_usable_credit(self,c_login_education_0044,get_edu_h5_token):
         global courseCredit
-        r = get_credit_center_info(userToken=c_login_education_0044)
+        r = get_credit_center_info(userToken=c_login_education_0044[0])
         print("######")
         print(r)
         courseCredit = r.get('content').get('usableCredit')
