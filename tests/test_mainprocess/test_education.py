@@ -171,6 +171,8 @@ class TestUserGrowth(object):
         phone = countrycode_phone[5:]
         sendverigycode = send_verify_code(countryCode=countrycode, phone=phone, businessType='PASSPORT_REGISTER',
                                           app_type='LGEdu')
+        print("*************")
+        print(sendverigycode)
         assert_equal(1,sendverigycode.get('state'),"验证码发送成功", te='杨彦')
         time.sleep(12)
 
