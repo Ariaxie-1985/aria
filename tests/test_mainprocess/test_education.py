@@ -8,13 +8,14 @@ from api_script.education.app import get_homepage_cards, get_all_course_purchase
 from api_script.education.bigcourse import get_course_info, get_course_outline, get_week_lessons, get_watch_percent, \
     no_class_dacourse
 from api_script.education.course import get_course_commentList, get_distribution_poster_data, get_credit_center_info, \
-    get_distribution_course_list, get_my_earing, get_user_earnings_detail, get_wei_xin_user,receive_credit,exchange_present,get_course_credit_info
+    get_distribution_course_list, get_my_earing, get_user_earnings_detail, get_wei_xin_user, receive_credit, \
+    exchange_present, get_course_credit_info
 from api_script.education.kaiwu import get_course_description, get_distribution_info, check_course_share_status, \
     get_course_lessons, ice_breaking_location, ice_breaking_html
-from utils.util import assert_equal,assert_in,verify_code_message
+from utils.util import assert_equal, assert_in, verify_code_message
 from api_script.neirong_app.app import get_user_base_info
 from api_script.entry.cuser.baseStatus import batchCancel
-from api_script.entry.account.passport import register_by_phone,send_verify_code,verifyCode_login
+from api_script.entry.account.passport import register_by_phone, send_verify_code, verifyCode_login
 from api_script.entry.account.me import modify_password
 import time
 from utils.util import assert_equal, assert_in
@@ -135,49 +136,68 @@ def test_get_wei_xin_user(get_h5_token):
     r = get_wei_xin_user(gateLoginToken=get_h5_token)
     assert_equal(True, r['content']['hasBind'], "获取微信用户信息用例通过", te='张红彦')
 
-"""class TestUserGrowth(object):
 
-    def batch_register(self,c_login_education_0044):
+class TestUserGrowth(object):
+    def test_receive_credit1(self, c_login_education_0044, get_edu_h5_token):
+        global receive_success
+        r = receive_credit(gateLoginToken=get_edu_h5_token)
+        receive_success = r['content']
+        if receive_success==1:
+            change1=exchange_present(gateLoginToken=get_edu_h5_token)
+            assert_equal(1, change1.get('state'), "领取登录学分后，兑换成功", te='杨彦')
+    def test_receive_credit2(self, c_login_education_0044, get_edu_h5_token):
+        if receive_success==None:
+            r = get_user_base_info(userToken=c_login_education_0044[0])
+            courseCredit = r.get('content').get('courseCredit')
+            if courseCredit != 0:
+                change2 = exchange_present(gateLoginToken=get_edu_h5_token)
+                assert_equal(1, change2.get('state'), "利用现有学分余额兑换成功", te='杨彦')
+            else:
+                pass
+
+    def test_batch_register(self, c_login_education_0044):
         userid = c_login_education_0044[1]
         batchCancel(userIds=userid)
         countrycode_phone = c_login_education_0044[2]
         countrycode = countrycode_phone[1:5]
         phone = countrycode_phone[5:]
         sendverigycode = send_verify_code(countryCode=countrycode, phone=phone, businessType='PASSPORT_REGISTER',
-                                 app_type='LGEdu')
+                                          app_type='LGEdu')
         time.sleep(12)
         verify_code = verify_code_message(countryCode=countrycode, phone=phone)
         verifyCode_login(countryCode=countrycode, phone=phone, verify_code=verify_code, app_type='LGEdu')
-        register_by_phone(countryCode=countrycode, phone=phone, verify_code=verify_code, app_type='LGEdu')"""
-def test_exchange_present(c_login_education_0044,get_edu_h5_token):
-    r=receive_credit(gateLoginToken=get_edu_h5_token)
-    #json.loads(r)
-    receive_success=r['content']
-    if receive_success==1:
-        change1=exchange_present(gateLoginToken=get_edu_h5_token)
-        assert_equal(1,change1.get('state'),"领取登录学分后，兑换成功",te='杨彦')
-    elif receive_success==None:
-        r=get_user_base_info(userToken=c_login_education_0044[0])
-        courseCredit=r.get('content').get('courseCredit')
-        if courseCredit!=0:
-            change2=exchange_present(gateLoginToken=get_edu_h5_token)
-            assert_equal(1,change2.get('state'),"利用现有学分余额兑换成功",te='杨彦')
+        register_by_phone(countryCode=countrycode, phone=phone, verify_code=verify_code, app_type='LGEdu')
+        retoken = register_by_phone(countryCode=countrycode, phone=phone, verify_code=verify_code, app_type='LGEdu')
+        m=modify_password(userToken=retoken.get('content').get('userToken'))
+        assert_equal(1,m['state'],"设置密码成功", te='杨彦')
+
+"""def test_exchange_present(c_login_education_0044, get_edu_h5_token):
+    r = receive_credit(gateLoginToken=get_edu_h5_token)
+    # json.loads(r)
+    receive_success = r['content']
+    if receive_success == 1:
+        change1 = exchange_present(gateLoginToken=get_edu_h5_token)
+        assert_equal(1, change1.get('state'), "领取登录学分后，兑换成功", te='杨彦')
+    elif receive_success == None:
+        r = get_user_base_info(userToken=c_login_education_0044[0])
+        courseCredit = r.get('content').get('courseCredit')
+        if courseCredit != 0:
+            change2 = exchange_present(gateLoginToken=get_edu_h5_token)
+            assert_equal(1, change2.get('state'), "利用现有学分余额兑换成功", te='杨彦')
         else:
             pass
-    userid=c_login_education_0044[1]
+    userid = c_login_education_0044[1]
     batchCancel(userIds=userid)
-    countrycode_phone=c_login_education_0044[2]
+    countrycode_phone = c_login_education_0044[2]
     countrycode = countrycode_phone[1:5]
-    phone=countrycode_phone[5:]
-    sendverigycode=send_verify_code(countryCode=countrycode,phone=phone,businessType='PASSPORT_REGISTER',app_type='LGEdu')
+    phone = countrycode_phone[5:]
+    sendverigycode = send_verify_code(countryCode=countrycode, phone=phone, businessType='PASSPORT_REGISTER',
+                                      app_type='LGEdu')
     time.sleep(12)
     verify_code = verify_code_message(countryCode=countrycode, phone=phone)
-    verifyCode_login(countryCode=countrycode, phone=phone, verify_code=verify_code,app_type='LGEdu')
-    retoken=register_by_phone(countryCode=countrycode, phone=phone, verify_code=verify_code,app_type='LGEdu')
-    modify_password(userToken=retoken.get('content').get('userToken'))
-
-
-
+    verifyCode_login(countryCode=countrycode, phone=phone, verify_code=verify_code, app_type='LGEdu')
+    retoken = register_by_phone(countryCode=countrycode, phone=phone, verify_code=verify_code, app_type='LGEdu')
+    modify_password(userToken=retoken.get('content').get('userToken'))"""
 
 
 def test_dake_no_class(dake_no_class):
