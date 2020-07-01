@@ -151,11 +151,11 @@ class TestUserGrowth(object):
 
     @pytest.mark.skipif('receive_success!=None', reason="积分领取接口失败，跳过此用例")
     def test_receive_credit2(self, c_login_education_0044, get_edu_h5_token):
-        r = get_user_base_info(userToken=c_login_education_0044[0])
         global courseCredit
-        courseCredit = r.get('content').get('courseCredit')
+        r = get_credit_center_info(userToken=get_edu_h5_token)
+        courseCredit = r.get('content').get('usableCredit')
 
-    @pytest.mark.skipif('courseCredit==0', reason="学分为零，不能兑换礼物，跳过此用例")
+    @pytest.mark.skipif('courseCredit<=0', reason="学分为零，不能兑换礼物，跳过此用例")
     def test_exchange_present2(self, get_edu_h5_token):
         change2 = exchange_present(gateLoginToken=get_edu_h5_token)
         assert_equal(1, change2.get('state'), "利用现有学分余额兑换成功", te='杨彦')
