@@ -144,20 +144,17 @@ class TestUserGrowth(object):
         receive_success = r['content']
         assert_equal(True, bool(receive_success), "登录学分领取成功", te='杨彦')
 
-
     @pytest.mark.skipif('receive_success!=1', reason="领取失败，跳过此用例")
-    def test_exchange_present1(self, get_edu_h5_token,c_login_education_0044):
+    def test_exchange_present1(self, get_edu_h5_token, c_login_education_0044):
         change1 = exchange_present(gateLoginToken=get_edu_h5_token)
         assert_equal(1, change1.get('state'), "领取登录学分后，兑换成功", te='杨彦')
 
-    def test_usable_credit(self,c_login_education_0044,get_edu_h5_token):
+    def test_usable_credit(self, c_login_education_0044, get_edu_h5_token):
         global courseCredit
         r = get_credit_center_info(userToken=c_login_education_0044[0])
-        print("######")
-        print(r)
         courseCredit = r.get('content').get('usableCredit')
         print(courseCredit)
-        assert_equal(1,r.get('state'),"获取可用学分执行成功",te='杨彦')
+        assert_equal(1, r.get('state'), "获取可用学分执行成功", te='杨彦')
 
     @pytest.mark.skipif('courseCredit==0', reason="学分为零，不能兑换礼物，跳过此用例")
     def test_exchange_present2(self, get_edu_h5_token):
@@ -166,23 +163,23 @@ class TestUserGrowth(object):
 
     def test_batch_register(self, c_login_education_0044):
         userid = c_login_education_0044[1]
-        batch_state=batchCancel(userIds=userid)
-        assert_equal(1,batch_state.get('state'),"账号注销成功",te='杨彦')
+        batch_state = batchCancel(userIds=userid)
+        assert_equal(1, batch_state.get('state'), "账号注销成功", te='杨彦')
 
         countrycode_phone = c_login_education_0044[2]
         countrycode = countrycode_phone[1:5]
         phone = countrycode_phone[5:]
         sendverigycode = send_verify_code(countryCode=countrycode, phone=phone, businessType='PASSPORT_REGISTER',
                                           app_type='LGEdu')
-        #assert_equal(1,sendverigycode.get('state'),"验证码发送成功", te='杨彦')
+        assert_equal(1,sendverigycode.get('state'),"验证码发送成功", te='杨彦')
         time.sleep(12)
 
         verify_code = verify_code_message(countryCode=countrycode, phone=phone)
-        assert_equal(True,bool(verify_code),"获取验证码成功", te='杨彦')
+        assert_equal(True, bool(verify_code), "获取验证码成功", te='杨彦')
 
         verifyCode_login(countryCode=countrycode, phone=phone, verify_code=verify_code, app_type='LGEdu')
-        registate=register_by_phone(countryCode=countrycode, phone=phone, verify_code=verify_code, app_type='LGEdu')
-        assert_equal(1,registate.get('state'),"账号注册成功", te='杨彦')
+        registate = register_by_phone(countryCode=countrycode, phone=phone, verify_code=verify_code, app_type='LGEdu')
+        assert_equal(1, registate.get('state'), "账号注册成功", te='杨彦')
 
         retoken = register_by_phone(countryCode=countrycode, phone=phone, verify_code=verify_code, app_type='LGEdu')
         m = modify_password(userToken=retoken.get('content').get('userToken'))
