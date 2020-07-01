@@ -485,8 +485,8 @@ class TestCompanyBusiness(object):
         general_userId_02, easy_company_id, www_company_id = get_user_info
         r = recruiter_members()
         loger.info(f'flag:{r},当前用户:{general_userId_02}')
-        result = r.get('content').get('data').get('members').get('result')
-        assert_equal(True, bool(len(result)), '查询公司成员成功', te='王霞')
+        result = r.get('content', {}).get('data', {}).get('members', {}).get('result', [])
+        assert_equal(2, len(result), '当前公司有两个开通招聘者服务的成员', te='王霞')
         userIds = [str(user_info.get('userId')) for user_info in result]
         assert_in(general_userId_02, userIds, '普通用户在当前公司完成招聘者审核的员工里', '普通用户不在当前公司完成招聘者审核的员工里', '王霞')
 
@@ -509,8 +509,8 @@ class TestCompanyBusiness(object):
     def test_recruiter_members_admin(self):
         r = recruiter_members()
         loger.info(f'flag:{r},当前用户:{admin_user_id}')
-        result = r.get('content').get('data').get('members').get('result')
-        assert_equal(True, bool(len(result)), '查询公司成员成功', te='王霞')
+        result = r.get('content', {}).get('data', {}).get('members', {}).get('result', [])
+        assert_equal(1, len(result), '公司仅有管理员在开通招聘者', te='王霞')
         userIds = [str(user_info.get('userId')) for user_info in result]
         assert_in(admin_user_id, userIds, '管理员在当前公司完成招聘者审核的员工里', '管理员不在当前公司完成招聘者审核的员工里', '王霞')
 
