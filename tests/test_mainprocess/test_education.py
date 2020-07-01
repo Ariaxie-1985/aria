@@ -143,8 +143,8 @@ class TestUserGrowth(object):
     def test_receive_credit1(self, c_login_education_0044, get_edu_h5_token):
         global receive_success
         r = receive_credit(gateLoginToken=get_edu_h5_token)
-        receive_success = r['content']
-        assert_equal(True, bool(receive_success), "登录学分领取成功", te='杨彦')
+        receive_success = r.get('content')
+        assert_equal(1, r.get('state'), "领取学分接口请求成功", te='杨彦')
 
     @pytest.mark.skipif('receive_success!=1', reason="领取失败，跳过此用例")
     def test_exchange_present1(self, get_edu_h5_token, c_login_education_0044):
