@@ -20,6 +20,7 @@ import time
 from utils.util import assert_equal, assert_in
 from api_script.education.edu import get_course_list
 import random
+import datetime
 
 
 @pytest.mark.incremental
@@ -138,6 +139,11 @@ def test_get_wei_xin_user(get_h5_token):
     assert_equal(True, r['content']['hasBind'], "获取微信用户信息用例通过", te='张红彦')
 
 
+now_time = datetime.datetime.now()
+minute = now_time.minute
+
+
+@pytest.mark.skipif('minute%2==0', reason='分钟是偶数跳过执行')
 @pytest.mark.incremental
 class TestUserGrowth(object):
     def test_receive_credit1(self, c_login_education_0044, get_edu_h5_token):
