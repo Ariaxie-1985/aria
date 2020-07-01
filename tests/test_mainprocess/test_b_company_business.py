@@ -16,7 +16,7 @@ from api_script.home.data_import import import_linkManInfo, import_contacts
 from api_script.jianzhao_web.b_basic.company import jump_html
 from api_script.jianzhao_web.b_basic.toB_comleteInfo_3 import completeInfo, company_auth
 from api_script.jianzhao_web.b_basic.toB_saveHR_1 import saveHR, saveCompany, \
-    submit_new, add_saveCompany, remove_member, close_trial_package, remove_member_company
+    submit_new, add_saveCompany, remove_member, close_trial_package, remove_member_company, recruiter_members
 from api_script.jianzhao_web.b_basic.b_upload import upload_permit
 from api_script.jianzhao_web.b_position.B_postposition import createPosition_999, get_online_positions, \
     www_redirect_easy, offline_position, update_Position_pc, republish_position_pc
@@ -485,13 +485,14 @@ class TestCompanyBusiness(object):
         userId, UserCompanyId, lagou_company_id = get_easy_user_info
         loger.info(f'普通用户2的用户id:{userId}, 简招公司id:{UserCompanyId}, 拉勾公司id:{lagou_company_id}')
 
-    def test_get_general_user_1_rights_info_list(self):
+    def test_get_general_user_02_rights_info_list(self):
         r = get_rights_info_list()
+        assert_equal(1, r.get('state'), '获取用户的基础权益成功', '获取用户的基础权益失败', '王霞')
         for base_good in r['content']['baseDetailResList']:
             if base_good['baseGoodsId'] == 623:
                 assert_equal(0, int(base_good['totalNum']), '验证特殊行业（一类）公司免费账号的普通职位数为0用例通过', te='王霞')
 
-    def test_general_user_1_im_session_list_check_15(self):
+    def test_general_user_02_im_session_list_check_15(self):
         r = im_session_list(createBy=0)
         im_chat_num = r['content']['data']['remainConversationTimes']
         if www_company_id[-1] in ('0', '1', '2'):
@@ -499,27 +500,39 @@ class TestCompanyBusiness(object):
         assert_equal(self.im_chat_number, im_chat_num,
                      f'沟通点数计算{self.im_chat_number}用例通过', te='王霞')
 
-    def test_remove_general_user1(self, get_user_info):
-        general_userId1, easy_company_id, www_company_id = get_user_info
-        loger.info(f'解除招聘者认证--普通用户2的用户id:{general_userId1}, 主站公司id:{www_company_id}')
-        remove_result = remove_member(general_userId1)
-        # if not remove_result:
-        #     close_trial_package(www_company_id)
-        #     login_password(general_country_code_02 + general_phone_02, get_password)
-        #     remove_result = remove_member(general_userId1)
-        assert_equal(True, remove_result, '校验移除普通用户1的招聘者服务成功！', te='王霞')
+    def test_recruiter_members_general_user_02(self, get_user_info):
+        global general_userId_02, www_company_id
+        general_userId_02, easy_company_id, www_company_id = get_user_info
+        r = recruiter_members()
+        result = r.get('content').get('data').get('members').get('result')
+        assert_equal(True, len(result), '查询公司成员成功', te='王霞')
+        userIds = [user_info.get('id') for user_info in result]
+        assert_in(general_userId_02, userIds, '普通用户在当前公司完成招聘者审核的员工里', '普通用户不在当前公司完成招聘者审核的员工里', '王霞')
+
+    def test_remove_general_user_02(self):
+        loger.info(f'解除招聘者认证--普通用户2的用户id:{general_userId_02}, 主站公司id:{www_company_id}')
+        remove_result = remove_member()
+        assert_equal(1, remove_result.get('state'), '校验移除普通用户2的招聘者服务成功！', te='王霞')
 
     def test_jump_home_01(self):
         time.sleep(1)
         login_home('betty@lagou.com', '00f453dfec0f2806db5cfabe3ea94a35')
         close_result = close_trial_package(www_company_id)
-        assert_equal(expect_value=True, actual_value=close_result, success_message='终止所有合同成功', fail_message='终止所有合同失败', te='王霞')
+        assert_equal(expect_value=True, actual_value=close_result, success_message='终止所有合同成功', fail_message='终止所有合同失败',
+                     te='王霞')
 
     def test_login_admin_user_03(self, get_password):
         login_result = login_password(admin_countryCode + admin_phone, get_password)
         assert_equal(1, login_result['state'], '校验管理员登录是否成功', te='王霞')
 
+    def test_recruiter_members_admin(self):
+        r = recruiter_members()
+        result = r.get('content').get('data').get('members').get('result')
+        assert_equal(True, len(result), '查询公司成员成功', te='王霞')
+        userIds = [user_info.get('id') for user_info in result]
+        assert_in(admin_user_id, userIds, '管理员在当前公司完成招聘者审核的员工里', '管理员不在当前公司完成招聘者审核的员工里', '王霞')
+
     def test_remove_admin_user(self):
         loger.info(f'解除招聘者认证--管理员的用户id:{admin_user_id}, 主站公司id:{www_company_id}')
-        remove_result = remove_member(admin_user_id)
-        assert_equal(True, remove_result, '校验移除管理员用户的招聘者服务成功！', te='王霞')
+        remove_result = remove_member()
+        assert_equal(1, remove_result.get('state'), '校验移除管理员用户的招聘者服务成功！', te='王霞')
