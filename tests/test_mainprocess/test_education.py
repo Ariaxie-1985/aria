@@ -174,7 +174,7 @@ class TestUserGrowth(object):
         time.sleep(12)
 
         verify_code = verify_code_message(countryCode=countrycode, phone=phone)
-        assert_equal(1,verify_code.get('state'),"获取验证码成功")
+        assert_equal(True,bool(verify_code),"获取验证码成功")
 
         verifyCode_login(countryCode=countrycode, phone=phone, verify_code=verify_code, app_type='LGEdu')
         registate=register_by_phone(countryCode=countrycode, phone=phone, verify_code=verify_code, app_type='LGEdu')
