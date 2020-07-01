@@ -342,26 +342,6 @@ class TestCompanyBusiness(object):
         assert_equal(1, login_result.get('state', 0), '校验管理员登录是否成功', te='王霞')
         www_redirect_easy()
 
-    # 添加同事为普通账号,并且添加成功后进行移除
-    def test_add_free_colleague(self, get_add_colleague_user):
-        global add_result
-        add_managerId = admin_user_id
-        '''add_managerId = '100025044'''
-        add_phone = get_add_colleague_user
-        r = addColleague(add_phone, add_managerId)
-        add_state = r['state']
-        add_result = r['content']['data']['info']
-        '''print(add_result)'''
-        if add_state == 1:
-            assert_not_in('errorCode', add_result, '添加同事为普通账号通过', te='Anan')
-
-    def test_add_free_colleague_remove(self):
-        remove_userid = add_result['userId']
-        loger.info(f'添加同事的普通用户的用户id:{remove_userid}')
-        remove_state = remove_member_company(remove_userid)['state']
-        '''print(remove_state)'''
-        assert_equal(1, remove_state, '移除添加的普通账号通过', te='Anan')
-
     def test_paid_company_create_position_person_and_company_enough_equity(self, get_positionType):
         r = createPosition_999(firstType=get_positionType[0], positionType=get_positionType[1],
                                positionThirdType=get_positionType[2],
