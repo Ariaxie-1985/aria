@@ -18,12 +18,13 @@ import time
 
 def get_fix_time():
     now_time = datetime.datetime.now()
-    if 0 <= now_time.hour <= 8:
-        fix_time = now_time.date().strftime("%Y-%m-%d 12:00")
-    elif 21 <= now_time.hour <= 24:
-        fix_time = (now_time + datetime.timedelta(days=1)).date().strftime("%Y-%m-%d 12:00")
-    else:
-        fix_time = (now_time + datetime.timedelta(hours=3)).strftime("%Y-%m-%d %H:%M")
+    fix_time = (now_time + datetime.timedelta(minutes=10)).strftime("%Y-%m-%d %H:%M")
+    # if 0 <= now_time.hour <= 8:
+    #     fix_time = now_time.date().strftime("%Y-%m-%d 12:00")
+    # elif 21 <= now_time.hour <= 24:
+    #     fix_time = (now_time + datetime.timedelta(days=1)).date().strftime("%Y-%m-%d 12:00")
+    # else:
+    #     fix_time = (now_time + datetime.timedelta(hours=3)).strftime("%Y-%m-%d %H:%M")
     return fix_time
 
 
