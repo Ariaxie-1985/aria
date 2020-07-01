@@ -170,15 +170,15 @@ class TestUserGrowth(object):
         phone = countrycode_phone[5:]
         sendverigycode = send_verify_code(countryCode=countrycode, phone=phone, businessType='PASSPORT_REGISTER',
                                           app_type='LGEdu')
-        assert_equal(1,sendverigycode.get('state'),"验证码发送成功")
+        assert_equal(1,sendverigycode.get('state'),"验证码发送成功", te='杨彦')
         time.sleep(12)
 
         verify_code = verify_code_message(countryCode=countrycode, phone=phone)
-        assert_equal(True,bool(verify_code),"获取验证码成功")
+        assert_equal(True,bool(verify_code),"获取验证码成功", te='杨彦')
 
         verifyCode_login(countryCode=countrycode, phone=phone, verify_code=verify_code, app_type='LGEdu')
         registate=register_by_phone(countryCode=countrycode, phone=phone, verify_code=verify_code, app_type='LGEdu')
-        assert_equal(1,registate.get('state'),"账号注册成功")
+        assert_equal(1,registate.get('state'),"账号注册成功", te='杨彦')
 
         retoken = register_by_phone(countryCode=countrycode, phone=phone, verify_code=verify_code, app_type='LGEdu')
         m = modify_password(userToken=retoken.get('content').get('userToken'))
