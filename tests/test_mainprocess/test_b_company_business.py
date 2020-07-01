@@ -504,13 +504,14 @@ class TestCompanyBusiness(object):
         global general_userId_02, www_company_id
         general_userId_02, easy_company_id, www_company_id = get_user_info
         r = recruiter_members()
+        loger.info(f'flag:{r},当前用户:{general_userId_02}')
         result = r.get('content').get('data').get('members').get('result')
         assert_equal(True, bool(len(result)), '查询公司成员成功', te='王霞')
         userIds = [str(user_info.get('userId')) for user_info in result]
         assert_in(general_userId_02, userIds, '普通用户在当前公司完成招聘者审核的员工里', '普通用户不在当前公司完成招聘者审核的员工里', '王霞')
 
     def test_remove_general_user_02(self):
-        loger.info(f'解除招聘者认证--普通用户2的用户id:{general_userId_02}, 主站公司id:{www_company_id}')
+        loger.info(f'flag:解除招聘者认证--普通用户2的用户id:{general_userId_02}, 主站公司id:{www_company_id}')
         remove_result = remove_member()
         assert_equal(1, remove_result.get('state'), '校验移除普通用户2的招聘者服务成功！', te='王霞')
 
@@ -527,12 +528,13 @@ class TestCompanyBusiness(object):
 
     def test_recruiter_members_admin(self):
         r = recruiter_members()
+        loger.info(f'flag:{r},当前用户:{admin_user_id}')
         result = r.get('content').get('data').get('members').get('result')
         assert_equal(True, bool(len(result)), '查询公司成员成功', te='王霞')
         userIds = [str(user_info.get('userId')) for user_info in result]
         assert_in(admin_user_id, userIds, '管理员在当前公司完成招聘者审核的员工里', '管理员不在当前公司完成招聘者审核的员工里', '王霞')
 
     def test_remove_admin_user(self):
-        loger.info(f'解除招聘者认证--管理员的用户id:{admin_user_id}, 主站公司id:{www_company_id}')
+        loger.info(f'flag:解除招聘者认证--管理员的用户id:{admin_user_id}, 主站公司id:{www_company_id}')
         remove_result = remove_member()
         assert_equal(1, remove_result.get('state'), '校验移除管理员用户的招聘者服务成功！', te='王霞')
