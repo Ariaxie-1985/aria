@@ -15,7 +15,7 @@ def getToken(userToken):
     header["reqVersion"] = "10207"
     header["lgId"] = "862502040661300_1591588692323"
     remark = "获取gate_login_token"
-    return get_requests(url=url, headers=header, remark=remark)
+    return get_requests(url=url, headers=header, remark=remark,rd='Yuwei Cheng')
 
 
 
