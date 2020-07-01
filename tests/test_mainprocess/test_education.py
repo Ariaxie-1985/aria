@@ -143,14 +143,16 @@ class TestUserGrowth(object):
         r = receive_credit(gateLoginToken=get_edu_h5_token)
         receive_success = r['content']
         assert_equal(True, bool(receive_success), "登录学分领取成功", te='杨彦')
+    def test_usableCredit(self,get_edu_h5_token):
+        global courseCredit
+        r = get_credit_center_info(userToken=get_edu_h5_token)
+        courseCredit = r.get('content').get('usableCredit')
+        assert_equal(1,r.get('state'),"获取可用学分执行成功",te='杨彦')
 
     @pytest.mark.skipif('receive_success!=1', reason="领取失败，跳过此用例")
     def test_exchange_present1(self, get_edu_h5_token):
         change1 = exchange_present(gateLoginToken=get_edu_h5_token)
         assert_equal(1, change1.get('state'), "领取登录学分后，兑换成功", te='杨彦')
-        global courseCredit
-        r = get_credit_center_info(userToken=get_edu_h5_token)
-        courseCredit = r.get('content').get('usableCredit')
 
     @pytest.mark.skipif('courseCredit<=0', reason="学分为零，不能兑换礼物，跳过此用例")
     def test_exchange_present2(self, get_edu_h5_token):
@@ -167,7 +169,7 @@ class TestUserGrowth(object):
         phone = countrycode_phone[5:]
         sendverigycode = send_verify_code(countryCode=countrycode, phone=phone, businessType='PASSPORT_REGISTER',
                                           app_type='LGEdu')
-        assert_equal(1,sendverigycode.get('state'),"验证码发送成功", te='杨彦')
+        #assert_equal(1,sendverigycode.get('state'),"验证码发送成功", te='杨彦')
         time.sleep(12)
 
         verify_code = verify_code_message(countryCode=countrycode, phone=phone)
