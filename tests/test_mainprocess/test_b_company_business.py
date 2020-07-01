@@ -506,7 +506,7 @@ class TestCompanyBusiness(object):
         r = recruiter_members()
         result = r.get('content').get('data').get('members').get('result')
         assert_equal(True, bool(len(result)), '查询公司成员成功', te='王霞')
-        userIds = [user_info.get('id') for user_info in result]
+        userIds = [str(user_info.get('userId')) for user_info in result]
         assert_in(general_userId_02, userIds, '普通用户在当前公司完成招聘者审核的员工里', '普通用户不在当前公司完成招聘者审核的员工里', '王霞')
 
     def test_remove_general_user_02(self):
@@ -529,7 +529,7 @@ class TestCompanyBusiness(object):
         r = recruiter_members()
         result = r.get('content').get('data').get('members').get('result')
         assert_equal(True, bool(len(result)), '查询公司成员成功', te='王霞')
-        userIds = [user_info.get('id') for user_info in result]
+        userIds = [str(user_info.get('userId')) for user_info in result]
         assert_in(admin_user_id, userIds, '管理员在当前公司完成招聘者审核的员工里', '管理员不在当前公司完成招聘者审核的员工里', '王霞')
 
     def test_remove_admin_user(self):
