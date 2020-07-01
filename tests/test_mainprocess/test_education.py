@@ -155,7 +155,7 @@ class TestUserGrowth(object):
         global courseCredit
         courseCredit = r.get('content').get('courseCredit')
 
-    @pytest.mark.skipif('courseCredit=0', reason="学分为零，不能兑换礼物，跳过此用例")
+    @pytest.mark.skipif('courseCredit==0', reason="学分为零，不能兑换礼物，跳过此用例")
     def test_exchange_present2(self, get_edu_h5_token):
         change2 = exchange_present(gateLoginToken=get_edu_h5_token)
         assert_equal(1, change2.get('state'), "利用现有学分余额兑换成功", te='杨彦')
