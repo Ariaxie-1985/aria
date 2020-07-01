@@ -143,7 +143,7 @@ def test_exchange_present(c_login_education_0044,get_edu_h5_token):
     #userid='17933434'
     batchCancel(userIds=userid)
     countrycode_phone=c_login_education_0044[2]
-    countrycode = countrycode_phone[:5]
+    countrycode = countrycode_phone[1:5]
     print(countrycode)
     #phone="2020062700"
     phone=countrycode_phone[5:]
