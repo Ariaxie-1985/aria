@@ -24,7 +24,7 @@ def data_provider():
             cUserId = attachment['cUserId']
             print(cUserId)
             session_url = 'https://easy.lagou.com/im/chat/getMDSUserInfo/{}.json'.format(sessionId)
-            resume = get_requests(url=session_url, headers=header, remark='获取resumeId')
+            resume = get_requests(url=session_url, headers=header, remark='获取resumeId', rd='mandy')
             try:
                 resumeId = resume['content']['data']['resumeId']
             except KeyError:

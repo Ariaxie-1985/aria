@@ -15,7 +15,7 @@ def get_online_positionId():
     myonlinepostions_url = "https://easy.lagou.com/parentPosition/multiChannel/myOnlinePositions.json"
     myonlinepostions_data = {"pageNo": 1}
     remark = "获取下线职位的职位id"
-    r = form_post(url=myonlinepostions_url, data=myonlinepostions_data, headers=Position_header, remark=remark)
+    r = form_post(url=myonlinepostions_url, data=myonlinepostions_data, headers=Position_header, remark=remark, rd='royliu')
     positionId = r['content']['data']['parentPositionVOs'][0]['positions'][0]['positionId']
     return positionId
 
@@ -26,7 +26,7 @@ def offlinePosition(positionId):
     offlinePosition_url = "https://easy.lagou.com/position/offlinePosition.json"
     offlinePosition_data = {"positionId": positionId}
     remark = "下线职位"
-    return form_post(url=offlinePosition_url, data=offlinePosition_data, headers=Position_header, remark=remark)
+    return form_post(url=offlinePosition_url, data=offlinePosition_data, headers=Position_header, remark=remark, rd='royliu')
 
 
 def online_positionId_outerPositionId():
@@ -35,7 +35,7 @@ def online_positionId_outerPositionId():
     myonlinepostions_url = "https://easy.lagou.com/parentPosition/multiChannel/myOnlinePositions.json"
     myonlinepostions_data = {"pageNo": 1}
     remark = "获取下线职位的职位id"
-    r = form_post(url=myonlinepostions_url, data=myonlinepostions_data, headers=Position_header, remark=remark)
+    r = form_post(url=myonlinepostions_url, data=myonlinepostions_data, headers=Position_header, remark=remark, rd='royliu')
     try:
         positionId = r['content']['data']['parentPositionVOs'][0]['positions'][0]['positionId']
         outerPositionId = r['content']['data']['parentPositionVOs'][0]['positions'][0]['outerPositionId']
@@ -51,7 +51,7 @@ def get_online_positions():
     myonlinepostions_url = "https://easy.lagou.com/parentPosition/multiChannel/myOnlinePositions.json"
     myonlinepostions_data = {"pageNo": 1}
     remark = "获取下线职位的职位id"
-    r = form_post(url=myonlinepostions_url, data=myonlinepostions_data, headers=Position_header, remark=remark)
+    r = form_post(url=myonlinepostions_url, data=myonlinepostions_data, headers=Position_header, remark=remark, rd='royliu')
     positionIds = []
     if r['content']['data']['pageSize'] >= 10:
         for position_info in r['content']['data']['parentPositionVOs']:

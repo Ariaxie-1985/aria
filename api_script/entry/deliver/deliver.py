@@ -19,7 +19,7 @@ def deliver_check(positionId, H9=False, userToken=None):
     }
     remark = '投递前检查'
 
-    return json_post(url=url, headers=header, data=data, remark=remark)
+    return json_post(url=url, headers=header, data=data, remark=remark, rd='征桂')
 
 
 def deliver_create(positionId, resumeId, resumeType, isTalk=True, userToken=None, H9=False):
@@ -38,7 +38,7 @@ def deliver_create(positionId, resumeId, resumeType, isTalk=True, userToken=None
     }
     remark = '投递简历'
 
-    return json_post(url=url, headers=header, data=data, remark=remark)
+    return json_post(url=url, headers=header, data=data, remark=remark, rd='征桂')
 
 
 def deliver_get(orderId, userToken=None, H9=False):
@@ -60,14 +60,14 @@ def deliver_get(orderId, userToken=None, H9=False):
 def get_resume_info(userToken):
     url = 'https://gate.lagou.com/v1/neirong/resumes/list'
     header = app_header_999(userToken, DA=False)
-    return json_post(url=url, headers=header, remark="获取简历类型")
+    return json_post(url=url, headers=header, remark="获取简历类型", rd='征桂')
 
 
 def recommend_isExistPositionList(userToken, positionId):
     url = 'https://gate.lagou.com/v1/entry/deliver/recommend/isExistPositionList?positionId={}'.format(positionId)
     header = app_header_999(userToken, DA=False)
     remark = "投递后推荐的职位 （投了又投），是否有数据"
-    return get_requests(url=url, headers=header, remark=remark)
+    return get_requests(url=url, headers=header, remark=remark, rd='royliu')
 
 
 def recommend_positionList(userToken, orderId, positionId):
@@ -80,7 +80,7 @@ def recommend_positionList(userToken, orderId, positionId):
         "positionId": positionId
     }
     remark = "投递后推荐的职位 （投了又投)"
-    return json_post(url=url, headers=header, data=data, remark=remark)
+    return json_post(url=url, headers=header, data=data, remark=remark, rd='royliu')
 
 
 if __name__ == '__main__':

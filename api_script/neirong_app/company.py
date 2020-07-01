@@ -68,7 +68,7 @@ def company_positionTypes(userToken, companyId):
     url = 'https://gate.lagou.com/v1/neirong/company/positionTypes?companyId={}'.format(companyId)
     header = app_header_999(userToken, DA=False)
     remark = '根据公司返回面试评价职位类型'
-    return get_requests(url=url, headers=header, remark=remark)
+    return get_requests(url=url, headers=header, remark=remark, rd='征桂')
 
 
 def company_question(userToken, companyId, ip_port=None, userId=None):

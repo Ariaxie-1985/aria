@@ -10,14 +10,14 @@ def forbid_user(userId):
     url = 'http://home.lagou.com/forbid/user/forbidUser.json'
     header = get_header(url='http://home.lagou.com/')
     data = {'forbidAccount': '删除已投递简历,关闭简历,', 'reason': '冒用他人信息,', 'forbidAccountReason': '冒用他人信息,', 'userId': userId}
-    return form_post(url=url, headers=header, data=data, remark="封禁账号")['success']
+    return form_post(url=url, headers=header, data=data, remark="封禁账号", rd='royliu').get('success')
 
 
 def verify_user_is_forbid(userId):
     url = 'http://home.lagou.com/forbid/user/queryUser.json'
     header = get_header(url='http://home.lagou.com/')
     data = {'searchContent': userId, 'limit': 15, 'currentPage': 0, 'typeSearch': 1}
-    result = form_post(url=url, headers=header, data=data, remark='校验用户是否禁用成功')
+    result = form_post(url=url, headers=header, data=data, remark='校验用户是否禁用成功', rd='royliu')
     if result['success'] == True and result['data']['pageData'][0]['id'] == userId:
         return result['data']['pageData'][0]['isForbid']
     else:
@@ -28,7 +28,7 @@ def get_userId(country_code_phone):
     url = 'http://home.lagou.com/forbid/user/queryUser.json'
     header = get_header(url='http://home.lagou.com/')
     data = {'searchContent': '+' + country_code_phone, 'limit': 15, 'currentPage': 0, 'typeSearch': 3}
-    result = form_post(url=url, headers=header, data=data, remark='校验用户是否禁用成功')
+    result = form_post(url=url, headers=header, data=data, remark='校验用户是否禁用成功', rd='royliu')
     if result['success'] == True:
         try:
             return result['data']['pageData'][0]['id']
@@ -40,7 +40,7 @@ def home_query_user_id(telephone):
     url = 'http://home.lagou.com/forbid/user/queryUser.json'
     header = get_header(url='http://home.lagou.com/')
     data = {'searchContent': f"+{telephone}", 'limit': 15, 'currentPage': 0, 'typeSearch': 1}
-    result = form_post(url=url, headers=header, data=data, remark='查询用户id')
+    result = form_post(url=url, headers=header, data=data, remark='查询用户id', rd='royliu')
     if result['success'] == True and result['data']['pageData'][0]['isForbid'] == True:
         return result['data']['pageData'][0]['id']
     else:
@@ -51,14 +51,14 @@ def forbid_company(companyId):
     url = 'http://home.lagou.com/forbid/companyController/forbid.json'
     data = {'companyId': companyId, 'forbidReason': '公司信息不实（发布职位与公司经营范围不符）,'}
     header = get_header(url='http://home.lagou.com/')
-    return form_post(url=url, headers=header, data=data, remark='封禁公司')['success']
+    return form_post(url=url, headers=header, data=data, remark='封禁公司', rd='royliu').get('success')
 
 
 def verify_company_is_forbid(companyId):
     url = 'http://home.lagou.com/forbid/companyController/queryCompanys.json'
     header = get_header(url='http://home.lagou.com/')
     data = {'searchContent': companyId, 'limit': 35, 'limitEnd': 30, 'currentPage': 0, 'type': 1}
-    result = form_post(url=url, headers=header, data=data, remark='校验用户是否禁用成功')
+    result = form_post(url=url, headers=header, data=data, remark='校验用户是否禁用成功', rd='royliu')
     if result['success'] == True and result['data']['pageData'][0]['id'] == companyId:
         return result['data']['pageData'][0]['status']
     else:
@@ -69,14 +69,14 @@ def query_user_id(telephone):
     url = 'http://home.lagou.com/forbid/user/queryUser.json'
     header = get_header(url='http://home.lagou.com/')
     data = {'searchContent': f"+{telephone}", 'limit': 15, 'currentPage': 0, 'typeSearch': 3}
-    return form_post(url=url, headers=header, data=data, remark='查询用户id')
+    return form_post(url=url, headers=header, data=data, remark='查询用户id', rd='royliu')
 
 
 def query_company_id(name):
     url = 'http://home.lagou.com/forbid/companyController/queryCompanys.json'
     header = get_header(url='http://home.lagou.com/')
     data = {'searchContent': f"{name}", 'limit': 30, 'currentPage': 0, 'type': 2, 'limitEnd': 30}
-    result = form_post(url=url, headers=header, data=data, remark='查询用户id')
+    result = form_post(url=url, headers=header, data=data, remark='查询用户id', rd='royliu')
     try:
         if result['success'] == True and (len(result['data']['pageData']) > 0):
             return result['data']['pageData'][0]['id']

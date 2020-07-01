@@ -6,12 +6,13 @@
 from api_script.entry.account.passport import password_login
 from utils.util import app_header_999, get_requests, json_post
 
+
 def talent_recTalent(userToken, positionId):
     url = "https://gate.lagou.com/v1/zhaopin/talent/recTalent?pageNo=1&pageSize=10&positionId={}&showId=&currentContainerSize=10".format(
         positionId)
     header = app_header_999(userToken=userToken, DA=False)
     remark = "推荐人才"
-    return get_requests(url=url, headers=header, remark=remark)
+    return get_requests(url=url, headers=header, remark=remark, rd='mandy')
 
 
 def talent_newTalent(userToken, positionId):
@@ -19,14 +20,14 @@ def talent_newTalent(userToken, positionId):
         positionId)
     header = app_header_999(userToken=userToken, DA=False)
     remark = "最新人才"
-    return get_requests(url=url, headers=header, remark=remark)
+    return get_requests(url=url, headers=header, remark=remark, rd='mandy')
 
 
 def talent_collections(userToken):
     url = "https://gate.lagou.com/v1/zhaopin/talent/collections?lastCUserId=0&pageSize=10"
     header = app_header_999(userToken=userToken, DA=False)
     remark = "人才收藏"
-    return get_requests(url=url, headers=header, remark=remark)
+    return get_requests(url=url, headers=header, remark=remark, rd='mandy')
 
 
 def talent_app_search(userToken, city, positionName, pageNo=1):
@@ -48,14 +49,14 @@ def talent_app_search(userToken, city, positionName, pageNo=1):
         "pageSize": 10
     }
     remark = "人才搜索"
-    return json_post(url=url, headers=header, data=data, remark=remark)
+    return json_post(url=url, headers=header, data=data, remark=remark, rd='mandy')
 
 
 def talent_info_get(userToken, userId):
     url = "https://gate.lagou.com/v1/zhaopin/talent/info/get?userId={}&comeFrom=7".format(userId)
     header = app_header_999(userToken=userToken, DA=False)
     remark = "获取人才详细信息"
-    return get_requests(url=url, headers=header, remark=remark)
+    return get_requests(url=url, headers=header, remark=remark, rd='mandy')
 
 
 if __name__ == '__main__':

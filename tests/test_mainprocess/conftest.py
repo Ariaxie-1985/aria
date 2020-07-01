@@ -13,6 +13,7 @@ from faker import Faker
 from api_script.jianzhao_web.b_basic.toB_saveHR_1 import get_b_person_userId, get_b_index_Id
 from utils.util import login_password, login_verifyCode, verify_code_message
 from api_script.entry.account.passport import send_verify_code
+from utils.util import login_password, get_requests
 
 fake = Faker("zh_CN")
 
@@ -37,6 +38,16 @@ test_telephone = []
 test_company_name = []
 test_usertoken = []
 test_edu_usertoken = []
+test_usertoken1 = []
+
+
+@pytest.fixture(scope="session")
+def enterprise_login():
+    login_password('13252477137', '990eb670f81e82f546cfaaae1587279a')
+    url = 'https://passport.lagou.com/ajaxLogin/frameGrant.html?fl=2&service=https%3A%2F%2Fkaiwu.lagou.com%2Fenterprise%2Findex.html%23%2Findex&osc=PASSPORT._pscb(1)&ofc=PASSPORT._pfcb(1)&pfurl=https%3A%2F%2Fkaiwu.lagou.com%2Fenterprise%2Findex.html%23%2Findex'
+    get_requests(url, headers={'referer': 'https://kaiwu.lagou.com/enterprise/index.html'})
+    search_referer_url = 'https://kaiwu.lagou.com/enterprise/index.html'
+    get_requests(search_referer_url)
 
 
 @pytest.fixture(scope='session')
@@ -67,9 +78,9 @@ def get_user_info():
 
 
 @pytest.fixture()
-def www_get_userId():
-    userId = dashboard_index_get_user_id()
-    return userId
+def get_easy_user_info():
+    userId, UserCompanyId, lagou_company_id = dashboard_index_get_user_id()
+    return userId, UserCompanyId, lagou_company_id
 
 
 @pytest.fixture(scope='session')
@@ -151,6 +162,27 @@ def c_login_education_verifycode(request):
     print(test_edu_usertoken)
     return result['content']['userToken'], result['content']['userInfo']['userId'], result['content']['userInfo'][
         'phone']
+
+
+@pytest.fixture(scope='session', params=[["0085219820080", "qqqqqq"]])
+def ice_breaking_edu(request):
+    result = password_login(request.param[0], request.param[1], app_type='LGEdu')
+    test_usertoken1.append(result['content']['userToken'])
+    return result['content']['userToken'], result['content']['userInfo']['userId']
+
+
+@pytest.fixture(scope='session')
+def dake_no_class():
+    login_password(username='0085319873334', password="abdcc717dce429ccb997b91ce067f9b6")
+    #重定向跳转到kaiwu.lagou.com的处理
+    get_requests(
+        url='https://kaiwu.lagou.com/?action=grantST&ticket=ST-6c0d87f702634bf7bf2fa14b82b72b02&fl=2&osc=PASSPORT._pscb%282%29&ofc=PASSPORT._pfcb%282%29&pfurl=https%3A%2F%2Fkaiwu.lagou.com%2F')
+
+
+@pytest.fixture(scope='session')
+def get_h5_token1():
+    result = getToken(userToken=test_usertoken1[0])
+    return result['content']['gateLoginToken']
 
 
 @pytest.fixture(scope='session')

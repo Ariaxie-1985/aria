@@ -7,9 +7,11 @@
 
 from utils.util import login_home, form_post, get_header, login_home_code
 import json
+
 '''
 获取当前时间
 '''
+
 
 def lagouPlus(templateId):
     '''
@@ -19,25 +21,26 @@ def lagouPlus(templateId):
     :return:
     '''
     login_home_code('00853', 22222222)
-    header=get_header("https://home.lagou.com/")
-    Request_url="https://home.lagou.com/crm/contractController/list.json"
-    data={"companyId":141702}
-    object=form_post(url=Request_url,remark="查询当前公司下的合同",data=data,headers=header)
-    #childaccount = jsonobject.json()['content']['data']['subAcccountPage']['totalCount']
-    number=object['data']['pageData'][0]['number']
+    header = get_header("https://home.lagou.com/")
+    Request_url = "https://home.lagou.com/crm/contractController/list.json"
+    data = {"companyId": 141702}
+    object = form_post(url=Request_url, remark="查询当前公司下的合同", data=data, headers=header)
+    # childaccount = jsonobject.json()['content']['data']['subAcccountPage']['totalCount']
+    number = object['data']['pageData'][0]['number']
     '''
     先终止合同
     '''
-    Request_url="https://home.lagou.com/crm/valueadded/product/close.json"
-    data={"contractNo":number}
-    object=form_post(url=Request_url,remark="终止所有合同",data=data,headers=header)
+    Request_url = "https://home.lagou.com/crm/valueadded/product/close.json"
+    data = {"contractNo": number}
+    object = form_post(url=Request_url, remark="终止所有合同", data=data, headers=header, rd='杨振宇')
     '''
     增加17版合同,增加的固定合同
     '''
-    contractnumurl="https://home.lagou.com/crm/valueadded/product/open.json"
+    contractnumurl = "https://home.lagou.com/crm/valueadded/product/open.json"
 
-    data={"templateId":templateId,"num":1,"companyId":14,"contractNo":"LG-HD-WANGXIA-2019030401","userId":84,"startTimeStr":"2019-01-07","endTimeStr":"2020-01-10","upgrade":"false"}
-    object=form_post(url=contractnumurl,remark="新增合同, 其id: "+str(templateId),data=data,headers=header)
+    data = {"templateId": templateId, "num": 1, "companyId": 14, "contractNo": "LG-HD-WANGXIA-2019030401", "userId": 84,
+            "startTimeStr": "2019-01-07", "endTimeStr": "2020-01-10", "upgrade": "false"}
+    object = form_post(url=contractnumurl, remark="新增合同, 其id: " + str(templateId), data=data, headers=header)
     # treatycontents=get_requests(url="https://home.lagou.com/crm/olddata/queryByCsv.json?userId=100014641&pageIndex=0&pageSize=100&sortField=&sortOrder=&_=1546593382369",headers=header,remark="获取合同内容")
     # print(treatycontents.json())
     # #在线职位数

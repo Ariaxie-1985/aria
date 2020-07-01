@@ -2,9 +2,11 @@
 # @Time  : 2020/3/18 12:13
 # @Author: Xiawang
 # Description:
+import re
+
 from bs4 import BeautifulSoup
 
-from utils.util import get_header, get_requests, form_post, get_code_token
+from utils.util import get_header, get_requests, form_post, get_code_token, login_password
 
 
 def jump_easy_index_html(ip_port=None):
@@ -13,11 +15,13 @@ def jump_easy_index_html(ip_port=None):
     remark = '从拉勾主站进入企业版'
     return get_requests(url=url, headers=header, remark=remark, ip_port=ip_port)
 
+
 def hr_jump_easy_index_html(ip_port=None):
     url = "https://easy.lagou.com/dashboard/index.htm"
     header = get_header(url='https://hr.lagou.com/corpCenter/openservice/step1.html', ip_port=ip_port)
     remark = '从 hr.lagou.com 进入企业版'
     return get_requests(url=url, headers=header, remark=remark, ip_port=ip_port)
+
 
 def search_plusSearchSelector(ip_port=None):
     url = 'https://easy.lagou.com/search/plusSearchSelector.json?from=talentsearch'
@@ -166,8 +170,16 @@ def dashboard_index_get_user_id():
     soup = BeautifulSoup(r, "html.parser")
     try:
         userId = soup.find(id="UserId")['value']
+        UserCompanyId = soup.find(id="UserCompanyId")['value']
     except TypeError:
         r = get_requests(url=url, remark='获取easy主页的用户id')
         soup = BeautifulSoup(r, "html.parser")
         userId = soup.find(id="UserId")['value']
-    return userId
+        UserCompanyId = soup.find(id="UserCompanyId")['value']
+    lagou_company_id = re.findall(r'lgId: "(.*?)"', r)[0]
+    return userId, UserCompanyId, lagou_company_id
+
+
+if __name__ == '__main__':
+    login_password('13033647506', '9062e77da243687c68bf9665727b5c01')
+    print(dashboard_index_get_user_id())

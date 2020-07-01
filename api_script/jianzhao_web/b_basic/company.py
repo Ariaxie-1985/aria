@@ -48,7 +48,7 @@ def jump_html():
     refer_url = 'https://hr.lagou.com/corpCenter/openservice/step3.html'
     header = get_header(url=refer_url)
     save_result = save_recruitment_needs(header)
-    get_requests(url=url, headers=header, remark='跳转提交招聘者认证')
+    get_requests(url=url, headers=header, remark='跳转提交招聘者认证', rd='王豪')
     return save_result
 
 
@@ -58,6 +58,3 @@ def jump_step1():
     header = {'Upgrade-Insecure-Requests': 1, 'Sec-Fetch-Mode': 'navigate', 'Sec-Fetch-Site': 'same-site',
               'Sec-Fetch-User': '?1', 'Referer': 'https://www.lagou.com/'}
     return get_requests(url=url, headers=header, remark="注册成功后跳转完善个人信息页")
-
-
-

@@ -12,7 +12,7 @@ def upate_user_password(newPassword):
     url = 'https://gate.lagou.com/v1/neirong/account/users/0/password'
     header = {'X-Anit-Forge-Code': code, 'X-Anit-Forge-Token': token, 'X-L-REQ-HEADER': json.dumps({'deviceType': 1})}
     data = {'newPassword': newPassword, 'newPassword2': newPassword}
-    return json_put(url=url, data=data, headers=header, remark='PC端修改密码')
+    return json_put(url=url, data=data, headers=header, remark='PC端修改密码', rd='旭峰')
 
 
 def get_submit_token_code():
@@ -20,7 +20,7 @@ def get_submit_token_code():
     header = {'X-L-REQ-HEADER': json.dumps({'deviceType': 1}),
               'Referer': 'https://account.lagou.com/v2/account/modifyPwd.html',
               'Sec-Fetch-Mode': 'cors'}
-    r = get_requests(url=url, headers=header, remark="获取token、code")
+    r = get_requests(url=url, headers=header, remark="获取token、code", rd='旭峰')
     return r['submitCode'], r['submitToken']
 
 
