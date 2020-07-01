@@ -198,22 +198,16 @@ def remove_member_company(removeUserId):
     return r
 
 
-def remove_member(verity_userId=None):
+def recruiter_members():
     url = 'https://easy.lagou.com/member/recruiterMembers.json?pageNo=1&pageSize=50&keyword='
     header = get_code_token(url='https://easy.lagou.com/settings/channel/my_channels.htm')
-    time.sleep(0.5)
-    r = get_requests(url=url, headers=header, remark="核对招聘者信息", rd='旭峰')
-    # userId_list = []
-    # if len(r['content']['data']['members']['result']) > 0:
-    #     for user in r['content']['data']['members']['result']:
-    #         userId_list.append(user.get('userId', 0))
-    #     if int(verity_userId) in userId_list:
-    if r.get('state') == 1:
-        url = 'https://easy.lagou.com/member/removeMember.json?hasRecruitmentService=true'
-        r = get_requests(url=url, headers=header, remark="解除招聘者信息", rd='旭峰')
-        if r.get('state') == 1:
-            return True
-    return False
+    return get_requests(url=url, headers=header, remark="查询公司成员信息", rd='旭峰')
+
+
+def remove_member():
+    url = 'https://easy.lagou.com/member/removeMember.json?hasRecruitmentService=true'
+    header = get_code_token(url='https://easy.lagou.com/settings/channel/my_channels.htm')
+    return get_requests(url=url, headers=header, remark="解除招聘者信息", rd='旭峰')
 
 def remove_member_has_offline_position(verity_userId=None):
     url = 'https://easy.lagou.com/member/recruiterMembers.json?pageNo=1&pageSize=50&keyword='
