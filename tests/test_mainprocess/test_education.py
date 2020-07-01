@@ -147,6 +147,7 @@ class TestUserGrowth(object):
         global courseCredit
         r = get_credit_center_info(userToken=get_edu_h5_token)
         courseCredit = r.get('content').get('usableCredit')
+        print(courseCredit)
         assert_equal(1,r.get('state'),"获取可用学分执行成功",te='杨彦')
 
     @pytest.mark.skipif('receive_success!=1', reason="领取失败，跳过此用例")
