@@ -17,4 +17,4 @@ def create_shop_goodsOrder_course(payLagouCoinNum, sellGoodsPriceId, gateLoginTo
         "expandInfo": "https://kaiwu.lagou.com/course/courseInfo.htm?"
     }
     remark = '课程订单创建'
-    return json_post(url=url, headers=header, data=data, remark=remark, rd='Yuwei Cheng')
+    return json_post(url=url, headers=header, data=data, remark=remark, rd='Mrpro Liu')

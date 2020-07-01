@@ -70,8 +70,8 @@ def get_wei_xin_user(gateLoginToken):
     remark = "获取微信用户信息"
     return get_requests(url=url, headers=header, remark=remark,rd='Yuwei Cheng')
 
-def get_course_info(gateLoginToken):
-    url = "https://kaiwu.lagou.com/course/courseInfo.htm?courseId=274"
+def get_course_info(gateLoginToken,courseId):
+    url = "https://kaiwu.lagou.com/course/courseInfo.htm?courseId={}".format(courseId)
     header = {"Cookie": f"gate_login_token ={gateLoginToken};", "X-L-REQ-HEADER": "{deviceType:1}"}
     remark = "获取课程信息"
     return get_requests(url=url, headers=header, remark=remark,rd='Yuwei Cheng')
