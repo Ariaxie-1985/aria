@@ -107,7 +107,7 @@ def registe_c(phone, countryCode, userIdentity, kwargs={}):
                        'positionNameType2': positionNameType2, 'salarys': salarys, 'status': '随便看看',
                        'arrivalTime': '随时'}
     remark = "添加求职意向"
-    r6 = form_post(url=expextJobs_url, headers=expectJobs_header, data=expectJobs_data, remark=remark)
+    r6 = form_post(url=expextJobs_url, headers=expectJobs_header, data=expectJobs_data, remark=remark, rd='征桂')
 
     # 改善简历的头像和基本名片
     refer_myresume_html = 'https://www.lagou.com/resume/myresume.html'

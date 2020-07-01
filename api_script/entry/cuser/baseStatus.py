@@ -10,7 +10,7 @@ from utils.util import app_header_999, get_requests, json_post
 def get_info(userToken):
     url = 'https://gate.lagou.com/v1/entry/cuser/baseStatus/get'
     header = app_header_999(userToken, DA=False)
-    return get_requests(url=url, headers=header, remark="跳转到首页，获取C端用户信息")
+    return get_requests(url=url, headers=header, remark="跳转到首页，获取C端用户信息", rd='旭峰')
 
 
 def batchCancel(userIds, userToken=None):
@@ -21,7 +21,7 @@ def batchCancel(userIds, userToken=None):
         "userIds": str(userIds)
     }
     remark = "注销账号"
-    return json_post(url=url, headers=header, data=data, remark=remark)
+    return json_post(url=url, headers=header, data=data, remark=remark, rd='旭峰')
 
 
 if __name__ == '__main__':

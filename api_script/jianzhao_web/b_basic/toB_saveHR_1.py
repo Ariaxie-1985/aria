@@ -32,7 +32,7 @@ def saveHR(companyFullName, userName, resumeReceiveEmail, userPosition='HR'):
                    "resumeReceiveEmail": resumeReceiveEmail}
     saveHR_header = get_code_token(step1_url)
     remark = "验证上传B端用户信息是否成功"
-    return form_post(url=saveHR_url, data=saveHR_data, headers=saveHR_header, remark=remark)
+    return form_post(url=saveHR_url, data=saveHR_data, headers=saveHR_header, remark=remark, rd='王豪')
 
 
 # B端成立公司
@@ -52,7 +52,7 @@ def saveCompany(companyShortName, industryField="电商", financeStage='未融�
                             'stages': stages}
     saveCompany_header = get_code_token(step2_url)
     remark = "验证B端成立公司是否成功"
-    return form_post(url=saveCompany_url, data=saveCompany_data, headers=saveCompany_header, remark=remark)
+    return form_post(url=saveCompany_url, data=saveCompany_data, headers=saveCompany_header, remark=remark, rd='王豪')
 
 
 # B端提交招聘者审核
@@ -74,7 +74,7 @@ def submit_new():
     step2_url = 'https://hr.lagou.com/corpCenter/openservice/step2.html'
     submit_header = get_code_token(step2_url)
     remark = "验证B端提交招聘者审核是否成功"
-    return json_post(url=submit_url, data=submit_data, headers=submit_header, remark=remark)
+    return json_post(url=submit_url, data=submit_data, headers=submit_header, remark=remark, rd='王豪')
 
 
 # 加入B端的公司
@@ -83,7 +83,7 @@ def add_saveCompany():
     saveCompany_url = "https://hr.lagou.com/corpCenter/openservice/saveCompany.json"
     saveCompany_header = get_code_token(step2_url)
     remark = "验证B端成立公司是否成功"
-    return form_post(url=saveCompany_url, headers=saveCompany_header, remark=remark)
+    return form_post(url=saveCompany_url, headers=saveCompany_header, remark=remark, rd='王豪')
 
 
 def saveHR_process(phone, countryCode, companyShortName, companyFullName, userName, resumeReceiveEmail,
@@ -198,22 +198,18 @@ def remove_member_company(removeUserId):
     return r
 
 
-def remove_member(verity_userId=None):
+def recruiter_members():
     url = 'https://easy.lagou.com/member/recruiterMembers.json?pageNo=1&pageSize=50&keyword='
     header = get_code_token(url='https://easy.lagou.com/settings/channel/my_channels.htm')
-    time.sleep(0.5)
-    r = get_requests(url=url, headers=header, remark="核对招聘者信息")
-    # userId_list = []
-    # if len(r['content']['data']['members']['result']) > 0:
-    #     for user in r['content']['data']['members']['result']:
-    #         userId_list.append(user.get('userId', 0))
-    #     if int(verity_userId) in userId_list:
-    if r.get('state') == 1:
-        url = 'https://easy.lagou.com/member/removeMember.json?hasRecruitmentService=true'
-        r = get_requests(url=url, headers=header, remark="解除招聘者信息")
-        if r.get('state') == 1:
-            return True
-    return False
+    return get_requests(url=url, headers=header, remark="查询公司成员信息", rd='旭峰')
+
+
+def remove_member():
+    url = 'https://easy.lagou.com/member/removeMember.json?hasRecruitmentService=true'
+    header = get_code_token(url='https://easy.lagou.com/settings/channel/my_channels.htm')
+    return get_requests(url=url, headers=header, remark="解除招聘者信息", rd='旭峰')
+
+
 # try:
 #     userId = r['content']['data']['members']['result'][0]['userId']
 # except IndexError:

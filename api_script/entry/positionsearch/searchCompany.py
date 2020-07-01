@@ -15,7 +15,7 @@ def searchCompany(userToken):
         "sortType": 0
     }
     header = app_header_999(userToken, DA=False)
-    return json_post(url=url, data=data, headers=header, remark='搜索公司')
+    return json_post(url=url, data=data, headers=header, remark='搜索公司', rd='王豪')
 
 
 def search_company(userToken, **kwargs):
@@ -34,4 +34,4 @@ def search_company(userToken, **kwargs):
         "industry": "",
         "scale": ""
     }
-    return json_post(url=url, headers=header, data=data, remark='搜索公司')
+    return json_post(url=url, headers=header, data=data, remark='搜索公司', rd='王豪')

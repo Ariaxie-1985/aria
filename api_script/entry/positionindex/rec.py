@@ -13,6 +13,6 @@ def rec():
         "pageSize": 2,
         "type": 0
     }
-    return json_post(url=url,data=data,headers=header,remark='首页推荐')
+    return json_post(url=url,data=data,headers=header,remark='首页推荐', rd='royliu')
 
 # print(rec())

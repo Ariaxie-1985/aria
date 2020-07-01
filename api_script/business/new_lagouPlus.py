@@ -34,7 +34,7 @@ def close_contract(contractNo):
     url = 'https://home.lagou.com/crm/valueadded/product/close.json'
     header = get_header('https://home.lagou.com/')
     data = {'contractNo': contractNo}
-    return form_post(url=url, data=data, headers=header, remark='终止合同')['success']
+    return form_post(url=url, data=data, headers=header, remark='终止合同', rd='杨振宇')['success']
 
 
 def open_product(templateId, companyId, contractNo, userId, startTimeStr, endTimeStr):
@@ -42,7 +42,7 @@ def open_product(templateId, companyId, contractNo, userId, startTimeStr, endTim
     header = get_header('https://home.lagou.com/')
     data = {'templateId': templateId, 'num': 100, 'companyId': companyId, 'contractNo': contractNo,
             'userId': userId, 'startTimeStr': startTimeStr, 'endTimeStr': endTimeStr, 'upgrade': False}
-    return form_post(url=url, data=data, headers=header, remark='开启合同')
+    return form_post(url=url, data=data, headers=header, remark='开启合同', rd='杨振宇')
 
 
 def parase_product_info():
