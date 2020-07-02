@@ -141,7 +141,8 @@ def test_get_wei_xin_user(get_h5_token):
 
 now_time = datetime.datetime.now()
 minute = now_time.minute
-minute2=minute%2
+minute2 = minute % 2
+
 
 @pytest.mark.incremental
 @pytest.mark.skipif('minute2==0', reason='分钟是偶数跳过执行')
@@ -150,27 +151,27 @@ class TestUserGrowth(object):
         global receive_success
         r = receive_credit(gateLoginToken=get_edu_h5_token)
         receive_success = r.get('content')
-        print("#############")
-        print(receive_success)
         assert_equal(1, r.get('state'), "领取学分接口请求成功", te='杨彦')
 
-    @pytest.mark.skipif('receive_success!=1', reason="领取失败，跳过此用例")
     def test_exchange_present1(self, get_edu_h5_token, c_login_education_0044):
-        change1 = exchange_present(gateLoginToken=get_edu_h5_token)
-        assert_equal(1, change1.get('state'), "领取登录学分后，兑换成功", te='杨彦')
+        if receive_success == 1:
+            change1 = exchange_present(gateLoginToken=get_edu_h5_token)
+            assert_equal(1, change1.get('state'), "领取登录学分后，兑换成功", te='杨彦')
+        else:
+            pass
 
     def test_usable_credit(self, c_login_education_0044, get_edu_h5_token):
         global courseCredit
         r = get_credit_center_info(userToken=c_login_education_0044[0])
         courseCredit = r.get('content').get('usableCredit')
-        print("***************")
-        print(courseCredit)
         assert_equal(1, r.get('state'), "获取可用学分执行成功", te='杨彦')
 
-    @pytest.mark.skipif('courseCredit==0', reason="学分为零，不能兑换礼物，跳过此用例")
     def test_exchange_present2(self, get_edu_h5_token):
-        change2 = exchange_present(gateLoginToken=get_edu_h5_token)
-        assert_equal(1, change2.get('state'), "利用现有学分余额兑换成功", te='杨彦')
+        if courseCredit != 0:
+            change2 = exchange_present(gateLoginToken=get_edu_h5_token)
+            assert_equal(1, change2.get('state'), "利用现有学分余额兑换成功", te='杨彦')
+        else:
+            pass
 
     def test_batch_register(self, c_login_education_0044):
         userid = c_login_education_0044[1]
