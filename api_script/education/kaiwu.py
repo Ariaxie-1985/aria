@@ -59,6 +59,12 @@ def get_lesson_play_history(lessonId, gateLoginToken):
     remark = "获取课时播放历史记录"
     return get_requests(url=url, headers=header, remark=remark,rd='Yuwei Cheng')
 
+def get_course_history(courseId, gateLoginToken):
+    url = 'https://gate.lagou.com/v1/neirong/kaiwu/getCourseHistory?courseId={}'.format(courseId)
+    header = {"Cookie": f"gate_login_token ={gateLoginToken};", "X-L-REQ-HEADER": "{deviceType:1}"}
+    remark = "获取课程历史记录"
+    return get_requests(url=url, headers=header, remark=remark,rd='Yuwei Cheng')
+
 
 def ice_breaking_html():
     url = 'https://kwn2.lagou.com/icebreaking/main.htm?lagoufrom=android&appVersion=1.2.5&appType=LGEdu'

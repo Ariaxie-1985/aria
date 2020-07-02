@@ -8,12 +8,9 @@ from api_script.education.app import get_homepage_cards, get_all_course_purchase
 from api_script.education.bigcourse import get_course_info, get_course_outline, get_week_lessons, get_watch_percent, \
     no_class_dacourse
 from api_script.education.course import get_course_commentList, get_distribution_poster_data, get_credit_center_info, \
-    get_distribution_course_list, get_my_earing, get_user_earnings_detail
-from api_script.education.course import get_course_commentList, get_credit_center_info, get_course_credit_info
-from api_script.education.course import get_course_commentList, get_distribution_poster_data, get_credit_center_info, \
-    get_distribution_course_list, get_my_earing, get_user_earnings_detail, get_wei_xin_user
+    get_distribution_course_list, get_my_earing, get_user_earnings_detail, get_wei_xin_user,get_course_credit_info
 from api_script.education.kaiwu import get_course_description, get_distribution_info, check_course_share_status, \
-    get_course_lessons, ice_breaking_location, save_course_history, get_lesson_play_history, ice_breaking_html
+    get_course_lessons, ice_breaking_location, save_course_history, get_lesson_play_history, ice_breaking_html,get_course_history
 from utils.util import assert_equal, assert_in
 from api_script.education.edu import get_course_list
 import random
@@ -162,6 +159,10 @@ class TestEducationhistory(TestEducation01):
         r = save_course_history(hasbuy_small_course_id, sectionId, lessonId, mediaType, historyNode,
                                 gateLoginToken=get_h5_token)
         assert_equal(1, r['state'], "保存课程下课时的历史节点",te='张红彦')
+
+    def test_get_course_history(self,get_h5_token):
+        r = get_course_history(hasbuy_small_course_id,gateLoginToken=get_h5_token)
+        assert_equal(1, r['state'], "获取课程历史记录", te='张红彦')
 
 
 def test_dake_no_class(dake_no_class):
