@@ -150,6 +150,8 @@ class TestUserGrowth(object):
         global receive_success
         r = receive_credit(gateLoginToken=get_edu_h5_token)
         receive_success = r.get('content')
+        print("#############")
+        print(receive_success)
         assert_equal(1, r.get('state'), "领取学分接口请求成功", te='杨彦')
 
     @pytest.mark.skipif('receive_success!=1', reason="领取失败，跳过此用例")
@@ -161,6 +163,8 @@ class TestUserGrowth(object):
         global courseCredit
         r = get_credit_center_info(userToken=c_login_education_0044[0])
         courseCredit = r.get('content').get('usableCredit')
+        print("***************")
+        print(courseCredit)
         assert_equal(1, r.get('state'), "获取可用学分执行成功", te='杨彦')
 
     @pytest.mark.skipif('courseCredit==0', reason="学分为零，不能兑换礼物，跳过此用例")
