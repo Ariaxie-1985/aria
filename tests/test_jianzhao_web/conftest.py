@@ -6,6 +6,7 @@ import pytest
 
 from utils.util import login, login_home, login_home_code
 from utils.util import login_password
+from api_script.jianzhao_web.talent.B_looking_for_talent import rec_talent,talent_collection_list
 
 
 
@@ -63,8 +64,21 @@ def login_web_k8s_143236_TL1(request):
 
 
 #有一个在线职位的账号
-@pytest.fixture(scope='session', params=[["bingoonchen@lagou.com", "990eb670f81e82f546cfaaae1587279a"]])
+@pytest.fixture(scope='session', params=[["bingoon04@lagou.com", "990eb670f81e82f546cfaaae1587279a"]])
 def my_login_password(request):
         login_password(request.param[0], request.param[1])
 
 
+# #获取收藏人才的cueserid和resumeFetchKey
+# @pytest.fixture()
+# def get_collection_info():
+#     res = rec_talent()
+#     cueserid = res.get('data').get('page').get('resuit')[0].get('userId')
+#     resumeFetchKey = res.get('data').get('page').get('resuit')[0].get('resumeFetchKey')
+#     return cueserid,resumeFetchKey
+#
+# #获取取消收藏人才的collectionIds
+# def get_uncollection_id():
+#     res = talent_collection_list()
+#     collectionIds = res.get('data').get('page').get('resuit')[0].get('id')
+#     return collectionIds

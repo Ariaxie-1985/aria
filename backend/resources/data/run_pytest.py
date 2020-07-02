@@ -156,6 +156,7 @@ class run_Pytest(Resource):
                             help="ip:port", default=None
                             )
         args = parser.parse_args()
+        current_app.logger.info(f'请求数据:{args}')
         if self.business_module.get(args['module']) is None:
             return {'state': 2, "data": "不支持该业务模块"}
 
@@ -169,7 +170,7 @@ class run_Pytest(Resource):
         cmd_str = self.get_run_pytest_cmd(args['module'], project_path, args['ip_port'])
         ret = subprocess.run(cmd_str, shell=True, timeout=300, stdout=subprocess.PIPE, encoding='utf-8')
         current_app.logger.info(f'本次pytest的returncode执行结果: {ret.returncode}')
-        current_app.logger.info(ret.stdout)
+        current_app.logger.info(f'py_test执行结果:{ret.stdout}')
 
         if ret.returncode < 0:
             return {'state': 4, 'data': f'{args["module"]}自动化测试未正常运行，请查看日志'}

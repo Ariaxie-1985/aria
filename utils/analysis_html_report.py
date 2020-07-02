@@ -75,11 +75,11 @@ def get_fail_detail_result(soup, module):
         captured_demo_log = captured_log[captured_log.rfind('Captured log call'):]
         # print(captured_demo_log)
         try:
-            rd_name = re.findall(r'开发([\u4E00-\u9FA5]{2,})同学', captured_demo_log)[0]
+            rd_name = re.findall(r'开发(.*?)同学', captured_demo_log)[0]
         except IndexError:
             rd_name = ''
         try:
-            te_name = re.findall(r'测试([\u4E00-\u9FA5]{2,})同学', captured_demo_log)[0]
+            te_name = re.findall(r'测试(.*?)同学', captured_demo_log)[0]
         except IndexError:
             te_name = ''
         try:
