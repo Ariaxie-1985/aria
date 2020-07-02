@@ -143,8 +143,8 @@ now_time = datetime.datetime.now()
 minute = now_time.minute
 
 
-@pytest.mark.skipif('minute%2==0', reason='分钟是偶数跳过执行')
 @pytest.mark.incremental
+@pytest.mark.skipif('minute%2==0', reason='分钟是偶数跳过执行')
 class TestUserGrowth(object):
     def test_receive_credit1(self, c_login_education_0044, get_edu_h5_token):
         global receive_success
