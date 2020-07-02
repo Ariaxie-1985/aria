@@ -12,11 +12,11 @@ import json
 from api_script.jianzhao_web.b_basic.admin_review import admin_review
 from api_script.jianzhao_web.b_basic.b_upload import upload_incumbency_certification
 from api_script.jianzhao_web.b_basic.toB_saveHR_1 import saveHR, add_saveCompany, submit_new, remove_member, \
-    close_trial_package, remove_member_has_offline_position
+    close_trial_package, remove_member_has_offline_position, recruiter_members
 from api_script.jianzhao_web.b_position.B_postposition import createPosition_999, get_online_positions, offline_position
 from api_script.jianzhao_web.talent.unauth_positon_talent_rec import talent_rec_unAuth
 from api_script.neirong_app.account import upate_user_password
-from tests.test_B_enter.conftest import get_positionType
+from tests.test_B_enter.conftest import get_positionType, get_user_info
 
 from utils.loggers import logers
 from utils.util import assert_equal, assert_in, pc_send_register_verifyCode, verify_code_message, user_register_lagou, \
@@ -50,12 +50,11 @@ class TestHRAuth(object):
     @pytest.mark.parametrize('companyFullName,resumeReceiveEmail,userPosition',[('拉勾测试自动化公司00911111111111','foxtang01@lagou.com','测试工程师')])
     def test_save_hr1_info(self,companyFullName,resumeReceiveEmail,userPosition):
         r= saveHR(companyFullName, hr1_user_name, resumeReceiveEmail,userPosition)
-        print(r)
-        assert_equal(1, r['state'], '校验hr基本信息是否保存成功',te='唐欣洁')
+        assert_equal(1, r.get('state',0), '验证hr基本信息保存成功',te='唐欣洁')
 
     def test_hr1_join_company(self):
         join_company = add_saveCompany()
-        assert_equal(1, join_company.get('state', 0), '验证加入公司是否成功', te='唐欣洁')
+        assert_equal(1, join_company.get('state', 0), '验证加入公司成功', te='唐欣洁')
 
     def test_unAuthhr_create_position(self, get_positionType):
         r = createPosition_999(firstType=get_positionType[0], positionType=get_positionType[1],
@@ -96,18 +95,20 @@ class TestHRAuth(object):
         r = upate_user_password(newPassword)
         assert_equal(1, r['state'], 'hr1修改密码成功',te='唐欣洁')
         login_password(hr1_countryCode + hr1_phone, newPassword)
-    
-    def test_remove_hr1(self, get_user_info, get_password):
+
+    def test_recruiter_members_hr1(self,get_user_info):
         global hr1Id, easy_company_id, www_company_id
         hr1Id, easy_company_id, www_company_id = get_user_info
-        loger.info(f'B端入驻普通用户2用户的id:{hr1Id}, 主站公司id:{www_company_id}')
-        remove_result = remove_member_has_offline_position(hr1Id)
-        if not remove_result:
-            close_trial_package(www_company_id)
-            login_password(hr1_countryCode + hr1_phone, get_password)
-            remove_result = remove_member_has_offline_position(hr1Id)
-        assert_equal(True, remove_result, '验证hr1解除招聘服务成功', te='唐欣洁')
+        r = recruiter_members()
+        loger.info(f'B端入驻hr1的id:{hr1Id}, 主站公司id:{www_company_id}')
+        result = r.get('content', {}).get('data', {}).get('members', {}).get('result', [])
+        userIds = [str(user_info.get('userId')) for user_info in result]
+        assert_in(hr1Id, userIds, 'hr1在当前公司完成招聘者审核的员工里', 'hr1不在当前公司完成招聘者审核的员工里', '唐欣洁')
 
+    def test_remove_hr1(self):
+        loger.info(f'flag:解除招聘者认证--hr1的id:{hr1Id}, 主站公司id:{www_company_id}')
+        remove_result = remove_member_has_offline_position()
+        assert_equal(1, remove_result.get('state'), '校验移除hr1的招聘者服务成功！', te='唐欣洁')
 
     @pytest.mark.parametrize('companyFullName,resumeReceiveEmail,userPosition',[('拉勾测试自动化公司00911111111112','foxtang01@lagou.com','测试工程师')])
     def test_save_hr1_info02(self,companyFullName,resumeReceiveEmail,userPosition):
@@ -135,7 +136,7 @@ class TestHRAuth(object):
     def test_hr1_company(self,get_password,get_user_info):
         login_password(hr1_countryCode + hr1_phone, get_password)
         hr1Id, easy_company_id, www_company_id = get_user_info
-        assert_equal(True,bool(easy_company_id == '783664'),'验证当前公司是更换公司之后的所属公司', te='唐欣洁')
+        assert_equal('783664',easy_company_id,'验证当前公司是更换公司之后的所属公司', te='唐欣洁')
 
     def test_hr1_publish_free_position(self,get_positionType):
         r = createPosition_999(firstType=get_positionType[0], positionType=get_positionType[1],
