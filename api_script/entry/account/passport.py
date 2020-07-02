@@ -61,7 +61,7 @@ def register_by_phone(countryCode, phone, verify_code,app_type='zhaopin'):
     }
     header = app_header_999(app_type=app_type)
     remark = '手机号注册账号'
-    r = json_post(url=url, data=data, headers=header, remark=remark)
+    r = json_post(url=url, data=data, headers=header, remark=remark,rd="旭峰")
     return r
 
 

@@ -24,4 +24,4 @@ def modify_password(userToken):
         "oldPassword": "",
         "newPassword": "qqqqqq"
     }
-    return json_post(url=url, remark="设置验证码", headers=header, data=data)
+    return json_post(url=url, remark="设置验证码", headers=header, data=data,rd="旭峰")
