@@ -852,6 +852,4 @@ if __name__ == '__main__':
     # print(os.path.dirname(__file__))
     #r = judging_other_abnormal_conditions(500, url5, '测试')
     #print(r)
-    a=verify_code_message(countryCode="0044",phone="2020062700")
-    print(a)
 

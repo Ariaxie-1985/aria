@@ -141,7 +141,7 @@ def c_login_education(request):
     return result['content']['userToken'], result['content']['userInfo']['userId']
 
 
-@pytest.fixture(scope='session', params=[["00442020062700", "qqqqqq"]])
+@pytest.fixture(scope='session', params=[["00442020062701", "qqqqqq"]])
 def c_login_education_0044(request):
     result = password_login(request.param[0], request.param[1], app_type='LGEdu')
     print(result)
