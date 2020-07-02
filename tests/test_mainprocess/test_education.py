@@ -157,8 +157,6 @@ class TestUserGrowth(object):
         if receive_success == 1:
             change1 = exchange_present(gateLoginToken=get_edu_h5_token)
             assert_equal(1, change1.get('state'), "领取登录学分后，兑换成功", te='杨彦')
-        else:
-            pass
 
     def test_usable_credit(self, c_login_education_0044, get_edu_h5_token):
         global courseCredit
@@ -170,8 +168,6 @@ class TestUserGrowth(object):
         if courseCredit != 0:
             change2 = exchange_present(gateLoginToken=get_edu_h5_token)
             assert_equal(1, change2.get('state'), "利用现有学分余额兑换成功", te='杨彦')
-        else:
-            pass
 
     def test_batch_register(self, c_login_education_0044):
         userid = c_login_education_0044[1]
@@ -184,7 +180,6 @@ class TestUserGrowth(object):
         sendverigycode = send_verify_code(countryCode=countrycode, phone=phone, businessType='PASSPORT_REGISTER',
                                           app_type='LGEdu')
         assert_equal(1, sendverigycode.get('state'), "验证码发送成功", te='杨彦')
-        time.sleep(12)
 
         verify_code = verify_code_message(countryCode=countrycode, phone=phone)
         assert_equal(True, bool(verify_code), "获取验证码成功", te='杨彦')
