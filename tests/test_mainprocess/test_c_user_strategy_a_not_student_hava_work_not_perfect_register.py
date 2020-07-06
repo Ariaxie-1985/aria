@@ -57,12 +57,14 @@ class TestNotStudentHaveWorkRegister(object):
         logging.info(msg='userToken {} \n'.format(userToken))
         assert_equal(1, r.get('state'), '校验token登录成功', te='sunnysun')
 
-    def test_guideBasicInfo(self):
+    def test_get_strategies(self):
         global s
-        s = get_strategies_999(userToken)
-        r = guideBasicInfo(countryCode + phone, 2, userToken)
-        if s == 'A' or s == 'B':
-            r = guideBasicInfo(countryCode + phone, 2, userToken, s)
+        r = get_strategies_999(userToken)
+        assert_equal(True,bool(len(r.get('content'))),"获取策略值")
+        s = r.get('content')[0]['value']
+
+    def test_guideBasicInfo(self):
+        r = guideBasicInfo(countryCode + phone, 2, userToken, s)
         assert_equal(1, r.get('state'), '校验提交基本信息成功，策略' + s, te='sunnysun')
         loger.info('提交基本信息成功，策略' + s)
 
@@ -71,16 +73,13 @@ class TestNotStudentHaveWorkRegister(object):
         assert_equal(1, r.get('state'), "校验提交教育经历成功", te='sunnysun')
 
     def test_workExperiences(self):
-        r = workExperiences(userToken)
-        if s == 'A':
-            r = workExperiences(userToken, s)
+        r = workExperiences(userToken, s)
         assert_equal(1, r.get('state'), '校验提交工作经历', te='sunnysun')
         loger.info('提交工作经历成功，策略' + s)
 
     def test_personalCards(self):
-        r = personalCards(userToken)
+        r = personalCards(userToken, s)
         if s == 'A':
-            r = personalCards(userToken, s)
             assert_equal(1, r.get('state'), '校验跳过个人名片成功', te='sunnysun')
             loger.info('跳过个人名片成功，策略' + s)
         else:

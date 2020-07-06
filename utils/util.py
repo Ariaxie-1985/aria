@@ -714,9 +714,8 @@ def get_verify_code_message_len(countryCode, phone):
 def get_strategies_999(userToken):
     url = 'https://gate.lagou.com/v1/neirong/janus/app/strategies?strategyKeys=MUTONG_PLAN_ONE'
     header = app_header_999(DA=False, userToken=userToken)
-    r = get_requests(url, headers=header, remark="获取木桶策略值")
-    strategy = r.get('content')[0]['value']
-    return strategy
+    r = get_requests(url, headers=header, remark="获取木桶策略值",rd="王旭峰")
+    return r
 
 
 def app_header_999(userToken=None, DA=True, userId=None, app_type='zhaopin'):
