@@ -666,7 +666,7 @@ def get_verify_code_list(countryCode, phone):
     except IndexError:
         return 0, None, None
 
-
+@pysnooper.snoop()
 def verify_code_message(countryCode, phone, flag_num=0):
     login_home('betty@lagou.com', '00f453dfec0f2806db5cfabe3ea94a35')
     import time
@@ -724,7 +724,7 @@ def app_header_999(userToken=None, DA=True, userId=None, app_type='zhaopin'):
                   "reqVersion": '73100', "appVersion": "7.31.0"}
     elif app_type == 'LGEdu':
         header = {"lgId": "898BCC3F-E662-4761-87E8-845788525443_1582611503", "appType": 1, "reqVersion": 10300,
-                  "appVersion": "1.2.4", "deviceType": 170}
+                  "appVersion": "1.3.0", "deviceType": 170}
     if not userToken is None:
         header['userToken'] = userToken
 
@@ -849,5 +849,6 @@ if __name__ == '__main__':
     # curPath = os.path.abspath(os.path.dirname(__file__))
     # rootPath = os.path.split(curPath)[0]
     # print(os.path.dirname(__file__))
-    r = judging_other_abnormal_conditions(500, url5, '测试')
-    print(r)
+    #r = judging_other_abnormal_conditions(500, url5, '测试')
+    #print(r)
+
