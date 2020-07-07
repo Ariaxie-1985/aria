@@ -37,9 +37,8 @@ fake = Faker("zh_CN")
 test_telephone = []
 test_company_name = []
 test_usertoken = []
-#test_edu_usertoken = []
 test_usertoken1 = []
-test_token_dict={}
+test_token_dict = {}
 
 
 @pytest.fixture(scope="session")
@@ -142,12 +141,12 @@ def c_login_education(request):
     return result['content']['userToken'], result['content']['userInfo']['userId']
 
 
-@pytest.fixture(scope='session', params=[["00442020062701", "qqqqqq"]])
+@pytest.fixture(scope='session', params=[["00442020070700", "qqqqqq"]])
 def c_login_education_0044(request):
     result = password_login(request.param[0], request.param[1], app_type='LGEdu')
     print(result)
-    test_token_dict['test_edu_usertoken']=result['content']['userToken']
-    #test_edu_usertoken.append(result['content']['userToken'])
+    test_token_dict['00442020062701_H5_token'] = result['content']['userToken']
+    # test_edu_usertoken.append(result['content']['userToken'])
     return result['content']['userToken'], result['content']['userInfo']['userId'], result['content']['userInfo'][
         'phone']
 
@@ -158,7 +157,7 @@ def c_login_education_verifycode(request):
     time.sleep(12)
     verifycode = verify_code_message(request.param[0], request.param[1])
     result = verifyCode_login(request.param[0], request.param[1], verifycode, app_type='LGEdu')
-    #test_edu_usertoken.append(result['content']['userToken'])
+    test_token_dict['00442020062701_H5_token'] = result['content']['userToken']
 
     return result['content']['userToken'], result['content']['userInfo']['userId'], result['content']['userInfo'][
         'phone']
@@ -193,9 +192,8 @@ def get_h5_token():
 
 @pytest.fixture(scope='session')
 def get_edu_h5_token():
-    #result = getToken(userToken=test_edu_usertoken[0])
-    result=getToken(userToken=test_token_dict['test_edu_usertoken'])
-    print(result)
+    # result = getToken(userToken=test_edu_usertoken[0])
+    result = getToken(userToken=test_token_dict['00442020062701_H5_token'])
     return result['content']['gateLoginToken']
 
 
