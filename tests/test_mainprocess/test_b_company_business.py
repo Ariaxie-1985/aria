@@ -9,8 +9,6 @@ import pytest
 
 from api_script.business.new_lagouPlus import open_product
 
-from api_script.business.sub_account import addColleague
-
 from api_script.home.audit import query_risk_labels, add_risk_labels_by_company, queryRiskLabelsByCompany
 from api_script.home.data_import import import_linkManInfo, import_contacts
 from api_script.jianzhao_web.b_basic.company import jump_html

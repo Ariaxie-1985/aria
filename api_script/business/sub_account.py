@@ -185,13 +185,6 @@ def reAssign_subaccount_Goods(subaccunt_goodslist):
         r = form_post(url=recoverAcount_url, data=recoverAcount_data, headers=recoverAcount_header, remark=remark)
     return r
 
-#添加同事为普通账号
-def addColleague(phone,managerId):
-    colleague_url = 'https://easy.lagou.com/colleague/add.json'
-    colleague_header = get_code_token('https://easy.lagou.com/priveligeManage/queryPriveligeAcount/index.htm')
-    data = {'accountType': 'NORMAL','userName':'安安测试','phone':phone,'receiveResumeEmail':'anan@lagou.com','positionName':'安安哈哈哈','managerId':managerId}
-    s=json_post(url=colleague_url,headers=colleague_header,data=data,remark='添加同事')
-    return s
 
 # username = 20181205
 # login("00852", username)
