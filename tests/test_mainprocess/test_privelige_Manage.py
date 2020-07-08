@@ -1,3 +1,4 @@
+import time
 import pytest
 
 from api_script.business.priveligeManage import queryPriveligeAcount, reAssignRole, queryManagerPriveligeInfo, \
@@ -44,7 +45,7 @@ class TestPriveligeManage(object):
         add_pay_result = r.get('content').get('data').get('info')
         assert_equal(1, r.get('state'), '校验添加同事接口返回状态通过', te='Anan')
         assert_not_in('errorCode', add_pay_result, '校验添加同事为特权账号通过', te='Anan')
-        wait(5000)
+        time.sleep(3)
 
     # 查找特权账号列表中是否有刚才添加的特权账号
     def test_search_pay_colleague(self, get_add_colleague_user_pay):
