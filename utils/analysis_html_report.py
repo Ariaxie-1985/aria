@@ -75,7 +75,8 @@ def get_fail_detail_result(soup, module):
         captured_demo_log = captured_log[captured_log.rfind('Captured log call'):]
         # print(captured_demo_log)
         try:
-            rd_name = re.findall(r'开发(.*?)同学', captured_demo_log)[0]
+            rd_name_list = re.findall(r'开发(.*?)同学', captured_demo_log)
+            rd_name = [rd for rd in rd_name_list if bool(rd)][0]
         except IndexError:
             rd_name = ''
         try:
