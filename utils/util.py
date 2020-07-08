@@ -104,7 +104,7 @@ def form_post(url, remark, rd=None, data=None, files=None, headers={}, verifysta
                 response_json = convert_response(response)
                 if response_json.get('state', 0) == 1 or response_json.get('success', False) or (not response_json.get(
                         'code', 1)):
-                    logging.info(f'该接口URL {url} ,备注 {remark} 执行成功\n')
+                    logging.info(f'该接口URL {url} ,备注 {remark} , 响应结果 {response_json} 请求成功\n')
                     return response_json
                 else:
                     if count < 1:
@@ -156,7 +156,7 @@ def json_post(url, remark, rd=None, data=None, headers={}, app=False, verifystat
             if is_json_response(response):
                 response_json = convert_response(response)
                 if response_json.get('state', 0) == 1 or response_json.get('success', False):
-                    logging.info(msg='该接口URL {} ,备注 {} 执行成功\n'.format(url, remark))
+                    logging.info(msg=f'该接口URL {url} ,备注 {remark} , 响应结果 {response_json} 请求成功\n')
                     return response_json
                 else:
                     if count < 1:
@@ -205,7 +205,7 @@ def get_requests(url, rd=None, data=None, headers={}, remark=None, ip_port=None)
                 response_json = convert_response(response)
                 if response_json.get('state', 0) == 1 or response_json.get('success', False) or (not response_json.get(
                         'code', 1)):
-                    logging.info(msg='该接口URL {} ,备注 {} 执行成功\n'.format(url, remark))
+                    logging.info(msg=f'该接口URL {url} ,备注 {remark} , 响应结果 {response_json} 请求成功\n')
                     return response_json
                 else:
                     if count < 1:
@@ -475,7 +475,7 @@ def json_put(url, remark, rd=None, data=None, headers={}, ip_port=None):
             if is_json_response(response):
                 response_json = convert_response(response)
                 if response_json.get('state', 0) == 1 or response_json.get('success', False):
-                    logging.info(msg='该接口URL {} ,备注 {} 执行成功\n'.format(url, remark))
+                    logging.info(msg=f'该接口URL {url} ,备注 {remark} , 响应内容 {response_json} , 请求成功\n')
                     return response_json
                 else:
                     if count < 1:
@@ -523,7 +523,7 @@ def put_requests(url, rd=None, headers={}, remark=None, ip_port=None):
             if is_json_response(response):
                 response_json = convert_response(response)
                 if response_json.get('state', 0) == 1 or response_json.get('success', False):
-                    logging.info(msg='该接口URL {} ,备注 {} 执行成功\n'.format(url, remark))
+                    logging.info(msg=f'该接口URL {url} ,备注 {remark} , 响应内容 {response_json} , 请求成功 \n')
                     return response_json
                 else:
                     if count < 1:
@@ -568,7 +568,7 @@ def delete_requests(url, rd=None, headers={}, remark=None, ip_port=None):
             if is_json_response(response):
                 response_json = convert_response(response)
                 if response_json.get('state', 0) == 1 or response_json.get('success', False):
-                    logging.info(msg='该接口URL {} ,备注 {} 执行成功\n'.format(url, remark))
+                    logging.info(msg=f'该接口URL {url} ,备注 {remark} , 响应结果 {response_json} 请求成功\n')
                     return response_json
                 else:
                     if count < 1:
@@ -665,6 +665,7 @@ def get_verify_code_list(countryCode, phone):
     except IndexError:
         return 0, None, None
 
+
 @pysnooper.snoop()
 def verify_code_message(countryCode, phone, flag_num=0):
     login_home('betty@lagou.com', '00f453dfec0f2806db5cfabe3ea94a35')
@@ -713,7 +714,7 @@ def get_verify_code_message_len(countryCode, phone):
 def get_strategies_999(userToken):
     url = 'https://gate.lagou.com/v1/neirong/janus/app/strategies?strategyKeys=MUTONG_PLAN_ONE'
     header = app_header_999(DA=False, userToken=userToken)
-    r = get_requests(url, headers=header, remark="获取木桶策略值",rd="王旭峰")
+    r = get_requests(url, headers=header, remark="获取木桶策略值", rd="王旭峰")
     return r
 
 
@@ -848,6 +849,5 @@ if __name__ == '__main__':
     # curPath = os.path.abspath(os.path.dirname(__file__))
     # rootPath = os.path.split(curPath)[0]
     # print(os.path.dirname(__file__))
-    #r = judging_other_abnormal_conditions(500, url5, '测试')
-    #print(r)
-
+    # r = judging_other_abnormal_conditions(500, url5, '测试')
+    # print(r)

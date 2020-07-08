@@ -1,16 +1,8 @@
 import datetime
-
-import json
-import logging
-
 import random
 import time
 import pytest
-
 from api_script.business.new_lagouPlus import open_product
-
-from api_script.business.sub_account import addColleague
-
 from api_script.home.audit import query_risk_labels, add_risk_labels_by_company, queryRiskLabelsByCompany
 from api_script.home.data_import import import_linkManInfo, import_contacts
 from api_script.jianzhao_web.b_basic.company import jump_html
@@ -32,7 +24,7 @@ from api_script.zhaopin_app.shop import get_shop_goods_on_sale_goods, get_shop_g
     pay_shop_goodsOrder, check_shop_goodsOrder
 from utils.loggers import logers
 from utils.util import assert_equal, pc_send_register_verifyCode, verify_code_message, user_register_lagou, \
-    login_password, assert_in, login_home, assert_not_in, login
+    login_password, assert_in, login_home
 
 loger = logers()
 
@@ -254,6 +246,7 @@ class TestCompanyBusiness(object):
             orderNo = r['content']['orderNo']
 
     def test_pay_shop_goodsOrder(self):
+        time.sleep(2)
         r = pay_shop_goodsOrder(orderNo=orderNo)
         assert_equal(1, r['content']['status'], '道具商城--招聘道具--购买道具--支付订单用例通过', te='王霞')
 
