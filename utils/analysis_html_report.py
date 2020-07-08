@@ -68,6 +68,8 @@ def get_fail_detail_result(soup, module):
             'latin-1').decode('unicode_escape')
         try:
             error_type = fail_result.find(attrs={'class': 'error'}).get_text().split('E       ')[1]
+            if 'Http500Error' in error_type:
+                error_type = 'Http500Error'
         except IndexError:
             error_type = None
         captured_log = fail_result.find(attrs={'class': 'log'}).get_text()
@@ -84,11 +86,7 @@ def get_fail_detail_result(soup, module):
         except IndexError:
             te_name = ''
         try:
-            detail_log = \
-                re.findall(
-                    r"------------------------------ Captured log call -------------------------------(.*)",
-                    captured_log)[0]
-            detail_log = '该接口URL' + re.findall('该接口URL(.*)', detail_log, re.S)[0]
+            detail_log = '该接口URL' + re.findall('该接口URL(.*)', captured_demo_log, re.S)[0]
         except IndexError:
             detail_log = '具体详情,请查看测试报告'
 
@@ -98,12 +96,10 @@ def get_fail_detail_result(soup, module):
     for error_result in soup.find_all(attrs={'class': 'error results-table-row'}):
         test_name = error_result.find(attrs={'class': 'col-name'}).get_text().split('tests/test_mainprocess/')[
             1].encode('latin-1').decode('unicode_escape')
-        # todo 解决AttributeError异常
         try:
             error_type = error_result.find(attrs={'class': 'error'}).get_text().split('E   ')[1]
             captured_log = error_result.find(attrs={'class': 'log'}).get_text()
         except AttributeError as e:
-            print(e)
             pass
 
         try:
@@ -145,5 +141,5 @@ if __name__ == '__main__':
     # r = analysis_html_report(
     #     '/Users/wang/Desktop/lg-project/lg_api_script/backend/templates/mainprocess_report33.html',
     #     3)
-    r = analysis_html_report('/Users/wang/Downloads/mainprocess_report73.html', 3, 'mainprocess')
+    r = analysis_html_report('/Users/wang/Downloads/kaiwu_lagou/mainprocess_report.html', 3, 'mainprocess')
     print(r)
