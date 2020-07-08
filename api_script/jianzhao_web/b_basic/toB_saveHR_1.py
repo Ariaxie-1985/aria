@@ -189,12 +189,12 @@ def get_b_index_Id(ip_port=None):
     return userId, UserCompanyId, lg_CompanyId
 
 
-# 公司成員頁面移出公司操作
+# 公司成员页面移出公司操作
 def remove_member_company(removeUserId):
     url = 'https://easy.lagou.com/member/removeMember.json'
     header = get_code_token(url='https://easy.lagou.com/member/all_members.htm')
     data = {'removedUserId': removeUserId}
-    r = form_post(url=url, headers=header, data=data, remark='公司成員移出公司')
+    r = form_post(url=url, headers=header, data=data, remark='公司成员移出公司', rd='旭峰')
     return r
 
 

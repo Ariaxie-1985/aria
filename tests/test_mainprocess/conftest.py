@@ -127,10 +127,21 @@ def c_userId_0085220180917():
     return userId
 
 
+@pytest.fixture(scope='session', params=[["0012020010425", "c47eeb69fa4e64971fb29cb1e9163a19"]])
+def login_0012020010425(request):
+    login_password(request.param[0], request.param[1])
+
+
 @pytest.fixture()
 def get_add_colleague_user():
     phone = 13683326352
-    '''phone = '17620060403'''
+    '''phone = '17620062812'''
+    return phone
+
+
+@pytest.fixture()
+def get_add_colleague_user_pay():
+    phone = '13683188153'
     return phone
 
 
