@@ -1,5 +1,4 @@
-# coding:utf-8
-# @Time  : 2020/3/6 17:19
+
 # @Author: Xiawang
 # Description:
 import datetime
@@ -14,6 +13,7 @@ from api_script.education.course import get_course_commentList, get_credit_cente
 from api_script.education.course import get_course_commentList, get_distribution_poster_data, get_credit_center_info, \
     get_distribution_course_list, get_my_earing, get_user_earnings_detail, get_wei_xin_user
 from api_script.education.kaiwu import get_course_description, get_distribution_info, check_course_share_status, \
+    get_course_lessons, ice_breaking_location, ice_breaking_html,\
     get_course_lessons, ice_breaking_location, save_course_history, get_lesson_play_history, ice_breaking_html
 from api_script.entry.account.me import modify_password
 from api_script.entry.account.passport import send_verify_code, register_by_phone, verifyCode_login
@@ -21,6 +21,7 @@ from api_script.entry.cuser.baseStatus import batchCancel
 from utils.util import assert_equal, assert_in, get_verify_code_message_len, assert_not_equal, verify_code_message
 from api_script.education.edu import get_course_list
 import random
+
 
 
 @pytest.mark.incremental
@@ -230,5 +231,6 @@ class TestUserGrowth(object):
 
 def test_dake_no_class(dake_no_class):
     r = no_class_dacourse()
-    assert_equal("联系课程顾问加入班级", r['content']['allCoursePurchasedRecord'][0]['bigCourseRecordList'][0]['prepayTip'],
-                 "暂未进班", te='betty')
+    assert_equal("联系课程顾问加入班级", r['content']['allCoursePurchasedRecord'][0]['bigCourseRecordList'][0]['prepayTip'], "暂未进班",te='betty')
+    assert_equal("训练营", r['content']['allCoursePurchasedRecord'][0]['title'], "有训练营课程",te='betty')
+
