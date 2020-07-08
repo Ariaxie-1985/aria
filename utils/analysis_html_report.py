@@ -76,7 +76,7 @@ def get_fail_detail_result(soup, module):
         # print(captured_demo_log)
         try:
             rd_name_list = re.findall(r'开发(.*?)同学', captured_demo_log)
-            rd_name = [rd for rd in rd_name_list if bool(rd)][0]
+            rd_name = [rd for rd in rd_name_list if rd != 'None'][0]
         except IndexError:
             rd_name = ''
         try:
@@ -145,5 +145,5 @@ if __name__ == '__main__':
     # r = analysis_html_report(
     #     '/Users/wang/Desktop/lg-project/lg_api_script/backend/templates/mainprocess_report33.html',
     #     3)
-    r = analysis_html_report('/Users/wang/Downloads/kaiwu_lagou/report2.html', 3, 'mainprocess')
+    r = analysis_html_report('/Users/wang/Downloads/mainprocess_report73.html', 3, 'mainprocess')
     print(r)
