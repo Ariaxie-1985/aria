@@ -622,7 +622,10 @@ def judging_other_abnormal_conditions(status_code, url, remark, pard_id=None):
     if status_code == 500:
         # developer_name = return_api_developer(url) or ''
         logging.error(msg="该接口URL:{} , 备注:{} 报错500, {} \n".format(url, remark, call_chain))
-        raise Http500Error
+        try:
+            raise Http500Error
+        except Http500Error:
+            pass
         return {'state': 500, 'content': '报错500, 服务端错误', 'url': url, 'remark': remark + call_chain}
     elif status_code == 415:
         logging.error(msg="该接口URL:{} 备注 {} 报错415, 请检查接口的请求方法是否正确\n".format(url, remark))
