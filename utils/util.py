@@ -210,7 +210,7 @@ def get_requests(url, rd=None, data=None, headers={}, remark=None, ip_port=None)
                 else:
                     if count < 1:
                         count = count + 1
-                        return convert_response(response)
+                        return get_requests(url=url, headers=headers, remark=remark, data=data, rd=rd)
                     else:
                         logging.error(
                             msg='该接口URL {} , 备注 {}, 响应内容: {} , 断言错误\n'.format(url, remark, response_json))
@@ -220,7 +220,7 @@ def get_requests(url, rd=None, data=None, headers={}, remark=None, ip_port=None)
         else:
             if count < 1:
                 count += 1
-                return get_requests(url, data=data, headers=headers, remark=remark, rd=rd)
+                return get_requests(url=url, headers=headers, remark=remark, data=data, rd=rd)
             else:
                 return judging_other_abnormal_conditions(status_code, url, remark, pard_id)
     except RequestException:
