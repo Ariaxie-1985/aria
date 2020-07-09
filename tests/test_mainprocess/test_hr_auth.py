@@ -2,6 +2,7 @@
 # @Time  : 2020-06-11 16:45
 # @Author: Xiawang
 # Description:认证前hr可发职位，使用在职证明+手持身份证方式可以成功提交认证,通过后有一个提审前发布的职位是在线状态
+
 # 管理员协助通过招聘审核流程
 import time
 import pytest
@@ -12,7 +13,6 @@ from api_script.jianzhao_web.b_basic.toB_saveHR_1 import saveHR, add_saveCompany
 from api_script.jianzhao_web.b_position.B_postposition import createPosition_999, get_online_positions, offline_position
 from api_script.jianzhao_web.talent.unauth_positon_talent_rec import talent_rec_unAuth
 from api_script.neirong_app.account import upate_user_password
-
 from utils.loggers import logers
 from utils.util import assert_equal, assert_in, pc_send_register_verifyCode, verify_code_message, user_register_lagou, \
     login_password
@@ -84,13 +84,14 @@ class TestHRAuth(object):
 
     def test_offline_unAuth_position(self):
         r = offline_position(positionId=unAuth_positionId)
+        loger.info(f'下线职位函数调用的结果：{r}')
         assert_equal(1, r.get('state', 0), '验证过审前发的职位，过审后可以下线成功', te='唐欣洁')
         time.sleep(1)
 
     @pytest.mark.parametrize('newPassword', [('990eb670f81e82f546cfaaae1587279a')])
     def test_update_hr1_password(self, newPassword):
         r = upate_user_password(newPassword)
-        assert_equal(1, r['state'], 'hr1修改密码成功', te='唐欣洁')
+        assert_equal(1, r['state'], 'hr1修改密码成功',te='唐欣洁')
         login_password(hr1_countryCode + hr1_phone, newPassword)
 
     def test_recruiter_members_hr1(self, get_user_info):
