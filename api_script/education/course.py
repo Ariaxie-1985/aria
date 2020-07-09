@@ -2,9 +2,8 @@
 # @Time  : 2020/3/6 16:16
 # @Author: Xiawang
 # Description:
-from api_script.jianzhao_web.b_basic.toB_saveHR_1 import add_saveCompany
-from utils.util import get_edu_app_header, get_requests
-import re
+
+from utils.util import get_edu_app_header, get_requests, json_post
 
 
 def get_course_commentList(userToken, courseId):
@@ -47,13 +46,11 @@ def get_distribution_course_list(gateLoginToken):
     return get_requests(url=url, headers=header, remark=remark, rd='Yuwei Cheng')
 
 
-
 def get_my_earing(gateLoginToken):
     url = 'https://gate.lagou.com/v1/neirong/course/distribution/getMyEarning'
     header = {"Cookie": f"gate_login_token ={gateLoginToken};", "X-L-REQ-HEADER": "{deviceType:1}"}
     remark = "获取我的收益"
     return get_requests(url=url, headers=header, remark=remark, rd='Yuwei Cheng')
-
 
 
 def get_user_earnings_detail(gateLoginToken):
@@ -63,16 +60,35 @@ def get_user_earnings_detail(gateLoginToken):
     return get_requests(url=url, headers=header, remark=remark, rd='Yuwei Cheng')
 
 
-
 def get_wei_xin_user(gateLoginToken):
     url = 'https://gate.lagou.com/v1/neirong/course/distribution/getWeiXinUser'
     header = {"Cookie": f"gate_login_token ={gateLoginToken};", "X-L-REQ-HEADER": "{deviceType:1}"}
     remark = "获取微信用户信息"
-    return get_requests(url=url, headers=header, remark=remark,rd='Yuwei Cheng')
+    return get_requests(url=url, headers=header, remark=remark, rd='Yuwei Cheng')
 
-def get_course_info(gateLoginToken,courseId):
+
+def get_course_info(gateLoginToken, courseId):
     url = "https://kaiwu.lagou.com/course/courseInfo.htm?courseId={}".format(courseId)
     header = {"Cookie": f"gate_login_token ={gateLoginToken};", "X-L-REQ-HEADER": "{deviceType:1}"}
     remark = "获取课程信息"
-    return get_requests(url=url, headers=header, remark=remark,rd='Yuwei Cheng')
+    return get_requests(url=url, headers=header, remark=remark, rd='Yuwei Cheng')
 
+
+def receive_credit(gateLoginToken):
+    data = {
+        "taskAbbreviation": "CREDIT_CENTER_DAILY_LOGIN"
+    }
+    url = 'https://gate.lagou.com/v1/neirong/course/user_growth/receiveCredit'
+    header = {"Cookie": f"gate_login_token ={gateLoginToken};", "X-L-REQ-HEADER": "{deviceType:1}"}
+    remarke = '学分领取成功'
+    return json_post(url=url, headers=header, remark=remarke, data=data, rd='Bob')
+
+
+def exchange_present(gateLoginToken):
+    data = {
+        "presentId": 5
+    }
+    url = 'https://gate.lagou.com/v1/neirong/course/user_growth/exchangePresent'
+    header = {"Cookie": f"gate_login_token ={gateLoginToken};", "X-L-REQ-HEADER": "{deviceType:1}"}
+    remarke = '礼物兑换成功'
+    return json_post(url=url, headers=header, remark=remarke, data=data, rd='Bob')

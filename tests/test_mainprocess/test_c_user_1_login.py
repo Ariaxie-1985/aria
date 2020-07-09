@@ -17,7 +17,7 @@ def test_password_login():
 def test_is_verify_code_reach_upper_limit():
     global send_verify_code_times
     send_verify_code_times = get_verify_code_message_len(countryCode, phone)
-    assert_not_equal(-1, send_verify_code_times, '获取验证码用例通过', te='王霞')
+    assert_not_equal(-1, send_verify_code_times, '获取验证码发送次数用例通过', te='王霞')
 
 
 @pytest.mark.skipif('send_verify_code_times >= 50', reason="验证码发送超过上限，跳过此用例")

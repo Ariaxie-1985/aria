@@ -104,7 +104,7 @@ def form_post(url, remark, rd=None, data=None, files=None, headers={}, verifysta
                 response_json = convert_response(response)
                 if response_json.get('state', 0) == 1 or response_json.get('success', False) or (not response_json.get(
                         'code', 1)):
-                    logging.info(f'该接口URL {url} ,备注 {remark} 执行成功\n')
+                    logging.info(f'该接口URL {url} ,备注 {remark} , 响应结果 {response_json} 请求成功\n')
                     return response_json
                 else:
                     if count < 1:
@@ -156,7 +156,7 @@ def json_post(url, remark, rd=None, data=None, headers={}, app=False, verifystat
             if is_json_response(response):
                 response_json = convert_response(response)
                 if response_json.get('state', 0) == 1 or response_json.get('success', False):
-                    logging.info(msg='该接口URL {} ,备注 {} 执行成功\n'.format(url, remark))
+                    logging.info(msg=f'该接口URL {url} ,备注 {remark} , 响应结果 {response_json} 请求成功\n')
                     return response_json
                 else:
                     if count < 1:
@@ -199,19 +199,18 @@ def get_requests(url, rd=None, data=None, headers={}, remark=None, ip_port=None)
             response = session.get(url=ip_port_url, params=data, headers=headers, verify=False, timeout=60)
 
         status_code = response.status_code
-        print(status_code)
         pard_id = response.headers.get('Pard-Id', 0)
         if 200 <= status_code <= 302:
             if is_json_response(response):
                 response_json = convert_response(response)
                 if response_json.get('state', 0) == 1 or response_json.get('success', False) or (not response_json.get(
                         'code', 1)):
-                    logging.info(msg='该接口URL {} ,备注 {} 执行成功\n'.format(url, remark))
+                    logging.info(msg=f'该接口URL {url} ,备注 {remark} , 响应结果 {response_json} 请求成功\n')
                     return response_json
                 else:
                     if count < 1:
                         count = count + 1
-                        return convert_response(response)
+                        return get_requests(url=url, headers=headers, remark=remark, data=data, rd=rd)
                     else:
                         logging.error(
                             msg='该接口URL {} , 备注 {}, 响应内容: {} , 断言错误\n'.format(url, remark, response_json))
@@ -221,7 +220,7 @@ def get_requests(url, rd=None, data=None, headers={}, remark=None, ip_port=None)
         else:
             if count < 1:
                 count += 1
-                return get_requests(url, data=data, headers=headers, remark=remark, rd=rd)
+                return get_requests(url=url, headers=headers, remark=remark, data=data, rd=rd)
             else:
                 return judging_other_abnormal_conditions(status_code, url, remark, pard_id)
     except RequestException:
@@ -476,7 +475,7 @@ def json_put(url, remark, rd=None, data=None, headers={}, ip_port=None):
             if is_json_response(response):
                 response_json = convert_response(response)
                 if response_json.get('state', 0) == 1 or response_json.get('success', False):
-                    logging.info(msg='该接口URL {} ,备注 {} 执行成功\n'.format(url, remark))
+                    logging.info(msg=f'该接口URL {url} ,备注 {remark} , 响应内容 {response_json} , 请求成功\n')
                     return response_json
                 else:
                     if count < 1:
@@ -524,7 +523,7 @@ def put_requests(url, rd=None, headers={}, remark=None, ip_port=None):
             if is_json_response(response):
                 response_json = convert_response(response)
                 if response_json.get('state', 0) == 1 or response_json.get('success', False):
-                    logging.info(msg='该接口URL {} ,备注 {} 执行成功\n'.format(url, remark))
+                    logging.info(msg=f'该接口URL {url} ,备注 {remark} , 响应内容 {response_json} , 请求成功 \n')
                     return response_json
                 else:
                     if count < 1:
@@ -569,7 +568,7 @@ def delete_requests(url, rd=None, headers={}, remark=None, ip_port=None):
             if is_json_response(response):
                 response_json = convert_response(response)
                 if response_json.get('state', 0) == 1 or response_json.get('success', False):
-                    logging.info(msg='该接口URL {} ,备注 {} 执行成功\n'.format(url, remark))
+                    logging.info(msg=f'该接口URL {url} ,备注 {remark} , 响应结果 {response_json} 请求成功\n')
                     return response_json
                 else:
                     if count < 1:
@@ -623,7 +622,10 @@ def judging_other_abnormal_conditions(status_code, url, remark, pard_id=None):
     if status_code == 500:
         # developer_name = return_api_developer(url) or ''
         logging.error(msg="该接口URL:{} , 备注:{} 报错500, {} \n".format(url, remark, call_chain))
-        raise Http500Error
+        try:
+            raise Http500Error
+        except Http500Error:
+            pass
         return {'state': 500, 'content': '报错500, 服务端错误', 'url': url, 'remark': remark + call_chain}
     elif status_code == 415:
         logging.error(msg="该接口URL:{} 备注 {} 报错415, 请检查接口的请求方法是否正确\n".format(url, remark))
@@ -667,6 +669,7 @@ def get_verify_code_list(countryCode, phone):
         return 0, None, None
 
 
+@pysnooper.snoop()
 def verify_code_message(countryCode, phone, flag_num=0):
     login_home('betty@lagou.com', '00f453dfec0f2806db5cfabe3ea94a35')
     import time
@@ -714,9 +717,8 @@ def get_verify_code_message_len(countryCode, phone):
 def get_strategies_999(userToken):
     url = 'https://gate.lagou.com/v1/neirong/janus/app/strategies?strategyKeys=MUTONG_PLAN_ONE'
     header = app_header_999(DA=False, userToken=userToken)
-    r = get_requests(url, headers=header, remark="获取木桶策略值")
-    strategy = r.get('content')[0]['value']
-    return strategy
+    r = get_requests(url, headers=header, remark="获取木桶策略值", rd="王旭峰")
+    return r
 
 
 def app_header_999(userToken=None, DA=True, userId=None, app_type='zhaopin'):
@@ -725,7 +727,7 @@ def app_header_999(userToken=None, DA=True, userId=None, app_type='zhaopin'):
                   "reqVersion": '73100', "appVersion": "7.31.0"}
     elif app_type == 'LGEdu':
         header = {"lgId": "898BCC3F-E662-4761-87E8-845788525443_1582611503", "appType": 1, "reqVersion": 10300,
-                  "appVersion": "1.2.4", "deviceType": 170}
+                  "appVersion": "1.3.0", "deviceType": 170}
     if not userToken is None:
         header['userToken'] = userToken
 
@@ -850,5 +852,5 @@ if __name__ == '__main__':
     # curPath = os.path.abspath(os.path.dirname(__file__))
     # rootPath = os.path.split(curPath)[0]
     # print(os.path.dirname(__file__))
-    r = judging_other_abnormal_conditions(500, url5, '测试')
-    print(r)
+    # r = judging_other_abnormal_conditions(500, url5, '测试')
+    # print(r)
