@@ -87,6 +87,7 @@ class TestHRAuth(object):
 
     def test_offline_unAuth_position(self):
         r = offline_position(positionId=unAuth_positionId)
+        print(r)
         assert_equal(1, r.get('state', 0), '验证过审前发的职位，过审后可以下线成功', te='唐欣洁')
         time.sleep(1)
 
