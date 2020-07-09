@@ -8,7 +8,7 @@ import pytest
 
 from api_script.open_lagou_com.resume import get_resume_list, get_online_resume, get_attachment_resume, get_contact, \
     get_interview, get_obsolete
-from utils.util import assert_equal
+from utils.util import assert_equal, assert_in
 
 
 @pytest.mark.incremental
@@ -32,7 +32,8 @@ class TestResume:
     def test_get_attachment_resume(self, get_access_token):
         res = get_attachment_resume(access_token=get_access_token, resume_id=resume_id)
         assert_equal(200, res.status_code, f'获取附件简历信息请求成功', te='王霞')
-        assert_equal('pdf', res.headers.get('Attachment-Suffix'), '获取附件简历用例通过', f'获取附件简历{resume_id}用例失败', '王霞')
+        assert_in(res.headers.get('Attachment-Suffix'), ['pdf', 'doc', 'docx'], '获取附件简历用例通过', f'获取附件简历{resume_id}用例失败',
+                  '王霞')
 
     def test_get_contact(self, get_access_token):
         res = get_contact(access_token=get_access_token, resume_id=resume_id)
