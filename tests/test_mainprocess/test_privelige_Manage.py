@@ -46,13 +46,16 @@ class TestPriveligeManage(object):
         assert_equal(1, r.get('state'), '校验添加同事接口返回状态通过', te='Anan')
         assert_not_in('errorCode', add_pay_result, '校验添加同事为特权账号通过', te='Anan')
         loger.info(f'添加的特权账号的用户id:{add_pay_result.get("userId")}')
-        time.sleep(3)
 
     # 查找特权账号列表中是否有刚才添加的特权账号
     def test_search_pay_colleague(self, get_add_colleague_user_pay):
         global pay_userid
         pay_userid = add_pay_result.get('userId')
-        search_result = queryPriveligeAcount(keyword=get_add_colleague_user_pay)
+        for i in range(5):
+            time.sleep(2)
+            search_result = queryPriveligeAcount(keyword=get_add_colleague_user_pay)
+            if search_result != []:
+                break
         assert_not_equal([], search_result, '校验特权账号列表返回数据不为空通过', te='Anan')
         assert_equal(pay_userid, search_result[0].get('userid'), '校验特权账号列表返回了刚才添加的特权账号通过', te='Anan')
 
