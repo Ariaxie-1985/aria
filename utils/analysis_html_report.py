@@ -87,6 +87,7 @@ def get_fail_detail_result(soup, module):
             te_name = ''
         try:
             detail_log = '该接口URL' + re.findall('该接口URL(.*)', captured_demo_log, re.S)[0]
+            detail_log = detail_log.split('\n')[0]
         except IndexError:
             detail_log = '具体详情,请查看测试报告'
 
@@ -141,5 +142,5 @@ if __name__ == '__main__':
     # r = analysis_html_report(
     #     '/Users/wang/Desktop/lg-project/lg_api_script/backend/templates/mainprocess_report33.html',
     #     3)
-    r = analysis_html_report('/Users/wang/Downloads/kaiwu_lagou/mainprocess_report.html', 3, 'mainprocess')
+    r = analysis_html_report('/Users/wang/Downloads/mainprocess_report80.html', 3, 'mainprocess')
     print(r)
