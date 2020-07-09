@@ -2,6 +2,7 @@
 # @Time  : 2020/6/3 11:14
 # @Author: Xiawang
 # Description:
+import json
 import time
 
 import pytest
@@ -49,6 +50,8 @@ class TestPosition:
     def test_position_create(self, get_access_token, get_openid):
         time.sleep(2)
         res = position_create(access_token=get_access_token, openid=get_openid, address_id=address_id)
+        if isinstance(res, str):
+            res = json.loads(res)
         loger.info(f'发布职位, openid:{get_openid}')
         assert_equal(0, res.get('code'), '创建职位请求成功', '创建职位请求失败', '王霞')
         global position_id, jd_id
