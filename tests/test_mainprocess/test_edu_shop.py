@@ -36,7 +36,6 @@ class TestShopGoodOrderCourse(object):
                                                    sellGoodsPriceId=nohasBuy_courseids[id]["sellGoodsPriceId"],
                                                    gateLoginToken=get_h5_token,
                                                    shopOrderToken=nohasBuy_courseids[id]["orderToken"])
-            print(result["content"]["orderNo"])
             if orderNo:
                 if leadtime > 60:
                     file_path = os.getcwd()
