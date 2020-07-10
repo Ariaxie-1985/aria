@@ -101,9 +101,11 @@ def get_course_info(courseId, gateLoginToken):
     # 针对就业课如果是年费会员则走,目前可暂时不考虑-从正常的列表内无法获取到就业课id
     if courseType == '3' and joinMember == "true":
         memberPrice = re.findall(r'"memberPrice":(.*?),', r)
-        memberStrategyPriceId = re.findall(r'"memberStrategyPriceId":(.*?),', r)
+        memberStrategyPriceId = re.findall(r'"memberStrategyPriceId":(.*?),', r
+        print(sellGoodsPriceId, joinMember, joinSeckill, lgCoinPrice, discounts, freeForVip, courseType, orderToken)
         return sellGoodsPriceId, joinMember, joinSeckill, lgCoinPrice, discounts, freeForVip, courseType, orderToken, memberPrice, memberStrategyPriceId
     else:
+        print(sellGoodsPriceId, joinMember, joinSeckill, lgCoinPrice, discounts, freeForVip, courseType, orderToken)
         return sellGoodsPriceId, joinMember, joinSeckill, lgCoinPrice, discounts, freeForVip, courseType, orderToken
 
 
