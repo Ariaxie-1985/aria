@@ -193,11 +193,11 @@ def main(module):
         pytest_result = run_pytest(module)
         if pytest_result.get('state', 0) != 1:
             send_feishu_result = send_feishu_report(module, pytest_result)
-            send_oss_result = send_oss(pytest_result)
+            # send_oss_result = send_oss(pytest_result)
             if send_feishu_result == True:
                 send_mail(module)
-            if not send_oss_result.get('result', False):
-                send_oss(pytest_result)
+            # if not send_oss_result.get('result', False):
+            #     send_oss(pytest_result)
 
 
 if __name__ == '__main__':

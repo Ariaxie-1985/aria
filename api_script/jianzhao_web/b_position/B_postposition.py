@@ -53,7 +53,6 @@ def createPosition_999(firstType, positionType, positionThirdType, positionName,
     return form_post(url=createPosition_url, data=createPosition_data, headers=Position_header, remark=remark,
                      ip_port=ip_port, rd='royliu')
 
-
 # 发布单个职位-拉勾渠道
 def post_position():
     refer_createPosition_url = "https://easy.lagou.com/position/multiChannel/createPosition.htm"

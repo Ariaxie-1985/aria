@@ -8,7 +8,7 @@ from api_script.entry.account.passport import password_login, send_verify_code, 
 from utils.util import assert_equal, verify_code_message, get_verify_code_message_len, assert_not_equal
 
 global countryCode, phone
-countryCode, phone = "00852", "20180917"
+countryCode, phone = "00852", "19062701"
 
 
 def test_is_verify_code_reach_upper_limit():

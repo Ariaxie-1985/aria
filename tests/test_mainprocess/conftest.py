@@ -1,4 +1,3 @@
-
 # coding:utf-8
 # @Time  : 2019-11-07 11:46
 # @Author: Xiawang
@@ -7,11 +6,13 @@ import time
 import pytest
 
 from api_script.education.account import getToken
-from api_script.entry.account.passport import password_login
+from api_script.entry.account.passport import password_login, verifyCode_login
 from api_script.jianzhao_web.index import dashboard_index_get_user_id
 from backend.common.get_data import get_www_company_id
 from faker import Faker
 from api_script.jianzhao_web.b_basic.toB_saveHR_1 import get_b_person_userId, get_b_index_Id
+from utils.util import login_password, login_verifyCode, verify_code_message
+from api_script.entry.account.passport import send_verify_code
 from utils.util import login_password, get_requests
 
 fake = Faker("zh_CN")
@@ -37,6 +38,7 @@ test_telephone = []
 test_company_name = []
 test_usertoken = []
 test_usertoken1 = []
+test_token_dict = {}
 
 
 @pytest.fixture(scope="session")
@@ -125,10 +127,21 @@ def c_userId_0085220180917():
     return userId
 
 
+@pytest.fixture(scope='session', params=[["0012020010425", "c47eeb69fa4e64971fb29cb1e9163a19"]])
+def login_0012020010425(request):
+    login_password(request.param[0], request.param[1])
+
+
 @pytest.fixture()
 def get_add_colleague_user():
     phone = 13683326352
-    '''phone = '17620060403'''
+    '''phone = '17620062812'''
+    return phone
+
+
+@pytest.fixture()
+def get_add_colleague_user_pay():
+    phone = '13683188153'
     return phone
 
 
@@ -137,6 +150,28 @@ def c_login_education(request):
     result = password_login(request.param[0], request.param[1], app_type='LGEdu')
     test_usertoken.append(result['content']['userToken'])
     return result['content']['userToken'], result['content']['userInfo']['userId']
+
+
+@pytest.fixture(scope='session', params=[["00442020070700", "qqqqqq"]])
+def c_login_education_0044(request):
+    result = password_login(request.param[0], request.param[1], app_type='LGEdu')
+    print(result)
+    test_token_dict['00442020062701_H5_token'] = result['content']['userToken']
+    # test_edu_usertoken.append(result['content']['userToken'])
+    return result['content']['userToken'], result['content']['userInfo']['userId'], result['content']['userInfo'][
+        'phone']
+
+
+@pytest.fixture(scope='session')
+def c_login_education_verifycode(request):
+    sendverifycode = send_verify_code(request.param[0], request.param[1], 'PASSPORT_REGISTER')
+    time.sleep(12)
+    verifycode = verify_code_message(request.param[0], request.param[1])
+    result = verifyCode_login(request.param[0], request.param[1], verifycode, app_type='LGEdu')
+    test_token_dict['00442020062701_H5_token'] = result['content']['userToken']
+
+    return result['content']['userToken'], result['content']['userInfo']['userId'], result['content']['userInfo'][
+        'phone']
 
 
 @pytest.fixture(scope='session', params=[["0085219820080", "qqqqqq"]])
@@ -149,7 +184,7 @@ def ice_breaking_edu(request):
 @pytest.fixture(scope='session')
 def dake_no_class():
     login_password(username='0085319873334', password="abdcc717dce429ccb997b91ce067f9b6")
-    #重定向跳转到kaiwu.lagou.com的处理
+    # 重定向跳转到kaiwu.lagou.com的处理
     get_requests(
         url='https://kaiwu.lagou.com/?action=grantST&ticket=ST-6c0d87f702634bf7bf2fa14b82b72b02&fl=2&osc=PASSPORT._pscb%282%29&ofc=PASSPORT._pfcb%282%29&pfurl=https%3A%2F%2Fkaiwu.lagou.com%2F')
 
@@ -163,6 +198,13 @@ def get_h5_token1():
 @pytest.fixture(scope='session')
 def get_h5_token():
     result = getToken(userToken=test_usertoken[0])
+    return result['content']['gateLoginToken']
+
+
+@pytest.fixture(scope='session')
+def get_edu_h5_token():
+    # result = getToken(userToken=test_edu_usertoken[0])
+    result = getToken(userToken=test_token_dict['00442020062701_H5_token'])
     return result['content']['gateLoginToken']
 
 

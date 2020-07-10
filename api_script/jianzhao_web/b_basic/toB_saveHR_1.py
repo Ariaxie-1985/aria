@@ -189,12 +189,12 @@ def get_b_index_Id(ip_port=None):
     return userId, UserCompanyId, lg_CompanyId
 
 
-# 公司成員頁面移出公司操作
+# 公司成员页面移出公司操作
 def remove_member_company(removeUserId):
     url = 'https://easy.lagou.com/member/removeMember.json'
     header = get_code_token(url='https://easy.lagou.com/member/all_members.htm')
     data = {'removedUserId': removeUserId}
-    r = form_post(url=url, headers=header, data=data, remark='公司成員移出公司')
+    r = form_post(url=url, headers=header, data=data, remark='公司成员移出公司', rd='旭峰')
     return r
 
 
@@ -209,19 +209,10 @@ def remove_member():
     header = get_code_token(url='https://easy.lagou.com/settings/channel/my_channels.htm')
     return get_requests(url=url, headers=header, remark="解除招聘者信息", rd='旭峰')
 
-
-# try:
-#     userId = r['content']['data']['members']['result'][0]['userId']
-# except IndexError:
-#     r = get_requests(url=url, headers=header, remark="核对招聘者信息")
-#     userId = r['content']['data']['members']['result'][0]['userId']
-# if int(verity_userId) == userId:
-#     url = 'https://easy.lagou.com/member/removeMember.json?hasRecruitmentService=true'
-#     r = get_requests(url=url, headers=header, remark="解除招聘者信息")
-#     if r['state'] == 1:
-#         return True
-# return False
-
+def remove_member_has_offline_position():
+    url = 'https://easy.lagou.com/member/removeMember.json?hasRecruitmentService=true&ignoreOfflinePosition=true'
+    header = get_code_token(url='https://easy.lagou.com/settings/channel/my_channels.htm')
+    return get_requests(url=url, headers=header, remark="解除招聘者信息", rd='旭峰')
 
 def close_trial_package(lg_CompanyId):
     contractNo = get_contract_No(lg_CompanyId)
