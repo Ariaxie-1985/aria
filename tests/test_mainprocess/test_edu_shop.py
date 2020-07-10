@@ -42,6 +42,7 @@ class TestShopGoodOrderCourse(object):
                     file_path = os.getcwd()
                     assert_not_equal(result["content"]["orderNo"], orderNo[id], "大于一小时重新生成新订单用例通过", te='张红彦')
                     record_shop_time(file_path,datetime.datetime.now())
+                    print("执行到这里了吗，不能写入当前时间",leadtime,read_shop_time(file_path))
                     orderNo.update({id: result["content"]["orderNo"]})
                 elif leadtime > 0:
                     assert_equal(result["content"]["orderNo"], orderNo[id], "一小时内订单id未变用例通过", te='张红彦')
