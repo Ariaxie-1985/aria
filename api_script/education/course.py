@@ -102,10 +102,8 @@ def get_course_info(courseId, gateLoginToken):
     if courseType == '3' and joinMember == "true":
         memberPrice = re.findall(r'"memberPrice":(.*?),', r)
         memberStrategyPriceId = re.findall(r'"memberStrategyPriceId":(.*?),', r)
-        print(sellGoodsPriceId, joinMember, joinSeckill, lgCoinPrice, discounts, freeForVip, courseType, orderToken)
         return sellGoodsPriceId, joinMember, joinSeckill, lgCoinPrice, discounts, freeForVip, courseType, orderToken, memberPrice, memberStrategyPriceId
     else:
-        print(sellGoodsPriceId, joinMember, joinSeckill, lgCoinPrice, discounts, freeForVip, courseType, orderToken)
         return sellGoodsPriceId, joinMember, joinSeckill, lgCoinPrice, discounts, freeForVip, courseType, orderToken
 
 

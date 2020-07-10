@@ -22,10 +22,9 @@ class TestShopGoodOrderCourse(object):
     def test_get_course_info(self, get_h5_token):
         for id in nohasBuy_courseid_list:
             r = get_course_info(courseId=id, gateLoginToken=get_h5_token)
-            print(r)
-            nohasBuy_courseids.update({id: {"sellGoodsPriceId": r[1], "joinMember": r[2], "joinSeckill": r[3],
-                                            "lgCoinPrice": r[4], "discounts": r[5], "freeForVip": r[6],
-                                            "courseType": r[7], "orderToken": r[8]}})
+            nohasBuy_courseids.update({id: {"sellGoodsPriceId": r[0], "joinMember": r[1], "joinSeckill": r[2],
+                                            "lgCoinPrice": r[3], "discounts": r[4], "freeForVip": r[5],
+                                            "courseType": r[6], "orderToken": r[7]}})
             assert_equal(True, bool(r[0]), "获取课程价格&售卖策略用例通过", te='张红彦')
 
     # @pytest.mark.parametrize("id", nohasBuy_courseid_list=nohasBuy_courseid_list)
