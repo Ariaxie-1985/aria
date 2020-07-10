@@ -86,12 +86,12 @@ def batch_cancel_account(country_code_phone_list):
             assert result.get('state') == 1
 
 def record_shop_time(file_path, shoptime):
-    with open('{}\\tests\\testdata\\shoptime.txt'.format(file_path), 'w') as f:
+    with open('{}/tests/testdata/shoptime.txt'.format(file_path), 'w') as f:
         f.write('{}'.format(shoptime))
 
 
 def read_shop_time(file_path):
-    with open('{}\\tests\\testdata\\shoptime.txt'.format(file_path), 'r') as f:
+    with open('{}/tests/testdata/shoptime.txt'.format(file_path), 'r') as f:
         shoptime = f.read()
     return shoptime
 
