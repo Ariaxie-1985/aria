@@ -138,7 +138,7 @@ class TestEducationhistory(TestEducation01):
         r = get_course_list(userToken=c_login_education[0])
         assert_equal(True, bool(r), "从选课页获取已购买课程成功",te='张红彦')
         global hasbuy_small_course_id
-        hasbuy_small_course_id = r[-1]
+        hasbuy_small_course_id = r[1][-1]
 
     def test_get_course_baseinfo(self, c_login_education):
         r = get_course_baseinfo(hasbuy_small_course_id, userToken=c_login_education[0])
