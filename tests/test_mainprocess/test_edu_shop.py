@@ -22,6 +22,7 @@ class TestShopGoodOrderCourse(object):
     def test_get_course_info(self, get_h5_token):
         for id in nohasBuy_courseid_list:
             r = get_course_info(courseId=id, gateLoginToken=get_h5_token)
+            print(r)
             nohasBuy_courseids.update({id: {"sellGoodsPriceId": r[1], "joinMember": r[2], "joinSeckill": r[3],
                                             "lgCoinPrice": r[4], "discounts": r[5], "freeForVip": r[6],
                                             "courseType": r[7], "orderToken": r[8]}})
