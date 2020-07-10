@@ -27,21 +27,22 @@ class TestShopGoodOrderCourse(object):
                                             "courseType": r[7], "orderToken": r[8]}})
             assert_equal(True, bool(r[0]), "获取课程价格&售卖策略用例通过", te='张红彦')
 
-    @pytest.mark.parametrize("id", nohasBuy_courseid_list=nohasBuy_courseid_list)
-    def test_create_shop_goodsOrder_course(self, id, nohasBuy_courseids, get_h5_token):
-        leadtime = lead_time()
-        result = create_shop_goodsOrder_course(payLagouCoinNum=nohasBuy_courseids[id]["lgCoinPrice"],
-                                               sellGoodsPriceId=nohasBuy_courseids[id]["sellGoodsPriceId"],
-                                               gateLoginToken=get_h5_token,
-                                               shopOrderToken=nohasBuy_courseids[id]["orderToken"])
-        if orderNo:
-            if leadtime > 60:
-                assert_not_equal(result["content"]["orderNo"], orderNo[id], "大于一小时重新生成新订单用例通过", te='张红彦')
-                orderNo.update({id: result["content"]["orderNo"]})
-            else:
-                assert_equal(result["content"]["orderNo"], orderNo[id], "一小时内订单id未变用例通过", te='张红彦')
-        assert_equal(True, bool(result["content"]["orderNo"]), '课程创建订单用例通过', te='张红彦')
-        orderNo.update({id: result["content"]["orderNo"]})
+    # @pytest.mark.parametrize("id", nohasBuy_courseid_list=nohasBuy_courseid_list)
+    def test_create_shop_goodsOrder_course(self,get_h5_token):
+        for id in nohasBuy_courseid_list:
+            leadtime = lead_time()
+            result = create_shop_goodsOrder_course(payLagouCoinNum=nohasBuy_courseids[id]["lgCoinPrice"],
+                                                   sellGoodsPriceId=nohasBuy_courseids[id]["sellGoodsPriceId"],
+                                                   gateLoginToken=get_h5_token,
+                                                   shopOrderToken=nohasBuy_courseids[id]["orderToken"])
+            if orderNo:
+                if leadtime > 60:
+                    assert_not_equal(result["content"]["orderNo"], orderNo[id], "大于一小时重新生成新订单用例通过", te='张红彦')
+                    orderNo.update({id: result["content"]["orderNo"]})
+                else:
+                    assert_equal(result["content"]["orderNo"], orderNo[id], "一小时内订单id未变用例通过", te='张红彦')
+            assert_equal(True, bool(result["content"]["orderNo"]), '课程创建订单用例通过', te='张红彦')
+            orderNo.update({id: result["content"]["orderNo"]})
 
 
 

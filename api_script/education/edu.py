@@ -17,7 +17,7 @@ def get_course_list(userToken):
         if k['hasBuy']:
             hasBuy_course_id.append(k['id'])
         else:
-            nohasBuy_course_id.append((k['id']))
+            nohasBuy_course_id.append(k['id'])
     return result,hasBuy_course_id,nohasBuy_course_id
 
 if __name__ == '__main__':
