@@ -27,7 +27,7 @@ class TestShopGoodOrderCourse(object):
                                             "courseType": r[7], "orderToken": r[8]}})
             assert_equal(True, bool(r[0]), "获取课程价格&售卖策略用例通过", te='张红彦')
 
-    @pytest.mark.parametrize("id", nohasBuy_courseid_list)
+    @pytest.mark.parametrize("id", nohasBuy_courseid_list=nohasBuy_courseid_list)
     def test_create_shop_goodsOrder_course(self, id, nohasBuy_courseids, get_h5_token):
         leadtime = lead_time()
         result = create_shop_goodsOrder_course(payLagouCoinNum=nohasBuy_courseids[id]["lgCoinPrice"],
