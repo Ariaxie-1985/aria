@@ -39,4 +39,4 @@ def lead_time():
         record_shop_time(file_path,date1)
 
 if __name__ == '__main__':
-    lead_time()
+    print(lead_time())
