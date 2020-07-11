@@ -511,4 +511,6 @@ class TestCompanyBusiness(object):
     def test_remove_admin_user(self):
         loger.info(f'flag:解除招聘者认证--管理员的用户id:{admin_user_id}, 主站公司id:{www_company_id}')
         remove_result = remove_member()
+        if remove_result.get('state') == 40309:
+            loger.info(f"解除管理员的招聘者服务报错40309: 主站id:{www_company_id},管理员用户id:{admin_user_id},合同编号:{self.contractNo}")
         assert_equal(1, remove_result.get('state'), '校验移除管理员用户的招聘者服务成功！', te='王霞')
