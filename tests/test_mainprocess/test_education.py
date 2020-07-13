@@ -23,12 +23,8 @@ import random
 @pytest.mark.incremental
 class TestEducation01(object):
 
-    @pytest.mark.parametrize("expect_card_type, expect_title", [(1, "广告banner"), (2, "训练营"), (3, "专栏")])
-    def test_get_homepage_cards(self, c_login_education, expect_card_type, expect_title):
+    def test_get_homepage_cards(self, c_login_education):
         r = get_homepage_cards(userToken=c_login_education[0])
-        # for card in r['content']['pageCardList']:
-        #     assert_equal(expect_card_type, card['cardType'], "拉勾教育-获取首页卡片信息列表用例通过")
-        #     assert_equal(expect_title, card['title'], "拉勾教育-获取首页卡片信息列表用例通过")
         assert_equal(1, r.get('state'), "拉勾教育-获取首页卡片信息列表用例通过", te='王霞')
         global first_small_course_id, first_small_course_brief, first_small_course_title, decorate_id
         first_small_course_id = r['content']['pageCardList'][2]['smallCourseList'][0]['id']
@@ -42,7 +38,7 @@ class TestEducation01(object):
 
     def test_get_course_lessons(self, c_login_education):
         r = get_course_lessons(userToken=c_login_education[0], courseId=first_small_course_id)
-        assert_equal(first_small_course_title, r['content']['courseName'], '查询课程详情用例通过', te='王霞')
+        assert_equal(first_small_course_id, r['content']['courseSectionList'][0]['courseId'], '查询课程详情用例通过', te='王霞')
 
     def test_get_course_description(self, c_login_education):
         r = get_course_description(userToken=c_login_education[0], courseId=first_small_course_id)

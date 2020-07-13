@@ -5,7 +5,7 @@ import re
 import time
 
 from bs4 import BeautifulSoup
-from api_script.home.lagou_plus import get_contract_No, close_contract
+from api_script.home.lagou_plus import get_contract_list, close_contract
 from api_script.jianzhao_web.b_basic.b_upload import upload_permit
 from utils.util import get_code_token, form_post, login, get_requests, get_header, login_home, login_home_code, \
     login_password
@@ -215,7 +215,7 @@ def remove_member_has_offline_position():
     return get_requests(url=url, headers=header, remark="解除招聘者信息", rd='旭峰')
 
 def close_trial_package(lg_CompanyId):
-    contractNo = get_contract_No(lg_CompanyId)
+    contractNo = get_contract_list(lg_CompanyId)
     close_result = close_contract(contractNo=contractNo)
     return close_result
 
