@@ -144,10 +144,10 @@ def get_add_colleague_user_pay():
     return phone
 
 
-@pytest.fixture(scope='session', params=[["18810769854", "aaaaaa"]])
+@pytest.fixture(scope='session', params=[["00552020022601", "aaaaaa"]])
 def c_login_education(request):
     result = password_login(request.param[0], request.param[1], app_type='LGEdu')
-    test_token_dict.update({"18810769854":result['content']['userToken']})
+    test_token_dict.update({"00552020022601":result['content']['userToken']})
     return result['content']['userToken'], result['content']['userInfo']['userId']
 
 @pytest.fixture(scope='session', params=[["00552020041701", "aaaaaa"]])
@@ -203,7 +203,7 @@ def get_h5_token1():
 
 @pytest.fixture(scope='session')
 def get_h5_token():
-    result = getToken(userToken=test_token_dict["18810769854"])
+    result = getToken(userToken=test_token_dict["00552020022601"])
     return result['content']['gateLoginToken']
 
 @pytest.fixture(scope='session')
