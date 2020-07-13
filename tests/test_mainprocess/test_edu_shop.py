@@ -55,6 +55,7 @@ class TestShopGoodOrderCourse(object):
                 print("3333333333", leadtime, read_shop_time(file_path))
                 orderNo.update({id: result["content"]["orderNo"]})
                 print("4444444444444444444",orderNo[id])
+            print("55555555555",orderNo[id],leadtime)
 
 
 
