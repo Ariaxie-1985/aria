@@ -42,7 +42,7 @@ class TestEducation01(object):
 
     def test_get_course_lessons(self, c_login_education):
         r = get_course_lessons(userToken=c_login_education[0], courseId=first_small_course_id)
-        assert_equal(first_small_course_title, r['content']['courseName'], '查询课程详情用例通过', te='王霞')
+        assert_equal(first_small_course_id, r['content']['courseSectionList'][0]['courseId'], '查询课程详情用例通过', te='王霞')
 
     def test_get_course_description(self, c_login_education):
         r = get_course_description(userToken=c_login_education[0], courseId=first_small_course_id)
