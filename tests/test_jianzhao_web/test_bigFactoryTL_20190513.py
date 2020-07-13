@@ -3,7 +3,6 @@
 # @Author: Xiawang
 import pytest
 
-from api_script.home.lagou_plus import get_contract_No, close_contract, open_product
 from api_script.jianzhao_web.b_position.bigFactoryTL_20190513 import recruitcard_pop
 from utils.util import assert_equal
 
