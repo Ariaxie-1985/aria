@@ -18,10 +18,12 @@ def get_course_list(userToken):
             hasBuy_course_id.append(k['id'])
         else:
             nohasBuy_course_id.append(k['id'])
+
+
     return result,hasBuy_course_id,nohasBuy_course_id
 
 if __name__ == '__main__':
-    print(get_course_list("f7ce1c1b65e5c6d4457985e43e5491295c57a3d71b6fbeaf27a3b167660f0a3a"))
+    print(get_course_list("858f457a0314d91a58eeba57516e29de2aa9c4cb11ea61f8de338f465e6c1ce0"))
 
 
 

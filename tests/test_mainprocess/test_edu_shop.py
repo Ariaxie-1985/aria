@@ -52,6 +52,7 @@ class TestShopGoodOrderCourse(object):
                 assert_equal(result["content"]["orderNo"], orderNo[id], "一小时内订单id未变用例通过", te='张红彦')
             else:
                 orderNo.update({id: result["content"]["orderNo"]})
+                print(orderNo)
                 print("3333333333", leadtime, read_shop_time(file_path))
 
 
