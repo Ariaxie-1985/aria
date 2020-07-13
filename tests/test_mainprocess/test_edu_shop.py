@@ -39,7 +39,7 @@ class TestShopGoodOrderCourse(object):
         orderNofile = read_shop_order(file_path)
         b = list(orderNofile.keys())
         for id in nohasBuy_courseid_list:
-            leadtime = lead_time()
+            leadtime = lead_time(date1)
             result = create_shop_goodsOrder_course(payLagouCoinNum=nohasBuy_courseids[id]["lgCoinPrice"],
                                                    sellGoodsPriceId=nohasBuy_courseids[id]["sellGoodsPriceId"],
                                                    gateLoginToken=get_h5_token,
