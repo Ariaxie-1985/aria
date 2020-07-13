@@ -24,16 +24,16 @@ class TestShopGoodOrderCourse(object):
         global nohasBuy_courseid_list
         nohasBuy_courseid_list = r[2]
 
-    def test_get_course_info(self, get_h5_token):
+    def test_get_course_info(self, get_shop_h5_token):
         for id in nohasBuy_courseid_list:
-            r = get_course_info(courseId=id, gateLoginToken=get_h5_token)
+            r = get_course_info(courseId=id, gateLoginToken=get_shop_h5_token)
             nohasBuy_courseids.update({id: {"sellGoodsPriceId": r[0], "joinMember": r[1], "joinSeckill": r[2],
                                             "lgCoinPrice": r[3], "discounts": r[4], "freeForVip": r[5],
                                             "courseType": r[6], "orderToken": r[7]}})
             assert_equal(True, bool(r[0]), "获取课程价格&售卖策略用例通过", te='张红彦')
 
     # @pytest.mark.parametrize("id", nohasBuy_courseid_list=nohasBuy_courseid_list)
-    def test_create_shop_goodsOrder_course(self, get_h5_token):
+    def test_create_shop_goodsOrder_course(self, get_shop_h5_token):
         file_path = os.getcwd()
         date1 = local_time()
         orderNofile = read_shop_order(file_path)
@@ -42,7 +42,7 @@ class TestShopGoodOrderCourse(object):
             leadtime = lead_time(date1)
             result = create_shop_goodsOrder_course(payLagouCoinNum=nohasBuy_courseids[id]["lgCoinPrice"],
                                                    sellGoodsPriceId=nohasBuy_courseids[id]["sellGoodsPriceId"],
-                                                   gateLoginToken=get_h5_token,
+                                                   gateLoginToken=get_shop_h5_token,
                                                    shopOrderToken=nohasBuy_courseids[id]["orderToken"])
 
             assert_equal(True, bool(result["content"]["orderNo"]), '课程创建订单用例通过', te='张红彦')
