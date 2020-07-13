@@ -32,9 +32,10 @@ def lead_time():
     #读文档查看文档是否有值
     shoptime = read_shop_time(file_path).strip()
     if shoptime:
-        print("进入shoptime分支")
         date2 = datetime.datetime.strptime(shoptime, '%Y-%m-%d %H:%M:%S')
         leadtime = int(((date1 - date2).seconds) / 60)
+        # if leadtime > 60:
+        #     record_shop_time(file_path, date1)
         return leadtime
     else:
         record_shop_time(file_path,date1)

@@ -38,9 +38,11 @@ class TestShopGoodOrderCourse(object):
                                                    shopOrderToken=nohasBuy_courseids[id]["orderToken"])
             print(result["content"]["orderNo"])
             assert_equal(True, bool(result["content"]["orderNo"]), '课程创建订单用例通过', te='张红彦')
+            file_path = os.getcwd()
+            date = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            date1 = datetime.datetime.strptime(date, "%Y-%m-%d %H:%M:%S")
             if leadtime > 60:
-                file_path = os.getcwd()
-                record_shop_time(file_path,datetime.datetime.now())
+                record_shop_time(file_path, date1)
                 print("执行到这里了吗，不能写入当前时间",leadtime,read_shop_time(file_path),result["content"]["orderNo"],orderNo[id])
                 assert_not_equal(result["content"]["orderNo"], orderNo[id], "大于一小时重新生成新订单用例通过", te='张红彦')
                 orderNo.update({id: result["content"]["orderNo"]})
