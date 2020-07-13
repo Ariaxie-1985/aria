@@ -6,6 +6,7 @@ from api_script.business.new_lagouPlus import open_product
 
 from api_script.home.audit import query_risk_labels, add_risk_labels_by_company, queryRiskLabelsByCompany
 from api_script.home.data_import import import_linkManInfo, import_contacts
+from api_script.home.lagou_plus import get_contract_list, close_contract
 from api_script.jianzhao_web.b_basic.company import jump_html
 from api_script.jianzhao_web.b_basic.toB_comleteInfo_3 import completeInfo, company_auth
 from api_script.jianzhao_web.b_basic.toB_saveHR_1 import saveHR, saveCompany, \
@@ -492,9 +493,19 @@ class TestCompanyBusiness(object):
     def test_jump_home_01(self):
         time.sleep(1)
         login_home('betty@lagou.com', '00f453dfec0f2806db5cfabe3ea94a35')
-        close_result = close_trial_package(www_company_id)
-        assert_equal(expect_value=True, actual_value=close_result, success_message='终止所有合同成功', fail_message='终止所有合同失败',
-                     te='王霞')
+
+    def test_get_contract_list(self):
+        time.sleep(1)
+        r = get_contract_list(www_company_id)
+        assert_equal(True, len(r.get('data').get('pageData')), '获取公司合同列表通过', f'未获取到公司{www_company_id}的合同', '王霞')
+        global contract_no
+        contract_no = r.get('data').get('pageData')[0].get('number')
+        assert_equal(self.contractNo, contract_no, '合同导入成功，在列表已查到', f'导入成功的合同{self.contractNo}未在列表查到', '王霞')
+
+    def test_close_contract(self):
+        time.sleep(1)
+        r = close_contract(self.contract_no)
+        assert_equal(True, r.get('success'), '关闭合同成功', f'关闭失败{self.contract_no}', '王霞')
 
     def test_login_admin_user_03(self, get_password):
         login_result = login_password(admin_countryCode + admin_phone, get_password)
