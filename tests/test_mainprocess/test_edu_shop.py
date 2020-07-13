@@ -54,6 +54,7 @@ class TestShopGoodOrderCourse(object):
                     orderNo.update({id: result["content"]["orderNo"]})
                 elif leadtime > 0:
                     assert_equal(result["content"]["orderNo"], orderNofile[id], "一小时内订单id未变用例通过", te='张红彦')
+                    orderNo.update({id: result["content"]["orderNo"]})
                 else:
                     orderNo.update({id: result["content"]["orderNo"]})
             else:
