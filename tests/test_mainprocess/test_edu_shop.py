@@ -2,15 +2,19 @@
 # @Time  : 2020/3/6 17:19
 # @Author: Xiawang
 # Description:
-import pytest,os,datetime
+import pytest, os, ast
 from api_script.education.course import get_course_info
-from api_script.education.shop import create_shop_goodsOrder_course, lead_time
+from api_script.education.shop import create_shop_goodsOrder_course, lead_time,local_time
 from api_script.education.edu import get_course_list
 from utils.util import assert_equal, assert_not_equal
-from utils.read_file import read_shop_time,record_shop_time
+from utils.read_file import read_shop_time, record_shop_time,record_shop_order,read_shop_order
+from utils.loggers import logers
+
+loger = logers()
 
 orderNo = {}
 nohasBuy_courseids = {}
+
 
 @pytest.mark.incremental
 class TestShopGoodOrderCourse(object):
@@ -29,35 +33,29 @@ class TestShopGoodOrderCourse(object):
             assert_equal(True, bool(r[0]), "获取课程价格&售卖策略用例通过", te='张红彦')
 
     # @pytest.mark.parametrize("id", nohasBuy_courseid_list=nohasBuy_courseid_list)
-    def test_create_shop_goodsOrder_course(self,get_h5_token):
+    def test_create_shop_goodsOrder_course(self, get_h5_token):
+        file_path = os.getcwd()
+        date1 = local_time()
+        orderNofile = read_shop_order(file_path)
+        b = list(orderNofile.keys())
         for id in nohasBuy_courseid_list:
             leadtime = lead_time()
-            print(leadtime,type(leadtime),id,type(id))
             result = create_shop_goodsOrder_course(payLagouCoinNum=nohasBuy_courseids[id]["lgCoinPrice"],
                                                    sellGoodsPriceId=nohasBuy_courseids[id]["sellGoodsPriceId"],
                                                    gateLoginToken=get_h5_token,
                                                    shopOrderToken=nohasBuy_courseids[id]["orderToken"])
-            print(result["content"]["orderNo"])
+
             assert_equal(True, bool(result["content"]["orderNo"]), '课程创建订单用例通过', te='张红彦')
-            file_path = os.getcwd()
-            date = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            date1 = datetime.datetime.strptime(date, "%Y-%m-%d %H:%M:%S")
-            if leadtime > 60:
-                record_shop_time(file_path, date1)
-                print("执行到这里了吗，不能写入当前时间",leadtime,read_shop_time(file_path),result["content"]["orderNo"],orderNo[id])
-                assert_not_equal(result["content"]["orderNo"], orderNo[id], "大于一小时重新生成新订单用例通过", te='张红彦')
-                orderNo.update({id: result["content"]["orderNo"]})
-                print("在断言后执行了更新字典")
-            elif leadtime > 0:
-                print("222222222222", leadtime, read_shop_time(file_path),orderNo[id])
-                assert_equal(result["content"]["orderNo"], orderNo[id], "一小时内订单id未变用例通过", te='张红彦')
+            #如果读取的文件中有值，且id在list中，则进行断言，否则直接将值加入字典中即可
+            if id in b:
+                if leadtime > 60:
+                    assert_not_equal(result["content"]["orderNo"], orderNofile[id], "大于一小时重新生成新订单用例通过", te='张红彦')
+                    record_shop_time(file_path, date1)
+                    orderNo.update({id: result["content"]["orderNo"]})
+                elif leadtime > 0:
+                    assert_equal(result["content"]["orderNo"], orderNofile[id], "一小时内订单id未变用例通过", te='张红彦')
+                else:
+                    orderNo.update({id: result["content"]["orderNo"]})
             else:
-                print("3333333333", leadtime, read_shop_time(file_path))
                 orderNo.update({id: result["content"]["orderNo"]})
-                print("4444444444444444444",orderNo[id])
-            print("55555555555",orderNo[id],leadtime)
-
-
-
-
-
+        record_shop_order(file_path,orderNo)

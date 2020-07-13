@@ -4,7 +4,7 @@
 import re
 
 import yaml
-import os
+import os,ast
 
 from api_script.entry.cuser.baseStatus import batchCancel
 from api_script.home.forbid import verify_user_is_forbid, get_userId
@@ -95,6 +95,19 @@ def read_shop_time(file_path):
         shoptime = f.read()
     return shoptime
 
+def record_shop_order(file_path, shoporder):
+    with open('{}/tests/testdata/shoporder.txt'.format(file_path), 'w') as f:
+        f.write('{}'.format(shoporder))
+
+
+def read_shop_order(file_path):
+    with open('{}/tests/testdata/shoporder.txt'.format(file_path), 'r') as f:
+        shoporder = f.read()
+    if shoporder:
+        return ast.literal_eval(shoporder)#将读取的字符串转换为字典
+    else:
+        return {}
+
 
 # if __name__ == '__main__':
     # record_test_data(1, userId=123124, phone='0085220190909')
@@ -107,3 +120,4 @@ def read_shop_time(file_path):
    # read_shop_time("2021")
     #print(read_shop_time("D:\\lg-apiscript-python"))
     #print(record_shop_time("D:\\lg-apiscript-python","22"))
+
