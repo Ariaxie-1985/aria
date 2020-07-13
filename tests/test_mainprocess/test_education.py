@@ -133,7 +133,7 @@ def test_get_wei_xin_user(get_h5_token):
 
 
 @pytest.mark.incremental
-class TestEducationhistory():
+class TestEducationhistory(object):
     def test_get_course_list(self, c_login_education):
         r = get_course_list(userToken=c_login_education[0])
         assert_equal(True, bool(r), "从选课页获取已购买课程成功", te='张红彦')
