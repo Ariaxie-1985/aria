@@ -37,20 +37,22 @@ class TestShopGoodOrderCourse(object):
                                                    gateLoginToken=get_h5_token,
                                                    shopOrderToken=nohasBuy_courseids[id]["orderToken"])
             print(result["content"]["orderNo"])
-            if orderNo:
-                if leadtime > 60:
-                    file_path = os.getcwd()
-                    assert_not_equal(result["content"]["orderNo"], orderNo[id], "大于一小时重新生成新订单用例通过", te='张红彦')
-                    record_shop_time(file_path,datetime.datetime.now())
-                    print("执行到这里了吗，不能写入当前时间",leadtime,read_shop_time(file_path))
-                    orderNo.update({id: result["content"]["orderNo"]})
-                elif leadtime > 0:
-                    assert_equal(result["content"]["orderNo"], orderNo[id], "一小时内订单id未变用例通过", te='张红彦')
-                    print("222222222222", leadtime, read_shop_time(file_path))
-                else:
-                    assert_equal(True, bool(result["content"]["orderNo"]), '课程创建订单用例通过', te='张红彦')
-                    orderNo.update({id: result["content"]["orderNo"]})
-                    print("3333333333", leadtime, read_shop_time(file_path))
+            assert_equal(True, bool(result["content"]["orderNo"]), '课程创建订单用例通过', te='张红彦')
+            if leadtime > 60:
+                file_path = os.getcwd()
+                record_shop_time(file_path,datetime.datetime.now())
+                print("执行到这里了吗，不能写入当前时间",leadtime,read_shop_time(file_path))
+                assert_not_equal(result["content"]["orderNo"], orderNo[id], "大于一小时重新生成新订单用例通过", te='张红彦')
+                orderNo.update({id: result["content"]["orderNo"]})
+                print("在断言后执行了更新字典")
+            elif leadtime > 0:
+                print("222222222222", leadtime, read_shop_time(file_path))
+                assert_equal(result["content"]["orderNo"], orderNo[id], "一小时内订单id未变用例通过", te='张红彦')
+            else:
+                orderNo.update({id: result["content"]["orderNo"]})
+                print("3333333333", leadtime, read_shop_time(file_path))
+
+
 
 
 
