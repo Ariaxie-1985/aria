@@ -39,6 +39,7 @@ def lead_time():
         return leadtime
     else:
         record_shop_time(file_path,date1)
+        return -1
 
 if __name__ == '__main__':
     print(lead_time())
