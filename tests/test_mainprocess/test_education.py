@@ -23,8 +23,8 @@ import random
 @pytest.mark.incremental
 class TestEducation01(object):
 
-    def test_get_homepage_cards(self, c_login_education):
-        r = get_homepage_cards(userToken=c_login_education[0])
+    def test_get_homepage_cards(self, c_login_education_022601):
+        r = get_homepage_cards(userToken=c_login_education_022601[0])
         assert_equal(1, r.get('state'), "拉勾教育-获取首页卡片信息列表用例通过", te='王霞')
         global first_small_course_id, first_small_course_brief, first_small_course_title, decorate_id
         first_small_course_id = r['content']['pageCardList'][2]['smallCourseList'][0]['id']
@@ -32,28 +32,28 @@ class TestEducation01(object):
         first_small_course_title = r['content']['pageCardList'][2]['smallCourseList'][0]['title']
         decorate_id = r['content']['pageCardList'][2]['smallCourseList'][0]['decorateId']
 
-    def test_check_course_share_status(self, c_login_education):
-        r = check_course_share_status(userToken=c_login_education[0], courseId=first_small_course_id)
+    def test_check_course_share_status(self, c_login_education_022601):
+        r = check_course_share_status(userToken=c_login_education_022601[0], courseId=first_small_course_id)
         assert_equal(1, r.get('state'), "选课查询课程详情用例通过", te='王霞')
 
-    def test_get_course_lessons(self, c_login_education):
-        r = get_course_lessons(userToken=c_login_education[0], courseId=first_small_course_id)
+    def test_get_course_lessons(self, c_login_education_022601):
+        r = get_course_lessons(userToken=c_login_education_022601[0], courseId=first_small_course_id)
         assert_equal(first_small_course_id, r['content']['courseSectionList'][0]['courseId'], '查询课程详情用例通过', te='王霞')
 
-    def test_get_course_description(self, c_login_education):
-        r = get_course_description(userToken=c_login_education[0], courseId=first_small_course_id)
+    def test_get_course_description(self, c_login_education_022601):
+        r = get_course_description(userToken=c_login_education_022601[0], courseId=first_small_course_id)
         assert_equal(first_small_course_id, r['content']['id'], "选课查询课程详情用例通过", te='王霞')
 
-    def test_get_distribution_info(self, c_login_education):
-        r = get_distribution_info(userToken=c_login_education[0], courseId=first_small_course_id,
+    def test_get_distribution_info(self, c_login_education_022601):
+        r = get_distribution_info(userToken=c_login_education_022601[0], courseId=first_small_course_id,
                                   decorateId=decorate_id)
         assert_equal(1, r.get('state'), '言职/开悟/获取分销信息用例通过', te='王霞')
         if r['content']['showDistributionButton'] is True:
             assert_equal(first_small_course_brief, r['content']['distributionBaseInfoVo']['brief'], "该课程有分销信息用例通过",
                          te='王霞')
 
-    def test_get_course_commentList(self, c_login_education):
-        r = get_course_commentList(userToken=c_login_education[0], courseId=first_small_course_id)
+    def test_get_course_commentList(self, c_login_education_022601):
+        r = get_course_commentList(userToken=c_login_education_022601[0], courseId=first_small_course_id)
         assert_equal(1, r.get('state'), "获取课程的评论用例通过", te='王霞')
 
     def test_get_distribution_poster_data(self, get_h5_token):
@@ -64,41 +64,41 @@ class TestEducation01(object):
 
 @pytest.mark.incremental
 class TestEducation02(object):
-    def test_get_all_course_purchased_record(self, c_login_education):
-        r = get_all_course_purchased_record(userToken=c_login_education[0])
+    def test_get_all_course_purchased_record(self, c_login_education_022601):
+        r = get_all_course_purchased_record(userToken=c_login_education_022601[0])
         assert_equal(1, r.get('state'), "获取所有已购课程的列表(大课和专栏课程)用例通过", te='王霞')
         global big_course_record_id, small_course_record_id
         big_course_record_id = r['content']['allCoursePurchasedRecord'][0]['bigCourseRecordList'][0]['id']
         small_course_record_id = r['content']['allCoursePurchasedRecord'][1]['courseRecordList'][0]['id']
 
-    def test_get_course_info(self, c_login_education):
-        r = get_course_info(userToken=c_login_education[0], courseId=big_course_record_id)
+    def test_get_course_info(self, c_login_education_022601):
+        r = get_course_info(userToken=c_login_education_022601[0], courseId=big_course_record_id)
         assert_equal(1, r.get('state'), "获取大课的课程基本信息用例通过", te='王霞')
         global lastWatchWeekId
         lastWatchWeekId = r['content']['lastWatchWeekId']
 
-    def test_get_course_outline(self, c_login_education):
-        r = get_course_outline(userToken=c_login_education[0], courseId=big_course_record_id)
+    def test_get_course_outline(self, c_login_education_022601):
+        r = get_course_outline(userToken=c_login_education_022601[0], courseId=big_course_record_id)
         assert_equal(1, r.get('state'), "获取大课的课程大纲用例通过", te='王霞')
 
-    def test_get_week_lessons(self, c_login_education):
-        r = get_week_lessons(userToken=c_login_education[0], courseId=big_course_record_id, weekId=lastWatchWeekId)
+    def test_get_week_lessons(self, c_login_education_022601):
+        r = get_week_lessons(userToken=c_login_education_022601[0], courseId=big_course_record_id, weekId=lastWatchWeekId)
         assert_equal("SUCCESS", r['content']['bigCourseResult'], "获取大课一周下的所有课时用例通过", te='王霞')
 
-    def test_get_watch_percent(self, c_login_education):
-        r = get_watch_percent(userToken=c_login_education[0], courseId=big_course_record_id, weekId=lastWatchWeekId)
+    def test_get_watch_percent(self, c_login_education_022601):
+        r = get_watch_percent(userToken=c_login_education_022601[0], courseId=big_course_record_id, weekId=lastWatchWeekId)
         assert_equal(1, r.get('state'), "获取大课一周录播视频观看进度", te='王霞')
 
 
-def test_get_credit_center_info(c_login_education):
-    r = get_credit_center_info(userToken=c_login_education[0])
+def test_get_credit_center_info(c_login_education_022601):
+    r = get_credit_center_info(userToken=c_login_education_022601[0])
     assert_equal(1, bool(len(r.get('content').get('userGrowthCreditTaskVos'))), "学分中心任务列表", te='杨彦')
 
 
-def test_get_course_credit_info(c_login_education):
+def test_get_course_credit_info(c_login_education_022601):
     x = TestEducation02()
-    x.test_get_all_course_purchased_record(c_login_education)
-    r = get_course_credit_info(userToken=c_login_education[0], courseId=small_course_record_id)
+    x.test_get_all_course_purchased_record(c_login_education_022601)
+    r = get_course_credit_info(userToken=c_login_education_022601[0], courseId=small_course_record_id)
     assert_equal(1, bool(len(r.get('content').get('userGrowthCreditTaskVos'))), "个人成就的任务列表", te='杨彦')
 
 
