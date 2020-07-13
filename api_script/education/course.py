@@ -125,3 +125,7 @@ def exchange_present(gateLoginToken):
     header = {"Cookie": f"gate_login_token ={gateLoginToken};", "X-L-REQ-HEADER": "{deviceType:1}"}
     remarke = '礼物兑换成功'
     return json_post(url=url, headers=header, remark=remarke, data=data, rd='Bob')
+
+if __name__ == '__main__':
+    a = get_distribution_course_list("$$$APP_fdca40aff183348dff5af406d6a2cc4ee787984ae27db9bdc16852570fca79a0")
+    print(a)

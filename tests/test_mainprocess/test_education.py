@@ -112,36 +112,17 @@ def test_ice_breaking_html():
     assert_in("拉勾教育·1元抢好课", r, "进入到1元购的界面", te='betty')
 
 
-def test_get_distribution_course_list(get_h5_token):
-    r = get_distribution_course_list(gateLoginToken=get_h5_token)
-    assert_equal(1, bool(r.get('content').get('distributionCourseList')), "获取分销列表用例通过", te='张红彦')
-
-
-def test_get_my_earing(get_h5_token):
-    r = get_my_earing(gateLoginToken=get_h5_token)
-    assert_equal(1, bool(r['content']['availableEarning']), "获取我的收益用例通过", te='张红彦')
-
-
-def test_get_user_earnings_detail(get_h5_token):
-    r = get_user_earnings_detail(gateLoginToken=get_h5_token)
-    assert_equal(1, bool(r['content']['unavailableEarning']), "获取收益详情用例通过", te='张红彦')
-
-
-def test_get_wei_xin_user(get_h5_token):
-    r = get_wei_xin_user(gateLoginToken=get_h5_token)
-    assert_equal(True, r['content']['hasBind'], "获取微信用户信息用例通过", te='张红彦')
-
 
 @pytest.mark.incremental
 class TestEducationhistory(object):
-    def test_get_course_list(self, c_login_education):
-        r = get_course_list(userToken=c_login_education[0])
+    def test_get_course_list(self, c_login_education_022601):
+        r = get_course_list(userToken=c_login_education_022601[0])
         assert_equal(True, bool(r), "从选课页获取已购买课程成功", te='张红彦')
         global hasbuy_small_course_id
         hasbuy_small_course_id = r[1][-1]
 
-    def test_get_course_baseinfo(self, c_login_education):
-        r = get_course_baseinfo(hasbuy_small_course_id, userToken=c_login_education[0])
+    def test_get_course_baseinfo(self, c_login_education_022601):
+        r = get_course_baseinfo(hasbuy_small_course_id, userToken=c_login_education_022601[0])
         assert_equal(hasbuy_small_course_id, r['content']['courseId'], "获取课程学习基本信息用例通过", te='张红彦')
         global sectionId, lessonId
         sectionId = r['content']['lastLearnSectionId']
@@ -159,6 +140,25 @@ class TestEducationhistory(object):
         r = save_course_history(hasbuy_small_course_id, sectionId, lessonId, mediaType, historyNode,
                                 gateLoginToken=get_h5_token)
         assert_equal(1, r['state'], "保存课程下课时的历史节点", te='张红彦')
+
+    def test_get_distribution_course_list(self,get_h5_token):
+        r = get_distribution_course_list(gateLoginToken=get_h5_token)
+        assert_equal(1, bool(r.get('content').get('distributionCourseList')), "获取分销列表用例通过", te='张红彦')
+
+
+    def test_get_my_earing(self,get_h5_token):
+        r = get_my_earing(gateLoginToken=get_h5_token)
+        assert_equal(1, bool(r['content']['availableEarning']), "获取我的收益用例通过", te='张红彦')
+
+
+    def test_get_user_earnings_detail(self,get_h5_token):
+        r = get_user_earnings_detail(gateLoginToken=get_h5_token)
+        assert_equal(1, bool(r['content']['unavailableEarning']), "获取收益详情用例通过", te='张红彦')
+
+
+    def test_get_wei_xin_user(self,get_h5_token):
+        r = get_wei_xin_user(gateLoginToken=get_h5_token)
+        assert_equal(True, r['content']['hasBind'], "获取微信用户信息用例通过", te='张红彦')
 
 
 now_time = datetime.datetime.now()

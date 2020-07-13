@@ -18,8 +18,8 @@ nohasBuy_courseids = {}
 
 @pytest.mark.incremental
 class TestShopGoodOrderCourse(object):
-    def test_get_course_list(self, c_login_education):
-        r = get_course_list(userToken=c_login_education[0])
+    def test_get_course_list(self, c_login_education_041701):
+        r = get_course_list(userToken=c_login_education_041701[0])
         assert_equal(1, r[0]["state"], "获取课程列表用例成功", te='张红彦')
         global nohasBuy_courseid_list
         nohasBuy_courseid_list = r[2]
