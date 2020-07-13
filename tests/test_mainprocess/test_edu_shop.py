@@ -32,7 +32,7 @@ class TestShopGoodOrderCourse(object):
     def test_create_shop_goodsOrder_course(self,get_h5_token):
         for id in nohasBuy_courseid_list:
             leadtime = lead_time()
-            print(leadtime,type(leadtime))
+            print(leadtime,type(leadtime),id,type(id))
             result = create_shop_goodsOrder_course(payLagouCoinNum=nohasBuy_courseids[id]["lgCoinPrice"],
                                                    sellGoodsPriceId=nohasBuy_courseids[id]["sellGoodsPriceId"],
                                                    gateLoginToken=get_h5_token,
