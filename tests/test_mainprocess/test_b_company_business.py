@@ -10,7 +10,7 @@ from api_script.home.lagou_plus import get_contract_list, close_contract
 from api_script.jianzhao_web.b_basic.company import jump_html
 from api_script.jianzhao_web.b_basic.toB_comleteInfo_3 import completeInfo, company_auth
 from api_script.jianzhao_web.b_basic.toB_saveHR_1 import saveHR, saveCompany, \
-    submit_new, add_saveCompany, remove_member, close_trial_package, remove_member_company, recruiter_members
+    submit_new, add_saveCompany, remove_member, recruiter_members
 from api_script.jianzhao_web.b_basic.b_upload import upload_permit
 from api_script.jianzhao_web.b_position.B_postposition import createPosition_999, get_online_positions, \
     www_redirect_easy, offline_position, update_Position_pc, republish_position_pc
@@ -35,7 +35,7 @@ loger = logers()
 class TestCompanyBusiness(object):
     im_chat_number = 15
     im_chat_number_gray_scale = 50
-    contractNo = f'lagou-autotest-{int(time.time())}-{random.randint(1, 99999)}'
+    contractNo = f'LAGOU-AUTOTEST-{int(time.time())}-{random.randint(1, 99999)}'
 
     def test_send_register_admin_verify_code(self, get_country_code_phone_user):
         global admin_countryCode, admin_phone, admin_user_name
@@ -498,14 +498,13 @@ class TestCompanyBusiness(object):
         time.sleep(1)
         r = get_contract_list(www_company_id)
         assert_equal(True, len(r.get('data').get('pageData')), '获取公司合同列表通过', f'未获取到公司{www_company_id}的合同', '王霞')
-        global contract_no
         contract_no = r.get('data').get('pageData')[0].get('number')
         assert_equal(self.contractNo, contract_no, '合同导入成功，在列表已查到', f'导入成功的合同{self.contractNo}未在列表查到', '王霞')
 
     def test_close_contract(self):
         time.sleep(1)
-        r = close_contract(self.contract_no)
-        assert_equal(True, r.get('success'), '关闭合同成功', f'关闭失败{self.contract_no}', '王霞')
+        r = close_contract(self.contractNo)
+        assert_equal(True, r.get('success'), '关闭合同成功', f'关闭失败{self.contractNo}', '王霞')
 
     def test_login_admin_user_03(self, get_password):
         login_result = login_password(admin_countryCode + admin_phone, get_password)
