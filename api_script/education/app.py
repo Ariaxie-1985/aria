@@ -6,6 +6,7 @@
 from utils.util import get_requests, get_edu_app_header
 
 
+
 def get_homepage_cards(userToken):
     url = 'https://gate.lagou.com/v1/neirong/app/getHomePageCards'
     header = get_edu_app_header(userToken=userToken, DA=False)
@@ -25,3 +26,5 @@ def get_course_baseinfo(courseId, userToken):
     header = get_edu_app_header(userToken=userToken, DA=False)
     remark = "获取课程学习基本信息"
     return get_requests(url=url, headers=header, remark=remark, rd='Yuwei Cheng')
+
+

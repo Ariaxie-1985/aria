@@ -5,7 +5,8 @@
 
 from utils.util import get_requests, get_edu_app_header
 import re
-course_id =[]
+hasBuy_course_id =[]
+nohasBuy_course_id =[]
 def get_course_list(userToken):
     url = "https://gate.lagou.com/v1/neirong/edu/homepage/getCourseList"
     header = get_edu_app_header(userToken=userToken, DA=False)
@@ -14,8 +15,14 @@ def get_course_list(userToken):
     a = result['content']['courseCardList'][0]['courseList']
     for k in a:
         if k['hasBuy']:
-            course_id.append(k['id'])
-    return course_id
+            hasBuy_course_id.append(k['id'])
+        else:
+            nohasBuy_course_id.append(k['id'])
+    return result,hasBuy_course_id,nohasBuy_course_id
+
+def  get_content_list():
+    url = "https://gate.lagou.com/v1/neirong/edu/homepage/getContentList"
+
 
 
 
