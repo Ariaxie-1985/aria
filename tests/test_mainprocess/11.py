@@ -1,31 +1,18 @@
-# a =  -1
-# if a >3:
-#     print(a)
-# else:
-#     print("a不大于3")
-# orderNo = {}
-# a = 3
-# id = [1,2,3,4,5]
-# for i in id:
-#     orderNo.update({i:a})
-# print(orderNo)
-from utils.read_file import read_shop_time, record_shop_time,record_shop_order,read_shop_order
-import pytest, os, ast
-orderNo= {}
-order = {1: 3, 2: 3, 3: 3, 4: 3}
-file_path = os.getcwd()
+def test():
+    try:
+        a = int(input("输入被除数："))
+        b = int(input("输入除数："))
+        c = a / b
+        print("您输入的两个数相除的结果是：", c )
+        return "正常数据返回"
+    except (ValueError, ArithmeticError):
+        print("程序发生了数字格式异常、算术异常之一")
+        return "异常数据返回"
+    except :
+        print("未知异常")
+    print("程序继续运行")
 
-# a = 3
-# id = [1,2,3,4,5]
-# for i in id:
-#     orderNo.update({i:a})
-#     b =list(order.keys())
-#     if i not in b:
-#         order.update({i:a})
-a = read_shop_order(file_path)
-b=list(a.keys())
-print(b)
-
+print(test())
 
 
 

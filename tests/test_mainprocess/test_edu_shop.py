@@ -1,6 +1,6 @@
 # coding:utf-8
-# @Time  : 2020/3/6 17:19
-# @Author: Xiawang
+# @Time  : 2020/7/14 17:19
+# @Author: Sunnyzhang
 # Description:
 import pytest, os, ast
 from api_script.education.course import get_course_info
@@ -32,7 +32,6 @@ class TestShopGoodOrderCourse(object):
                                             "courseType": r[6], "orderToken": r[7]}})
             assert_equal(True, bool(r[0]), "获取课程价格&售卖策略用例通过", te='张红彦')
 
-    # @pytest.mark.parametrize("id", nohasBuy_courseid_list=nohasBuy_courseid_list)
     def test_create_shop_goodsOrder_course(self, get_shop_h5_token):
         file_path = os.getcwd()
         date1 = local_time()
@@ -46,7 +45,7 @@ class TestShopGoodOrderCourse(object):
                                                    shopOrderToken=nohasBuy_courseids[id]["orderToken"])
 
             assert_equal(True, bool(result["content"]["orderNo"]), '课程创建订单用例通过', te='张红彦')
-            #如果读取的文件中有值，且id在list中，则进行断言，否则直接将值加入字典中即可
+            #如果读取的文件中有值且id在list中，则进行断言，否则直接将值加入字典中即可
             if id in b:
                 if leadtime > 60:
                     assert_not_equal(result["content"]["orderNo"], orderNofile[id], "大于一小时重新生成新订单用例通过", te='张红彦')

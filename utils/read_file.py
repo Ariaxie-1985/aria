@@ -91,9 +91,13 @@ def record_shop_time(file_path, shoptime):
 
 
 def read_shop_time(file_path):
-    with open('{}/tests/testdata/shoptime.txt'.format(file_path), 'r') as f:
-        shoptime = f.read()
-    return shoptime
+    try:
+        with open('{}/tests/testdata/shoptime.txt'.format(file_path), 'r') as f:
+            shoptime = f.read()
+        return shoptime
+    except FileNotFoundError:
+        os.mknod('shoptime.txt')
+
 
 def record_shop_order(file_path, shoporder):
     with open('{}/tests/testdata/shoporder.txt'.format(file_path), 'w') as f:
@@ -101,23 +105,24 @@ def record_shop_order(file_path, shoporder):
 
 
 def read_shop_order(file_path):
-    with open('{}/tests/testdata/shoporder.txt'.format(file_path), 'r') as f:
-        shoporder = f.read()
-    if shoporder:
-        return ast.literal_eval(shoporder)#将读取的字符串转换为字典
-    else:
+    try:
+        with open('{}/tests/testdata/shoporder.txt'.format(file_path), 'r') as f:
+            shoporder = f.read()
+        return ast.literal_eval(shoporder)  # 将读取的字符串转换为字典
+    except FileNotFoundError:
+        os.mknod('hoporder.txt')
         return {}
 
 
 # if __name__ == '__main__':
-    # record_test_data(1, userId=123124, phone='0085220190909')
-    # record_jsessionid('fhkjashdfkasjdhkj')
-    # l = [str(i) for i in range(20190101, 20190131)]
-    # for country_code_phone in l:
-    #     record_cancel_account(country_code_phone)
-    #print(read_cancel_account(),1)
-    # rewrite_cancel_account()
+   #  record_test_data(1, userId=123124, phone='0085220190909')
+   #  record_jsessionid('fhkjashdfkasjdhkj')
+   #  l = [str(i) for i in range(20190101, 20190131)]
+   #  for country_code_phone in l:
+   #      record_cancel_account(country_code_phone)
+   #  print(read_cancel_account(),1)
+   #  rewrite_cancel_account()
    # read_shop_time("2021")
-    #print(read_shop_time("D:\\lg-apiscript-python"))
-    #print(record_shop_time("D:\\lg-apiscript-python","22"))
+   #  print(read_shop_time("D:\\lg-apiscript-python"))
+   #  print(record_shop_time("D:\\lg-apiscript-python","22"))
 

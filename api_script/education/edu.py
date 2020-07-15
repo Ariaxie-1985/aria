@@ -20,9 +20,9 @@ def get_course_list(userToken):
             nohasBuy_course_id.append(k['id'])
     return result,hasBuy_course_id,nohasBuy_course_id
 
-if __name__ == '__main__':
-    a = get_course_list("57341d0db1aa9f9fd03926b7bee0c97ebbd28bb01c324a843a8598d871f42910")
-    print(a[1][-1])
+def  get_content_list():
+    url = "https://gate.lagou.com/v1/neirong/edu/homepage/getContentList"
+
 
 
 
