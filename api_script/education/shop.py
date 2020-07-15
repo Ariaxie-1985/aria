@@ -32,7 +32,6 @@ def local_time():
 def lead_time(date1):
     # 获取当前文件的上级目录
     file_path = os.getcwd()
-    print(file_path)
     #读文档查看文档是否有值
     shoptime = read_shop_time(file_path).strip()
     if shoptime:
