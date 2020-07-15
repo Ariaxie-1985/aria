@@ -15,7 +15,6 @@ loger = logers()
 orderNo = {}
 nohasBuy_courseids = {}
 
-
 @pytest.mark.incremental
 class TestShopGoodOrderCourse(object):
     def test_get_course_list(self, c_login_education_041701):

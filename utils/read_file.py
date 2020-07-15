@@ -91,12 +91,10 @@ def record_shop_time(file_path, shoptime):
 
 
 def read_shop_time(file_path):
-    try:
-        with open('{}/tests/testdata/shoptime.txt'.format(file_path), 'r') as f:
-            shoptime = f.read()
-        return shoptime
-    except FileNotFoundError:
-        os.mknod('shoptime.txt')
+    with open('{}/tests/testdata/shoptime.txt'.format(file_path), 'a+') as f:
+        shoptime = f.read()
+    return shoptime
+
 
 
 def record_shop_order(file_path, shoporder):
@@ -105,12 +103,11 @@ def record_shop_order(file_path, shoporder):
 
 
 def read_shop_order(file_path):
-    try:
-        with open('{}/tests/testdata/shoporder.txt'.format(file_path), 'r') as f:
-            shoporder = f.read()
+    with open('{}/tests/testdata/shoporder.txt'.format(file_path), 'a+') as f:
+        shoporder = f.read()
+    if shoporder:
         return ast.literal_eval(shoporder)  # 将读取的字符串转换为字典
-    except FileNotFoundError:
-        os.mknod('hoporder.txt')
+    else:
         return {}
 
 
