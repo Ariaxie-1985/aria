@@ -253,6 +253,7 @@ class TestCompanyBusiness(object):
         assert_equal(1, r['content']['status'], '道具商城--招聘道具--购买道具--支付订单用例通过', te='王霞')
 
     def test_check_shop_goodsOrder(self):
+        time.sleep(2)
         r = check_shop_goodsOrder(orderNo=orderNo)
         assert_equal(1, r['content']['status'], '道具商城--招聘道具--购买道具--检查订单用例通过', te='王霞')
 
