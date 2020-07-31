@@ -7,8 +7,8 @@
 	"fail_result": {
 		"test_function": {
 			"error_type": "AssertionError",
-			"log": "密码登录 报错500,  其调用链:http://oss.pard.inter.lagou.com/#/traDetail?traceId=30369.46138011.15907189279724995, 负责人:旭峰",
-			"name": "旭峰"
+			"log": "密码登录 报错500,  其调用链:http://oss.pard.inter.lagou.com/#/traDetail?traceId=30369.46138011.15907189279724995, 负责人:曾小宁",
+			"name": "曾小宁"
 		}
 	}
 }

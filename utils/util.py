@@ -290,7 +290,7 @@ def login(countryCode, username):
     referer_login_html = 'https://passport.lagou.com/login/login.html'
     login_header = get_code_token(referer_login_html)
     remark = str(username) + "在登录拉勾"
-    r = form_post(url=login_url, data=login_data, headers=login_header, remark=remark, rd='旭峰')
+    r = form_post(url=login_url, data=login_data, headers=login_header, remark=remark, rd='曾小宁')
     if r['message'] == "操作成功":
         logging.info("用户名: " + str(username) + " 登录成功")
     return r
@@ -309,7 +309,7 @@ def login_home(username, password):
     login_data = {'isValidate': 'true', 'username': username, 'password': password}
     login_home_header = get_code_token(referer_login_home_url)
     remark = "用户 " + str(username) + " 在登录拉勾home后台"
-    r = form_post(url=login_url, data=login_data, headers=login_home_header, remark=remark, rd='旭峰')
+    r = form_post(url=login_url, data=login_data, headers=login_home_header, remark=remark, rd='曾小宁')
     get_requests(url='https://passport.lagou.com/grantServiceTicket/grant.html')
     if r['message'] == "操作成功":
         logging.info("用户名: " + str(username) + " 登录成功")
@@ -329,7 +329,7 @@ def login_home_code(countryCode, username):
                   'countryCode': countryCode, 'challenge': 111}
     login_header = get_code_token(referer_login_home_url)
     remark = str(username) + "在登录拉勾"
-    r = form_post(url=login_url, data=login_data, headers=login_header, remark=remark, rd='旭峰')
+    r = form_post(url=login_url, data=login_data, headers=login_header, remark=remark, rd='曾小宁')
     if r['message'] == "操作成功":
         logging.info("用户名: " + str(username) + " 登录成功")
     return r
@@ -784,7 +784,7 @@ def login_verifyCode(countryCode, phone, verifyCode):
     referer_login_html = 'https://passport.lagou.com/login/login.html'
     login_header = get_code_token(referer_login_html)
     remark = str(phone) + "在登录拉勾"
-    r = form_post(url=login_url, data=login_data, headers=login_header, remark=remark, rd='旭峰')
+    r = form_post(url=login_url, data=login_data, headers=login_header, remark=remark, rd='曾小宁')
     if r['message'] == "操作成功":
         logging.info("用户名: " + str(phone) + " 登录成功")
     return r
