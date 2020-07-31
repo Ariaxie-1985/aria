@@ -6,6 +6,7 @@ import time
 import pytest
 
 from api_script.education.account import getToken
+
 from api_script.entry.account.passport import password_login, verifyCode_login
 from api_script.jianzhao_web.index import dashboard_index_get_user_id
 from backend.common.get_data import get_www_company_id
@@ -36,7 +37,6 @@ fake = Faker("zh_CN")
 # 主流程测试产生的测试账号
 test_telephone = []
 test_company_name = []
-test_usertoken = []
 test_usertoken1 = []
 test_token_dict = {}
 
@@ -145,11 +145,19 @@ def get_add_colleague_user_pay():
     return phone
 
 
-@pytest.fixture(scope='session', params=[["18810769854", "aaaaaa"]])
-def c_login_education(request):
+@pytest.fixture(scope='session', params=[["00552020022601","aaaaaa"]])
+def c_login_education_022601(request):
     result = password_login(request.param[0], request.param[1], app_type='LGEdu')
-    test_usertoken.append(result['content']['userToken'])
+    test_token_dict.update({"00552020022601":result['content']['userToken']})
     return result['content']['userToken'], result['content']['userInfo']['userId']
+
+
+@pytest.fixture(scope='session', params=[["00552020041701","aaaaaa"]])
+def c_login_education_041701(request):
+    result = password_login(request.param[0], request.param[1], app_type='LGEdu')
+    test_token_dict.update({"00552020041701":result['content']['userToken']})
+    return result['content']['userToken'], result['content']['userInfo']['userId']
+
 
 
 @pytest.fixture(scope='session', params=[["00442020070700", "qqqqqq"]])
@@ -197,7 +205,12 @@ def get_h5_token1():
 
 @pytest.fixture(scope='session')
 def get_h5_token():
-    result = getToken(userToken=test_usertoken[0])
+    result = getToken(userToken=test_token_dict["00552020022601"])
+    return result['content']['gateLoginToken']
+
+@pytest.fixture(scope='session')
+def get_shop_h5_token():
+    result = getToken(userToken=test_token_dict["00552020041701"])
     return result['content']['gateLoginToken']
 
 

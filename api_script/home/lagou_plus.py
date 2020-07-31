@@ -6,27 +6,20 @@ import time
 from utils.util import get_header, form_post, login_home_code
 
 
-def get_contract_No(companyId):
-    time.sleep(0.5)
+def get_contract_list(companyId):
     header = get_header("http://home.lagou.com/")
     Request_url = "https://home.lagou.com/crm/contractController/list.json"
     data = {"companyId": companyId}
-    object = form_post(url=Request_url, remark="查询当前公司下的合同", data=data, headers=header, rd='李久超')
-    try:
-        contractNo = object['data']['pageData'][0]['number']
-    except KeyError:
-        return 0
-    return contractNo
+    return form_post(url=Request_url, remark="查询当前公司下的合同", data=data, headers=header, rd='李久超')
 
 
 def close_contract(contractNo):
     '''终止合同
     '''
-    time.sleep(0.5)
     header = get_header("https://home.lagou.com/")
     Request_url = "https://home.lagou.com/crm/valueadded/product/close.json"
     data = {"contractNo": contractNo}
-    return form_post(url=Request_url, remark="终止所有合同", data=data, headers=header, rd='杨振宇')['success']
+    return form_post(url=Request_url, remark="终止所有合同", data=data, headers=header, rd='杨振宇')
 
 
 def open_product(companyId, userId, contractNo):
@@ -44,9 +37,3 @@ def open_product(companyId, userId, contractNo):
     }
     remark = "开启合同"
     return form_post(url=url, data=data, headers=headers, remark=remark, rd='杨振宇')['success']
-
-
-if __name__ == '__main__':
-    login_home_code('00853', 22222222)
-    no = get_contract_No(96109603)
-    print(close_contract(no))
