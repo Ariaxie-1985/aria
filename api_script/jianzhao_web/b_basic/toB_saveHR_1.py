@@ -194,25 +194,25 @@ def remove_member_company(removeUserId):
     url = 'https://easy.lagou.com/member/removeMember.json'
     header = get_code_token(url='https://easy.lagou.com/member/all_members.htm')
     data = {'removedUserId': removeUserId}
-    r = form_post(url=url, headers=header, data=data, remark='公司成员移出公司', rd='旭峰')
+    r = form_post(url=url, headers=header, data=data, remark='公司成员移出公司', rd='曾小宁')
     return r
 
 
 def recruiter_members():
     url = 'https://easy.lagou.com/member/recruiterMembers.json?pageNo=1&pageSize=50&keyword='
     header = get_code_token(url='https://easy.lagou.com/settings/channel/my_channels.htm')
-    return get_requests(url=url, headers=header, remark="查询公司成员信息", rd='旭峰')
+    return get_requests(url=url, headers=header, remark="查询公司成员信息", rd='曾小宁')
 
 
 def remove_member():
     url = 'https://easy.lagou.com/member/removeMember.json?hasRecruitmentService=true'
     header = get_code_token(url='https://easy.lagou.com/settings/channel/my_channels.htm')
-    return get_requests(url=url, headers=header, remark="解除招聘者信息", rd='旭峰')
+    return get_requests(url=url, headers=header, remark="解除招聘者信息", rd='曾小宁')
 
 def remove_member_has_offline_position():
     url = 'https://easy.lagou.com/member/removeMember.json?hasRecruitmentService=true&ignoreOfflinePosition=true'
     header = get_code_token(url='https://easy.lagou.com/settings/channel/my_channels.htm')
-    return get_requests(url=url, headers=header, remark="解除招聘者信息", rd='旭峰')
+    return get_requests(url=url, headers=header, remark="解除招聘者信息", rd='曾小宁')
 
 def close_trial_package(lg_CompanyId):
     contractNo = get_contract_list(lg_CompanyId)

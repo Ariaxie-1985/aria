@@ -8,7 +8,7 @@ from utils.util import get_requests, app_header_999
 def get_hr_info(userToken, publisherId=None, ip_port=None):
     url = 'https://gate.lagou.com/v1/entry/buser/hrInfo/{}'.format(publisherId)
     header = app_header_999(userToken, userId=publisherId)
-    return get_requests(url=url, headers=header, remark="获取HR信息", ip_port=ip_port, rd='旭峰')
+    return get_requests(url=url, headers=header, remark="获取HR信息", ip_port=ip_port, rd='曾小宁')
 
 
 def get_hr_card(userToken, publisherId=None, ip_port=None):
