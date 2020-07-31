@@ -290,7 +290,7 @@ def login(countryCode, username):
     referer_login_html = 'https://passport.lagou.com/login/login.html'
     login_header = get_code_token(referer_login_html)
     remark = str(username) + "在登录拉勾"
-    r = form_post(url=login_url, data=login_data, headers=login_header, remark=remark, rd='旭峰')
+    r = form_post(url=login_url, data=login_data, headers=login_header, remark=remark, rd='曾小宁')
     if r['message'] == "操作成功":
         logging.info("用户名: " + str(username) + " 登录成功")
     return r
@@ -309,7 +309,7 @@ def login_home(username, password):
     login_data = {'isValidate': 'true', 'username': username, 'password': password}
     login_home_header = get_code_token(referer_login_home_url)
     remark = "用户 " + str(username) + " 在登录拉勾home后台"
-    r = form_post(url=login_url, data=login_data, headers=login_home_header, remark=remark, rd='旭峰')
+    r = form_post(url=login_url, data=login_data, headers=login_home_header, remark=remark, rd='曾小宁')
     get_requests(url='https://passport.lagou.com/grantServiceTicket/grant.html')
     if r['message'] == "操作成功":
         logging.info("用户名: " + str(username) + " 登录成功")
@@ -329,7 +329,7 @@ def login_home_code(countryCode, username):
                   'countryCode': countryCode, 'challenge': 111}
     login_header = get_code_token(referer_login_home_url)
     remark = str(username) + "在登录拉勾"
-    r = form_post(url=login_url, data=login_data, headers=login_header, remark=remark, rd='旭峰')
+    r = form_post(url=login_url, data=login_data, headers=login_header, remark=remark, rd='曾小宁')
     if r['message'] == "操作成功":
         logging.info("用户名: " + str(username) + " 登录成功")
     return r
@@ -718,7 +718,7 @@ def get_verify_code_message_len(countryCode, phone):
 def get_strategies_999(userToken):
     url = 'https://gate.lagou.com/v1/neirong/janus/app/strategies?strategyKeys=MUTONG_PLAN_ONE'
     header = app_header_999(DA=False, userToken=userToken)
-    r = get_requests(url, headers=header, remark="获取木桶策略值", rd="王旭峰")
+    r = get_requests(url, headers=header, remark="获取木桶策略值", rd="刘汝鹏")
     return r
 
 
@@ -765,7 +765,7 @@ def login_password(username, password):
     referer_login_html = 'https://passport.lagou.com/login/login.html'
     login_header = get_code_token(referer_login_html)
     remark = str(username) + "在登录拉勾"
-    r = form_post(url=login_url, data=login_data, headers=login_header, remark=remark, rd='王旭峰')
+    r = form_post(url=login_url, data=login_data, headers=login_header, remark=remark, rd='曾小宁')
     if r['message'] == "操作成功":
         logging.info("用户名: " + str(username) + " 登录成功")
     return r
@@ -784,7 +784,7 @@ def login_verifyCode(countryCode, phone, verifyCode):
     referer_login_html = 'https://passport.lagou.com/login/login.html'
     login_header = get_code_token(referer_login_html)
     remark = str(phone) + "在登录拉勾"
-    r = form_post(url=login_url, data=login_data, headers=login_header, remark=remark, rd='旭峰')
+    r = form_post(url=login_url, data=login_data, headers=login_header, remark=remark, rd='曾小宁')
     if r['message'] == "操作成功":
         logging.info("用户名: " + str(phone) + " 登录成功")
     return r
@@ -796,7 +796,7 @@ def pc_send_register_verifyCode(countryCode, phone):
     header = get_header(url='https://passport.lagou.com/register/register.html')
     send_data = {'countryCode': countryCode, 'phone': phone, 'type': 0, 'request_form_verifyCode': '', '_': str(int(
         time.time())) + '000'}
-    return form_post(url=url, headers=header, data=send_data, remark='发送验证码', rd='王旭峰').get('state', 0)
+    return form_post(url=url, headers=header, data=send_data, remark='发送验证码', rd='曾小宁').get('state', 0)
 
 
 def pc_send_login_verifyCode(countryCode, phone):
@@ -804,7 +804,7 @@ def pc_send_login_verifyCode(countryCode, phone):
     header = get_header(url='https://passport.lagou.com/login/login.html')
     send_data = {'countryCode': countryCode, 'phone': phone, 'type': 0, 'request_form_verifyCode': '', '_': str(int(
         time.time())) + '000'}
-    return form_post(url=url, headers=header, data=send_data, remark='发送验证码', rd='王旭峰').get('state', 0)
+    return form_post(url=url, headers=header, data=send_data, remark='发送验证码', rd='曾小宁').get('state', 0)
 
 
 def user_register_lagou(countryCode, phone, verify_code):
@@ -815,7 +815,7 @@ def user_register_lagou(countryCode, phone, verify_code):
                      "type": 1, "countryCode": countryCode}
     register_header = get_code_token(b_register_url)
     remark = "验证B端注册"
-    return form_post(url=register_url, data=register_data, headers=register_header, remark=remark, rd='王旭峰')
+    return form_post(url=register_url, data=register_data, headers=register_header, remark=remark, rd='曾小宁')
 
 
 def request_retry(count, request_func, judging_func=None, response_text=None):

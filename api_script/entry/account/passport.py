@@ -16,7 +16,7 @@ def password_login(accountName, password, ip_port=None, app_type='zhaopin'):
         "loginType": 0,
         "accountName": accountName
     }
-    r = json_post(url=url, headers=header, data=data, remark="密码登录", ip_port=ip_port, rd='旭峰')
+    r = json_post(url=url, headers=header, data=data, remark="密码登录", ip_port=ip_port, rd='曾小宁')
     return r
 
 
@@ -31,7 +31,7 @@ def verifyCode_login(countryCode, phone, verify_code, app_type='zhaopin'):
         "verifyCode": verify_code
     }
     header = app_header_999(app_type=app_type)
-    r = json_post(url=url, headers=header, data=data, remark="验证码登录", verifystate=False, rd='旭峰')
+    r = json_post(url=url, headers=header, data=data, remark="验证码登录", verifystate=False, rd='曾小宁')
     return r
 
 
@@ -47,7 +47,7 @@ def send_verify_code(countryCode, phone, businessType, verifyCodeStyle=None, app
     if verifyCodeStyle is not None:
         data["verifyCodeStyle"] = verifyCodeStyle
     remark = "验证码登录，发送验证码"
-    r = json_post(url=url, data=data, headers=header, remark=remark, rd='旭峰')
+    r = json_post(url=url, data=data, headers=header, remark=remark, rd='曾小宁')
     return r
 
 
@@ -61,14 +61,14 @@ def register_by_phone(countryCode, phone, verify_code,app_type='zhaopin'):
     }
     header = app_header_999(app_type=app_type)
     remark = '手机号注册账号'
-    r = json_post(url=url, data=data, headers=header, remark=remark,rd="旭峰")
+    r = json_post(url=url, data=data, headers=header, remark=remark,rd="曾小宁")
     return r
 
 
 def get_login_by_token(userToken):
     url = 'https://gate.lagou.com/v1/entry/account/passport/loginByToken'
     header = app_header_999(userToken)
-    r = get_requests(url=url, headers=header, remark="通过token登录,其header:{}".format(header), rd='旭峰')
+    r = get_requests(url=url, headers=header, remark="通过token登录,其header:{}".format(header), rd='曾小宁')
     return r
 
 
