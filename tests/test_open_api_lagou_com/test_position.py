@@ -37,6 +37,17 @@ class TestPosition:
         address_id = res['data']['address_id']
         assert_equal(True, bool(address_id), '地址创建验证通过', '地址创建验证失败', '王霞')
 
+    def test_is_offline_positions(self, b_login_app):
+        r = get_online_positions(userToken=b_login_app[0], H9=True)
+        positionIds = []
+        if r['content']['positions']['pageSize'] > 10:
+            for position_info in r['content']['positions']['result']:
+                positionId = position_info['positionId']
+                positionIds.append(positionId)
+        if positionIds != []:
+            for id in positionIds:
+                positions_offline(id, userToken=b_login_app[0], H9=True)
+
     def test_address_query(self, get_access_token):
         res = address_query(access_token=get_access_token)
         assert_equal(0, res.get('code'), '查询地址请求成功', '查询地址请求失败', '王霞')
@@ -59,17 +70,6 @@ class TestPosition:
         position_id = res['data']['id']
         jd_id = res['data']['jd_url'].split('/')[-1]
         assert_equal(True, bool(position_id), '创建职位用例通过', '创建职位用例失败', '王霞')
-
-    def test_is_offline_positions(self, b_login_app):
-        r = get_online_positions(userToken=b_login_app[0], H9=True)
-        positionIds = []
-        if r['content']['positions']['pageSize'] > 10:
-            for position_info in r['content']['positions']['result']:
-                positionId = position_info['positionId']
-                positionIds.append(positionId)
-        if positionIds != []:
-            for id in positionIds:
-                positions_offline(id, userToken=b_login_app[0], H9=True)
 
     def test_get_create_position_info(self, get_access_token):
         res = get_position_info(access_token=get_access_token, position_id=position_id)
