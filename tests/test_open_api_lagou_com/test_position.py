@@ -11,6 +11,7 @@ from api_script.entry.deliver.deliver import get_resume_info, deliver_create
 from api_script.open_lagou_com.position import category_get, company_address_district, company_address_create, \
     address_query, company_address_list, position_create, get_position_info, update_position_info, get_position_list, \
     offline_position, refresh_position, publish_position, delete_position_address
+from api_script.zhaopin_app.b_position import positions_offline, get_online_positions
 from utils.loggers import logers
 from utils.util import assert_equal
 
@@ -58,6 +59,17 @@ class TestPosition:
         position_id = res['data']['id']
         jd_id = res['data']['jd_url'].split('/')[-1]
         assert_equal(True, bool(position_id), '创建职位用例通过', '创建职位用例失败', '王霞')
+
+    def test_is_offline_positions(self, b_login_app):
+        r = get_online_positions(userToken=b_login_app[0], H9=True)
+        positionIds = []
+        if r['content']['positions']['pageSize'] > 10:
+            for position_info in r['content']['positions']['result']:
+                positionId = position_info['positionId']
+                positionIds.append(positionId)
+        if positionIds != []:
+            for id in positionIds:
+                positions_offline(id, userToken=b_login_app[0], H9=True)
 
     def test_get_create_position_info(self, get_access_token):
         res = get_position_info(access_token=get_access_token, position_id=position_id)
