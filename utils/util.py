@@ -104,7 +104,8 @@ def form_post(url, remark, rd=None, data=None, files=None, headers={}, verifysta
                 response_json = convert_response(response)
                 if response_json.get('state', 0) == 1 or response_json.get('success', False) or (not response_json.get(
                         'code', 1)):
-                    logging.info(f'该接口URL {url} ,备注 {remark} , 响应结果 {response_json} 请求成功\n')
+
+                    logging.info(f'该接口URL {url} ,备注 {remark} , 响应结果 {json.dumps(response_json)[:100]} 请求成功\n')
                     return response_json
                 else:
                     if count < 1:
@@ -112,7 +113,8 @@ def form_post(url, remark, rd=None, data=None, files=None, headers={}, verifysta
                         return form_post(url=url, headers=headers, remark=remark, data=data, rd=rd)
                     else:
                         logging.error(
-                            msg='该接口URL {} , 备注: {},  响应内容: {} , 但断言错误\n'.format(url, remark, response_json))
+                            msg='该接口URL {} , 备注: {},  响应内容: {} , 但断言错误\n'.format(url, remark,
+                                                                                 json.dumps(response_json)[:100]))
                         return response_json
             else:
                 return convert_response(response)
@@ -156,7 +158,7 @@ def json_post(url, remark, rd=None, data=None, headers={}, app=False, verifystat
             if is_json_response(response):
                 response_json = convert_response(response)
                 if response_json.get('state', 0) == 1 or response_json.get('success', False):
-                    logging.info(msg=f'该接口URL {url} ,备注 {remark} , 响应结果 {response_json} 请求成功\n')
+                    logging.info(msg=f'该接口URL {url} ,备注 {remark} , 响应结果 {json.dumps(response_json)[:100]} 请求成功\n')
                     return response_json
                 else:
                     if count < 1:
@@ -164,7 +166,8 @@ def json_post(url, remark, rd=None, data=None, headers={}, app=False, verifystat
                         return json_post(url=url, headers=headers, remark=remark, data=data, rd=rd)
                     else:
                         logging.error(
-                            msg='该接口URL {} , 备注 {}, 响应内容: {}, 但断言错误\n'.format(url, remark, response_json))
+                            msg='该接口URL {} , 备注 {}, 响应内容: {}, 但断言错误\n'.format(url, remark,
+                                                                              json.dumps(response_json)[:100]))
                         return response_json
             else:
                 return convert_response(response)
@@ -206,7 +209,7 @@ def get_requests(url, rd=None, data=None, headers={}, remark=None, ip_port=None)
                 response_json = convert_response(response)
                 if response_json.get('state', 0) == 1 or response_json.get('success', False) or (not response_json.get(
                         'code', 1)):
-                    logging.info(msg=f'该接口URL {url} ,备注 {remark} , 响应结果 {response_json} 请求成功\n')
+                    logging.info(msg=f'该接口URL {url} ,备注 {remark} , 响应结果 {json.dumps(response_json)[:100]} 请求成功\n')
                     return response_json
                 else:
                     if count < 1:
@@ -214,7 +217,8 @@ def get_requests(url, rd=None, data=None, headers={}, remark=None, ip_port=None)
                         return get_requests(url=url, headers=headers, remark=remark, data=data, rd=rd)
                     else:
                         logging.error(
-                            msg='该接口URL {} , 备注 {}, 响应内容: {} , 断言错误\n'.format(url, remark, response_json))
+                            msg='该接口URL {} , 备注 {}, 响应内容: {} , 断言错误\n'.format(url, remark,
+                                                                              json.dumps(response_json)[:100]))
                         return convert_response(response)
             else:
                 return convert_response(response)
@@ -476,24 +480,22 @@ def json_put(url, remark, rd=None, data=None, headers={}, ip_port=None):
             if is_json_response(response):
                 response_json = convert_response(response)
                 if response_json.get('state', 0) == 1 or response_json.get('success', False):
-                    logging.info(msg=f'该接口URL {url} ,备注 {remark} , 响应内容 {response_json} , 请求成功\n')
+                    logging.info(msg=f'该接口URL {url} ,备注 {remark} , 响应内容 {json.dumps(response_json)[:100]} , 请求成功\n')
                     return response_json
                 else:
                     if count < 1:
                         count = count + 1
-                        logging.error(
-                            msg='该接口URL {} , 备注: {} , 响应内容: {} 断言失败, 在重试\n'.format(url, remark, response_json))
                         return json_put(url=url, headers=headers, remark=remark, data=data, rd=rd)
                     else:
                         logging.error(
-                            msg='该接口URL {} , 备注 {}, 响应内容: {} 请求成功, 但断言错误\n'.format(url, remark, response_json))
+                            msg='该接口URL {} , 备注 {}, 响应内容: {} 请求成功, 但断言错误\n'.format(url, remark,
+                                                                                   json.dumps(response_json)[:100]))
                         return response_json
             else:
                 return convert_response(response)
         else:
             if count < 1:
                 count = count + 1
-                logging.error(msg='该接口URL {} , 备注: {} , 响应内容: {} 断言失败, 在重试\n'.format(url, remark, response))
                 return json_put(url=url, headers=headers, remark=remark, data=data, rd=rd)
             else:
                 return judging_other_abnormal_conditions(status_code, url, remark, pard_id)
@@ -524,7 +526,7 @@ def put_requests(url, rd=None, headers={}, remark=None, ip_port=None):
             if is_json_response(response):
                 response_json = convert_response(response)
                 if response_json.get('state', 0) == 1 or response_json.get('success', False):
-                    logging.info(msg=f'该接口URL {url} ,备注 {remark} , 响应内容 {response_json} , 请求成功 \n')
+                    logging.info(msg=f'该接口URL {url} ,备注 {remark} , 响应内容 {json.dumps(response_json)[:100]} , 请求成功 \n')
                     return response_json
                 else:
                     if count < 1:
@@ -532,7 +534,8 @@ def put_requests(url, rd=None, headers={}, remark=None, ip_port=None):
                         return put_requests(url=url, headers=headers, remark=remark, rd=rd)
                     else:
                         logging.error(
-                            msg='该接口URL {} , 备注 {}, 响应内容: {} , 断言错误\n'.format(url, remark, response_json))
+                            msg='该接口URL {} , 备注 {}, 响应内容: {} , 断言错误\n'.format(url, remark,
+                                                                              json.dumps(response_json)[:100]))
                         return response_json
             else:
                 return convert_response(response)
@@ -569,7 +572,7 @@ def delete_requests(url, rd=None, headers={}, remark=None, ip_port=None):
             if is_json_response(response):
                 response_json = convert_response(response)
                 if response_json.get('state', 0) == 1 or response_json.get('success', False):
-                    logging.info(msg=f'该接口URL {url} ,备注 {remark} , 响应结果 {response_json} 请求成功\n')
+                    logging.info(msg=f'该接口URL {url} ,备注 {remark} , 响应结果 {json.dumps(response_json)[:100]} 请求成功\n')
                     return response_json
                 else:
                     if count < 1:
@@ -577,7 +580,7 @@ def delete_requests(url, rd=None, headers={}, remark=None, ip_port=None):
                         return delete_requests(url=url, headers=headers, remark=remark, rd=rd)
                     else:
                         logging.error(
-                            msg='该接口URL {} , 备注 {}, 响应内容: {} 请求成功, 但断言错误\n'.format(url, remark, response_json))
+                            msg='该接口URL {} , 备注 {}, 响应内容: {} 请求成功, 但断言错误\n'.format(url, remark, json.dumps(response_json)[:100]))
                         return response_json
             else:
                 return convert_response(response)
