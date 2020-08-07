@@ -176,7 +176,7 @@ class run_Pytest(Resource):
             return {'state': 4, 'data': f'{args["module"]}自动化测试未正常运行，请查看日志'}
 
         html_report_path = f"{project_path}/backend/templates/{args['module']}_report.html"
-        result = analysis_html_report(html_report_path, 3, args['module'])
+        result = analysis_html_report(html_report_path)
 
         if bool(result['info']['result']['fail_result']):
             current_app.logger.info(result)

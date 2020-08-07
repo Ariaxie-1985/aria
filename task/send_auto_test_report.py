@@ -9,7 +9,6 @@ import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from email.header import Header
-import time
 
 '''
 用于主流程监控定期执行并发送报警信息
@@ -19,12 +18,6 @@ import time
 def get_fix_time():
     now_time = datetime.datetime.now()
     fix_time = (now_time + datetime.timedelta(minutes=10)).strftime("%Y-%m-%d %H:%M")
-    # if 0 <= now_time.hour <= 8:
-    #     fix_time = now_time.date().strftime("%Y-%m-%d 12:00")
-    # elif 21 <= now_time.hour <= 24:
-    #     fix_time = (now_time + datetime.timedelta(days=1)).date().strftime("%Y-%m-%d 12:00")
-    # else:
-    #     fix_time = (now_time + datetime.timedelta(hours=3)).strftime("%Y-%m-%d %H:%M")
     return fix_time
 
 
@@ -70,7 +63,7 @@ def send_feishu_report(module, pytest_result):
 def send_mail(module):
     sender = 'autotest@lagoujobs.com'
     sender_password = 'Lqq123456'
-    receivers = ['xiawang@lagou.com', 'betty@lagou.com', 'sunnyzhang@lagou.com', 'arayang@lagou.com',
+    receivers = ['xiawang@lagou.com', 'betty@lagou.com', 'sunnyzhang@lagou.com',
                  'sunnysun@lagou.com', 'yangwang@lagou.com', 'bingoonchen@lagou.com', 'ariaxie@lagou.com',
                  'anan@lagou.com', 'foxtang01@lagou.com']
     ret = True
@@ -188,16 +181,13 @@ def oss_filter_event(module_name, name, description, level, user_ids: str, cause
 
 def main(module):
     pytest_result = run_pytest(module)
+    # if pytest_result.get('state', 0) != 1:
+    #     time.sleep(10)
+    #     pytest_result = run_pytest(module)
     if pytest_result.get('state', 0) != 1:
-        time.sleep(10)
-        pytest_result = run_pytest(module)
-        if pytest_result.get('state', 0) != 1:
-            send_feishu_result = send_feishu_report(module, pytest_result)
-            # send_oss_result = send_oss(pytest_result)
-            if send_feishu_result == True:
-                send_mail(module)
-            # if not send_oss_result.get('result', False):
-            #     send_oss(pytest_result)
+        send_feishu_result = send_feishu_report('test', pytest_result)
+        if send_feishu_result == True:
+            send_mail(module)
 
 
 if __name__ == '__main__':
