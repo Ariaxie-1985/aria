@@ -13,7 +13,7 @@ access_token_list = []
 
 # 如果极光校验失败，则不执行目录test_open_api_lagou_com下的测试脚本
 collect_ignore = []
-if debugSelfCheck().get('message', '失败') != '成功':
+if debugSelfCheck().get('state', 0) != 1:
     collect_ignore.append("test_open_api_lagou_com/")
 
 
