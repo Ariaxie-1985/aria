@@ -178,7 +178,7 @@ class run_Pytest(Resource):
         html_report_path = f"{project_path}/backend/templates/{args['module']}_report.html"
         result = analysis_html_report(html_report_path)
 
-        if bool(result['info']['result']['fail_result']):
+        if bool(result['fail_result']):
             current_app.logger.info(result)
             state = 0
 
