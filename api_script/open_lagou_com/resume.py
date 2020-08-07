@@ -19,28 +19,28 @@ def get_resume_list(access_token, stage='NEW'):
     end_time = int(str(int(time.time())) + '000')
     data = {'access_token': access_token, 'start_time': start_time, 'end_time': end_time, 'stage': stage}
     remark = '获取简历列表信息'
-    return get_requests(url=url, data=data, remark=remark, rd='刘汝鹏')
+    return get_requests(url=url, data=data, remark=remark, rd='张文超')
 
 
 def get_online_resume(access_token, resume_id):
     url = f'https://open.lagou.com/v1/resume/online/get'
     data = {'resume_id': resume_id, 'access_token': access_token}
     remark = '获取在线简历信息'
-    return get_requests(url=url, data=data, remark=remark)
+    return get_requests(url=url, data=data, remark=remark, rd='张文超')
 
 
 def get_attachment_resume(access_token, resume_id):
     url = f'https://open.lagou.com/v1/resume/attachment/get'
     data = {'resume_id': resume_id, 'access_token': access_token}
     remark = '获取附件简历信息'
-    return get_requests(url=url, data=data, remark=remark)
+    return get_requests(url=url, data=data, remark=remark, rd='张文超')
 
 
 def get_contact(access_token, resume_id):
     url = f'https://open.lagou.com/v1/resume/contact/get'
     data = {'resume_id': resume_id, 'access_token': access_token}
     remark = '标记初筛'
-    return get_requests(url=url, data=data, remark=remark)
+    return get_requests(url=url, data=data, remark=remark, rd='张文超')
 
 
 def get_interview(access_token, resume_id, **kwargs):
@@ -52,11 +52,11 @@ def get_interview(access_token, resume_id, **kwargs):
     data = {'resume_id': resume_id, 'link_phone': link_phone, 'link_man': link_man,
             'interview_address': interview_address, 'interview_time': interview_time}
     remark = '邀约面试'
-    return form_post(url=url, data=data, remark=remark)
+    return form_post(url=url, data=data, remark=remark, rd='张文超')
 
 
 def get_obsolete(access_token, resume_id):
     url = f'https://open.lagou.com/v1/resume/obsolete?access_token={access_token}'
     data = {'resume_id': resume_id}
     remark = '淘汰候选人'
-    return form_post(url=url, data=data, remark=remark)
+    return form_post(url=url, data=data, remark=remark, rd='张文超')
