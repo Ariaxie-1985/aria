@@ -182,9 +182,7 @@ class run_Pytest(Resource):
             current_app.logger.info(result)
             state = 0
 
-        info = {"result": result}
-
-        return {'state': state, "data": info}
+        return {'state': state, **result}
 
     def assert_is_test_run(self, pytest_result):
         run_result = pytest_result.strip().split('\n')[-1]
