@@ -19,7 +19,7 @@ def get_resume_list(access_token, stage='NEW'):
     end_time = int(str(int(time.time())) + '000')
     data = {'access_token': access_token, 'start_time': start_time, 'end_time': end_time, 'stage': stage}
     remark = '获取简历列表信息'
-    return get_requests(url=url, data=data, remark=remark)
+    return get_requests(url=url, data=data, remark=remark, rd='刘汝鹏')
 
 
 def get_online_resume(access_token, resume_id):

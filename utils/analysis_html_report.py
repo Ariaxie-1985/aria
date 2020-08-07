@@ -51,6 +51,8 @@ def get_failed_results(soup):
 
 
 def get_failed_log(log):
+    if '该接口URL:http' not in log:
+        return '具体看测试报告'
     failed_log = log[log.index('该接口URL:http'):]
     # print(failed_log)
     # captured_log = re.findall(r'Captured log call(.*)', log)[0]
@@ -163,5 +165,6 @@ if __name__ == '__main__':
     # r = analysis_html_report('/Users/wang/Desktop/lg-project/lg_api_script/backend/templates/mainprocess_report0529.html')
     # r = analysis_html_report('/Users/wang/Downloads/kaiwu_lagou/open_api_lagou_report.html')
     # r = analysis_html_report('/Users/wang/Desktop/lg-project/lg_api_script/report0807.html')
-    r = analysis_html_report('/Users/wang/Desktop/lg-project/lg_api_script/backend/templates/report0806.html')
+    # r = analysis_html_report('/Users/wang/Desktop/lg-project/lg_api_script/backend/templates/report0806.html')
+    r = analysis_html_report('/Users/wang/Downloads/kaiwu_lagou/open_api_lagou_report1.html')
     print(r)
