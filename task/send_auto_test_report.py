@@ -37,18 +37,15 @@ def send_feishu_report(module, pytest_result):
         return send_feishu_bot(module=module, content=content)
 
     if pytest_result.get('state') == 0:
-        summary_result = ''
-        for k, v in pytest_result['data']['result']['info']['result']['summary_result'].items():
-            summary_result += v + ', '
-
+        summary_result = pytest_result['summary_result']
         fail_results = ''
 
         names = []
-        for case_name, case_fail_result in pytest_result['data']['result']['info']['result']['fail_result'].items(
+        for case_name, case_fail_result in pytest_result['fail_result'].items(
         ):
-            fail_result = f'''用例{case_name}报错:{case_fail_result['error_type']},原因:{case_fail_result['log']},测试:{case_fail_result.get('te_name')},开发:{case_fail_result.get('rd_name')}\n\n'''
+            fail_result = f'''用例{case_name}报错:{case_fail_result['error_type']},原因:{case_fail_result['log']},测试:{case_fail_result.get('tester_name')},开发:{case_fail_result.get('rd_name')}\n\n'''
             fail_results += fail_result
-            names.extend([case_fail_result.get('te_name'), case_fail_result.get('rd_name')])
+            names.extend([case_fail_result.get('tester_name'), case_fail_result.get('rd_name')])
 
         if '' in names:
             names.remove('')
@@ -198,3 +195,4 @@ if __name__ == '__main__':
     args = parser.parse_args()
     if args.module is not None:
         main(module=args.module)
+

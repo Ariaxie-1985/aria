@@ -166,5 +166,5 @@ if __name__ == '__main__':
     # r = analysis_html_report('/Users/wang/Downloads/kaiwu_lagou/open_api_lagou_report.html')
     # r = analysis_html_report('/Users/wang/Desktop/lg-project/lg_api_script/report0807.html')
     # r = analysis_html_report('/Users/wang/Desktop/lg-project/lg_api_script/backend/templates/report0806.html')
-    r = analysis_html_report('/Users/wang/Downloads/kaiwu_lagou/open_api_lagou_report1.html')
+    r = analysis_html_report('/Users/wang/Downloads/kaiwu_lagou/report.html')
     print(r)
