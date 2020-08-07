@@ -12,9 +12,9 @@ from api_script.open_lagou_com.authority import open_authority_token
 access_token_list = []
 
 # 如果极光校验失败，则不执行目录test_open_api_lagou_com下的测试脚本
-collect_ignore = []
-if debugSelfCheck().get('state', 0) != 1:
-    collect_ignore.append("test_open_api_lagou_com/")
+# collect_ignore = []
+# if debugSelfCheck().get('state', 0) != 1:
+#     collect_ignore.append("test_open_api_lagou_com/")
 
 
 @pytest.fixture(scope='session')

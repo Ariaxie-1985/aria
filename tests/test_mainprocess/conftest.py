@@ -42,9 +42,9 @@ test_usertoken1 = []
 test_token_dict = {}
 
 # 如果极光校验失败，则不执行目录test_mainprocess下的测试脚本
-collect_ignore = []
-if debugSelfCheck().get('state', 0) != 1:
-    collect_ignore.append("test_mainprocess/")
+# collect_ignore = []
+# if debugSelfCheck().get('state', 0) != 1:
+#     collect_ignore.append("test_mainprocess/")
 
 
 @pytest.fixture(scope="session")
