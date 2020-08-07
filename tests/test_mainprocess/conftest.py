@@ -8,6 +8,7 @@ import pytest
 from api_script.education.account import getToken
 
 from api_script.entry.account.passport import password_login, verifyCode_login
+from api_script.is_debug_login import debugSelfCheck
 from api_script.jianzhao_web.index import dashboard_index_get_user_id
 from backend.common.get_data import get_www_company_id
 from faker import Faker
@@ -39,6 +40,9 @@ test_telephone = []
 test_company_name = []
 test_usertoken1 = []
 test_token_dict = {}
+collect_ignore = []
+if debugSelfCheck().get('message', '失败') != '成功':
+    collect_ignore.append("test_mainprocess/")
 
 
 @pytest.fixture(scope="session")

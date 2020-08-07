@@ -14,11 +14,11 @@ from flask import current_app
 class run_Pytest(Resource):
     """执行pytest"""
     business_module = {
-        'mainprocess': 'pytest {}/tests/test_mainprocess/ --html=backend/templates/{}_report.html --self-contained-html -s -v',
+        'mainprocess': 'pytest {}/tests/test_mainprocess/ --html=backend/templates/{}_report.html --self-contained-html -s -v --collect-only',
         'lg-zhaopin-boot': 'pytest {}/tests/test_lg_zhaopin_boot/ --html=backend/templates/{}_report.html --self-contained-html {}',
         'lg-entry-boot': 'pytest {}/tests/test_lg_entry_boot/ --html=backend/templates/{}_report.html --self-contained-html {}',
         'lg-neirong-boot': 'pytest {}/tests/test_lg_neirong_boot/ --html=backend/templates/{}_report.html --self-contained-html {}',
-        'open_api_lagou': 'pytest {}/tests/test_open_api_lagou_com/ --html=backend/templates/{}_report.html --self-contained-html'
+        'open_api_lagou': 'pytest {}/tests/test_open_api_lagou_com/ --html=backend/templates/{}_report.html --self-contained-html --collect-only'
     }
 
     def get(self):
@@ -197,11 +197,11 @@ class run_Pytest(Resource):
         else:
             ip_port = f'--ip_port {ip_port}'
         business_module = {
-            'mainprocess': f'pytest {project_path}/tests/test_mainprocess/ --html=backend/templates/{module}_report.html --self-contained-html {ip_port}',
+            'mainprocess': f'pytest {project_path}/tests/test_mainprocess/ --html=backend/templates/{module}_report.html --self-contained-html {ip_port} --collect-only',
             'lg-zhaopin-boot': f'pytest {project_path}/tests/test_lg_zhaopin_boot/ --html=backend/templates/{module}_report.html --self-contained-html {ip_port}',
             'lg-entry-boot': f'pytest {project_path}/tests/test_lg_entry_boot/ --html=backend/templates/{module}_report.html --self-contained-html {ip_port}',
             'lg-neirong-boot': f'pytest {project_path}/tests/test_lg_neirong_boot/ --html=backend/templates/{module}_report.html --self-contained-html {ip_port}',
-            'open_api_lagou': f'pytest {project_path}/tests/test_open_api_lagou_com/ --html=backend/templates/{module}_report.html --self-contained-html {ip_port}'
+            'open_api_lagou': f'pytest {project_path}/tests/test_open_api_lagou_com/ --html=backend/templates/{module}_report.html --self-contained-html {ip_port} --collect-only'
 
         }
         return business_module.get(module)

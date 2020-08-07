@@ -90,7 +90,10 @@ def get_assert_info(log):
 
 
 def get_failed_error_type(fail_result):
-    error_type = fail_result.find(attrs={'class': 'error'}).get_text().split('E       ')[1]
+    try:
+        error_type = fail_result.find(attrs={'class': 'error'}).get_text().split('E       ')[1]
+    except AttributeError:
+        error_type = 'None'
     return error_type
 
 
@@ -146,7 +149,14 @@ def analysis_html_report(report_path):
     report_generated_time = get_report_generated_time(soup)
     summary_result = get_summary_result(soup)
     fail_detail = get_fail_result(soup)
+    if summary_result == '':
+        fail_detail = {
+            '绕过极光校验': {'error_type': "登录失败",
+                               'log': '请在服务器curl https://passport.lagou.com/login/debugSelfCheck.json 确认下是否正常跳过极光校验',
+                               'rd_name': '曾小宁',
+                               'tester_name': '测试'}
 
+        }
     parse_report_result = {
         "content": "报告生成成功",
         "report_generated_time": report_generated_time,
@@ -166,5 +176,5 @@ if __name__ == '__main__':
     # r = analysis_html_report('/Users/wang/Downloads/kaiwu_lagou/open_api_lagou_report.html')
     # r = analysis_html_report('/Users/wang/Desktop/lg-project/lg_api_script/report0807.html')
     # r = analysis_html_report('/Users/wang/Desktop/lg-project/lg_api_script/backend/templates/report0806.html')
-    r = analysis_html_report('/Users/wang/Downloads/kaiwu_lagou/report.html')
+    r = analysis_html_report('/Users/wang/Desktop/lg-project/lg_api_script/report.html')
     print(r)

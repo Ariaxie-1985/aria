@@ -5,11 +5,14 @@
 import pytest
 
 from api_script.entry.account.passport import password_login
+from api_script.is_debug_login import debugSelfCheck
 from api_script.open_lagou_com.account import openid_query
 from api_script.open_lagou_com.authority import open_authority_token
 
 access_token_list = []
-
+collect_ignore = []
+if debugSelfCheck().get('message', '失败') != '成功':
+    collect_ignore.append("test_open_api_lagou_com/")
 
 @pytest.fixture(scope='session')
 def get_access_token():
