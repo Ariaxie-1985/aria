@@ -40,6 +40,8 @@ test_telephone = []
 test_company_name = []
 test_usertoken1 = []
 test_token_dict = {}
+
+# 如果极光校验失败，则不执行目录test_mainprocess下的测试脚本
 collect_ignore = []
 if debugSelfCheck().get('message', '失败') != '成功':
     collect_ignore.append("test_mainprocess/")

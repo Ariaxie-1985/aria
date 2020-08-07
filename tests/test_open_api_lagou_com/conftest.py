@@ -10,9 +10,12 @@ from api_script.open_lagou_com.account import openid_query
 from api_script.open_lagou_com.authority import open_authority_token
 
 access_token_list = []
+
+# 如果极光校验失败，则不执行目录test_open_api_lagou_com下的测试脚本
 collect_ignore = []
 if debugSelfCheck().get('message', '失败') != '成功':
     collect_ignore.append("test_open_api_lagou_com/")
+
 
 @pytest.fixture(scope='session')
 def get_access_token():
@@ -33,6 +36,7 @@ def get_openid():
 def c_login_app(request):
     result = password_login(request.param[0], request.param[1])
     return result['content']['userToken'], result['content']['userInfo']['userId']
+
 
 @pytest.fixture(scope='session', params=[["13033647506", "000000"]])
 def b_login_app(request):
