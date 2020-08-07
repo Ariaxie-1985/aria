@@ -53,11 +53,11 @@ def get_failed_results(soup):
 def get_failed_log(log):
     if '该接口URL:http' not in log:
         return '具体看测试报告'
-    failed_log = log[log.index('该接口URL:http'):]
+    # failed_log = log[log.index('该接口URL:http'):]
     # print(failed_log)
     # captured_log = re.findall(r'Captured log call(.*)', log)[0]
     # print(captured_log)
-    # failed_log = re.findall(r'该接口URL:(.*)+(\s|[\r\n])', captured_log)[0]
+    failed_log = re.findall(r'该接口URL:(.*)<分隔', log)[0]
     return failed_log
 
 
