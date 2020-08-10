@@ -60,9 +60,10 @@ def send_feishu_report(module, pytest_result):
 def send_mail(module):
     sender = 'autotest@lagoujobs.com'
     sender_password = 'Lqq123456'
-    receivers = ['xiawang@lagou.com', 'betty@lagou.com', 'sunnyzhang@lagou.com',
-                 'sunnysun@lagou.com', 'yangwang@lagou.com', 'bingoonchen@lagou.com', 'ariaxie@lagou.com',
-                 'anan@lagou.com', 'foxtang01@lagou.com']
+    # receivers = ['xiawang@lagou.com', 'betty@lagou.com', 'sunnyzhang@lagou.com',
+    #              'sunnysun@lagou.com', 'yangwang@lagou.com', 'bingoonchen@lagou.com', 'ariaxie@lagou.com',
+    #              'anan@lagou.com', 'foxtang01@lagou.com']
+    receivers = ['xiawang@lagou.com']
     ret = True
 
     try:
@@ -195,4 +196,3 @@ if __name__ == '__main__':
     args = parser.parse_args()
     if args.module is not None:
         main(module=args.module)
-
