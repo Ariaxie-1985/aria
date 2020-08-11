@@ -5,14 +5,15 @@
 import logging
 import sys
 import os
-import time
+from api_script.entry.cuser.baseStatus import batchCancel
+from api_script.home import forbid
 
 curPath = os.path.abspath(os.path.dirname(__file__))
 rootPath = os.path.split(curPath)[0]
 sys.path.append(rootPath)
 import requests
 
-from utils.read_file import read_cancel_account, batch_cancel_account, rewrite_cancel_account
+from utils.read_file import read_cancel_account, rewrite_cancel_account, record_cancel_account
 
 logger = logging.getLogger(__name__)
 logger.setLevel(level=logging.INFO)
@@ -38,14 +39,30 @@ def regular_batch_cancel_account():
     if not bool(result):
         logger.info(f'无需注销的数据\n')
         return
-    logger.info(f'开始注销手机号:{",".join(result)}\n')
-    if len(result) > 0:
-        try:
-            batch_cancel_account(result)
-            send_cancel_result(message='注销手机号成功', result=result)
-            rewrite_cancel_account()
-        except AssertionError:
-            send_cancel_result(message='注销手机号失败', result=result)
+    logger.info(f'开始注销用户id:{",".join(result)}\n')
+    fail_user_ids = ''
+    success_user_ids = ''
+    for user_id in result:
+        forbid_result = forbid.forbid_user(user_id)
+        if forbid_result == False:
+            fail_user_ids += f'{user_id},'
+            record_cancel_account(user_id)
+        else:
+            success_user_ids += f'{user_id},'
+
+        r = batchCancel(userIds=user_id)
+        if r.get('state') != 1:
+            fail_user_ids += f'{user_id},'
+        else:
+            success_user_ids += f'{user_id},'
+
+    if success_user_ids != '':
+        result = list(set(success_user_ids.split(',')))
+        send_cancel_result(message='注销封禁用户Id成功', result=result)
+
+    if fail_user_ids != '':
+        rewrite_cancel_account()
+        record_cancel_account(fail_user_ids)
 
 
 if __name__ == "__main__":
