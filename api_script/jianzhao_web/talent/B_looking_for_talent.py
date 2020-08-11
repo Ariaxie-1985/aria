@@ -1,6 +1,6 @@
 # coding:utf-8
 # @Author: Xiawang
-from utils.util import get_requests, get_code_token, login, form_post, login_password
+from utils.util import get_requests, get_code_token, login, form_post, login_password, get_header
 
 '''
 找人才的推荐人才和最新人才
@@ -117,8 +117,12 @@ def talent_collection_count(ip_port=None):
 
 def talent_search_by_company_name_list(company_name, pageNo=1):
     url = 'https://easy.lagou.com/talent/search/list.json'
-    refer_url = f'https://easy.lagou.com/talent/search/list.htm?pageNo=1&keyword={company_name}&searchVersion=1'
-    header = get_code_token(url=refer_url)
+    refer_url = f'https://easy.lagou.com/talent/search/list.htm?pageNo={pageNo}&keyword={company_name}&searchVersion=1'
+    header = get_header(url=refer_url)
+    header.update(
+        {'x-anit-forge-code': '', 'x-anit-forge-token': '', 'sec-fetch-dest': 'empty', 'sec-fetch-mode': 'cors',
+         'sec-fetch-site': 'same-origin', 'pragma': 'no-cache',
+         'referer': f'https://easy.lagou.com/talent/search/list.htm?pageNo={pageNo}&searchVersion=1&companyName=%E6%9D%B0%E5%A8%81%E5%B0%94%E9%9F%B3%E4%B9%90'})
     data = {'pageNo': pageNo, 'keyword': company_name, 'searchVersion': 1}
     remark = '通过工作经历的公司名称来搜索人才'
     return form_post(url=url, data=data, headers=header, remark=remark)
@@ -126,5 +130,3 @@ def talent_search_by_company_name_list(company_name, pageNo=1):
 
 if __name__ == '__main__':
     login_password(username='13033647506', password='9062e77da243687c68bf9665727b5c01')
-    # r = talent_search_by_company_name_list(company_name='杰威尔音乐')
-    # print(r)

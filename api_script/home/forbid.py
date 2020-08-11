@@ -3,7 +3,7 @@
 # @Author: Xiawang
 # Description:
 
-from utils.util import get_header, form_post, login_home, login_password
+from utils.util import get_header, form_post, login_password
 
 
 def forbid_user(userId):
@@ -18,7 +18,7 @@ def verify_user_is_forbid(userId):
     header = get_header(url='http://home.lagou.com/')
     data = {'searchContent': userId, 'limit': 15, 'currentPage': 0, 'typeSearch': 1}
     result = form_post(url=url, headers=header, data=data, remark='校验用户是否禁用成功', rd='royliu')
-    if result['success'] == True and result['data']['pageData'][0]['id'] == userId:
+    if result['success'] == True and result['data']['pageData'][0]['id'] == int(userId):
         return result['data']['pageData'][0]['isForbid']
     else:
         return False

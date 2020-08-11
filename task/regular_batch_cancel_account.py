@@ -5,8 +5,11 @@
 import logging
 import sys
 import os
+import time
+
 from api_script.entry.cuser.baseStatus import batchCancel
-from api_script.home import forbid
+from api_script.home.forbid import verify_user_is_forbid, forbid_user
+from utils.util import login_password, assert_equal
 
 curPath = os.path.abspath(os.path.dirname(__file__))
 rootPath = os.path.split(curPath)[0]
@@ -25,7 +28,7 @@ logger.addHandler(handler)
 
 
 def send_cancel_result(message, result):
-    url = 'https://open.feishu.cn/open-apis/bot/hook/f8130b6d6c904480b78ea6b988a9a84c'
+    url = 'https://open.feishu.cn/open-apis/bot/hook/882babeafa3e4f0b839d6ff41efa2b84'
     data = {
         "title": "自动注销账号结果:",
         "text": f'{message}: {",".join(result)}'
@@ -40,15 +43,21 @@ def regular_batch_cancel_account():
         logger.info(f'无需注销的数据\n')
         return
     logger.info(f'开始注销用户id:{",".join(result)}\n')
+    r = login_password('betty@lagou.com', '00f453dfec0f2806db5cfabe3ea94a35')
+    assert_equal(1, r.get('state'), '校验登录home成功！', te='王霞')
+
     fail_user_ids = ''
     success_user_ids = ''
     for user_id in result:
-        forbid_result = forbid.forbid_user(user_id)
+        time.sleep(1)
+        forbid_result = verify_user_is_forbid(user_id)
         if forbid_result == False:
-            fail_user_ids += f'{user_id},'
-            record_cancel_account(user_id)
-        else:
-            success_user_ids += f'{user_id},'
+            forbid_result = forbid_user(user_id)
+            if forbid_result == False:
+                fail_user_ids += f'{user_id},'
+                record_cancel_account(user_id)
+            else:
+                success_user_ids += f'{user_id},'
 
         r = batchCancel(userIds=user_id)
         if r.get('state') != 1:
@@ -56,12 +65,12 @@ def regular_batch_cancel_account():
         else:
             success_user_ids += f'{user_id},'
 
+    rewrite_cancel_account()
     if success_user_ids != '':
         result = list(set(success_user_ids.split(',')))
         send_cancel_result(message='注销封禁用户Id成功', result=result)
 
     if fail_user_ids != '':
-        rewrite_cancel_account()
         record_cancel_account(fail_user_ids)
 
 
