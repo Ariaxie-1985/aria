@@ -17,8 +17,6 @@ import logging
 from utils.loggers import logers
 from utils.user_exception import Http500Error
 
-sys.setrecursionlimit(100)
-
 sys.path.append(os.path.dirname(__file__))
 
 logging.getLogger().setLevel(logging.INFO)
@@ -129,7 +127,7 @@ def form_post(url, remark, rd=None, data=None, files=None, headers={}, verifysta
                 return form_post(url=url, headers=headers, remark=remark, data=data, rd=rd)
             else:
                 return judging_other_abnormal_conditions(status_code, url, remark, pard_id)
-    except RequestException:
+    except (RequestException, RecursionError):
         logging.error("该接口URL:{} , 备注 {} 请求异常, 请检查接口服务并重试一次<分隔\n".format(url, remark))
         return {'content': '请求异常(requests捕获的异常)', 'url': url, 'remark': remark}
 
@@ -184,7 +182,7 @@ def json_post(url, remark, rd=None, data=None, headers={}, app=False, verifystat
                 return json_post(url=url, headers=headers, remark=remark, data=data, rd=rd)
             else:
                 return judging_other_abnormal_conditions(status_code, url, remark, pard_id)
-    except RequestException as e:
+    except (RequestException, RecursionError) as e:
         logging.error(msg="该接口URL:{} , 备注 {} 异常: {} 请求异常, 请检查接口服务并重试一次<分隔\n".format(url, remark, e))
         return {'content': '请求执行错误', 'url': url, 'remark': remark}
 
@@ -237,7 +235,7 @@ def get_requests(url, rd=None, data=None, headers={}, remark=None, ip_port=None)
                 return get_requests(url=url, headers=headers, remark=remark, data=data, rd=rd)
             else:
                 return judging_other_abnormal_conditions(status_code, url, remark, pard_id)
-    except RequestException:
+    except (RequestException, RecursionError):
         logging.error(msg="该接口URL:{} , 备注 {} 请求异常, 请检查接口服务并重试一次<分隔\n".format(url, remark))
         return {'content': '请求执行错误', 'url': url, 'remark': remark}
 
@@ -274,7 +272,7 @@ def get_header(url, headers={}, allow_redirects=True, ip_port=None):
                                    allow_redirects=allow_redirects)
         if response.status_code == 200:
             return response.request.headers
-    except RequestException as e:
+    except (RequestException, RecursionError) as e:
         return {"errors": str(e)}
 
 
@@ -511,7 +509,7 @@ def json_put(url, remark, rd=None, data=None, headers={}, ip_port=None):
                 return json_put(url=url, headers=headers, remark=remark, data=data, rd=rd)
             else:
                 return judging_other_abnormal_conditions(status_code, url, remark, pard_id)
-    except RequestException as e:
+    except (RequestException, RecursionError) as e:
         logging.error(msg="该接口URL:{} , 备注 {} 请求异常, 请检查接口服务并重试一次\n该异常为{}<分隔".format(url, remark, e))
         return {'content': '请求执行错误', 'url': url, 'remark': remark}
 
@@ -559,7 +557,7 @@ def put_requests(url, rd=None, headers={}, remark=None, ip_port=None):
                 return put_requests(url=url, headers=headers, remark=remark, rd=rd)
             else:
                 return judging_other_abnormal_conditions(status_code, url, remark, pard_id)
-    except RequestException:
+    except (RequestException, RecursionError):
         logging.error(msg="该接口URL:{} , 备注 {} 请求异常, 请检查接口服务并重试一次<分隔\n".format(url, remark))
         return {'content': '请求执行错误', 'url': url, 'remark': remark}
 
@@ -608,7 +606,7 @@ def delete_requests(url, rd=None, headers={}, remark=None, ip_port=None):
                 return delete_requests(url=url, headers=headers, remark=remark, rd=rd)
             else:
                 return judging_other_abnormal_conditions(status_code, url, remark, pard_id)
-    except RequestException:
+    except (RequestException, RecursionError):
         logging.error(msg="该接口URL:{} , 备注 {} 请求异常, 请检查接口服务并重试一次<分隔\n".format(url, remark))
         return {'content': '请求执行错误', 'url': url, 'remark': remark}
 
