@@ -3,20 +3,20 @@
 # @Author: Xiawang
 # Description:
 import logging
-import sys
 import os
+import sys
 import time
-
-from api_script.entry.cuser.baseStatus import batchCancel
-from api_script.home.forbid import verify_user_is_forbid, forbid_user
-from utils.util import login_password, assert_equal
 
 curPath = os.path.abspath(os.path.dirname(__file__))
 rootPath = os.path.split(curPath)[0]
 sys.path.append(rootPath)
+
 import requests
 
 from utils.read_file import read_cancel_account, rewrite_cancel_account, record_cancel_account
+from api_script.entry.cuser.baseStatus import batchCancel
+from api_script.home.forbid import verify_user_is_forbid, forbid_user
+from utils.util import login_password, assert_equal
 
 logger = logging.getLogger(__name__)
 logger.setLevel(level=logging.INFO)
