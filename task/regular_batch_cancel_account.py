@@ -28,7 +28,7 @@ logger.addHandler(handler)
 
 
 def send_cancel_result(message, result):
-    url = 'https://open.feishu.cn/open-apis/bot/hook/882babeafa3e4f0b839d6ff41efa2b84'
+    url = 'https://open.feishu.cn/open-apis/bot/hook/f8130b6d6c904480b78ea6b988a9a84c'
     data = {
         "title": "自动注销账号结果:",
         "text": f'{message}: {",".join(result)}'

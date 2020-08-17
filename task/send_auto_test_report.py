@@ -183,7 +183,7 @@ def main(module):
     #     time.sleep(10)
     #     pytest_result = run_pytest(module)
     if pytest_result.get('state', 0) != 1:
-        send_feishu_result = send_feishu_report('test', pytest_result)
+        send_feishu_result = send_feishu_report(module, pytest_result)
         if send_feishu_result == True:
             send_mail(module)
 
