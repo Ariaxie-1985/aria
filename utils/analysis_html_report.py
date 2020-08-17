@@ -82,8 +82,8 @@ def get_rd_or_te_name(captured_log):
 
 
 def get_assert_info(log):
-    expect_value = re.findall(r'expect_value = (.+?)', log)[0]
-    actual_value = re.findall(r'actual_value = (.+?)', log)[0]
+    expect_value = re.findall(r'expect_value = (.+?\d+)', log)[0]
+    actual_value = re.findall(r'actual_value = (.+?\d+)', log)[0]
     success_message = re.findall(r"success_message = '(.+?)'", log)[0]
     fail_message = (re.findall(r"fail_message = '(.+?)'", log) or ['暂无'])[0]
     return expect_value, actual_value, success_message, fail_message
@@ -176,5 +176,5 @@ if __name__ == '__main__':
     # r = analysis_html_report('/Users/wang/Downloads/kaiwu_lagou/open_api_lagou_report.html')
     # r = analysis_html_report('/Users/wang/Desktop/lg-project/lg_api_script/report0807.html')
     # r = analysis_html_report('/Users/wang/Desktop/lg-project/lg_api_script/backend/templates/report0806.html')
-    r = analysis_html_report('/Users/wang/Desktop/lg-project/lg_api_script/report.html')
+    r = analysis_html_report('/Users/wang/Downloads/open_api_lagou_report1.html')
     print(r)
