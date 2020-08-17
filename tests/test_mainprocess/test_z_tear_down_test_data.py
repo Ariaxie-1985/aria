@@ -35,12 +35,14 @@ class TestCleanData(object):
             forbid_result = forbid.forbid_user(user_id)
             if forbid_result == False:
                 record_cancel_account(user_id)
+                loger.info(f'封禁用户:手机号:{t}, Id:{user_id}失败')
             else:
                 loger.info(f'封禁用户:手机号:{t}, Id:{user_id}成功')
 
             r = batchCancel(userIds=user_id)
             if r.get('state') != 1:
                 record_cancel_account(user_id)
+                loger.info(f'注销用户:手机号:{t}, Id:{user_id}失败')
             else:
                 loger.info(f'注销用户:手机号:{t}, Id:{user_id}成功')
 
