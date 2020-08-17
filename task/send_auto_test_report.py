@@ -3,6 +3,7 @@
 # @Author: Xiawang
 # Description:
 import datetime
+import time
 
 import requests
 import smtplib
@@ -179,13 +180,13 @@ def oss_filter_event(module_name, name, description, level, user_ids: str, cause
 
 def main(module):
     pytest_result = run_pytest(module)
-    # if pytest_result.get('state', 0) != 1:
-    #     time.sleep(10)
-    #     pytest_result = run_pytest(module)
     if pytest_result.get('state', 0) != 1:
-        send_feishu_result = send_feishu_report(module, pytest_result)
-        if send_feishu_result == True:
-            send_mail(module)
+        time.sleep(10)
+        pytest_result = run_pytest(module)
+        if pytest_result.get('state', 0) != 1:
+            send_feishu_result = send_feishu_report(module, pytest_result)
+            if send_feishu_result == True:
+                send_mail(module)
 
 
 if __name__ == '__main__':
