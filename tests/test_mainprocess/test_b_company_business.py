@@ -7,6 +7,7 @@ from api_script.business.new_lagouPlus import open_product
 from api_script.home.audit import query_risk_labels, add_risk_labels_by_company, queryRiskLabelsByCompany
 from api_script.home.data_import import import_linkManInfo, import_contacts
 from api_script.home.lagou_plus import get_contract_list, close_contract
+from api_script.is_debug_login import debugSelfCheck
 from api_script.jianzhao_web.b_basic.company import jump_html
 from api_script.jianzhao_web.b_basic.toB_comleteInfo_3 import completeInfo, company_auth
 from api_script.jianzhao_web.b_basic.toB_saveHR_1 import saveHR, saveCompany, \
@@ -36,6 +37,10 @@ class TestCompanyBusiness(object):
     im_chat_number = 15
     im_chat_number_gray_scale = 50
     contractNo = f'LAGOU-AUTOTEST-{int(time.time())}-{random.randint(1, 99999)}'
+
+    def test_is_debug_api(self):
+        r = debugSelfCheck()
+        assert_equal('成功', r.get('message'), '极光DeBug_API校验成功', '极光DeBug_API失败', te='王霞')
 
     def test_send_register_admin_verify_code(self, get_country_code_phone_user):
         global admin_countryCode, admin_phone, admin_user_name
