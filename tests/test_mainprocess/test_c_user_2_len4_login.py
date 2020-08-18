@@ -14,7 +14,7 @@ countryCode, phone = "00852", "19062701"
 def test_is_verify_code_reach_upper_limit():
     global send_verify_code_times
     send_verify_code_times = get_verify_code_message_len(countryCode, phone)
-    assert_not_equal(-1, send_verify_code_times, '获取验证码用例通过', te='sunnysun')
+    assert_not_equal(-1, send_verify_code_times, '获取验证码用例通过', te='王洋')
 
 
 @pytest.mark.skipif('send_verify_code_times >= 50', reason="验证码发送超过上限，跳过此用例")
@@ -23,13 +23,13 @@ class TestVerifyLoginLen4(object):
 
     def test_send_verify_code(self):
         r = send_verify_code(countryCode, phone, "PASSPORT_REGISTER", 1)
-        assert_equal(1, r.get('state'), '校验发送验证码4位成功', "校验发送验证码4位失败", te='sunnysun')
+        assert_equal(1, r.get('state'), '校验发送验证码4位成功', "校验发送验证码4位失败", te='王洋')
 
     def test_get_verify_code(self):
         global verify_code
         verify_code = verify_code_message(countryCode, phone, flag_num=send_verify_code_times)
-        assert_equal(True, bool(verify_code), "校验获取验证码4位成功", te='sunnysun')
+        assert_equal(True, bool(verify_code), "校验获取验证码4位成功", te='王洋')
 
     def test_verifyCode_login(self):
         r = verifyCode_login(countryCode, phone, verify_code)
-        assert_equal(1, r['state'], "校验验证码4位登录成功", te='sunnysun')
+        assert_equal(1, r['state'], "校验验证码4位登录成功", te='王洋')
