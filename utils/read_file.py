@@ -58,10 +58,10 @@ def read_jsessionid(file_path):
     return jsessionid
 
 
-def record_cancel_account(country_code_phone):
+def record_cancel_account(userId):
     with open('/home/test/data_no_delete/account.txt', 'at') as f:
         # with open('account.txt', 'at') as f:
-        f.write(f'{country_code_phone},')
+        f.write(f'{userId},')
 
 
 def read_cancel_account():

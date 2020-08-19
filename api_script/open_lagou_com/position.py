@@ -12,21 +12,21 @@ def category_get(access_token):
     url = 'https://open.lagou.com/v1/position/category/get'
     data = {'access_token': access_token}
     remark = '获取职位类别'
-    return get_requests(url=url, data=data, remark=remark)
+    return get_requests(url=url, data=data, remark=remark, rd='刘汝鹏')
 
 
 def company_address_list(access_token, page_no=1, page_size=20):
     url = 'https://open.lagou.com/v1/position/address/company/list'
     data = {'access_token': access_token, 'page_no': page_no, 'page_size': page_size}
     remark = '获取公司的所有地址'
-    return get_requests(url=url, data=data, remark=remark)
+    return get_requests(url=url, data=data, remark=remark, rd='刘汝鹏')
 
 
 def company_address_district(access_token):
     url = 'https://open.lagou.com/v1/position/address/district/get'
     data = {'access_token': access_token}
     remark = '获取省市区'
-    return get_requests(url=url, data=data, remark=remark)
+    return get_requests(url=url, data=data, remark=remark, rd='刘汝鹏')
 
 
 def company_address_create(access_token, openid, **kwargs):
@@ -38,7 +38,7 @@ def company_address_create(access_token, openid, **kwargs):
     url = f'https://open.lagou.com/v1/position/address/create?access_token={access_token}&openid={openid}'
     data = {'province': province, 'city': city, 'area': area, 'detail': detail}
     remark = '获取省市区'
-    return form_post(url=url, data=data, remark=remark)
+    return form_post(url=url, data=data, remark=remark, rd='刘汝鹏')
 
 
 def address_query(access_token, **kwargs):
@@ -49,7 +49,7 @@ def address_query(access_token, **kwargs):
     url = 'https://open.lagou.com/v1/position/address/query'
     data = {'access_token': access_token, 'province': province, 'city': city, 'area': area}
     remark = '根据省市区查询公司的地址'
-    return get_requests(url=url, data=data, remark=remark)
+    return get_requests(url=url, data=data, remark=remark, rd='刘汝鹏')
 
 
 def position_create(access_token, openid, **kwargs):
@@ -74,13 +74,13 @@ def position_create(access_token, openid, **kwargs):
             'max_salary': max_salary, 'min_salary': min_salary, 'position_nature': position_nature,
             'department': department}
     remark = '发布职位'
-    return form_post(url=url, data=data, remark=remark)
+    return form_post(url=url, data=data, remark=remark, rd='刘汝鹏')
 
 
 def get_position_info(access_token, position_id):
     url = f'https://open.lagou.com/v1/position/get?access_token={access_token}&position_id={position_id}'
     remark = '获取职位信息'
-    return get_requests(url=url, remark=remark)
+    return get_requests(url=url, remark=remark, rd='刘汝鹏')
 
 
 def update_position_info(access_token, **kwargs):
@@ -98,28 +98,28 @@ def update_position_info(access_token, **kwargs):
             'max_salary': max_salary, 'education': education, 'advantage': advantage,
             'min_salary': min_salary, 'detail': detail, 'address_id': address_id}
     remark = '更新职位信息'
-    return form_post(url=url, data=data, remark=remark)
+    return form_post(url=url, data=data, remark=remark, rd='刘汝鹏')
 
 
 def publish_position(access_token, position_id):
     url = f'https://open.lagou.com/v1/position/publish?access_token={access_token}'
     data = {'position_id': position_id}
     remark = '再发布职位'
-    return form_post(url=url, data=data, remark=remark)
+    return form_post(url=url, data=data, remark=remark, rd='刘汝鹏')
 
 
 def offline_position(access_token, position_id):
     url = f'https://open.lagou.com/v1/position/offline?access_token={access_token}'
     data = {'position_id': position_id}
     remark = '下线职位'
-    return form_post(url=url, data=data, remark=remark)
+    return form_post(url=url, data=data, remark=remark, rd='刘汝鹏')
 
 
 def refresh_position(access_token, position_id):
     url = f'https://open.lagou.com/v1/position/refresh?access_token={access_token}'
     data = {'position_id': position_id}
     remark = '刷新职位'
-    return form_post(url=url, data=data, remark=remark, verifystate=False)
+    return form_post(url=url, data=data, remark=remark, verifystate=False, rd='刘汝鹏')
 
 
 def get_position_list(access_token, status='ONLINE'):
@@ -130,11 +130,11 @@ def get_position_list(access_token, status='ONLINE'):
     end_time = int(str(int(time.time())) + '000')
     data = {'access_token': access_token, 'start_time': start_time, 'end_time': end_time, 'status': status}
     remark = '获取职位列表信息'
-    return get_requests(url=url, data=data, remark=remark)
+    return get_requests(url=url, data=data, remark=remark, rd='刘汝鹏')
 
 
 def delete_position_address(access_token, address_id):
     url = f'https://open.lagou.com/v1/position/address/delete?access_token={access_token}'
     data = {'address_id': address_id}
     remark = '删除地址'
-    return form_post(url=url, data=data, remark=remark)
+    return form_post(url=url, data=data, remark=remark, rd='刘汝鹏')

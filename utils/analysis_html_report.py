@@ -1,146 +1,180 @@
-# coding:utf-8
-# @Time  : 2019-01-16 10:41
-# @Author: Xiawang
+import datetime
 import re
-
 from bs4 import BeautifulSoup
 
 
-def get_summary(soup):
-    '''
-    :return:
-    generated_report_time: str, 测试报告的生成时间
-    summary_time: str, 测试用例执行的总时间
-    '''
-    p_list = []
-    for p in soup.find_all('p'):
-        p_list.append(p.get_text())
-
-    generated_report_time = p_list[0]
-    summary_time = p_list[1]
-    return generated_report_time, summary_time
+def get_report_generated_time(soup):
+    report_generated_text = soup.p.get_text()
+    minutes_seconds = re.findall(r'[0-9]{2}:[0-9]{2}:[0-9]{2}', report_generated_text)[0]
+    return datetime.date.today().isoformat() + ' ' + minutes_seconds
 
 
 def get_summary_result(soup):
-    '''
-    :return:
-    passed: 测试用例通过数
-    skipped: 跳过测试用例执行数
-    failed: 测试用例失败数
-    errors: 测试用例报错数
-    expected_failures: 期望测试用例失败数
-    unexpected_passes: 不希望测试用例通过数
-    '''
-    span_list = []
-    for s in soup.find_all('span'):
-        span_list.append(s.get_text())
-
-    passed, skipped, failed, errors, expected_failures, unexpected_passes = span_list[0], span_list[1], span_list[2], \
-                                                                            span_list[3], span_list[4], span_list[5]
-    return {"pass": passed, 'skip': skipped, 'fail': failed, 'errors': errors, 'expect_failures': expected_failures,
-            'unexpect_passes': unexpected_passes}
+    summary_result = ''
+    for r in soup.find_all('span'):
+        if r.get_text()[0].isdigit() and int(r.get_text()[0]) > 0:
+            summary_result += r.get_text() + ','
+    return summary_result
 
 
-def get_testresults_details(soup):
-    '''
-    :return:
-    testresults: list, 包含测试用例的执行详情(测试用例的执行结果, 测试用例文件及对应方法名, 测试用例执行时间)
-    '''
-    testresults = []
-    testcase = {}
-    for r in soup.find_all(attrs={'class': 'col-result'}):
-        testcase['result'] = r.get_text()
-        for t in soup.find_all(attrs={'class': 'col-name'}):
-            testcase['test'] = t.get_text()
-            for d in soup.find_all(attrs={'class': 'col-duration'}):
-                testcase['duration'] = d.get_text()
-        testresults.append(testcase)
-        testcase = {}
-    return testresults
-
-
-def get_fail_detail_result(soup, module):
-    fail_results = {}
+def get_failed_results(soup):
+    failed_results = {}
     for fail_result in soup.find_all(attrs={'class': 'failed results-table-row'}):
-        test_name = fail_result.find(attrs={'class': 'col-name'}).get_text().split(
-            'tests/test_{}/'.format(module.replace('-', '_')))[
-            1].encode(
-            'latin-1').decode('unicode_escape')
-        try:
-            error_type = fail_result.find(attrs={'class': 'error'}).get_text().split('E       ')[1]
-            if 'Http500Error' in error_type:
-                error_type = 'Http500Error'
-        except IndexError:
-            error_type = None
-        captured_log = fail_result.find(attrs={'class': 'log'}).get_text()
-        # print(captured_log)
-        captured_demo_log = captured_log[captured_log.rfind('Captured log call'):]
-        # print(captured_demo_log)
-        try:
-            rd_name_list = re.findall(r'开发(.*?)同学', captured_demo_log)
-            rd_name = [rd for rd in rd_name_list if rd != 'None'][0]
-        except IndexError:
-            rd_name = ''
-        try:
-            te_name = re.findall(r'测试(.*?)同学', captured_demo_log)[0]
-        except IndexError:
+
+        test_case_name = get_case_name(fail_result)
+        error_type = get_failed_error_type(fail_result)
+        log = fail_result.find(attrs={'class': 'log'}).get_text()
+        if 'Captured log call' not in log:
+            continue
+        failed_info = get_failed_log(log)
+        rd_name, te_name = get_rd_or_te_name(log)
+        if '报错500' in failed_info:
+            error_type = 'Http500Error'
+            failed_log = failed_info
+
+        elif error_type == 'AssertionError':
+            expect_value, actual_value, success_message, fail_message = get_assert_info(log)
+            failed_log = f'期望结果:{expect_value},实际结果:{actual_value},成功结果:{success_message},失败结果:{fail_message}\n' \
+                         f'详细日志:{failed_info}'
+        else:
+            error_type = error_type
+            failed_log = failed_info
+
+        failed_result = {test_case_name: {
+            'error_type': error_type,
+            'log': failed_log,
+            'rd_name': rd_name,
+            'tester_name': te_name
+        }}
+        failed_results = {**failed_results, **failed_result}
+    return failed_results
+
+
+def get_failed_log(log):
+    if '该接口URL:http' not in log:
+        return '具体看测试报告'
+    # failed_log = log[log.index('该接口URL:http'):]
+    # print(failed_log)
+    # captured_log = re.findall(r'Captured log call(.*)', log)[0]
+    # print(captured_log)
+    failed_log = re.findall(r'该接口URL:(.*)<分隔', log)[0]
+    return failed_log
+
+
+def get_rd_or_te_name(captured_log):
+    try:
+        rd_name_list = re.findall(r'开发(.*?)同学', captured_log)
+        rd_name = [rd for rd in rd_name_list if rd != 'None'][0]
+    except IndexError:
+        rd_name = ''
+    try:
+        te_name = re.findall(r'测试(.*?)同学', captured_log)
+        if te_name == []:
             te_name = ''
-        try:
-            detail_log = '该接口URL' + re.findall('该接口URL(.*)', captured_demo_log, re.S)[0]
-            detail_log = detail_log.split('\n')[0]
-        except IndexError:
-            detail_log = '具体详情,请查看测试报告'
+        else:
+            for i in te_name:
+                if len(i) <= 10 and i != []:
+                    te_name = i
+                    break
+    except IndexError:
+        te_name = ''
+    return rd_name, te_name
 
-        test_case = {test_name: {'error_type': error_type, 'log': detail_log, 'rd_name': rd_name, 'te_name': te_name}}
-        fail_results = {**fail_results, **test_case}
 
+def get_assert_info(log):
+    expect_value = re.findall(r'expect_value = (.+?\d+)', log)[0]
+    actual_value = re.findall(r'actual_value = (.+?\d+)', log)[0]
+    success_message = re.findall(r"success_message = '(.+?)'", log)[0]
+    fail_message = (re.findall(r"fail_message = '(.+?)'", log) or ['暂无'])[0]
+    return expect_value, actual_value, success_message, fail_message
+
+
+def get_failed_error_type(fail_result):
+    try:
+        error_type = fail_result.find(attrs={'class': 'error'}).get_text().split('E       ')[1]
+    except AttributeError:
+        error_type = 'None'
+    return error_type
+
+
+def get_case_name(fail_result):
+    test_case_name = fail_result.find(attrs={'class': 'col-name'}).get_text()
+    if test_case_name.rfind('['):
+        test_case_name = test_case_name.split('[')[0]
+    test_case_name = test_case_name.split('::')[-1]
+    return test_case_name
+
+
+def get_error_results(soup):
+    error_results = {}
     for error_result in soup.find_all(attrs={'class': 'error results-table-row'}):
-        test_name = error_result.find(attrs={'class': 'col-name'}).get_text().split('tests/test_mainprocess/')[
-            1].encode('latin-1').decode('unicode_escape')
-        try:
-            error_type = error_result.find(attrs={'class': 'error'}).get_text().split('E   ')[1]
-            captured_log = error_result.find(attrs={'class': 'log'}).get_text()
-        except AttributeError as e:
-            pass
+        test_case_name = get_case_name(error_result)
+        error_type = get_failed_error_type(error_result)
+        # print(error_type)
+        log = error_result.find(attrs={'class': 'log'}).get_text()
+        if 'Captured log' not in log:
+            continue
+        failed_info = get_failed_log(log)
+        rd_name, te_name = get_rd_or_te_name(log)
+        if '报错500' in failed_info:
+            error_type = 'Http500Error'
+            error_log = failed_info
 
-        try:
-            detail_log = \
-                re.findall(
-                    r"------------------------------- Captured stderr --------------------------------ERROR:root:(.*)",
-                    captured_log)[0][7:]
+        elif error_type == 'AssertionError':
+            expect_value, actual_value, success_message, fail_message = get_assert_info(log)
+            error_log = f'期望结果:{expect_value},实际结果:{actual_value},成功结果:{success_message},失败结果:{fail_message}\n' \
+                        f'详细日志:{failed_info}'
+        else:
+            error_type = error_type
+            error_log = failed_info
 
-        except IndexError:
-            detail_log = '程序异常,请查看测试报告'
-        test_case = {test_name: {'error_type': error_type, 'log': detail_log}}
-        fail_results = {**fail_results, **test_case}
+        error_result = {test_case_name: {
+            'error_type': error_type,
+            'log': error_log,
+            'rd_name': rd_name,
+            'tester_name': te_name
+        }}
+        error_results = {**error_results, **error_result}
+    return error_results
 
-    return fail_results
+
+def get_fail_result(soup):
+    failed_results = get_failed_results(soup)
+    error_results = get_error_results(soup)
+    return {**failed_results, **error_results}
 
 
-def analysis_html_report(report_path, type, module):
+def analysis_html_report(report_path):
     soup = BeautifulSoup(open(report_path, encoding='utf-8'), "html.parser")
-    result_time = None
-    result = None
-    detail_result = None
-    if type == 1:
-        result_time = get_summary(soup)
-        result = get_summary_result(soup)
-    elif type == 2:
-        result_time = get_summary(soup)
-        result = get_summary_result(soup)
-        detail_result = get_testresults_details(soup)
-    elif type == 3:
-        result_time = get_summary(soup)
-        result = get_summary_result(soup)
-        fail_detail = get_fail_detail_result(soup, module)
-    return {"content": "报告生成成功", "info": {"time": result_time,
-                                          "result": {'summary_result': result, 'detail_result': detail_result,
-                                                     'fail_result': fail_detail}}}
+    report_generated_time = get_report_generated_time(soup)
+    summary_result = get_summary_result(soup)
+    fail_detail = get_fail_result(soup)
+    if summary_result == '':
+        fail_detail = {
+            '绕过极光校验': {'error_type': "登录失败",
+                               'log': '请在服务器curl https://passport.lagou.com/login/debugSelfCheck.json 确认下是否正常跳过极光校验',
+                               'rd_name': '曾小宁',
+                               'tester_name': '测试'}
+
+        }
+    parse_report_result = {
+        "content": "报告生成成功",
+        "report_generated_time": report_generated_time,
+        "summary_result": summary_result,
+        "fail_result": fail_detail
+    }
+
+    return parse_report_result
 
 
 if __name__ == '__main__':
-    # r = analysis_html_report(
-    #     '/Users/wang/Desktop/lg-project/lg_api_script/backend/templates/mainprocess_report33.html',
-    #     3)
-    r = analysis_html_report('/Users/wang/Downloads/mainprocess_report80.html', 3, 'mainprocess')
+    # soup = BeautifulSoup(
+    #     open('/Users/wang/Desktop/lg-project/lg_api_script/report0806.html',
+    #          encoding='utf-8'), "html.parser")
+    # r = get_fail_result(soup)
+    # r = analysis_html_report('/Users/wang/Desktop/lg-project/lg_api_script/backend/templates/mainprocess_report0529.html')
+    # r = analysis_html_report('/Users/wang/Downloads/kaiwu_lagou/open_api_lagou_report.html')
+    # r = analysis_html_report('/Users/wang/Desktop/lg-project/lg_api_script/report0807.html')
+    # r = analysis_html_report('/Users/wang/Desktop/lg-project/lg_api_script/backend/templates/report0806.html')
+    r = analysis_html_report('/Users/wang/Downloads/open_api_lagou_report1.html')
     print(r)

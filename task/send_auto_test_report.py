@@ -3,13 +3,13 @@
 # @Author: Xiawang
 # Description:
 import datetime
+import time
 
 import requests
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from email.header import Header
-import time
 
 '''
 用于主流程监控定期执行并发送报警信息
@@ -19,12 +19,6 @@ import time
 def get_fix_time():
     now_time = datetime.datetime.now()
     fix_time = (now_time + datetime.timedelta(minutes=10)).strftime("%Y-%m-%d %H:%M")
-    # if 0 <= now_time.hour <= 8:
-    #     fix_time = now_time.date().strftime("%Y-%m-%d 12:00")
-    # elif 21 <= now_time.hour <= 24:
-    #     fix_time = (now_time + datetime.timedelta(days=1)).date().strftime("%Y-%m-%d 12:00")
-    # else:
-    #     fix_time = (now_time + datetime.timedelta(hours=3)).strftime("%Y-%m-%d %H:%M")
     return fix_time
 
 
@@ -44,18 +38,15 @@ def send_feishu_report(module, pytest_result):
         return send_feishu_bot(module=module, content=content)
 
     if pytest_result.get('state') == 0:
-        summary_result = ''
-        for k, v in pytest_result['data']['result']['info']['result']['summary_result'].items():
-            summary_result += v + ', '
-
+        summary_result = pytest_result['summary_result']
         fail_results = ''
 
         names = []
-        for case_name, case_fail_result in pytest_result['data']['result']['info']['result']['fail_result'].items(
+        for case_name, case_fail_result in pytest_result['fail_result'].items(
         ):
-            fail_result = f'''用例{case_name}报错:{case_fail_result['error_type']},原因:{case_fail_result['log']},测试:{case_fail_result.get('te_name')},开发:{case_fail_result.get('rd_name')}\n\n'''
+            fail_result = f'''用例{case_name}报错:{case_fail_result['error_type']},原因:{case_fail_result['log']},测试:{case_fail_result.get('tester_name')},开发:{case_fail_result.get('rd_name')}\n\n'''
             fail_results += fail_result
-            names.extend([case_fail_result.get('te_name'), case_fail_result.get('rd_name')])
+            names.extend([case_fail_result.get('tester_name'), case_fail_result.get('rd_name')])
 
         if '' in names:
             names.remove('')
@@ -74,6 +65,7 @@ def send_mail(module):
                  'sunnysun@lagou.com', 'yangwang@lagou.com',
                  'bingoonchen@lagou.com','anan@lagou.com',
                  'foxtang01@lagou.com']
+
     ret = True
 
     try:
@@ -194,11 +186,8 @@ def main(module):
         pytest_result = run_pytest(module)
         if pytest_result.get('state', 0) != 1:
             send_feishu_result = send_feishu_report(module, pytest_result)
-            # send_oss_result = send_oss(pytest_result)
             if send_feishu_result == True:
                 send_mail(module)
-            # if not send_oss_result.get('result', False):
-            #     send_oss(pytest_result)
 
 
 if __name__ == '__main__':
