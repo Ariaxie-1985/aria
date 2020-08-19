@@ -312,7 +312,7 @@ class TestCompanyBusiness(object):
 
     def test_login_home(self):
         # 线上home后台的用户账号和密码, 勿动
-        r = login_password('betty@lagou.com', '00f453dfec0f2806db5cfabe3ea94a35')
+        r = login_password('autotest@lagou.com', 'a52f33ba89bd7af92982da737cafc8d0')
         assert_equal(1, r.get('state', 0), '校验登录home成功！', te='王霞')
 
     def test_import_linkManInfo(self):
@@ -387,7 +387,7 @@ class TestCompanyBusiness(object):
 
     def test_jump_home(self):
         time.sleep(1)
-        login_home('betty@lagou.com', '00f453dfec0f2806db5cfabe3ea94a35')
+        login_home('autotest@lagou.com', 'a52f33ba89bd7af92982da737cafc8d0')
 
     def test_query_risk_labels(self):
         r = query_risk_labels()
@@ -493,7 +493,7 @@ class TestCompanyBusiness(object):
 
     def test_jump_home_01(self):
         time.sleep(1)
-        login_home('betty@lagou.com', '00f453dfec0f2806db5cfabe3ea94a35')
+        login_home('autotest@lagou.com', 'a52f33ba89bd7af92982da737cafc8d0')
 
     def test_get_contract_list(self):
         time.sleep(1)

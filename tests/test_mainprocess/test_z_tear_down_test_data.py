@@ -17,7 +17,7 @@ class TestCleanData(object):
 
     def test_login_home(self):
         # 线上home后台的用户账号和密码, 勿动
-        r = login_password('betty@lagou.com', '00f453dfec0f2806db5cfabe3ea94a35')
+        r = login_password('autotest@lagou.com', 'a52f33ba89bd7af92982da737cafc8d0')
         assert_equal(1, r['state'], '校验登录home成功！', te='王霞')
 
     def test_batch_forbid_user(self, telephone):
