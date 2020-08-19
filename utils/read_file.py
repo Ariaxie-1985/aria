@@ -78,7 +78,7 @@ def rewrite_cancel_account():
         f.write('')
 
 def batch_cancel_account(country_code_phone_list):
-    login_home('betty@lagou.com', '00f453dfec0f2806db5cfabe3ea94a35')
+    login_home('autotest@lagou.com', 'a52f33ba89bd7af92982da737cafc8d0')
     for country_code_phone in country_code_phone_list:
         userId = get_userId(country_code_phone)
         if userId is not None:

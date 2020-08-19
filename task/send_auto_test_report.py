@@ -62,8 +62,10 @@ def send_mail(module):
     sender = 'autotest@lagoujobs.com'
     sender_password = 'Lqq123456'
     receivers = ['xiawang@lagou.com', 'sunnyzhang@lagou.com',
-                 'sunnysun@lagou.com', 'yangwang@lagou.com', 'bingoonchen@lagou.com',
-                 'anan@lagou.com', 'foxtang01@lagou.com']
+                 'sunnysun@lagou.com', 'yangwang@lagou.com',
+                 'bingoonchen@lagou.com','anan@lagou.com',
+                 'foxtang01@lagou.com']
+
     ret = True
 
     try:

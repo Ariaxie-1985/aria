@@ -691,7 +691,7 @@ def get_verify_code_list(countryCode, phone):
 
 @pysnooper.snoop()
 def verify_code_message(countryCode, phone, flag_num=0):
-    login_home('betty@lagou.com', '00f453dfec0f2806db5cfabe3ea94a35')
+    login_home('autotest@lagou.com', 'a52f33ba89bd7af92982da737cafc8d0')
     import time
     for i in range(10):
         time.sleep(12)
@@ -717,7 +717,7 @@ def get_verify_code(id, createTime):
 
 # @pysnooper.snoop()
 def get_verify_code_message_len(countryCode, phone):
-    login_home('betty@lagou.com', '00f453dfec0f2806db5cfabe3ea94a35')
+    login_home('autotest@lagou.com', 'a52f33ba89bd7af92982da737cafc8d0')
     if countryCode == '0086':
         countryCode = ''
     time.sleep(2)
