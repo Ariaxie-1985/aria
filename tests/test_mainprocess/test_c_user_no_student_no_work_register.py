@@ -57,25 +57,25 @@ class TestNotStudentNotWorkRegister(object):
 
     def test_guideBasicInfo(self):
         r = guideBasicInfo(countryCode + phone, 2, userToken, joinWorkTime="暂无工作经历")
-        assert_equal(1, r.get('state'), '校验提交基本信息成功', te='王霞')
+        assert_equal(1, r.get('state'), '校验提交基本信息成功', te='王洋')
 
     def test_educationExperiences(self):
         r = educationExperiences(userToken)
-        assert_equal(1, r.get('state'), "校验提交教育经历成功", te='王霞')
+        assert_equal(1, r.get('state'), "校验提交教育经历成功", te='王洋')
 
     def test_personalCards(self):
         r = personalCards(userToken)
-        assert_equal(1, r.get('state'), '校验提交个人名片成功', te='王霞')
+        assert_equal(1, r.get('state'), '校验提交个人名片成功', te='王洋')
 
     def test_abilityLabels(self):
         r = abilityLabels(userToken)
-        assert_equal(1, r.get('state'), '校验提交综合能力成功', te='王霞')
+        assert_equal(1, r.get('state'), '校验提交综合能力成功', te='王洋')
 
     def test_expectJob(self):
         r = expectJob(userToken)
-        assert_equal(1, r.get('state'), '校验提交求职意向', te='王霞')
+        assert_equal(1, r.get('state'), '校验提交求职意向', te='王洋')
 
     def test_get_info(self):
         time.sleep(1)
         r = get_info(userToken)
-        assert_equal(1, r.get('state'), '获取C端用户信息', te='王霞')
+        assert_equal(1, r.get('state'), '获取C端用户信息', te='王洋')

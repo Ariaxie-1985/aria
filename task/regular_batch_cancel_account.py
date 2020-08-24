@@ -44,7 +44,7 @@ def regular_batch_cancel_account():
         return
     logger.info(f'开始注销用户id:{",".join(result)}\n')
     r = login_password('betty@lagou.com', '00f453dfec0f2806db5cfabe3ea94a35')
-    assert_equal(1, r.get('state'), '校验登录home成功！', te='王霞')
+    assert_equal(1, r.get('state'), '校验登录home成功！', te='foxtang')
 
     fail_user_ids = ''
     success_user_ids = ''
