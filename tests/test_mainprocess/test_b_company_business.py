@@ -40,7 +40,7 @@ class TestCompanyBusiness(object):
 
     def test_is_debug_api(self):
         r = debugSelfCheck()
-        assert_equal('成功', r.get('message'), '极光DeBug_API校验成功', '极光DeBug_API失败', te='王霞')
+        assert_equal('成功', r.get('message'), '极光DeBug_API校验成功', '极光DeBug_API失败', te='foxtang')
 
     def test_send_register_admin_verify_code(self, get_country_code_phone_user):
         global admin_countryCode, admin_phone, admin_user_name
@@ -64,23 +64,23 @@ class TestCompanyBusiness(object):
 
     def test_save_admin_user_info(self, get_company_name):
         personal_msg_save = saveHR(get_company_name, admin_user_name, 'ariaxie@lagou.com')
-        assert_equal(1, personal_msg_save.get('state', 0), "校验HR信息是否保存成功", te='王霞')
+        assert_equal(1, personal_msg_save.get('state', 0), "校验HR信息是否保存成功", te='foxtang')
 
     def test_create_company_info(self, get_company_name):
         company_msg_save = saveCompany(get_company_name)
-        assert_equal(1, company_msg_save.get('state', 0), "校验公司是否新建成功", te='王霞')
+        assert_equal(1, company_msg_save.get('state', 0), "校验公司是否新建成功", te='foxtang')
 
     def test_admin_jump_html(self):
         save_result = jump_html()
-        assert_equal(1, save_result.get('state', 0), '校验是否跳过选择优质简历', te='王霞')
+        assert_equal(1, save_result.get('state', 0), '校验是否跳过选择优质简历', te='foxtang')
 
     def test_admin_upload_permit(self):
         upload_p = upload_permit()
-        assert_equal(1, upload_p.get('state', 0), "校验提交身份信息是否成功", te='王霞')
+        assert_equal(1, upload_p.get('state', 0), "校验提交身份信息是否成功", te='foxtang')
 
     def test_admin_personal_certificate(self):
         personal_certificate_submit = submit_new()
-        assert_equal(1, personal_certificate_submit.get('state', 0), "校验提交招聘者身份审核是否成功", te='王霞')
+        assert_equal(1, personal_certificate_submit.get('state', 0), "校验提交招聘者身份审核是否成功", te='foxtang')
 
     def test_(self):
         time.sleep(1)
@@ -89,7 +89,7 @@ class TestCompanyBusiness(object):
         global admin_user_id, www_company_id, easy_company_id
         admin_user_id, easy_company_id, www_company_id = get_user_info
         loger.info(f'B端入驻管理员用户id:{admin_user_id}, 简招公司id:{easy_company_id}, 主站公司id:{www_company_id}')
-        assert_equal(True, bool(admin_user_id), '获取用户ID是否成功', te='王霞')
+        assert_equal(True, bool(admin_user_id), '获取用户ID是否成功', te='foxtang')
 
     def test_get_admin_rights_info_list(self):
         r = get_rights_info_list()
@@ -109,7 +109,7 @@ class TestCompanyBusiness(object):
     def test_group_invite_code(self):
         r = group_invite_code()
         loger.info(f'获取邀请码:{r.get("content")}')
-        assert_equal(1, r.get('state', 0), '获取邀请码成功', te='王霞')
+        assert_equal(1, r.get('state', 0), '获取邀请码成功', te='foxtang')
         global user, invite_code
         for k, v in r['content']['data'].items():
             user = k
@@ -148,19 +148,19 @@ class TestCompanyBusiness(object):
     def test_invitation_join_company(self):
         global userIdPasscode
         userIdPasscode = invitation_join_company(user=user, invite_code=invite_code)
-        assert_equal(True, bool(userIdPasscode), '加入公司页面页面加载成功用例通过', te='王霞')
+        assert_equal(True, bool(userIdPasscode), '加入公司页面页面加载成功用例通过', te='foxtang')
 
     def test_join_with_user(self):
         r = join_with_user(userIdPasscode=userIdPasscode, invite_code=invite_code)
-        assert_equal(True, bool(r), '确定加入公司用例通过', te='王霞')
+        assert_equal(True, bool(r), '确定加入公司用例通过', te='foxtang')
 
     def test_get_general_user_01(self, get_easy_user_info):
         userId, UserCompanyId, lagou_company_id = get_easy_user_info
-        loger.info(f'普通用户1的用户id:{userId}, 简招公司id:{UserCompanyId}, 拉勾公司id:{lagou_company_id}', te='王霞')
+        loger.info(f'普通用户1的用户id:{userId}, 简招公司id:{UserCompanyId}, 拉勾公司id:{lagou_company_id}', te='foxtang')
 
     def test_get_online_position(self):
         positions_result = get_online_positions()
-        assert_equal(1, positions_result.get('state'), '在线职位接口调用用例通过', te='王霞')
+        assert_equal(1, positions_result.get('state'), '在线职位接口调用用例通过', te='foxtang')
 
     def test_get_general_user_rights_info_list(self):
         r = get_rights_info_list()
@@ -169,7 +169,7 @@ class TestCompanyBusiness(object):
     def test_general_user_im_session_list_check_15(self):
         r = im_session_list(createBy=0)
         assert_equal(self.im_chat_number, r['content']['data']['remainConversationTimes'],
-                     f'沟通点数计算{self.im_chat_number}用例通过', te='王霞')
+                     f'沟通点数计算{self.im_chat_number}用例通过', te='foxtang')
 
     @pytest.mark.parametrize('newPassword', [('990eb670f81e82f546cfaaae1587279a')])
     def test_update_general_user_password(self, newPassword):
@@ -182,11 +182,11 @@ class TestCompanyBusiness(object):
 
     def test_company_auth(self):
         company_auth_result = company_auth()
-        assert_equal(1, company_auth_result.get('state'), "校验申请认证公司是否成功", te='王霞')
+        assert_equal(1, company_auth_result.get('state'), "校验申请认证公司是否成功", te='foxtang')
 
     def test_company_certification(self):
         complete_info = completeInfo()
-        assert_equal(1, complete_info['state'], "校验公司认证是否成功", te='王霞')
+        assert_equal(1, complete_info['state'], "校验公司认证是否成功", te='foxtang')
 
     def test_1(self):
         time.sleep(1)
@@ -195,7 +195,7 @@ class TestCompanyBusiness(object):
         r = createPosition_999(firstType=get_positionType[0], positionType=get_positionType[1],
                                positionThirdType=get_positionType[2],
                                positionName=get_positionType[3])
-        assert_equal(1, r.get('state', 0), '免费公司发布一个职位成功', te='王霞')
+        assert_equal(1, r.get('state', 0), '免费公司发布一个职位成功', te='foxtang')
         global free_positionId, free_parentPositionId
         free_positionId = r['content']['data']['parentPositionInfo']['positionChannelInfoList'][0]['positionId']
         free_parentPositionId = r['content']['data']['parentPositionInfo']['parentPositionId']
@@ -206,7 +206,7 @@ class TestCompanyBusiness(object):
         for positions in positions_result['content']['data']['parentPositionVOs']:
             actually_positionId = positions['positions'][0]['positionId']
             positionIds.append(actually_positionId)
-        assert_equal(True, free_positionId in positionIds, '校验获取发布的职位是否在线职位是否成功！', te='王霞')
+        assert_equal(True, free_positionId in positionIds, '校验获取发布的职位是否在线职位是否成功！', te='foxtang')
 
     def test_get_newer_task(self):
         r = get_newer_task()
@@ -264,11 +264,11 @@ class TestCompanyBusiness(object):
 
     def test_greeting_list(self, c_userId_0085220180917):
         r = greeting_list(cUserIds=c_userId_0085220180917, positionId=free_positionId)
-        assert_equal(1, r['state'], '找人才-打招呼用例通过', te='王霞')
+        assert_equal(1, r['state'], '找人才-打招呼用例通过', te='foxtang')
 
     def test_multiChannel_default_invite(self):
         r = multiChannel_default_invite(free_positionId)
-        assert_equal(1, r['state'], '职位邀请人才用例通过', te='王霞')
+        assert_equal(1, r['state'], '职位邀请人才用例通过', te='foxtang')
 
     def test_im_session_list_check_20(self):
         r = im_session_list(createBy=0)
@@ -289,7 +289,7 @@ class TestCompanyBusiness(object):
         except IndexError:
             sessionId_key = 1
             sessionId_value = 0
-        assert_equal(sessionId_key, sessionId_value, '创建会话用例通过', te='王霞')
+        assert_equal(sessionId_key, sessionId_value, '创建会话用例通过', te='foxtang')
 
     def test_im_session_list_check_19(self):
         r = im_session_list(createBy=0)
@@ -304,7 +304,7 @@ class TestCompanyBusiness(object):
 
     def test_offline_free_position(self):
         offline_result = offline_position(positionId=free_positionId)
-        assert_equal(1, offline_result.get('state', 0), '校验下线免费职位是否成功！', te='王霞')
+        assert_equal(1, offline_result.get('state', 0), '校验下线免费职位是否成功！', te='foxtang')
 
     def test_republish_free_position(self):
         r1 = republish_position_pc(free_parentPositionId)
@@ -313,23 +313,23 @@ class TestCompanyBusiness(object):
 
     def test_offline_free_position02(self):
         offline_result = offline_position(positionId=free_positionId)
-        assert_equal(1, offline_result.get('state', 0), '验证再发布成功的职位再次下线成功', te='王霞')
+        assert_equal(1, offline_result.get('state', 0), '验证再发布成功的职位再次下线成功', te='foxtang')
 
     def test_login_home(self):
         # 线上home后台的用户账号和密码, 勿动
         r = login_password('autotest@lagou.com', 'a52f33ba89bd7af92982da737cafc8d0')
-        assert_equal(1, r.get('state', 0), '校验登录home成功！', te='王霞')
+        assert_equal(1, r.get('state', 0), '校验登录home成功！', te='foxtang')
 
 
     def test_import_linkManInfo(self):
         r = import_linkManInfo(www_company_id, self.contractNo)
         assert_equal(expect_value=True, actual_value=r.get('success', False), success_message='导入公司联系人信息成功！',
-                     fail_message=f'导入公司联系人信息失败,合同编号:{self.contractNo}', te='王霞')
+                     fail_message=f'导入公司联系人信息失败,合同编号:{self.contractNo}', te='foxtang')
 
     def test_import_contacts(self):
         r = import_contacts(www_company_id, self.contractNo)
         assert_equal(expect_value=True, actual_value=r.get('success', False), success_message="导入合同信息成功！",
-                     fail_message=f'导入公司合同信息失败,合同编号:{self.contractNo}', te='王霞')
+                     fail_message=f'导入公司合同信息失败,合同编号:{self.contractNo}', te='foxtang')
 
     def test_buy_paid_package(self):
         r = open_product(templateId=79, companyId=www_company_id, contractNo=self.contractNo, userId=admin_user_id,
@@ -337,7 +337,7 @@ class TestCompanyBusiness(object):
                          endTimeStr=str(datetime.date.today() + datetime.timedelta(days=366)))
         assert_equal(expect_value=True, actual_value=r.get('success', False), success_message="开通付费套餐成功！",
                      fail_message="公司主站id:{},用户id:{},合同编号:{}".format(www_company_id, admin_user_id, self.contractNo),
-                     te='王霞')
+                     te='foxtang')
 
     def test_login_admin_user_02(self, get_password):
         login_result = login_password(admin_countryCode + admin_phone, get_password)
@@ -348,7 +348,7 @@ class TestCompanyBusiness(object):
         r = createPosition_999(firstType=get_positionType[0], positionType=get_positionType[1],
                                positionThirdType=get_positionType[2],
                                positionName=get_positionType[3])
-        assert_equal(1, r.get('state', 0), '付费公司发布职位成功', te='王霞')
+        assert_equal(1, r.get('state', 0), '付费公司发布职位成功', te='foxtang')
         global paid_positionId
         global paid_parentPositionId
         paid_positionId = r['content']['data']['parentPositionInfo']['positionChannelInfoList'][0]['positionId']
@@ -360,22 +360,22 @@ class TestCompanyBusiness(object):
         for positions in positions_result['content']['data']['parentPositionVOs']:
             actually_positionId = positions['positions'][0]['positionId']
             positionIds.append(actually_positionId)
-        assert_equal(True, paid_positionId in positionIds, '校验获取发布的职位是否在线职位是否成功！', te='王霞')
+        assert_equal(True, paid_positionId in positionIds, '校验获取发布的职位是否在线职位是否成功！', te='foxtang')
 
     def test_update_position(self, get_positionType):
         r = update_Position_pc(firstType=get_positionType[0], positionType=get_positionType[1],
                                positionThirdType=get_positionType[2],
                                positionName=get_positionType[3], parentPositionId=paid_parentPositionId)
-        assert_equal(1, r.get('state', 0), '编辑职位成功', te='王霞')
+        assert_equal(1, r.get('state', 0), '编辑职位成功', te='foxtang')
 
     def test_update_positon_details(self):
         r = get_online_positions()
         salary = r['content']['data']['parentPositionVOs'][0]['parentPositionInfo']['salary']
-        assert_equal('30k-50k', salary, '验证职位薪资更新成功', te='王霞')
+        assert_equal('30k-50k', salary, '验证职位薪资更新成功', te='foxtang')
 
     def test_offline_paid_position(self):
         offline_result = offline_position(positionId=paid_positionId)
-        assert_equal(1, offline_result.get('state', 0), '校验下线付费职位是否成功！', te='王霞')
+        assert_equal(1, offline_result.get('state', 0), '校验下线付费职位是否成功！', te='foxtang')
 
     def test_republish_paid_position(self):
         r1 = republish_position_pc(paid_parentPositionId)
@@ -389,7 +389,7 @@ class TestCompanyBusiness(object):
 
     def test_offline_paid_position02(self):
         offline_result = offline_position(positionId=paid_positionId)
-        assert_equal(1, offline_result.get('state', 0), '验证再发布成功的职位再次下线成功！', te='王霞')
+        assert_equal(1, offline_result.get('state', 0), '验证再发布成功的职位再次下线成功！', te='foxtang')
 
     def test_jump_home(self):
         time.sleep(1)
@@ -397,7 +397,7 @@ class TestCompanyBusiness(object):
 
     def test_query_risk_labels(self):
         r = query_risk_labels()
-        assert_equal(True, r['success'], '查询风险标签用例通过', te='王霞')
+        assert_equal(True, r['success'], '查询风险标签用例通过', te='foxtang')
         global risk_label_id
         for risk_labels in r['data']:
             if risk_labels['type'] == 'A':
@@ -407,7 +407,7 @@ class TestCompanyBusiness(object):
     def test_add_risk_labels_by_company(self):
         r = add_risk_labels_by_company(companyId=www_company_id, labelIds=risk_label_id)
         loger.info(f'{www_company_id}公司打风险标签是否成功:{r["success"]}')
-        assert_equal(True, r['success'], '添加风险标签用例通过', te='王霞')
+        assert_equal(True, r['success'], '添加风险标签用例通过', te='foxtang')
 
     def test_queryRiskLabelsByCompany(self):
         time.sleep(5)
@@ -415,7 +415,7 @@ class TestCompanyBusiness(object):
         loger.info(f'{www_company_id}公司的风险标签:{r["data"]}')
         risk_label = ['外包公司', '保险公司', '招聘公司']
         for label in r['data']:
-            assert_in(label, risk_label, '公司获取风险标签用例通过', te='王霞')
+            assert_in(label, risk_label, '公司获取风险标签用例通过', te='foxtang')
 
     def test_send_general_user_register_verify_code_02(self, get_country_code_phone_user):
         global general_country_code_02, general_phone_02, general_user_name_02
@@ -442,23 +442,23 @@ class TestCompanyBusiness(object):
 
     def test_save_general_user_02_info(self, get_company_name):
         personal_msg_save = saveHR(get_company_name, general_user_name_02, 'ariaxie@lagou.com', '技术总监')
-        assert_equal(1, personal_msg_save.get('state', 0), "校验技术总监信息是否保存成功", te='王霞')
+        assert_equal(1, personal_msg_save.get('state', 0), "校验技术总监信息是否保存成功", te='foxtang')
 
     def test_general_user_02_join_company(self):
         join_company = add_saveCompany()
-        assert_equal(1, join_company.get('state', 0), "校验加入公司是否成功", te='王霞')
+        assert_equal(1, join_company.get('state', 0), "校验加入公司是否成功", te='foxtang')
 
     def test_general_user_02_jump_html(self):
         save_result = jump_html()
-        assert_equal(1, save_result.get('state', 0), '校验是否跳过选择优质简历', te='王霞')
+        assert_equal(1, save_result.get('state', 0), '校验是否跳过选择优质简历', te='foxtang')
 
     def test_general_user_02_upload_permit(self):
         upload_p = upload_permit()
-        assert_equal(1, upload_p.get('state', 0), "校验提交身份信息是否成功", te='王霞')
+        assert_equal(1, upload_p.get('state', 0), "校验提交身份信息是否成功", te='foxtang')
 
     def test_general_02_personal_certificate(self):
         personal_certificate_submit = submit_new()
-        assert_equal(1, personal_certificate_submit.get('state', 0), "校验提交招聘者身份审核是否成功", te='王霞')
+        assert_equal(1, personal_certificate_submit.get('state', 0), "校验提交招聘者身份审核是否成功", te='foxtang')
 
     def test_jump_easy_index_html(self):
         jump_easy_index_html()
@@ -488,14 +488,14 @@ class TestCompanyBusiness(object):
         r = recruiter_members()
         loger.info(f'flag:{r},当前用户:{general_userId_02}')
         result = r.get('content', {}).get('data', {}).get('members', {}).get('result', [])
-        assert_equal(2, len(result), '当前公司有两个开通招聘者服务的成员', te='王霞')
+        assert_equal(2, len(result), '当前公司有两个开通招聘者服务的成员', te='foxtang')
         userIds = [str(user_info.get('userId')) for user_info in result]
-        assert_in(general_userId_02, userIds, '普通用户在当前公司完成招聘者审核的员工里', '普通用户不在当前公司完成招聘者审核的员工里', '王霞')
+        assert_in(general_userId_02, userIds, '普通用户在当前公司完成招聘者审核的员工里', '普通用户不在当前公司完成招聘者审核的员工里', 'foxtang')
 
     def test_remove_general_user_02(self):
         loger.info(f'flag:解除招聘者认证--普通用户2的用户id:{general_userId_02}, 主站公司id:{www_company_id}')
         remove_result = remove_member()
-        assert_equal(1, remove_result.get('state'), '校验移除普通用户2的招聘者服务成功！', te='王霞')
+        assert_equal(1, remove_result.get('state'), '校验移除普通用户2的招聘者服务成功！', te='foxtang')
 
     def test_jump_home_01(self):
         time.sleep(1)
@@ -504,14 +504,14 @@ class TestCompanyBusiness(object):
     def test_get_contract_list(self):
         time.sleep(1)
         r = get_contract_list(www_company_id)
-        assert_equal(True, len(r.get('data').get('pageData')), '获取公司合同列表通过', f'未获取到公司{www_company_id}的合同', '王霞')
+        assert_equal(True, len(r.get('data').get('pageData')), '获取公司合同列表通过', f'未获取到公司{www_company_id}的合同', 'foxtang')
         contract_no = r.get('data').get('pageData')[0].get('number')
-        assert_equal(self.contractNo, contract_no, '合同导入成功，在列表已查到', f'导入成功的合同{self.contractNo}未在列表查到', '王霞')
+        assert_equal(self.contractNo, contract_no, '合同导入成功，在列表已查到', f'导入成功的合同{self.contractNo}未在列表查到', 'foxtang')
 
     def test_close_contract(self):
         time.sleep(1)
         r = close_contract(self.contractNo)
-        assert_equal(True, r.get('success'), '关闭合同成功', f'关闭失败{self.contractNo}', '王霞')
+        assert_equal(True, r.get('success'), '关闭合同成功', f'关闭失败{self.contractNo}', 'foxtang')
 
     def test_login_admin_user_03(self, get_password):
         login_result = login_password(admin_countryCode + admin_phone, get_password)
@@ -521,13 +521,13 @@ class TestCompanyBusiness(object):
         r = recruiter_members()
         loger.info(f'flag:{r},当前用户:{admin_user_id}')
         result = r.get('content', {}).get('data', {}).get('members', {}).get('result', [])
-        assert_equal(1, len(result), '公司仅有管理员在开通招聘者', te='王霞')
+        assert_equal(1, len(result), '公司仅有管理员在开通招聘者', te='foxtang')
         userIds = [str(user_info.get('userId')) for user_info in result]
-        assert_in(admin_user_id, userIds, '管理员在当前公司完成招聘者审核的员工里', '管理员不在当前公司完成招聘者审核的员工里', '王霞')
+        assert_in(admin_user_id, userIds, '管理员在当前公司完成招聘者审核的员工里', '管理员不在当前公司完成招聘者审核的员工里', 'foxtang')
 
     def test_remove_admin_user(self):
         loger.info(f'flag:解除招聘者认证--管理员的用户id:{admin_user_id}, 主站公司id:{www_company_id}')
         remove_result = remove_member()
         if remove_result.get('state') == 40309:
             loger.info(f"解除管理员的招聘者服务报错40309: 主站id:{www_company_id},管理员用户id:{admin_user_id},合同编号:{self.contractNo}")
-        assert_equal(1, remove_result.get('state'), '校验移除管理员用户的招聘者服务成功！', te='王霞')
+        assert_equal(1, remove_result.get('state'), '校验移除管理员用户的招聘者服务成功！', te='foxtang')

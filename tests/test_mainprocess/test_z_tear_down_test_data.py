@@ -18,7 +18,7 @@ class TestCleanData(object):
     def test_login_home(self):
         # 线上home后台的用户账号和密码, 勿动
         r = login_password('autotest@lagou.com', 'a52f33ba89bd7af92982da737cafc8d0')
-        assert_equal(1, r['state'], '校验登录home成功！', te='王霞')
+        assert_equal(1, r['state'], '校验登录home成功！', te='foxtang')
 
     def test_batch_forbid_user(self, telephone):
         userIds = []
@@ -50,7 +50,7 @@ class TestCleanData(object):
         company_id = query_company_id(get_company_name)
         if bool(company_id):
             forbid_result = forbid.forbid_company(company_id)
-            assert_equal(True, forbid_result, f'校验公司{company_id}是否封禁成功', te='王霞')
+            assert_equal(True, forbid_result, f'校验公司{company_id}是否封禁成功', te='foxtang')
             loger.info(f'注销公司{company_id}成功')
         else:
-            assert_equal(1, 0, f'校验公司{company_id}封禁失败', te='王霞')
+            assert_equal(1, 0, f'校验公司{company_id}封禁失败', te='foxtang')

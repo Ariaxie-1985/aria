@@ -58,64 +58,64 @@ class TestNotStudentHaveWorkRegister(object):
 
     def test_guideBasicInfo(self):
         r = guideBasicInfo(countryCode + phone, 2, userToken)
-        assert_equal(1, r.get('state'), '校验提交基本信息成功', te='王霞')
+        assert_equal(1, r.get('state'), '校验提交基本信息成功', te='王洋')
 
     def test_workExperiences(self):
         r = workExperiences(userToken, )
-        assert_equal(1, r.get('state'), '校验提交工作经历', te='王霞')
+        assert_equal(1, r.get('state'), '校验提交工作经历', te='王洋')
 
     def test_educationExperiences(self):
         r = educationExperiences(userToken)
-        assert_equal(1, r.get('state'), "校验提交教育经历成功", te='王霞')
+        assert_equal(1, r.get('state'), "校验提交教育经历成功", te='王洋')
 
     def test_personalCards(self):
         r = personalCards(userToken)
-        assert_equal(1, r.get('state'), '校验提交个人名片成功', te='王霞')
+        assert_equal(1, r.get('state'), '校验提交个人名片成功', te='王洋')
 
     def test_abilityLabels(self):
         r = abilityLabels(userToken)
-        assert_equal(1, r.get('state'), '校验提交综合能力成功', te='王霞')
+        assert_equal(1, r.get('state'), '校验提交综合能力成功', te='王洋')
 
     def test_expectJob(self):
         r = expectJob(userToken)
-        assert_equal(1, r.get('state'), '校验提交求职意向', te='王霞')
+        assert_equal(1, r.get('state'), '校验提交求职意向', te='王洋')
 
     def test_get_info(self):
         time.sleep(1)
         r = get_info(userToken)
-        assert_equal(1, r.get('state'), '获取C端用户信息', te='王霞')
+        assert_equal(1, r.get('state'), '获取C端用户信息', te='王洋')
 
     def test_get_detail(self):
         r = get_detail(userToken)
-        assert_equal(1, r.get('state'), "校验获取简历详情页面成功", te='王霞')
+        assert_equal(1, r.get('state'), "校验获取简历详情页面成功", te='王洋')
         global ed_id, wk_id
         ed_id = r['content']['educationExperiences'][0]['id']
         wk_id = r['content']['workExperiences'][0]['id']
 
     def test_delete_education_experiences(self):
         r = delete_education_experiences(userToken, ed_id)
-        assert_equal(2105005, r.get('state'), '校验删除唯一段教育经历成功', te='王霞')
+        assert_equal(2105005, r.get('state'), '校验删除唯一段教育经历成功', te='王洋')
 
     @pytest.mark.parametrize("schoolName,education,startDate,endDate",
                              [('陕西文理大学', '硕士', '2014.09', '2017.07')])
     def test_update_educationExperiences(self, schoolName, education, startDate, endDate):
         r = educationExperiences(userToken=userToken, schoolName=schoolName, education=education, startDate=startDate,
                                  endDate=endDate)
-        assert_equal(1, r.get('state'), '校验增加一段教育经历成功', te='王霞')
+        assert_equal(1, r.get('state'), '校验增加一段教育经历成功', te='王洋')
 
     def test_delete_education_experiences_2(self):
         r = delete_education_experiences(userToken, ed_id)
-        assert_equal(1, r.get('state'), '校验删除一段教育经历成功', te='王霞')
+        assert_equal(1, r.get('state'), '校验删除一段教育经历成功', te='王洋')
 
     def test_delete_workExperiences(self):
         r = delete_workExperiences(userToken, wk_id)
-        assert_equal(2105005, r.get('state'), '校验删除唯一段工作经历成功', te='王霞')
+        assert_equal(2105005, r.get('state'), '校验删除唯一段工作经历成功', te='王洋')
 
     @pytest.mark.parametrize("companyName,startDate,endDate", [("杰威尔音乐有限公司销售事业部", "2013.07", "2015.09")])
     def test_update_workExperiences(self, companyName, startDate, endDate):
         r = workExperiences(userToken, companyName=companyName, startDate=startDate, endDate=endDate)
-        assert_equal(1, r.get('state'), '校验增加一段工作经历成功', te='王霞')
+        assert_equal(1, r.get('state'), '校验增加一段工作经历成功', te='王洋')
 
     def test_delete_workExperiences_2(self):
         r = delete_workExperiences(userToken, wk_id)
-        assert_equal(1, r.get('state'), '校验删除一段工作经历成功', te='王霞')
+        assert_equal(1, r.get('state'), '校验删除一段工作经历成功', te='王洋')
