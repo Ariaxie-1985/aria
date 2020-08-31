@@ -8,7 +8,7 @@ from api_script.education.enterprise import search_staff, add_user, remove_user,
 class TestEnterprise(object):
     @pytest.mark.parametrize(
         "user_name,code,phone,email,position,enterpriseId,is_show",
-        [("自动化测试", "0086", "13093845372", "ariaxie@lagou.com", "test", "2", "false")])
+        [("自动化测试", "0086", "13093845372", "foxtang@lagou.com", "test", "2", "false")])
     def test_add_user(self, enterprise_login, user_name, code, phone, email, position, enterpriseId, is_show):
         r = add_user(user_name, code, phone, email, position, enterpriseId, is_show)
         assert_equal(1, r.get('state'), "添加员工成功", te="张红彦")

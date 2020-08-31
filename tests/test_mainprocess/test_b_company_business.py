@@ -63,7 +63,7 @@ class TestCompanyBusiness(object):
                      fail_message='失败手机号:{}'.format(admin_countryCode + admin_phone))
 
     def test_save_admin_user_info(self, get_company_name):
-        personal_msg_save = saveHR(get_company_name, admin_user_name, 'ariaxie@lagou.com')
+        personal_msg_save = saveHR(get_company_name, admin_user_name, 'foxtang@lagou.com')
         assert_equal(1, personal_msg_save.get('state', 0), "校验HR信息是否保存成功", te='foxtang')
 
     def test_create_company_info(self, get_company_name):
@@ -441,7 +441,7 @@ class TestCompanyBusiness(object):
         hr_jump_easy_index_html()
 
     def test_save_general_user_02_info(self, get_company_name):
-        personal_msg_save = saveHR(get_company_name, general_user_name_02, 'ariaxie@lagou.com', '技术总监')
+        personal_msg_save = saveHR(get_company_name, general_user_name_02, 'foxtang@lagou.com', '技术总监')
         assert_equal(1, personal_msg_save.get('state', 0), "校验技术总监信息是否保存成功", te='foxtang')
 
     def test_general_user_02_join_company(self):
