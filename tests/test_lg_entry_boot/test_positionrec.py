@@ -48,9 +48,9 @@ def test_get_position_view(ip_port):
     assert_equal(1, r.get('state'), '看了又看用例通过')
 
 
-def test_position_index_suggestion(ip_port):
-    r = position_index_suggestion(userToken=userToken, userId=userId, ip_port=ip_port)
-    assert_equal(True, bool(r['content']['suggestionList']), '个性化搜索用例通过')
+# def test_position_index_suggestion(ip_port):
+#     r = position_index_suggestion(userToken=userToken, userId=userId, ip_port=ip_port)
+#     assert_equal(True, bool(r['content']['suggestionList']), '个性化搜索用例通过')
 
 
 def test_hotEmployee_activeHr(ip_port):
