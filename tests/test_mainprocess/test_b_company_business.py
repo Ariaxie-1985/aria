@@ -45,7 +45,7 @@ class TestCompanyBusiness(object):
     def test_send_register_admin_verify_code(self, get_country_code_phone_user):
         global admin_countryCode, admin_phone, admin_user_name
         admin_countryCode, admin_phone, admin_user_name = get_country_code_phone_user
-        loger.info(f'B端入驻管理员手机号:{admin_phone}')
+        loger.info(f'B端入驻管理员手机号:{admin_phone},B端入驻管理name:{admin_user_name}')
         register_state = pc_send_register_verifyCode(admin_countryCode, admin_phone)
         assert_equal(expect_value=1, actual_value=register_state, success_message='获取验证码成功',
                      fail_message=f'失败手机号:{admin_countryCode + admin_phone}', te='王洋')
@@ -123,7 +123,7 @@ class TestCompanyBusiness(object):
     def test_send_general_user_register_verify_code_01(self, get_country_code_phone_user):
         global general_country_code_01, general_phone_01
         general_country_code_01, general_phone_01, general_user_name_01 = get_country_code_phone_user
-        loger.info(f'B端入驻普通用户手机号:{general_phone_01}')
+        loger.info(f'B端入驻普通用户手机号:{general_phone_01},B端入驻普通用户name:{admin_user_name}')
         general_user_register_state = pc_send_register_verifyCode(general_country_code_01, general_phone_01)
         assert_equal(expect_value=1, actual_value=general_user_register_state, success_message='获取验证码成功',
                      fail_message=f'失败手机号:{general_country_code_01 + general_phone_01}',

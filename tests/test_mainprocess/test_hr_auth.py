@@ -26,7 +26,7 @@ class TestHRAuth(object):
     def test_send_register_hr1_verify_code(self, get_country_code_phone_user):
         global hr1_countryCode, hr1_phone, hr1_user_name, register_state
         hr1_countryCode, hr1_phone, hr1_user_name = get_country_code_phone_user
-        loger.info(f'B端入驻hr1手机号:{hr1_phone}')
+        loger.info(f'B端入驻hr1手机号:{hr1_phone},B端入驻hr1姓名:{hr1_user_name}')
         register_state = pc_send_register_verifyCode(hr1_countryCode, hr1_phone)
         assert_equal(expect_value=1, actual_value=register_state, success_message='获取验证码成功',
                      fail_message=f'失败手机号:{hr1_countryCode + hr1_phone}', te='唐欣洁')
