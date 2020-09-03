@@ -74,7 +74,7 @@ def get_user_id():
 
 @pytest.fixture()
 def get_user_info():
-    userId, UserCompanyId, lg_CompanyId = get_b_index_Id()
+    userId, UserCompanyId, lg_CompanyId, userName = get_b_index_Id()
     return userId, UserCompanyId, lg_CompanyId
 
 

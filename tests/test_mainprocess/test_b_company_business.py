@@ -86,9 +86,9 @@ class TestCompanyBusiness(object):
         time.sleep(1)
 
     def test_get_admin_user_info(self, get_user_info):
-        global admin_user_id, www_company_id, easy_company_id
-        admin_user_id, easy_company_id, www_company_id = get_user_info
-        loger.info(f'B端入驻管理员用户id:{admin_user_id}, 简招公司id:{easy_company_id}, 主站公司id:{www_company_id}')
+        global admin_user_id, www_company_id, easy_company_id, admin_user_name
+        admin_user_id, easy_company_id, www_company_id, admin_user_name = get_user_info
+        loger.info(f'B端入驻管理员用户id:{admin_user_id}, 简招公司id:{easy_company_id}, 主站公司id:{www_company_id}, 管理员name:{admin_user_name}')
         assert_equal(True, bool(admin_user_id), '获取用户ID是否成功', te='foxtang')
 
     def test_get_admin_rights_info_list(self):
@@ -483,10 +483,10 @@ class TestCompanyBusiness(object):
                      f'沟通点数计算{self.im_chat_number}用例通过', te='安菁宵')
 
     def test_recruiter_members_general_user_02(self, get_user_info):
-        global general_userId_02, www_company_id
-        general_userId_02, easy_company_id, www_company_id = get_user_info
+        global general_userId_02, www_company_id, general_user_name
+        general_userId_02, easy_company_id, www_company_id, general_user_name = get_user_info
         r = recruiter_members()
-        loger.info(f'flag:{r},当前用户:{general_userId_02}')
+        loger.info(f'flag:{r},当前用户:{general_userId_02}, 当前用户name: {general_user_name}')
         result = r.get('content', {}).get('data', {}).get('members', {}).get('result', [])
         assert_equal(2, len(result), '当前公司有两个开通招聘者服务的成员', te='foxtang')
         userIds = [str(user_info.get('userId')) for user_info in result]
