@@ -14,9 +14,9 @@ from api_script.home import forbid
 from api_script.neirong_app.resumes import guideBasicInfo, educationExperiences, personalCards, abilityLabels, expectJob
 from utils.read_file import record_test_data, record_cancel_account
 from utils.util import assert_equal, verify_code_message, login_password
-
+from utils.loggers import logers
 time.sleep(2)
-
+loger = logers()
 
 @pytest.mark.incremental
 class TestStudentRegister(object):
@@ -27,6 +27,7 @@ class TestStudentRegister(object):
         r = send_verify_code(countryCode, phone, "PASSPORT_REGISTER")
         global register_state
         register_state = r.get('state')
+        loger.info(f'发送验证码的结果：{r}')
         assert_equal(expect_value=1, actual_value=r.get('state'), success_message='校验发送验证码成功',
                      fail_message="失败的手机号:{}".format(phone), te='王洋')
 
@@ -37,6 +38,7 @@ class TestStudentRegister(object):
 
     def test_verifyCode_login(self):
         r = verifyCode_login(countryCode, phone, verify_code)
+        loger.info(f'登录结果：{r}')
         global register_state
         register_state = r.get('state', 0)
         assert_equal(expect_value=201001, actual_value=register_state, success_message="校验验证码登录转注册成功",
