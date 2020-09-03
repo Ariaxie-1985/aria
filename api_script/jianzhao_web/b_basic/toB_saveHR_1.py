@@ -180,13 +180,15 @@ def get_b_index_Id(ip_port=None):
     soup = BeautifulSoup(r, "html.parser")
     try:
         userId = soup.find(id="UserId")['value']
+        userName = soup.find(id="UserName")['value']
     except TypeError:
         r = get_requests(url=url, headers=header, remark='获取提交招聘者认证的用户id', ip_port=ip_port)
         soup = BeautifulSoup(r, "html.parser")
         userId = soup.find(id="UserId")['value']
+        userName = soup.find(id="UserName")['value']
     UserCompanyId = soup.find(id="UserCompanyId")['value']
     lg_CompanyId = re.findall('lgId: "(.*?)"', r, re.S)[0]
-    return userId, UserCompanyId, lg_CompanyId
+    return userId, UserCompanyId, lg_CompanyId, userName
 
 
 # 公司成员页面移出公司操作

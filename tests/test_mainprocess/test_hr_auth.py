@@ -95,10 +95,10 @@ class TestHRAuth(object):
         login_password(hr1_countryCode + hr1_phone, newPassword)
 
     def test_recruiter_members_hr1(self, get_user_info):
-        global hr1Id, easy_company_id, www_company_id
-        hr1Id, easy_company_id, www_company_id = get_user_info
+        global hr1Id, easy_company_id, www_company_id, hr1Name
+        hr1Id, easy_company_id, www_company_id, hr1Name = get_user_info
         r = recruiter_members()
-        loger.info(f'B端入驻hr1的id:{hr1Id}, 主站公司id:{www_company_id}')
+        loger.info(f'B端入驻hr1的id:{hr1Id}, 主站公司id:{www_company_id}, hr1Name:{hr1Name}')
         result = r.get('content', {}).get('data', {}).get('members', {}).get('result', [])
         userIds = [str(user_info.get('userId')) for user_info in result]
         assert_in(hr1Id, userIds, 'hr1在当前公司完成招聘者审核的员工里', 'hr1不在当前公司完成招聘者审核的员工里', '唐欣洁')
@@ -135,7 +135,7 @@ class TestHRAuth(object):
 
     def test_hr1_company(self, get_password, get_user_info):
         login_password(hr1_countryCode + hr1_phone, get_password)
-        hr1Id, easy_company_id, www_company_id = get_user_info
+        hr1Id, easy_company_id, www_company_id, hr1Name = get_user_info
         assert_equal('783664', easy_company_id, '验证当前公司是更换公司之后的所属公司', te='唐欣洁')
 
     def test_hr1_publish_free_position(self, get_positionType):
