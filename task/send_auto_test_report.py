@@ -90,7 +90,8 @@ def send_mail(module):
         server.login(sender, sender_password)
         server.sendmail(sender, receivers, message.as_string())
         server.quit()
-    except Exception:
+    except Exception as e:
+        print(str(e))
         ret = False
     return ret
 
