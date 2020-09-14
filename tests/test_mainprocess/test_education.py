@@ -174,55 +174,55 @@ def test_is_verify_code_reach_upper_limit():
 
 @pytest.mark.incremental
 @pytest.mark.skipif('send_verify_code_times>=50 or minute % 2==0', reason='验证码超过50次并且是偶数分钟跳过用例')
-class TestUserGrowth(object):
-    def test_receive_credit1(self, c_login_education_0044, get_edu_h5_token):
-        global receive_success
-        r = receive_credit(gateLoginToken=get_edu_h5_token)
-        receive_success = r.get('content')
-        assert_equal(1, r.get('state'), "领取学分接口请求成功", te='张红彦')
-
-    def test_exchange_present1(self, get_edu_h5_token, c_login_education_0044):
-        if receive_success == 1:
-            change1 = exchange_present(gateLoginToken=get_edu_h5_token)
-            assert_equal(1, change1.get('state'), "领取登录学分后，兑换成功", te='张红彦')
-
-    def test_usable_credit(self, c_login_education_0044, get_edu_h5_token):
-        global courseCredit
-        r = get_credit_center_info(userToken=c_login_education_0044[0])
-        courseCredit = r.get('content').get('usableCredit')
-        assert_equal(1, r.get('state'), "获取可用学分执行成功", te='张红彦')
-
-    def test_exchange_present2(self, get_edu_h5_token):
-        if courseCredit != 0:
-            change2 = exchange_present(gateLoginToken=get_edu_h5_token)
-            assert_equal(1, change2.get('state'), "利用现有学分余额兑换成功", te='张红彦')
-
-    def test_batch_register(self, c_login_education_0044):
-        userid = c_login_education_0044[1]
-        batch_state = batchCancel(userIds=userid)
-        assert_equal(1, batch_state.get('state'), "账号注销成功", te='张红彦')
-
-        countrycode_phone = c_login_education_0044[2]
-        countrycode = countrycode_phone[1:5]
-        phone = countrycode_phone[5:]
-        sendverigycode = send_verify_code(countryCode=countrycode, phone=phone, businessType='PASSPORT_REGISTER',
-                                          app_type='LGEdu')
-        assert_equal(1, sendverigycode.get('state'), "验证码发送成功", te='张红彦')
-
-        verify_code = verify_code_message(countryCode=countrycode, phone=phone)
-        assert_equal(True, bool(verify_code), "获取验证码成功", te='张红彦')
-
-        verifyCode_login(countryCode=countrycode, phone=phone, verify_code=verify_code, app_type='LGEdu')
-        registate = register_by_phone(countryCode=countrycode, phone=phone, verify_code=verify_code, app_type='LGEdu')
-        assert_equal(1, registate.get('state'), "账号注册成功", te='张红彦')
-
-        retoken = register_by_phone(countryCode=countrycode, phone=phone, verify_code=verify_code, app_type='LGEdu')
-        m = modify_password(userToken=retoken.get('content').get('userToken'))
-        assert_equal(1, m['state'], "设置密码成功", te='张红彦')
-
-    def test_get_course_history(self, get_h5_token):
-        r = get_course_history(hasbuy_small_course_id, gateLoginToken=get_h5_token)
-        assert_equal(1, r['state'], "获取课程历史记录", te='张红彦')
+# class TestUserGrowth(object):
+#     def test_receive_credit1(self, c_login_education_0044, get_edu_h5_token):
+#         global receive_success
+#         r = receive_credit(gateLoginToken=get_edu_h5_token)
+#         receive_success = r.get('content')
+#         assert_equal(1, r.get('state'), "领取学分接口请求成功", te='张红彦')
+#
+#     def test_exchange_present1(self, get_edu_h5_token, c_login_education_0044):
+#         if receive_success == 1:
+#             change1 = exchange_present(gateLoginToken=get_edu_h5_token)
+#             assert_equal(1, change1.get('state'), "领取登录学分后，兑换成功", te='张红彦')
+#
+#     def test_usable_credit(self, c_login_education_0044, get_edu_h5_token):
+#         global courseCredit
+#         r = get_credit_center_info(userToken=c_login_education_0044[0])
+#         courseCredit = r.get('content').get('usableCredit')
+#         assert_equal(1, r.get('state'), "获取可用学分执行成功", te='张红彦')
+#
+#     def test_exchange_present2(self, get_edu_h5_token):
+#         if courseCredit != 0:
+#             change2 = exchange_present(gateLoginToken=get_edu_h5_token)
+#             assert_equal(1, change2.get('state'), "利用现有学分余额兑换成功", te='张红彦')
+#
+#     def test_batch_register(self, c_login_education_0044):
+#         userid = c_login_education_0044[1]
+#         batch_state = batchCancel(userIds=userid)
+#         assert_equal(1, batch_state.get('state'), "账号注销成功", te='张红彦')
+#
+#         countrycode_phone = c_login_education_0044[2]
+#         countrycode = countrycode_phone[1:5]
+#         phone = countrycode_phone[5:]
+#         sendverigycode = send_verify_code(countryCode=countrycode, phone=phone, businessType='PASSPORT_REGISTER',
+#                                           app_type='LGEdu')
+#         assert_equal(1, sendverigycode.get('state'), "验证码发送成功", te='张红彦')
+#
+#         verify_code = verify_code_message(countryCode=countrycode, phone=phone)
+#         assert_equal(True, bool(verify_code), "获取验证码成功", te='张红彦')
+#
+#         verifyCode_login(countryCode=countrycode, phone=phone, verify_code=verify_code, app_type='LGEdu')
+#         registate = register_by_phone(countryCode=countrycode, phone=phone, verify_code=verify_code, app_type='LGEdu')
+#         assert_equal(1, registate.get('state'), "账号注册成功", te='张红彦')
+#
+#         retoken = register_by_phone(countryCode=countrycode, phone=phone, verify_code=verify_code, app_type='LGEdu')
+#         m = modify_password(userToken=retoken.get('content').get('userToken'))
+#         assert_equal(1, m['state'], "设置密码成功", te='张红彦')
+#
+#     def test_get_course_history(self, get_h5_token):
+#         r = get_course_history(hasbuy_small_course_id, gateLoginToken=get_h5_token)
+#         assert_equal(1, r['state'], "获取课程历史记录", te='张红彦')
 
 
 def test_dake_no_class(dake_no_class):
@@ -230,3 +230,4 @@ def test_dake_no_class(dake_no_class):
     assert_equal("联系课程顾问加入班级", r['content']['allCoursePurchasedRecord'][0]['bigCourseRecordList'][0]['prepayTip'],
                  "暂未进班", te='张红彦')
     assert_equal("训练营", r['content']['allCoursePurchasedRecord'][0]['title'], "有训练营课程", te='张红彦')
+
