@@ -28,7 +28,9 @@ def run_pytest(module):
     '''
     url = 'http://127.0.0.1:18980/data/pytest'
     data = {"module": module}
+    print(url)
     pytest_result = requests.post(url=url, json=data, verify=False).json()
+    print(pytest_result)
     return pytest_result
 
 
@@ -55,14 +57,15 @@ def send_feishu_report(module, pytest_result):
         fix_time = get_fix_time()
         name_template = f'''请{','.join(list(set(names)))}在{fix_time}之前，尽快处理并给出反馈'''
         content = "{}\n\n具体失败结果:\n{}\n请大家对线上问题保持敬畏之心！\n{}".format(summary_result, fail_results, name_template)
+        print(content)
         return send_feishu_bot(module=module, content=content)
 
 
 def send_mail(module):
     sender = 'autotest@lagoujobs.com'
     sender_password = 'Lqq123456'
-    receivers = ['zane@lagou.com', 'sunnyzhang@lagou.com',
-                 'sunnysun@lagou.com', 'yangwang@lagou.com',
+    receivers = ['xiawang@lagou.com', 'sunnyzhang@lagou.com',
+                 'sunnysun@lagou.com', 'huifang@lagou.com' 
                  'bingoonchen@lagou.com','anan@lagou.com',
                  'foxtang01@lagou.com']
 
@@ -79,6 +82,7 @@ def send_mail(module):
             MIMEText('自动化测试报告详见附件', 'plain', 'utf-8')
         )
         report_file_path = f'/home/test/lg-apiscript-python/backend/templates/{module}_report.html'
+        print(report_file_path)
         # report_file_path = '/Users/wang/Desktop/lg-project/lg_api_script/backend/templates/mainprocess_report.html'
         att1 = MIMEText(open(report_file_path, 'rb').read(),
                         'base64', 'utf-8')
@@ -91,7 +95,7 @@ def send_mail(module):
         server.sendmail(sender, receivers, message.as_string())
         server.quit()
     except Exception as e:
-        print(str(e))
+        print(e)
         ret = False
     return ret
 
@@ -184,9 +188,12 @@ def main(module):
     pytest_result = run_pytest(module)
     if pytest_result.get('state', 0) != 1:
         time.sleep(10)
+        print(1)
         pytest_result = run_pytest(module)
+        print(pytest_result)
         if pytest_result.get('state', 0) != 1:
             send_feishu_result = send_feishu_report(module, pytest_result)
+            print(send_feishu_result)
             if send_feishu_result == True:
                 send_mail(module)
 
