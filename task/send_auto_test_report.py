@@ -64,7 +64,7 @@ def send_feishu_report(module, pytest_result):
 def send_mail(module):
     sender = 'autotest@lagoujobs.com'
     sender_password = 'Lqq123456'
-    receivers = ['xiawang@lagou.com', 'sunnyzhang@lagou.com',
+    receivers = ['zane@lagou.com', 'sunnyzhang@lagou.com',
                  'sunnysun@lagou.com', 'huifang@lagou.com' 
                  'bingoonchen@lagou.com','anan@lagou.com',
                  'foxtang01@lagou.com']
@@ -95,7 +95,7 @@ def send_mail(module):
         server.sendmail(sender, receivers, message.as_string())
         server.quit()
     except Exception as e:
-        print(e)
+        print(str(e))
         ret = False
     return ret
 
