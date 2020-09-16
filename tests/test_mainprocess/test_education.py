@@ -266,3 +266,11 @@ class Testmember(object):
         assert_equal("训练营", r['content']['allCoursePurchasedRecord'][0]['title'], "有训练营课程", te='张红彦')
 
 
+# def test_dake_no_class(dake_no_class):
+#     r = no_class_dacourse()
+#     assert_equal("联系课程顾问加入班级", r['content']['allCoursePurchasedRecord'][0]['bigCourseRecordList'][0]['prepayTip'],
+#                  "暂未进班", te='张红彦')
+#     assert_equal("训练营", r['content']['allCoursePurchasedRecord'][0]['title'], "有训练营课程", te='张红彦')
+
+
+

@@ -65,8 +65,7 @@ def draw_Course(courseId,get_h5_token):
     return result
 
 
-if __name__ == '__main__':
-    a = draw_Course(275,'3282a7aad792c15fcf56a7ea9e20343c1a8c8d89f9365910c9afc371d2ba92d7')
+
 
 
 
