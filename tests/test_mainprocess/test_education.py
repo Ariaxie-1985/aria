@@ -16,7 +16,7 @@ from api_script.entry.account.me import modify_password
 from api_script.entry.account.passport import send_verify_code, register_by_phone, verifyCode_login
 from api_script.entry.cuser.baseStatus import batchCancel
 from utils.util import assert_equal, assert_in, get_verify_code_message_len, assert_not_equal, verify_code_message
-from api_script.education.edu import get_course_list
+from api_script.education.edu import get_course_list,get_content_list,get_promotion_list,get_pop_dialog,get_course_list_only_for_member,draw_Course
 import random
 
 
@@ -56,6 +56,7 @@ class TestEducation01(object):
         r = get_course_commentList(userToken=c_login_education_022601[0], courseId=first_small_course_id)
         assert_equal(1, r.get('state'), "获取课程的评论用例通过", te='张红彦')
 
+
     def test_get_distribution_poster_data(self, get_h5_token):
         r = get_distribution_poster_data(courseId=first_small_course_id, decorateId=decorate_id,
                                          gateLoginToken=get_h5_token)
@@ -70,6 +71,7 @@ class TestEducation02(object):
         global big_course_record_id, small_course_record_id
         big_course_record_id = r['content']['allCoursePurchasedRecord'][0]['bigCourseRecordList'][0]['id']
         small_course_record_id = r['content']['allCoursePurchasedRecord'][1]['courseRecordList'][0]['id']
+        identityCode = r['content']['memberAdsBar']['identityCode']
 
     def test_get_course_info(self, c_login_education_022601):
         r = get_course_info(userToken=c_login_education_022601[0], courseId=big_course_record_id)
@@ -90,9 +92,11 @@ class TestEducation02(object):
         assert_equal(1, r.get('state'), "获取大课一周录播视频观看进度", te='张红彦')
 
 
+
 def test_get_credit_center_info(c_login_education_022601):
     r = get_credit_center_info(userToken=c_login_education_022601[0])
     assert_equal(1, bool(len(r.get('content').get('userGrowthCreditTaskVos'))), "学分中心任务列表", te='张红彦')
+
 
 
 def test_get_course_credit_info(c_login_education_022601):
@@ -102,6 +106,7 @@ def test_get_course_credit_info(c_login_education_022601):
     assert_equal(1, bool(len(r.get('content').get('userGrowthCreditTaskVos'))), "个人成就的任务列表", te='张红彦')
 
 
+
 def test_ice_breaking_location():
     r = ice_breaking_location()
     assert_equal("限时1元抢>", r['content']['text'], "显示1元购入口", te='张红彦')
@@ -109,7 +114,8 @@ def test_ice_breaking_location():
 
 def test_ice_breaking_html():
     r = ice_breaking_html()
-    assert_in("拉勾教育·1元抢好课", r, "进入到1元购的界面", te='张红彦')
+    assert_in("拉勾教育首购用户【1元抢好课】", r, "进入到1元购的界面", te='张红彦')
+
 
 
 
@@ -120,6 +126,15 @@ class TestEducationhistory(object):
         assert_equal(True, bool(r), "从选课页获取已购买课程成功", te='张红彦')
         global hasbuy_small_course_id
         hasbuy_small_course_id = r[1][-1]
+
+    def test_get_content_list(self, c_login_education_022601):
+        r = get_content_list(userToken=c_login_education_022601[0])
+        assert_equal("训练营",r['content']['contentCardList']['cardTitle'],'获取训练营内容列表专区数据用例通过',te='张红彦')
+
+    def test_get_promotion_list(self,c_login_education_022601):
+        r = get_promotion_list(userToken=c_login_education_022601[0])
+        assert_equal("广告banner", r['content']['promotionCardList'][0]['cardTitle'], '获取推广促销活动列表专区数据用例通过', te='张红彦')
+
 
     def test_get_course_baseinfo(self, c_login_education_022601):
         r = get_course_baseinfo(hasbuy_small_course_id, userToken=c_login_education_022601[0])
@@ -224,10 +239,30 @@ def test_is_verify_code_reach_upper_limit():
 #         r = get_course_history(hasbuy_small_course_id, gateLoginToken=get_h5_token)
 #         assert_equal(1, r['state'], "获取课程历史记录", te='张红彦')
 
+    # def test_get_course_history(self, get_h5_token):
+    #     r = get_course_history(hasbuy_small_course_id, gateLoginToken=get_h5_token)
+    #     assert_equal(1, r['state'], "获取课程历史记录", te='张红彦')
 
-def test_dake_no_class(dake_no_class):
-    r = no_class_dacourse()
-    assert_equal("联系课程顾问加入班级", r['content']['allCoursePurchasedRecord'][0]['bigCourseRecordList'][0]['prepayTip'],
-                 "暂未进班", te='张红彦')
-    assert_equal("训练营", r['content']['allCoursePurchasedRecord'][0]['title'], "有训练营课程", te='张红彦')
+
+# def test_dake_no_class(dake_no_class):
+#     r = no_class_dacourse()
+#     assert_equal("联系课程顾问加入班级", r['content']['allCoursePurchasedRecord'][0]['bigCourseRecordList'][0]['prepayTip'],
+# <<<<<<< HEAD
+#                  "暂未进班", te='betty')
+#     assert_equal("训练营", r['content']['allCoursePurchasedRecord'][0]['title'], "有训练营课程", te='betty')
+
+@pytest.mark.incremental
+class Testmember(object):
+    def test_get_pop_dialog(self, c_login_education_022601):
+        r = get_pop_dialog(userToken=c_login_education_022601[0])
+        assert_equal(1, r['content']['identityCode'], "拉勾教育会员/会员弹窗测试用例通过", te='张红彦')
+
+    def test_get_course_list_only_for_member(self,get_h5_token):
+        r = get_course_list_only_for_member(gateLoginToken=get_h5_token)
+        assert_equal(1, r['content']['identityCode'], "拉勾教育会员/获取用户简单信息测试用例通过", te='张红彦')
+
+    def test_draw_Course(self,courseId,get_h5_token):
+        r = draw_Course(courseId,get_h5_token)
+        assert_equal("训练营", r['content']['allCoursePurchasedRecord'][0]['title'], "有训练营课程", te='张红彦')
+
 
