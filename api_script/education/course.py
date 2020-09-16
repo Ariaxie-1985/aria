@@ -24,7 +24,6 @@ def get_distribution_poster_data(courseId, decorateId, gateLoginToken):
     # header = get_header(url="https://kaiwu.lagou.com/distribution/appCenter.html")
     header = {"Cookie": f"gate_login_token ={gateLoginToken};", "X-L-REQ-HEADER": "{deviceType:1}"}
     remark = "获取分销海报数据"
-
     return get_requests(url=url, headers=header, remark=remark, rd='Yuwei Cheng')
 
 

@@ -96,7 +96,6 @@ def read_shop_time(file_path):
     return shoptime
 
 
-
 def record_shop_order(file_path, shoporder):
     with open('{}/tests/testdata/shoporder.txt'.format(file_path), 'w') as f:
         f.write('{}'.format(shoporder))
