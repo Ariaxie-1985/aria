@@ -66,6 +66,9 @@ class TestCompanyBusiness(object):
         personal_msg_save = saveHR(get_company_name, admin_user_name, 'foxtang@lagou.com')
         assert_equal(1, personal_msg_save.get('state', 0), "校验HR信息是否保存成功", te='foxtang')
 
+    def test_timewait(self):
+        time.sleep(5)
+
     def test_create_company_info(self, get_company_name):
         company_msg_save = saveCompany(get_company_name)
         assert_equal(1, company_msg_save.get('state', 0), "校验公司是否新建成功", te='foxtang')
