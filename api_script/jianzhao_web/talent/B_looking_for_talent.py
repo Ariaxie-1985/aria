@@ -1,6 +1,6 @@
 # coding:utf-8
 # @Author: Xiawang
-from utils.util import get_requests, get_code_token, login, form_post
+from utils.util import get_requests, get_code_token, login, form_post, login_password, get_header
 
 '''
 找人才的推荐人才和最新人才
@@ -78,31 +78,33 @@ def talent_collection_list(ip_port=None):
     return form_post(url=url, data=data, headers=header, remark=remark, ip_port=ip_port)
 
 
-def talent_collection(positionId,cueserid,resumeFetchKey):
-    #收藏人才
+def talent_collection(positionId, cueserid, resumeFetchKey):
+    # 收藏人才
     refer_url = f"https://easy.lagou.com/talent/index.htm?positionId={positionId}&showId=&tab=newest&pageNo=1"
     url = f"https://easy.lagou.com/collection/collection.json?"
     header = get_code_token(refer_url)
-    data = {'cuserId':cueserid,'resumeFetchKey':resumeFetchKey}
+    data = {'cuserId': cueserid, 'resumeFetchKey': resumeFetchKey}
     remark = "收藏人才"
-    return form_post(url=url, data=data, headers=header, remark=remark,rd='Mandy')
+    return form_post(url=url, data=data, headers=header, remark=remark, rd='Mandy')
 
-def talent_uncollection(collectionIds,ip_port=None):
-    #取消收藏人才
+
+def talent_uncollection(collectionIds, ip_port=None):
+    # 取消收藏人才
     refer_url = f"https://easy.lagou.com/collection/index.htm?"
     url = f"https://easy.lagou.com/collection/unCollection.json?"
-    header = get_code_token(refer_url,ip_port=ip_port)
-    data = {'collectionIds':collectionIds}
+    header = get_code_token(refer_url, ip_port=ip_port)
+    data = {'collectionIds': collectionIds}
     remark = "取消收藏人才"
-    return form_post(url=url, data=data, headers=header, remark=remark, ip_port=ip_port,rd='Mandy')
+    return form_post(url=url, data=data, headers=header, remark=remark, ip_port=ip_port, rd='Mandy')
+
 
 def talent_pages(positionId):
-    #人才页面上下翻页
+    # 人才页面上下翻页
     refer_url = f"https://easy.lagou.com/talent/index.htm?positionId={positionId}&showId=&notSeen=false&strongly=false&tab=rec&pageNo=1"
     url = f"https://easy.lagou.com/talent/rec/2.json?positionId={positionId}&showId=&notSeen=false&strongly=false"
     query_talent_header = get_code_token(refer_url)
     remark = "上下翻页"
-    return get_requests(url=url, headers=query_talent_header, remark=remark,rd='Mandy')
+    return get_requests(url=url, headers=query_talent_header, remark=remark, rd='Mandy')
 
 
 def talent_collection_count(ip_port=None):
@@ -113,8 +115,18 @@ def talent_collection_count(ip_port=None):
     return get_requests(url=query_talent_url, headers=query_talent_header, remark=remark, ip_port=ip_port)
 
 
+def talent_search_by_company_name_list(company_name, pageNo=1):
+    url = 'https://easy.lagou.com/talent/search/list.json'
+    refer_url = f'https://easy.lagou.com/talent/search/list.htm?pageNo={pageNo}&keyword={company_name}&searchVersion=1'
+    header = get_header(url=refer_url)
+    header.update(
+        {'x-anit-forge-code': '', 'x-anit-forge-token': '', 'sec-fetch-dest': 'empty', 'sec-fetch-mode': 'cors',
+         'sec-fetch-site': 'same-origin', 'pragma': 'no-cache',
+         'referer': f'https://easy.lagou.com/talent/search/list.htm?pageNo={pageNo}&searchVersion=1&companyName=%E6%9D%B0%E5%A8%81%E5%B0%94%E9%9F%B3%E4%B9%90'})
+    data = {'pageNo': pageNo, 'keyword': company_name, 'searchVersion': 1}
+    remark = '通过工作经历的公司名称来搜索人才'
+    return form_post(url=url, data=data, headers=header, remark=remark)
+
+
 if __name__ == '__main__':
-    # 登录
-    a = 1
-    b = f"我是第{a}名"
-    print(b)
+    login_password(username='13033647506', password='9062e77da243687c68bf9665727b5c01')

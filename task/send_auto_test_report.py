@@ -3,13 +3,13 @@
 # @Author: Xiawang
 # Description:
 import datetime
+import time
 
 import requests
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from email.header import Header
-import time
 
 '''
 用于主流程监控定期执行并发送报警信息
@@ -19,12 +19,6 @@ import time
 def get_fix_time():
     now_time = datetime.datetime.now()
     fix_time = (now_time + datetime.timedelta(minutes=10)).strftime("%Y-%m-%d %H:%M")
-    # if 0 <= now_time.hour <= 8:
-    #     fix_time = now_time.date().strftime("%Y-%m-%d 12:00")
-    # elif 21 <= now_time.hour <= 24:
-    #     fix_time = (now_time + datetime.timedelta(days=1)).date().strftime("%Y-%m-%d 12:00")
-    # else:
-    #     fix_time = (now_time + datetime.timedelta(hours=3)).strftime("%Y-%m-%d %H:%M")
     return fix_time
 
 
@@ -34,7 +28,9 @@ def run_pytest(module):
     '''
     url = 'http://127.0.0.1:18980/data/pytest'
     data = {"module": module}
+    print(url)
     pytest_result = requests.post(url=url, json=data, verify=False).json()
+    print(pytest_result)
     return pytest_result
 
 
@@ -44,18 +40,15 @@ def send_feishu_report(module, pytest_result):
         return send_feishu_bot(module=module, content=content)
 
     if pytest_result.get('state') == 0:
-        summary_result = ''
-        for k, v in pytest_result['data']['result']['info']['result']['summary_result'].items():
-            summary_result += v + ', '
-
+        summary_result = pytest_result['summary_result']
         fail_results = ''
 
         names = []
-        for case_name, case_fail_result in pytest_result['data']['result']['info']['result']['fail_result'].items(
+        for case_name, case_fail_result in pytest_result['fail_result'].items(
         ):
-            fail_result = f'''用例{case_name}报错:{case_fail_result['error_type']},原因:{case_fail_result['log']},测试:{case_fail_result.get('te_name')},开发:{case_fail_result.get('rd_name')}\n\n'''
+            fail_result = f'''用例{case_name}报错:{case_fail_result['error_type']},原因:{case_fail_result['log']},测试:{case_fail_result.get('tester_name')},开发:{case_fail_result.get('rd_name')}\n\n'''
             fail_results += fail_result
-            names.extend([case_fail_result.get('te_name'), case_fail_result.get('rd_name')])
+            names.extend([case_fail_result.get('tester_name'), case_fail_result.get('rd_name')])
 
         if '' in names:
             names.remove('')
@@ -64,15 +57,18 @@ def send_feishu_report(module, pytest_result):
         fix_time = get_fix_time()
         name_template = f'''请{','.join(list(set(names)))}在{fix_time}之前，尽快处理并给出反馈'''
         content = "{}\n\n具体失败结果:\n{}\n请大家对线上问题保持敬畏之心！\n{}".format(summary_result, fail_results, name_template)
+        print(content)
         return send_feishu_bot(module=module, content=content)
 
 
 def send_mail(module):
     sender = 'autotest@lagoujobs.com'
     sender_password = 'Lqq123456'
-    receivers = ['xiawang@lagou.com', 'betty@lagou.com', 'sunnyzhang@lagou.com', 'arayang@lagou.com',
-                 'sunnysun@lagou.com', 'yangwang@lagou.com', 'bingoonchen@lagou.com', 'ariaxie@lagou.com',
-                 'anan@lagou.com', 'foxtang01@lagou.com']
+    receivers = ['zane@lagou.com', 'sunnyzhang@lagou.com',
+                 'sunnysun@lagou.com', 'huifang@lagou.com' 
+                 'bingoonchen@lagou.com','anan@lagou.com',
+                 'foxtang01@lagou.com']
+
     ret = True
 
     try:
@@ -86,6 +82,7 @@ def send_mail(module):
             MIMEText('自动化测试报告详见附件', 'plain', 'utf-8')
         )
         report_file_path = f'/home/test/lg-apiscript-python/backend/templates/{module}_report.html'
+        print(report_file_path)
         # report_file_path = '/Users/wang/Desktop/lg-project/lg_api_script/backend/templates/mainprocess_report.html'
         att1 = MIMEText(open(report_file_path, 'rb').read(),
                         'base64', 'utf-8')
@@ -97,7 +94,8 @@ def send_mail(module):
         server.login(sender, sender_password)
         server.sendmail(sender, receivers, message.as_string())
         server.quit()
-    except Exception:
+    except Exception as e:
+        print(str(e))
         ret = False
     return ret
 
@@ -190,14 +188,14 @@ def main(module):
     pytest_result = run_pytest(module)
     if pytest_result.get('state', 0) != 1:
         time.sleep(10)
+        print(1)
         pytest_result = run_pytest(module)
+        print(pytest_result)
         if pytest_result.get('state', 0) != 1:
             send_feishu_result = send_feishu_report(module, pytest_result)
-            # send_oss_result = send_oss(pytest_result)
+            print(send_feishu_result)
             if send_feishu_result == True:
                 send_mail(module)
-            # if not send_oss_result.get('result', False):
-            #     send_oss(pytest_result)
 
 
 if __name__ == '__main__':

@@ -34,7 +34,7 @@ def queryRiskLabelsByCompany(companyId):
 
 
 if __name__ == '__main__':
-    login_home('betty@lagou.com', '00f453dfec0f2806db5cfabe3ea94a35')
+    login_home('autotest@lagou.com', 'a52f33ba89bd7af92982da737cafc8d0')
     # r = query_risk_labels()
     # for risk_labels in r['data']:
     #     if risk_labels['type'] == 'A':

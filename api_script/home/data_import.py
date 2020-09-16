@@ -42,7 +42,7 @@ def import_contacts(companyId, contractNo):
 
 
 if __name__ == '__main__':
-    login_password('betty@lagou.com', '00f453dfec0f2806db5cfabe3ea94a35')
+    login_password('autotest@lagou.com', 'a52f33ba89bd7af92982da737cafc8d0')
     r = import_linkManInfo(117448258, 'lg-auto-test-20191219-12')
     # import_contacts(117448258, 'lg-auto-test-20191219-11')
     print(type(r))

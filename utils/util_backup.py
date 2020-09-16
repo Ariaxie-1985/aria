@@ -716,7 +716,7 @@ if __name__ == '__main__':
     # r1 = get_verify_code_message_len('00852', '20180917')
     # print(r1)
     # print(r1l)
-    # login_password('betty@lagou.com', '00f453dfec0f2806db5cfabe3ea94a35')
+    # login_password('autotest@lagou.com', 'a52f33ba89bd7af92982da737cafc8d0')
     # state_code = pc_send_register_verifyCode('00852', 20030105)
     # print(verify_code_message('00852', '20030105', flag_num=1))
     login('00852', '20191220')

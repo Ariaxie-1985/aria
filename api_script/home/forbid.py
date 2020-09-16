@@ -3,7 +3,7 @@
 # @Author: Xiawang
 # Description:
 
-from utils.util import get_header, form_post, login_home, login_password
+from utils.util import get_header, form_post, login_password
 
 
 def forbid_user(userId):
@@ -18,7 +18,7 @@ def verify_user_is_forbid(userId):
     header = get_header(url='http://home.lagou.com/')
     data = {'searchContent': userId, 'limit': 15, 'currentPage': 0, 'typeSearch': 1}
     result = form_post(url=url, headers=header, data=data, remark='校验用户是否禁用成功', rd='royliu')
-    if result['success'] == True and result['data']['pageData'][0]['id'] == userId:
+    if result['success'] == True and result['data']['pageData'][0]['id'] == int(userId):
         return result['data']['pageData'][0]['isForbid']
     else:
         return False
@@ -85,7 +85,7 @@ def query_company_id(name):
 
 
 if __name__ == '__main__':
-    login_password(username='betty@lagou.com', password='00f453dfec0f2806db5cfabe3ea94a35')
+    login_password(username='autotest@lagou.com', password='a52f33ba89bd7af92982da737cafc8d0')
     # ids = [15576859, 15576821, 15576816, 15576806, 15576799, 15587425, 15576660, 15576652, 15576430, 15576423, 15576405]
     # ids = [15568389, 15568375, 15568364, 15568304, 15568256, 15568233, 15568220, 15241840, 15309651, 15545942,
     #          15431115, 15470085, 15222746, 15231268, 15232802]
