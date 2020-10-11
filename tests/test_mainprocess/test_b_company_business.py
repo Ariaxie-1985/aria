@@ -73,9 +73,10 @@ class TestCompanyBusiness(object):
         company_msg_save = saveCompany(get_company_name)
         assert_equal(1, company_msg_save.get('state', 0), "校验公司是否新建成功", te='foxtang')
 
-    def test_admin_jump_html(self):
-        save_result = jump_html()
-        assert_equal(1, save_result.get('state', 0), '校验是否跳过选择优质简历', te='foxtang')
+    #线上此需求已下线，注销无用的用例
+    # def test_admin_jump_html(self):
+    #     save_result = jump_html()
+    #     assert_equal(1, save_result.get('state', 0), '校验是否跳过选择优质简历', te='foxtang')
 
     def test_admin_upload_permit(self):
         upload_p = upload_permit()

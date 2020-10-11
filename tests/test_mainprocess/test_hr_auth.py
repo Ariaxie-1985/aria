@@ -94,6 +94,9 @@ class TestHRAuth(object):
         assert_equal(1, r['state'], 'hr1修改密码成功',te='唐欣洁')
         login_password(hr1_countryCode + hr1_phone, newPassword)
 
+    def test_timewait01(self):
+        time.sleep(5)
+
     def test_recruiter_members_hr1(self, get_user_info):
         global hr1Id, easy_company_id, www_company_id, hr1Name
         hr1Id, easy_company_id, www_company_id, hr1Name = get_user_info
