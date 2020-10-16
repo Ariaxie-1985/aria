@@ -43,7 +43,7 @@ class TestPriveligeManage(object):
         r = addColleague(phone=get_add_colleague_user_pay, managerId=managerId, accountType='PAY_PRIVILEGE')
         '''print(add_result)'''
         add_pay_result = r.get('content').get('data').get('info')
-        assert_equal(1, r.get('state'), '校验添加同事接口返回状态通过', te='Anan')
+        assert_equal(1, r.get('state'), '校验添加同事接口返回状态通过', te='安菁宵')
         assert_not_in('errorCode', add_pay_result, '校验添加同事为特权账号通过', te='Anan')
         loger.info(f'添加的特权账号的用户id:{add_pay_result.get("userId")}')
 
