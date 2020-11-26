@@ -68,7 +68,8 @@ class TestJd(object):
             if bool(talent.get('portrait', False)):
                 assert_in(talent['portrait'].split(".")[-1], self.portrait_format, "推荐人才的头像信息用例通过", te='foxtang')
 
-    def test_session_share_info_app_b_corp(self, b_login_app):
+    # 临时注释该测试用例2020-11-26 by stone
+    def session_share_info_app_b_corp(self, b_login_app):
         r = session_share_info_app_b_corp(userToken=b_login_app[0], resumeId=resumeId)
         assert_equal(1, r.get('state'), 'B端用户分享人才简历到微信好友用例通过', te='foxtang')
 
