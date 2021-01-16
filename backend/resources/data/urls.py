@@ -6,7 +6,7 @@
 
 from flask_restful import Api
 
-from backend.resources.data import data
+from backend.resources.data import data, get_index, post_json_form
 from backend.resources.data.app_post_position import app_post_position
 from backend.resources.data.app_process_resume import app_process_resume
 from backend.resources.data.b_add_people_into_company import B_Add_People_Into_Company
@@ -28,6 +28,9 @@ from backend.resources.data.registe import registe
 from backend.resources.data.run_pytest import run_Pytest
 from backend.resources.data.submit_resume_to_position import submit_Resume_To_Position
 from backend.resources.data.upload import upload
+from backend.resources.data.get_index import get_Index
+from backend.resources.data.post_json_form import post_Json
+
 # from backend.resources.data.work_address import work_address
 
 api = Api(data)
@@ -54,4 +57,6 @@ api.add_resource(openProduct, '/home/product')
 api.add_resource(productTemplate, '/home/product/template')
 api.add_resource(getInfo, '/person/info')
 api.add_resource(GetReport,'/mainprocess/report')
+api.add_resource(get_Index, '/html')
+api.add_resource(post_Json, '/position')
 import backend.resources.user.urls
